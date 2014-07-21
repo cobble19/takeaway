@@ -7,6 +7,9 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>takeaway Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <build>
+    <finalName>takeaway</finalName>
+  </build>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -15,7 +18,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <finalName>takeaway</finalName>
-  </build>
 </project>
