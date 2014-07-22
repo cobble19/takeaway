@@ -11,7 +11,7 @@
 
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
-		<param-value>classpath:/log4j.properties</param-value>
+		<param-value>classpath:log4j.properties</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jRefreshInterval</param-name>
@@ -30,6 +30,10 @@
 		</param-value>
 	</context-param>
 	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
 	<!-- Declare a Spring MVC DispatcherServlet as usual -->
 	<servlet>
 		<servlet-name>SpringMVC</servlet-name>
@@ -46,10 +50,6 @@
 		<servlet-name>SpringMVC</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
-	
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
 	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
