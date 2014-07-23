@@ -9,29 +9,41 @@
 			<level>DEBUG</level>
 		</filter>
 	</appender>
-	<appender name="R"
+	<!-- <appender name="R"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
-		<File>${app.root}/logs/smsc.log4j.debug.log</File>
+		See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender
+		<File>${app.root}/logs/takeaway.logback.log</File>
 		<encoder>
-			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%nn</pattern>
+			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
 		</encoder>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>DEBUG</level>
 		</filter>
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<minIndex>1</minIndex>
 			<maxIndex>5</maxIndex>
-			<FileNamePattern>${app.root}/logs/smsc.log4j.debug.log.%i
+			<FileNamePattern>${app.root}/logs/takeaway.logback.%i.log
 			</FileNamePattern>
 		</rollingPolicy>
 		<triggeringPolicy
 			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
 			<MaxFileSize>10MB</MaxFileSize>
 		</triggeringPolicy>
+	</appender> -->
+	<appender name="DR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${app.root}/logs/takeaway.logback.log</file>
+		<encoder>
+			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${app.root}/logs/takeaway.%d{yyyy-MM-dd}.log</fileNamePattern>   
+      		<maxHistory>30</maxHistory>
+		</rollingPolicy>
 	</appender>
+	
 	<logger name="com.cobble" level="DEBUG" />
 	<root level="INFO">
 		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="R" />
+		<appender-ref ref="DR" />
 	</root>
 </configuration>
