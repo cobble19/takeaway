@@ -31,8 +31,13 @@
 			targetPackage="com.cobble.takeaway.dao" targetProject="C:\Users\bange\git\takeaway\target">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-
 		<table tableName="LOCATION_AREA" domainObjectName="LocationAreaPOJO"></table>
+		<table tableName="location_business" domainObjectName="LocationBusinessPOJO"></table>
+		<table tableName="food_seller" domainObjectName="FoodSellerPOJO"></table>
+		<table tableName="food_menu" domainObjectName="FoodMenuPOJO"></table>
+		<table tableName="food" domainObjectName="FoodPOJO"></table>
+		<table tableName="order_form" domainObjectName="OrderFormPOJO"></table>
+		<table tableName="r_order_form_food" domainObjectName="OrderFormFoodPOJO"></table>
 
 	</context>
 </generatorConfiguration>
