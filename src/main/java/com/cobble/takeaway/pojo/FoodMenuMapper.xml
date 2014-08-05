@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cobble.takeaway.dao.FoodMenuMapper" >
-  <resultMap id="FoodMenuResultMap" type="com.cobble.takeaway.pojo.FoodMenuEntity" >
+  <resultMap id="FoodMenuResultMap" type="com.cobble.takeaway.pojo.FoodMenuPOJO" >
     <id column="FOOD_MENU_ID" property="foodMenuId" jdbcType="INTEGER" />
     <result column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
@@ -18,7 +18,7 @@
   		</trim>
   	</where>
   </sql>
-  <select id="finds" resultMap="FoodMenuResultMap" parameterType="com.cobble.takeaway.pojo.FoodMenuEntity" >
+  <select id="finds" resultMap="FoodMenuResultMap" parameterType="com.cobble.takeaway.pojo.FoodMenuPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -28,7 +28,7 @@
     <include refid="Where_Clause"/>
       order by NAME
   </select>
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodMenuEntity" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodMenuPOJO" resultType="java.lang.Integer" >
     select count(1) from food_menu
     <include refid="Where_Clause"/>
   </select>
@@ -42,13 +42,13 @@
     delete from food_menu
     where FOOD_MENU_ID = #{foodMenuId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodMenuEntity" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodMenuPOJO" useGeneratedKeys="true">
     insert into food_menu (FOOD_SELLER_ID, NAME
       )
     values (#{foodSellerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}
       )
   </insert>
-  <update id="update" parameterType="com.cobble.takeaway.pojo.FoodMenuEntity" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.FoodMenuPOJO" >
     update food_menu
     <set >
       <if test="foodSellerId != null" >

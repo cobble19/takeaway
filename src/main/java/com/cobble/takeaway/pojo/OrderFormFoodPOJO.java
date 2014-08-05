@@ -1,6 +1,6 @@
 package com.cobble.takeaway.pojo;
 
-public class OrderFormFoodEntity extends BaseEntity {
+public class OrderFormFoodPOJO extends BasePOJO {
     private Integer orderFormFoodId;
     private Integer orderFormId;
     private Integer foodId;

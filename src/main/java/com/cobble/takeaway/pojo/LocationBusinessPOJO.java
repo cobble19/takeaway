@@ -1,6 +1,6 @@
 package com.cobble.takeaway.pojo;
 
-public class LocationBusinessEntity extends BaseEntity {
+public class LocationBusinessPOJO extends BasePOJO {
     private Integer locationBusinessId;
     private String name;
     private String description;

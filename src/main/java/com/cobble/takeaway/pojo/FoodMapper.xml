@@ -49,7 +49,7 @@
     values (#{foodMenuId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{unitPrice,jdbcType=DOUBLE})
   </insert>
-  <update id="update" parameterType="com.cobble.takeaway.pojo.FoodEntity" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.FoodPOJO" >
     update food
     set FOOD_MENU_ID = #{foodMenuId,jdbcType=INTEGER},
       NAME = #{name,jdbcType=VARCHAR},

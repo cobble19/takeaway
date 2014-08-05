@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cobble.takeaway.dao.OrderFormFoodMapper" >
-  <resultMap id="OrderFormFoodResultMap" type="com.cobble.takeaway.pojo.OrderFormFoodEntity" >
+  <resultMap id="OrderFormFoodResultMap" type="com.cobble.takeaway.pojo.OrderFormFoodPOJO" >
     <id column="R_ORDER_FORM_FOOD_ID" property="rOrderFormFoodId" jdbcType="INTEGER" />
     <result column="ORDER_FORM_ID" property="orderFormId" jdbcType="INTEGER" />
     <result column="FOOD_ID" property="foodId" jdbcType="INTEGER" />
@@ -40,7 +40,7 @@
     delete from r_order_form_food
     where R_ORDER_FORM_FOOD_ID = #{rOrderFormFoodId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cobble.takeaway.pojo.OrderFormFoodEntity" >
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.OrderFormFoodPOJO" >
     insert into r_order_form_food
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="orderFormFoodId != null" >
@@ -71,7 +71,7 @@
       </if>
     </trim>
   </insert>
-  <update id="update" parameterType="com.cobble.takeaway.pojo.OrderFormFoodEntity" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.OrderFormFoodPOJO" >
     update r_order_form_food
     <set >
       <if test="orderFormId != null" >

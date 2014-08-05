@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cobble.takeaway.dao.OrderFormMapper" >
-  <resultMap id="OrderFormResultMap" type="com.cobble.takeaway.pojo.OrderFormEntity" >
+  <resultMap id="OrderFormResultMap" type="com.cobble.takeaway.pojo.OrderFormPOJO" >
     <id column="ORDER_FORM_ID" property="orderFormId" jdbcType="INTEGER" />
     <result column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
     <result column="DEFINE_TIME" property="defineTime" jdbcType="TIMESTAMP" />
@@ -16,7 +16,7 @@
   		</trim>
   	</where>
   </sql>
-  <select id="finds" resultMap="OrderFormResultMap" parameterType="com.cobble.takeaway.pojo.OrderFormEntity" >
+  <select id="finds" resultMap="OrderFormResultMap" parameterType="com.cobble.takeaway.pojo.OrderFormPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -25,7 +25,7 @@
     from order_form
     <include refid="Where_Clause"/>
   </select>
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.OrderFormEntity" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.OrderFormPOJO" resultType="java.lang.Integer" >
     select count(1) from order_form
     <include refid="Where_Clause"/>
   </select>
@@ -39,7 +39,7 @@
     delete from order_form
     where ORDER_FORM_ID = #{orderFormId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cobble.takeaway.pojo.OrderFormEntity" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.OrderFormPOJO" useGeneratedKeys="true">
     insert into order_form
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="foodSellerId != null" >
@@ -58,7 +58,7 @@
       </if>
     </trim>
   </insert>
-  <update id="update" parameterType="com.cobble.takeaway.pojo.OrderFormEntity" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.OrderFormPOJO" >
     update order_form
     <set >
       <if test="foodSellerId != null" >

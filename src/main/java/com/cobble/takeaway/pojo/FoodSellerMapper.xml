@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cobble.takeaway.dao.FoodSellerMapper" >
-  <resultMap id="FoodSellerResultMap" type="com.cobble.takeaway.pojo.FoodSellerEntity" >
+  <resultMap id="FoodSellerResultMap" type="com.cobble.takeaway.pojo.FoodSellerPOJO" >
     <id column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="PHONE" property="phone" jdbcType="VARCHAR" />
@@ -18,7 +18,7 @@
   		</trim>
   	</where>
   </sql>
-  <select id="finds" resultMap="FoodSellerResultMap" parameterType="com.cobble.takeaway.pojo.FoodSellerEntity" >
+  <select id="finds" resultMap="FoodSellerResultMap" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -27,7 +27,7 @@
     from food_seller
     <include refid="Where_Clause"/>
   </select>
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodSellerEntity" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" resultType="java.lang.Integer" >
     select count(1) from food_seller
     <include refid="Where_Clause"/>
   </select>
@@ -41,7 +41,7 @@
     delete from food_seller
     where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodSellerEntity" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" useGeneratedKeys="true">
     insert into food_seller
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >
@@ -60,7 +60,7 @@
       </if>
     </trim>
   </insert>
-  <update id="update" parameterType="com.cobble.takeaway.pojo.FoodSellerEntity" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" >
     update food_seller
     <set >
       <if test="name != null" >

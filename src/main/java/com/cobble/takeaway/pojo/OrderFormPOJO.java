@@ -2,7 +2,7 @@ package com.cobble.takeaway.pojo;
 
 import java.util.Date;
 
-public class OrderFormEntity extends BaseEntity {
+public class OrderFormPOJO extends BasePOJO {
     private Integer orderFormId;
     private Integer foodSellerId;
     private Date defineTime;
