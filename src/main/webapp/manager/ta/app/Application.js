@@ -9,7 +9,9 @@ Ext.define('TA.Application', {
     name: 'TA',
 
     stores: [
-        'TreeMenu'
+        'TreeMenu',
+        'LocationArea',
+        'LocationBusiness'
     ],
     
     launch: function () {

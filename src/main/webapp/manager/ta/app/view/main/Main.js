@@ -14,14 +14,17 @@ Ext.define('TA.view.main.Main', {
                'Ext.tree.View',
                'TA.view.tree.Menu',
                'TA.view.tree.MenuController',
-               'TA.store.TreeMenu'
+               'TA.store.TreeMenu',
+               'TA.view.locationarea.List'
            ],
     uses: [
            'Ext.tree.Panel',
            'Ext.tree.View',
            'TA.view.tree.Menu',
            'TA.view.tree.MenuController',
-           'TA.store.TreeMenu'
+           'TA.store.TreeMenu',
+           'TA.view.locationarea.List',
+           'TA.view.locationbusiness.List'
            ],
     
     controller: 'main',
@@ -34,17 +37,17 @@ Ext.define('TA.view.main.Main', {
     },
 
     items: [{
+    	region: 'north',
     	xtype: 'panel',
     	title: 'WaiMai',
     	//html: '&nbsp;',
-    	region: 'north',
     	margin: '0 0 3 0'
     },{
+        region: 'west',
         xtype: 'treemenu',
         bind: {
             title: '{treemenu}'
         },
-        region: 'west',
         rootVisible: true,
         //html: '<ul><li>This area is commonly used for navigation, for example, using a "tree" component.</li></ul>',
         width: 250,
@@ -59,14 +62,34 @@ Ext.define('TA.view.main.Main', {
     },{
         region: 'center',
         xtype: 'tabpanel',
-        items:[{
-            title: 'Tab 1',
-            html: '<h2>Content appropriate for the current navigation.</h2>'
-        }]
+        activeTab: 1,
+        items:[
+	        {
+	            title: 'Welcome',
+	            html: '<h2>Welcome Takeaway.</h2>',
+	            itemId: 'welcome'
+	        }, {
+	        	xtype: 'locationarealist',
+	        	itemId: 'locationarealist',
+	            title: 'Location Area',
+	            //html: '<h2>Content appropriate for the current navigation.</h2>',
+	            closable: true,
+	            closeAction: 'hide'
+	        }, {
+	        	xtype: 'locationbusinesslist',
+	        	itemId: 'locationbusinesslist',
+	            title: 'Location Business',
+	            //html: '<h2>Content appropriate for the current navigation.</h2>',
+	            closable: true,
+	            closeAction: 'hide'
+	        }
+        ]
     }, {
     	region: 'south',
     	xtype: 'panel',
-    	title: 'footer',
-    	html: '&copy; publicczhzh@sina.com'
+    	title: '&copy; publicczhzh@sina.com',
+    	titleAlign: 'center',
+    	titleCollapse: true
+    	//html: '&copy; publicczhzh@sina.com'
     }]
 });

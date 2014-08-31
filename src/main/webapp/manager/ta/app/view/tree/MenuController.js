@@ -30,10 +30,11 @@ Ext.define('TA.view.tree.MenuController', {
 		});
 	},
 	onSelect: function(selModel, record, index, options) {
-		console.log("selected: " + record.getId() + " " + record.get('text') + ", index=" + index);
+		console.log("selected id= " + record.getId()
+				+ ", itemId= " + record.get('itemId') + ", text= " + record.get('text') + ", index= " + index);
 		if (record.get('leaf')) {
-			Ext.getCmp('content-panel').layout.setActiveItem(record.getId() + '-list');
-			Ext.getCmp('content-panel').layout.getActiveItem().getStore().load();
+			this.getView().up().down('tabpanel').setActiveTab(record.get('itemId'));
+			//Ext.getCmp('content-panel').layout.getActiveItem().getStore().load();
 		}
 	},
 	onAfterrender: function(tree, options) {
