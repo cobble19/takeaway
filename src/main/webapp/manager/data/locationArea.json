@@ -1,0 +1,15 @@
+{"locationAreaPOJOList": [{ 
+	"locationAreaId": 1,
+	"name": "hefei",
+	"description": "descriiption"
+}, { 
+	"locationAreaId": 2,
+	"name": "hefei",
+	"description": "descriiption"
+}, { 
+	"locationAreaId": 3,
+	"name": "hefei",
+	"description": "descriiption"
+}],
+"success": true,
+total: 3}

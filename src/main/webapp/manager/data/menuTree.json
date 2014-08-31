@@ -4,28 +4,14 @@ children: [{
     text:'操作',
     expanded: true,
     children:[{
-        text:'主题',
-        id:'topic',
+        text:'地区',
+        id:'locationArea',
+        itemId:'locationarealist',
         leaf:true
     },{
-        text:'类别',
-        id:'category',
-        leaf:true
-    },{
-        text:'影视',
-        id:'item',
-        leaf:true
-    },{
-        text:'视频源',
-        id:'videoSrc',
-        leaf:true
-    },{
-        text:'视频',
-        id:'video',
-        leaf:true
-    },{
-        text:'URL',
-        id:'fragment',
+        text:'商业区',
+        id:'locationBusiness',
+        itemId: 'locationbusinesslist',
         leaf:true
     }]
 },{
