@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.LocationBusinessMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+  <resultMap id="LocationBusinessResultMap" type="com.cobble.takeaway.pojo.LocationBusinessPOJO" >
+    <id column="LOCATION_BUSINESS_ID" property="locationBusinessId" jdbcType="INTEGER" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LOCATION_BUSINESS_ID, NAME, DESCRIPTION
+  </sql>
+  <sql id="Where_Clause">
+  	<where>
+  		<trim prefixOverrides="and">
+  			<if test="name != null">
+  				and NAME like concat("%", concat(#{name}, "%"))
+  			</if>
+  		</trim>
+  	</where>
+  </sql>
+  <select id="finds" resultMap="LocationBusinessResultMap" parameterType="com.cobble.takeaway.pojo.LocationBusinessPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from location_business
+    <include refid="Where_Clause"/>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.LocationBusinessPOJO" resultType="java.lang.Integer" >
+    select count(*) from location_business
+    <include refid="Where_Clause"/>
+  </select>
+  <select id="findById" resultMap="LocationBusinessResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from location_area
+    where LOCATION_AREA_ID = #{locationAreaId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from location_business
+    where LOCATION_BUSINESS_ID = #{locationBusinessId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.LocationBusinessPOJO" >
+    insert into location_business
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="locationBusinessId != null" >
+        LOCATION_BUSINESS_ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="locationBusinessId != null" >
+        #{locationBusinessId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.cobble.takeaway.pojo.LocationBusinessPOJO" >
+    update location_business
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LOCATION_BUSINESS_ID = #{locationBusinessId,jdbcType=INTEGER}
+  </update>
+</mapper>

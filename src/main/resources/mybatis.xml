@@ -16,11 +16,15 @@
 	<!-- to see applicationContext.xml (typeAliasesPackage) -->
 	<!-- <typeAliases>
 		<typeAlias alias="UserPOJO"
-			type="com.webex.smsc.pojo.UserPOJO" />
+			type="com.cobble.pojo.UserPOJO" />
 	</typeAliases> -->
 	<mappers>
-		<mapper resource="mybatis-config/LogMapper.xml" />
-		<mapper resource="mybatis-config/DbMapper.xml" />
-		<mapper resource="mybatis-config/HaFlagMapper.xml" />
+		<mapper resource="mybatis-config/FoodMapper.xml" />
+		<mapper resource="mybatis-config/FoodMenuMapper.xml" />
+		<mapper resource="mybatis-config/FoodSellerMapper.xml" />
+		<mapper resource="mybatis-config/LocationAreaMapper.xml" />
+		<mapper resource="mybatis-config/LocationBusinessMapper.xml" />
+		<mapper resource="mybatis-config/OrderFormFoodMapper.xml" />
+		<mapper resource="mybatis-config/OrderFormMapper.xml" />
 	</mappers>
 </configuration>

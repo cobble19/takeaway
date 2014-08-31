@@ -1,0 +1,49 @@
+{ 
+text: '.',
+children: [{
+    text:'操作',
+    expanded: true,
+    children:[{
+        text:'主题',
+        id:'topic',
+        leaf:true
+    },{
+        text:'类别',
+        id:'category',
+        leaf:true
+    },{
+        text:'影视',
+        id:'item',
+        leaf:true
+    },{
+        text:'视频源',
+        id:'videoSrc',
+        leaf:true
+    },{
+        text:'视频',
+        id:'video',
+        leaf:true
+    },{
+        text:'URL',
+        id:'fragment',
+        leaf:true
+    }]
+},{
+        text:'用户设置',
+    	expanded: true,
+        id:'user-setting',
+        children: [{
+        	text:'角色',
+	        id:'role',
+	        leaf:true
+        }, {
+        	text:'权限',
+	        id:'privilege',
+	        leaf:true
+        }, {
+        	text:'系统操作员',
+	        id:'user',
+	        leaf:true
+        }]
+    }]
+}

@@ -60,7 +60,7 @@
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage" value="com.webex.takeaway.pojo" />
+		<property name="typeAliasesPackage" value="com.cobble.takeaway.pojo" />
 		<property name="configLocation" value="classpath:mybatis.xml"></property>
 	</bean>
 
@@ -123,18 +123,6 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/jsp/" />
 		<property name="suffix" value=".jsp" />
-	</bean>
-
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<bean id="stringHttpMessageConverter"
-					class="org.springframework.http.converter.StringHttpMessageConverter"></bean>
-				<bean id="mappingJackson2HttpMessageConverter"
-					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
-			</list>
-		</property>
 	</bean>
 
 </beans>

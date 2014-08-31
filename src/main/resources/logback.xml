@@ -39,7 +39,7 @@
 	</appender>
 	
 	<logger name="com.cobble" level="DEBUG" />
-	<root level="INFO">
+	<root level="DEBUG">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="DR" />
 	</root>
