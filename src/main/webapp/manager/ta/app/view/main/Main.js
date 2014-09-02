@@ -62,6 +62,10 @@ Ext.define('TA.view.main.Main', {
     },{
         region: 'center',
         xtype: 'tabpanel',
+        defaults: {
+        	closable: true,
+            closeAction: 'hide'
+        },
         activeTab: 1,
         items:[
 	        {
@@ -73,15 +77,11 @@ Ext.define('TA.view.main.Main', {
 	        	itemId: 'locationarealist',
 	            title: 'Location Area',
 	            //html: '<h2>Content appropriate for the current navigation.</h2>',
-	            closable: true,
-	            closeAction: 'hide'
 	        }, {
 	        	xtype: 'locationbusinesslist',
 	        	itemId: 'locationbusinesslist',
 	            title: 'Location Business',
 	            //html: '<h2>Content appropriate for the current navigation.</h2>',
-	            closable: true,
-	            closeAction: 'hide'
 	        }
         ]
     }, {

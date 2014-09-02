@@ -30,11 +30,24 @@ Ext.define('TA.view.tree.MenuController', {
 		});
 	},
 	onSelect: function(selModel, record, index, options) {
+		var pageId = record.get('pageId');
 		console.log("selected id= " + record.getId()
-				+ ", itemId= " + record.get('itemId') + ", text= " + record.get('text') + ", index= " + index);
+				+ ", pageId= " + pageId + ", text= " + record.get('text') + ", index= " + index);
 		if (record.get('leaf')) {
-			this.getView().up().down('tabpanel').setActiveTab(record.get('itemId'));
+			var tabpanel = this.getView().up().down('tabpanel');
 			//Ext.getCmp('content-panel').layout.getActiveItem().getStore().load();
+			var child = tabpanel.child('#' + pageId);
+			if (!!child) { // have existed
+				child.tab.show();
+				tabpanel.setActiveTab(pageId);
+			} else {
+				var newTab = tabpanel.add({
+					itemId: pageId,
+					xtype: pageId,
+					title: record.get('text')
+				});
+				tabpanel.setActiveTab(newTab);
+			}
 		}
 	},
 	onAfterrender: function(tree, options) {

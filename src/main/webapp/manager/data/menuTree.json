@@ -6,12 +6,12 @@ children: [{
     children:[{
         text:'地区',
         id:'locationArea',
-        itemId:'locationarealist',
+        pageId:'locationarealist',
         leaf:true
     },{
         text:'商业区',
         id:'locationBusiness',
-        itemId: 'locationbusinesslist',
+        pageId: 'locationbusinesslist',
         leaf:true
     }]
 },{
