@@ -71,8 +71,9 @@ Ext.define('TA.view.main.Main', {
 	        {
 	            title: 'Welcome',
 	            html: '<h2>Welcome Takeaway.</h2>',
-	            itemId: 'welcome'
-	        }, {
+	            itemId: 'welcome',
+            	closable: false
+	        }/*, {
 	        	xtype: 'locationarealist',
 	        	itemId: 'locationarealist',
 	            title: 'Location Area',
@@ -82,7 +83,7 @@ Ext.define('TA.view.main.Main', {
 	        	itemId: 'locationbusinesslist',
 	            title: 'Location Business',
 	            //html: '<h2>Content appropriate for the current navigation.</h2>',
-	        }
+	        }*/
         ]
     }, {
     	region: 'south',

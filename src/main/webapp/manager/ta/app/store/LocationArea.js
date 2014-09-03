@@ -2,7 +2,7 @@ Ext.define('TA.store.LocationArea', {
 	extend: 'Ext.data.Store',
 	requires: ['TA.model.LocationArea'],
 	model: 'TA.model.LocationArea',
-	autoLoad: true,
+	//autoLoad: true,
 	pageSize: 2,
 	proxy: {
 		type: 'ajax',

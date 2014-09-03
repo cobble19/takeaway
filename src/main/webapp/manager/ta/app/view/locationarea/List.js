@@ -10,7 +10,8 @@ Ext.define('TA.view.locationarea.List', {
 	uses: [
            'TA.store.LocationArea',
            'TA.view.locationarea.LocationAreaController',
-           'TA.view.locationarea.LocationAreaModel'],
+           'TA.view.locationarea.LocationAreaModel',
+           'TA.view.locationarea.Edit'],
 	
 	controller: 'locationarea',
 	viewmode: {
@@ -45,6 +46,18 @@ Ext.define('TA.view.locationarea.List', {
     	xtype: 'button',
     	text: '添加',
     	handler: 'onAdd'
+    }, {
+    	xtype: 'button',
+    	text: '修改',
+    	handler: 'onUpdate'
+    }, {
+    	xtype: 'button',
+    	text: '删除',
+    	handler: 'onDelete'
+    }, {
+    	xtype: 'button',
+    	text: '查询',
+    	handler: 'onSearch'
     }],
 	initComponent: function() {
 		console.log("this.store");

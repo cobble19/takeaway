@@ -48,6 +48,7 @@ Ext.define('TA.view.tree.MenuController', {
 				});
 				tabpanel.setActiveTab(newTab);
 			}
+			tabpanel.getActiveTab().getStore().load();
 		}
 	},
 	onAfterrender: function(tree, options) {

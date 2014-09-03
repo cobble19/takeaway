@@ -2,7 +2,7 @@ Ext.define('TA.store.LocationBusiness', {
 	extend: 'Ext.data.Store',
 	requires: ['TA.model.LocationBusiness'],
 	model: 'TA.model.LocationBusiness',
-	autoLoad: true,
+	//autoLoad: true,
 	pageSize: 2,
 	proxy: {
 		type: 'ajax',
