@@ -14,22 +14,22 @@ children: [{
         pageId: 'locationbusinesslist',
         leaf:true
     }]
-},{
-        text:'用户设置',
-    	expanded: true,
-        id:'user-setting',
-        children: [{
-        	text:'角色',
-	        id:'role',
-	        leaf:true
-        }, {
-        	text:'权限',
-	        id:'privilege',
-	        leaf:true
-        }, {
-        	text:'系统操作员',
-	        id:'user',
-	        leaf:true
-        }]
+}, {
+    text:'用户设置',
+	expanded: true,
+    id:'user-setting',
+    children: [{
+    	text:'角色',
+        id:'role',
+        leaf:true
+    }, {
+    	text:'权限',
+        id:'privilege',
+        leaf:true
+    }, {
+    	text:'系统操作员',
+        id:'user',
+        leaf:true
     }]
+}]
 }

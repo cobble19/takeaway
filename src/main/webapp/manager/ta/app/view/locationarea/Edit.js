@@ -6,6 +6,7 @@ Ext.define('TA.view.locationarea.Edit', {
 	/*height: 200,
 	width: 400,*/
 	layout: 'fit',
+	controller: 'locationarea',
 	items: [{
 		xtype: 'form',
 		/*title: 'Edit Form',*/
@@ -26,57 +27,23 @@ Ext.define('TA.view.locationarea.Edit', {
 			fieldLabel: '描述',
 			name: 'description'
 		}],
-		buttons: [{
+		buttons: [/*{
 			text: '重置',
 			handler: function(button, e) {
 				this.up('form').getForm().reset();
 			}
-		}, {
+		}, */{
 			text: '添加',
+			id:'addBtn',
 			formBind: true,
 			disabled: true,
-			handler: function(button, e) {
-				var form = this.up('form').getForm();
-				/*if (form.isValid()) {
-					
-				}*/
-				form.submit({
-					url: '../../manager/locationArea',
-					method: 'POST',
-					params: '',
-					/*waitTitle: 'Waiting',
-					waitMsg: 'Waiting...',*/
-					success: function(form, action) {
-						console.log('add success.' + form + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
-					},
-					failure: function(form, action) {
-						console.log('add failure');
-					}
-				});
-			}
+			handler: 'add'
 		}, {
 			text: '更新',
+			id:'updateBtn',
 			formBind: true,
 			disabled: true,
-			handler: function(button, e) {
-				var form = this.up('form').getForm();
-				/*if (form.isValid()) {
-					
-				}*/
-				form.submit({
-					url: '../../manager/locationArea',
-					method: 'POST',
-					params: '',
-					/*waitTitle: 'Waiting',
-					waitMsg: 'Waiting...',*/
-					success: function(form, action) {
-						console.log('update success.');
-					},
-					failure: function(form, action) {
-						console.log('update failure');
-					}
-				});
-			}
+			handler: 'update'
 		}]
 	}],
 	

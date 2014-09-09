@@ -24,12 +24,35 @@ Ext.define('TA.view.tree.MenuController', {
     	console.log('get view: ' + this.getView());
 		this.control({
 			'treemenu': {
-				select: this.onSelect,
+				itemclick: this.onClick,
+				/*select: this.onSelect,*/
 				afterrender: this.onAfterrender
 			}
 		});
 	},
-	onSelect: function(selModel, record, index, options) {
+	onClick: function(view, record, item, index, e, eOpts) {
+		var pageId = record.get('pageId');
+		console.log("selected id= " + record.getId()
+				+ ", pageId= " + pageId + ", text= " + record.get('text') + ", index= " + index);
+		if (record.get('leaf')) {
+			var tabpanel = this.getView().up().down('tabpanel');
+			//Ext.getCmp('content-panel').layout.getActiveItem().getStore().load();
+			var child = tabpanel.child('#' + pageId);
+			if (!!child) { // have existed
+				child.tab.show();
+				tabpanel.setActiveTab(pageId);
+			} else {
+				var newTab = tabpanel.add({
+					itemId: pageId,
+					xtype: pageId,
+					title: record.get('text')
+				});
+				tabpanel.setActiveTab(newTab);
+				tabpanel.getActiveTab().getStore().load();
+			}
+		}
+	},
+	/*onSelect: function(selModel, record, index, options) {
 		var pageId = record.get('pageId');
 		console.log("selected id= " + record.getId()
 				+ ", pageId= " + pageId + ", text= " + record.get('text') + ", index= " + index);
@@ -50,7 +73,7 @@ Ext.define('TA.view.tree.MenuController', {
 			}
 			tabpanel.getActiveTab().getStore().load();
 		}
-	},
+	},*/
 	onAfterrender: function(tree, options) {
 		console.log('tree after render');
 		tree.getSelectionModel().select(1);

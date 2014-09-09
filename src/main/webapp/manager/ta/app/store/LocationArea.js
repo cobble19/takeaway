@@ -11,9 +11,9 @@ Ext.define('TA.store.LocationArea', {
 		},
 		api: {
 			read: '../../manager/locationArea',
-			update: '../../manager/locationArea',
-			create: '',
-			destroy: ''
+			update: '../../manager/locationArea/update',
+			create: '../../manager/locationArea/add',
+			destroy: '../../manager/locationArea/delete'
 		},
 		reader: {
 			type: 'json',
@@ -22,8 +22,10 @@ Ext.define('TA.store.LocationArea', {
 			totalProperty: 'total'
 		},
 		writer: {
-            encode: true,
-            root: 'updatedStr'
+			type: 'json',
+			writeAllFields: false,
+            /*encode: true,*/
+            rootProperty: 'gridModelList'
         }
 	},
 	/*listeners: {
