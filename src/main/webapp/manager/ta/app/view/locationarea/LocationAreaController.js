@@ -25,12 +25,13 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 		
 	},
 	onAdd: function(button, e) {
-		console.log('onAdd' + button + " " + e);
+		console.log('onAdd ' + button + " " + e);
 		var window = Ext.widget('locationareaedit');
 		window.down('textfield:nth-child(0)').hide();
 		window.down('button[id="updateBtn"]').hide();
 	},
 	add: function(button, e) {
+		var window = button.up('window');
 		var form = button.up('form').getForm();
 		/*if (form.isValid()) {
 			
@@ -47,6 +48,15 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 			waitMsg: 'Waiting...',*/
 			success: function(form, action) {
 				console.log('add success.' + form + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
+				Ext.toast({
+				     html: 'Data Saved',
+					 title: 'Success',
+					 width: 200,
+					 align: 't',
+					 region: 'center',
+					 anchor: window
+				 });
+				window.close();
 			},
 			failure: function(form, action) {
 				console.log('add failure');
@@ -172,7 +182,24 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 	},
 	onSearch: function(button, e) {
 		var view = this.getView();
-		view.getStore().load();
+		console.log('Ext.getCmp("name").getValue() = ' + Ext.getCmp("name").getValue());
+		view.getStore().load({
+			params: {
+				name: Ext.getCmp("name").getValue()
+			},
+			callback: function(records, operation, success) {
+				/*console.log(records);
+				console.log(operation);*/
+				console.log(success);
+				Ext.toast({
+				     html: success ? '成功' : '失败',
+					 title: '查询结束',
+					 width: 200,
+					 align: 't',
+					 region: 'center'
+				 });
+			}
+		});
 		console.log('onSearch');
 	}
 });

@@ -10,6 +10,7 @@ Ext.define('TA.view.main.Main', {
 
     xtype: 'app-main',
     requires: [
+               'Ext.window.Toast',
                'Ext.tree.Panel',
                'Ext.tree.View',
                'TA.view.tree.Menu',

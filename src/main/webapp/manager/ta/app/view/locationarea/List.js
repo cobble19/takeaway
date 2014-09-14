@@ -32,7 +32,9 @@ Ext.define('TA.view.locationarea.List', {
         //dock: 'top',
         items: [{
         	xtype: 'textfield',
-			name: 'locationAreaSearchPOJO.name',
+        	itemId: 'name',
+        	id: 'name',
+			name: 'name',
 			fieldLabel: '地区名称',
 			labelAlign: 'right'
         }]
