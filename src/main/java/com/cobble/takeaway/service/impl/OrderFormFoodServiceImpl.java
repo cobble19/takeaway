@@ -54,9 +54,21 @@ public class OrderFormFoodServiceImpl implements OrderFormFoodService {
 	}
 
 	@Override
-	public int deleteById(Integer id) throws Exception {
+	public int delete(Integer id) throws Exception {
 		int ret = 0;
 		ret = orderFormFoodMapper.deleteById(id);
+		return ret;
+	}
+
+	@Override
+	public int delete(Integer[] ids) throws Exception {
+		int ret = 0;
+		if (ids == null) {
+			return ret;
+		}
+		for (Integer id: ids) {
+			ret += orderFormFoodMapper.deleteById(id);
+		}
 		return ret;
 	}
 

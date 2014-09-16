@@ -25,7 +25,9 @@ Ext.define('TA.view.main.Main', {
            'TA.view.tree.MenuController',
            'TA.store.TreeMenu',
            'TA.view.locationarea.List',
-           'TA.view.locationbusiness.List'
+           'TA.view.locationbusiness.List',
+           'TA.view.foodseller.List',
+           'TA.view.food.List'
            ],
     
     controller: 'main',

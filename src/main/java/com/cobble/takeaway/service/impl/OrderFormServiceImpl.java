@@ -54,9 +54,21 @@ public class OrderFormServiceImpl implements OrderFormService {
 	}
 
 	@Override
-	public int deleteById(Integer id) throws Exception {
+	public int delete(Integer id) throws Exception {
 		int ret = 0;
 		ret = orderFormMapper.deleteById(id);
+		return ret;
+	}
+
+	@Override
+	public int delete(Integer[] ids) throws Exception {
+		int ret = 0;
+		if (ids == null) {
+			return ret;
+		}
+		for (Integer id: ids) {
+			ret += orderFormMapper.deleteById(id);
+		}
 		return ret;
 	}
 

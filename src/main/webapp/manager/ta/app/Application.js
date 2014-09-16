@@ -11,7 +11,9 @@ Ext.define('TA.Application', {
     stores: [
         'TreeMenu',
         'LocationArea',
-        'LocationBusiness'
+        'LocationBusiness',
+        'FoodSeller',
+        'Food'
     ],
     
     launch: function () {

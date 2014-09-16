@@ -1,21 +1,21 @@
-Ext.define('TA.view.locationarea.List', {
+Ext.define('TA.view.food.List', {
 	extend: 'Ext.grid.Panel',
-	alias: 'widget.locationarealist',
+	alias: 'widget.foodlist',
 	title: 'Location Area',
 	width: 200,
 	requires: [
-	           'TA.store.LocationArea',
-	           'TA.view.locationarea.LocationAreaController',
-	           'TA.view.locationarea.LocationAreaModel'],
+	           'TA.store.Food',
+	           'TA.view.food.FoodController',
+	           'TA.view.food.FoodModel'],
 	uses: [
-           'TA.store.LocationArea',
-           'TA.view.locationarea.LocationAreaController',
-           'TA.view.locationarea.LocationAreaModel',
-           'TA.view.locationarea.Edit'],
+           'TA.store.Food',
+           'TA.view.food.FoodController',
+           'TA.view.food.FoodModel',
+           'TA.view.food.Edit'],
 	
-	controller: 'locationarea',
+	controller: 'food',
 	viewmode: {
-		type: 'locationarea'
+		type: 'food'
 	},
 	selType: 'checkboxmodel',
 	selModel: {
@@ -25,7 +25,7 @@ Ext.define('TA.view.locationarea.List', {
 		enableKeyNav: true,
 		showHeaderCheckbox: true
 	},
-	store: 'LocationArea',
+	store: 'Food',
 	dockedItems: [{
         xtype: 'toolbar',
         //height: 60,
@@ -33,12 +33,12 @@ Ext.define('TA.view.locationarea.List', {
         items: [{
         	xtype: 'textfield',
 			name: 'name',
-			fieldLabel: '地区名称',
+			fieldLabel: '名称',
 			labelAlign: 'right'
         }]
     }, {
         xtype: 'pagingtoolbar',
-        store: 'LocationArea',   // same store GridPanel is using
+        store: 'Food',   // same store GridPanel is using
         dock: 'bottom',
         displayInfo: true
     }],
@@ -64,9 +64,9 @@ Ext.define('TA.view.locationarea.List', {
 		console.log("this.store=" + this.store);
 		this.columns = [
 			{xtype: 'rownumberer', text: '#编号', width: 60},
-			{header: '地区唯一标识', dataIndex: 'locationAreaId', flex: 1},
-			{header: '地区名称', dataIndex: 'name', flex: 1},
-			{header: '描述', dataIndex: 'description', flex: 1}
+			{header: '唯一标识', dataIndex: 'foodId', flex: 1},
+			{header: '名称', dataIndex: 'name', flex: 1},
+			{header: '单价', dataIndex: 'unitPrice', flex: 1}
 		];
 		this.callParent(arguments);
 	} 

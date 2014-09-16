@@ -11,6 +11,7 @@ public interface OrderFormService {
 	List<OrderFormPOJO> finds(OrderFormSearchPOJO orderFormSearchPOJO) throws Exception;
 	int getCount(OrderFormSearchPOJO orderFormSearchPOJO) throws Exception;
 	OrderFormPOJO findById(Integer id) throws Exception;
-	int deleteById(Integer id) throws Exception;
+	int delete(Integer id) throws Exception;
+	int delete(Integer[] ids) throws Exception;
 
 }

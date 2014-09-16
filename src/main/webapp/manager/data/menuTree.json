@@ -13,6 +13,16 @@ children: [{
         id:'locationBusiness',
         pageId: 'locationbusinesslist',
         leaf:true
+    },{
+        text:'卖家',
+        id:'foodSeller',
+        pageId: 'foodsellerlist',
+        leaf:true
+    },{
+        text:'菜名',
+        id:'food',
+        pageId: 'foodlist',
+        leaf:true
     }]
 }, {
     text:'用户设置',

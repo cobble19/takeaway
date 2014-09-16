@@ -10,7 +10,8 @@ Ext.define('TA.view.locationbusiness.List', {
 	uses: [
            'TA.store.LocationBusiness',
            'TA.view.locationbusiness.LocationBusinessController',
-           'TA.view.locationbusiness.LocationBusinessModel'],
+           'TA.view.locationbusiness.LocationBusinessModel',
+           'TA.view.locationbusiness.Edit'],
 	
 	controller: 'locationbusiness',
 	viewmode: {
@@ -31,7 +32,7 @@ Ext.define('TA.view.locationbusiness.List', {
         //dock: 'top',
         items: [{
         	xtype: 'textfield',
-			name: 'locationBusinessSearchPOJO.name',
+			name: 'name',
 			fieldLabel: '商业区名称',
 			labelAlign: 'right'
         }]
@@ -45,10 +46,20 @@ Ext.define('TA.view.locationbusiness.List', {
     	xtype: 'button',
     	text: '添加',
     	handler: 'onAdd'
+    }, {
+    	xtype: 'button',
+    	text: '修改',
+    	handler: 'onUpdate'
+    }, {
+    	xtype: 'button',
+    	text: '删除',
+    	handler: 'onDelete'
+    }, {
+    	xtype: 'button',
+    	text: '查询',
+    	handler: 'onSearch'
     }],
 	initComponent: function() {
-		console.log("this.store");
-		console.log("this.store=" + this.store);
 		this.columns = [
 			{xtype: 'rownumberer', text: '#编号', width: 60},
 			{header: '商业区唯一标识', dataIndex: 'locationBusinessId', flex: 1},

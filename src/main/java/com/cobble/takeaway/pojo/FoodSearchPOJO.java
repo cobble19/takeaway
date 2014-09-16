@@ -2,7 +2,7 @@ package com.cobble.takeaway.pojo;
 
 public class FoodSearchPOJO extends BaseSearchPOJO {
     private Integer foodId;
-    private Integer foodMenuId;
+    private Integer foodSellerId;
     private String name;
     private Double unitPrice;
 	public Integer getFoodId() {
@@ -11,11 +11,11 @@ public class FoodSearchPOJO extends BaseSearchPOJO {
 	public void setFoodId(Integer foodId) {
 		this.foodId = foodId;
 	}
-	public Integer getFoodMenuId() {
-		return foodMenuId;
+	public Integer getFoodSellerId() {
+		return foodSellerId;
 	}
-	public void setFoodMenuId(Integer foodMenuId) {
-		this.foodMenuId = foodMenuId;
+	public void setFoodSellerId(Integer foodSellerId) {
+		this.foodSellerId = foodSellerId;
 	}
 	public String getName() {
 		return name;

@@ -10,14 +10,10 @@
   <sql id="Base_Column_List" >
     FOOD_SELLER_ID, NAME, PHONE
   </sql>
-  <sql id="Where_Clause">
-  	<where>
-  		<trim prefixOverrides="and">
-  			<if test="name != null">
-  				and NAME like concat("%", concat(#{name}, "%"))
-  			</if>
-  		</trim>
-  	</where>
+  <sql id="Clause_Common">
+	<if test="name != null">
+		and NAME like concat("%", concat(#{name}, "%"))
+	</if>
   </sql>
   <select id="finds" resultMap="FoodSellerResultMap" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" >
     select
@@ -26,11 +22,22 @@
     </if>
     <include refid="Base_Column_List" />
     from food_seller
-    <include refid="Where_Clause"/>
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
   </select>
   <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" resultType="java.lang.Integer" >
     select count(1) from food_seller
-    <include refid="Where_Clause"/>
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
   </select>
   <select id="findById" resultMap="FoodSellerResultMap" parameterType="java.lang.Integer" >
     select 
@@ -42,9 +49,15 @@
     delete from food_seller
     where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO">
+  	<selectKey keyProperty="foodSellerId" resultType="int" order="BEFORE">
+         SELECT LAST_INSERT_ID()
+     </selectKey>
     insert into food_seller
     <trim prefix="(" suffix=")" suffixOverrides="," >
+    	<if test="foodSellerId != null" >
+        FOOD_SELLER_ID,
+      </if>
       <if test="name != null" >
         NAME,
       </if>
@@ -53,6 +66,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="foodSellerId != null" >
+        #{foodSellerId,jdbcType=VARCHAR},
+      </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
@@ -60,7 +76,30 @@
         #{phone,jdbcType=VARCHAR},
       </if>
     </trim>
+    
   </insert>
+  
+  <insert id="insertRelBusinessSeller" keyProperty="relBusinessSellerId" parameterType="com.cobble.takeaway.pojo.RelBusinessSellerPOJO" useGeneratedKeys="true">
+    insert into rel_business_seller
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="locationBusinessId != null" >
+        LOCATION_BUSINESS_ID,
+      </if>
+      <if test="foodSellerId != null" >
+        FOOD_SELLER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="locationBusinessId != null" >
+        #{locationBusinessId,jdbcType=VARCHAR},
+      </if>
+      <if test="foodSellerId != null" >
+        #{foodSellerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    
+  </insert>
+  
   <update id="update" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" >
     update food_seller
     <set >

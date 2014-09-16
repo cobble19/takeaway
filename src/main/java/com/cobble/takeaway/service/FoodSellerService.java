@@ -11,6 +11,7 @@ public interface FoodSellerService {
 	List<FoodSellerPOJO> finds(FoodSellerSearchPOJO foodSellerSearchPOJO) throws Exception;
 	int getCount(FoodSellerSearchPOJO foodSellerSearchPOJO) throws Exception;
 	FoodSellerPOJO findById(Integer id) throws Exception;
-	int deleteById(Integer id) throws Exception;
+	int delete(Integer id) throws Exception;
+	int delete(Integer[] ids) throws Exception;
 
 }

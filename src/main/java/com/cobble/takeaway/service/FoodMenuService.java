@@ -11,6 +11,7 @@ public interface FoodMenuService {
 	List<FoodMenuPOJO> finds(FoodMenuSearchPOJO foodMenuSearchPOJO) throws Exception;
 	int getCount(FoodMenuSearchPOJO foodMenuSearchPOJO) throws Exception;
 	FoodMenuPOJO findById(Integer id) throws Exception;
-	int deleteById(Integer id) throws Exception;
+	int delete(Integer id) throws Exception;
+	int delete(Integer[] ids) throws Exception;
 
 }

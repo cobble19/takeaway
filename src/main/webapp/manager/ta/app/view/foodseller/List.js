@@ -1,21 +1,23 @@
-Ext.define('TA.view.locationarea.List', {
+Ext.define('TA.view.foodseller.List', {
 	extend: 'Ext.grid.Panel',
-	alias: 'widget.locationarealist',
-	title: 'Location Area',
+	alias: 'widget.foodsellerlist',
+	title: '卖家',
 	width: 200,
 	requires: [
-	           'TA.store.LocationArea',
-	           'TA.view.locationarea.LocationAreaController',
-	           'TA.view.locationarea.LocationAreaModel'],
+	           'TA.store.FoodSeller',
+	           'TA.view.foodseller.FoodSellerController',
+	           'TA.view.foodseller.FoodSellerModel',
+	           'TA.view.locationbusiness.ComboBox'],
 	uses: [
-           'TA.store.LocationArea',
-           'TA.view.locationarea.LocationAreaController',
-           'TA.view.locationarea.LocationAreaModel',
-           'TA.view.locationarea.Edit'],
+           'TA.store.FoodSeller',
+           'TA.view.foodseller.FoodSellerController',
+           'TA.view.foodseller.FoodSellerModel',
+           'TA.view.foodseller.Edit',
+           'TA.view.locationbusiness.ComboBox'],
 	
-	controller: 'locationarea',
+	controller: 'foodseller',
 	viewmode: {
-		type: 'locationarea'
+		type: 'foodseller'
 	},
 	selType: 'checkboxmodel',
 	selModel: {
@@ -25,7 +27,7 @@ Ext.define('TA.view.locationarea.List', {
 		enableKeyNav: true,
 		showHeaderCheckbox: true
 	},
-	store: 'LocationArea',
+	store: 'FoodSeller',
 	dockedItems: [{
         xtype: 'toolbar',
         //height: 60,
@@ -33,12 +35,18 @@ Ext.define('TA.view.locationarea.List', {
         items: [{
         	xtype: 'textfield',
 			name: 'name',
-			fieldLabel: '地区名称',
+			fieldLabel: '名称',
 			labelAlign: 'right'
+        }, {
+        	xtype: 'locationbusinesscombobox'/*,
+			name: 'locationBusinessId',
+			fieldLabel: '商业区',
+			labelAlign: 'right',
+			width: 100*/
         }]
     }, {
         xtype: 'pagingtoolbar',
-        store: 'LocationArea',   // same store GridPanel is using
+        store: 'FoodSeller',   // same store GridPanel is using
         dock: 'bottom',
         displayInfo: true
     }],
@@ -60,13 +68,11 @@ Ext.define('TA.view.locationarea.List', {
     	handler: 'onSearch'
     }],
 	initComponent: function() {
-		console.log("this.store");
-		console.log("this.store=" + this.store);
 		this.columns = [
 			{xtype: 'rownumberer', text: '#编号', width: 60},
-			{header: '地区唯一标识', dataIndex: 'locationAreaId', flex: 1},
+			{header: '地区唯一标识', dataIndex: 'foodSellerId', flex: 1},
 			{header: '地区名称', dataIndex: 'name', flex: 1},
-			{header: '描述', dataIndex: 'description', flex: 1}
+			{header: '电话', dataIndex: 'phone', flex: 1}
 		];
 		this.callParent(arguments);
 	} 

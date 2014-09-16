@@ -5,21 +5,17 @@
 	
   <resultMap id="FoodResultMap" type="FoodPOJO" >
     <id column="FOOD_ID" property="foodId" jdbcType="INTEGER" />
-    <result column="FOOD_MENU_ID" property="foodMenuId" jdbcType="INTEGER" />
+    <result column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="UNIT_PRICE" property="unitPrice" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
-    FOOD_ID, FOOD_MENU_ID, NAME, UNIT_PRICE
+    FOOD_ID, FOOD_SELLER_ID, NAME, UNIT_PRICE
   </sql>
-  <sql id="Where_Clause">
-  	<where>
-  		<trim prefixOverrides="and">
-  			<if test="name != null">
-  				and NAME like contract("%", concat(#{name}, "%"))
-  			</if>
-  		</trim>
-  	</where>
+  <sql id="Clause_Common">
+	<if test="name != null">
+		and NAME like concat("%", concat(#{name}, "%"))
+	</if>
   </sql>
   <select id="finds" resultMap="FoodResultMap" parameterType="FoodSearchPOJO" >
     select
@@ -28,12 +24,23 @@
     </if>
     <include refid="Base_Column_List" />
     from food
-    <include refid="Where_Clause"/>
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
     order by NAME
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
   </select>
   <select id="getCount" parameterType="FoodSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from food
-    <include refid="Where_Clause"/>
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
   </select>
   <select id="findById" resultMap="FoodResultMap" parameterType="java.lang.Integer" >
     select 
@@ -46,14 +53,14 @@
     where FOOD_ID = #{foodId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="FoodPOJO" useGeneratedKeys="true">
-    insert into food (FOOD_MENU_ID, NAME, 
+    insert into food (FOOD_SELLER_ID, NAME, 
       UNIT_PRICE)
-    values (#{foodMenuId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+    values (#{foodSellerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{unitPrice,jdbcType=DOUBLE})
   </insert>
   <update id="update" parameterType="com.cobble.takeaway.pojo.FoodPOJO" >
     update food
-    set FOOD_MENU_ID = #{foodMenuId,jdbcType=INTEGER},
+    set FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER},
       NAME = #{name,jdbcType=VARCHAR},
       UNIT_PRICE = #{unitPrice,jdbcType=DOUBLE}
     where FOOD_ID = #{foodId,jdbcType=INTEGER}

@@ -10,12 +10,10 @@
   <sql id="Base_Column_List" >
     ORDER_FORM_ID, FOOD_SELLER_ID, DEFINE_TIME
   </sql>
-  <sql id="Where_Clause">
-  	<where>
-  		<trim prefixOverrides="and">
-  			and 1 = 1
-  		</trim>
-  	</where>
+  <sql id="Clause_Common">
+	<if test="name != null">
+		and 1 = 1
+	</if>
   </sql>
   <select id="finds" resultMap="OrderFormResultMap" parameterType="com.cobble.takeaway.pojo.OrderFormPOJO" >
     select
@@ -24,11 +22,22 @@
     </if>
     <include refid="Base_Column_List" />
     from order_form
-    <include refid="Where_Clause"/>
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
   </select>
   <select id="getCount" parameterType="com.cobble.takeaway.pojo.OrderFormPOJO" resultType="java.lang.Integer" >
     select count(1) from order_form
-    <include refid="Where_Clause"/>
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
   </select>
   <select id="findById" resultMap="OrderFormResultMap" parameterType="java.lang.Integer" >
     select 

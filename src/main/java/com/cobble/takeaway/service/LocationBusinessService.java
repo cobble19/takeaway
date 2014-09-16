@@ -11,6 +11,7 @@ public interface LocationBusinessService {
 	List<LocationBusinessPOJO> finds(LocationBusinessSearchPOJO locationBusinessSearchPOJO) throws Exception;
 	int getCount(LocationBusinessSearchPOJO locationBusinessSearchPOJO) throws Exception;
 	LocationBusinessPOJO findById(Integer id) throws Exception;
-	int deleteById(Integer id) throws Exception;
-
+	int delete(Integer id) throws Exception;
+	int delete(Integer[] ids) throws Exception;
+	
 }

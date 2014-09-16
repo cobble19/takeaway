@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cobble.takeaway.dao.FoodSellerMapper;
 import com.cobble.takeaway.pojo.FoodSellerPOJO;
 import com.cobble.takeaway.pojo.FoodSellerSearchPOJO;
+import com.cobble.takeaway.pojo.RelBusinessSellerPOJO;
 import com.cobble.takeaway.service.FoodSellerService;
 
 @Service
@@ -20,6 +21,12 @@ public class FoodSellerServiceImpl implements FoodSellerService {
 	public int insert(FoodSellerPOJO foodSellerPOJO) throws Exception {
 		int ret = 0;
 		ret = foodSellerMapper.insert(foodSellerPOJO);
+		
+		RelBusinessSellerPOJO relBusinessSellerPOJO = new RelBusinessSellerPOJO();
+		relBusinessSellerPOJO.setFoodSellerId(foodSellerPOJO.getFoodSellerId());
+		relBusinessSellerPOJO.setLocationBusinessId(foodSellerPOJO.getRelBusinessSellerPOJO().getLocationBusinessId());
+		foodSellerMapper.insertRelBusinessSeller(relBusinessSellerPOJO);
+		
 		return ret;
 	}
 
@@ -54,9 +61,21 @@ public class FoodSellerServiceImpl implements FoodSellerService {
 	}
 
 	@Override
-	public int deleteById(Integer id) throws Exception {
+	public int delete(Integer id) throws Exception {
 		int ret = 0;
 		ret = foodSellerMapper.deleteById(id);
+		return ret;
+	}
+
+	@Override
+	public int delete(Integer[] ids) throws Exception {
+		int ret = 0;
+		if (ids == null) {
+			return ret;
+		}
+		for (Integer id: ids) {
+			ret += foodSellerMapper.deleteById(id);
+		}
 		return ret;
 	}
 

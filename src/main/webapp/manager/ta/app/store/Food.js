@@ -1,7 +1,7 @@
-Ext.define('TA.store.LocationArea', {
+Ext.define('TA.store.Food', {
 	extend: 'Ext.data.Store',
-	requires: ['TA.model.LocationArea'],
-	model: 'TA.model.LocationArea',
+	requires: ['TA.model.Food'],
+	model: 'TA.model.Food',
 	//autoLoad: true,
 	pageSize: 2,
 	proxy: {
@@ -9,12 +9,12 @@ Ext.define('TA.store.LocationArea', {
 		actionMethods: {
 			read: 'POST'
 		},
-		url: '../../manager/locationArea',
+		url: '../../manager/food',
 		/*api: {
-			read: '../../manager/locationArea',
-			update: '../../manager/locationArea/update',
-			create: '../../manager/locationArea/add',
-			destroy: '../../manager/locationArea/delete'
+			read: '../../manager/food',
+			update: '../../manager/food/update',
+			create: '../../manager/food/add',
+			destroy: '../../manager/food/delete'
 		},*/
 		reader: {
 			type: 'json',
@@ -38,16 +38,16 @@ Ext.define('TA.store.LocationArea', {
 		}
 	},*/
 	init: function() {
-		console.log('LocationArea store init.');
+		console.log('Food store init.');
 	},
 	initComponent: function() {
-		console.log('LocationArea store initComponent.');
+		console.log('Food store initComponent.');
 		this.callParent(arguments);
 	},
 	listeners: {
 		beforeload: function( store, operation, eOpts ) {
-			console.log('beforeload LocationArea Store');
-			var nameField = Ext.ComponentQuery.query('locationarealist toolbar textfield[name=name]');
+			console.log('beforeload Food Store');
+			var nameField = Ext.ComponentQuery.query('foodlist toolbar textfield[name=name]');
 			if (nameField == null || nameField.length == 0) {
 				return ;
 			}

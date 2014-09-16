@@ -4,6 +4,9 @@ public class FoodSellerPOJO extends BasePOJO {
     private Integer foodSellerId;
     private String name;
     private String phone;
+    
+    private RelBusinessSellerPOJO relBusinessSellerPOJO;
+    
 	public Integer getFoodSellerId() {
 		return foodSellerId;
 	}
@@ -21,5 +24,11 @@ public class FoodSellerPOJO extends BasePOJO {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public RelBusinessSellerPOJO getRelBusinessSellerPOJO() {
+		return relBusinessSellerPOJO;
+	}
+	public void setRelBusinessSellerPOJO(RelBusinessSellerPOJO relBusinessSellerPOJO) {
+		this.relBusinessSellerPOJO = relBusinessSellerPOJO;
 	}
 }

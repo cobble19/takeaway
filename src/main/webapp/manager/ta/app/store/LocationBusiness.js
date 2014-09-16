@@ -9,22 +9,23 @@ Ext.define('TA.store.LocationBusiness', {
 		actionMethods: {
 			read: 'POST'
 		},
-		api: {
+		url: '../../manager/locationBusiness',
+		/*api: {
 			read: '../../manager/locationBusiness',
 			update: '../../manager/locationBusiness',
 			create: '',
 			destroy: ''
-		},
+		},*/
 		reader: {
 			type: 'json',
 			rootProperty: 'gridModelList',
 			successProperty: 'success',
 			totalProperty: 'total'
-		},
+		}/*,
 		writer: {
             encode: true,
             root: 'updatedStr'
-        }
+        }*/
 	},
 	/*listeners: {
 		update: function(store, record, operation, modifiedFieldNames, eOpts) {
@@ -40,6 +41,20 @@ Ext.define('TA.store.LocationBusiness', {
 	initComponent: function() {
 		console.log('LocationBusiness store initComponent.');
 		this.callParent(arguments);
+	},
+	listeners: {
+		beforeload: function( store, operation, eOpts ) {
+			console.log('beforeload LocationBusiness Store');
+			var nameField = Ext.ComponentQuery.query('locationbusinesslist toolbar textfield[name=name]');
+			if (nameField == null || nameField.length == 0) {
+				return ;
+			}
+			var name = nameField[0].getValue();
+			extraParams = {
+				name: name
+			};
+			Ext.apply(store.proxy.extraParams, extraParams);
+		}
 	}
 	
 	

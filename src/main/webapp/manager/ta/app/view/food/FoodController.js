@@ -5,40 +5,40 @@
  *
  * TODO - Replace this content of this view to suite the needs of your application.
  */
-Ext.define('TA.view.locationarea.LocationAreaController', {
+Ext.define('TA.view.food.FoodController', {
     extend: 'Ext.app.ViewController',
 
     requires: [
         'Ext.MessageBox',
-        'TA.store.LocationArea'
+        'TA.store.Food'
     ],
     uses: [
-           'TA.store.LocationArea'
+           'TA.store.Food'
            ],
 
-    alias: 'controller.locationarea',
-    stores: ['LocationArea'],
-    views: ['locationarea.List'],
+    alias: 'controller.food',
+    stores: ['Food'],
+    views: ['food.List'],
     refs: [{
-        ref: 'locationarealist',
-        selector: 'locationarealist'
+        ref: 'foodlist',
+        selector: 'foodlist'
     }],
     init: function() {
-    	console.log('LocationAreaController init.');
-    	this.locationarealist = this.getView();
-    	console.log('get view: ' + this.locationarealist);
+    	console.log('FoodController init.');
+    	this.foodlist = this.getView();
+    	console.log('get view: ' + this.foodlist);
 		
 	},
 	onAdd: function(button, e) {
 		console.log('onAdd ' + button + " " + e);
-		var window = Ext.widget('locationareaedit');
+		var window = Ext.widget('foodedit');
 		window.down('textfield:nth-child(0)').hide();
 		window.down('button[id="updateBtn"]').hide();
 	},
 	add: function(button, e) {
 		var window = button.up('window');
 		var form = button.up('form').getForm();
-		var store = Ext.getStore('LocationArea');
+		var store = Ext.getStore('Food');
 		/*if (form.isValid()) {
 			
 		}*/
@@ -47,16 +47,15 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 			description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/locationArea/add',
+			url: '../../manager/food/add',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
 			waitMsg: 'Waiting...',*/
 			success: function(form, action) {
 				console.log('form.getValues()=' + form + "  " + form.getValues());
-				store.insert(0, new TA.model.LocationArea());
+				store.insert(0, new TA.model.Food());
 				store.first().set(form.getValues());
-				//store.sync();
 				console.log('add success.' + form + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
 				Ext.toast({
 				     html: 'Data Saved',
@@ -105,7 +104,7 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 		}
 		
 		console.log('onUpdate');
-		var window = Ext.widget('locationareaedit');
+		var window = Ext.widget('foodedit');
 		var form = window.down('form');
 		var f = form.getForm();
 		
@@ -118,7 +117,7 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 	update: function(button, e) {
 		var window = button.up('window');
 		var form = button.up('form').getForm();
-		var store = Ext.getStore('LocationArea');
+		var store = Ext.getStore('Food');
 		console.log('store=' + store);
 		/*if (form.isValid()) {
 			
@@ -128,7 +127,7 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 				description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/locationArea/update',
+			url: '../../manager/food/update',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
@@ -208,15 +207,15 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 		console.log('onDelete');
 	},
 	deleteRecord: function(records) {
-		var store = Ext.getStore('LocationArea');
+		var store = Ext.getStore('Food');
         console.log('delete Record, records =' + records.length);
         var ids = [];
         Ext.each(records, function(record, index) {
-        	ids.push(record.get('locationAreaId'));
+        	ids.push(record.get('foodId'));
         });
         
         Ext.Ajax.request({
-            url: '../../manager/locationArea/delete',
+            url: '../../manager/food/delete',
             params: {ids:ids},
             method: 'POST',
             success: function(response, opts) {
