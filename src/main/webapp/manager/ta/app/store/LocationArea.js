@@ -9,24 +9,25 @@ Ext.define('TA.store.LocationArea', {
 		actionMethods: {
 			read: 'POST'
 		},
-		api: {
+		url: '../../manager/locationArea',
+		/*api: {
 			read: '../../manager/locationArea',
 			update: '../../manager/locationArea/update',
 			create: '../../manager/locationArea/add',
 			destroy: '../../manager/locationArea/delete'
-		},
+		},*/
 		reader: {
 			type: 'json',
 			rootProperty: 'gridModelList',
 			successProperty: 'success',
 			totalProperty: 'total'
-		},
+		}/*,
 		writer: {
 			type: 'json',
 			writeAllFields: false,
-            /*encode: true,*/
+            encode: true,
             rootProperty: 'gridModelList'
-        }
+        }*/
 	},
 	/*listeners: {
 		update: function(store, record, operation, modifiedFieldNames, eOpts) {

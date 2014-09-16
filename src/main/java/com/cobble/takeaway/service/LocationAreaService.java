@@ -11,6 +11,7 @@ public interface LocationAreaService {
 	List<LocationAreaPOJO> finds(LocationAreaSearchPOJO locationAreaSearchPOJO) throws Exception;
 	int getCount(LocationAreaSearchPOJO locationAreaSearchPOJO) throws Exception;
 	LocationAreaPOJO findById(Integer id) throws Exception;
-	int deleteById(Integer id) throws Exception;
+	int delete(Integer id) throws Exception;
+	int delete(Integer[] ids) throws Exception;
 
 }

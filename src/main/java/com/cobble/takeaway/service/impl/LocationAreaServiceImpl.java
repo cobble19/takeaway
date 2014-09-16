@@ -2,6 +2,7 @@ package com.cobble.takeaway.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +55,20 @@ public class LocationAreaServiceImpl implements LocationAreaService {
 	}
 
 	@Override
-	public int deleteById(Integer id) throws Exception {
+	public int delete(Integer id) throws Exception {
 		int ret = 0;
 		ret = locationAreaMapper.deleteById(id);
+		return ret;
+	}
+
+	@Override
+	public int delete(Integer[] ids) throws Exception {
+		int ret = 0;
+		if (ArrayUtils.isNotEmpty(ids)) {
+			for (Integer id : ids) {
+				ret += locationAreaMapper.deleteById(id);
+			}
+		}
 		return ret;
 	}
 

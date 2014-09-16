@@ -63,5 +63,37 @@ public class LocationAreaController extends BaseController {
 		
 		return ret;
 	}
+	
+	@RequestMapping(value = "/locationArea/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO update(LocationAreaPOJO locationAreaPOJO, Model model) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			int result = locationAreaService.update(locationAreaPOJO);
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/locationArea/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO delete(Integer[] ids, Model model) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			int result = locationAreaService.delete(ids);
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
 
 }

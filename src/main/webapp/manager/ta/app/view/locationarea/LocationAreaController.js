@@ -19,9 +19,14 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
     alias: 'controller.locationarea',
     stores: ['LocationArea'],
     views: ['locationarea.List'],
+    refs: [{
+        ref: 'locationarealist',
+        selector: 'locationarealist'
+    }],
     init: function() {
     	console.log('LocationAreaController init.');
-    	console.log('get view: ' + this.getView());
+    	this.locationarealist = this.getView();
+    	console.log('get view: ' + this.locationarealist);
 		
 	},
 	onAdd: function(button, e) {
@@ -33,6 +38,7 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 	add: function(button, e) {
 		var window = button.up('window');
 		var form = button.up('form').getForm();
+		var store = Ext.getStore('LocationArea');
 		/*if (form.isValid()) {
 			
 		}*/
@@ -47,6 +53,10 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 			/*waitTitle: 'Waiting',
 			waitMsg: 'Waiting...',*/
 			success: function(form, action) {
+				console.log('form.getValues()=' + form + "  " + form.getValues());
+				store.insert(0, null);
+				store.first().set(form.getValues());
+				//store.sync();
 				console.log('add success.' + form + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
 				Ext.toast({
 				     html: 'Data Saved',
@@ -60,6 +70,14 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 			},
 			failure: function(form, action) {
 				console.log('add failure');
+				Ext.toast({
+				     html: 'Data Add failure',
+					 title: 'Failure',
+					 width: 200,
+					 align: 't',
+					 region: 'center',
+					 anchor: window
+				 });
 			}
 		});
 	},
@@ -98,7 +116,10 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 		window.down('button[id="addBtn"]').hide();
 	},
 	update: function(button, e) {
+		var window = button.up('window');
 		var form = button.up('form').getForm();
+		var store = Ext.getStore('LocationArea');
+		console.log('store=' + store);
 		/*if (form.isValid()) {
 			
 		}*/
@@ -113,10 +134,31 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 			/*waitTitle: 'Waiting',
 			waitMsg: 'Waiting...',*/
 			success: function(form, action) {
-				console.log('update success.');
+				console.log('form.getRecord()=' + form.getRecord().get('name'));
+				record = form.getRecord();
+				record.set(form.getValues());
+				//record.commit();
+				console.log('update success.' + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
+				Ext.toast({
+				     html: 'Data Updated',
+					 title: 'Success',
+					 width: 200,
+					 align: 't',
+					 region: 'center',
+					 anchor: window
+				 });
+				window.close();
 			},
 			failure: function(form, action) {
 				console.log('update failure');
+				Ext.toast({
+				     html: 'Data Update failure',
+					 title: 'Failure',
+					 width: 200,
+					 align: 't',
+					 region: 'center',
+					 anchor: window
+				 });
 			}
 		});
 	},
@@ -166,27 +208,56 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 		console.log('onDelete');
 	},
 	deleteRecord: function(records) {
+		var store = Ext.getStore('LocationArea');
         console.log('delete Record, records =' + records.length);
+        var ids = [];
+        Ext.each(records, function(record, index) {
+        	ids.push(record.get('locationAreaId'));
+        });
+        
         Ext.Ajax.request({
             url: '../../manager/locationArea/delete',
-            /*params: params,*/
+            params: {ids:ids},
             method: 'POST',
             success: function(response, opts) {
+				store.remove(records);
                 var obj = Ext.decode(response.responseText);
                 console.dir(obj);
+				Ext.toast({
+				     html: '成功',
+					 title: '删除记录',
+					 width: 200,
+					 align: 't',
+					 region: 'center'
+				 });
             },
             failure: function(response, opts) {
                 console.log('server-side failure with status code ' + response.status);
+				Ext.toast({
+				     html: '失败',
+					 title: '删除记录',
+					 width: 200,
+					 align: 't',
+					 region: 'center'
+				 });
             }
         });
 	},
 	onSearch: function(button, e) {
 		var view = this.getView();
 		console.log('Ext.getCmp("name").getValue() = ' + Ext.getCmp("name").getValue());
-		view.getStore().load({
-			params: {
+		var store = view.getStore();
+		console.log('Count = ' + store.getCount());
+		console.log('Total Count = ' + store.getTotalCount());
+		var params = {
 				name: Ext.getCmp("name").getValue()
-			},
+		};
+		if (store.getCount() === 0) {
+			params['start'] = 0;
+			params['page'] = 1;
+		}
+		store.load({
+			params: params,
 			callback: function(records, operation, success) {
 				/*console.log(records);
 				console.log(operation);*/
