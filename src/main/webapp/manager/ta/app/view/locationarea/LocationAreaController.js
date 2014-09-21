@@ -252,6 +252,7 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 		var params = {
 				name: name
 		};
+		
 		if (store.getCount() === 0) {
 			params['start'] = 0;
 			params['page'] = 1;
