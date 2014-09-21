@@ -10,7 +10,8 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 
     requires: [
         'Ext.MessageBox',
-        'TA.store.FoodSeller'
+        'TA.store.FoodSeller',
+        'TA.model.LocationBusiness'
     ],
     uses: [
            'TA.store.FoodSeller'
@@ -101,8 +102,10 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 		var window = Ext.widget('foodselleredit');
 		var form = window.down('form');
 		var f = form.getForm();
-		
-		f.loadRecord(records[0]);
+		var record = records[0];
+		f.loadRecord(record);
+		form.down('combobox:nth-child(1)').setValue(record.get('locationBusinessPOJO').locationBusinessId);
+		form.down('combobox:nth-child(2)').setValue(record.get('locationAreaPOJO').locationAreaId);
 
 		window.down('textfield:nth-child(0)').setReadOnly(true);
 		window.down('button[id="addBtn"]').hide();

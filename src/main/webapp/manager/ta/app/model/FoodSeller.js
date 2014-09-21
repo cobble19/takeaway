@@ -7,6 +7,16 @@ Ext.define('TA.model.FoodSeller', {
 	        	 name: 'name', type: 'string'
 	         }, {
 	        	 name: 'phone', type: 'string'
+	         }, {
+	        	 name: 'areaName',
+	        	 convert: function (v, rec) {
+	        	   return rec.get('locationAreaPOJO').name ;
+	        	 }
+	         }, {
+	        	 name: 'businessName',
+	        	 convert: function (v, rec) {
+	        	   return rec.get('locationBusinessPOJO').name ;
+	        	 }
 	         }
 	         ],
 	 validators: {

@@ -1,11 +1,21 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.List;
+
 public class FoodSellerPOJO extends BasePOJO {
     private Integer foodSellerId;
     private String name;
     private String phone;
     
     private RelBusinessSellerPOJO relBusinessSellerPOJO;
+    private RelAreaSellerPOJO relAreaSellerPOJO;
+    
+    private LocationBusinessPOJO locationBusinessPOJO;
+    private LocationAreaPOJO locationAreaPOJO;
+    
+    //1-n
+    private List<LocationBusinessPOJO> locationBusinessPOJOs;
+    private List<LocationAreaPOJO> locationAreaPOJOs;
     
 	public Integer getFoodSellerId() {
 		return foodSellerId;
@@ -30,5 +40,36 @@ public class FoodSellerPOJO extends BasePOJO {
 	}
 	public void setRelBusinessSellerPOJO(RelBusinessSellerPOJO relBusinessSellerPOJO) {
 		this.relBusinessSellerPOJO = relBusinessSellerPOJO;
+	}
+	public RelAreaSellerPOJO getRelAreaSellerPOJO() {
+		return relAreaSellerPOJO;
+	}
+	public void setRelAreaSellerPOJO(RelAreaSellerPOJO relAreaSellerPOJO) {
+		this.relAreaSellerPOJO = relAreaSellerPOJO;
+	}
+	public List<LocationBusinessPOJO> getLocationBusinessPOJOs() {
+		return locationBusinessPOJOs;
+	}
+	public void setLocationBusinessPOJOs(
+			List<LocationBusinessPOJO> locationBusinessPOJOs) {
+		this.locationBusinessPOJOs = locationBusinessPOJOs;
+	}
+	public List<LocationAreaPOJO> getLocationAreaPOJOs() {
+		return locationAreaPOJOs;
+	}
+	public void setLocationAreaPOJOs(List<LocationAreaPOJO> locationAreaPOJOs) {
+		this.locationAreaPOJOs = locationAreaPOJOs;
+	}
+	public LocationBusinessPOJO getLocationBusinessPOJO() {
+		return locationBusinessPOJO;
+	}
+	public void setLocationBusinessPOJO(LocationBusinessPOJO locationBusinessPOJO) {
+		this.locationBusinessPOJO = locationBusinessPOJO;
+	}
+	public LocationAreaPOJO getLocationAreaPOJO() {
+		return locationAreaPOJO;
+	}
+	public void setLocationAreaPOJO(LocationAreaPOJO locationAreaPOJO) {
+		this.locationAreaPOJO = locationAreaPOJO;
 	}
 }

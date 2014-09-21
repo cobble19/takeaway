@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cobble.takeaway.dao.FoodSellerMapper;
 import com.cobble.takeaway.pojo.FoodSellerPOJO;
 import com.cobble.takeaway.pojo.FoodSellerSearchPOJO;
+import com.cobble.takeaway.pojo.RelAreaSellerPOJO;
 import com.cobble.takeaway.pojo.RelBusinessSellerPOJO;
 import com.cobble.takeaway.service.FoodSellerService;
 
@@ -22,10 +23,19 @@ public class FoodSellerServiceImpl implements FoodSellerService {
 		int ret = 0;
 		ret = foodSellerMapper.insert(foodSellerPOJO);
 		
-		RelBusinessSellerPOJO relBusinessSellerPOJO = new RelBusinessSellerPOJO();
-		relBusinessSellerPOJO.setFoodSellerId(foodSellerPOJO.getFoodSellerId());
-		relBusinessSellerPOJO.setLocationBusinessId(foodSellerPOJO.getRelBusinessSellerPOJO().getLocationBusinessId());
-		foodSellerMapper.insertRelBusinessSeller(relBusinessSellerPOJO);
+		if (foodSellerPOJO != null && foodSellerPOJO.getRelBusinessSellerPOJO() != null) {
+			RelBusinessSellerPOJO relBusinessSellerPOJO = new RelBusinessSellerPOJO();
+			relBusinessSellerPOJO.setFoodSellerId(foodSellerPOJO.getFoodSellerId());
+			relBusinessSellerPOJO.setLocationBusinessId(foodSellerPOJO.getRelBusinessSellerPOJO().getLocationBusinessId());
+			foodSellerMapper.insertRelBusinessSeller(relBusinessSellerPOJO);
+		}
+		
+		if (foodSellerPOJO != null && foodSellerPOJO.getRelAreaSellerPOJO() != null) {
+			RelAreaSellerPOJO relAreaSellerPOJO = new RelAreaSellerPOJO();
+			relAreaSellerPOJO.setFoodSellerId(foodSellerPOJO.getFoodSellerId());
+			relAreaSellerPOJO.setLocationAreaId(foodSellerPOJO.getRelAreaSellerPOJO().getLocationAreaId());
+			foodSellerMapper.insertRelAreaSeller(relAreaSellerPOJO);
+		}
 		
 		return ret;
 	}

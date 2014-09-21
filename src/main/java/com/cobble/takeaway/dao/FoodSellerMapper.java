@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cobble.takeaway.pojo.FoodSellerPOJO;
 import com.cobble.takeaway.pojo.FoodSellerSearchPOJO;
+import com.cobble.takeaway.pojo.RelAreaSellerPOJO;
 import com.cobble.takeaway.pojo.RelBusinessSellerPOJO;
 
 
@@ -15,4 +16,5 @@ public interface FoodSellerMapper {
 	FoodSellerPOJO findById(Integer id) throws Exception;
 	int deleteById(Integer id) throws Exception;
 	int insertRelBusinessSeller(RelBusinessSellerPOJO relBusinessSellerPOJO) throws Exception;
+	int insertRelAreaSeller(RelAreaSellerPOJO relAreaSellerPOJO) throws Exception;
 }

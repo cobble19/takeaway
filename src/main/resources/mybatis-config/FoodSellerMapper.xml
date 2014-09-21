@@ -6,13 +6,25 @@
     <id column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    
+    <association property="locationBusinessPOJO" columnPrefix="LB_"
+    	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap"></association>
+    <association property="locationAreaPOJO" columnPrefix="LA_"
+    	resultMap="com.cobble.takeaway.dao.LocationAreaMapper.LocationAreaResultMap"></association>	
+    
+    <!-- <collection property="locationBusinessPOJOs" 
+    	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap" columnPrefix="LB_"
+    	column="FOOD_SELLER_ID"></collection>
+    <collection property="locationAreaPOJOs"
+    	resultMap="com.cobble.takeaway.dao.LocationAreaMapper.LocationAreaResultMap" columnPrefix="LA_"
+    	column="FOOD_SELLER_ID"></collection> -->
   </resultMap>
   <sql id="Base_Column_List" >
-    FOOD_SELLER_ID, NAME, PHONE
+    fs.FOOD_SELLER_ID, fs.NAME, fs.PHONE
   </sql>
   <sql id="Clause_Common">
-	<if test="name != null">
-		and NAME like concat("%", concat(#{name}, "%"))
+	<if test="name != null and name != ''">
+		and fs.NAME like concat("%", concat(#{name}, "%"))
 	</if>
   </sql>
   <select id="finds" resultMap="FoodSellerResultMap" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" >
@@ -21,7 +33,13 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from food_seller
+    , lb.LOCATION_BUSINESS_ID as LB_LOCATION_BUSINESS_ID, lb.NAME as LB_NAME, lb.DESCRIPTION as LB_DESCRIPTION
+    , la.LOCATION_AREA_ID as LA_LOCATION_AREA_ID, la.NAME as LA_NAME, la.DESCRIPTION as LA_DESCRIPTION
+    from food_seller fs
+    left join rel_business_seller rbs on rbs.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    left join location_business lb on lb.LOCATION_BUSINESS_ID = rbs.LOCATION_BUSINESS_ID
+    left join rel_area_seller ras on ras.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    left join location_area la on la.LOCATION_AREA_ID = ras.LOCATION_AREA_ID
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -95,6 +113,27 @@
       </if>
       <if test="foodSellerId != null" >
         #{foodSellerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    
+  </insert>
+  
+  <insert id="insertRelAreaSeller" keyProperty="relAreaSellerId" parameterType="com.cobble.takeaway.pojo.RelAreaSellerPOJO" useGeneratedKeys="true">
+    insert into rel_area_seller
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="locationAreaId != null" >
+        LOCATION_AREA_ID,
+      </if>
+      <if test="foodSellerId != null" >
+        FOOD_SELLER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="locationAreaId != null" >
+        #{locationAreaId},
+      </if>
+      <if test="foodSellerId != null" >
+        #{foodSellerId},
       </if>
     </trim>
     

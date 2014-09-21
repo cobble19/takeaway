@@ -13,7 +13,8 @@ Ext.define('TA.view.foodseller.List', {
            'TA.view.foodseller.FoodSellerController',
            'TA.view.foodseller.FoodSellerModel',
            'TA.view.foodseller.Edit',
-           'TA.view.locationbusiness.ComboBox'],
+           'TA.view.locationbusiness.ComboBox',
+           'TA.view.locationarea.ComboBox'],
 	
 	controller: 'foodseller',
 	viewmode: {
@@ -70,9 +71,11 @@ Ext.define('TA.view.foodseller.List', {
 	initComponent: function() {
 		this.columns = [
 			{xtype: 'rownumberer', text: '#编号', width: 60},
-			{header: '地区唯一标识', dataIndex: 'foodSellerId', flex: 1},
-			{header: '地区名称', dataIndex: 'name', flex: 1},
-			{header: '电话', dataIndex: 'phone', flex: 1}
+			{header: '唯一标识', dataIndex: 'foodSellerId', flex: 1},
+			{header: '卖家名称', dataIndex: 'name', flex: 1},
+			{header: '电话', dataIndex: 'phone', flex: 1},
+			{header: '商业区', dataIndex: 'businessName', flex: 1},
+			{header: '地区', dataIndex: 'areaName', flex: 1}
 		];
 		this.callParent(arguments);
 	} 

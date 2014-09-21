@@ -29,6 +29,9 @@ Ext.define('TA.view.foodseller.Edit', {
 		}, {
 			xtype: 'locationbusinesscombobox',
 			labelAlign: 'left'
+		}, {
+			xtype: 'locationareacombobox',
+			labelAlign: 'left'
 		}],
 		buttons: [/*{
 			text: '重置',
