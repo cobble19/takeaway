@@ -30,8 +30,24 @@ Ext.define('TA.view.foodseller.Edit', {
 			xtype: 'locationbusinesscombobox',
 			labelAlign: 'left'
 		}, {
+			fieldLabel: 'relBusinessSellerPOJO主键',
+			name: 'relBusinessSellerPOJO.relBusinessSellerId',
+			hidden: true
+		}, {
+			fieldLabel: 'relBusinessSellerPOJO seller id',
+			name: 'relBusinessSellerPOJO.foodSellerId',
+			hidden: true
+		}, {
 			xtype: 'locationareacombobox',
 			labelAlign: 'left'
+		}, {
+			fieldLabel: 'relAreaSellerPOJO主键',
+			name: 'relAreaSellerPOJO.relAreaSellerId',
+			hidden: true
+		}, {
+			fieldLabel: 'relAreaSellerPOJO seller id',
+			name: 'relAreaSellerPOJO.foodSellerId',
+			hidden: true
 		}],
 		buttons: [/*{
 			text: '重置',

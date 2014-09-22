@@ -10,11 +10,17 @@ Ext.define('TA.model.FoodSeller', {
 	         }, {
 	        	 name: 'areaName',
 	        	 convert: function (v, rec) {
+	        		 if (rec.get('locationAreaPOJO') == null) {
+	        			 return "";
+	        		 }
 	        	   return rec.get('locationAreaPOJO').name ;
 	        	 }
 	         }, {
 	        	 name: 'businessName',
 	        	 convert: function (v, rec) {
+	        		 if (rec.get('locationBusinessPOJO') == null) {
+	        			 return "";
+	        		 }
 	        	   return rec.get('locationBusinessPOJO').name ;
 	        	 }
 	         }

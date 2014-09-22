@@ -44,6 +44,29 @@ public class FoodSellerServiceImpl implements FoodSellerService {
 	public int update(FoodSellerPOJO foodSellerPOJO) throws Exception {
 		int ret = 0;
 		ret = foodSellerMapper.update(foodSellerPOJO);
+		if (foodSellerPOJO != null && foodSellerPOJO.getRelBusinessSellerPOJO() != null) {
+			RelBusinessSellerPOJO relBusinessSellerPOJO = foodSellerPOJO.getRelBusinessSellerPOJO();
+			if (relBusinessSellerPOJO.getLocationBusinessId() != null) {
+				if (relBusinessSellerPOJO.getRelBusinessSellerId() == null) {
+					relBusinessSellerPOJO.setFoodSellerId(foodSellerPOJO.getFoodSellerId());
+					foodSellerMapper.insertRelBusinessSeller(relBusinessSellerPOJO);
+				} else {
+					foodSellerMapper.updateRelBusinessSeller(relBusinessSellerPOJO);
+				}
+			}
+		}
+		
+		if (foodSellerPOJO != null && foodSellerPOJO.getRelAreaSellerPOJO() != null) {
+			RelAreaSellerPOJO relAreaSellerPOJO = foodSellerPOJO.getRelAreaSellerPOJO();
+			if (relAreaSellerPOJO.getLocationAreaId() != null) {
+				if (relAreaSellerPOJO.getRelAreaSellerId() == null) {
+					relAreaSellerPOJO.setFoodSellerId(foodSellerPOJO.getFoodSellerId());
+					foodSellerMapper.insertRelAreaSeller(relAreaSellerPOJO);
+				} else {
+					foodSellerMapper.updateRelAreaSeller(relAreaSellerPOJO);
+				}
+			}
+		}
 		return ret;
 	}
 

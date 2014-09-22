@@ -31,7 +31,7 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 	},
 	add: function(button, e) {
 		var window = button.up('window');
-		var form = button.up('form').getForm();
+		var f = button.up('form').getForm();
 		var store = Ext.getStore('FoodSeller');
 		/*if (form.isValid()) {
 			
@@ -40,7 +40,7 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 			name: 'test',
 			description: 'descr'
 		};*/
-		form.submit({
+		f.submit({
 			url: '../../manager/foodSeller/add',
 			method: 'POST',
 			/*params: params,*/
@@ -49,7 +49,21 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 			success: function(form, action) {
 				console.log('form.getValues()=' + form + "  " + form.getValues());
 				store.insert(0, new TA.model.FoodSeller());
-				store.first().set(form.getValues());
+				var record = store.first();
+				record.set(form.getValues());
+				
+				var businessName = window.down('form').down('combobox:nth-child(1)').getRawValue();
+				var areaName = window.down('form').down('combobox:nth-child(2)').getRawValue();
+				if (!record.data.locationBusinessPOJO) {
+					record.data.locationBusinessPOJO = {};
+				}
+				if (!record.data.locationAreaPOJO) {
+					record.data.locationAreaPOJO = {};
+				}
+				record.data.locationBusinessPOJO.name = businessName;
+				record.data.locationAreaPOJO.name = areaName;
+				record.set('areaName', areaName);
+				record.set('businessName', businessName);
 				
 				console.log('add success.' + form + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
 				Ext.toast({
@@ -105,7 +119,13 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 		var record = records[0];
 		f.loadRecord(record);
 		form.down('combobox:nth-child(1)').setValue(record.get('locationBusinessPOJO').locationBusinessId);
+		form.down('textfield[name="relBusinessSellerPOJO.relBusinessSellerId"]').setValue(record.get('relBusinessSellerPOJO').relBusinessSellerId);
+		form.down('textfield[name="relBusinessSellerPOJO.foodSellerId"]').setValue(record.get('relBusinessSellerPOJO').foodSellerId);
+		
 		form.down('combobox:nth-child(2)').setValue(record.get('locationAreaPOJO').locationAreaId);
+		form.down('textfield[name="relAreaSellerPOJO.relAreaSellerId"]').setValue(record.get('relAreaSellerPOJO').relAreaSellerId);
+		form.down('textfield[name="relAreaSellerPOJO.foodSellerId"]').setValue(record.get('relAreaSellerPOJO').foodSellerId);
+		
 
 		window.down('textfield:nth-child(0)').setReadOnly(true);
 		window.down('button[id="addBtn"]').hide();
@@ -113,9 +133,12 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 	},
 	update: function(button, e) {
 		var window = button.up('window');
-		var form = button.up('form').getForm();
+		var form = window.down('form');
+		var f = form.getForm();
 		var store = Ext.getStore('FoodSeller');
 		console.log('store=' + store);
+
+		
 		/*if (form.isValid()) {
 			
 		}*/
@@ -123,7 +146,7 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 				name: 'test',
 				description: 'descr'
 		};*/
-		form.submit({
+		f.submit({
 			url: '../../manager/foodSeller/update',
 			method: 'POST',
 			/*params: params,*/
@@ -133,6 +156,19 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 				console.log('form.getRecord()=' + form.getRecord().get('name'));
 				record = form.getRecord();
 				record.set(form.getValues());
+				
+				/*console.log('Fields = ' + record.getFields());
+				Ext.each(record.getFields(), function(field, index) {
+					console.log(field.getName() + " " + record.get(field.getName()) + " " + index);
+				});
+				console.log(record.data);*/
+
+				var businessName = window.down('form').down('combobox:nth-child(1)').getRawValue();
+				var areaName = window.down('form').down('combobox:nth-child(2)').getRawValue();
+				record.get('locationBusinessPOJO').name = businessName;
+				record.get('locationAreaPOJO').name = areaName;
+				record.set('areaName', areaName);
+				record.set('businessName', businessName);
 				//record.commit();
 				console.log('update success.' + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
 				Ext.toast({

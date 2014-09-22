@@ -5,6 +5,7 @@ import java.util.List;
 public class ExtjsPOJO<T> extends BasePOJO {
 	private List<T> gridModelList;
 	private Boolean success = true;
+	private String message = "";
 	private Integer total;
 	
 	public Boolean getSuccess() {
@@ -24,6 +25,12 @@ public class ExtjsPOJO<T> extends BasePOJO {
 	}
 	public void setGridModelList(List<T> gridModelList) {
 		this.gridModelList = gridModelList;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 }

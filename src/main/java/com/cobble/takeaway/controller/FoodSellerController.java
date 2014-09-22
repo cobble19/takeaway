@@ -72,7 +72,7 @@ public class FoodSellerController extends BaseController {
 			int result = foodSellerService.update(foodSellerPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			LOGGER.error("update error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -88,7 +88,7 @@ public class FoodSellerController extends BaseController {
 			int result = foodSellerService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			LOGGER.error("delete error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

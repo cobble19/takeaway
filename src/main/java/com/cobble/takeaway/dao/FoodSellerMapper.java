@@ -17,4 +17,6 @@ public interface FoodSellerMapper {
 	int deleteById(Integer id) throws Exception;
 	int insertRelBusinessSeller(RelBusinessSellerPOJO relBusinessSellerPOJO) throws Exception;
 	int insertRelAreaSeller(RelAreaSellerPOJO relAreaSellerPOJO) throws Exception;
+	int updateRelBusinessSeller(RelBusinessSellerPOJO relBusinessSellerPOJO) throws Exception;
+	int updateRelAreaSeller(RelAreaSellerPOJO relAreaSellerPOJO) throws Exception;
 }

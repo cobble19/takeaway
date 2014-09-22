@@ -10,7 +10,12 @@
     <association property="locationBusinessPOJO" columnPrefix="LB_"
     	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap"></association>
     <association property="locationAreaPOJO" columnPrefix="LA_"
-    	resultMap="com.cobble.takeaway.dao.LocationAreaMapper.LocationAreaResultMap"></association>	
+    	resultMap="com.cobble.takeaway.dao.LocationAreaMapper.LocationAreaResultMap"></association>
+    	
+    <association property="relBusinessSellerPOJO" columnPrefix="RBS_"
+    	resultMap="RelBusinessSellerResultMap"></association>
+    <association property="relAreaSellerPOJO" columnPrefix="RAS_"
+    	resultMap="RelAreaSellerResultMap"></association>
     
     <!-- <collection property="locationBusinessPOJOs" 
     	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap" columnPrefix="LB_"
@@ -19,6 +24,18 @@
     	resultMap="com.cobble.takeaway.dao.LocationAreaMapper.LocationAreaResultMap" columnPrefix="LA_"
     	column="FOOD_SELLER_ID"></collection> -->
   </resultMap>
+  
+  <resultMap id="RelBusinessSellerResultMap" type="com.cobble.takeaway.pojo.RelBusinessSellerPOJO" >
+    <id column="REL_BUSINESS_SELLER_ID" property="relBusinessSellerId" />
+    <result column="LOCATION_BUSINESS_ID" property="locationBusinessId" />
+    <result column="FOOD_SELLER_ID" property="foodSellerId" />
+  </resultMap>
+  <resultMap id="RelAreaSellerResultMap" type="com.cobble.takeaway.pojo.RelAreaSellerPOJO" >
+    <id column="REL_AREA_SELLER_ID" property="relAreaSellerId" />
+    <result column="LOCATION_AREA_ID" property="locationAreaId" />
+    <result column="FOOD_SELLER_ID" property="foodSellerId" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     fs.FOOD_SELLER_ID, fs.NAME, fs.PHONE
   </sql>
@@ -35,6 +52,8 @@
     <include refid="Base_Column_List" />
     , lb.LOCATION_BUSINESS_ID as LB_LOCATION_BUSINESS_ID, lb.NAME as LB_NAME, lb.DESCRIPTION as LB_DESCRIPTION
     , la.LOCATION_AREA_ID as LA_LOCATION_AREA_ID, la.NAME as LA_NAME, la.DESCRIPTION as LA_DESCRIPTION
+    , rbs.REL_BUSINESS_SELLER_ID as RBS_REL_BUSINESS_SELLER_ID, rbs.LOCATION_BUSINESS_ID as RBS_LOCATION_BUSINESS_ID, rbs.FOOD_SELLER_ID as RBS_FOOD_SELLER_ID
+    , ras.REL_AREA_SELLER_ID AS RAS_REL_AREA_SELLER_ID, ras.LOCATION_AREA_ID AS RAS_LOCATION_AREA_ID, ras.FOOD_SELLER_ID AS RAS_FOOD_SELLER_ID
     from food_seller fs
     left join rel_business_seller rbs on rbs.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
     left join location_business lb on lb.LOCATION_BUSINESS_ID = rbs.LOCATION_BUSINESS_ID
@@ -63,10 +82,12 @@
     from food_seller
     where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteById" parameterType="java.lang.Integer" >
-    delete from food_seller
-    where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER}
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from food_seller where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER};
+    delete from rel_business_seller where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER};
+    delete from rel_area_seller where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER}
   </delete>
+  
   <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO">
   	<selectKey keyProperty="foodSellerId" resultType="int" order="BEFORE">
          SELECT LAST_INSERT_ID()
@@ -150,5 +171,31 @@
       </if>
     </set>
     where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateRelBusinessSeller" parameterType="com.cobble.takeaway.pojo.RelBusinessSellerPOJO" >
+    update rel_business_seller
+    <set >
+      <if test="locationBusinessId != null" >
+        LOCATION_BUSINESS_ID = #{locationBusinessId},
+      </if>
+      <if test="foodSellerId != null" >
+        FOOD_SELLER_ID = #{foodSellerId},
+      </if>
+    </set>
+    where REL_BUSINESS_SELLER_ID = #{relBusinessSellerId}
+  </update>
+  
+  <update id="updateRelAreaSeller" parameterType="com.cobble.takeaway.pojo.RelAreaSellerPOJO" >
+    update rel_area_seller
+    <set >
+      <if test="locationAreaId != null" >
+        LOCATION_AREA_ID = #{locationAreaId},
+      </if>
+      <if test="foodSellerId != null" >
+        FOOD_SELLER_ID = #{foodSellerId},
+      </if>
+    </set>
+    where REL_AREA_SELLER_ID = #{relAreaSellerId}
   </update>
 </mapper>

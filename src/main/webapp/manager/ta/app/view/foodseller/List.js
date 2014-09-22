@@ -38,13 +38,13 @@ Ext.define('TA.view.foodseller.List', {
 			name: 'name',
 			fieldLabel: '名称',
 			labelAlign: 'right'
-        }, {
-        	xtype: 'locationbusinesscombobox'/*,
+        }/*, {
+        	xtype: 'locationbusinesscombobox',
 			name: 'locationBusinessId',
 			fieldLabel: '商业区',
 			labelAlign: 'right',
-			width: 100*/
-        }]
+			width: 100
+        }*/]
     }, {
         xtype: 'pagingtoolbar',
         store: 'FoodSeller',   // same store GridPanel is using
