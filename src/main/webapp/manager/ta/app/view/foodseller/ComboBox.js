@@ -1,30 +1,32 @@
-Ext.define('TA.view.locationbusiness.ComboBox', {
+Ext.define('TA.view.foodseller.ComboBox', {
 	extend: 'Ext.form.field.ComboBox',
-	alias: 'widget.locationbusinesscombobox',
-
+	alias: 'widget.foodsellercombobox',
+	
+	/*autoRender: true,
+	autoShow: true,*/
 	autoLoadOnValue: true,
 	width: 300,
-	fieldLabel: '商业区',
-	labelAlign: 'right',
-	name: 'relBusinessSellerPOJO.locationBusinessId',
-    store: 'LocationBusiness',
+	fieldLabel: '卖家',
+	labelAlign: 'left',
+	name: 'foodSellerPOJO.foodSellerId',
+    store: 'FoodSeller',
     queryMode: 'remote',
     pageSize: 2,
     displayField: 'name',
-    valueField: 'locationBusinessId'/*,*/
+    valueField: 'foodSellerId'/*,*/
     //renderTo: Ext.getBody(),
     // Template for the dropdown menu.
     // Note the use of "x-boundlist-item" class,
     // this is required to make the items selectable.
     /*tpl: Ext.create('Ext.XTemplate',
         '<tpl for=".">',
-            '<div class="x-boundlist-item">{locationBusinessId} - {name}</div>',
+            '<div class="x-boundlist-item">{locationAreaId} - {name}</div>',
         '</tpl>'
     ),
     // template for the content inside text field
     displayTpl: Ext.create('Ext.XTemplate',
         '<tpl for=".">',
-            '{locationBusinessId} - {name}',
+            '{locationAreaId} - {name}',
         '</tpl>'
     )*/
 });

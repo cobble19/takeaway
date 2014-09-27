@@ -55,7 +55,16 @@ Ext.define('TA.view.food.FoodController', {
 			success: function(form, action) {
 				console.log('form.getValues()=' + form + "  " + form.getValues());
 				store.insert(0, new TA.model.Food());
-				store.first().set(form.getValues());
+				var record = store.first();
+				record.set(form.getValues());
+				
+				var foodSellerName = window.down('form').down('combobox:nth-child(1)').getRawValue();
+				if (!record.data.foodSellerPOJO) {
+					record.data.foodSellerPOJO = {};
+				}
+				record.data.foodSellerPOJO.name = foodSellerName;
+				record.set('foodSellerName', foodSellerName);
+				
 				console.log('add success.' + form + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
 				Ext.toast({
 				     html: 'Data Saved',
@@ -107,9 +116,12 @@ Ext.define('TA.view.food.FoodController', {
 		var window = Ext.widget('foodedit');
 		var form = window.down('form');
 		var f = form.getForm();
-		
-		f.loadRecord(records[0]);
 
+		var record = records[0];
+		f.loadRecord(record);
+
+		form.down('combobox:nth-child(1)').setValue(record.get('foodSellerPOJO').foodSellerId);
+		
 		window.down('textfield:nth-child(0)').setReadOnly(true);
 		window.down('button[id="addBtn"]').hide();
 		window.down('button[id="addBtn"]').hide();
@@ -118,7 +130,6 @@ Ext.define('TA.view.food.FoodController', {
 		var window = button.up('window');
 		var form = button.up('form').getForm();
 		var store = Ext.getStore('Food');
-		console.log('store=' + store);
 		/*if (form.isValid()) {
 			
 		}*/
@@ -136,6 +147,14 @@ Ext.define('TA.view.food.FoodController', {
 				console.log('form.getRecord()=' + form.getRecord().get('name'));
 				record = form.getRecord();
 				record.set(form.getValues());
+
+				var foodSellerName = window.down('form').down('combobox:nth-child(1)').getRawValue();
+				if (!record.data.foodSellerPOJO) {
+					record.data.foodSellerPOJO = {};
+				}
+				record.data.foodSellerPOJO.name = foodSellerName;
+				record.set('foodSellerName', foodSellerName);
+				
 				//record.commit();
 				console.log('update success.' + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
 				Ext.toast({

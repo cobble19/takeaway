@@ -11,6 +11,7 @@ Ext.define('TA.view.locationarea.ComboBox', {
 	name: 'relAreaSellerPOJO.locationAreaId',
     store: 'LocationArea',
     queryMode: 'remote',
+    pageSize: 2,
     displayField: 'name',
     valueField: 'locationAreaId'/*,*/
     //renderTo: Ext.getBody(),

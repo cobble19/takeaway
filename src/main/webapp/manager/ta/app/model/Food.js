@@ -9,6 +9,15 @@ Ext.define('TA.model.Food', {
 	        	 name: 'name', type: 'string'
 	         }, {
 	        	 name: 'unitPrice', type: 'string'
+	         }, {
+	        	 name: 'foodSellerName',
+	        	 type: 'string',
+	        	 convert: function (v, rec) {
+	        		 if (rec.get('foodSellerPOJO') == null) {
+	        			 return "";
+	        		 }
+	        	   return rec.get('foodSellerPOJO').name ;
+	        	 }
 	         }
 	         ],
 	 validators: {

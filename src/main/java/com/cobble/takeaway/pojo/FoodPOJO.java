@@ -3,7 +3,8 @@ package com.cobble.takeaway.pojo;
 public class FoodPOJO extends BasePOJO {
     private Integer foodId;
     private Integer foodSellerId;
-    private String name;
+    private FoodSellerPOJO foodSellerPOJO;
+	private String name;
     private Double unitPrice;
 	public Integer getFoodId() {
 		return foodId;
@@ -28,5 +29,11 @@ public class FoodPOJO extends BasePOJO {
 	}
 	public void setUnitPrice(Double unitPrice) {
 		this.unitPrice = unitPrice;
+	}
+	public FoodSellerPOJO getFoodSellerPOJO() {
+		return foodSellerPOJO;
+	}
+	public void setFoodSellerPOJO(FoodSellerPOJO foodSellerPOJO) {
+		this.foodSellerPOJO = foodSellerPOJO;
 	}
 }

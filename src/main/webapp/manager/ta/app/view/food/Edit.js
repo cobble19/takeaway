@@ -3,8 +3,8 @@ Ext.define('TA.view.food.Edit', {
 	title: 'Edit Window',
 	alias: 'widget.foodedit',
 	autoShow: true,
-	/*height: 200,
-	width: 400,*/
+	/*height: 200,*/
+	width: 450,
 	layout: 'fit',
 	controller: 'food',
 	items: [{
@@ -21,8 +21,9 @@ Ext.define('TA.view.food.Edit', {
 			fieldLabel: '标识',
 			name: 'foodId'
 		}, {
-			fieldLabel: '卖家',
-			name: 'foodSellerId'
+			xtype: 'foodsellercombobox'
+			/*fieldLabel: '卖家',
+			name: 'foodSellerId'*/
 		}, {
 			fieldLabel: '名称',
 			name: 'name'
