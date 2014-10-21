@@ -32,6 +32,7 @@
 		<jstl.version>1.2</jstl.version>
         <jasypt.version>1.9.2</jasypt.version>
         <jackson.version>2.4.2</jackson.version>
+        <jsp.api.version>2.0</jsp.api.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -158,6 +159,13 @@
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>${jsp.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		
 		<dependency>
 			<groupId>junit</groupId>

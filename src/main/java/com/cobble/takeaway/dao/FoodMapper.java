@@ -13,5 +13,5 @@ public interface FoodMapper {
 	int getCount(FoodSearchPOJO foodSearchPOJO) throws Exception;
 	FoodPOJO findById(Integer id) throws Exception;
 	int deleteById(Integer id) throws Exception;
-	
+	List<FoodPOJO> findsByFoodSellerId(Integer foodSellerId) throws Exception;
 }

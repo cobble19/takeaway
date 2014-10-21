@@ -72,4 +72,9 @@ public class FoodServiceImpl implements FoodService {
 		return ret;
 	}
 
+	@Override
+	public List<FoodPOJO> findsByFoodSellerId(Integer foodSellerId) throws Exception {
+		return foodMapper.findsByFoodSellerId(foodSellerId);
+	}
+
 }

@@ -37,6 +37,19 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
+  <select id="findsByFoodSellerId" resultMap="FoodResultMap" parameterType="Integer" >
+    select distinct 
+    <include refid="Base_Column_List" />
+    ,fs.FOOD_SELLER_ID as FS_FOOD_SELLER_ID, fs.NAME as FS_NAME, fs.PHONE as FS_PHONE
+    from food f
+    left join food_seller fs on fs.FOOD_SELLER_ID = f.FOOD_SELLER_ID
+    <where>
+  		<trim prefixOverrides="and">
+			and f.FOOD_SELLER_ID = #{foodSellerId}
+  		</trim>
+  	</where>
+  </select>
+  
   <select id="getCount" parameterType="FoodSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from food f
     <where>

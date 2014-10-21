@@ -62,6 +62,12 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="com.cobble.takeaway.pojo" />
 		<property name="configLocation" value="classpath:mybatis.xml"></property>
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:mybatis-config/*Mapper.xml</value>
+				<!-- <value>classpath:config/mybatis/oracle/test/*Mapper.xml</value> -->
+			</list>
+		</property>
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
@@ -121,7 +127,7 @@
 	</bean>
 	<bean id="internalResourceViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/jsp/" />
+		<property name="prefix" value="/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 	<!-- <bean
