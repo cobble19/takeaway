@@ -41,5 +41,9 @@
 		<property name="mapperInterface" value="com.cobble.takeaway.dao.OrderFormMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
+	<bean id="foodSellerTypeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.cobble.takeaway.dao.FoodSellerTypeMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
 
 </beans>

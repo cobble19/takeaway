@@ -13,16 +13,17 @@ Ext.define('TA.Application', {
         'LocationArea',
         'LocationBusiness',
         'FoodSeller',
-        'Food'
+        'Food',
+        'FoodSellerType'
     ],
     
     launch: function () {
         // TODO - Launch the application
     	//开启悬浮提示功能
         Ext.QuickTips.init();
-        //开启动态加载
+        //开启/关闭动态加载
         Ext.Loader.setConfig({
-            enabled: true
+            enabled: false
         });
     }
 });

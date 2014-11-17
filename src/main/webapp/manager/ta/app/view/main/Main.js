@@ -13,10 +13,13 @@ Ext.define('TA.view.main.Main', {
                'Ext.window.Toast',
                'Ext.tree.Panel',
                'Ext.tree.View',
+               'Ext.grid.column.RowNumberer',
+               'Ext.form.Panel',
                'TA.view.tree.Menu',
                'TA.view.tree.MenuController',
                'TA.store.TreeMenu',
-               'TA.view.locationarea.List'
+               'TA.view.locationarea.List',
+               'TA.view.foodsellertype.List'
            ],
     uses: [
            'Ext.tree.Panel',
@@ -27,7 +30,8 @@ Ext.define('TA.view.main.Main', {
            'TA.view.locationarea.List',
            'TA.view.locationbusiness.List',
            'TA.view.foodseller.List',
-           'TA.view.food.List'
+           'TA.view.food.List',
+           'TA.view.foodsellertype.List'
            ],
     
     controller: 'main',

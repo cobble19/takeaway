@@ -23,6 +23,11 @@ children: [{
         id:'food',
         pageId: 'foodlist',
         leaf:true
+    },{
+        text:'餐饮类型',
+        id:'foodsellertype',
+        pageId: 'foodsellertypelist',
+        leaf:true
     }]
 }, {
     text:'用户设置',
