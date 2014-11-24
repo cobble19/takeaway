@@ -37,7 +37,7 @@ public class FoodSellerController extends BaseController {
 		ModelAndView ret = new ModelAndView();
 		List<FoodSellerPOJO> foodSellerPOJOList = new ArrayList<FoodSellerPOJO>();
 		foodSellerPOJOList = foodSellerService.finds(foodSellerSearchPOJO);
-		int total = foodSellerService.getCount(foodSellerSearchPOJO);
+		//int total = foodSellerService.getCount(foodSellerSearchPOJO);
 		ret.addObject("foodSellerPOJOList", foodSellerPOJOList);
 		ret.setViewName("page/food_seller");
 		return ret;

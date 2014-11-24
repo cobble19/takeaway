@@ -11,11 +11,15 @@
     	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap"></association>
     <association property="locationAreaPOJO" columnPrefix="LA_"
     	resultMap="com.cobble.takeaway.dao.LocationAreaMapper.LocationAreaResultMap"></association>
+    <association property="foodSellerTypePOJO" columnPrefix="FST_"
+    	resultMap="com.cobble.takeaway.dao.FoodSellerTypeMapper.FoodSellerTypeResultMap"></association>
     	
     <association property="relBusinessSellerPOJO" columnPrefix="RBS_"
     	resultMap="RelBusinessSellerResultMap"></association>
     <association property="relAreaSellerPOJO" columnPrefix="RAS_"
     	resultMap="RelAreaSellerResultMap"></association>
+    <association property="relFoodSellerTypePOJO" columnPrefix="RFST_"
+    	resultMap="RelFoodSellerTypeResultMap"></association>
     
     <!-- <collection property="locationBusinessPOJOs" 
     	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap" columnPrefix="LB_"
@@ -35,6 +39,11 @@
     <result column="LOCATION_AREA_ID" property="locationAreaId" />
     <result column="FOOD_SELLER_ID" property="foodSellerId" />
   </resultMap>
+  <resultMap id="RelFoodSellerTypeResultMap" type="com.cobble.takeaway.pojo.RelFoodSellerTypePOJO" >
+    <id column="REL_FOOD_SELLER_TYPE_ID" property="relFoodSellerTypeId" />
+    <result column="FOOD_SELLER_TYPE_ID" property="foodSellerTypeId" />
+    <result column="FOOD_SELLER_ID" property="foodSellerId" />
+  </resultMap>
   
   <sql id="Base_Column_List" >
     fs.FOOD_SELLER_ID, fs.NAME, fs.PHONE
@@ -44,6 +53,22 @@
 		and fs.NAME like concat("%", concat(#{name}, "%"))
 	</if>
   </sql>
+  
+  <select id="findsByBusinessId" resultMap="FoodSellerResultMap" parameterType="int" >
+    select
+    <include refid="Base_Column_List" />
+    from food_seller fs
+    join rel_business_seller rbs on rbs.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    where rbs.LOCATION_BUSINESS_ID = #{locationBusinessId}
+  </select>
+  
+  <select id="getCountByBusinessId" resultType="int" parameterType="int" >
+    select count(1)
+    from food_seller fs
+    join rel_business_seller rbs on rbs.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    where rbs.LOCATION_BUSINESS_ID = #{locationBusinessId}
+  </select>
+  
   <select id="finds" resultMap="FoodSellerResultMap" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" >
     select
     <if test="distinct" >
@@ -54,11 +79,15 @@
     , la.LOCATION_AREA_ID as LA_LOCATION_AREA_ID, la.NAME as LA_NAME, la.DESCRIPTION as LA_DESCRIPTION
     , rbs.REL_BUSINESS_SELLER_ID as RBS_REL_BUSINESS_SELLER_ID, rbs.LOCATION_BUSINESS_ID as RBS_LOCATION_BUSINESS_ID, rbs.FOOD_SELLER_ID as RBS_FOOD_SELLER_ID
     , ras.REL_AREA_SELLER_ID AS RAS_REL_AREA_SELLER_ID, ras.LOCATION_AREA_ID AS RAS_LOCATION_AREA_ID, ras.FOOD_SELLER_ID AS RAS_FOOD_SELLER_ID
+    , rfst.REL_FOOD_SELLER_TYPE_ID AS RFST_REL_FOOD_SELLER_TYPE_ID, rfst.FOOD_SELLER_ID AS RFST_FOOD_SELLER_ID, rfst.FOOD_SELLER_TYPE_ID AS RFST_FOOD_SELLER_TYPE_ID
+    , fst.FOOD_SELLER_TYPE_ID AS FST_FOOD_SELLER_TYPE_ID, fst.NAME AS FST_NAME, fst.ICON AS FST_ICON
     from food_seller fs
     left join rel_business_seller rbs on rbs.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
     left join location_business lb on lb.LOCATION_BUSINESS_ID = rbs.LOCATION_BUSINESS_ID
     left join rel_area_seller ras on ras.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
     left join location_area la on la.LOCATION_AREA_ID = ras.LOCATION_AREA_ID
+    left join rel_food_seller_type  rfst on rfst.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    left join food_seller_type fst on fst.FOOD_SELLER_TYPE_ID = rfst.FOOD_SELLER_TYPE_ID
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -88,15 +117,15 @@
     delete from rel_area_seller where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER}
   </delete>
   
-  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO">
-  	<selectKey keyProperty="foodSellerId" resultType="int" order="BEFORE">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" keyProperty="foodSellerId" useGeneratedKeys="true" keyColumn="FOOD_SELLER_ID">
+  	<!-- <selectKey keyProperty="foodSellerId" resultType="int" order="BEFORE">
          SELECT LAST_INSERT_ID()
-     </selectKey>
+     </selectKey> -->
     insert into food_seller
     <trim prefix="(" suffix=")" suffixOverrides="," >
-    	<if test="foodSellerId != null" >
+    	<!-- <if test="foodSellerId != null" >
         FOOD_SELLER_ID,
-      </if>
+      </if> -->
       <if test="name != null" >
         NAME,
       </if>
@@ -105,9 +134,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="foodSellerId != null" >
+      <!-- <if test="foodSellerId != null" >
         #{foodSellerId,jdbcType=VARCHAR},
-      </if>
+      </if> -->
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
@@ -115,7 +144,6 @@
         #{phone,jdbcType=VARCHAR},
       </if>
     </trim>
-    
   </insert>
   
   <insert id="insertRelBusinessSeller" keyProperty="relBusinessSellerId" parameterType="com.cobble.takeaway.pojo.RelBusinessSellerPOJO" useGeneratedKeys="true">
@@ -136,7 +164,6 @@
         #{foodSellerId,jdbcType=VARCHAR},
       </if>
     </trim>
-    
   </insert>
   
   <insert id="insertRelAreaSeller" keyProperty="relAreaSellerId" parameterType="com.cobble.takeaway.pojo.RelAreaSellerPOJO" useGeneratedKeys="true">
@@ -157,7 +184,26 @@
         #{foodSellerId},
       </if>
     </trim>
-    
+  </insert>
+  
+  <insert id="insertRelFoodSellerType" keyProperty="relFoodSellerTypeId" parameterType="RelFoodSellerTypePOJO" useGeneratedKeys="true">
+    insert into rel_food_seller_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="foodSellerTypeId != null" >
+        FOOD_SELLER_TYPE_ID,
+      </if>
+      <if test="foodSellerId != null" >
+        FOOD_SELLER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="foodSellerTypeId != null" >
+        #{foodSellerTypeId},
+      </if>
+      <if test="foodSellerId != null" >
+        #{foodSellerId},
+      </if>
+    </trim>
   </insert>
   
   <update id="update" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" >
@@ -197,5 +243,17 @@
       </if>
     </set>
     where REL_AREA_SELLER_ID = #{relAreaSellerId}
+  </update>
+  <update id="updateRelFoodSellerType" parameterType="com.cobble.takeaway.pojo.RelFoodSellerTypePOJO" >
+    update rel_food_seller_type
+    <set >
+      <if test="foodSellerTypeId != null" >
+        FOOD_SELLER_TYPE_ID = #{foodSellerTypeId},
+      </if>
+      <if test="foodSellerId != null" >
+        FOOD_SELLER_ID = #{foodSellerId},
+      </if>
+    </set>
+    where REL_FOOD_SELLER_TYPE_ID = #{relFoodSellerTypeId}
   </update>
 </mapper>

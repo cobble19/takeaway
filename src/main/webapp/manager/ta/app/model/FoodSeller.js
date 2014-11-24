@@ -23,6 +23,14 @@ Ext.define('TA.model.FoodSeller', {
 	        		 }
 	        	   return rec.get('locationBusinessPOJO').name ;
 	        	 }
+	         }, {
+	        	 name: 'foodSellerTypeName',
+	        	 convert: function (v, rec) {
+	        		 if (rec.get('foodSellerTypePOJO') == null) {
+	        			 return "";
+	        		 }
+	        	   return rec.get('foodSellerTypePOJO').name ;
+	        	 }
 	         }
 	         ],
 	 validators: {

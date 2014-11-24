@@ -9,9 +9,11 @@ public class FoodSellerPOJO extends BasePOJO {
     
     private RelBusinessSellerPOJO relBusinessSellerPOJO;
     private RelAreaSellerPOJO relAreaSellerPOJO;
+    private RelFoodSellerTypePOJO relFoodSellerTypePOJO;
     
     private LocationBusinessPOJO locationBusinessPOJO;
     private LocationAreaPOJO locationAreaPOJO;
+    private FoodSellerTypePOJO foodSellerTypePOJO;
     
     //1-n
     private List<LocationBusinessPOJO> locationBusinessPOJOs;
@@ -71,5 +73,17 @@ public class FoodSellerPOJO extends BasePOJO {
 	}
 	public void setLocationAreaPOJO(LocationAreaPOJO locationAreaPOJO) {
 		this.locationAreaPOJO = locationAreaPOJO;
+	}
+	public FoodSellerTypePOJO getFoodSellerTypePOJO() {
+		return foodSellerTypePOJO;
+	}
+	public void setFoodSellerTypePOJO(FoodSellerTypePOJO foodSellerTypePOJO) {
+		this.foodSellerTypePOJO = foodSellerTypePOJO;
+	}
+	public RelFoodSellerTypePOJO getRelFoodSellerTypePOJO() {
+		return relFoodSellerTypePOJO;
+	}
+	public void setRelFoodSellerTypePOJO(RelFoodSellerTypePOJO relFoodSellerTypePOJO) {
+		this.relFoodSellerTypePOJO = relFoodSellerTypePOJO;
 	}
 }

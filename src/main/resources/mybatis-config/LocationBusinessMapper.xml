@@ -8,20 +8,29 @@
     <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    LOCATION_BUSINESS_ID, NAME, DESCRIPTION
+    lb.LOCATION_BUSINESS_ID, lb.NAME, lb.DESCRIPTION
   </sql>
   <sql id="Clause_Common">
 	<if test="name != null">
 		and NAME like concat("%", concat(#{name}, "%"))
 	</if>
   </sql>
-  <select id="finds" resultMap="LocationBusinessResultMap" parameterType="com.cobble.takeaway.pojo.LocationBusinessPOJO" >
+  
+  <select id="findsByAreaId" resultMap="LocationBusinessResultMap" parameterType="int" >
+    select
+    <include refid="Base_Column_List" />
+    from location_business lb
+    join rel_area_business rab on rab.LOCATION_BUSINESS_ID = lb.LOCATION_BUSINESS_ID
+    where rab.LOCATION_AREA_ID = #{locationAreaId}
+  </select>
+  
+  <select id="finds" resultMap="LocationBusinessResultMap" parameterType="LocationBusinessSearchPOJO" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from location_business
+    from location_business lb
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -31,7 +40,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.LocationBusinessPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="LocationBusinessSearchPOJO" resultType="java.lang.Integer" >
     select count(*) from location_business
     <where>
   		<trim prefixOverrides="and">

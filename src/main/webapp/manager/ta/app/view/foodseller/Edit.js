@@ -41,6 +41,9 @@ Ext.define('TA.view.foodseller.Edit', {
 			xtype: 'locationareacombobox',
 			labelAlign: 'left'
 		}, {
+			xtype: 'foodsellertypecombobox',
+			labelAlign: 'left'
+		}, {
 			fieldLabel: 'relAreaSellerPOJO主键',
 			name: 'relAreaSellerPOJO.relAreaSellerId',
 			hidden: true

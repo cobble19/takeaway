@@ -62,12 +62,11 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="com.cobble.takeaway.pojo" />
 		<property name="configLocation" value="classpath:mybatis.xml"></property>
-		<property name="mapperLocations">
+		<!-- <property name="mapperLocations">
 			<list>
 				<value>classpath:mybatis-config/*Mapper.xml</value>
-				<!-- <value>classpath:config/mybatis/oracle/test/*Mapper.xml</value> -->
 			</list>
-		</property>
+		</property> -->
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
@@ -78,14 +77,15 @@
 
 	<aop:config>
 		<aop:pointcut id="businessService"
-			expression="execution(* com.cobble.takeaway.service.*.*(..))" />
-		<aop:advisor pointcut-ref="businessService" advice-ref="tx-advice" />
+			expression="execution(* com.cobble.takeaway.dao..*.*(..))" />
+		<aop:advisor pointcut-ref="businessService" advice-ref="txAdvice" />
 	</aop:config>
-	<tx:advice id="tx-advice">
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="get*" propagation="NEVER" read-only="true" />
 			<tx:method name="find*" propagation="NEVER" read-only="true" />
-			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="insert*" />
+			<tx:method name="insert1*" propagation="REQUIRED" />
 			<tx:method name="update*" propagation="REQUIRED" />
 			<tx:method name="delete*" propagation="REQUIRED" />
 		</tx:attributes>

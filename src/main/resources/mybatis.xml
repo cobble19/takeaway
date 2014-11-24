@@ -18,13 +18,14 @@
 		<typeAlias alias="UserPOJO"
 			type="com.cobble.pojo.UserPOJO" />
 	</typeAliases> -->
-	<!-- <mappers>
+	<mappers>
 		<mapper resource="mybatis-config/FoodMapper.xml" />
 		<mapper resource="mybatis-config/FoodMenuMapper.xml" />
 		<mapper resource="mybatis-config/FoodSellerMapper.xml" />
+		<mapper resource="mybatis-config/FoodSellerTypeMapper.xml" />
 		<mapper resource="mybatis-config/LocationAreaMapper.xml" />
 		<mapper resource="mybatis-config/LocationBusinessMapper.xml" />
 		<mapper resource="mybatis-config/OrderFormFoodMapper.xml" />
 		<mapper resource="mybatis-config/OrderFormMapper.xml" />
-	</mappers> -->
+	</mappers>
 </configuration>

@@ -14,7 +14,8 @@ Ext.define('TA.view.foodseller.List', {
            'TA.view.foodseller.FoodSellerModel',
            'TA.view.foodseller.Edit',
            'TA.view.locationbusiness.ComboBox',
-           'TA.view.locationarea.ComboBox'],
+           'TA.view.locationarea.ComboBox',
+           'TA.view.foodsellertype.ComboBox'],
 	
 	controller: 'foodseller',
 	viewmode: {
@@ -75,7 +76,8 @@ Ext.define('TA.view.foodseller.List', {
 			{header: '卖家名称', dataIndex: 'name', flex: 1},
 			{header: '电话', dataIndex: 'phone', flex: 1},
 			{header: '商业区', dataIndex: 'businessName', flex: 1},
-			{header: '地区', dataIndex: 'areaName', flex: 1}
+			{header: '地区', dataIndex: 'areaName', flex: 1},
+			{header: '餐饮分类', dataIndex: 'foodSellerTypeName', flex: 1}
 		];
 		this.callParent(arguments);
 	} 

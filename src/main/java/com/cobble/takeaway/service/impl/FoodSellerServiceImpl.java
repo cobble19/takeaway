@@ -10,6 +10,7 @@ import com.cobble.takeaway.pojo.FoodSellerPOJO;
 import com.cobble.takeaway.pojo.FoodSellerSearchPOJO;
 import com.cobble.takeaway.pojo.RelAreaSellerPOJO;
 import com.cobble.takeaway.pojo.RelBusinessSellerPOJO;
+import com.cobble.takeaway.pojo.RelFoodSellerTypePOJO;
 import com.cobble.takeaway.service.FoodSellerService;
 
 @Service
@@ -37,9 +38,16 @@ public class FoodSellerServiceImpl implements FoodSellerService {
 			foodSellerMapper.insertRelAreaSeller(relAreaSellerPOJO);
 		}
 		
+		if (foodSellerPOJO != null && foodSellerPOJO.getRelFoodSellerTypePOJO() != null) {
+			RelFoodSellerTypePOJO relFoodSellerTypePOJO = new RelFoodSellerTypePOJO();
+			relFoodSellerTypePOJO.setFoodSellerId(foodSellerPOJO.getFoodSellerId());
+			relFoodSellerTypePOJO.setFoodSellerTypeId(foodSellerPOJO.getRelFoodSellerTypePOJO().getFoodSellerTypeId());
+			foodSellerMapper.insertRelFoodSellerType(relFoodSellerTypePOJO);
+		}
+		
 		return ret;
 	}
-
+	
 	@Override
 	public int update(FoodSellerPOJO foodSellerPOJO) throws Exception {
 		int ret = 0;
@@ -64,6 +72,20 @@ public class FoodSellerServiceImpl implements FoodSellerService {
 					foodSellerMapper.insertRelAreaSeller(relAreaSellerPOJO);
 				} else {
 					foodSellerMapper.updateRelAreaSeller(relAreaSellerPOJO);
+				}
+			}
+		}
+		
+		
+
+		if (foodSellerPOJO != null && foodSellerPOJO.getRelFoodSellerTypePOJO() != null) {
+			RelFoodSellerTypePOJO relFoodSellerTypePOJO = foodSellerPOJO.getRelFoodSellerTypePOJO();
+			if (relFoodSellerTypePOJO.getFoodSellerTypeId() != null) {
+				if (relFoodSellerTypePOJO.getRelFoodSellerTypeId() == null) {
+					relFoodSellerTypePOJO.setFoodSellerId(foodSellerPOJO.getFoodSellerId());
+					foodSellerMapper.insertRelFoodSellerType(relFoodSellerTypePOJO);
+				} else {
+					foodSellerMapper.updateRelFoodSellerType(relFoodSellerTypePOJO);
 				}
 			}
 		}

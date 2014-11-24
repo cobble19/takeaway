@@ -6,7 +6,7 @@ Ext.define('TA.view.foodsellertype.ComboBox', {
 	autoShow: true,*/
 	autoLoadOnValue: true,
 	width: 300,
-	fieldLabel: '地区',
+	fieldLabel: '餐饮分类',
 	labelAlign: 'right',
 	name: 'relFoodSellerTypePOJO.foodSellerTypeId',
     store: 'FoodSellerType',
