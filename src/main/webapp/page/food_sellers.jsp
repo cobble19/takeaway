@@ -76,13 +76,15 @@
 					<div class="col-md-1"></div>
 					<div class="col-md-10">
 						<div class="row" style="background-color: #C0C0C0; height: 50px; padding: 10px 0;">
-							<label for="search">搜索：    </label>
-							<input id="search" type="text" placeholder="搜索">
-							<div class="pull-right" style="vertical-align: middle;">评分最高 | 速度最快 | 起送价格最低</div>
+							<form action='<cmn:base/>/web/foodSellers/search'>
+								<label for="search">搜索：    </label>
+								<input id="keyword" name="keyword" type="text" placeholder="搜索" value="${param.keyword}">
+								<div class="pull-right" style="vertical-align: middle;">评分最高 | 速度最快 | 起送价格最低</div>
+							</form>
 						</div>
 						<br/>
 						<div class="row">
-							您所在位置>>合肥市>>庐阳区>>长江西路
+							<!-- 您所在位置>>合肥市>>庐阳区>>长江西路 -->
 						</div>
 						<br/>
 						<div class="row">

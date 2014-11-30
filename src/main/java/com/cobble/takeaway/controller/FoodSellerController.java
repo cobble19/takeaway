@@ -60,6 +60,21 @@ public class FoodSellerController extends BaseController {
 		ret.setViewName("page/food_seller_detail");
 		return ret;
 	}
+
+	@RequestMapping(value = "/web/foodSellers/search", method = {RequestMethod.GET})
+	public ModelAndView findFoodSellerSearchs(@RequestParam(value="keyword", required=false) String keyword) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		FoodSellerSearchPOJO foodSellerSearchPOJO = new FoodSellerSearchPOJO();
+		foodSellerSearchPOJO.setStart(-1);
+		foodSellerSearchPOJO.setLimit(-1);
+		foodSellerSearchPOJO.setName(keyword);
+		List<FoodSellerPOJO> foodSellerPOJOList = new ArrayList<FoodSellerPOJO>();
+		foodSellerPOJOList = foodSellerService.finds(foodSellerSearchPOJO);
+		//int total = foodSellerService.getCount(foodSellerSearchPOJO);
+		ret.addObject("foodSellerPOJOList", foodSellerPOJOList);
+		ret.setViewName("page/food_sellers");
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/foodSellers", method = {RequestMethod.GET})
 	public ModelAndView findFoodSellers(@RequestParam(value="areaId", required=false) Integer areaId

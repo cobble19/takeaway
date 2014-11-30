@@ -35,8 +35,10 @@
 	<ul class="list-group">
 		<c:forEach items="${foodSellerTypePOJOList }" var="foodSellerTypePOJO">
 			<li class="list-group-item">
-				<img alt='${foodSellerTypePOJO.name}' src='<cmn:base/>/${foodSellerTypePOJO.icon}' title="${foodSellerTypePOJO.name}"></img>
-				${foodSellerTypePOJO.name }
+				<a href='<cmn:base/>/web/foodSellers?sellerTypeId=${foodSellerTypePOJO.foodSellerTypeId}'>
+					<img alt='${foodSellerTypePOJO.name}' src='<cmn:base/>/${foodSellerTypePOJO.icon}' title="${foodSellerTypePOJO.name}"></img>
+					${foodSellerTypePOJO.name}
+				</a>
 			</li>
 		</c:forEach>
 	</ul>

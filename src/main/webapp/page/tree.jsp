@@ -43,11 +43,11 @@
 		</div> -->
 		<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
 			<div class="list-group-item">
-				<h4 class="list-group-item-heading">${locationAreaPOJO.name} (${locationAreaPOJO.countFoodSeller})</h4>
+				<h4 class="list-group-item-heading"><a href='<cmn:base/>/web/foodSellers?areaId=${locationAreaPOJO.locationAreaId}'>${locationAreaPOJO.name}</a> (${locationAreaPOJO.countFoodSeller})</h4>
 				<p class="list-group-item-text">
 					<c:forEach items="${locationAreaPOJO.locationBusinessPOJOs}" var="locationBusinessPOJO"
 					 varStatus="st">
-					 	${locationBusinessPOJO.name}(${locationBusinessPOJO.countFoodSeller})  
+					 	<a href='<cmn:base/>/web/foodSellers?businessId=${locationBusinessPOJO.locationBusinessId}'>${locationBusinessPOJO.name}</a>(${locationBusinessPOJO.countFoodSeller})  
 						<c:if test="${st.count % 2 == 0}">
 						<br/>
 						</c:if>
