@@ -8,10 +8,11 @@
     <result column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="UNIT_PRICE" property="unitPrice" jdbcType="DOUBLE" />
+    <result column="FOOD_TYPE_ID" property="foodTypeId"/>
     <association property="foodSellerPOJO" columnPrefix="FS_" resultMap="com.cobble.takeaway.dao.FoodSellerMapper.FoodSellerResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
-    f.FOOD_ID, f.FOOD_SELLER_ID, f.NAME, f.UNIT_PRICE
+    f.FOOD_ID, f.FOOD_SELLER_ID, f.NAME, f.UNIT_PRICE, f.FOOD_TYPE_ID
   </sql>
   <sql id="Clause_Common">
 	<if test="name != null">
@@ -57,6 +58,12 @@
 			<include refid="Clause_Common"/>
   		</trim>
   	</where>
+  </select>
+  <select id="findByFoodTypeId" resultMap="FoodResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from food f
+    where FOOD_TYPE_ID = #{foodTypeId,jdbcType=INTEGER}
   </select>
   <select id="findById" resultMap="FoodResultMap" parameterType="java.lang.Integer" >
     select 

@@ -15,7 +15,7 @@
 		and NAME like concat("%", concat(#{name}, "%"))
 	</if>
   </sql>
-  <select id="finds" resultMap="LocationAreaResultMap" parameterType="com.cobble.takeaway.pojo.LocationAreaPOJO" >
+  <select id="finds" resultMap="LocationAreaResultMap" parameterType="com.cobble.takeaway.pojo.LocationAreaSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -31,7 +31,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.LocationAreaPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.LocationAreaSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from location_area
     <where>
   		<trim prefixOverrides="and">

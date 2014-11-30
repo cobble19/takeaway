@@ -123,15 +123,6 @@
 						<div class="row">
 							您所在位置>>合肥市>>庐阳区>>长江西路
 						</div>
-						<div class="media">
-							  <a class="media-left pull-left" href="#">
-							    <img src="" alt="...">
-							  </a>
-							  <div class="media-body">
-							    <h4 class="media-heading">Media heading</h4>
-							    ...
-							  </div>
-							</div>
 						<br/>
 						<div class="row">
 						</div>
@@ -175,7 +166,7 @@
 								</tr>
 							</table>
 							
-							<table class="table table-hover" style="background-color: #ddd">
+							<table class="table table-hover" style="">
 								<thead style="color: #AABBCC">
 									<th colspan="4">特色美食</th>
 								</thead>

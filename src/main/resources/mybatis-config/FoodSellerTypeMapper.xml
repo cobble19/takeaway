@@ -15,7 +15,7 @@
 		and NAME like concat("%", concat(#{name}, "%"))
 	</if>
   </sql>
-  <select id="finds" resultMap="FoodSellerTypeResultMap" parameterType="FoodSellerTypePOJO" >
+  <select id="finds" resultMap="FoodSellerTypeResultMap" parameterType="FoodSellerTypeSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -31,7 +31,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
-  <select id="getCount" parameterType="FoodSellerTypePOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="FoodSellerTypeSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from FOOD_SELLER_TYPE
     <where>
   		<trim prefixOverrides="and">

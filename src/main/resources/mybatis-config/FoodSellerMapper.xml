@@ -6,6 +6,11 @@
     <id column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="BUSINESS_HOURS" property="businessHours"/>
+    <result column="DELIVERY_AREA" property="deliveryArea"/>
+    <result column="DELIVERY_PRICE_MIN" property="deliveryPriceMin"/>
+    <result column="ADDRESS" property="address"/>
+    <result column="NOTE" property="note"/>
     
     <association property="locationBusinessPOJO" columnPrefix="LB_"
     	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap"></association>
@@ -20,6 +25,11 @@
     	resultMap="RelAreaSellerResultMap"></association>
     <association property="relFoodSellerTypePOJO" columnPrefix="RFST_"
     	resultMap="RelFoodSellerTypeResultMap"></association>
+    
+    <collection property="foodTypePOJOs" columnPrefix="FT_"  column="FOOD_TYPE_ID"
+    	resultMap="com.cobble.takeaway.dao.FoodTypeMapper.FoodTypeResultMap"></collection>
+   	<collection property="foodPOJOs" columnPrefix="F_"  column="FOOD_ID"
+   	resultMap="com.cobble.takeaway.dao.FoodMapper.FoodResultMap"></collection>
     
     <!-- <collection property="locationBusinessPOJOs" 
     	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap" columnPrefix="LB_"
@@ -46,13 +56,53 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    fs.FOOD_SELLER_ID, fs.NAME, fs.PHONE
+    fs.FOOD_SELLER_ID, fs.NAME, fs.PHONE, fs.BUSINESS_HOURS, fs.DELIVERY_AREA
+    , fs.DELIVERY_PRICE_MIN, fs.ADDRESS, fs.NOTE
   </sql>
   <sql id="Clause_Common">
 	<if test="name != null and name != ''">
 		and fs.NAME like concat("%", concat(#{name}, "%"))
 	</if>
   </sql>
+  
+  <select id="findDetail" resultMap="FoodSellerResultMap" parameterType="int" >
+    select
+    <include refid="Base_Column_List" />
+    , f.FOOD_ID as F_FOOD_ID, f.FOOD_SELLER_ID as F_FOOD_SELLER_ID, f.NAME as F_NAME
+    , f.UNIT_PRICE as F_UNIT_PRICE, f.FOOD_TYPE_ID as F_FOOD_TYPE_ID
+    , ft.FOOD_TYPE_ID as FT_FOOD_TYPE_ID, ft.NAME AS FT_NAME
+    
+    , lb.LOCATION_BUSINESS_ID as LB_LOCATION_BUSINESS_ID, lb.NAME as LB_NAME, lb.DESCRIPTION as LB_DESCRIPTION
+    , la.LOCATION_AREA_ID as LA_LOCATION_AREA_ID, la.NAME as LA_NAME, la.DESCRIPTION as LA_DESCRIPTION
+    , rbs.REL_BUSINESS_SELLER_ID as RBS_REL_BUSINESS_SELLER_ID, rbs.LOCATION_BUSINESS_ID as RBS_LOCATION_BUSINESS_ID, rbs.FOOD_SELLER_ID as RBS_FOOD_SELLER_ID
+    , ras.REL_AREA_SELLER_ID AS RAS_REL_AREA_SELLER_ID, ras.LOCATION_AREA_ID AS RAS_LOCATION_AREA_ID, ras.FOOD_SELLER_ID AS RAS_FOOD_SELLER_ID
+    
+    from food_seller fs
+    join food f on f.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    join food_type ft on ft.food_type_id = f.food_type_id
+    
+    join rel_business_seller rbs on rbs.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    join location_business lb on lb.LOCATION_BUSINESS_ID = rbs.LOCATION_BUSINESS_ID
+    join rel_area_seller ras on ras.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    join location_area la on la.LOCATION_AREA_ID = ras.LOCATION_AREA_ID
+    
+    where fs.FOOD_SELLER_ID = #{foodSellerId}
+  </select>
+  
+  <select id="findsByAreaId" resultMap="FoodSellerResultMap" parameterType="int" >
+    select
+    <include refid="Base_Column_List" />
+    from food_seller fs
+    join rel_area_seller ras on ras.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    where ras.LOCATION_AREA_ID = #{locationAreaId}
+  </select>
+  
+  <select id="getCountByAreaId" resultType="int" parameterType="int" >
+    select count(1)
+    from food_seller fs
+    join rel_area_seller ras on ras.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    where ras.LOCATION_AREA_ID = #{locationAreaId}
+  </select>
   
   <select id="findsByBusinessId" resultMap="FoodSellerResultMap" parameterType="int" >
     select
@@ -69,7 +119,22 @@
     where rbs.LOCATION_BUSINESS_ID = #{locationBusinessId}
   </select>
   
-  <select id="finds" resultMap="FoodSellerResultMap" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" >
+  <select id="findsByFoodSellerTypeId" resultMap="FoodSellerResultMap" parameterType="int" >
+    select
+    <include refid="Base_Column_List" />
+    from food_seller fs
+    join rel_food_seller_type rfst on rfst.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    where rfst.FOOD_SELLER_TYPE_ID = #{foodSellerTypeId}
+  </select>
+  
+  <select id="getCountByFoodSellerTypeId" resultType="int" parameterType="int" >
+    select count(1)
+    from food_seller fs
+    join rel_food_seller_type rfst on rfst.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    where rfst.FOOD_SELLER_TYPE_ID = #{foodSellerTypeId}
+  </select>
+  
+  <select id="finds" resultMap="FoodSellerResultMap" parameterType="com.cobble.takeaway.pojo.FoodSellerSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -97,7 +162,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodSellerPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodSellerSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from food_seller
     <where>
   		<trim prefixOverrides="and">

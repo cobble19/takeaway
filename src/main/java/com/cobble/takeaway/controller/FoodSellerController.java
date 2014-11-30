@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,6 +21,7 @@ import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.FoodPOJO;
 import com.cobble.takeaway.pojo.FoodSellerPOJO;
 import com.cobble.takeaway.pojo.FoodSellerSearchPOJO;
+import com.cobble.takeaway.pojo.FoodTypePOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.FoodSellerService;
 import com.cobble.takeaway.service.FoodService;
@@ -31,6 +34,45 @@ public class FoodSellerController extends BaseController {
 	private FoodSellerService foodSellerService;
 	@Autowired
 	private FoodService foodService;
+	
+	@RequestMapping(value = "/web/foodSellerDetail", method = {RequestMethod.GET})
+	public ModelAndView findFoodSellers(@RequestParam(value="foodSellerId", required=false) Integer foodSellerId) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		FoodSellerPOJO foodSellerPOJO = foodSellerService.findDetail(foodSellerId);
+		//int total = foodSellerService.getCount(foodSellerSearchPOJO);
+//		foodSellerPOJO.getFoodTypePOJOs().get(0).getFoodPOJOs().get(0).getName();
+		if (foodSellerPOJO != null) {
+			List<FoodTypePOJO> foodTypePOJOs = foodSellerPOJO.getFoodTypePOJOs();
+			List<FoodPOJO> foodPOJOs = foodSellerPOJO.getFoodPOJOs();
+			if (!CollectionUtils.isEmpty(foodTypePOJOs) && !CollectionUtils.isEmpty(foodPOJOs)) {
+				for (FoodTypePOJO foodTypePOJO : foodTypePOJOs) {
+					int foodTypeId = foodTypePOJO.getFoodTypeId();
+					for (FoodPOJO foodPOJO : foodPOJOs) {
+						int foodTypeId2 = foodPOJO.getFoodTypeId();
+						if (foodTypeId == foodTypeId2) {
+							foodTypePOJO.getFoodPOJOs().add(foodPOJO);
+						}
+					}
+				}
+			}
+		}
+		ret.addObject("foodSellerPOJO", foodSellerPOJO);
+		ret.setViewName("page/food_seller_detail");
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/foodSellers", method = {RequestMethod.GET})
+	public ModelAndView findFoodSellers(@RequestParam(value="areaId", required=false) Integer areaId
+			, @RequestParam(value="businessId", required=false) Integer businessId
+			, @RequestParam(value="sellerTypeId", required=false) Integer sellerTypeId) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		List<FoodSellerPOJO> foodSellerPOJOList = new ArrayList<FoodSellerPOJO>();
+		foodSellerPOJOList = foodSellerService.findsByParam(areaId, businessId, sellerTypeId);
+		//int total = foodSellerService.getCount(foodSellerSearchPOJO);
+		ret.addObject("foodSellerPOJOList", foodSellerPOJOList);
+		ret.setViewName("page/food_sellers");
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/foodSeller", method = {RequestMethod.GET})
 	public ModelAndView findFoodSeller(FoodSellerSearchPOJO foodSellerSearchPOJO) throws Exception {

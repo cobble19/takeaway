@@ -16,7 +16,7 @@
 		and 1 = 1
 	</if>
   </sql>
-  <select id="finds" resultMap="OrderFormFoodResultMap" parameterType="com.cobble.takeaway.pojo.OrderFormFoodPOJO" >
+  <select id="finds" resultMap="OrderFormFoodResultMap" parameterType="com.cobble.takeaway.pojo.OrderFormFoodSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -32,7 +32,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.OrderFormFoodPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.OrderFormFoodSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from r_order_form_food
     <where>
   		<trim prefixOverrides="and">

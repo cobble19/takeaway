@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.FoodTypeMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	
+  <resultMap id="FoodTypeResultMap" type="FoodTypePOJO" >
+    <id column="FOOD_TYPE_ID" property="foodTypeId" jdbcType="INTEGER" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    
+    <!-- <collection property="foodPOJOs" column="FOOD_TYPE_ID" ofType="FoodPOJO"
+    	select="com.cobble.takeaway.dao.FoodMapper.findByFoodTypeId"></collection> -->
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ft.FOOD_TYPE_ID, ft.NAME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="name != null">
+		and ft.NAME like concat("%", concat(#{name}, "%"))
+	</if>
+  </sql>
+  <select id="finds" resultMap="FoodTypeResultMap" parameterType="FoodTypeSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from food_type ft
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+    order by NAME
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="FoodTypeSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from food_type ft
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  <select id="findById" resultMap="FoodTypeResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from food_type ft
+    where FOOD_TYPE_ID = #{foodTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from food_type
+    where FOOD_TYPE_ID = #{foodTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="FoodTypePOJO" useGeneratedKeys="true">
+    insert into food_type (NAME)
+    values (#{name,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="com.cobble.takeaway.pojo.FoodTypePOJO" >
+    update food_type
+    set NAME = #{name,jdbcType=VARCHAR}
+    where FOOD_TYPE_ID = #{foodTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

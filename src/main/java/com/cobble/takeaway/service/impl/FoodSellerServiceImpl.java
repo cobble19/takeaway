@@ -1,9 +1,12 @@
 package com.cobble.takeaway.service.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.cobble.takeaway.dao.FoodSellerMapper;
 import com.cobble.takeaway.pojo.FoodSellerPOJO;
@@ -93,6 +96,68 @@ public class FoodSellerServiceImpl implements FoodSellerService {
 	}
 
 	@Override
+	public List<FoodSellerPOJO> findsByParam(Integer areaId,
+			Integer businessId, Integer sellerTypeId) throws Exception {
+		List<FoodSellerPOJO> ret = new ArrayList<FoodSellerPOJO>();
+		
+		if (areaId == null && businessId == null && sellerTypeId == null) {
+			List<FoodSellerPOJO> foodSellerPOJOs = foodSellerMapper.finds(null);
+			if (!CollectionUtils.isEmpty(foodSellerPOJOs)) {
+				ret.addAll(foodSellerPOJOs);
+				/*Iterator<FoodSellerPOJO> it = foodSellerPOJOs.iterator();
+				while (it.hasNext()) {
+					FoodSellerPOJO foodSellerPOJO = it.next();
+					if (!ret.contains(foodSellerPOJO)) {
+						ret.add(foodSellerPOJO);
+					}
+				}*/
+			}
+		}
+		
+		if (areaId != null) {
+			List<FoodSellerPOJO> foodSellerPOJOs = foodSellerMapper.findsByAreaId(areaId);
+			if (!CollectionUtils.isEmpty(foodSellerPOJOs)) {
+				ret.addAll(foodSellerPOJOs);
+				/*Iterator<FoodSellerPOJO> it = foodSellerPOJOs.iterator();
+				while (it.hasNext()) {
+					FoodSellerPOJO foodSellerPOJO = it.next();
+					if (!ret.contains(foodSellerPOJO)) {
+						ret.add(foodSellerPOJO);
+					}
+				}*/
+			}
+		}
+		if (businessId != null) {
+			List<FoodSellerPOJO> foodSellerPOJOs = foodSellerMapper.findsByBusinessId(businessId);
+			if (!CollectionUtils.isEmpty(foodSellerPOJOs)) {
+				ret.addAll(foodSellerPOJOs);
+				/*Iterator<FoodSellerPOJO> it = foodSellerPOJOs.iterator();
+				while (it.hasNext()) {
+					FoodSellerPOJO foodSellerPOJO = it.next();
+					if (!ret.contains(foodSellerPOJO)) {
+						ret.add(foodSellerPOJO);
+					}
+				}*/
+			}
+		}
+		if (sellerTypeId != null) {
+			List<FoodSellerPOJO> foodSellerPOJOs = foodSellerMapper.findsByFoodSellerTypeId(sellerTypeId);
+			if (!CollectionUtils.isEmpty(foodSellerPOJOs)) {
+				ret.addAll(foodSellerPOJOs);
+				/*Iterator<FoodSellerPOJO> it = foodSellerPOJOs.iterator();
+				while (it.hasNext()) {
+					FoodSellerPOJO foodSellerPOJO = it.next();
+					if (!ret.contains(foodSellerPOJO)) {
+						ret.add(foodSellerPOJO);
+					}
+				}*/
+			}
+		}
+		
+		return ret;
+	}
+	
+	@Override
 	public List<FoodSellerPOJO> finds(
 			FoodSellerSearchPOJO foodSellerSearchPOJO) throws Exception {
 		List<FoodSellerPOJO> ret = null;
@@ -132,6 +197,11 @@ public class FoodSellerServiceImpl implements FoodSellerService {
 			ret += foodSellerMapper.deleteById(id);
 		}
 		return ret;
+	}
+
+	@Override
+	public FoodSellerPOJO findDetail(Integer foodSellerId) throws Exception {
+		return foodSellerMapper.findDetail(foodSellerId);
 	}
 
 }

@@ -12,8 +12,16 @@ import com.cobble.takeaway.pojo.RelFoodSellerTypePOJO;
 public interface FoodSellerMapper {
 	int insert(FoodSellerPOJO foodSellerPOJO) throws Exception;
 	int update(FoodSellerPOJO foodSellerPOJO) throws Exception;
+	
+	FoodSellerPOJO findDetail(Integer foodSellerId) throws Exception;
+	
+	List<FoodSellerPOJO> findsByAreaId(Integer locationAreaId) throws Exception;
+	int getCountByAreaId(Integer locationAreaId) throws Exception;
 	List<FoodSellerPOJO> findsByBusinessId(Integer locationBusinessId) throws Exception;
 	int getCountByBusinessId(Integer locationBusinessId) throws Exception;
+	List<FoodSellerPOJO> findsByFoodSellerTypeId(Integer foodSellerTypeId) throws Exception;
+	int getCountByFoodSellerTypeId(Integer foodSellerTypeId) throws Exception;
+	
 	List<FoodSellerPOJO> finds(FoodSellerSearchPOJO foodSellerSearchPOJO) throws Exception;
 	int getCount(FoodSellerSearchPOJO foodSellerSearchPOJO) throws Exception;
 	FoodSellerPOJO findById(Integer id) throws Exception;
