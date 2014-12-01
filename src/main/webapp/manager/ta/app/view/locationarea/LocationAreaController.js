@@ -47,7 +47,7 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 			description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/locationArea/add',
+			url: '../../mgr/locationArea/add',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
@@ -128,7 +128,7 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
 				description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/locationArea/update',
+			url: '../../mgr/locationArea/update',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
@@ -216,7 +216,7 @@ Ext.define('TA.view.locationarea.LocationAreaController', {
         });
         
         Ext.Ajax.request({
-            url: '../../manager/locationArea/delete',
+            url: '../../mgr/locationArea/delete',
             params: {ids:ids},
             method: 'POST',
             success: function(response, opts) {

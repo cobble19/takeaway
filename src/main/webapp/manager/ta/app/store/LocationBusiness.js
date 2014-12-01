@@ -9,10 +9,10 @@ Ext.define('TA.store.LocationBusiness', {
 		actionMethods: {
 			read: 'POST'
 		},
-		url: '../../manager/locationBusiness',
+		url: '../../mgr/locationBusiness',
 		/*api: {
-			read: '../../manager/locationBusiness',
-			update: '../../manager/locationBusiness',
+			read: '../../mgr/locationBusiness',
+			update: '../../mgr/locationBusiness',
 			create: '',
 			destroy: ''
 		},*/

@@ -9,12 +9,12 @@ Ext.define('TA.store.LocationArea', {
 		actionMethods: {
 			read: 'POST'
 		},
-		url: '../../manager/locationArea',
+		url: '../../mgr/locationArea',
 		/*api: {
-			read: '../../manager/locationArea',
-			update: '../../manager/locationArea/update',
-			create: '../../manager/locationArea/add',
-			destroy: '../../manager/locationArea/delete'
+			read: '../../mgr/locationArea',
+			update: '../../mgr/locationArea/update',
+			create: '../../mgr/locationArea/add',
+			destroy: '../../mgr/locationArea/delete'
 		},*/
 		reader: {
 			type: 'json',

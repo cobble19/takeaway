@@ -19,14 +19,13 @@ import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.LocationAreaService;
 
 @Controller
-@RequestMapping("/manager")
 public class LocationAreaController extends BaseController {
 	private final static Logger LOGGER = LoggerFactory.getLogger(LocationAreaController.class);
 	
 	@Autowired
 	private LocationAreaService locationAreaService;
 	
-	@RequestMapping(value = "/locationArea", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/locationArea", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ExtjsPOJO<LocationAreaPOJO> findLocationArea(LocationAreaSearchPOJO locationAreaSearchPOJO, Model model) throws Exception {
 		ExtjsPOJO<LocationAreaPOJO> ret = new ExtjsPOJO<LocationAreaPOJO>();
@@ -48,7 +47,7 @@ public class LocationAreaController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/locationArea/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/locationArea/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO add(LocationAreaPOJO locationAreaPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -64,7 +63,7 @@ public class LocationAreaController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/locationArea/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/locationArea/update", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO update(LocationAreaPOJO locationAreaPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -80,7 +79,7 @@ public class LocationAreaController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/locationArea/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/locationArea/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO delete(Integer[] ids, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();

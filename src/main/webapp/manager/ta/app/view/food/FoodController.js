@@ -47,7 +47,7 @@ Ext.define('TA.view.food.FoodController', {
 			description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/food/add',
+			url: '../../mgr/food/add',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
@@ -138,7 +138,7 @@ Ext.define('TA.view.food.FoodController', {
 				description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/food/update',
+			url: '../../mgr/food/update',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
@@ -234,7 +234,7 @@ Ext.define('TA.view.food.FoodController', {
         });
         
         Ext.Ajax.request({
-            url: '../../manager/food/delete',
+            url: '../../mgr/food/delete',
             params: {ids:ids},
             method: 'POST',
             success: function(response, opts) {

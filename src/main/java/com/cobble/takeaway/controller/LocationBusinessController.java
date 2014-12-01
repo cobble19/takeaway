@@ -19,14 +19,13 @@ import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.LocationBusinessService;
 
 @Controller
-@RequestMapping("/manager")
 public class LocationBusinessController extends BaseController {
 private final static Logger LOGGER = LoggerFactory.getLogger(LocationBusinessController.class);
 	
 	@Autowired
 	private LocationBusinessService locationBusinessService;
 	
-	@RequestMapping(value = "/locationBusiness", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/locationBusiness", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ExtjsPOJO<LocationBusinessPOJO> findLocationBusiness(LocationBusinessSearchPOJO locationBusinessSearchPOJO, Model model) throws Exception {
 		ExtjsPOJO<LocationBusinessPOJO> ret = new ExtjsPOJO<LocationBusinessPOJO>();
@@ -40,7 +39,7 @@ private final static Logger LOGGER = LoggerFactory.getLogger(LocationBusinessCon
 		return ret;
 	}
 	
-	@RequestMapping(value = "/locationBusiness/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/locationBusiness/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO add(LocationBusinessPOJO locationBusinessPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -56,7 +55,7 @@ private final static Logger LOGGER = LoggerFactory.getLogger(LocationBusinessCon
 		return ret;
 	}
 	
-	@RequestMapping(value = "/locationBusiness/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/locationBusiness/update", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO update(LocationBusinessPOJO locationBusinessPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -72,7 +71,7 @@ private final static Logger LOGGER = LoggerFactory.getLogger(LocationBusinessCon
 		return ret;
 	}
 	
-	@RequestMapping(value = "/locationBusiness/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/locationBusiness/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO delete(Integer[] ids, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();

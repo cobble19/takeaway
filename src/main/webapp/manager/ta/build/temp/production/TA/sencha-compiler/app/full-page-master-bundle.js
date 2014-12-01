@@ -1,2 +1,2 @@
 // @tag full-page
-// @require C:\Users\bange\manager\ta\app.js
+// @require C:\Users\bange\mgr\ta\app.js

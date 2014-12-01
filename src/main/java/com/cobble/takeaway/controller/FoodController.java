@@ -19,14 +19,13 @@ import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.FoodService;
 
 @Controller
-@RequestMapping("/manager")
 public class FoodController extends BaseController {
 	private final static Logger LOGGER = LoggerFactory.getLogger(FoodController.class);
 	
 	@Autowired
 	private FoodService foodService;
 	
-	@RequestMapping(value = "/food", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/food", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ExtjsPOJO<FoodPOJO> findFood(FoodSearchPOJO foodSearchPOJO, Model model) throws Exception {
 		ExtjsPOJO<FoodPOJO> ret = new ExtjsPOJO<FoodPOJO>();
@@ -48,7 +47,7 @@ public class FoodController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/food/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/food/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO add(FoodPOJO foodPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -64,7 +63,7 @@ public class FoodController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/food/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/food/update", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO update(FoodPOJO foodPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -80,7 +79,7 @@ public class FoodController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/food/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/food/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO delete(Integer[] ids, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();

@@ -20,7 +20,6 @@ import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.FoodSellerTypeService;
 
 @Controller
-//@RequestMapping("/manager")
 public class FoodSellerTypeController extends BaseController {
 	private final static Logger LOGGER = LoggerFactory.getLogger(FoodSellerTypeController.class);
 	
@@ -36,7 +35,7 @@ public class FoodSellerTypeController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/manager/foodSellerType", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/foodSellerType", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ExtjsPOJO<FoodSellerTypePOJO> findFoodSellerType(FoodSellerTypeSearchPOJO foodSellerTypeSearchPOJO, Model model) throws Exception {
 		ExtjsPOJO<FoodSellerTypePOJO> ret = new ExtjsPOJO<FoodSellerTypePOJO>();
@@ -58,7 +57,7 @@ public class FoodSellerTypeController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/manager/foodSellerType/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/foodSellerType/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO add(FoodSellerTypePOJO foodSellerTypePOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -74,7 +73,7 @@ public class FoodSellerTypeController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/manager/foodSellerType/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/foodSellerType/update", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO update(FoodSellerTypePOJO foodSellerTypePOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -90,7 +89,7 @@ public class FoodSellerTypeController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/manager/foodSellerType/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/foodSellerType/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO delete(Integer[] ids, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();

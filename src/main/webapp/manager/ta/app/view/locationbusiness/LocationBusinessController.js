@@ -40,7 +40,7 @@ Ext.define('TA.view.locationbusiness.LocationBusinessController', {
 			description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/locationBusiness/add',
+			url: '../../mgr/locationBusiness/add',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
@@ -121,7 +121,7 @@ Ext.define('TA.view.locationbusiness.LocationBusinessController', {
 				description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/locationBusiness/update',
+			url: '../../mgr/locationBusiness/update',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
@@ -209,7 +209,7 @@ Ext.define('TA.view.locationbusiness.LocationBusinessController', {
         });
         
         Ext.Ajax.request({
-            url: '../../manager/locationBusiness/delete',
+            url: '../../mgr/locationBusiness/delete',
             params: {ids:ids},
             method: 'POST',
             success: function(response, opts) {

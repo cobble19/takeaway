@@ -109,7 +109,7 @@ public class FoodSellerController extends BaseController {
 		ret.setViewName("page/food_seller_one");
 		return ret;
 	}
-	@RequestMapping(value = "/manager/foodSeller", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/foodSeller", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ExtjsPOJO<FoodSellerPOJO> findFoodSeller(FoodSellerSearchPOJO foodSellerSearchPOJO, Model model) throws Exception {
 		ExtjsPOJO<FoodSellerPOJO> ret = new ExtjsPOJO<FoodSellerPOJO>();
@@ -131,7 +131,7 @@ public class FoodSellerController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/manager/foodSeller/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/foodSeller/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO add(FoodSellerPOJO foodSellerPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -147,7 +147,7 @@ public class FoodSellerController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/manager/foodSeller/update", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/foodSeller/update", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO update(FoodSellerPOJO foodSellerPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -163,7 +163,7 @@ public class FoodSellerController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/manager/foodSeller/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/foodSeller/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO delete(Integer[] ids, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();

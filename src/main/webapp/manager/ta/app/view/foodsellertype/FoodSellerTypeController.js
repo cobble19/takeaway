@@ -47,7 +47,7 @@ Ext.define('TA.view.foodsellertype.FoodSellerTypeController', {
 			description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/foodSellerType/add',
+			url: '../../mgr/foodSellerType/add',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
@@ -128,7 +128,7 @@ Ext.define('TA.view.foodsellertype.FoodSellerTypeController', {
 				description: 'descr'
 		};*/
 		form.submit({
-			url: '../../manager/foodSellerType/update',
+			url: '../../mgr/foodSellerType/update',
 			method: 'POST',
 			/*params: params,*/
 			/*waitTitle: 'Waiting',
@@ -216,7 +216,7 @@ Ext.define('TA.view.foodsellertype.FoodSellerTypeController', {
         });
         
         Ext.Ajax.request({
-            url: '../../manager/foodSellerType/delete',
+            url: '../../mgr/foodSellerType/delete',
             params: {ids:ids},
             method: 'POST',
             success: function(response, opts) {

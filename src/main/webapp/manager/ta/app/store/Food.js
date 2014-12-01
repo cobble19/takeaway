@@ -9,12 +9,12 @@ Ext.define('TA.store.Food', {
 		actionMethods: {
 			read: 'POST'
 		},
-		url: '../../manager/food',
+		url: '../../mgr/food',
 		/*api: {
-			read: '../../manager/food',
-			update: '../../manager/food/update',
-			create: '../../manager/food/add',
-			destroy: '../../manager/food/delete'
+			read: '../../mgr/food',
+			update: '../../mgr/food/update',
+			create: '../../mgr/food/add',
+			destroy: '../../mgr/food/delete'
 		},*/
 		reader: {
 			type: 'json',
