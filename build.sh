@@ -14,8 +14,8 @@ echo "[COBBLE.GE] Start git pull..."
 git pull 
 echo "[COBBLE.GE] Start mvn..."
 mvn clean install -Dmaven.test.skip=true
-/bin/cp -f ${HS_BASE}/target/takeaway/jdbc.release.properties ${HS_BASE}/target/takeaway/jdbc.properties
-/bin/cp -Rf ${HS_BASE}/target/takeaway /opt/www
+/bin/cp -f ${HS_BASE}/target/takeaway/WEB-INF/classes/jdbc.release.properties ${HS_BASE}/target/takeaway/WEB-INF/classes/jdbc.properties
+/bin/cp -Rf ${HS_BASE}/target/takeaway /opt/app/www
 # Restore upload dir
 echo "[COBBLE.GE] Restore [upload] directory..."
 ## mkdir -p ${HS_BASE}/target/huasheng/upload
