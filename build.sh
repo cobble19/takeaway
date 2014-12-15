@@ -5,7 +5,7 @@ CATALINA_HOME=`echo ${CATALINA_HOME}`
 echo "[COBBLE.GE] Stop tomcat..."
 sh ${CATALINA_HOME}/bin/shutdown.sh
 # bak upload dir
-## echo "[COBBLE.GE] Bak [upload] directory..."
+# echo "[COBBLE.GE] Bak [upload] directory..."
 ## /bin/cp -R ${HS_BASE}/target/huasheng/upload/* ${HS_BASE}/temp/upload/
 
 echo "[COBBLE.GE] cd ${HS_BASE} ..."
