@@ -21,6 +21,7 @@
     <!-- Bootstrap -->
     <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="<cmn:base/>/bootstrap/css/wm.css" rel="stylesheet">
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<cmn:base/>/bootstrap/js/bootstrap.min.js"></script>
 
@@ -32,15 +33,14 @@
     <![endif]-->
   </head>
   <body>
-	<ul class="list-group">
+	<div class="list-type">
+	        <div class="list-type-item1"></div>
 		<c:forEach items="${foodSellerTypePOJOList }" var="foodSellerTypePOJO">
-			<li class="list-group-item">
-				<a href='<cmn:base/>/web/foodSellers?sellerTypeId=${foodSellerTypePOJO.foodSellerTypeId}'>
-					<img alt='${foodSellerTypePOJO.name}' src='<cmn:base/>/${foodSellerTypePOJO.icon}' title="${foodSellerTypePOJO.name}"></img>
-					${foodSellerTypePOJO.name}
+			<div class="list-type-item">
+				<a title="${foodSellerTypePOJO.name}" href='<cmn:base/>/web/foodSellers?sellerTypeId=${foodSellerTypePOJO.foodSellerTypeId}'>
 				</a>
-			</li>
+			</div>
 		</c:forEach>
-	</ul>
+	</div>
   </body>
 </html>

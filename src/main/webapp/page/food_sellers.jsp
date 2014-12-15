@@ -21,6 +21,7 @@
     <!-- Bootstrap -->
     <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="<cmn:base/>/bootstrap/css/wm.css" rel="stylesheet">
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<cmn:base/>/bootstrap/js/bootstrap.min.js"></script>
 
@@ -32,32 +33,10 @@
     <![endif]-->
   </head>
   <body>
-    <!-- <h1>Hello, world!</h1> -->
-    <nav class="navbar navbar-default" role="navigation">
-	  <div class="container-fluid">
-	    <!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	        <span class="sr-only">缩放</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href="#">主页</a>
-	    </div>
-	
-	    <!-- Collect the nav links, forms, and other content for toggling -->
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#">注册</a></li>
-	        <li><a href="#">登录</a></li>
-	      </ul>
-	    </div><!-- /.navbar-collapse -->
-	  </div><!-- /.container-fluid -->
-	</nav>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-3">
+  <div class="main">
+    <div class="wm-head"></div>
+	<div class="wm-body">
+			<div class="wm-body-left">
 				<%-- <c:redirect url="<cmn:base/>/web/foodSellerType"></c:redirect> --%>
 				<jsp:include page="../web/foodSellerType"></jsp:include>
 				<!-- <ul class="list-group">
@@ -71,68 +50,30 @@
 				<br/>
 				<jsp:include page="../web/tree"></jsp:include>
 			</div>
-			<div class="col-md-9">
-				<div class="row">
-					<div class="col-md-1"></div>
-					<div class="col-md-10">
-						<div class="row" style="background-color: #C0C0C0; height: 50px; padding: 10px 0;">
-							<form action='<cmn:base/>/web/foodSellers/search'>
-								<label for="search">搜索：    </label>
-								<input id="keyword" name="keyword" type="text" placeholder="搜索" value="${param.keyword}">
-								<div class="pull-right" style="vertical-align: middle;">评分最高 | 速度最快 | 起送价格最低</div>
+			<div class="wm-body-right">
+		    <div class="wm-body-right-s">
+			<form action='<cmn:base/>/web/foodSellers/search'>
+								<label style="float:left; line-height:47px; margin-left:30px; font-size:14px;" for="search">快速搜索：    </label>
+								<div class="search-1"></div>
+								<input class="search-2" id="keyword" name="keyword" type="text" placeholder="搜索" value="${param.keyword}">
+								<div style="vertical-align: middle; float:left; margin-left:85px;line-height:47px;">评分最高 | 速度最快 | 起送价格最低</div>
 							</form>
-						</div>
-						<br/>
-						<div class="row">
-							<!-- 您所在位置>>合肥市>>庐阳区>>长江西路 -->
-						</div>
-						<br/>
-						<div class="row">
-							<c:forEach items="${foodSellerPOJOList}" var="foodSellerPOJO">
-								<div class="col-md-4">
-									<div class="thumbnail">
-										<img alt="" src='<cmn:base/>/images/fbb.jpg'
-											style="width: 300px; height: 300px;">
-										<div class="caption">
-											<h3>${foodSellerPOJO.name}</h3>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-							<%-- <div class="col-md-4">
-								<div class="thumbnail">
-									<img alt="" src='<cmn:base/>/images/fbb.jpg'
-										style="width: 300px; height: 300px;">
-									<div class="caption">
-										<h3>美女范冰冰</h3>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="thumbnail">
-									<img alt="" src='<cmn:base/>/images/fbb.jpg'
-										style="width: 300px; height: 300px;">
-									<div class="caption">
-										<h3>美女范冰冰</h3>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="thumbnail">
-									<img alt="" src='<cmn:base/>/images/fbb.jpg'
-										style="width: 300px; height: 300px;">
-									<div class="caption">
-										<h3>美女范冰冰</h3>
-									</div>
-								</div>
-							</div> --%>
-						</div>
-					</div>
-					<div class="col-md-1"></div>
-				</div>
 			</div>
-		</div> <!-- row end -->
-	</div>
+			<div class="wm-body-right-wz"><div class="wm-body-right-wz-text">您所在位置：</div></div>
+			<div class="wm-body-right-conent">
+			  <div class="wm-body-right-conent-k">
+			  <c:forEach items="${foodSellerPOJOList}" var="foodSellerPOJO">
+			    <div class="wm-body-right-conent-k1">
+				    <div class="wmc22kc-t"><a href="#"><img alt="" src='<cmn:base/>/bootstrap/images/web2-new_14.jpg' ></a></div>
+					<div class="wmc22kc-w"><a href="#">${foodSellerPOJO.name}</a></div>
+				</div>
+			  </c:forEach>
+			  </div>
+			</div>
+		</div>
+
+	</div><!-- wm-body end -->
 	<footer><hr><p>&copy; 版权所有</p></footer>
+	</div>
   </body>
 </html>

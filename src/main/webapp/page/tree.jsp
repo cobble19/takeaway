@@ -22,6 +22,7 @@
     <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+	<link href="<cmn:base/>/bootstrap/css/wm.css" rel="stylesheet">
     <script src="<cmn:base/>/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -43,8 +44,8 @@
 		</div> -->
 		<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
 			<div class="list-group-item">
-				<h4 class="list-group-item-heading"><a href='<cmn:base/>/web/foodSellers?areaId=${locationAreaPOJO.locationAreaId}'>${locationAreaPOJO.name}</a> (${locationAreaPOJO.countFoodSeller})</h4>
-				<p class="list-group-item-text">
+				<div class="list-group-item-title"><a href='<cmn:base/>/web/foodSellers?areaId=${locationAreaPOJO.locationAreaId}'>${locationAreaPOJO.name}</a> (${locationAreaPOJO.countFoodSeller})</div>
+				<div class="list-group-item-text">
 					<c:forEach items="${locationAreaPOJO.locationBusinessPOJOs}" var="locationBusinessPOJO"
 					 varStatus="st">
 					 	<a href='<cmn:base/>/web/foodSellers?businessId=${locationBusinessPOJO.locationBusinessId}'>${locationBusinessPOJO.name}</a>(${locationBusinessPOJO.countFoodSeller})  
@@ -52,7 +53,7 @@
 						<br/>
 						</c:if>
 					</c:forEach>
-				</p>
+				</div>
 			</div>
 		</c:forEach>
 	</div>

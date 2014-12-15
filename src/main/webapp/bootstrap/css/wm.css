@@ -1,0 +1,112 @@
+@charset "utf-8";
+/* CSS Document */
+body{font-size:12px; font-family:"宋体";}
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,a,p,input,img,dl,dt,dd,ol,ul,li,form,legend,tr,th,td{margin:0;padding:0;border:0;outline:0;}
+img     { border:0; vertical-align:top }
+ul,li { list-style:none;}
+a{ color:#000000;text-decoration:none; cursor:pointer;}
+a:link {
+ color: #000000;
+ text-decoration: none;
+}
+a:visited {
+ text-decoration: none;
+ color: #000000;
+}
+a:hover {
+ text-decoration:underline;
+ color:#ff0000;
+}
+a:active {
+ text-decoration: none;
+ color: #000000;
+}
+
+.main{width:1024px;margin:0 auto;}
+/* 外卖首页面 */
+.part-x{width:1024px;margin:0 auto;}
+.web-1{ width:484px; height:109px; background:url(../images/wm_01.jpg) no-repeat center; float:left;}
+.web-2{ width:540px; height:109px; background:url(../images/wm_02.jpg) no-repeat center; float:left; position:relative;}
+.web-3{ width:484px; height:181px; background:url(../images/wm_03.jpg) no-repeat center; float:left;}
+.web-4{ width:540px; height:181px; background:url(../images/wm_04.jpg) no-repeat center; float:left;}
+.web-5{ width:484px; height:86px; background:url(../images/wm_05.jpg) no-repeat center; float:left;}
+.web-6{ width:540px; height:86px; background:url(../images/wm_06.jpg) no-repeat center; float:left;}
+.web-7{ width:484px; height:67px; background:url(../images/wm_07.jpg) no-repeat center; float:left;}
+.web-8{ width:540px; height:67px; background:url(../images/wm_08.jpg) no-repeat center; float:left;}
+.web-9{ width:1024px; height:21px; background:url(../images/wm_09.jpg) no-repeat center; float:left;position:relative;}
+.web-10{ width:1024px; height:273px; background:url(../images/wm_10.jpg) no-repeat center; float:left; }
+.web-11{ width:1024px; height:45px; background:url(../images/wm_11.gif) no-repeat center; float:left;}
+
+.yh{ position:absolute; left:404px; top:23px; height:18px; line-height:18px; width:99px;}
+.yh a{color:#FFFFFF; float:left; display:block; height:18px;}
+
+.dqdt{ position:absolute; left:204px; top:4px; width:99px;}
+.dqdt a{color:#7f292a; font-size:14px; float:left;}
+
+#div1{ width:850px; position:fixed; top:100px; left:100px; border:4px solid #cdc8c6;}
+#div2{ width:850px; position:fixed; top:100px; left:100px; border:4px solid #cdc8c6;}
+#map_canvas {width:850px;height:425px; position: absolute; } 
+.dqfl{ width:100px; height:425px; float:left; background:#FFFF00;}
+.dqt{ color:#7f292a; font-size:18px; text-align:center; line-height:24px}
+.dqsq{ width:100px;}
+.dqsq a{ color:#000000; float:left; text-align:center; display:block; width:100px; line-height:18px;}
+
+.gg{ width:782px; height:125px; margin-left:100px; margin-top:74px; overflow:hidden;}
+.gg ul{ width:880px; height:125px; margin-left:-96px;}
+.gg li{ width:197px; height:125px; float:left; margin-left:96px;}
+
+#guanbi1{width:850px; height:15px;}
+#guanbi1 a{width:850px; height:15px; line-height:15px; background:#cdc8c6; text-align:right; display:block;}
+#guanbi2{width:850px; height:15px;}
+#guanbi2 a{width:850px; height:15px; line-height:15px; background:#cdc8c6; text-align:right; display:block;}
+
+
+/* wmclass */
+.wm-head{ background:url(../images/wm_12.jpg) no-repeat center; height:110px; width:1024px;}
+.wm-body{ height:913px; width:883px; margin-top:28px; margin-left:62px;}
+.wm-body-left{ width:183px; height:913px; float:left;}
+.list-type{ width:183px; height:198px; background:url(../images/wm_13.jpg) no-repeat center;}
+.list-type-item1{ width:183px; height:42px;}
+.list-type-item{ width:183px; height:39px;}
+.list-type-item a{ width:183px; height:39px; display:block;}
+
+.list-group{ width:181px; height:689px; border:1px solid #cdc8c6; margin-top:24px; overflow:hidden;}
+.list-group-item{ width:165px; height:114px; border-bottom:#cbc6c5 1px solid; margin-left:8px;}
+.list-group-item-title{ width:165px; height:38px; line-height:38px; font-size:14px; color:#636363;}
+.list-group-item-text{ width:165px; height:76px; line-height:24px;}
+.list-group-item-text a{ font-size:13px; color:#acacac; margin-right:5px;}
+
+.wm-body-right{ width:614px; height:913px; margin-left:86px; float:left;}
+.wm-body-right-s{ width:614px; height:47px; background-color: #f4f2f3;}
+.search-1{float:left; margin-top:11px; background:url(../images/wm_15.gif) no-repeat center;width:23px; height:23px;}
+.search-2{float:left; margin-top:11px; background:url(../images/wm_14.gif) no-repeat center; width:167px; height:23px; line-height:23px;}
+.wm-body-right-wz{ width:614px; height:64px;}
+.wm-body-right-wz-text{ width:614px; height:64px; line-height:64px;text-align:right;}
+.wm-body-right-conent{ width:614px; height:597px; overflow:hidden;}
+.wm-body-right-conent-k{ width:639px; height:597px;}
+.wm-body-right-conent-k1{ width:188px; height:180px; float:left; margin-right:25px; margin-bottom:26px;}
+.wmc22kc-t{ width:186px; height:137px; border:1px solid #d1cdcb;}
+.wmc22kc-w{ width:188px; height:41px; line-height:41px;  text-align:center;}
+.wmc22kc-w a{ font-size:18px; color:#70c242; font-family:"黑体";}
+
+/* wmcontent */
+.xian{ width:612px; height:1px; border:1px solid #ccc7c5;}
+.wmt-k{ width:612px; height:815px; border:1px solid #ccc7c5;}
+.wmt-k1{ width:562px; height:815px; margin-left:18px; margin-top:17px;}
+.logo{ width:139px; height:88px; float:left;}
+.n-d{ width:423px; height:88px; float:left;}
+.c-name{ width:394px; height:44px; padding-left:29px; line-height:44px; font-size:20px; color:#f36f30; font-family:"黑体";}
+.c-num{ width:423px; height:44px;}
+.k1{ width:28px; height:44px; float:left;}
+.k2{ width:14px; height:44px; float:left;}
+.tel-t{ width:41px; height:44px; background:url(../images/wm_tel.jpg) center no-repeat; float:left;}
+.tel-s{width:339px; height:44px; line-height:44px; font-size:20px; color:#f36f30; font-family:"黑体"; float:left;}
+.xing{ width:562px; height:25px; float:left;}
+.k3{ width:170px; height:148px; float:left;}
+.xinxi{ width:392px; height:148px; float:left;}
+.time{ width:392px; height:40px; line-height:40px; font-family:"新宋体";}
+.fanw{ width:392px; height:24px; line-height:24px; font-family:"新宋体";}
+.qis{ width:392px; height:25px; line-height:25px; font-family:"新宋体";}
+.diz{ width:392px; height:26px; line-height:26px; font-family:"新宋体";}
+
+#caidan{ width:562px; height:418px; float:left;}
