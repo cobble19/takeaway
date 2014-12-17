@@ -9,13 +9,13 @@
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="UNIT_PRICE" property="unitPrice" jdbcType="DOUBLE" />
     <result column="FOOD_TYPE_ID" property="foodTypeId"/>
-    <association property="foodSellerPOJO" columnPrefix="FS_" resultMap="com.cobble.takeaway.dao.FoodSellerMapper.FoodSellerResultMap"></association>
+    <association property="foodSellerPOJO" columnPrefix="FS_" resultMap="com.cobble.takeaway.dao.FoodSellerMapper.FoodSellerForFoodResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     f.FOOD_ID, f.FOOD_SELLER_ID, f.NAME, f.UNIT_PRICE, f.FOOD_TYPE_ID
   </sql>
   <sql id="Clause_Common">
-	<if test="name != null">
+	<if test="name != null and name != ''">
 		and f.NAME like concat("%", concat(#{name}, "%"))
 	</if>
   </sql>

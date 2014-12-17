@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:security="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<security:http pattern="/bootstrap/**" security="none" />
+	<security:http pattern="/images/**" security="none" />
+	<security:http pattern="/jquery/**" security="none" />
+	<!-- <security:http pattern="/mgr/**" security="none" /> -->
+	<security:http pattern="/page/**" security="none" />
+	<security:http pattern="/index.jsp" security="none" />
+	<!-- <security:http pattern="/login.jsp*" security="none" /> -->
+	
+	<security:http>
+		<security:intercept-url pattern="/**" access="ROLE_USER" />
+		<security:form-login />
+		<security:logout />
+	</security:http>
+	
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="admin" password="adminpassword" authorities="ROLE_USER, ROLE_ADMIN" />
+				<security:user name="ge" password="gepassword" authorities="ROLE_USER, ROLE_ADMIN" />
+				<security:user name="bang" password="bangpassword" authorities="ROLE_USER" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+   
+   
+</beans>

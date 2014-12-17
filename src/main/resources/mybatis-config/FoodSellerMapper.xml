@@ -39,6 +39,43 @@
     	column="FOOD_SELLER_ID"></collection> -->
   </resultMap>
   
+  <resultMap id="FoodSellerForFoodResultMap" type="com.cobble.takeaway.pojo.FoodSellerPOJO" >
+    <id column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="BUSINESS_HOURS" property="businessHours"/>
+    <result column="DELIVERY_AREA" property="deliveryArea"/>
+    <result column="DELIVERY_PRICE_MIN" property="deliveryPriceMin"/>
+    <result column="ADDRESS" property="address"/>
+    <result column="NOTE" property="note"/>
+    
+    <association property="locationBusinessPOJO" columnPrefix="LB_"
+    	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap"></association>
+    <association property="locationAreaPOJO" columnPrefix="LA_"
+    	resultMap="com.cobble.takeaway.dao.LocationAreaMapper.LocationAreaResultMap"></association>
+    <association property="foodSellerTypePOJO" columnPrefix="FST_"
+    	resultMap="com.cobble.takeaway.dao.FoodSellerTypeMapper.FoodSellerTypeResultMap"></association>
+    	
+    <association property="relBusinessSellerPOJO" columnPrefix="RBS_"
+    	resultMap="RelBusinessSellerResultMap"></association>
+    <association property="relAreaSellerPOJO" columnPrefix="RAS_"
+    	resultMap="RelAreaSellerResultMap"></association>
+    <association property="relFoodSellerTypePOJO" columnPrefix="RFST_"
+    	resultMap="RelFoodSellerTypeResultMap"></association>
+    
+    <collection property="foodTypePOJOs" columnPrefix="FT_"  column="FOOD_TYPE_ID"
+    	resultMap="com.cobble.takeaway.dao.FoodTypeMapper.FoodTypeResultMap"></collection>
+   	<!-- <collection property="foodPOJOs" columnPrefix="F_"  column="FOOD_ID"
+   	resultMap="com.cobble.takeaway.dao.FoodMapper.FoodResultMap"></collection> -->
+    
+    <!-- <collection property="locationBusinessPOJOs" 
+    	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap" columnPrefix="LB_"
+    	column="FOOD_SELLER_ID"></collection>
+    <collection property="locationAreaPOJOs"
+    	resultMap="com.cobble.takeaway.dao.LocationAreaMapper.LocationAreaResultMap" columnPrefix="LA_"
+    	column="FOOD_SELLER_ID"></collection> -->
+  </resultMap>
+  
   <resultMap id="RelBusinessSellerResultMap" type="com.cobble.takeaway.pojo.RelBusinessSellerPOJO" >
     <id column="REL_BUSINESS_SELLER_ID" property="relBusinessSellerId" />
     <result column="LOCATION_BUSINESS_ID" property="locationBusinessId" />
