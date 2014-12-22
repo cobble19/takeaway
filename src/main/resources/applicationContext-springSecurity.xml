@@ -18,6 +18,7 @@
 		<security:intercept-url pattern="/**" access="ROLE_USER" />
 		<security:form-login />
 		<security:logout />
+		<!-- <security:custom-filter ref="myFilterSecurity" before="FILTER_SECURITY_INTERCEPTOR"/> -->
 	</security:http>
 	
 	<security:authentication-manager>

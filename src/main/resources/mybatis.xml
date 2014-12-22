@@ -28,5 +28,9 @@
 		<mapper resource="mybatis-config/LocationBusinessMapper.xml" />
 		<mapper resource="mybatis-config/OrderFormFoodMapper.xml" />
 		<mapper resource="mybatis-config/OrderFormMapper.xml" />
+		
+		<mapper resource="mybatis-config/UserMapper.xml" />
+		<mapper resource="mybatis-config/RoleMapper.xml" />
+		<mapper resource="mybatis-config/PrivilegeMapper.xml" />
 	</mappers>
 </configuration>

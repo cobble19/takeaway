@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.PrivilegeMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	
+  <resultMap id="PrivilegeResultMap" type="PrivilegePOJO" >
+    <id column="PRIVILEGE_ID" property="privilegeId" jdbcType="INTEGER" />
+    <result column="PRIVILEGE_NAME" property="privilegeName" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    p.PRIVILEGE_ID, p.PRIVILEGE_NAME, p.URL
+  </sql>
+  <sql id="Clause_Common">
+	<if test="name != null and name != ''">
+		and p.PRIVILEGE_NAME like concat("%", concat(#{privilegeName}, "%"))
+	</if>
+  </sql>
+  <select id="finds" resultMap="PrivilegeResultMap" parameterType="PrivilegeSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from privilege p
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+    order by PRIVILEGE_NAME
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="PrivilegeSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from privilege p
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  <select id="findById" resultMap="PrivilegeResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from privilege p
+    where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from privilege
+    where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="PrivilegePOJO" useGeneratedKeys="true">
+    insert into privilege (PRIVILEGE_NAME, URL)
+    values (#{privilegeName}, #{url,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="PrivilegePOJO" >
+    update privilege
+    set PRIVILEGE_NAME = #{privilegeId,jdbcType=INTEGER},
+      URL = #{url,jdbcType=VARCHAR}
+    where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER}
+  </update>
+</mapper>

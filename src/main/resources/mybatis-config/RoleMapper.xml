@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.RoleMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	
+  <resultMap id="RoleResultMap" type="RolePOJO" >
+    <id column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    r.ROLE_ID, r.ROLE_NAME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="roleName != null and roleName != ''">
+		and r.ROLE_NAME like concat("%", concat(#{roleName}, "%"))
+	</if>
+  </sql>
+  <select id="finds" resultMap="RoleResultMap" parameterType="RoleSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from role r
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+    order by ROLE_NAME
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="RoleSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from role r
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  <select id="findById" resultMap="RoleResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role r
+    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from role
+    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="RolePOJO" useGeneratedKeys="true">
+    insert into role (ROLE_ID, ROLE_NAME)
+    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="RolePOJO" >
+    update role
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+  </update>
+</mapper>
