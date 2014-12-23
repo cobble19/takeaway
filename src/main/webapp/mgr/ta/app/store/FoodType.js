@@ -1,7 +1,7 @@
-Ext.define('TA.store.FoodSellerType', {
+Ext.define('TA.store.FoodType', {
 	extend: 'Ext.data.Store',
-	requires: ['TA.model.FoodSellerType'],
-	model: 'TA.model.FoodSellerType',
+	requires: ['TA.model.FoodType'],
+	model: 'TA.model.FoodType',
 //	autoLoad: true,
 	pageSize: 2,
 	proxy: {
@@ -9,12 +9,12 @@ Ext.define('TA.store.FoodSellerType', {
 		actionMethods: {
 			read: 'POST'
 		},
-		url: '../../mgr/foodSellerType',
+		url: '../../mgr/foodType',
 		/*api: {
-			read: '../../mgr/foodSellerType',
-			update: '../../mgr/foodSellerType/update',
-			create: '../../mgr/foodSellerType/add',
-			destroy: '../../mgr/foodSellerType/delete'
+			read: '../../mgr/foodType',
+			update: '../../mgr/foodType/update',
+			create: '../../mgr/foodType/add',
+			destroy: '../../mgr/foodType/delete'
 		},*/
 		reader: {
 			type: 'json',
@@ -38,16 +38,16 @@ Ext.define('TA.store.FoodSellerType', {
 		}
 	},*/
 	init: function() {
-		console.log('FoodSellerType store init.');
+		console.log('FoodType store init.');
 	},
 	initComponent: function() {
-		console.log('FoodSellerType store initComponent.');
+		console.log('FoodType store initComponent.');
 		this.callParent(arguments);
 	},
 	listeners: {
 		beforeload: function( store, operation, eOpts ) {
-			console.log('beforeload FoodSellerType Store');
-			var nameField = Ext.ComponentQuery.query('foodsellertypelist toolbar textfield[name=name]');
+			console.log('beforeload FoodType Store');
+			var nameField = Ext.ComponentQuery.query('foodtypelist toolbar textfield[name=name]');
 			if (nameField == null || nameField.length == 0) {
 				return ;
 			}

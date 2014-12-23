@@ -19,14 +19,19 @@ children: [{
         pageId: 'foodsellerlist',
         leaf:true
     },{
+        text:'餐饮类型',
+        id:'foodsellertype',
+        pageId: 'foodsellertypelist',
+        leaf:true
+    },{
         text:'菜名',
         id:'food',
         pageId: 'foodlist',
         leaf:true
     },{
-        text:'餐饮类型',
-        id:'foodsellertype',
-        pageId: 'foodsellertypelist',
+        text:'食物类型',
+        id:'foodtype',
+        pageId: 'foodtypelist',
         leaf:true
     }]
 }, {

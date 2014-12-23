@@ -19,7 +19,8 @@ Ext.define('TA.view.main.Main', {
                'TA.view.tree.MenuController',
                'TA.store.TreeMenu',
                'TA.view.locationarea.List',
-               'TA.view.foodsellertype.List'
+               'TA.view.foodsellertype.List',
+               'TA.view.foodtype.List'
            ],
     uses: [
            'Ext.tree.Panel',

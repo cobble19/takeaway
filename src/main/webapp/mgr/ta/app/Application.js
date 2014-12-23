@@ -14,7 +14,8 @@ Ext.define('TA.Application', {
         'LocationBusiness',
         'FoodSeller',
         'Food',
-        'FoodSellerType'
+        'FoodSellerType',
+        'FoodType'
     ],
     
     launch: function () {
