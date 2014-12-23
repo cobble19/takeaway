@@ -21,7 +21,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from role r
+    from b_role r
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -33,7 +33,7 @@
 	</if>
   </select>
   <select id="getCount" parameterType="RoleSearchPOJO" resultType="java.lang.Integer" >
-    select count(1) from role r
+    select count(1) from b_role r
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -43,19 +43,19 @@
   <select id="findById" resultMap="RoleResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from role r
+    from b_role r
     where ROLE_ID = #{roleId,jdbcType=INTEGER}
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
-    delete from role
+    delete from b_role
     where ROLE_ID = #{roleId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="RolePOJO" useGeneratedKeys="true">
-    insert into role (ROLE_ID, ROLE_NAME)
+    insert into b_role (ROLE_ID, ROLE_NAME)
     values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR})
   </insert>
   <update id="update" parameterType="RolePOJO" >
-    update role
+    update b_role
     set ROLE_NAME = #{roleName,jdbcType=VARCHAR}
     where ROLE_ID = #{roleId,jdbcType=INTEGER}
   </update>

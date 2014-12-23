@@ -72,4 +72,11 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 		return ret;
 	}
 
+	@Override
+	public List<PrivilegePOJO> findAll() throws Exception {
+		List<PrivilegePOJO> ret = null;
+		ret = privilegeMapper.finds(null);
+		return ret;
+	}
+
 }

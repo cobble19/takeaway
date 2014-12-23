@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.CollectionUtils;
 
 import com.cobble.takeaway.pojo.RolePOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
@@ -28,10 +29,15 @@ public class MyUserDetailsService implements UserDetailsService {
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		try {
 			userPOJO = userService.findUserByName(username);
+			if (userPOJO == null) {
+				throw new UsernameNotFoundException("Not Found username = " + username);
+			}
 			List<RolePOJO> rolePOJOs = userPOJO.getRolePOJOs();
-			for (RolePOJO rolePOJO : rolePOJOs) {
-				SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(rolePOJO.getRoleName());
-				authorities.add(grantedAuthority);
+			if (!CollectionUtils.isEmpty(rolePOJOs)) {
+				for (RolePOJO rolePOJO : rolePOJOs) {
+					SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(rolePOJO.getRoleName());
+					authorities.add(grantedAuthority);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

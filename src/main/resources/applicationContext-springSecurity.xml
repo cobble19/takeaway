@@ -9,27 +9,43 @@
 	<security:http pattern="/bootstrap/**" security="none" />
 	<security:http pattern="/images/**" security="none" />
 	<security:http pattern="/jquery/**" security="none" />
-	<!-- <security:http pattern="/mgr/**" security="none" /> -->
+	<security:http pattern="/mgr/ta/**" security="none" />
+	<security:http pattern="/mgr/data/**" security="none" />
 	<security:http pattern="/page/**" security="none" />
 	<security:http pattern="/index.jsp" security="none" />
 	<!-- <security:http pattern="/login.jsp*" security="none" /> -->
 	
 	<security:http>
-		<security:intercept-url pattern="/**" access="ROLE_USER" />
+		<!-- <security:intercept-url pattern="/**" access="ROLE_USER" /> -->
 		<security:form-login />
 		<security:logout />
-		<!-- <security:custom-filter ref="myFilterSecurity" before="FILTER_SECURITY_INTERCEPTOR"/> -->
+		<security:custom-filter ref="myFilterSecurity" before="FILTER_SECURITY_INTERCEPTOR"/>
 	</security:http>
 	
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
+	<bean name="myFilterSecurity" class="com.cobble.takeaway.spring.security.MyFilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager"></property>
+		<property name="accessDecisionManager" ref="myAccessDecisionManager"></property>
+		<property name="securityMetadataSource" ref="myFilterInvocationSecurityMetadataSource"></property>
+	</bean>
+	
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="myUserDetailsService">
+			<!-- <security:user-service>
 				<security:user name="admin" password="adminpassword" authorities="ROLE_USER, ROLE_ADMIN" />
 				<security:user name="ge" password="gepassword" authorities="ROLE_USER, ROLE_ADMIN" />
 				<security:user name="bang" password="bangpassword" authorities="ROLE_USER" />
-			</security:user-service>
+			</security:user-service> -->
 		</security:authentication-provider>
 	</security:authentication-manager>
+	
+	<bean name="myUserDetailsService" class="com.cobble.takeaway.spring.security.MyUserDetailsService">
+	</bean>
+	
+	<bean name="myAccessDecisionManager" class="com.cobble.takeaway.spring.security.MyAccessDecisionManager">
+	</bean>
+	
+	<bean name="myFilterInvocationSecurityMetadataSource" class="com.cobble.takeaway.spring.security.MyFilterInvocationSecurityMetadataSource">
+	</bean>
    
    
 </beans>

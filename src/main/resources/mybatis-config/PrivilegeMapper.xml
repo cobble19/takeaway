@@ -7,9 +7,12 @@
     <id column="PRIVILEGE_ID" property="privilegeId" jdbcType="INTEGER" />
     <result column="PRIVILEGE_NAME" property="privilegeName" jdbcType="VARCHAR" />
     <result column="URL" property="url" jdbcType="VARCHAR" />
+    
+    <collection property="rolePOJOs" column="ROLE_ID" columnPrefix="R_" resultMap="com.cobble.takeaway.dao.RoleMapper.RoleResultMap"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
     p.PRIVILEGE_ID, p.PRIVILEGE_NAME, p.URL
+    , r.ROLE_ID as R_ROLE_ID, r.ROLE_NAME as R_ROLE_NAME
   </sql>
   <sql id="Clause_Common">
 	<if test="name != null and name != ''">
@@ -22,7 +25,9 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from privilege p
+    from b_privilege p
+    join rel_privilege_role rpr on rpr.PRIVILEGE_ID = p.PRIVILEGE_ID
+    join b_role r on r.ROLE_ID = rpr.ROLE_ID
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -35,7 +40,7 @@
   </select>
   
   <select id="getCount" parameterType="PrivilegeSearchPOJO" resultType="java.lang.Integer" >
-    select count(1) from privilege p
+    select count(1) from b_privilege p
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -45,19 +50,19 @@
   <select id="findById" resultMap="PrivilegeResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from privilege p
+    from b_privilege p
     where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER}
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
-    delete from privilege
+    delete from b_privilege
     where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="PrivilegePOJO" useGeneratedKeys="true">
-    insert into privilege (PRIVILEGE_NAME, URL)
+    insert into b_privilege (PRIVILEGE_NAME, URL)
     values (#{privilegeName}, #{url,jdbcType=VARCHAR})
   </insert>
   <update id="update" parameterType="PrivilegePOJO" >
-    update privilege
+    update b_privilege
     set PRIVILEGE_NAME = #{privilegeId,jdbcType=INTEGER},
       URL = #{url,jdbcType=VARCHAR}
     where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER}
