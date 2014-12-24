@@ -54,7 +54,7 @@
     delete from food_type
     where FOOD_TYPE_ID = #{foodTypeId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="FoodTypePOJO" useGeneratedKeys="true">
+  <insert id="insert" parameterType="FoodTypePOJO" useGeneratedKeys="true" keyColumn="FOOD_TYPE_ID" keyProperty="foodTypeId">
     insert into food_type (NAME)
     values (#{name,jdbcType=VARCHAR})
   </insert>

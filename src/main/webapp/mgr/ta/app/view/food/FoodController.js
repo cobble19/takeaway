@@ -65,6 +65,13 @@ Ext.define('TA.view.food.FoodController', {
 				record.data.foodSellerPOJO.name = foodSellerName;
 				record.set('foodSellerName', foodSellerName);
 				
+				var foodTypeName = window.down('form').down('combobox:nth-child(2)').getRawValue();
+				if (!record.data.foodTypePOJO) {
+					record.data.foodTypePOJO = {};
+				}
+				record.data.foodTypePOJO.name = foodTypeName;
+				record.set('foodTypeName', foodTypeName);
+				
 				console.log('add success.' + form + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);
 				Ext.toast({
 				     html: 'Data Saved',
@@ -121,6 +128,7 @@ Ext.define('TA.view.food.FoodController', {
 		f.loadRecord(record);
 
 		form.down('combobox:nth-child(1)').setValue(record.get('foodSellerPOJO').foodSellerId);
+		form.down('combobox:nth-child(2)').setValue(record.get('foodTypePOJO').foodTypeId);
 		
 		window.down('textfield:nth-child(0)').setReadOnly(true);
 		window.down('button[id="addBtn"]').hide();
@@ -154,6 +162,13 @@ Ext.define('TA.view.food.FoodController', {
 				}
 				record.data.foodSellerPOJO.name = foodSellerName;
 				record.set('foodSellerName', foodSellerName);
+
+				var foodTypeName = window.down('form').down('combobox:nth-child(2)').getRawValue();
+				if (!record.data.foodTypePOJO) {
+					record.data.foodTypePOJO = {};
+				}
+				record.data.foodTypePOJO.name = foodTypeName;
+				record.set('foodTypeName', foodTypeName);
 				
 				//record.commit();
 				console.log('update success.' + " " + Ext.JSON.encode(action.result) + " " + action.response.statusText);

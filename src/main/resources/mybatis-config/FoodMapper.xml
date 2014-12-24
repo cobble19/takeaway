@@ -10,6 +10,7 @@
     <result column="UNIT_PRICE" property="unitPrice" jdbcType="DOUBLE" />
     <result column="FOOD_TYPE_ID" property="foodTypeId"/>
     <association property="foodSellerPOJO" columnPrefix="FS_" resultMap="com.cobble.takeaway.dao.FoodSellerMapper.FoodSellerForFoodResultMap"></association>
+    <association property="foodTypePOJO" columnPrefix="FT_" resultMap="com.cobble.takeaway.dao.FoodTypeMapper.FoodTypeResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     f.FOOD_ID, f.FOOD_SELLER_ID, f.NAME, f.UNIT_PRICE, f.FOOD_TYPE_ID
@@ -26,8 +27,10 @@
     </if>
     <include refid="Base_Column_List" />
     ,fs.FOOD_SELLER_ID as FS_FOOD_SELLER_ID, fs.NAME as FS_NAME, fs.PHONE as FS_PHONE
+    , ft.FOOD_TYPE_ID as FT_FOOD_TYPE_ID, ft.NAME as FT_NAME
     from food f
     left join food_seller fs on fs.FOOD_SELLER_ID = f.FOOD_SELLER_ID
+    left join food_type ft on ft.FOOD_TYPE_ID = f.FOOD_TYPE_ID
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -77,15 +80,16 @@
   </delete>
   <insert id="insert" parameterType="FoodPOJO" useGeneratedKeys="true">
     insert into food (FOOD_SELLER_ID, NAME, 
-      UNIT_PRICE)
+      UNIT_PRICE, FOOD_TYPE_ID)
     values (#{foodSellerPOJO.foodSellerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{unitPrice,jdbcType=DOUBLE})
+      #{unitPrice,jdbcType=DOUBLE}, #{foodTypePOJO.foodTypeId})
   </insert>
   <update id="update" parameterType="com.cobble.takeaway.pojo.FoodPOJO" >
     update food
     set FOOD_SELLER_ID = #{foodSellerPOJO.foodSellerId,jdbcType=INTEGER},
       NAME = #{name,jdbcType=VARCHAR},
-      UNIT_PRICE = #{unitPrice,jdbcType=DOUBLE}
+      UNIT_PRICE = #{unitPrice,jdbcType=DOUBLE},
+      FOOD_TYPE_ID = #{foodTypePOJO.foodTypeId}
     where FOOD_ID = #{foodId,jdbcType=INTEGER}
   </update>
 </mapper>

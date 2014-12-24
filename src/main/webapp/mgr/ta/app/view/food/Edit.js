@@ -30,6 +30,8 @@ Ext.define('TA.view.food.Edit', {
 		}, {
 			fieldLabel: '单价',
 			name: 'unitPrice'
+		}, {
+			xtype: 'foodtypecombobox'
 		}],
 		buttons: [/*{
 			text: '重置',

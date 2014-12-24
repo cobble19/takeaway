@@ -7,6 +7,8 @@ public class FoodPOJO extends BasePOJO {
 	private String name;
     private Double unitPrice;
     private Integer foodTypeId;
+    private FoodTypePOJO foodTypePOJO;
+    
 	public Integer getFoodId() {
 		return foodId;
 	}
@@ -42,5 +44,11 @@ public class FoodPOJO extends BasePOJO {
 	}
 	public void setFoodTypeId(Integer foodTypeId) {
 		this.foodTypeId = foodTypeId;
+	}
+	public FoodTypePOJO getFoodTypePOJO() {
+		return foodTypePOJO;
+	}
+	public void setFoodTypePOJO(FoodTypePOJO foodTypePOJO) {
+		this.foodTypePOJO = foodTypePOJO;
 	}
 }

@@ -12,7 +12,8 @@ Ext.define('TA.view.food.List', {
            'TA.view.food.FoodController',
            'TA.view.food.FoodModel',
            'TA.view.food.Edit',
-           'TA.view.foodseller.ComboBox'],
+           'TA.view.foodseller.ComboBox',
+           'TA.view.foodtype.ComboBox'],
 	
 	controller: 'food',
 	viewmode: {
@@ -68,7 +69,8 @@ Ext.define('TA.view.food.List', {
 			{header: '唯一标识', dataIndex: 'foodId', flex: 1},
 			{header: '名称', dataIndex: 'name', flex: 1},
 			{header: '单价', dataIndex: 'unitPrice', flex: 1},
-			{header: '卖家', dataIndex: 'foodSellerName', flex: 1}
+			{header: '卖家', dataIndex: 'foodSellerName', flex: 1},
+			{header: '食品类型', dataIndex: 'foodTypeName', flex: 1}
 		];
 		this.callParent(arguments);
 	} 
