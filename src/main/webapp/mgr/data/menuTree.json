@@ -41,14 +41,17 @@ children: [{
     children: [{
     	text:'角色',
         id:'role',
+        pageId: 'rolelist',
         leaf:true
     }, {
     	text:'权限',
         id:'privilege',
+        pageId: 'privilegelist',
         leaf:true
     }, {
     	text:'系统操作员',
         id:'user',
+        pageId: 'userlist',
         leaf:true
     }]
 }]

@@ -20,7 +20,10 @@ Ext.define('TA.view.main.Main', {
                'TA.store.TreeMenu',
                'TA.view.locationarea.List',
                'TA.view.foodsellertype.List',
-               'TA.view.foodtype.List'
+               'TA.view.foodtype.List',
+               'TA.view.user.List',
+               'TA.view.role.List',
+               'TA.view.privilege.List'
            ],
     uses: [
            'Ext.tree.Panel',

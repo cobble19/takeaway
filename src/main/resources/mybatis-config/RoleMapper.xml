@@ -50,9 +50,9 @@
     delete from b_role
     where ROLE_ID = #{roleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="RolePOJO" useGeneratedKeys="true">
-    insert into b_role (ROLE_ID, ROLE_NAME)
-    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="RolePOJO" useGeneratedKeys="true" keyColumn="ROLE_ID" keyProperty="roleId">
+    insert into b_role ( ROLE_NAME)
+    values (#{roleName,jdbcType=VARCHAR})
   </insert>
   <update id="update" parameterType="RolePOJO" >
     update b_role

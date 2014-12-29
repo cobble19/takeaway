@@ -15,7 +15,10 @@ Ext.define('TA.Application', {
         'FoodSeller',
         'Food',
         'FoodSellerType',
-        'FoodType'
+        'FoodType',
+        'User',
+        'Role',
+        'Privilege'
     ],
     
     launch: function () {
@@ -32,11 +35,7 @@ Ext.define('TA.Application', {
 		Ext.Ajax.on('requestcomplete', this.testFunC, this);
 		Ext.Ajax.on('requestexception', this.testFunE, this);
     },
-	testFunB : function(conn, opts) {
-		console.log('testFunB... ajax...');
-	},
-	testFunC : function(conn, response, opts) {
-		console.log('testFunC... ajax...');
+	getBase: function() {
 		console.log('pathname = ' + location.pathname);
 		var base = document.getElementsByTagName('base')[0];
 		console.log(base);
@@ -49,6 +48,13 @@ Ext.define('TA.Application', {
 		}
 		base = base.substr(0, base.indexOf("/", base.indexOf("/", base.indexOf("//") + 2) + 1));
 		console.log(base);
+		return base;
+	},
+	testFunB : function(conn, opts) {
+		console.log('testFunB... ajax...');
+	},
+	testFunC : function(conn, response, opts) {
+		console.log('testFunC... ajax...');
 		
 		var ajaxText = response.responseText;
 		/*ajaxText = Ext.decode(ajaxText);*/
@@ -58,12 +64,16 @@ Ext.define('TA.Application', {
 			window.location.href = Ext.get('contextPath').dom.value + "/manage/login.jsp";  
 		}*/
 		if (ajaxText.indexOf('j_spring_security_check') != -1) {
-			console.log('ajaxText.status=');
+			console.log('Found j_spring_security_check in response');
 			alert("权限不足或过期。请重新登录。");
-			window.location.href = base + "/spring_security_login";  
+			window.location.href = this.getBase() + "/spring_security_login";  
 		}
 	},
 	testFunE : function(conn, response, opts) {
 		console.log('testFunE... ajax...');
+		if (!!response.status && response.status == 403) {
+			alert("权限Forbidden。请重新登录。");
+			window.location.href = this.getBase() + "/spring_security_login";  
+		}
 	}
 });

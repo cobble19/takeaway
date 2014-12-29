@@ -15,7 +15,7 @@
     , r.ROLE_ID as R_ROLE_ID, r.ROLE_NAME as R_ROLE_NAME
   </sql>
   <sql id="Clause_Common">
-	<if test="name != null and name != ''">
+	<if test="privilegeName != null and privilegeName != ''">
 		and p.PRIVILEGE_NAME like concat("%", concat(#{privilegeName}, "%"))
 	</if>
   </sql>
