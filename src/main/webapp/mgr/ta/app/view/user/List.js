@@ -62,13 +62,43 @@ Ext.define('TA.view.user.List', {
 	initComponent: function() {
 		console.log("this.store");
 		console.log("this.store=" + this.store);
-		this.columns = [
-			{xtype: 'rownumberer', text: '#编号', width: 60},
-			{header: '用户唯一标识', dataIndex: 'userId', flex: 1},
-			{header: '用户', dataIndex: 'username', flex: 1},
-			{header: '密码', dataIndex: 'password', flex: 1},
-			{header: '有效', dataIndex: 'enable', flex: 1}
-		];
+		this.columns = [ {
+			xtype : 'rownumberer',
+			text : '#编号',
+			width : 60
+		}, {
+			header : '用户唯一标识',
+			dataIndex : 'userId',
+			flex : 1
+		}, {
+			header : '用户',
+			dataIndex : 'username',
+			flex : 1
+		}, {
+			header : '密码',
+			dataIndex : 'password',
+			flex : 1
+		}, {
+			header : '有效',
+			dataIndex : 'enable',
+			flex : 1
+		}, {
+			header : '拥有的角色',
+			dataIndex : 'roleNames',
+			flex : 1,
+			renderer : function(value, metaData, record, rowIndex, colIndex, store, view) {
+				var ret = '';
+				var rolePOJOs = record.get('rolePOJOs');
+				if (rolePOJOs != null
+						&& rolePOJOs.length > 0) {
+					Ext.each(rolePOJOs, function(item,
+							index, allItems) {
+						ret += item['roleName'] + ", ";
+					});
+				}
+				return ret;
+			}
+		}];
 		this.callParent(arguments);
 	} 
 });

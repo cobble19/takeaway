@@ -7,6 +7,8 @@ Ext.define('TA.model.Privilege', {
 	        	 name: 'privilegeName', type: 'string'
 	         }, {
 	        	 name: 'url', type: 'string'
+	         }, {
+	        	 name: 'roleNames', type: 'string'
 	         }
 	         ],
 	 validators: {

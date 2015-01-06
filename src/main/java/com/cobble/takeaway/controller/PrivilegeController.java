@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,6 +27,46 @@ public class PrivilegeController extends BaseController {
 	
 	@Autowired
 	private PrivilegeService privilegeService;
+
+	@RequestMapping(value = "/mgr/privilege/{roleId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ExtjsPOJO<PrivilegePOJO> findAllPrivilege(@PathVariable("roleId") Integer roleId, Model model) throws Exception {
+		ExtjsPOJO<PrivilegePOJO> ret = new ExtjsPOJO<PrivilegePOJO>();
+		List<PrivilegePOJO> privilegePOJOList = new ArrayList<PrivilegePOJO>();
+		privilegePOJOList = privilegeService.findByRoleId(roleId);
+		List<PrivilegePOJO> allPrivileges = privilegeService.findAll();
+		
+		if (!CollectionUtils.isEmpty(allPrivileges) && !CollectionUtils.isEmpty(privilegePOJOList)) {
+			for (PrivilegePOJO privilegePOJO : privilegePOJOList) {
+				for (PrivilegePOJO temp : allPrivileges) {
+					if (temp.getPrivilegeId().intValue() == privilegePOJO.getPrivilegeId()) {
+						temp.setChecked(true);
+					}
+				}
+			}
+		}
+		
+		int total = CollectionUtils.isEmpty(allPrivileges) ? 0 : allPrivileges.size();
+		
+		ret.setGridModelList(allPrivileges);
+		ret.setSuccess(true);
+		ret.setTotal(total);
+		return ret;
+	}
+	
+	@RequestMapping(value = "/mgr/privilege/all", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ExtjsPOJO<PrivilegePOJO> findAllPrivilege(Model model) throws Exception {
+		ExtjsPOJO<PrivilegePOJO> ret = new ExtjsPOJO<PrivilegePOJO>();
+		List<PrivilegePOJO> allPrivileges = new ArrayList<PrivilegePOJO>();
+		allPrivileges = privilegeService.findAll();
+		int total = CollectionUtils.isEmpty(allPrivileges) ? 0 : allPrivileges.size();
+		
+		ret.setGridModelList(allPrivileges);
+		ret.setSuccess(true);
+		ret.setTotal(total);
+		return ret;
+	}
 	
 	@RequestMapping(value = "/mgr/privilege", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody

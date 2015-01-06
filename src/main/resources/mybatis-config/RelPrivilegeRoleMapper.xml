@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.RelPrivilegeRoleMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+  <resultMap id="RelPrivilegeRoleResultMap" type="RelPrivilegeRolePOJO" >
+    <id column="REL_PRIVIELGE_ROLE_ID" property="relPrivilegeRoleId" jdbcType="INTEGER" />
+    <result column="PRIVILEGE_ID" property="privilegeId"/>
+    <result column="ROLE_ID" property="roleId"/>
+  </resultMap>
+  <insert id="insert" parameterType="RelPrivilegeRolePOJO" useGeneratedKeys="true">
+    insert into REL_PRIVILEGE_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="privilegeId != null" >
+        PRIVILEGE_ID,
+      </if>
+      <if test="roleId != null" >
+        ROLE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="privilegeId != null" >
+        #{privilegeId},
+      </if>
+      <if test="roleId != null" >
+        #{roleId},
+      </if>
+    </trim>
+  </insert>
+</mapper>

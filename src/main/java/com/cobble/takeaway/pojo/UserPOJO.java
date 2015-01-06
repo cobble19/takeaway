@@ -9,7 +9,10 @@ public class UserPOJO extends BasePOJO {
 	private String username;
 	private String password;
     private Boolean enable;
-    
+
+    private List<Integer> roleId;
+	private Boolean checked = false;
+	
     private List<RolePOJO> rolePOJOs = new ArrayList<RolePOJO>();
     
 	public Integer getUserId() {
@@ -41,6 +44,18 @@ public class UserPOJO extends BasePOJO {
 	}
 	public void setRolePOJOs(List<RolePOJO> rolePOJOs) {
 		this.rolePOJOs = rolePOJOs;
+	}
+	public List<Integer> getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(List<Integer> roleId) {
+		this.roleId = roleId;
+	}
+	public Boolean getChecked() {
+		return checked;
+	}
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
 	}
     
 }

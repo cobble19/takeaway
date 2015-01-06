@@ -24,7 +24,7 @@ Ext.define('TA.view.privilege.Edit', {
 			fieldLabel: '权限',
 			name: 'privilegeName'
 		}, {
-			fieldLabel: '图标',
+			fieldLabel: 'URL(eg: /mgr/user/**)',
 			name: 'url'
 		}],
 		buttons: [/*{

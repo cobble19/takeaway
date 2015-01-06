@@ -8,8 +8,7 @@
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
     <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
     <result column="ENABLE" property="enable"/>
-    <collection property="rolePOJOs" column="ROLE_ID" columnPrefix="R_" 
-    	resultMap="com.cobble.takeaway.dao.RoleMapper.RoleResultMap"></collection>
+    <collection property="rolePOJOs" column="USER_ID" select="com.cobble.takeaway.dao.RoleMapper.findByUserId"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
     u.USER_ID, u.USERNAME, u.PASSWORD, u.ENABLE
@@ -23,10 +22,7 @@
     select
       distinct
     <include refid="Base_Column_List" />
-    , r.ROLE_ID AS R_ROLE_ID, r.ROLE_NAME AS R_ROLE_NAME
     from b_user u
-    join REL_USER_ROLE rur on rur.USER_ID = u.USER_ID
-    join b_role r on r.ROLE_ID = rur.ROLE_ID
     where u.USERNAME = #{username}
   </select>
   <select id="finds" resultMap="UserResultMap" parameterType="UserSearchPOJO" >
@@ -63,12 +59,14 @@
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from b_user
-    where USER_ID = #{userId,jdbcType=INTEGER}
+    where USER_ID = #{userId,jdbcType=INTEGER};
+    delete from b_user_role
+    where USER_ID = #{userId,jdbcType=INTEGER};
   </delete>
   <insert id="insert" parameterType="UserPOJO" useGeneratedKeys="true">
-    insert into b_user (USER_ID, USERNAME, 
+    insert into b_user (USERNAME, 
       PASSWORD, ENABLE)
-    values (#{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+    values (#{username,jdbcType=VARCHAR}, 
       #{password}, #{enable})
   </insert>
   <update id="update" parameterType="UserPOJO" >
@@ -76,6 +74,13 @@
     set USERNAME = #{username,jdbcType=VARCHAR},
       PASSWORD = #{password},
       ENABLE = #{enable}
-    where USER_ID = #{userId,jdbcType=INTEGER}
+    where USER_ID = #{userId,jdbcType=INTEGER};
+    
+    delete from rel_user_role where USER_ID = #{userId};
+    
+    <foreach collection="roleId" item="item">
+    insert into rel_user_role (ROLE_ID, USER_ID)
+    values (#{item}, #{userId});
+    </foreach>
   </update>
 </mapper>

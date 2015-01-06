@@ -8,17 +8,42 @@
     <result column="PRIVILEGE_NAME" property="privilegeName" jdbcType="VARCHAR" />
     <result column="URL" property="url" jdbcType="VARCHAR" />
     
-    <collection property="rolePOJOs" column="ROLE_ID" columnPrefix="R_" resultMap="com.cobble.takeaway.dao.RoleMapper.RoleResultMap"></collection>
+    <collection property="rolePOJOs" column="PRIVILEGE_ID" select="com.cobble.takeaway.dao.RoleMapper.findByPrivilegeId"></collection>
   </resultMap>
+  	
+  <resultMap id="PrivilegeOnlyResultMap" type="PrivilegePOJO" >
+    <id column="PRIVILEGE_ID" property="privilegeId" jdbcType="INTEGER" />
+    <result column="PRIVILEGE_NAME" property="privilegeName" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     p.PRIVILEGE_ID, p.PRIVILEGE_NAME, p.URL
-    , r.ROLE_ID as R_ROLE_ID, r.ROLE_NAME as R_ROLE_NAME
   </sql>
   <sql id="Clause_Common">
 	<if test="privilegeName != null and privilegeName != ''">
 		and p.PRIVILEGE_NAME like concat("%", concat(#{privilegeName}, "%"))
 	</if>
   </sql>
+  <select id="findAll" resultMap="PrivilegeOnlyResultMap">
+  	select 
+  	distinct 
+    <include refid="Base_Column_List" />
+    from b_privilege p
+  </select>
+  <select id="findByRoleId" resultMap="PrivilegeOnlyResultMap" parameterType="int" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    from b_privilege p
+    join rel_privilege_role rpr on rpr.PRIVILEGE_ID = p.PRIVILEGE_ID
+    join b_role r on r.ROLE_ID = rpr.ROLE_ID
+    <where>
+  		<trim prefixOverrides="and">
+			and r.ROLE_ID = #{roleId}
+  		</trim>
+  	</where>
+  </select>
   <select id="finds" resultMap="PrivilegeResultMap" parameterType="PrivilegeSearchPOJO" >
     select
     <if test="distinct" >
@@ -26,8 +51,6 @@
     </if>
     <include refid="Base_Column_List" />
     from b_privilege p
-    join rel_privilege_role rpr on rpr.PRIVILEGE_ID = p.PRIVILEGE_ID
-    join b_role r on r.ROLE_ID = rpr.ROLE_ID
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -55,16 +78,27 @@
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from b_privilege
-    where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER}
+    where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER};
+    delete from rel_privilege_role
+    where PRIVILEGE_ID = #{privilegeId};
   </delete>
-  <insert id="insert" parameterType="PrivilegePOJO" useGeneratedKeys="true">
+  <insert id="insert" parameterType="PrivilegePOJO" useGeneratedKeys="true"
+  	keyColumn="PRIVILEGE_ID" keyProperty="privilegeId">
     insert into b_privilege (PRIVILEGE_NAME, URL)
     values (#{privilegeName}, #{url,jdbcType=VARCHAR})
   </insert>
   <update id="update" parameterType="PrivilegePOJO" >
     update b_privilege
-    set PRIVILEGE_NAME = #{privilegeId,jdbcType=INTEGER},
+    set PRIVILEGE_NAME = #{privilegeName,jdbcType=INTEGER},
       URL = #{url,jdbcType=VARCHAR}
-    where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER}
+    where PRIVILEGE_ID = #{privilegeId,jdbcType=INTEGER};
+    
+    delete from rel_privilege_role where PRIVILEGE_ID = #{privilegeId};
+    
+    <foreach collection="roleId" item="item">
+    insert into rel_privilege_role (ROLE_ID, PRIVILEGE_ID)
+    values (#{item}, #{privilegeId});
+    </foreach>
   </update>
 </mapper>
+

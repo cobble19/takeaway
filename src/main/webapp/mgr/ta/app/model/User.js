@@ -9,6 +9,8 @@ Ext.define('TA.model.User', {
 	        	 name: 'password', type: 'string'
 	         }, {
 	        	 name: 'enable', type: 'boolean'
+	         }, {
+	        	 name: 'roleNames', type: 'string'
 	         }
 	         ],
 	 validators: {

@@ -10,7 +10,8 @@ Ext.define('TA.view.role.RoleController', {
 
     requires: [
         'Ext.MessageBox',
-        'TA.store.Role'
+        'TA.store.Role',
+        'Ext.form.CheckboxGroup'
     ],
     uses: [
            'TA.store.Role'
@@ -34,6 +35,9 @@ Ext.define('TA.view.role.RoleController', {
 		var window = Ext.widget('roleedit');
 		window.down('textfield:nth-child(0)').hide();
 		window.down('button[id="updateBtn"]').hide();
+		
+		window.down('form').add(this.createPrivilege(null));
+		window.down('form').updateLayout();
 	},
 	add: function(button, e) {
 		var window = button.up('window');
@@ -109,11 +113,15 @@ Ext.define('TA.view.role.RoleController', {
 		var form = window.down('form');
 		var f = form.getForm();
 		
-		f.loadRecord(records[0]);
+		record = records[0];
+		f.loadRecord(record);
 
 		window.down('textfield:nth-child(0)').setReadOnly(true);
 		window.down('button[id="addBtn"]').hide();
 		window.down('button[id="addBtn"]').hide();
+
+		window.down('form').add(this.createPrivilege(record.get('roleId')));
+		window.down('form').updateLayout();
 	},
 	update: function(button, e) {
 		var window = button.up('window');
@@ -273,5 +281,57 @@ Ext.define('TA.view.role.RoleController', {
 			}
 		});
 		console.log('onSearch');
+	},
+	createPrivilege: function(roleId) {
+		console.log('createPrivilege: ' + roleId);
+		var url = '../../mgr/privilege/all';
+		if (roleId == undefined || roleId == null) {
+			url = '../../mgr/privilege/all';
+		} else {
+			url = '../../mgr/privilege/' + roleId;
+		}
+	    var privilegeCheckBoxGroup = new Object();
+        Ext.Ajax.request({
+            url: url,
+            /*params: {ids:ids},*/
+            async: false,
+            method: 'POST',
+            success: function(response, opts) {
+				//store.remove(records);
+                var obj = Ext.decode(response.responseText);
+                //console.dir(obj);
+                gridModelList = obj['gridModelList'];
+                if (gridModelList != null) {
+                	data = [];
+                	Ext.each(gridModelList, function(item, index) {
+                		var checkBox = new Object();
+                		checkBox.boxLabel = item.privilegeName;
+                		checkBox.name = 'privilegeId';
+                		checkBox.inputValue = item.privilegeId;
+                		checkBox.checked = item.checked == null ? false : item.checked;
+                		data.push(checkBox);
+                	});
+                	
+                	privilegeCheckBoxGroup = new Ext.form.CheckboxGroup({
+                		fieldLabel: '权限',
+            			columns: 2,
+            			vertical: false,
+            			items: data
+                	});
+                	console.log('createPrivilege success');
+                }
+            },
+            failure: function(response, opts) {
+                console.log('server-side failure with status code ' + response.status);
+				Ext.toast({
+				     html: '失败',
+					 title: 'test',
+					 width: 200,
+					 align: 't',
+					 region: 'center'
+				 });
+            }
+        });
+        return privilegeCheckBoxGroup;
 	}
 });

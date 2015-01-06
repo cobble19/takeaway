@@ -34,6 +34,9 @@ Ext.define('TA.view.user.UserController', {
 		var window = Ext.widget('useredit');
 		window.down('textfield:nth-child(0)').hide();
 		window.down('button[id="updateBtn"]').hide();
+		
+		window.down('form').add(this.createRole(null));
+		window.down('form').updateLayout();
 	},
 	add: function(button, e) {
 		var window = button.up('window');
@@ -109,11 +112,15 @@ Ext.define('TA.view.user.UserController', {
 		var form = window.down('form');
 		var f = form.getForm();
 		
-		f.loadRecord(records[0]);
+		record = records[0];
+		f.loadRecord(record);
 
 		window.down('textfield:nth-child(0)').setReadOnly(true);
 		window.down('button[id="addBtn"]').hide();
 		window.down('button[id="addBtn"]').hide();
+
+		window.down('form').add(this.createRole(record.get('userId')));
+		window.down('form').updateLayout();
 	},
 	update: function(button, e) {
 		var window = button.up('window');
@@ -273,5 +280,57 @@ Ext.define('TA.view.user.UserController', {
 			}
 		});
 		console.log('onSearch');
+	},
+	createRole: function(userId) {
+		console.log('create Role Checkboxgroup: ' + userId);
+		var url = '../../mgr/role/all';
+		if (userId == undefined || userId == null) {
+			url = '../../mgr/role/all';
+		} else {
+			url = '../../mgr/role/user/' + userId;
+		}
+	    var roleCheckBoxGroup = new Object();
+        Ext.Ajax.request({
+            url: url,
+            /*params: {ids:ids},*/
+            async: false,
+            method: 'POST',
+            success: function(response, opts) {
+				//store.remove(records);
+                var obj = Ext.decode(response.responseText);
+                //console.dir(obj);
+                gridModelList = obj['gridModelList'];
+                if (gridModelList != null) {
+                	data = [];
+                	Ext.each(gridModelList, function(item, index) {
+                		var checkBox = new Object();
+                		checkBox.boxLabel = item.roleName;
+                		checkBox.name = 'roleId';
+                		checkBox.inputValue = item.roleId;
+                		checkBox.checked = item.checked == null ? false : item.checked;
+                		data.push(checkBox);
+                	});
+                	
+                	roleCheckBoxGroup = new Ext.form.CheckboxGroup({
+                		fieldLabel: '角色',
+            			columns: 2,
+            			vertical: false,
+            			items: data
+                	});
+                	console.log('create Role Checkboxgroup success');
+                }
+            },
+            failure: function(response, opts) {
+                console.log('server-side failure with status code ' + response.status);
+				Ext.toast({
+				     html: '失败',
+					 title: 'test',
+					 width: 200,
+					 align: 't',
+					 region: 'center'
+				 });
+            }
+        });
+        return roleCheckBoxGroup;
 	}
 });

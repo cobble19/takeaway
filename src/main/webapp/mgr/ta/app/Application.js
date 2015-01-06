@@ -71,8 +71,16 @@ Ext.define('TA.Application', {
 	},
 	testFunE : function(conn, response, opts) {
 		console.log('testFunE... ajax...');
+		Ext.toast({
+		     html: '发生了异常',
+			 title: '异常',
+			 width: 200,
+			 align: 't',
+			 region: 'center',
+			 anchor: window
+		 });
 		if (!!response.status && response.status == 403) {
-			alert("权限Forbidden。请重新登录。");
+//			alert("权限Forbidden。请重新登录。");
 			window.location.href = this.getBase() + "/spring_security_login";  
 		}
 	}

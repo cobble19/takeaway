@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.RelUserRoleMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+  <resultMap id="RelUserRoleResultMap" type="RelUserRolePOJO" >
+    <id column="REL_USER_ROLE_ID" property="relUserRoleId" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId"/>
+    <result column="ROLE_ID" property="roleId"/>
+  </resultMap>
+  <insert id="insert" parameterType="RelUserRolePOJO" useGeneratedKeys="true">
+    insert into REL_USER_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="roleId != null" >
+        ROLE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="roleId != null" >
+        #{roleId},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -5,6 +5,8 @@ Ext.define('TA.model.Role', {
 	        	 name: 'roleId', type:'int'
 	         }, {
 	        	 name: 'roleName', type: 'string'
+	         }, {
+	        	 name: 'privilegeNames', type: 'string'
 	         }
 	         ],
 	 validators: {

@@ -63,10 +63,43 @@ Ext.define('TA.view.privilege.List', {
 		console.log("this.store");
 		console.log("this.store=" + this.store);
 		this.columns = [
-			{xtype: 'rownumberer', text: '#编号', width: 60},
-			{header: '权限唯一标识', dataIndex: 'privilegeId', flex: 1},
-			{header: '权限', dataIndex: 'privilegeName', flex: 1}
-		];
+		{
+			xtype : 'rownumberer',
+			text : '#编号',
+			width : 60
+		},
+		{
+			header : '权限唯一标识',
+			dataIndex : 'privilegeId',
+			flex : 1
+		},
+		{
+			header : '权限',
+			dataIndex : 'privilegeName',
+			flex : 1
+		},
+		{
+			header : 'URL',
+			dataIndex : 'url',
+			flex : 1
+		},
+		{
+			header : '拥有的角色',
+			dataIndex : 'roleNames',
+			flex : 1,
+			renderer : function(value, metaData, record, rowIndex, colIndex, store, view) {
+				var ret = '';
+				var rolePOJOs = record.get('rolePOJOs');
+				if (rolePOJOs != null
+						&& rolePOJOs.length > 0) {
+					Ext.each(rolePOJOs, function(item,
+							index, allItems) {
+						ret += item['roleName'] + ", ";
+					});
+				}
+				return ret;
+			}
+		} ];
 		this.callParent(arguments);
 	} 
 });

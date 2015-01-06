@@ -62,11 +62,33 @@ Ext.define('TA.view.role.List', {
 	initComponent: function() {
 		console.log("this.store");
 		console.log("this.store=" + this.store);
-		this.columns = [
-			{xtype: 'rownumberer', text: '#编号', width: 60},
-			{header: '角色唯一标识', dataIndex: 'roleId', flex: 1},
-			{header: '角色', dataIndex: 'roleName', flex: 1}
-		];
+		this.columns = [ {
+			xtype : 'rownumberer',
+			text : '#编号',
+			width : 60
+		}, {
+			header : '角色唯一标识',
+			dataIndex : 'roleId',
+			flex : 1
+		}, {
+			header : '角色',
+			dataIndex : 'roleName',
+			flex : 1
+		}, {
+			header : '拥有的权限',
+			dataIndex : 'privilegeNames',
+			flex : 1,
+			renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+				var ret = '';
+				var privilegePOJOs = record.get('privilegePOJOs');
+				if (privilegePOJOs != null && privilegePOJOs.length > 0) {
+					Ext.each(privilegePOJOs, function(item, index, allItems) {
+						ret += item['privilegeName'] + ", ";
+					});
+				}
+				return ret;
+			}
+		} ];
 		this.callParent(arguments);
 	} 
 });

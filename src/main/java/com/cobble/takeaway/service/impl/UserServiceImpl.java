@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import com.cobble.takeaway.dao.RelUserRoleMapper;
 import com.cobble.takeaway.dao.UserMapper;
+import com.cobble.takeaway.pojo.RelUserRolePOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
 import com.cobble.takeaway.service.UserService;
@@ -15,11 +18,21 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private RelUserRoleMapper relUserRoleMapper;
 
 	@Override
 	public int insert(UserPOJO userPOJO) throws Exception {
 		int ret = 0;
 		ret = userMapper.insert(userPOJO);
+		if (!CollectionUtils.isEmpty(userPOJO.getRoleId())) {
+			for (Integer roleId : userPOJO.getRoleId()) {
+				RelUserRolePOJO relUserRolePOJO = new RelUserRolePOJO();
+				relUserRolePOJO.setUserId(userPOJO.getUserId());
+				relUserRolePOJO.setRoleId(roleId);
+				relUserRoleMapper.insert(relUserRolePOJO);
+			}
+		}
 		return ret;
 	}
 

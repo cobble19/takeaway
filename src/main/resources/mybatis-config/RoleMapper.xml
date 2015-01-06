@@ -6,7 +6,16 @@
   <resultMap id="RoleResultMap" type="RolePOJO" >
     <id column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
     <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    
+    <!-- <collection property="privilegePOJOs" column="PRIVILEGE_ID" columnPrefix="P_" resultMap="com.cobble.takeaway.dao.PrivilegeMapper.PrivilegeOnlyResultMap"></collection> -->
+    <collection property="privilegePOJOs" column="ROLE_ID" select="com.cobble.takeaway.dao.PrivilegeMapper.findByRoleId"></collection>
   </resultMap>
+  
+  <resultMap id="RoleOnlyResultMap" type="RolePOJO" >
+    <id column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     r.ROLE_ID, r.ROLE_NAME
   </sql>
@@ -15,6 +24,38 @@
 		and r.ROLE_NAME like concat("%", concat(#{roleName}, "%"))
 	</if>
   </sql>
+  <select id="findAll" resultMap="RoleOnlyResultMap">
+  	select 
+  	distinct 
+    <include refid="Base_Column_List" />
+    from b_role r
+  </select>
+  <select id="findByPrivilegeId" resultMap="RoleOnlyResultMap" parameterType="int" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    from b_role r 
+    join rel_privilege_role rpr on rpr.ROLE_ID = r.ROLE_ID
+    join b_privilege p on p.PRIVILEGE_ID = rpr.PRIVILEGE_ID
+    <where>
+  		<trim prefixOverrides="and">
+			and p.PRIVILEGE_ID = #{privilegeId}
+  		</trim>
+  	</where>
+  </select>
+  <select id="findByUserId" resultMap="RoleOnlyResultMap" parameterType="int" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    from b_role r 
+    join rel_user_role rur on rur.ROLE_ID = r.ROLE_ID
+    join b_user u on u.USER_ID = rur.USER_ID
+    <where>
+  		<trim prefixOverrides="and">
+			and u.USER_ID = #{userId}
+  		</trim>
+  	</where>
+  </select>
   <select id="finds" resultMap="RoleResultMap" parameterType="RoleSearchPOJO" >
     select
     <if test="distinct" >
@@ -32,6 +73,26 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
+  <!-- <select id="finds" resultMap="RoleResultMap" parameterType="RoleSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , p.PRIVILEGE_ID as P_PRIVILEGE_ID, p.PRIVILEGE_NAME as P_PRIVILEGE_NAME, p.URL as P_URL
+    from b_role r
+    left join rel_privilege_role rpr on rpr.ROLE_ID = r.ROLE_ID
+    left join b_privilege p on p.PRIVILEGE_ID = rpr.PRIVILEGE_ID
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+    order by ROLE_NAME
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select> -->
   <select id="getCount" parameterType="RoleSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from b_role r
     <where>
@@ -48,15 +109,26 @@
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from b_role
-    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+    where ROLE_ID = #{roleId,jdbcType=INTEGER};
+    delete from rel_privilege_role
+    where ROLE_ID = #{roleId};
+    delete from b_user_role
+    where ROLE_ID = #{roleId};
   </delete>
   <insert id="insert" parameterType="RolePOJO" useGeneratedKeys="true" keyColumn="ROLE_ID" keyProperty="roleId">
     insert into b_role ( ROLE_NAME)
-    values (#{roleName,jdbcType=VARCHAR})
+    values (#{roleName,jdbcType=VARCHAR});
   </insert>
   <update id="update" parameterType="RolePOJO" >
     update b_role
     set ROLE_NAME = #{roleName,jdbcType=VARCHAR}
-    where ROLE_ID = #{roleId,jdbcType=INTEGER}
+    where ROLE_ID = #{roleId,jdbcType=INTEGER};
+    
+    delete from rel_privilege_role where ROLE_ID = #{roleId};
+    
+    <foreach collection="privilegeId" item="item">
+    insert into rel_privilege_role (ROLE_ID, PRIVILEGE_ID)
+    values (#{roleId}, #{item});
+    </foreach>
   </update>
 </mapper>
