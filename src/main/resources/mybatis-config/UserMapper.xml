@@ -63,7 +63,7 @@
     delete from b_user_role
     where USER_ID = #{userId,jdbcType=INTEGER};
   </delete>
-  <insert id="insert" parameterType="UserPOJO" useGeneratedKeys="true">
+  <insert id="insert" parameterType="UserPOJO" useGeneratedKeys="true" keyColumn="USER_ID" keyProperty="userId">
     insert into b_user (USERNAME, 
       PASSWORD, ENABLE)
     values (#{username,jdbcType=VARCHAR}, 

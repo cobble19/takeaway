@@ -64,8 +64,10 @@
 			  <div class="wm-body-right-conent-k">
 			  <c:forEach items="${foodSellerPOJOList}" var="foodSellerPOJO">
 			    <div class="wm-body-right-conent-k1">
-				    <div class="wmc22kc-t"><a href="#"><img alt="" src='<cmn:base/>/bootstrap/images/web2-new_14.jpg' ></a></div>
-					<div class="wmc22kc-w"><a href="#">${foodSellerPOJO.name}</a></div>
+			    	<a href='<cmn:base/>/web/foodSellerDetail?foodSellerId=${foodSellerPOJO.foodSellerId}'>
+					    <div class="wmc22kc-t"><img alt="" src='<cmn:base/>/bootstrap/images/web2-new_14.jpg' ></div>
+						<div class="wmc22kc-w">${foodSellerPOJO.name}</div>
+					</a>
 				</div>
 			  </c:forEach>
 			  </div>

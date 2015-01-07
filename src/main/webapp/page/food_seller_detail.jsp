@@ -31,6 +31,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     
+     <!--引用百度地图API-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=BE59fc66ef5ecb52879a5b5a97cee9b3"></script>
+    
+    
     <style>
 		table td{
 			border: 0px;
@@ -89,24 +93,27 @@
 									<th colspan="4">${foodTypePOJO.name}</th>
 								</thead>
 								<c:forEach items="${foodTypePOJO.foodPOJOs}" var="foodPOJO" varStatus="st">
-								<c:if test="${st.index / 2 == 0}">
-									<tr>
-								</c:if>
-									<td style="width: 25%; text-align: left;">${foodPOJO.name }</td><td style="width: 25%; text-align: center;">${foodPOJO.unitPrice}元</td>
-									<c:if test="${st.index / 2 == 0 && st.isLast()}"> <!-- 增加2个td， 不然在一行就2个td -->
-										<td></td><td></td>
-									</c:if>	
-								<c:if test="${st.index / 2 == 1 || st.isLast()}">
-								</tr>
-								</c:if>
+									<c:if test="${st.index % 2 == 0}">
+										<tr>
+									</c:if>
+										<td style="width: 25%; text-align: left;">${foodPOJO.name }</td>
+										<td style="width: 25%; text-align: center;">${foodPOJO.unitPrice}元</td>
+										<c:if test="${st.index / 2 == 0 && st.isLast()}"> <!-- 增加2个td， 不然在一行就只有2个td -->
+											<td></td><td></td>
+										</c:if>	
+									<c:if test="${st.index % 2 == 1 || st.isLast()}">
+										</tr>
+									</c:if>
 								</c:forEach>
 							</table>
 							</c:forEach>
+							<div><hr style="height: 5px;"/></div>
 							</div>
 							
-							<div id="ditu">
+							
+							<div id="cobbleMap">
 								<h2>地图查询</h2>
-								<p>mapppppppppppppp</p>
+								<div style="width:600px;height:450px;border:#ccc solid 1px;font-size:12px" id="map"></div>
 							</div>
 					</div>
 					<div class="col-md-1"></div>
@@ -116,4 +123,62 @@
 	<footer><hr><p>&copy; 版权所有</p></footer>
 	</div>
   </body>
+  
+    <script type="text/javascript">
+    //创建和初始化地图函数：
+    function initMap(){
+      createMap();//创建地图
+      setMapEvent();//设置地图事件
+      addMapControl();//向地图添加控件
+      addMapOverlay();//向地图添加覆盖物
+    }
+    function createMap(){ 
+      map = new BMap.Map("map"); 
+      map.centerAndZoom(new BMap.Point(117.239591,31.840134),15);
+    }
+    function setMapEvent(){
+      map.enableScrollWheelZoom();
+      map.enableKeyboard();
+      map.enableDragging();
+      map.enableDoubleClickZoom()
+    }
+    function addClickHandler(target,window){
+      target.addEventListener("click",function(){
+        target.openInfoWindow(window);
+      });
+    }
+    function addMapOverlay(){
+      var markers = [
+        {content:"",title:"港汇广场",imageOffset: {width:-46,height:-21},position:{lat:31.841054,lng:117.239807}}
+      ];
+      for(var index = 0; index < markers.length; index++ ){
+        var point = new BMap.Point(markers[index].position.lng,markers[index].position.lat);
+        var marker = new BMap.Marker(point,{icon:new BMap.Icon("./images/icon.png",new BMap.Size(20,25),{
+          imageOffset: new BMap.Size(markers[index].imageOffset.width,markers[index].imageOffset.height)
+        })});
+        var label = new BMap.Label(markers[index].title,{offset: new BMap.Size(25,5)});
+        var opts = {
+          width: 200,
+          title: markers[index].title,
+          enableMessage: false
+        };
+        var infoWindow = new BMap.InfoWindow(markers[index].content,opts);
+        marker.setLabel(label);
+        addClickHandler(marker,infoWindow);
+        map.addOverlay(marker);
+      };
+    }
+    //向地图添加控件
+    function addMapControl(){
+      var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+      scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+      map.addControl(scaleControl);
+      var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+      map.addControl(navControl);
+      var overviewControl = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:true});
+      map.addControl(overviewControl);
+    }
+    var map;
+      initMap();
+  </script>
 </html>

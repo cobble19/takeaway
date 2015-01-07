@@ -89,10 +89,8 @@ Ext.define('TA.view.user.List', {
 			renderer : function(value, metaData, record, rowIndex, colIndex, store, view) {
 				var ret = '';
 				var rolePOJOs = record.get('rolePOJOs');
-				if (rolePOJOs != null
-						&& rolePOJOs.length > 0) {
-					Ext.each(rolePOJOs, function(item,
-							index, allItems) {
+				if (rolePOJOs != null && rolePOJOs.length > 0) {
+					Ext.each(rolePOJOs, function(item, index, allItems) {
 						ret += item['roleName'] + ", ";
 					});
 				}
