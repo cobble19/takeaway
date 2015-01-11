@@ -29,7 +29,7 @@ public class MyFilterInvocationSecurityMetadataSource implements
 		List<ConfigAttribute> ret = new ArrayList<ConfigAttribute>();
 		String url = ((FilterInvocation) object).getRequestUrl();
 		try {
-			List<PrivilegePOJO> privilegePOJOs = privilegeService.findAll();
+			List<PrivilegePOJO> privilegePOJOs = privilegeService.finds(null);
 			if (!CollectionUtils.isEmpty(privilegePOJOs)) {
 				for (PrivilegePOJO privilegePOJO : privilegePOJOs) {
 					String privilegeUrl = privilegePOJO.getUrl();
@@ -51,6 +51,10 @@ public class MyFilterInvocationSecurityMetadataSource implements
 			e.printStackTrace();
 		}
 		
+		if (CollectionUtils.isEmpty(ret)) {	// Because if ret == null, will allow any access.... TODO
+			ConfigAttribute NO_FOUND_ANY_ROLE = new SecurityConfig("NO_FOUND_ANY_ROLE");
+			ret.add(NO_FOUND_ANY_ROLE);
+		}
 		
 		return ret;
 	}

@@ -38,12 +38,12 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		
 		String temp = "";
 		for (ConfigAttribute configAttribute : configAttributes) {
-			temp += configAttribute.getAttribute();
+			temp += configAttribute.getAttribute() + ", ";
 		}
 		LOGGER.info("需要的角色：{}", temp);
 		temp = "";
 		for (GrantedAuthority authority : authorities) {
-			temp += authority.getAuthority();
+			temp += authority.getAuthority() + ", ";
 		}
 		LOGGER.info("用户的角色：{}", temp);
 		
