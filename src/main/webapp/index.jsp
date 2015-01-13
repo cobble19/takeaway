@@ -60,17 +60,17 @@
         <div class="jrtj">
 		    <div class="jrtj-t"></div>
 		    <div class="jrtj-i"><img src="images/wm_05.gif"></div>
-	        <a class="djjr" href="www.baidu.com"></a>		
+	        <a class="djjr" href="http://www.baidu.com"></a>		
 		</div>
 		<div class="jryh">
 		    <div class="jryh-t"></div>
 			<div class="jryh-i"><img src="images/wm_06.gif"></div>
-			<a class="djjr" href="www.baidu.com"></a>		
+			<a class="djjr" href="http://www.baidu.com"></a>		
 		</div>
 		<div class="jrtg">
 		    <div class="jrtg-t"></div>
 			<div class="jrtg-i"><img src="images/wm_07.gif"></div>
-			<a class="djjr" href="www.baidu.com"></a>		
+			<a class="djjr" href="http://www.baidu.com"></a>		
 		</div>
 		<div class="jrsj">
 		    <div class="jrsj-t"></div>
@@ -108,12 +108,11 @@
 				</c:forEach>
             </ul>
 			<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
-            <div id="${category.categoryId}">               
+            <div id="${locationAreaPOJO.locationAreaId}">               
                <ul class="sy-dqk">
                    <c:forEach items="${locationAreaPOJO.locationBusinessPOJOs}" var="locationBusinessPOJO" varStatus="st">
 			       <li>
 					   <a href='<cmn:base/>/web/foodSellers?businessId=${locationBusinessPOJO.locationBusinessId}'>${locationBusinessPOJO.name}</a>(${locationBusinessPOJO.countFoodSeller})
-					   <c:if test="${st.count % 2 == 0}">
 				   </li>
 				   </c:forEach>
 			   </ul>

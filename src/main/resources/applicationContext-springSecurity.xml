@@ -12,7 +12,9 @@
 	<security:http pattern="/mgr/ta/**" security="none" />
 	<security:http pattern="/mgr/data/**" security="none" />
 	<security:http pattern="/page/**" security="none" />
+	<security:http pattern="/index*" security="none" />
 	<security:http pattern="/index.jsp" security="none" />
+	<security:http pattern="/web/**" security="none" />
 	<!-- <security:http pattern="/login.jsp*" security="none" /> -->
 	<!-- <security:http pattern="/mgr/**" security="none" /> -->
 	
