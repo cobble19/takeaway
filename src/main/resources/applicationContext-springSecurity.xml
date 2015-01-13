@@ -15,6 +15,8 @@
 	<security:http pattern="/index*" security="none" />
 	<security:http pattern="/index.jsp" security="none" />
 	<security:http pattern="/web/**" security="none" />
+	<security:http pattern="/redirect.html" security="none" />
+	
 	<!-- <security:http pattern="/login.jsp*" security="none" /> -->
 	<!-- <security:http pattern="/mgr/**" security="none" /> -->
 	
@@ -29,7 +31,7 @@
 		<property name="authenticationManager" ref="authenticationManager"></property>
 		<property name="accessDecisionManager" ref="myAccessDecisionManager"></property>
 		<property name="securityMetadataSource" ref="myFilterInvocationSecurityMetadataSource"></property>
-		<property name="rejectPublicInvocations" value="true"></property>
+		<!-- <property name="rejectPublicInvocations" value="true"></property> -->
 	</bean>
 	
 	<security:authentication-manager alias="authenticationManager">
