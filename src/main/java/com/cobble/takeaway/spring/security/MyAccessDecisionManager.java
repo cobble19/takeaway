@@ -22,6 +22,10 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
 		String url = ((FilterInvocation) object).getRequestUrl();
+		LOGGER.debug("URL = {}", url);
+		if (url.equalsIgnoreCase("/") || url.equalsIgnoreCase("")) {
+			return;
+		}
 		if (CollectionUtils.isEmpty(configAttributes)) {	// 资源需要的角色
 			LOGGER.debug("url= {},  权限需要分配角色。", url);
 //			return;
