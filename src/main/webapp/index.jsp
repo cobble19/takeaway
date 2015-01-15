@@ -59,17 +59,17 @@
     <div class="sy-tj">
         <div class="jrtj">
 		    <div class="jrtj-t"></div>
-		    <div class="jrtj-i"><img src="images/wm_05.gif"></div>
+		    <div class="jrtj-i"><img src="<cmn:base/>/bootstrap/images/wm_05.gif"></div>
 	        <a class="djjr" href="http://www.baidu.com"></a>		
 		</div>
 		<div class="jryh">
 		    <div class="jryh-t"></div>
-			<div class="jryh-i"><img src="images/wm_06.gif"></div>
+			<div class="jryh-i"><img src="<cmn:base/>/bootstrap/images/wm_06.gif"></div>
 			<a class="djjr" href="http://www.baidu.com"></a>		
 		</div>
 		<div class="jrtg">
 		    <div class="jrtg-t"></div>
-			<div class="jrtg-i"><img src="images/wm_07.gif"></div>
+			<div class="jrtg-i"><img src="<cmn:base/>/bootstrap/images/wm_07.gif"></div>
 			<a class="djjr" href="http://www.baidu.com"></a>		
 		</div>
 		<div class="jrsj">
@@ -90,7 +90,7 @@
 	
     <script type="text/javascript">
        $(function() {
-           $('#rotate${topic.topicId } > ul').tabs({ fx: { opacity: 'toggle' } }).tabs('rotate', 0);
+           $('#rotate1 > ul').tabs({ fx: { opacity: 'toggle' } }).tabs('rotate', 0);
        });
     </script> 
 	
@@ -101,7 +101,7 @@
 		
 		
 		
-		<div id="rotate${topic.topicId }">
+		<div id="rotate1">
 		    <ul class="dq-lbk">
 				<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
 				<li><a href='<cmn:base/>/web/foodSellers?areaId=${locationAreaPOJO.locationAreaId}'><span>${locationAreaPOJO.name}</span></a></li>
@@ -138,103 +138,7 @@
 	
 	
 	
-<div class="part-x">
-    <div class="web-5"></div>
-    <div class="web-6"></div>
-</div>
-<div class="part-x">
-    <div class="web-7"></div>
-    <div class="web-8"></div>
-</div>
-<div class="web-9">
-    <div class="dqdt">
-        <a href="#" id="outs1">地区</a><a style="margin-left:23px;" href="#" id="outs2">地图</a>
-	</div>
-</div>
-<div id="div1" style="display:none;">
-	<span id="guanbi1"><a>关闭</a></span>
-    <div class="dqfl">
-	    <div class="dqt">政务区</div>
-	    <div class="dqsq">
-		    <a href="#">天鹅湖万达</a>
-			<a href="#">新地购物</a>
-			<a href="#">、、、、、</a>
-		</div>
-	</div>
-	<div class="dqfl">
-	    <div class="dqt">蜀山区</div>
-	    <div class="dqsq">
-		    <a href="#">天鹅湖万达</a>
-			<a href="#">新地购物</a>
-			<a href="#">、、、、、</a>
-		</div>
-	</div>
-	<div class="dqfl">
-	    <div class="dqt">庐阳区</div>
-	    <div class="dqsq">
-		    <a href="#">天鹅湖万达</a>
-			<a href="#">新地购物</a>
-			<a href="#">、、、、、</a>
-		</div>
-	</div>
-</div>
-<div id="div2" style="display:none;">
-	<span id="guanbi2"><a>关闭</a></span>
-    <div id="map_canvas"></div> 
-</div>
-<div class="web-10">
-    <div class="gg">
-        <ul>
-            <li><img src="images/gg_1.jpg"></li>
-			<li><img src="images/gg_2.jpg"></li>
-			<li><img src="images/gg_3.jpg"></li>
-	    </ul>
-    </div>
-</div>
-<div class="web-11"></div>
 
-
-
-<script language="javascript">  
-document.getElementById("outs1").onclick=function(){  	  
-           document.getElementById("div1").style.display="block"; 
-		   document.getElementById("div2").style.display="none";   	  
-           }
-document.getElementById("div1").onmouseover=function(){  	  
-           document.getElementById("div1").style.display="block";  	  
-           }
-document.getElementById("guanbi1").onclick=function(){
-	       document.getElementById("div1").style.display="none";
-		   } 		   
-
-
-
-document.getElementById("outs2").onclick=function(){  	  
-           document.getElementById("div2").style.display="block"; 
-		   document.getElementById("div1").style.display="none";  	  
-           }
-document.getElementById("div2").onmouseover=function(){  	  
-           document.getElementById("div2").style.display="block";  	  
-           }
-document.getElementById("guanbi2").onclick=function(){
-		   document.getElementById("div2").style.display="none";
-		   } 
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<%@ include file="bottom.jsp"%>
 </div>
 </body>
 
