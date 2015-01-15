@@ -104,7 +104,7 @@
 		<div id="rotate1">
 		    <ul class="dq-lbk">
 				<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
-				<li><a href='<cmn:base/>/web/foodSellers?areaId=${locationAreaPOJO.locationAreaId}'><span>${locationAreaPOJO.name}</span></a></li>
+				<li><a href='<cmn:base/>/web/foodSellersPure?areaId=${locationAreaPOJO.locationAreaId}'><span>${locationAreaPOJO.name}</span></a></li>
 				</c:forEach>
             </ul>
 			<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
@@ -112,7 +112,7 @@
                <ul class="sy-dqk">
                    <c:forEach items="${locationAreaPOJO.locationBusinessPOJOs}" var="locationBusinessPOJO" varStatus="st">
 			       <li>
-					   <a href='<cmn:base/>/web/foodSellers?businessId=${locationBusinessPOJO.locationBusinessId}'>${locationBusinessPOJO.name}</a>(${locationBusinessPOJO.countFoodSeller})
+					   <a href='<cmn:base/>/web/foodSellersPure?businessId=${locationBusinessPOJO.locationBusinessId}'>${locationBusinessPOJO.name}</a>(${locationBusinessPOJO.countFoodSeller})
 				   </li>
 				   </c:forEach>
 			   </ul>

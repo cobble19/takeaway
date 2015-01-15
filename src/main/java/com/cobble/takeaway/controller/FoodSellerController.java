@@ -76,6 +76,19 @@ public class FoodSellerController extends BaseController {
 		return ret;
 	}
 	
+	@RequestMapping(value = "/web/foodSellersPure", method = {RequestMethod.GET})
+	public ModelAndView findFoodSellersPure(@RequestParam(value="areaId", required=false) Integer areaId
+			, @RequestParam(value="businessId", required=false) Integer businessId
+			, @RequestParam(value="sellerTypeId", required=false) Integer sellerTypeId) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		List<FoodSellerPOJO> foodSellerPOJOList = new ArrayList<FoodSellerPOJO>();
+		foodSellerPOJOList = foodSellerService.findsByParam(areaId, businessId, sellerTypeId);
+		//int total = foodSellerService.getCount(foodSellerSearchPOJO);
+		ret.addObject("foodSellerPOJOList", foodSellerPOJOList);
+		ret.setViewName("page/food_sellers_pure");
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/foodSellers", method = {RequestMethod.GET})
 	public ModelAndView findFoodSellers(@RequestParam(value="areaId", required=false) Integer areaId
 			, @RequestParam(value="businessId", required=false) Integer businessId
