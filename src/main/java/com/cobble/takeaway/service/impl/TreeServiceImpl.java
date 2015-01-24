@@ -45,7 +45,7 @@ public class TreeServiceImpl implements TreeService {
 						locationBusinessPOJO.setCountFoodSeller(foodSellerPOJOs.size());
 					}
 				}
-				locationAreaPOJO.getLocationBusinessPOJOs().addAll(locationBusinessPOJOs);
+				locationAreaPOJO.setLocationBusinessPOJOs(locationBusinessPOJOs);
 				locationAreaPOJO.setCountFoodSeller(countFoodSellerForArea);
 			}
 		}
