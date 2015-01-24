@@ -15,7 +15,15 @@
 	<security:http pattern="/index*" security="none" />
 	<security:http pattern="/index.jsp" security="none" />
 	<security:http pattern="/web/**" security="none" />
-	<security:http pattern="/redirect.html" security="none" />
+	<!-- <security:http pattern="/redirect.html" security="none" /> -->
+	<security:http pattern="/**/*.(js|css|gif|png|jpg|jpeg|html)" security="none"></security:http>
+	<security:http pattern="http://api.go2map.com/maps/js/api_v2.5.1.js" security="none" />
+	<security:http pattern="/css/**" security="none" />
+	<security:http pattern="/js/**" security="none" />
+	<!-- <security:http pattern="/**.css" security="none"></security:http>
+	<security:http pattern="/**.gif" security="none"></security:http>
+	<security:http pattern="/**.jpg" security="none"></security:http>
+	<security:http pattern="/**.png" security="none"></security:http> -->
 	
 	<!-- <security:http pattern="/login.jsp*" security="none" /> -->
 	<!-- <security:http pattern="/mgr/**" security="none" /> -->
