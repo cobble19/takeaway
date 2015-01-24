@@ -4,5 +4,5 @@
 ##################
 # 1. cp origin huasheng.sql
 cp takeawaydb.sql takeawaydb.sql.bak
-mysqldump --socket=/var/lib/mysql/mysql.sock -c -uroot -proot123 --default-character-set=utf8 takeawaydb > takeawaydb.sql
+mysqldump --socket=/tmp/mysql.sock -c -uroot -proot123 --default-character-set=utf8 takeawaydb > takeawaydb.sql
 
