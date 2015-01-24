@@ -60,17 +60,17 @@
         <div class="jrtj">
 		    <div class="jrtj-t"></div>
 		    <div class="jrtj-i"><img src="<cmn:base/>/bootstrap/images/wm_05.gif"></div>
-	        <a class="djjr" href="http://www.baidu.com"></a>		
+	        <a class="djjr" href="http://#"></a>		
 		</div>
 		<div class="jryh">
 		    <div class="jryh-t"></div>
 			<div class="jryh-i"><img src="<cmn:base/>/bootstrap/images/wm_06.gif"></div>
-			<a class="djjr" href="http://www.baidu.com"></a>		
+			<a class="djjr" href="http://#"></a>		
 		</div>
 		<div class="jrtg">
 		    <div class="jrtg-t"></div>
 			<div class="jrtg-i"><img src="<cmn:base/>/bootstrap/images/wm_07.gif"></div>
-			<a class="djjr" href="http://www.baidu.com"></a>		
+			<a class="djjr" href="http://#"></a>		
 		</div>
 		<div class="jrsj">
 		    <div class="jrsj-t"></div>
@@ -78,12 +78,13 @@
 			<div class="jrsj-z"></div>
 		</div>
     </div>
+    <div class="sy-wmbj">
 	<div class="sy-wm">
 	    <div class="an-dq">按地区查询</div>
 		<div class="an-dt"><a>按地图查询</a></div>
 		<div class="sy-search">
 		<form action='<cmn:base/>/web/foodSellers/search'>
-								<input class="sy-search-k" id="keyword" name="keyword" type="text" placeholder="搜索" value="请输入你想搜索的餐厅">
+								<input class="sy-search-k" id="keyword" name="keyword" type="text" placeholder="请输入你想搜索的餐厅" value="">
 							</form>
         </div>
 	</div>
@@ -104,7 +105,7 @@
 		<div id="rotate1">
 		    <ul class="dq-lbk">
 				<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
-				<li><a href='<cmn:base/>/web/foodSellersPure?areaId=${locationAreaPOJO.locationAreaId}'><span>${locationAreaPOJO.name}</span></a></li>
+				<li><a href="#${locationAreaPOJO.locationAreaId}"><span>${locationAreaPOJO.name}</span></a></li>
 				</c:forEach>
             </ul>
 			<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
@@ -118,13 +119,8 @@
 			   </ul>
 			   </div>
 			   </c:forEach>
-		    <!--<div class="dq-lbk"></div>
-		    <div class="sy-dqk"></div>-->
 		</div>
-		
-		
-		
-
+	</div>
 	</div>
 	
 	
@@ -137,8 +133,7 @@
 	
 	
 	
-	
-
+<div class="bottom"></div>
 </div>
 </body>
 
