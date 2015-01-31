@@ -15,6 +15,9 @@ git pull
 echo "[COBBLE.GE] Start mvn..."
 mvn clean install -Dmaven.test.skip=true
 /bin/cp -f ${HS_BASE}/target/takeaway/WEB-INF/classes/jdbc.release.properties ${HS_BASE}/target/takeaway/WEB-INF/classes/jdbc.properties
+cd ${HS_BASE}/target/takeaway/mgr/ta
+sencha app build
+/bin/cp -Rf ${HS_BASE}/target/takeaway/mgr/ta/build/production/TA/* ${HS_BASE}/target/takeaway/mgr/ta
 /bin/cp -Rf ${HS_BASE}/target/takeaway /opt/app/www
 # Restore upload dir
 ## echo "[COBBLE.GE] Restore [upload] directory..."
