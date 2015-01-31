@@ -194,11 +194,6 @@ a:active {
 .list-type-item{ width:183px; height:39px;}
 .list-type-item a{ width:183px; height:39px; display:block;}
 
-.list-group{ width:181px; height:689px; border:1px solid #cdc8c6; margin-top:24px; overflow:hidden;}
-.list-group-item{ width:165px; height:114px; border-bottom:#cbc6c5 1px solid; margin-left:8px;}
-.list-group-item-title{ width:165px; height:38px; line-height:38px; font-size:14px; color:#636363;}
-.list-group-item-text{ width:165px; height:76px; line-height:24px;}
-.list-group-item-text a{ font-size:13px; color:#acacac; margin-right:5px;}
 
 .wm-body-right{ width:614px; height:913px; margin-left:86px; float:left;}
 .wm-body-right-s{ width:614px; height:47px; background-color: #f4f2f3;}
@@ -212,6 +207,14 @@ a:active {
 .wmc22kc-t{ width:186px; height:137px; border:1px solid #d1cdcb;}
 .wmc22kc-w{ width:188px; height:41px; line-height:41px;  text-align:center;}
 .wmc22kc-w a{ font-size:18px; color:#70c242; font-family:"黑体";}
+
+/*左侧地区导航可折叠CSS*/
+.menu_head{width:183px; height:38px; line-height:38px; padding-left:20px; font-size:14px; color:#525252;cursor:pointer;border:1px solid #e1e1e1;position:relative;margin:0px;font-weight:bold;background:#ffffff url(../images/pro_left.png) center right no-repeat;}
+.menu_list .current{background:#f1f1f1 url(../images/pro_down.png) center right no-repeat;}
+.menu_body{width:183px; height:auto; line-height:24px; padding-left:20px; overflow:hidden; border-left:1px solid #e1e1e1;backguound:#ffffff;border-right:1px solid #e1e1e1;}
+.menu_body a{ font-size:13px; color:#acacac; margin-right:5px;}
+.menu_body a:hover{text-decoration:none;}
+
 
 /* wmcontent */
 .xian{ width:612px; height:1px; border:1px solid #ccc7c5;}

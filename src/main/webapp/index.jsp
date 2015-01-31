@@ -91,7 +91,7 @@
 	
     <script type="text/javascript">
        $(function() {
-           $('#rotate1 > ul').tabs({ fx: { opacity: 'toggle' } }).tabs('rotate', 0);
+           $('#rotate > ul').tabs({ fx: { opacity: 'toggle' } }).tabs('rotate', 0);
     	   /* $('#rotate1 > ul').tabs(); */
        });
     </script> 
@@ -103,7 +103,7 @@
 		
 		
 		
-		<div id="rotate1">
+		<div id="rotate">
 		    <ul class="dq-lbk">
 				<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
 				<li><a href="#${locationAreaPOJO.locationAreaId}"><span>${locationAreaPOJO.name}</span></a></li>
@@ -114,7 +114,7 @@
                <ul class="sy-dqk">
                    <c:forEach items="${locationAreaPOJO.locationBusinessPOJOs}" var="locationBusinessPOJO"  varStatus="st">
 			       <li>
-					   <a href='<cmn:base/>/web/foodSellersPure?businessId=${locationBusinessPOJO.locationBusinessId}'>${locationBusinessPOJO.name}</a>(${locationBusinessPOJO.countFoodSeller})
+					   <a href='<cmn:base/>/web/foodSellers?businessId=${locationBusinessPOJO.locationBusinessId}'>${locationBusinessPOJO.name}</a>(${locationBusinessPOJO.countFoodSeller})
 				   </li>
 				   </c:forEach>
 			   </ul>

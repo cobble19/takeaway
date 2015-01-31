@@ -24,6 +24,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
 	<link href="<cmn:base/>/bootstrap/css/wm.css" rel="stylesheet">
     <script src="<cmn:base/>/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<cmn:base/>/bootstrap/js/jquery.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,7 +34,7 @@
     <![endif]-->
   </head>
   <body>
-	<div class="list-group">
+	<div id="firstpane" class="menu_list">
 		<!-- <div class="list-group-item">
 			<h4 class="list-group-item-heading">庐阳区 (80)</h4>
 			<p class="list-group-item-text">
@@ -43,9 +44,9 @@
 			</p>
 		</div> -->
 		<c:forEach items="${locationAreaPOJOList}" var="locationAreaPOJO">
-			<div class="list-group-item">
-				<div class="list-group-item-title"><a href='<cmn:base/>/web/foodSellers?areaId=${locationAreaPOJO.locationAreaId}'>${locationAreaPOJO.name}</a> (${locationAreaPOJO.countFoodSeller})</div>
-				<div class="list-group-item-text">
+		
+				<p class="menu_head current"><a href='<cmn:base/>/web/foodSellers?areaId=${locationAreaPOJO.locationAreaId}'>${locationAreaPOJO.name}</a> (${locationAreaPOJO.countFoodSeller})</p>
+				<div style="display:none" class="menu_body">
 					<c:forEach items="${locationAreaPOJO.locationBusinessPOJOs}" var="locationBusinessPOJO"
 					 varStatus="st">
 					 	<a href='<cmn:base/>/web/foodSellers?businessId=${locationBusinessPOJO.locationBusinessId}'>${locationBusinessPOJO.name}</a>(${locationBusinessPOJO.countFoodSeller})  
@@ -54,8 +55,23 @@
 						</c:if>
 					</c:forEach>
 				</div>
-			</div>
+			
 		</c:forEach>
 	</div>
+<script type=text/javascript>
+$(document).ready(function(){
+	$("#firstpane .menu_body:eq(0)").show();
+	$("#firstpane p.menu_head").click(function(){
+		$(this).addClass("current").next("div.menu_body").slideToggle(300).siblings("div.menu_body").slideUp("slow");
+		$(this).siblings().removeClass("current");
+	});
+	$("#secondpane .menu_body:eq(0)").show();
+	$("#secondpane p.menu_head").mouseover(function(){
+		$(this).addClass("current").next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
+		$(this).siblings().removeClass("current");
+	});
+	
+});
+</script>
   </body>
 </html>
