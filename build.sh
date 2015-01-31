@@ -5,7 +5,8 @@ CATALINA_HOME=`echo ${CATALINA_HOME}`
 echo "[COBBLE.GE] Stop MySQL..."
 service mysql stop
 echo "[COBBLE.GE] Stop tomcat..."
-sh ${CATALINA_HOME}/bin/shutdown.sh
+# sh ${CATALINA_HOME}/bin/shutdown.sh
+service tomcat stop
 # bak upload dir
 # echo "[COBBLE.GE] Bak [upload] directory..."
 ## /bin/cp -R ${HS_BASE}/target/huasheng/upload/* ${HS_BASE}/temp/upload/
@@ -33,6 +34,7 @@ echo "[COBBLE.GE]Copy ${HS_BASE}/target/takeaway /opt/app/www  ..."
 echo "[COBBLE.GE] Start MySQL..."
 service mysql start
 echo "[COBBLE.GE] Start tomcat..."
-sh ${CATALINA_HOME}/bin/startup.sh
+# sh ${CATALINA_HOME}i/bin/startup.sh
+service tomcat start
 echo "[COBBLE.GE] Build finished..."
 
