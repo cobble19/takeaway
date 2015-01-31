@@ -9,13 +9,22 @@
 	<security:http pattern="/bootstrap/**" security="none" />
 	<security:http pattern="/images/**" security="none" />
 	<security:http pattern="/jquery/**" security="none" />
-	<security:http pattern="/mgr/ta/**" security="none" />
+	
+	<security:http pattern="/mgr/ta/app/**" security="none" />
+	<security:http pattern="/mgr/ta/build/**" security="none" />
+	<security:http pattern="/mgr/ta/ext/**" security="none" />
+	<security:http pattern="/mgr/ta/overrides/**" security="none" />
+	<security:http pattern="/mgr/ta/packages/**" security="none" />
+	<security:http pattern="/mgr/ta/resources/**" security="none" />
+	<security:http pattern="/mgr/ta/sass/**" security="none" />
+	<security:http pattern="/mgr/ta/*.json" security="none" />
+	
 	<security:http pattern="/mgr/data/**" security="none" />
 	<security:http pattern="/page/**" security="none" />
 	<security:http pattern="/index*" security="none" />
 	<security:http pattern="/index.jsp" security="none" />
 	<security:http pattern="/web/**" security="none" />
-	<!-- <security:http pattern="/redirect.html" security="none" /> -->
+	<security:http pattern="/redirect.html" security="none" />
 	<security:http pattern="/**/*.js" security="none"></security:http>
 	<security:http pattern="/**/*.css" security="none"></security:http>
 	<security:http pattern="/**/*.gif" security="none"></security:http>
@@ -24,7 +33,7 @@
 	<security:http pattern="/**/*.png" security="none"></security:http>
 	<security:http pattern="/css/**" security="none" />
 	<security:http pattern="/js/**" security="none" />
-	<security:http pattern="/**/*.html" security="none"></security:http>
+	<!-- <security:http pattern="/**/*.html" security="none"></security:http> -->
 	
 	<!-- <security:http pattern="/login.jsp*" security="none" /> -->
 	<!-- <security:http pattern="/mgr/**" security="none" /> -->
