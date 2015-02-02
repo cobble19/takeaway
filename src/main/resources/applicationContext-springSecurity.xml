@@ -35,6 +35,8 @@
 	<security:http pattern="/js/**" security="none" />
 	<security:http pattern="/*.icon" security="none" />
 	<security:http pattern="/**/*.icon" security="none" />
+	
+	<security:http pattern="/files/**" security="none" />
 	<!-- <security:http pattern="/**/*.html" security="none"></security:http> -->
 	
 	<!-- <security:http pattern="/login.jsp*" security="none" /> -->
@@ -42,7 +44,7 @@
 	
 	<security:http>
 		<!-- <security:intercept-url pattern="/**" access="ROLE_USER" /> -->
-		<security:form-login />
+		<security:form-login always-use-default-target="true" default-target-url="/mgr/ta/index.html"/>
 		<security:logout />
 		<security:custom-filter ref="myFilterSecurity" before="FILTER_SECURITY_INTERCEPTOR"/>
 	</security:http>

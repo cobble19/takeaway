@@ -6,6 +6,7 @@ public class FoodSellerPOJO extends BasePOJO {
     private Integer foodSellerId;
     private String name;
     private String phone;
+    private String logoUrl;
     private String businessHours;
     private String deliveryArea;
     private String deliveryPriceMin;
@@ -161,5 +162,11 @@ public class FoodSellerPOJO extends BasePOJO {
 	}
 	public void setFoodPOJOs(List<FoodPOJO> foodPOJOs) {
 		this.foodPOJOs = foodPOJOs;
+	}
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
 	}
 }

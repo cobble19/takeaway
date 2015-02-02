@@ -1,11 +1,13 @@
 package com.cobble.takeaway.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ExtjsPOJO;
@@ -34,6 +37,8 @@ public class FoodSellerController extends BaseController {
 	private FoodSellerService foodSellerService;
 	@Autowired
 	private FoodService foodService;
+	@Autowired
+	private MessageSource messageSource;
 	
 	@RequestMapping(value = "/web/foodSellerDetail", method = {RequestMethod.GET})
 	public ModelAndView findFoodSellers(@RequestParam(value="foodSellerId", required=false) Integer foodSellerId) throws Exception {
@@ -144,11 +149,20 @@ public class FoodSellerController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/mgr/foodSeller/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/mgr/foodSeller/add", produces = {MediaType.APPLICATION_JSON_VALUE}, method=RequestMethod.POST)
 	@ResponseBody
-	public StatusPOJO add(FoodSellerPOJO foodSellerPOJO, Model model) throws Exception {
+	public StatusPOJO add(FoodSellerPOJO foodSellerPOJO, @RequestParam("file") MultipartFile file, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
+			if (file != null && !file.isEmpty()) {
+				LOGGER.info("Uploading logoUrl file: " + file.getOriginalFilename());
+				String dir = messageSource.getMessage("files.directory", null, null);
+				File dest = new File(dir + File.separator + file.getOriginalFilename());
+				file.transferTo(dest);
+				LOGGER.info("Upload Success logoUrl file: " + file.getOriginalFilename());
+			}
+			foodSellerPOJO.setLogoUrl(file.getOriginalFilename());
+			
 			int result = foodSellerService.insert(foodSellerPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -162,9 +176,17 @@ public class FoodSellerController extends BaseController {
 	
 	@RequestMapping(value = "/mgr/foodSeller/update", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public StatusPOJO update(FoodSellerPOJO foodSellerPOJO, Model model) throws Exception {
+	public StatusPOJO update(FoodSellerPOJO foodSellerPOJO, @RequestParam("file") MultipartFile file, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
+			if (file != null && !file.isEmpty()) {
+				LOGGER.info("Uploading logoUrl file: " + file.getOriginalFilename());
+				String dir = messageSource.getMessage("files.directory", null, null);
+				File dest = new File(dir + File.separator + file.getOriginalFilename());
+				file.transferTo(dest);
+				LOGGER.info("Upload Success logoUrl file: " + file.getOriginalFilename());
+			}
+			foodSellerPOJO.setLogoUrl(file.getOriginalFilename());
 			int result = foodSellerService.update(foodSellerPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {

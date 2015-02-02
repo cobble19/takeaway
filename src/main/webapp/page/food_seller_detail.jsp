@@ -67,7 +67,9 @@
 			<div class="xian"></div>
 			<div class="wmt-k">
 			    <div class="wmt-k1">
-				    <div class="logo"><img alt="" src="<cmn:base/>/bootstrap/images/web3-new_06.jpg"></div>
+				    <div class="logo"><%-- <img alt="" src="<cmn:base/>/bootstrap/images/web3-new_06.jpg"> --%>
+				    	<img alt="" src="<cmn:base/>/files/${foodSellerPOJO.logoUrl}">
+				    </div>
 					<div class="n-d">
 					    <div class="c-name">${foodSellerPOJO.name}</div>
 						<div class="c-num">

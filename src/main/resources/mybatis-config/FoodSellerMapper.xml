@@ -14,6 +14,7 @@
     <id column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="LOGO_URL" property="logoUrl" jdbcType="VARCHAR" />
     <result column="BUSINESS_HOURS" property="businessHours"/>
     <result column="DELIVERY_AREA" property="deliveryArea"/>
     <result column="DELIVERY_PRICE_MIN" property="deliveryPriceMin"/>
@@ -51,6 +52,7 @@
     <id column="FOOD_SELLER_ID" property="foodSellerId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="LOGO_URL" property="logoUrl" jdbcType="VARCHAR" />
     <result column="BUSINESS_HOURS" property="businessHours"/>
     <result column="DELIVERY_AREA" property="deliveryArea"/>
     <result column="DELIVERY_PRICE_MIN" property="deliveryPriceMin"/>
@@ -101,7 +103,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    fs.FOOD_SELLER_ID, fs.NAME, fs.PHONE, fs.BUSINESS_HOURS, fs.DELIVERY_AREA
+    fs.FOOD_SELLER_ID, fs.NAME, fs.PHONE, fs.LOGO_URL, fs.BUSINESS_HOURS, fs.DELIVERY_AREA
     , fs.DELIVERY_PRICE_MIN, fs.ADDRESS, fs.NOTE
   </sql>
   <sql id="Clause_Common">
@@ -123,13 +125,13 @@
     , ras.REL_AREA_SELLER_ID AS RAS_REL_AREA_SELLER_ID, ras.LOCATION_AREA_ID AS RAS_LOCATION_AREA_ID, ras.FOOD_SELLER_ID AS RAS_FOOD_SELLER_ID
     
     from food_seller fs
-    join food f on f.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
-    join food_type ft on ft.food_type_id = f.food_type_id
+    left join food f on f.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    left join food_type ft on ft.food_type_id = f.food_type_id
     
-    join rel_business_seller rbs on rbs.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
-    join location_business lb on lb.LOCATION_BUSINESS_ID = rbs.LOCATION_BUSINESS_ID
-    join rel_area_seller ras on ras.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
-    join location_area la on la.LOCATION_AREA_ID = ras.LOCATION_AREA_ID
+    left join rel_business_seller rbs on rbs.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    left join location_business lb on lb.LOCATION_BUSINESS_ID = rbs.LOCATION_BUSINESS_ID
+    left join rel_area_seller ras on ras.FOOD_SELLER_ID = fs.FOOD_SELLER_ID
+    left join location_area la on la.LOCATION_AREA_ID = ras.LOCATION_AREA_ID
     
     where fs.FOOD_SELLER_ID = #{foodSellerId}
   </select>
@@ -242,6 +244,24 @@
       <if test="phone != null" >
         PHONE,
       </if>
+      <if test="logoUrl != null" >
+        LOGO_URL,
+      </if>
+      <if test="businessHours != null" >
+        BUSINESS_HOURS,
+      </if>
+      <if test="deliveryArea != null" >
+        DELIVERY_AREA,
+      </if>
+      <if test="deliveryPriceMin != null" >
+        DELIVERY_PRICE_MIN,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <!-- <if test="foodSellerId != null" >
@@ -252,6 +272,24 @@
       </if>
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null" >
+         #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="businessHours != null" >
+         #{businessHours,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryArea != null" >
+         #{deliveryArea,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryPriceMin != null" >
+         #{deliveryPriceMin,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+         #{note,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -324,6 +362,24 @@
       </if>
       <if test="phone != null" >
         PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null" >
+         LOGO_URL = #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="businessHours != null" >
+         BUSINESS_HOURS = #{businessHours,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryArea != null" >
+         DELIVERY_AREA = #{deliveryArea,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryPriceMin != null" >
+         DELIVERY_PRICE_MIN = #{deliveryPriceMin,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+         ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+         NOTE = #{note,jdbcType=VARCHAR},
       </if>
     </set>
     where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER}

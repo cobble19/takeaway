@@ -75,6 +75,12 @@ Ext.define('TA.view.foodseller.List', {
 			{header: '唯一标识', dataIndex: 'foodSellerId', flex: 1},
 			{header: '卖家名称', dataIndex: 'name', flex: 1},
 			{header: '电话', dataIndex: 'phone', flex: 1},
+			{header: '图标', dataIndex: 'logoUrl', flex: 1},
+			{header: '营业时间', dataIndex: 'businessHours', flex: 1},
+			{header: '送货区域', dataIndex: 'deliveryArea', flex: 1},
+			{header: '送货最低运费', dataIndex: 'deliveryPriceMin', flex: 1},
+			{header: '商家地址', dataIndex: 'address', flex: 1},
+			{header: '注意事项', dataIndex: 'note', flex: 1},
 			{header: '商业区', dataIndex: 'businessName', flex: 1},
 			{header: '地区', dataIndex: 'areaName', flex: 1},
 			{header: '餐饮分类', dataIndex: 'foodSellerTypeName', flex: 1}

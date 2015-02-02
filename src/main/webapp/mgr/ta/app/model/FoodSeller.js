@@ -8,6 +8,18 @@ Ext.define('TA.model.FoodSeller', {
 	         }, {
 	        	 name: 'phone', type: 'string'
 	         }, {
+	        	 name: 'logoUrl', type: 'string'
+	         }, {
+	        	 name: 'businessHours', type: 'string'
+	         }, {
+	        	 name: 'deliveryArea', type: 'string'
+	         }, {
+	        	 name: 'deliveryPriceMin', type: 'string'
+	         }, {
+	        	 name: 'address', type: 'string'
+	         }, {
+	        	 name: 'note', type: 'string'
+	         }, {
 	        	 name: 'areaName',
 	        	 convert: function (v, rec) {
 	        		 if (rec.get('locationAreaPOJO') == null) {

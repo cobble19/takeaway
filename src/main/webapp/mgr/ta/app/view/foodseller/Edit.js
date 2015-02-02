@@ -27,6 +27,28 @@ Ext.define('TA.view.foodseller.Edit', {
 			fieldLabel: '电话',
 			name: 'phone'
 		}, {
+			fieldLabel: '图标',
+			xtype: 'filefield',
+			name: 'file',
+			msgTarget: 'side',
+			allowBlank: true,
+			buttonText: '选择图片'
+		}, {
+			fieldLabel: '营业时间',
+			name: 'businessHours'
+		}, {
+			fieldLabel: '送货区域',
+			name: 'deliveryArea'
+		}, {
+			fieldLabel: '送货最低运费',
+			name: 'deliveryPriceMin'
+		}, {
+			fieldLabel: '商家地址',
+			name: 'address'
+		}, {
+			fieldLabel: '注意事项',
+			name: 'note'
+		}, {
 			xtype: 'locationbusinesscombobox',
 			labelAlign: 'left'
 		}, {

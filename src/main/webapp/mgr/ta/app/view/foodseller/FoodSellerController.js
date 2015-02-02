@@ -118,13 +118,13 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 		var f = form.getForm();
 		var record = records[0];
 		f.loadRecord(record);
-		form.down('combobox:nth-child(1)').setValue(record.get('locationBusinessPOJO').locationBusinessId);
-		form.down('textfield[name="relBusinessSellerPOJO.relBusinessSellerId"]').setValue(record.get('relBusinessSellerPOJO').relBusinessSellerId);
-		form.down('textfield[name="relBusinessSellerPOJO.foodSellerId"]').setValue(record.get('relBusinessSellerPOJO').foodSellerId);
+		form.down('combobox:nth-child(1)').setValue(record.get('locationBusinessPOJO') == null ?  "" : record.get('locationBusinessPOJO').locationBusinessId);
+		form.down('textfield[name="relBusinessSellerPOJO.relBusinessSellerId"]').setValue(record.get('relBusinessSellerPOJO') == null ? "" : record.get('relBusinessSellerPOJO').relBusinessSellerId);
+		form.down('textfield[name="relBusinessSellerPOJO.foodSellerId"]').setValue(record.get('relBusinessSellerPOJO') == null ? "" : record.get('relBusinessSellerPOJO').foodSellerId);
 		
-		form.down('combobox:nth-child(2)').setValue(record.get('locationAreaPOJO').locationAreaId);
-		form.down('textfield[name="relAreaSellerPOJO.relAreaSellerId"]').setValue(record.get('relAreaSellerPOJO').relAreaSellerId);
-		form.down('textfield[name="relAreaSellerPOJO.foodSellerId"]').setValue(record.get('relAreaSellerPOJO').foodSellerId);
+		form.down('combobox:nth-child(2)').setValue(record.get('locationAreaPOJO') == null ? "" : record.get('locationAreaPOJO').locationAreaId);
+		form.down('textfield[name="relAreaSellerPOJO.relAreaSellerId"]').setValue(record.get('relAreaSellerPOJO') == null ? "" : record.get('relAreaSellerPOJO').relAreaSellerId);
+		form.down('textfield[name="relAreaSellerPOJO.foodSellerId"]').setValue(record.get('relAreaSellerPOJO') == null ? "" : record.get('relAreaSellerPOJO').foodSellerId);
 		
 
 		window.down('textfield:nth-child(0)').setReadOnly(true);
@@ -165,7 +165,16 @@ Ext.define('TA.view.foodseller.FoodSellerController', {
 
 				var businessName = window.down('form').down('combobox:nth-child(1)').getRawValue();
 				var areaName = window.down('form').down('combobox:nth-child(2)').getRawValue();
+				if (record.get('locationBusinessPOJO') == null) {
+					var locationBusinessPOJO = {};
+					record.set('locationBusinessPOJO', locationBusinessPOJO);
+				}
 				record.get('locationBusinessPOJO').name = businessName;
+				
+				if (record.get('locationAreaPOJO') == null) {
+					var locationAreaPOJO = {};
+					record.set('locationAreaPOJO', locationAreaPOJO);
+				}
 				record.get('locationAreaPOJO').name = areaName;
 				record.set('areaName', areaName);
 				record.set('businessName', businessName);
