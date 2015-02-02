@@ -18,7 +18,8 @@ Ext.define('TA.Application', {
         'FoodType',
         'User',
         'Role',
-        'Privilege'
+        'Privilege',
+        'Recommend'
     ],
     
     launch: function () {

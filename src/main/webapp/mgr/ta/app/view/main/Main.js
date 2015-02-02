@@ -23,7 +23,8 @@ Ext.define('TA.view.main.Main', {
                'TA.view.foodtype.List',
                'TA.view.user.List',
                'TA.view.role.List',
-               'TA.view.privilege.List'
+               'TA.view.privilege.List',
+               'TA.view.recommend.List'
            ],
     uses: [
            'Ext.tree.Panel',

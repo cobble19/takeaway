@@ -60,7 +60,7 @@
         <div class="jrtj">
 		    <div class="jrtj-t"></div>
 		    <div class="jrtj-i"><img src="<cmn:base/>/bootstrap/images/wm_05.gif"></div>
-	        <a class="djjr" href="http://#"></a>		
+	        <a class="djjr" href='<cmn:base/>/web/recommend/all'></a>		
 		</div>
 		<div class="jryh">
 		    <div class="jryh-t"></div>

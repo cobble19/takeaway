@@ -33,6 +33,8 @@
 	<security:http pattern="/**/*.png" security="none"></security:http>
 	<security:http pattern="/css/**" security="none" />
 	<security:http pattern="/js/**" security="none" />
+	<security:http pattern="/*.icon" security="none" />
+	<security:http pattern="/**/*.icon" security="none" />
 	<!-- <security:http pattern="/**/*.html" security="none"></security:http> -->
 	
 	<!-- <security:http pattern="/login.jsp*" security="none" /> -->

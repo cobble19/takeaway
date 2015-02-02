@@ -33,6 +33,11 @@ children: [{
         id:'foodtype',
         pageId: 'foodtypelist',
         leaf:true
+    },{
+        text:'推荐',
+        id:'recommend',
+        pageId: 'recommendlist',
+        leaf:true
     }]
 }, {
     text:'用户设置',
