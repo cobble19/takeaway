@@ -15,6 +15,8 @@ Ext.define('TA.view.main.Main', {
                'Ext.tree.View',
                'Ext.grid.column.RowNumberer',
                'Ext.form.Panel',
+               'Ext.form.field.File',
+               'Ext.form.field.HtmlEditor',
                'TA.view.tree.Menu',
                'TA.view.tree.MenuController',
                'TA.store.TreeMenu',
