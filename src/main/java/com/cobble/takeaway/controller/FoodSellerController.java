@@ -2,7 +2,9 @@ package com.cobble.takeaway.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,14 +52,20 @@ public class FoodSellerController extends BaseController {
 			List<FoodTypePOJO> foodTypePOJOs = foodSellerPOJO.getFoodTypePOJOs();
 			List<FoodPOJO> foodPOJOs = foodSellerPOJO.getFoodPOJOs();
 			if (!CollectionUtils.isEmpty(foodTypePOJOs) && !CollectionUtils.isEmpty(foodPOJOs)) {
+				Map<Integer, List<FoodPOJO>> foodMap = new HashMap<Integer, List<FoodPOJO>>();
+				for (FoodPOJO foodPOJO : foodPOJOs) {
+					int foodTypeId = foodPOJO.getFoodTypeId();
+					List<FoodPOJO> foodPOJOTemps = foodMap.get(foodTypeId);
+					if (CollectionUtils.isEmpty(foodPOJOTemps)) {
+						foodPOJOTemps = new ArrayList<FoodPOJO>();
+					}
+					foodPOJOTemps.add(foodPOJO);
+					foodMap.put(foodTypeId, foodPOJOTemps);
+				}
 				for (FoodTypePOJO foodTypePOJO : foodTypePOJOs) {
 					int foodTypeId = foodTypePOJO.getFoodTypeId();
-					for (FoodPOJO foodPOJO : foodPOJOs) {
-						int foodTypeId2 = foodPOJO.getFoodTypeId();
-						if (foodTypeId == foodTypeId2) {
-							foodTypePOJO.getFoodPOJOs().add(foodPOJO);
-						}
-					}
+					List<FoodPOJO> foodPOJOTemps = foodMap.get(foodTypeId);
+					foodTypePOJO.setFoodPOJOs(foodPOJOTemps);
 				}
 			}
 		}
