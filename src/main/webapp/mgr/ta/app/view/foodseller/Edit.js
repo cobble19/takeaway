@@ -43,11 +43,17 @@ Ext.define('TA.view.foodseller.Edit', {
 			fieldLabel: '送货最低运费',
 			name: 'deliveryPriceMin'
 		}, {
+			fieldLabel: '配送费用',
+			name: 'deliveryFee'
+		}, {
 			fieldLabel: '商家地址',
 			name: 'address'
 		}, {
 			fieldLabel: '注意事项',
 			name: 'note'
+		}, {
+			fieldLabel: '地图地址',
+			name: 'mapAddr'
 		}, {
 			xtype: 'locationbusinesscombobox',
 			labelAlign: 'left'
