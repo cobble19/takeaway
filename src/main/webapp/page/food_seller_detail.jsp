@@ -85,7 +85,9 @@
 					    <div class="time"><a href="#caidan">查看菜单</a> | <a href="#ditu">查看地图</a> | 营业时间：${foodSellerPOJO.businessHours}</div>
 						<div class="fanw">送餐范围：${foodSellerPOJO.deliveryArea}</div>
 						<div class="qis">外卖起送价格：${foodSellerPOJO.deliveryPriceMin}元</div>
+						<div class="qis">配送费用：${foodSellerPOJO.deliveryFee}元</div>
 						<div class="diz">商家地址：${foodSellerPOJO.address}</div>
+						<div class="diz">地图地址：${foodSellerPOJO.mapAddr}</div>
 					</div>
 							<br/>
 							<div id="caidan">

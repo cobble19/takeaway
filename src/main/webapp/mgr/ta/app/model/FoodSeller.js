@@ -16,9 +16,13 @@ Ext.define('TA.model.FoodSeller', {
 	         }, {
 	        	 name: 'deliveryPriceMin', type: 'string'
 	         }, {
+	        	 name: 'deliveryFee', type: 'string'
+	         }, {
 	        	 name: 'address', type: 'string'
 	         }, {
 	        	 name: 'note', type: 'string'
+	         }, {
+	        	 name: 'mapAddr', type: 'string'
 	         }, {
 	        	 name: 'areaName',
 	        	 convert: function (v, rec) {

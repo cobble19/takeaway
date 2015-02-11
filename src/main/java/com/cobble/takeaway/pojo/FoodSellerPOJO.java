@@ -10,8 +10,10 @@ public class FoodSellerPOJO extends BasePOJO {
     private String businessHours;
     private String deliveryArea;
     private String deliveryPriceMin;
+    private Double deliveryFee;
     private String address;
     private String note;
+    private String mapAddr;
     
     private RelBusinessSellerPOJO relBusinessSellerPOJO;
     private RelAreaSellerPOJO relAreaSellerPOJO;
@@ -168,5 +170,17 @@ public class FoodSellerPOJO extends BasePOJO {
 	}
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
+	}
+	public Double getDeliveryFee() {
+		return deliveryFee;
+	}
+	public void setDeliveryFee(Double deliveryFee) {
+		this.deliveryFee = deliveryFee;
+	}
+	public String getMapAddr() {
+		return mapAddr;
+	}
+	public void setMapAddr(String mapAddr) {
+		this.mapAddr = mapAddr;
 	}
 }

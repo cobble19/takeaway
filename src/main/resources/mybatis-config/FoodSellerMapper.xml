@@ -18,8 +18,10 @@
     <result column="BUSINESS_HOURS" property="businessHours"/>
     <result column="DELIVERY_AREA" property="deliveryArea"/>
     <result column="DELIVERY_PRICE_MIN" property="deliveryPriceMin"/>
+    <result column="DELIVERY_FEE" property="deliveryFee"/>
     <result column="ADDRESS" property="address"/>
     <result column="NOTE" property="note"/>
+    <result column="MAP_ADDR" property="mapAddr"/>
     
     <association property="locationBusinessPOJO" columnPrefix="LB_"
     	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap"></association>
@@ -56,8 +58,10 @@
     <result column="BUSINESS_HOURS" property="businessHours"/>
     <result column="DELIVERY_AREA" property="deliveryArea"/>
     <result column="DELIVERY_PRICE_MIN" property="deliveryPriceMin"/>
+    <result column="DELIVERY_FEE" property="deliveryFee"/>
     <result column="ADDRESS" property="address"/>
     <result column="NOTE" property="note"/>
+    <result column="MAP_ADDR" property="mapAddr"/>
     
     <association property="locationBusinessPOJO" columnPrefix="LB_"
     	resultMap="com.cobble.takeaway.dao.LocationBusinessMapper.LocationBusinessResultMap"></association>
@@ -104,7 +108,7 @@
   
   <sql id="Base_Column_List" >
     fs.FOOD_SELLER_ID, fs.NAME, fs.PHONE, fs.LOGO_URL, fs.BUSINESS_HOURS, fs.DELIVERY_AREA
-    , fs.DELIVERY_PRICE_MIN, fs.ADDRESS, fs.NOTE
+    , fs.DELIVERY_PRICE_MIN, fs.DELIVERY_FEE, fs.ADDRESS, fs.NOTE, fs.MAP_ADDR
   </sql>
   <sql id="Clause_Common">
 	<if test="name != null and name != ''">
@@ -210,7 +214,7 @@
 	</if>
   </select>
   <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodSellerSearchPOJO" resultType="java.lang.Integer" >
-    select count(1) from food_seller
+    select count(1) from food_seller fs
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -256,11 +260,17 @@
       <if test="deliveryPriceMin != null" >
         DELIVERY_PRICE_MIN,
       </if>
+      <if test="deliveryFee != null" >
+        DELIVERY_FEE,
+      </if>
       <if test="address != null" >
         ADDRESS,
       </if>
       <if test="note != null" >
         NOTE,
+      </if>
+      <if test="mapAddr != null" >
+        MAP_ADDR,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -285,11 +295,17 @@
       <if test="deliveryPriceMin != null" >
          #{deliveryPriceMin,jdbcType=VARCHAR},
       </if>
+      <if test="deliveryFee != null" >
+         #{deliveryFee},
+      </if>
       <if test="address != null" >
          #{address,jdbcType=VARCHAR},
       </if>
       <if test="note != null" >
          #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="mapAddr != null" >
+         #{mapAddr,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -375,11 +391,17 @@
       <if test="deliveryPriceMin != null" >
          DELIVERY_PRICE_MIN = #{deliveryPriceMin,jdbcType=VARCHAR},
       </if>
+      <if test="deliveryFee != null" >
+         DELIVERY_FEE = #{deliveryFee},
+      </if>
       <if test="address != null" >
          ADDRESS = #{address,jdbcType=VARCHAR},
       </if>
       <if test="note != null" >
          NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="mapAddr != null" >
+         MAP_ADDR = #{mapAddr,jdbcType=VARCHAR},
       </if>
     </set>
     where FOOD_SELLER_ID = #{foodSellerId,jdbcType=INTEGER}
