@@ -237,3 +237,8 @@ a:active {
 .diz{ width:392px; height:26px; line-height:26px; font-family:"新宋体";}
 
 #caidan{ width:562px; height:418px; float:left;}
+
+/* wm今日推荐页面 */
+.jrtj-zt{width:895px; height:988px; margin:0 auto;}
+.jrtj-zt-t{ width:895px; height:45px; margin:0 auto; border-bottom:1px solid #e04f4f; margin-top:56px;}
+.jrtj-zt-c{ width:895px; min-height:860px; margin:0 auto; margin-top:26px;}
