@@ -6,7 +6,8 @@ Ext.define('TA.view.recommend.List', {
 	requires: [
 	           'TA.store.Recommend',
 	           'TA.view.recommend.RecommendController',
-	           'TA.view.recommend.RecommendModel'],
+	           'TA.view.recommend.RecommendModel',
+	           'TA.view.ux.MyHtmlEditor'],
 	uses: [
            'TA.store.Recommend',
            'TA.view.recommend.RecommendController',

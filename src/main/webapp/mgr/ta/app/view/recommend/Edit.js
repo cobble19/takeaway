@@ -11,7 +11,7 @@ Ext.define('TA.view.recommend.Edit', {
 		xtype: 'form',
 		/*title: 'Edit Form',*/
 		bodyPadding: 5,
-		width: 820,
+		width: 870,
 		layout: 'anchor',
 		defaults: {
 			anchor: '100%'
@@ -24,11 +24,12 @@ Ext.define('TA.view.recommend.Edit', {
 			fieldLabel: '标题',
 			name: 'title'
 		}, {
-			xtype: 'htmleditor',
-			width: 710,
+			xtype: 'myhtmleditor',
+			width: 760,
 			height: 200,
 			fieldLabel: '内容',
-			name: 'content'
+			name: 'content',
+			url: 'htmleditor/pic/add'
 		}],
 		buttons: [/*{
 			text: '重置',

@@ -13,7 +13,8 @@ Ext.define('TA.view.recommend.RecommendController', {
         'TA.store.Recommend'
     ],
     uses: [
-           'TA.store.Recommend'
+           'TA.store.Recommend',
+           'TA.view.ux.MyHtmlEditor'
            ],
 
     alias: 'controller.recommend',
