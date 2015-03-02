@@ -37,14 +37,14 @@
         <div class="wm-head"></div>
   		<div class="jrtj-zt">
 	  		<c:forEach items="${recommendPOJOList}" var="recommendPOJO"  varStatus="st">
-              <c:if test="${st.last}">
+              <%-- <c:if test="${st.last}"> --%>
 	  			<div class="jrtj-zt-t">
 	  				<h2>${recommendPOJO.title}</h2>
                 </div>
                 <div class="jrtj-zt-c">
 	  				<p>${recommendPOJO.content}</p>
 	  			</div>
-              </c:if>
+              <%-- </c:if> --%>
 			</c:forEach>
   		</div>
         <div class="bottom"></div>

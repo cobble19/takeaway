@@ -53,7 +53,7 @@
     from b_recommend
     where RECOMMEND_ID = #{recommendId}
   </select>
-  <delete id="deleteById" parameterType="java.lang.Integer" >
+  <delete id="deleteById" parameterType="java.lang.Long" >
     delete from b_recommend
     where RECOMMEND_ID = #{recommendId}
   </delete>

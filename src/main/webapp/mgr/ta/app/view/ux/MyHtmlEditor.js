@@ -92,10 +92,10 @@ Ext.define('TA.view.ux.MyHtmlEditor', {
                                 f.submit({
                                     waitMsg: '图片上传中..',
                                     waitTitle: '提示',
-                                    url: editor.url + '?sign=HtmlEditor', //点击插入执行的方法,将图片保存到服务器上
+                                    url: editor.url, //点击插入执行的方法,将图片保存到服务器上
                                     success: function(form, action) {
                                         var element = document.createElement('img');
-                                        element.src = action.result.file_url;
+                                        element.src = "../../files/" + action.result.file_url;
                                         if(vals.width>0 && vals.height>0){
                                             element.width = vals.width;
                                             element.height = vals.height;
@@ -232,11 +232,11 @@ Ext.define('TA.view.ux.MyHtmlEditor', {
             title: '插入图片',
             icon: '../../images/pic4htmleditor.png',
             width: 400,
-            height: 175,
+            height: 235,
             plain: true,
             modal: true,
             closeAction: 'hide',
-            resizable: false,
+            resizable: true,
             border: false,
             layout: 'fit',
             items: imgform

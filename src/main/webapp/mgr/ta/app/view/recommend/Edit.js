@@ -19,7 +19,7 @@ Ext.define('TA.view.recommend.Edit', {
 		defaultType: 'textfield',
 		items: [{
 			fieldLabel: '标识',
-			name: 'RecommendId'
+			name: 'recommendId'
 		}, {
 			fieldLabel: '标题',
 			name: 'title'
@@ -29,7 +29,7 @@ Ext.define('TA.view.recommend.Edit', {
 			height: 200,
 			fieldLabel: '内容',
 			name: 'content',
-			url: 'htmleditor/pic/add'
+			url: '../../htmleditor/pic/add'
 		}],
 		buttons: [/*{
 			text: '重置',
