@@ -39,7 +39,8 @@ Ext.define('TA.view.main.Main', {
            'TA.view.locationbusiness.List',
            'TA.view.foodseller.List',
            'TA.view.food.List',
-           'TA.view.foodsellertype.List'
+           'TA.view.foodsellertype.List',
+           'TA.view.ux.MyHtmlEditor'
            ],
     
     controller: 'main',

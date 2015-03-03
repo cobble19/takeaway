@@ -116,7 +116,7 @@ Ext.define('TA.view.ux.MyHtmlEditor', {
                                         if (action.failureType == Ext.form.action.Action.SERVER_INVALID){
                                             Ext.MessageBox.show({
                                                 title: '错误',
-                                                msg: action.result.msg,
+                                                msg: '服务器出现错误'/*action.result.msg*/,
                                                 icon: Ext.MessageBox.ERROR,
                                                 buttons: Ext.Msg.OK
                                             });
@@ -190,7 +190,7 @@ Ext.define('TA.view.ux.MyHtmlEditor', {
                                 var vals = f.getForm().getValues();
                                 var pic = vals.pic;
                                 var fileext = pic.substring(pic.lastIndexOf('.'), pic.length).toLowerCase();
-                                if (fileext != '.jpg' && fileext != '.gif' && fileext != '.jpeg' && fileext != '.png' && fileext != '.bmp') {
+                                /*if (fileext != '.jpg' && fileext != '.gif' && fileext != '.jpeg' && fileext != '.png' && fileext != '.bmp') {
                                     f.items.items[0].setValue('');
                                     Ext.Msg.show({
                                         title: '提示',
@@ -200,7 +200,7 @@ Ext.define('TA.view.ux.MyHtmlEditor', {
                                         buttons: Ext.MessageBox.OK
                                     });
                                     return;
-                                }
+                                }*/
                                 var element = document.createElement('img');
                                 element.src = pic;
                                 if(vals.width>0 && vals.height>0){
