@@ -67,7 +67,8 @@ Ext.define('TA.view.recommend.List', {
 			{xtype: 'rownumberer', text: '#编号', width: 60},
 			{header: '推荐唯一标识', dataIndex: 'recommendId', flex: 1},
 			{header: '标题', dataIndex: 'title', flex: 1},
-			{header: '内容', dataIndex: 'content', flex: 1}
+			{header: '内容', dataIndex: 'content', flex: 1, hidden: true},
+			{header: '内容简写', dataIndex: 'contentDisp', flex: 1}
 		];
 		this.callParent(arguments);
 	} 

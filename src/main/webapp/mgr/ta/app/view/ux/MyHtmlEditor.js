@@ -48,8 +48,7 @@ Ext.define('TA.view.ux.MyHtmlEditor', {
                         labelWidth: 70,
                         fieldLabel: '标题',
                         name: 'title',
-                        allowBlank: false,
-                        blankText: '标题不能为空',
+                        allowBlank: true,
                         anchor: '100%'
                     }, {
                         layout: 'column',
@@ -96,7 +95,8 @@ Ext.define('TA.view.ux.MyHtmlEditor', {
                                     success: function(form, action) {
                                         var element = document.createElement('img');
                                         element.src = "../../files/" + action.result.file_url;
-                                        if(vals.width>0 && vals.height>0){
+                                        element.title = vals.title;
+                                        if(vals.width > 0 && vals.height > 0){
                                             element.width = vals.width;
                                             element.height = vals.height;
                                         }
