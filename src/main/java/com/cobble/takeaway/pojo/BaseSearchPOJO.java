@@ -4,11 +4,16 @@ import java.io.Serializable;
 
 public class BaseSearchPOJO implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static final int PAGE = 1;
+	public static final int START = 0;
+	public static final int LIMIT = 10;
+	
 	private Boolean distinct = true;
 	// paging
-	private Integer page = 1;
-	private Integer start = 0;
-	private Integer limit = 10;
+	private Integer page = PAGE;
+	private Integer start = START;
+	private Integer limit = LIMIT;
 	
 	public Boolean getDistinct() {
 		return distinct;

@@ -35,5 +35,6 @@
 		<mapper resource="mybatis-config/RelPrivilegeRoleMapper.xml" />
 		<mapper resource="mybatis-config/RelUserRoleMapper.xml" />
 		<mapper resource="mybatis-config/RecommendMapper.xml" />
+		<mapper resource="mybatis-config/UserPersonMapper.xml" />
 	</mappers>
 </configuration>

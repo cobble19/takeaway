@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.UserPersonMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" /><!--1 hour -->
+		<property name="timeToLiveSeconds" value="3600" /><!--1 hour -->
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache>
+	
+  <resultMap id="UserPersonResultMap" type="com.cobble.takeaway.pojo.UserPersonPOJO" >
+    <id column="USER_PERSON_ID" property="userPersonId" />
+    <result column="USERNAME" property="username" />
+    <result column="PASSWORD" property="password" />
+    <result column="ENABLE" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_PERSON_ID, USERNAME, PASSWORD, ENABLE
+  </sql>
+  <sql id="Clause_Common">
+	<if test="username != null">
+		and USERNAME like concat("%", concat(#{username}, "%"))
+	</if>
+  </sql>
+  <insert id="reg" parameterType="com.cobble.takeaway.pojo.UserPersonPOJO" useGeneratedKeys="true"
+  	keyProperty="userPersonId" keyColumn="USER_PERSON_ID">
+    insert into b_user_person
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="enable != null" >
+        ENABLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        #{username},
+      </if>
+      <if test="password != null" >
+        #{password},
+      </if>
+      <if test="enable != null" >
+        #{enable},
+      </if>
+    </trim>
+  </insert>
+</mapper>

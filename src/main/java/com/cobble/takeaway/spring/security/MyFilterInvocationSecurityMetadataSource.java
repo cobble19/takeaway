@@ -27,7 +27,8 @@ public class MyFilterInvocationSecurityMetadataSource implements
 	public Collection<ConfigAttribute> getAttributes(Object object)
 			throws IllegalArgumentException {
 		List<ConfigAttribute> ret = new ArrayList<ConfigAttribute>();
-		String url = ((FilterInvocation) object).getRequestUrl();
+		FilterInvocation fi = (FilterInvocation) object;
+		String url = fi.getRequestUrl();
 		try {
 			List<PrivilegePOJO> privilegePOJOs = privilegeService.finds(null);
 			if (!CollectionUtils.isEmpty(privilegePOJOs)) {
