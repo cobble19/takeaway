@@ -39,6 +39,9 @@
 	</appender>
 	
 	<logger name="com.cobble" level="DEBUG" />
+	
+	<logger name="org.springframework" level="DEBUG" />
+	
 	<root level="DEBUG">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="DR" />

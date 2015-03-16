@@ -36,7 +36,7 @@
   		<div class="row">
   			<h2 class="col-sm-offset-3 col-md-offset-2">个人用户注册</h2>
   		</div>
-  		<form class="form-horizontal" role="form" action='<cmn:base/>/web/userPerson/reg' method="post">
+  		<form class="form-horizontal" role="form" action='<cmn:base/>/web/user/person/reg' method="post">
  			<div class="form-group">
  				<label class="control-label col-sm-3 col-md-2" for="username">用户名:</label>
  				<div class="col-sm-9 col-md-4">

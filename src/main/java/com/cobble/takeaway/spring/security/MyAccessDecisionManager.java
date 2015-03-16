@@ -11,6 +11,7 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.CollectionUtils;
 
@@ -21,6 +22,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	public void decide(Authentication authentication, Object object,
 			Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
+		LOGGER.info("Login success: {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String url = ((FilterInvocation) object).getRequestUrl();
 		LOGGER.debug("URL = {}", url);
 		if (url.equalsIgnoreCase("/") || url.equalsIgnoreCase("")) {
