@@ -9,6 +9,7 @@ public class UserPOJO extends BasePOJO {
 	private String username;
 	private String password;
     private Boolean enable;
+	private String userType;
 
     private List<Integer> roleId;
 	private Boolean checked = false;
@@ -56,6 +57,12 @@ public class UserPOJO extends BasePOJO {
 	}
 	public void setChecked(Boolean checked) {
 		this.checked = checked;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
     
 }

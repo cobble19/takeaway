@@ -6,6 +6,7 @@
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="cmn" uri="/WEB-INF/tlds/common.tld" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -33,7 +34,7 @@
   </head>
   <body>
   	<div class="container">
-		<p>Reg success</p>  		
+		<p><security:authentication property="principal.username" var="username"/> <c:out value="${username}"></c:out> Reg success</p> 
 		<footer><hr><p>&copy; 版权所有</p></footer>
 	</div>
   </body>

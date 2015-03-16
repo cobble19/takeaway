@@ -23,7 +23,7 @@
 	<security:http pattern="/page/**" security="none" />
 	<security:http pattern="/index*" security="none" />
 	<security:http pattern="/index.jsp" security="none" />
-	<security:http pattern="/web/**" security="none" />
+	<!-- <security:http pattern="/web/**" security="none" /> -->
 	<security:http pattern="/redirect.html" security="none" />
 	<security:http pattern="/**/*.js" security="none"></security:http>
 	<security:http pattern="/**/*.css" security="none"></security:http>
@@ -44,6 +44,7 @@
 	
 	<security:http>
 		<!-- <security:intercept-url pattern="/**" access="ROLE_USER" /> -->
+		<security:intercept-url pattern="/web/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:form-login always-use-default-target="true" default-target-url="/mgr/ta/index.html"/>
 		<security:logout />
 		<security:custom-filter ref="myFilterSecurity" before="FILTER_SECURITY_INTERCEPTOR"/>
@@ -53,10 +54,11 @@
 		<property name="authenticationManager" ref="authenticationManager"></property>
 		<property name="accessDecisionManager" ref="myAccessDecisionManager"></property>
 		<property name="securityMetadataSource" ref="myFilterInvocationSecurityMetadataSource"></property>
+		<property name="runAsManager" ref="runAsManager"></property>
 		<!-- <property name="rejectPublicInvocations" value="true"></property> -->
 	</bean>
 	
-	<security:authentication-manager alias="authenticationManager">
+	<security:authentication-manager alias="authenticationManager" erase-credentials="false">
 		<security:authentication-provider user-service-ref="myUserDetailsService">
 			<!-- <security:user-service>
 				<security:user name="admin" password="adminpassword" authorities="ROLE_USER, ROLE_ADMIN" />
@@ -73,6 +75,9 @@
 	</bean>
 	
 	<bean name="myFilterInvocationSecurityMetadataSource" class="com.cobble.takeaway.spring.security.MyFilterInvocationSecurityMetadataSource">
+	</bean>
+	
+	<bean name="runAsManager" class="com.cobble.takeaway.spring.security.MyRunAsManager">
 	</bean>
    
    

@@ -15,10 +15,11 @@
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
     <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
     <result column="ENABLE" property="enable"/>
+    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
     <collection property="rolePOJOs" column="USER_ID" select="com.cobble.takeaway.dao.RoleMapper.findByUserId"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
-    u.USER_ID, u.USERNAME, u.PASSWORD, u.ENABLE
+    u.USER_ID, u.USERNAME, u.PASSWORD, u.ENABLE, u.USER_TYPE
   </sql>
   <sql id="Clause_Common">
 	<if test="username != null and username != ''">
@@ -72,15 +73,16 @@
   </delete>
   <insert id="insert" parameterType="UserPOJO" useGeneratedKeys="true" keyColumn="USER_ID" keyProperty="userId">
     insert into b_user (USERNAME, 
-      PASSWORD, ENABLE)
+      PASSWORD, ENABLE, USER_TYPE)
     values (#{username,jdbcType=VARCHAR}, 
-      #{password}, #{enable})
+      #{password}, #{enable}, #{userType})
   </insert>
   <update id="update" parameterType="UserPOJO" >
     update b_user
     set USERNAME = #{username,jdbcType=VARCHAR},
       PASSWORD = #{password},
-      ENABLE = #{enable}
+      ENABLE = #{enable},
+      USER_TYPE = #{userType}
     where USER_ID = #{userId,jdbcType=INTEGER};
     
     delete from rel_user_role where USER_ID = #{userId};

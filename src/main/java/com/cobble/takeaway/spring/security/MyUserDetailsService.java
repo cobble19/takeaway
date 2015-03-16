@@ -43,7 +43,8 @@ public class MyUserDetailsService implements UserDetailsService {
 			e.printStackTrace();
 		}
 		
-		User ret = new User(userPOJO.getUsername(), userPOJO.getPassword(), true, true, true, true, authorities);
+		//User ret = new User(userPOJO.getUsername(), userPOJO.getPassword(), true, true, true, true, authorities);
+		MyUser ret = new MyUser(username, userPOJO.getPassword(), authorities, MyUser.PERSON);
 		return ret;
 	}
 
