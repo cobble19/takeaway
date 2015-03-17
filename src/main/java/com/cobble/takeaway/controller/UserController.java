@@ -118,7 +118,6 @@ public class UserController extends BaseController {
 		return ret;
 	}
 	
-	
 	@RequestMapping(value = "/mgr/user", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public ExtjsPOJO<UserPOJO> findUser(UserSearchPOJO userSearchPOJO, Model model) throws Exception {

@@ -29,7 +29,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		}
 		
 		LOGGER.info("Login success: {}", principal);
-		/*SecurityContextHolder.getContext().setAuthentication(authentication);*/
+		
 		String url = ((FilterInvocation) object).getRequestUrl();
 		LOGGER.debug("URL = {}", url);
 		if (url.equalsIgnoreCase("/") || url.equalsIgnoreCase("")) {
