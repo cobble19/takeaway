@@ -56,8 +56,8 @@ public class UserController extends BaseController {
 			response.getWriter().write("User Type: " + myUser.getUserType());
 		}
 		
-		/*String url = "";
-		redirectStrategy.sendRedirect(request, response, url);*/
+		String url = "/mgr/ta";
+		redirectStrategy.sendRedirect(request, response, url);
 //		return ret;
 		return null;
 	}
