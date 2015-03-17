@@ -6,7 +6,6 @@
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="cmn" uri="/WEB-INF/tlds/common.tld" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -34,8 +33,29 @@
   </head>
   <body>
   	<div class="container">
-  		<h1>Person</h1>
-		<p><security:authentication property="principal.username" var="username"/> <c:out value="${username}"></c:out> Reg success</p> 
+  		<div class="row">
+  			<h2 class="col-sm-offset-3 col-md-offset-2">企业用户注册</h2>
+  		</div>
+  		<form class="form-horizontal" role="form" action='<cmn:base/>/web/user/enterprise/reg' method="post">
+ 			<div class="form-group">
+ 				<label class="control-label col-sm-3 col-md-2" for="username">用户名:</label>
+ 				<div class="col-sm-9 col-md-4">
+ 					<input class="form-control" id="username" name="username" placeholder="请输入用户名">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label col-sm-3 col-md-2" for="password">密码:</label>
+ 				<div class="col-sm-9 col-md-4">
+ 					<input class="form-control" type="password" id="password" name="password" placeholder="请输入密码">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+	 			<div class="col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-4">
+	  				<button type="submit" class="btn btn-default" id="registerBtn">注册</button>
+	 			</div>
+ 			</div>
+  		</form>
+  		
 		<footer><hr><p>&copy; 版权所有</p></footer>
 	</div>
   </body>

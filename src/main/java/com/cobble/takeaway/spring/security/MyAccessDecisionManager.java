@@ -22,8 +22,14 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	public void decide(Authentication authentication, Object object,
 			Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
-		LOGGER.info("Login success: {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		MyUser myUser = null;
+		if (principal instanceof MyUser) {
+			myUser = (MyUser) principal;
+		}
+		
+		LOGGER.info("Login success: {}", principal);
+		/*SecurityContextHolder.getContext().setAuthentication(authentication);*/
 		String url = ((FilterInvocation) object).getRequestUrl();
 		LOGGER.debug("URL = {}", url);
 		if (url.equalsIgnoreCase("/") || url.equalsIgnoreCase("")) {
@@ -38,6 +44,11 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		Iterator<ConfigAttribute> it = configAttributes.iterator();
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		if (CollectionUtils.isEmpty(authorities)) {
+			// 当前的用户和企业用户没有角色和权限， 只有后台管理员有权限
+			if (MyUser.PERSON.equalsIgnoreCase(myUser.getUserType())|| MyUser.ENTERPRISE.equalsIgnoreCase(myUser.getUserType())) {
+				LOGGER.info("username= {},  User Type = {}", authentication.getName(), myUser.getUserType());
+				return;
+			}
 			LOGGER.debug("username= {},  用户需要分配角色。", authentication.getName());
 			throw new AccessDeniedException("用户需要分配角色," + ", authorities is null, user = " + authentication.getName()
 					+ ", url = " + url);

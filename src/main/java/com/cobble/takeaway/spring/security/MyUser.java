@@ -14,6 +14,10 @@ public class MyUser extends User {
 	 * GUEST, PERSON, ENTERPRISE
 	 */
 	private String userType = "GUEST";
+	
+	public MyUser() {
+		this("guest", "guest", null);
+	}
 
 	public MyUser(String username, String password, boolean enabled,
 			boolean accountNonExpired, boolean credentialsNonExpired,

@@ -4,11 +4,16 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +34,33 @@ public class UserController extends BaseController {
 	
 	@Autowired
 	private UserService userService;
+
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+	@RequestMapping(value = "/web/login/success", method = {RequestMethod.GET})
+	public ModelAndView loginSuccess(UserPOJO userPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+
+		/*ret.setViewName("redirect:/web/user/enterprise/reg/success");*/
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		MyUser myUser = null;
+		if (principal instanceof MyUser) {
+			myUser = (MyUser) principal;
+		}
+		
+		if (myUser == null) {
+			response.getWriter().write("Null user");
+		} else {
+			response.getWriter().write("User Type: " + myUser.getUserType());
+		}
+		
+		/*String url = "";
+		redirectStrategy.sendRedirect(request, response, url);*/
+//		return ret;
+		return null;
+	}
 	
 	@RequestMapping(value = "/web/user/person/reg", method = {RequestMethod.POST})
 	public ModelAndView regPerson(UserPOJO userPOJO, Model model) throws Exception {
@@ -42,7 +74,7 @@ public class UserController extends BaseController {
 			ret.addObject("success", false);
 			throw e;
 		}
-		ret.setViewName("redirect:/web/user/person/reg_success");
+		ret.setViewName("redirect:/web/user/person/reg/success");
 		
 		return ret;
 	}
@@ -71,9 +103,21 @@ public class UserController extends BaseController {
 			throw e;
 		}
 
-		ret.setViewName("/page/person/reg_success");
+		ret.setViewName("redirect:/web/user/enterprise/reg/success");
 		return ret;
 	}
+	
+	@SuppressWarnings("unused")
+	@RequestMapping(value = "/web/user/enterprise/reg/success", method = {RequestMethod.GET})
+	public ModelAndView regEnterpriseSuccess(UserPOJO userPOJO, Model model, Principal principal) throws Exception {
+		
+		//Object name = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ModelAndView ret = new ModelAndView();
+		ret.setViewName("/page/enterprise/reg_success");
+		
+		return ret;
+	}
+	
 	
 	@RequestMapping(value = "/mgr/user", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
