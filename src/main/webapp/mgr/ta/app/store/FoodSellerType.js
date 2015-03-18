@@ -3,7 +3,7 @@ Ext.define('TA.store.FoodSellerType', {
 	requires: ['TA.model.FoodSellerType'],
 	model: 'TA.model.FoodSellerType',
 //	autoLoad: true,
-	pageSize: 2,
+	pageSize: 20,
 	proxy: {
 		type: 'ajax',
 		actionMethods: {

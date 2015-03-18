@@ -3,7 +3,7 @@ Ext.define('TA.store.Recommend', {
 	requires: ['TA.model.Recommend'],
 	model: 'TA.model.Recommend',
 //	autoLoad: true,
-	pageSize: 2,
+	pageSize: 20,
 	proxy: {
 		type: 'ajax',
 		actionMethods: {

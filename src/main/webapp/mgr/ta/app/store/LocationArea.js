@@ -3,7 +3,7 @@ Ext.define('TA.store.LocationArea', {
 	requires: ['TA.model.LocationArea'],
 	model: 'TA.model.LocationArea',
 //	autoLoad: true,
-	pageSize: 2,
+	pageSize: 20,
 	proxy: {
 		type: 'ajax',
 		actionMethods: {

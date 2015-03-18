@@ -21,10 +21,10 @@ Ext.define('TA.view.food.List', {
 	},
 	selType: 'checkboxmodel',
 	selModel: {
-		model: 'MULTI',
-		/*checkOnly: true,*/
-		allowDeselect: true,
-		enableKeyNav: true,
+		model: 'SIMPLE',
+		checkOnly: true,
+		/*allowDeselect: true,*/
+		/*enableKeyNav: true,*/
 		showHeaderCheckbox: true
 	},
 	store: 'Food',

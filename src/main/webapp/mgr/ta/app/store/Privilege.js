@@ -3,7 +3,7 @@ Ext.define('TA.store.Privilege', {
 	requires: ['TA.model.Privilege'],
 	model: 'TA.model.Privilege',
 //	autoLoad: true,
-	pageSize: 2,
+	pageSize: 20,
 	proxy: {
 		type: 'ajax',
 		actionMethods: {

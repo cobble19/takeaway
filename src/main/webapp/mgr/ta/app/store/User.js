@@ -3,7 +3,7 @@ Ext.define('TA.store.User', {
 	requires: ['TA.model.User'],
 	model: 'TA.model.User',
 //	autoLoad: true,
-	pageSize: 2,
+	pageSize: 20,
 	proxy: {
 		type: 'ajax',
 		actionMethods: {

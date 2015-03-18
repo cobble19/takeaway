@@ -3,7 +3,7 @@ Ext.define('TA.store.Food', {
 	requires: ['TA.model.Food'],
 	model: 'TA.model.Food',
 	//autoLoad: true,
-	pageSize: 2,
+	pageSize: 20,
 	proxy: {
 		type: 'ajax',
 		actionMethods: {

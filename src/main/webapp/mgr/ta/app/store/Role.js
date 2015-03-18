@@ -3,7 +3,7 @@ Ext.define('TA.store.Role', {
 	requires: ['TA.model.Role'],
 	model: 'TA.model.Role',
 //	autoLoad: true,
-	pageSize: 2,
+	pageSize: 20,
 	proxy: {
 		type: 'ajax',
 		actionMethods: {

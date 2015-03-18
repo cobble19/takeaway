@@ -37,6 +37,23 @@ public class UserController extends BaseController {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
+    @RequestMapping(value = "/mgr/ta/index", method = {RequestMethod.GET})
+	public ModelAndView mgrIndex(UserPOJO userPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+
+		
+		/*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		MyUser myUser = null;
+		if (principal instanceof MyUser) {
+			myUser = (MyUser) principal;
+		}*/
+		
+		ret.setViewName("/mgr/ta/index");
+		
+		return ret;
+	}
+    
 	@RequestMapping(value = "/web/login/success", method = {RequestMethod.GET})
 	public ModelAndView loginSuccess(UserPOJO userPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -56,7 +73,7 @@ public class UserController extends BaseController {
 			response.getWriter().write("User Type: " + myUser.getUserType());
 		}
 		
-		String url = "/mgr/ta";
+		String url = "/mgr/ta/index";
 		redirectStrategy.sendRedirect(request, response, url);
 //		return ret;
 		return null;

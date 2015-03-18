@@ -57,7 +57,10 @@ Ext.define('TA.view.main.Main', {
     	xtype: 'panel',
     	title: 'WaiMai',
     	//html: '&nbsp;',
-    	margin: '0 0 3 0'
+    	margin: '0 0 3 0',
+    	bind: {
+    		title: 'WaiMai <span style="color: #FF0">{username}</span> {name} {tips}'
+    	}
     },{
         region: 'west',
         xtype: 'treemenu',
