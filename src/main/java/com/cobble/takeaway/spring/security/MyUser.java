@@ -45,6 +45,16 @@ public class MyUser extends User {
 		this(username, password, true, true, true, true, authorities);
 		this.userType = userType;
 	}
+	
+	/**
+	 * For 返回用户信息， 去掉密码
+	 * @param myUser
+	 */
+	public MyUser(MyUser myUser) {
+		this(myUser.getUsername(), "", myUser.isEnabled(), myUser.isAccountNonExpired(), myUser.isCredentialsNonExpired(),
+				myUser.isAccountNonLocked(), myUser.getAuthorities());
+		this.userType = myUser.getUserType();
+	}
 
 	public String getUserType() {
 		return userType;

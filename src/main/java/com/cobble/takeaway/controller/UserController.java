@@ -27,6 +27,7 @@ import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.UserUtil;
 
 @Controller
 public class UserController extends BaseController {
@@ -37,19 +38,12 @@ public class UserController extends BaseController {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
-    @RequestMapping(value = "/mgr/ta/index", method = {RequestMethod.GET})
-	public ModelAndView mgrIndex(UserPOJO userPOJO, Model model, 
+    @RequestMapping(value = "/web/currentUser", method = {RequestMethod.GET})
+    @ResponseBody
+	public MyUser currentUser(UserPOJO userPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
-
-		
-		/*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		MyUser myUser = null;
-		if (principal instanceof MyUser) {
-			myUser = (MyUser) principal;
-		}*/
-		
-		ret.setViewName("/mgr/ta/index");
+    	MyUser ret = UserUtil.getCurrentUser();
+    	ret = new MyUser(ret);
 		
 		return ret;
 	}
@@ -73,7 +67,7 @@ public class UserController extends BaseController {
 			response.getWriter().write("User Type: " + myUser.getUserType());
 		}
 		
-		String url = "/mgr/ta/index";
+		String url = "/mgr/ta/index.html";
 		redirectStrategy.sendRedirect(request, response, url);
 //		return ret;
 		return null;

@@ -12,7 +12,20 @@ Ext.define('TA.view.main.MainModel', {
     },
     formulas: {
     	username: function(get) {
-    		var username = Ext.get('username').dom.value;
+    		/*var username = Ext.get('username').dom.value;*/
+    		var username = "";
+    		Ext.Ajax.request({
+    			async: false,
+    		    url: '../../web/currentUser',
+    		    method: 'GET',
+    		    success: function(response){
+    		        var text = response.responseText;
+    		        var obj = Ext.JSON.decode(text);
+    		        // process server response here
+    		        username = obj.username;
+    	    		console.log('success User name: ' + username)
+    		    }
+    		});
     		console.log('User name: ' + username)
     		return username;
     	}
