@@ -40,6 +40,8 @@
 	<security:http pattern="/**/*.icon" security="none" />
 	
 	<security:http pattern="/files/**" security="none" />
+	
+	<security:http pattern="/ueditor/**" security="none" />
 	<!-- <security:http pattern="/**/*.html" security="none"></security:http> -->
 	
 	<!-- <security:http pattern="/login.jsp*" security="none" /> -->

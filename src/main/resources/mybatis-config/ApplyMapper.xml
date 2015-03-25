@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.ApplyMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" /><!--1 hour -->
+		<property name="timeToLiveSeconds" value="3600" /><!--1 hour -->
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache>
+	
+  <resultMap id="ApplyResultMap" type="com.cobble.takeaway.pojo.ApplyPOJO" >
+    <id column="APPLY_ID" property="applyId" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR"/>
+    <result column="PHONE" property="phone" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    APPLY_ID, USERNAME, PHONE
+  </sql>
+  <sql id="Clause_Common">
+	<if test="username != null">
+		and USERNAME like concat("%", concat(#{username}, "%"))
+	</if>
+  </sql>
+  <select id="finds" resultMap="ApplyResultMap" parameterType="com.cobble.takeaway.pojo.ApplySearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from p_apply
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.ApplySearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from p_apply
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  <select id="findById" resultMap="ApplyResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from p_apply
+    where APPLY_ID = #{applyId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from p_apply
+    where APPLY_ID = #{applyId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.ApplyPOJO" useGeneratedKeys="true"
+  	keyProperty="applyId" keyColumn="APPLY_ID">
+    insert into p_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        #{username},
+      </if>
+      <if test="phone != null" >
+        #{phone},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.cobble.takeaway.pojo.ApplyPOJO" >
+    update p_apply
+    <set >
+      <if test="username != null" >
+        USERNAME = #{username},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone},
+      </if>
+    </set>
+    where APPLY_ID = #{applyId}
+  </update>
+</mapper>

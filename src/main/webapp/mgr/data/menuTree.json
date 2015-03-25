@@ -59,5 +59,20 @@ children: [{
         pageId: 'userlist',
         leaf:true
     }]
+}, {
+    text:'个人企业操作',
+	expanded: true,
+    id:'person-enterprise-oper',
+    children: [{
+        text:'活动',
+        id:'activity',
+        pageId: 'activitylist',
+        leaf:true
+    },{
+        text:'个人申请',
+        id:'apply',
+        pageId: 'applylist',
+        leaf:true
+    }]
 }]
 }

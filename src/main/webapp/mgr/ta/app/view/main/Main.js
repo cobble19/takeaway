@@ -27,7 +27,9 @@ Ext.define('TA.view.main.Main', {
                'TA.view.role.List',
                'TA.view.privilege.List',
                'TA.view.recommend.List',
-               'TA.view.ux.MyHtmlEditor'
+               'TA.view.ux.MyHtmlEditor',
+               'TA.view.activity.List',
+               'TA.view.apply.List'
            ],
     uses: [
            'Ext.tree.Panel',

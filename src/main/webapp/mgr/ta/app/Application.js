@@ -19,7 +19,9 @@ Ext.define('TA.Application', {
         'User',
         'Role',
         'Privilege',
-        'Recommend'
+        'Recommend',
+        'Activity',
+        'Apply'
     ],
     
     launch: function () {

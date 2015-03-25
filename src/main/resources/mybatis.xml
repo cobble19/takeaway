@@ -36,5 +36,9 @@
 		<mapper resource="mybatis-config/RelUserRoleMapper.xml" />
 		<mapper resource="mybatis-config/RecommendMapper.xml" />
 		<mapper resource="mybatis-config/UserPersonMapper.xml" />
+		
+		
+		<mapper resource="mybatis-config/ActivityMapper.xml" />
+		<mapper resource="mybatis-config/ApplyMapper.xml" />
 	</mappers>
 </configuration>
