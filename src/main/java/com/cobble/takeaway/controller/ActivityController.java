@@ -1,8 +1,5 @@
 package com.cobble.takeaway.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ActivityPOJO;
-import com.cobble.takeaway.pojo.ActivitySearchPOJO;
-import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.ActivityService;
 
@@ -43,7 +36,7 @@ public class ActivityController extends BaseController {
 		return ret;
 	}
 
-	@RequestMapping(value = "/web/activity/all", method = {RequestMethod.GET})
+	/*@RequestMapping(value = "/web/activity/all", method = {RequestMethod.GET})
 	public ModelAndView findFoodSellersPure(ActivitySearchPOJO activitySearchPOJO) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		List<ActivityPOJO> activityPOJOList = new ArrayList<ActivityPOJO>();
@@ -61,18 +54,18 @@ public class ActivityController extends BaseController {
 		List<ActivityPOJO> activityPOJOList = new ArrayList<ActivityPOJO>();
 		activityPOJOList = activityService.finds(activitySearchPOJO);
 		int total = activityService.getCount(activitySearchPOJO);
-		/*ActivityPOJO activityPOJO = new ActivityPOJO();
+		ActivityPOJO activityPOJO = new ActivityPOJO();
 		activityPOJO.setActivityId(1);
 		activityPOJO.setName("hefei");
 		activityPOJO.setDescription("描述信息。。。");
-		activityPOJOList.add(activityPOJO);*/
+		activityPOJOList.add(activityPOJO);
 		
 		ret.setGridModelList(activityPOJOList);
 		ret.setSuccess(true);
 		ret.setTotal(total);
-		/*model.addAttribute("activityPOJOList", activityPOJOList);
+		model.addAttribute("activityPOJOList", activityPOJOList);
 		model.addAttribute("success", true);
-		model.addAttribute("total", 1);*/
+		model.addAttribute("total", 1);
 		return ret;
 	}
 	
@@ -122,6 +115,6 @@ public class ActivityController extends BaseController {
 		}
 		
 		return ret;
-	}
+	}*/
 
 }

@@ -1,4 +1,6 @@
-var ue = UE.getEditor('editor');
+var ue = UE.getEditor('editor', {
+	initialFrameHeight: 400
+});
 ue.ready(function() {
 	
 });
