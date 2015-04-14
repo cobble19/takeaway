@@ -27,7 +27,22 @@ public class ApplyController extends BaseController {
 	@Autowired
 	private ApplyService applyService;
 	
-
+	@RequestMapping(value = "/web/person/apply/add", method = {RequestMethod.POST})
+	@ResponseBody
+	public StatusPOJO apply(ApplyPOJO applyPOJO) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			int result = applyService.insert(applyPOJO);
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/apply/all", method = {RequestMethod.GET})
 	public ModelAndView findFoodSellersPure(ApplySearchPOJO applySearchPOJO) throws Exception {
 		ModelAndView ret = new ModelAndView();

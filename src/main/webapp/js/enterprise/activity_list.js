@@ -1,51 +1,4 @@
-/* Formatting function for row details - modify as you need */
-function format ( d ) {
-    // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-        '<tr>'+
-            '<td>Full name:</td>'+
-            '<td>'+d.title+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Extension number:</td>'+
-            '<td>'+d.title+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Extra info:</td>'+
-            '<td>And any further details here (images etc)...</td>'+
-        '</tr>'+
-    '</table>';
-}
 
-var activitySearch = function(table) {
-	$.ajax({
-		"url" : "../../web/enterprise/activity/list",
-		"type" : "POST",
-		"headers" : {
-			"Content-Type" : "application/json"
-		},
-		"dataType" : 'json',
-		/*"data": JSON.stringify({
-            title: $("#title").val()
-        }),*/
-        success: function(data, textStatus, jqXHR ) {
-        	console.log("data = " + data);
-        	console.log("t= " + table.page.info().pages);
-        	table.clear();
-        	table.rows.add(data.data).draw()
-            .nodes()
-            .to$()
-            .addClass( 'new' );
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
-        },
-        complete: function(jqXHR, textStatus) {
-        	console.log('Ajax complete.');
-        }
-	});
-}
- 
 $(document).ready(function() {
 	console.log('abc');
     var table = $('#activityList').DataTable( {
@@ -68,7 +21,18 @@ $(document).ready(function() {
         },
 		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-		/*"columnDefs" : [ {
+		"columnDefs" : [ {
+			"targets" : 0,
+			"render" : function(data, type, full, meta) {
+				console.log(data + " " + type + " " + full + " " + meta);
+				;
+			}
+		}, {
+			"targets" : 3,
+			"render" : function(data, type, full, meta) {
+				return data != '' ? data.substring(0, 10): '';
+			}
+		}/*, {
 			"targets" : 0,
 			"searchable" : false,
 			"orderable" : false
@@ -87,13 +51,14 @@ $(document).ready(function() {
 			"render" : function(data, type, full, meta) {
 				return data === 0 ? 'BTS': 'Prod';
 			}
-		} ],*/
+		}*/ ],
         "columns": [
             {
                 "className":      'details-control',
                 "orderable":      false,
                 "data":           null,
-                "defaultContent": ''
+                "defaultContent": '',
+                "title": '申请参加'
             },
             { "data": "activityId" },
             { "data": "title" },
@@ -118,6 +83,110 @@ $(document).ready(function() {
             // Open this row
             row.child( format(row.data()) ).show();
             tr.addClass('shown');
+            $("form").submit(function(e) {
+            	e.preventDefault();
+            	var username = $("#username").val();
+            	var phone = $("#phone").val();
+            	var activityId = $("#activityId").val();
+            	
+            	$.ajax({
+            		"url" : "../../web/person/apply/add",
+            		"type" : "POST",
+            		/*"headers" : {
+            			"Content-Type" : "application/json"
+            		},*/
+            		"dataType" : 'json',
+            		"data": ({
+            			username: username,
+            			phone: phone,
+            			activityId: activityId
+                    }),
+                    success: function(data, textStatus, jqXHR ) {
+                    	console.log("data = " + data);
+                    	alert('添加成功！')
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    	alert('Load Error!');
+                    },
+                    complete: function(jqXHR, textStatus) {
+                    	console.log('Ajax complete.');
+                    }
+            	});	// ajax
+            	//return false;
+            });
         }
     } );
 } );
+
+/* Formatting function for row details - modify as you need */
+function format ( d ) {
+    // `d` is the original data object for the row
+    return '<form id="applyForm" class="form-inline">' +
+    		'<input type="hidden" id="activityId" name="activityId" value="' + d.activityId + '"/>' + 
+    		'<div class="form-group">' + 
+	    		'<label for="username">姓名: </label>' +
+	    		'<input id="username" name="username" placeholder="姓名" class="form-control"/>' + 
+	    	'</div>' +
+	    	'<div class="form-group">' + 
+	    		'<label for="phone">手机号: </label>' +
+	    		'<input id="phone" name="phone" placeholder="手机号" class="form-control"/>' +
+	    	'</div>' + 
+	    		'<input type="submit" id="applyBtn" value="申请参加" class="btn btn-default"/>' +
+    	'</form>';
+    /*'<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+        '<tr>'+
+            '<td>Full name:</td>'+
+            '<td>'+d.activityId+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Extension number:</td>'+
+            '<td>'+d.title+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Extra info:</td>'+
+            '<td>And any further details here (images etc)...</td>'+
+        '</tr>'+
+    '</table>';*/
+}
+
+var activitySearch = function(table) {
+	$.ajax({
+		"url" : "../../web/enterprise/activity/list",
+		"type" : "POST",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		/*"data": JSON.stringify({
+            title: $("#title").val()
+        }),*/
+        success: function(data, textStatus, jqXHR ) {
+        	console.log("data = " + data);
+        	console.log("t= " + table.page.info().pages);
+        	table.clear();
+        	
+        	/*if (data.data instanceof Array) {
+        		data.content = data.content.substring(0, 10);
+        	}*/
+        	
+        	table.rows.add(data.data).draw()
+            .nodes()
+            .to$()
+            .addClass( 'new' );
+        	
+        	// add title
+        	$("td.details-control").attr('title', '申请参加');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	alert('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+
+
+
+
+ 
