@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,6 +35,20 @@ public class ActivityController extends BaseController {
 		} catch (Exception e) {
 			LOGGER.error("insert error.", e);
 			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/enterprise/activity/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ActivityPOJO query(@PathVariable("activityId") Long activityId) throws Exception {
+		ActivityPOJO ret = new ActivityPOJO();
+		try {
+			ret = activityService.findById(activityId);
+		} catch (Exception e) {
+			LOGGER.error("query error.", e);
 			throw e;
 		}
 		

@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 	console.log('abc');
     var table = $('#activityList').DataTable( {
@@ -16,8 +15,20 @@ $(document).ready(function() {
             console.log('Currently showing page '+(info.page+1)+' of '+info.pages+' pages.');
             
         },
-        language: {
-        	search: "Filter: "
+        "language": {
+        	"search": "过滤: ",
+        	"lengthMenu": "每页显示 _MENU_ 条记录",
+        	"zeroRecords": "没有检索到数据",
+        	"info": "显示 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+        	"infoEmpty": "没有数据",
+        	"infoFiltered": "(从 _MAX_ 条数据中检索)",
+        	"paginate": {
+        		"first": "首页",
+        		"previous": "前一页",
+        		"next": "后一页",
+        		"last": "尾页"
+        	}
+        	
         },
 		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
@@ -30,7 +41,10 @@ $(document).ready(function() {
 		}, {
 			"targets" : 3,
 			"render" : function(data, type, full, meta) {
-				return data != '' ? data.substring(0, 10): '';
+				var content = (data != '') ? data.substring(0, 10): '';
+				var link = '<a href="activity_detail.jsp?activityId=' + full.activityId + '">' +
+						content + '/>';
+				return link
 			}
 		}/*, {
 			"targets" : 0,
