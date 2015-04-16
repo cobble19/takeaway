@@ -1,15 +1,20 @@
 package com.cobble.takeaway.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cobble.takeaway.pojo.ActivityPOJO;
+import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.ActivityService;
 
@@ -30,6 +35,35 @@ public class ActivityController extends BaseController {
 		} catch (Exception e) {
 			LOGGER.error("insert error.", e);
 			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/enterprise/activity/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ActivityPOJO query(@PathVariable("activityId") Long activityId) throws Exception {
+		ActivityPOJO ret = new ActivityPOJO();
+		try {
+			ret = activityService.findById(activityId);
+		} catch (Exception e) {
+			LOGGER.error("query error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/enterprise/activity/list", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<ActivityPOJO> query(ActivitySearchPOJO activitySearchPOJO) throws Exception {
+		DataTablesPOJO<ActivityPOJO> ret = new DataTablesPOJO<ActivityPOJO>();
+		try {
+			List<ActivityPOJO> activityPOJOs = activityService.finds(activitySearchPOJO);
+			ret.setData(activityPOJOs);
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
 			throw e;
 		}
 		

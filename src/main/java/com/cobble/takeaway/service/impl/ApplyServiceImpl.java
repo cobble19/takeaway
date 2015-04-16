@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cobble.takeaway.dao.ApplyMapper;
 import com.cobble.takeaway.pojo.ApplyPOJO;
 import com.cobble.takeaway.pojo.ApplySearchPOJO;
+import com.cobble.takeaway.pojo.RelActivityApplyPOJO;
 import com.cobble.takeaway.service.ApplyService;
 
 @Service
@@ -21,6 +22,10 @@ public class ApplyServiceImpl implements ApplyService {
 	public int insert(ApplyPOJO applyPOJO) throws Exception {
 		int ret = 0;
 		ret = applyMapper.insert(applyPOJO);
+		RelActivityApplyPOJO relActivityApplyPOJO = new RelActivityApplyPOJO();
+		relActivityApplyPOJO.setActivityId(applyPOJO.getActivityId());
+		relActivityApplyPOJO.setApplyId(applyPOJO.getApplyId());
+		applyMapper.insertRelActivityApply(relActivityApplyPOJO);
 		return ret;
 	}
 

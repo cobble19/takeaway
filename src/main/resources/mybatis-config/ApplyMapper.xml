@@ -77,6 +77,26 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertRelActivityApply" parameterType="com.cobble.takeaway.pojo.RelActivityApplyPOJO" useGeneratedKeys="true"
+  	keyProperty="relActivityApplyId">
+    insert into rel_activity_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="activityId != null" >
+        ACTIVITY_ID,
+      </if>
+      <if test="applyId != null" >
+        APPLY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="activityId != null" >
+        #{activityId},
+      </if>
+      <if test="applyId != null" >
+        #{applyId},
+      </if>
+    </trim>
+  </insert>
   <update id="update" parameterType="com.cobble.takeaway.pojo.ApplyPOJO" >
     update p_apply
     <set >
