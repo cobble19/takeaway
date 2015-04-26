@@ -3,6 +3,9 @@ package com.cobble.takeaway.spring.security;
 import java.util.Collection;
 import java.util.Iterator;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDecisionManager;
@@ -22,10 +25,15 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	public void decide(Authentication authentication, Object object,
 			Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
+		FilterInvocation fi = (FilterInvocation) object;
+		HttpServletRequest request = fi.getRequest();
+		HttpSession session = request.getSession();
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		MyUser myUser = null;
 		if (principal instanceof MyUser) {
 			myUser = (MyUser) principal;
+			session.setAttribute("username", myUser.getUsername());
+			session.setAttribute("userType", myUser.getUserType());
 		}
 		
 		LOGGER.info("Login success: {}", principal);

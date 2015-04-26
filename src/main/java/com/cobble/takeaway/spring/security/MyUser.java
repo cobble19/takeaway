@@ -9,6 +9,7 @@ public class MyUser extends User {
 	public static String GUEST = "GUEST";
 	public static String PERSON = "PERSON";
 	public static String ENTERPRISE = "ENTERPRISE";
+	public static String ADMIN = "ADMIN";
 	
 	/**
 	 * GUEST, PERSON, ENTERPRISE
@@ -47,7 +48,7 @@ public class MyUser extends User {
 	}
 	
 	/**
-	 * For 返回用户信息， 去掉密码
+	 * 返回用户信息， 去掉密码
 	 * @param myUser
 	 */
 	public MyUser(MyUser myUser) {
@@ -62,6 +63,15 @@ public class MyUser extends User {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+        sb.append(super.toString()).append(": ");
+        sb.append("UserType: ").append(this.userType).append("; ");
+
+        return sb.toString();
 	}
 
 }

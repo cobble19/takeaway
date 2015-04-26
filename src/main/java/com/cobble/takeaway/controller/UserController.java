@@ -33,6 +33,11 @@ import com.cobble.takeaway.util.UserUtil;
 public class UserController extends BaseController {
 	private final static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 	
+	public final static String URL_ADMIN = "/mgr/ta/index.html";
+	public final static String URL_INDEX = "/index";
+	public final static String URL_PERSION = URL_INDEX;
+	public final static String URL_ENTERPRISE = URL_INDEX;
+	
 	@Autowired
 	private UserService userService;
 
@@ -66,8 +71,14 @@ public class UserController extends BaseController {
 		} else {
 			response.getWriter().write("User Type: " + myUser.getUserType());
 		}
-		
+
 		String url = "/mgr/ta/index.html";
+		if (MyUser.ADMIN.equals(myUser.getUserType())) {
+			url = URL_ADMIN;
+		} else {
+			url = URL_INDEX;
+		}
+		
 		redirectStrategy.sendRedirect(request, response, url);
 //		return ret;
 		return null;

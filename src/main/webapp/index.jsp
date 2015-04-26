@@ -6,6 +6,9 @@
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="cmn" uri="/WEB-INF/tlds/common.tld" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
+<%@ page import="com.cobble.takeaway.spring.security.MyUser"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,9 +57,19 @@
 
 <body onLoad="initialize()">
 <div class="main">
-    <div class="sy-top"></div>
-	
-    <div class="sy-tj">
+
+	<security:authentication property="principal.username" var="username"/>
+	<c:set property="session.userType" var="userType" value="<%=session.getAttribute(\"userType\") %>"></c:set>
+		<div class="sy-top">
+			<span class="pull-right" style="color: #ccc; margin-right: 100px;">
+				欢迎：<c:out value="${username}"></c:out>
+				| <%-- <c:out value="${userType }"></c:out> --%>
+				<c:if test='${userType eq "PERSON"}'>个人</c:if>
+				
+			</span>
+		</div>
+
+		<div class="sy-tj">
         <div class="jrtj">
 		    <div class="jrtj-t"></div>
 		    <div class="jrtj-i"><img src="<cmn:base/>/bootstrap/images/wm_05.gif"></div>
