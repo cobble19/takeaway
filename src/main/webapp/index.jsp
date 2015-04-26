@@ -64,7 +64,7 @@
 			<span class="pull-right" style="color: #ccc; margin-right: 100px;">
 				欢迎：<c:out value="${username}"></c:out>
 				| <%-- <c:out value="${userType }"></c:out> --%>
-				<c:if test='${userType eq "PERSON"}'>个人</c:if>
+				<c:if test='${userType eq "PERSON"}'> 个人</c:if>
 				
 			</span>
 		</div>
