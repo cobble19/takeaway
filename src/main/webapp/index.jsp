@@ -68,7 +68,8 @@
 
 <div class="sy-dw-t">	
 		
-		<div id="rotate">
+	
+	<div id="rotate">
 		  
             <ul class="sy-lbk">	
                <div class="sy-lb">
