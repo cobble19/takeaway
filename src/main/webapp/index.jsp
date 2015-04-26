@@ -102,7 +102,7 @@
                         </div>
                         <div class="cont-2"></div>
                         <div class="cont-3"></div>
-			   </ul>
+			    </ul>
 			   </div>
 
             <div id="1">               
