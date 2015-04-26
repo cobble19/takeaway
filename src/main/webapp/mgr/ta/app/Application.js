@@ -58,8 +58,8 @@ Ext.define('TA.Application', {
 	},
 	testFunC : function(conn, response, opts) {
 		console.log('testFunC... ajax...');
-		
 		var ajaxText = response.responseText;
+		console.log('ajaxText: ' + ajaxText);
 		/*ajaxText = Ext.decode(ajaxText);*/
 		/*if (ajaxText.status == false) {
 			console.log('ajaxText.status=' + ajaxText.status);
@@ -74,6 +74,7 @@ Ext.define('TA.Application', {
 	},
 	testFunE : function(conn, response, opts) {
 		console.log('testFunE... ajax...');
+		/*console.log('testFunE... ' + Ext.JSON.encode(response));*/
 		Ext.toast({
 		     html: '发生了异常',
 			 title: '异常',
