@@ -119,6 +119,7 @@
     <div class="sy-dl">
         <div class="sy-dl-img"></div>
         <a class="sy-dl-wz">登录</a>
+        <a class="sy-dl-wz" href="page/enterprise/user_center.jsp">个人中心</a>
     </div>
 
 
