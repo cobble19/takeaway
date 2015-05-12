@@ -43,6 +43,19 @@ public class UserController extends BaseController {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
+    @RequestMapping(value = "/web/enterprise/usercenter", method = {RequestMethod.GET})
+	public ModelAndView usercenter(UserPOJO userPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	ModelAndView ret = new ModelAndView();
+    	MyUser myUser = UserUtil.getCurrentUser();
+    	myUser = new MyUser(myUser);
+    	
+    	ret.addObject("myUser", myUser);
+    	ret.setViewName("/page/enterprise/user_center");
+		
+		return ret;
+	}
+    
     @RequestMapping(value = "/web/currentUser", method = {RequestMethod.GET})
     @ResponseBody
 	public MyUser currentUser(UserPOJO userPOJO, Model model, 
