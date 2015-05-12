@@ -6,10 +6,7 @@
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="cmn" uri="/WEB-INF/tlds/common.tld" %>
-<<<<<<< HEAD
-=======
 
->>>>>>> 0d3c9e6309a396af95dbd4fec0d6a74ca080dc1f
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -72,12 +69,8 @@
 
 <div class="sy-dw-t">	
 		
-<<<<<<< HEAD
 	
 	<div id="rotate">
-=======
-		<div id="rotate">
->>>>>>> 0d3c9e6309a396af95dbd4fec0d6a74ca080dc1f
 		  
             <ul class="sy-lbk">	
                <div class="sy-lb">
@@ -127,6 +120,7 @@
     <div class="sy-dl">
         <div class="sy-dl-img"></div>
         <a class="sy-dl-wz">登录</a>
+        <a class="sy-dl-wz" href="page/enterprise/user_center.jsp">个人中心</a>
     </div>
 
 
