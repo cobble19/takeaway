@@ -64,7 +64,7 @@
   	<div class="container">
   		<div class="row">
   			<h2 class="">活动申请</h2>
-  		<table id="activityList" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
   				<thead>
   					<tr>
   						<th>申请</th>

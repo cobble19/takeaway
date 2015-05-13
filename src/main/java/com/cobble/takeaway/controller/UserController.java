@@ -56,6 +56,19 @@ public class UserController extends BaseController {
 		return ret;
 	}
     
+    @RequestMapping(value = "/web/person/usercenter", method = {RequestMethod.GET})
+	public ModelAndView usercenter4person(UserPOJO userPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	ModelAndView ret = new ModelAndView();
+    	MyUser myUser = UserUtil.getCurrentUser();
+    	myUser = new MyUser(myUser);
+    	
+    	ret.addObject("myUser", myUser);
+    	ret.setViewName("/page/person/user_center");
+		
+		return ret;
+	}
+    
     @RequestMapping(value = "/web/currentUser", method = {RequestMethod.GET})
     @ResponseBody
 	public MyUser currentUser(UserPOJO userPOJO, Model model, 

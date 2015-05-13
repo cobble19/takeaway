@@ -84,7 +84,7 @@ $(document).ready(function() {
     activitySearch(table);
      
     // Add event listener for opening and closing details
-    $('#dbTable tbody').on('click', 'td.details-control', function () {
+    $('#activityList tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
  

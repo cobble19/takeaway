@@ -6,6 +6,7 @@
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="cmn" uri="/WEB-INF/tlds/common.tld" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,6 +58,8 @@
 
 
 <body onLoad="initialize()">
+	<security:authentication property="principal.username" var="username"/>
+		
 <div class="main">
 <div class="logo"></div>
 
@@ -119,8 +122,25 @@
 	</div>
     <div class="sy-dl">
         <div class="sy-dl-img"></div>
-        <a class="sy-dl-wz">登录</a>
-        <a class="sy-dl-wz" href="page/enterprise/user_center.jsp">个人中心</a>
+        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
+        	<a href="<cmn:base/>/spring_security_login" class="sy-dl-wz">登录</a>
+        </c:if> 
+        <c:if test="${not empty username}">
+        	欢迎： <c:out value="${username}"></c:out>
+        	<c:choose>
+        		<c:when test="${sessionScope.userType eq 'PERSON'}">
+        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
+        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
+        		</c:when>
+        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
+        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
+        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
+        		</c:when>
+        		<c:otherwise>
+        			userType 可能错误。<c:out value="${sessionScope.userType}"></c:out>
+        		</c:otherwise>
+        	</c:choose>
+        </c:if>
     </div>
 
 
