@@ -55,6 +55,7 @@ public class MyFilterInvocationSecurityMetadataSource implements
 		if (CollectionUtils.isEmpty(ret)) {	// Because if ret == null, will allow any access.... TODO
 			ConfigAttribute NO_FOUND_ANY_ROLE = new SecurityConfig("NO_FOUND_ANY_ROLE");
 			ret.add(NO_FOUND_ANY_ROLE);
+			ret.add(new SecurityConfig("ROLE_ANONYMOUS"));
 		}
 		
 		return ret;

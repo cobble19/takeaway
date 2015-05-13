@@ -15,7 +15,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>企业用户中心</title>
+    <title>个人用户中心</title>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<cmn:base/>/jquery/jquery-1.11.1.min.js"></script>
     <script src="<cmn:base/>/jquery/jquery-migrate-1.2.1.min.js"></script>

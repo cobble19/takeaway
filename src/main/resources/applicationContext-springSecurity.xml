@@ -51,8 +51,9 @@
 		<!-- <security:intercept-url pattern="/**" access="ROLE_USER" /> -->
 		<security:intercept-url pattern="/web/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<security:intercept-url pattern="/index" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:form-login always-use-default-target="true" default-target-url="/web/login/success"/>
-		<security:logout />
+		<security:logout logout-success-url="/index" />
 		<security:custom-filter ref="myFilterSecurity" before="FILTER_SECURITY_INTERCEPTOR"/>
 	</security:http>
 	

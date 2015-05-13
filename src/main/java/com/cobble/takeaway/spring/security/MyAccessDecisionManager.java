@@ -12,8 +12,10 @@ import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.CollectionUtils;
@@ -30,17 +32,25 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		HttpSession session = request.getSession();
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		MyUser myUser = null;
+		
+		if ("anonymousUser".equalsIgnoreCase(principal.toString())) {
+			myUser = new MyUser("anonymousUser", "anonymousUser", AuthorityUtils.NO_AUTHORITIES, "ANONYMOUS_USER");
+			UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, "anonymousUser", AuthorityUtils.NO_AUTHORITIES);
+			SecurityContextHolder.getContext().setAuthentication(anAnthentication);
+			principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
 		if (principal instanceof MyUser) {
 			myUser = (MyUser) principal;
 			session.setAttribute("username", myUser.getUsername());
 			session.setAttribute("userType", myUser.getUserType());
-		}
+		} 
 		
 		LOGGER.info("Login success: {}", principal);
 		
 		String url = ((FilterInvocation) object).getRequestUrl();
 		LOGGER.debug("URL = {}", url);
-		if (url.equalsIgnoreCase("/") || url.equalsIgnoreCase("")) {
+		if (url.equalsIgnoreCase("/") || url.equalsIgnoreCase("")
+				|| url.startsWith("/index") ) {
 			return;
 		}
 		if (CollectionUtils.isEmpty(configAttributes)) {	// 资源需要的角色
