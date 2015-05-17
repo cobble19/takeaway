@@ -1,0 +1,21 @@
+.login-container {
+	width: 300px;
+	position: relative;
+	top: 40%;
+}
+.login-container table tr td {
+	padding-top: 5px;
+}
+.login-label {
+	width: 50%;
+	text-align: right;
+}
+.login-input {
+	width: 180px;
+	margin-left: 5px;
+	padding: 1px 2px 1px 2px;
+}
+.login-btn {
+	margin-left: 5px;
+	width: 183px;
+}
