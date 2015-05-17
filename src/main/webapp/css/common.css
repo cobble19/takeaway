@@ -1,0 +1,11 @@
+*, html, body, table, tbody, tr, td, form, div, span, ul, li, img, p, b, textarea, input, select, a {
+	margin: 0 auto;
+	padding: 0 0;
+	font-family: "宋体", vendana, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	list-style-type: none;
+}
+html, body, table {
+	height: 100%;
+	width: 100%;
+}
