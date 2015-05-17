@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 		int ret = 0;
 		ret = userMapper.insert(userPOJO);
 		if (!CollectionUtils.isEmpty(userPOJO.getRoleId())) {
-			for (Integer roleId : userPOJO.getRoleId()) {
+			for (Long roleId : userPOJO.getRoleId()) {
 				RelUserRolePOJO relUserRolePOJO = new RelUserRolePOJO();
 				relUserRolePOJO.setUserId(userPOJO.getUserId());
 				relUserRolePOJO.setRoleId(roleId);

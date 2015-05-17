@@ -15,6 +15,9 @@ public class BaseSearchPOJO implements Serializable {
 	private Integer start = START;
 	private Integer limit = LIMIT;
 	
+	// User 
+	private Long userId;
+	
 	public Boolean getDistinct() {
 		return distinct;
 	}
@@ -38,5 +41,11 @@ public class BaseSearchPOJO implements Serializable {
 	}
 	public void setLimit(Integer limit) {
 		this.limit = limit;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

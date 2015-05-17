@@ -122,9 +122,9 @@
     <div class="sy-dl">
         <div class="sy-dl-img"></div>
         <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-        	<a href="<cmn:base/>/spring_security_login" class="sy-dl-wz">登录</a>
+        	<a href="<cmn:base/>/login.jsp" class="sy-dl-wz">登录</a>
         </c:if> 
-        <c:if test="${not empty username}">
+        <c:if test="${not empty username and (username ne 'anonymousUser')}">
         	欢迎： <c:out value="${username}"></c:out>
         	<c:choose>
         		<c:when test="${sessionScope.userType eq 'PERSON'}">
@@ -136,7 +136,7 @@
         			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
         		</c:when>
         		<c:otherwise>
-        			userType 可能错误。<c:out value="${sessionScope.userType}"></c:out>
+        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
         		</c:otherwise>
         	</c:choose>
         </c:if>

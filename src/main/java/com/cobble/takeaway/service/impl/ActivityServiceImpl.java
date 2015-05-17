@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cobble.takeaway.dao.ActivityMapper;
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.RelActivityUserPOJO;
 import com.cobble.takeaway.service.ActivityService;
 
 @Service
@@ -18,9 +19,13 @@ public class ActivityServiceImpl implements ActivityService {
 	private ActivityMapper activityMapper;
 
 	@Override
-	public int insert(ActivityPOJO activityPOJO) throws Exception {
+	public int insert(ActivityPOJO activityPOJO, Long userId) throws Exception {
 		int ret = 0;
 		ret = activityMapper.insert(activityPOJO);
+		RelActivityUserPOJO relActivityUserPOJO = new RelActivityUserPOJO();
+		relActivityUserPOJO.setActivityId(activityPOJO.getActivityId());
+		relActivityUserPOJO.setUserId(userId);
+		activityMapper.insertRelActivityUser(relActivityUserPOJO);
 		return ret;
 	}
 
