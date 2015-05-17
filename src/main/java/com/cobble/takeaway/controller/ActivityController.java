@@ -2,6 +2,9 @@ package com.cobble.takeaway.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import com.cobble.takeaway.pojo.ActivitySearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.ActivityService;
+import com.cobble.takeaway.util.UserUtil;
 
 @Controller
 public class ActivityController extends BaseController {
@@ -27,10 +31,11 @@ public class ActivityController extends BaseController {
 	
 	@RequestMapping(value = "/web/enterprise/activity/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public StatusPOJO add4Web(ActivityPOJO activityPOJO, Model model) throws Exception {
+	public StatusPOJO add4Web(ActivityPOJO activityPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = activityService.insert(activityPOJO);
+			int result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			LOGGER.error("insert error.", e);
@@ -59,6 +64,22 @@ public class ActivityController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<ActivityPOJO> query(ActivitySearchPOJO activitySearchPOJO) throws Exception {
 		DataTablesPOJO<ActivityPOJO> ret = new DataTablesPOJO<ActivityPOJO>();
+		try {
+			List<ActivityPOJO> activityPOJOs = activityService.finds(activitySearchPOJO);
+			ret.setData(activityPOJOs);
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/web/enterprise/activityByUserId", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<ActivityPOJO> queryByUserId(ActivitySearchPOJO activitySearchPOJO) throws Exception {
+		DataTablesPOJO<ActivityPOJO> ret = new DataTablesPOJO<ActivityPOJO>();
+		activitySearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
 		try {
 			List<ActivityPOJO> activityPOJOs = activityService.finds(activitySearchPOJO);
 			ret.setData(activityPOJOs);

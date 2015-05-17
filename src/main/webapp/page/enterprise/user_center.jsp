@@ -19,6 +19,9 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<cmn:base/>/jquery/jquery-1.11.1.min.js"></script>
     <script src="<cmn:base/>/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <!-- jQuery UI -->
+    <link href="<cmn:base/>/jquery-ui-1.11.4/jquery-ui.min.css" rel="stylesheet">
+    <script src="<cmn:base/>/jquery-ui-1.11.4/jquery-ui.min.js"></script>
     <!-- Bootstrap -->
     <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -39,7 +42,7 @@
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/integration/bootstrap/3/dataTables.bootstrap.css">
     
     
-	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity_list.js"></script>
+	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/user_center.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
     
     <script>
@@ -124,10 +127,16 @@
 	     			</div>
 	     			<div id="create_activity">
 	     				<h3>发起活动</h3>
+	     				<div>
+	     					<a class="btn btn-primary" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
+	     					
+	     					<input id="searchBtn" type="button" class="btn btn-default" value="查询">
+	     					
+	     				</div>
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
-				  						<th>申请</th>
+				  						<th>No.</th>
 				  						<th>标识</th>
 				  						<th>标题</th>
 				  						<th>内容</th>
@@ -135,7 +144,7 @@
 				  				</thead>
 				  				<!-- <tfoot>
 				  					<tr>
-				  						<th>申请</th>
+				  						<th>No.</th>
 				  						<th>标识</th>
 				  						<th>标题</th>
 				  						<th>内容</th>
@@ -146,6 +155,10 @@
 	     		</div>
 	     	</div>
   		</div>
+  		
+  		<div id="progress">数据加载中。。。</div>
+  		
+  		
 	</div>
   </body>
 </html>

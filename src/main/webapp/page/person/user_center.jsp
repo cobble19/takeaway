@@ -39,7 +39,7 @@
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/integration/bootstrap/3/dataTables.bootstrap.css">
     
     
-	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity_list.js"></script>
+	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/person/user_center.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
     
     <script>

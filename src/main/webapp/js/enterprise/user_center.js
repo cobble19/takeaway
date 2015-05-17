@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	console.log('abc');
     var table = $('#dbTable').DataTable( {
+    	"processing": true,
 		"initComplete": function () {
             var api = this.api();
            /* api.$('td').click( function () {
@@ -19,7 +20,7 @@ $(document).ready(function() {
         	"search": "过滤: ",
         	"lengthMenu": "每页显示 _MENU_ 条记录",
         	"zeroRecords": "没有检索到数据",
-        	"info": "显示 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+        	"info": "显示 _START_ 到 _END_ 条 /共 _TOTAL_ 条数据",
         	"infoEmpty": "没有数据",
         	"infoFiltered": "(从 _MAX_ 条数据中检索)",
         	"paginate": {
@@ -44,7 +45,7 @@ $(document).ready(function() {
 				var content = (data != '') ? data.substring(0, 10): '';
 				var link = '<a href="activity_detail.jsp?activityId=' + full.activityId + '">' +
 						content + '/>';
-				return link
+				return link;
 			}
 		}/*, {
 			"targets" : 0,
@@ -68,11 +69,11 @@ $(document).ready(function() {
 		}*/ ],
         "columns": [
             {
-                "className":      'details-control',
+                /*"className":      'details-control',*/
                 "orderable":      false,
                 "data":           null,
                 "defaultContent": '',
-                "title": '申请参加'
+                "title": 'No.'
             },
             { "data": "activityId" },
             { "data": "title" },
@@ -81,7 +82,23 @@ $(document).ready(function() {
         "order": [[1, 'asc']]
     } );
     
+    table.on( 'order.dt search.dt', function () {
+    	table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
+
+    $('#progress').dialog({
+    	autoOpen: false,
+    	modal: true
+    });
+    
     activitySearch(table);
+    
+    $('#searchBtn').click(function() {
+    	console.log('search click...');
+    	activitySearch(table);
+    })
      
     // Add event listener for opening and closing details
     $('#activityList tbody').on('click', 'td.details-control', function () {
@@ -164,8 +181,9 @@ function format ( d ) {
 }
 
 var activitySearch = function(table) {
+	$('#progress').dialog('open');
 	$.ajax({
-		"url" : "../../web/enterprise/activity/list",
+		"url" : "../../web/enterprise/activityByUserId",
 		"type" : "POST",
 		"headers" : {
 			"Content-Type" : "application/json"
@@ -175,6 +193,7 @@ var activitySearch = function(table) {
             title: $("#title").val()
         }),*/
         success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
         	console.log("data = " + data);
         	console.log("t= " + table.page.info().pages);
         	table.clear();

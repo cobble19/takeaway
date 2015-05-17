@@ -15,6 +15,7 @@ public class MyUser extends User {
 	 * GUEST, PERSON, ENTERPRISE
 	 */
 	private String userType = "GUEST";
+	private Long userId;
 	
 	public MyUser() {
 		this("guest", "guest", null);
@@ -72,6 +73,14 @@ public class MyUser extends User {
         sb.append("UserType: ").append(this.userType).append("; ");
 
         return sb.toString();
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 }

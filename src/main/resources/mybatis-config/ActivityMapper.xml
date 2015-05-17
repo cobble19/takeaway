@@ -16,7 +16,7 @@
     <result column="CONTENT" property="content" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ACTIVITY_ID, TITLE, CONTENT
+    a.ACTIVITY_ID, a.TITLE, a.CONTENT
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -29,10 +29,14 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from e_activity
+    from e_activity a, rel_activity_user rau
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
+			and a.activity_id = rau.activity_id
+			<if test="userId != null">
+				and rau.user_id = #{userId}
+			</if>
   		</trim>
   	</where>
 	<if test="start > -1 and limit > 0">
@@ -50,8 +54,8 @@
   <select id="findById" resultMap="ActivityResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from e_activity
-    where ACTIVITY_ID = #{activityId}
+    from e_activity a
+    where a.ACTIVITY_ID = #{activityId}
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from e_activity
@@ -77,6 +81,28 @@
       </if>
     </trim>
   </insert>
+  
+  <insert id="insertRelActivityUser" parameterType="com.cobble.takeaway.pojo.RelActivityUserPOJO" useGeneratedKeys="true"
+  	keyProperty="activityUserId" keyColumn="ACTIVITY_USER_ID">
+    insert into rel_activity_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="activityId != null" >
+        ACTIVITY_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="activityId != null" >
+        #{activityId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+    </trim>
+  </insert>
+  
   <update id="update" parameterType="com.cobble.takeaway.pojo.ActivityPOJO" >
     update e_activity
     <set >

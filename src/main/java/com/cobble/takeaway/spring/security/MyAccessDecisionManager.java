@@ -43,6 +43,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			myUser = (MyUser) principal;
 			session.setAttribute("username", myUser.getUsername());
 			session.setAttribute("userType", myUser.getUserType());
+			session.setAttribute("myUser", myUser);
 		} 
 		
 		LOGGER.info("Login success: {}", principal);

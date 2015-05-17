@@ -45,6 +45,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		
 		//User ret = new User(userPOJO.getUsername(), userPOJO.getPassword(), true, true, true, true, authorities);
 		MyUser ret = new MyUser(username, userPOJO.getPassword(), authorities, userPOJO.getUserType());
+		ret.setUserId(userPOJO.getUserId());
 		return ret;
 	}
 
