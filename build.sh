@@ -1,4 +1,5 @@
 #!/bin/sh
+
 . /etc/profile
 HS_BASE=/opt/app/takeaway
 CATALINA_HOME=`echo ${CATALINA_HOME}`
