@@ -13,8 +13,12 @@ service tomcat stop
 
 echo "[COBBLE.GE] cd ${HS_BASE} ..."
 cd ${HS_BASE}
-echo "[COBBLE.GE] Start git pull..."
-git pull 
+#echo "[COBBLE.GE] Start git pull..."
+#git pull 
+echo "[COBBLE.GE] Start git fetch & merge..."
+git fetch origin
+git merge origin refs/heads/master -m "git merge from github"
+echo "[COBBLE.GE] Finish git fetch & merge..."
 echo "[COBBLE.GE] Start mvn..."
 mvn clean install -Dmaven.test.skip=true
 echo "[COBBLE.GE] Copy jdbc.properties"
