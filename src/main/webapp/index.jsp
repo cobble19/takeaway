@@ -121,6 +121,7 @@
 	</div>
     <div class="sy-dl">
         <div class="sy-dl-img"></div>
+        
         <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 	        <a href='<cmn:base/>/page/person/register.jsp' class="btn btn-success">个人注册</a>
 	        <a href='<cmn:base/>/page/enterprise/register.jsp' class="btn btn-success">企业注册</a>
