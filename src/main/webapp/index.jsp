@@ -122,7 +122,10 @@
     <div class="sy-dl">
         <div class="sy-dl-img"></div>
         <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-        	<a href="<cmn:base/>/login.jsp" class="sy-dl-wz">登录</a>
+	        <a href='<cmn:base/>/page/person/register.jsp' class="btn btn-success">个人注册</a>
+	        <a href='<cmn:base/>/page/enterprise/register.jsp' class="btn btn-success">企业注册</a>
+        	<a href="<cmn:base/>/login.jsp" class="btn btn-info">登录</a>
+        	<%-- <a href="<cmn:base/>/login.jsp" class="sy-dl-wz">登录</a> --%>
         </c:if> 
         <c:if test="${not empty username and (username ne 'anonymousUser')}">
         	欢迎： <c:out value="${username}"></c:out>

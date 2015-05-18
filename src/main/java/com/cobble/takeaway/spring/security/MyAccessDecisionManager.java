@@ -2,6 +2,7 @@ package com.cobble.takeaway.spring.security;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,8 +35,9 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		MyUser myUser = null;
 		
 		if ("anonymousUser".equalsIgnoreCase(principal.toString())) {
-			myUser = new MyUser("anonymousUser", "anonymousUser", AuthorityUtils.NO_AUTHORITIES, "ANONYMOUS_USER");
-			UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, "anonymousUser", AuthorityUtils.NO_AUTHORITIES);
+			List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS");
+			myUser = new MyUser("anonymousUser", "anonymousUser", authorities, "ANONYMOUS_USER");
+			UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, "anonymousUser", authorities);
 			SecurityContextHolder.getContext().setAuthentication(anAnthentication);
 			principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
