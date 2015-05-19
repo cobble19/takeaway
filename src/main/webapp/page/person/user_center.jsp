@@ -123,7 +123,7 @@
 	     				<label>名称： </label><c:out value="${myUser.username }"></c:out>
 	     			</div>
 	     			<div id="create_activity">
-	     				<h3>发起活动</h3>
+	     				<h3>参加活动</h3>
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
