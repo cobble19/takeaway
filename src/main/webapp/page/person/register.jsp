@@ -32,20 +32,20 @@
     <![endif]-->
   </head>
   <body>
-  	<div class="container">
+  	<div class="container-fluid">
   		<div class="row">
   			<h2 class="col-sm-offset-3 col-md-offset-2">个人用户注册</h2>
   		</div>
   		<form class="form-horizontal" role="form" action='<cmn:base/>/web/user/person/reg' method="post">
  			<div class="form-group">
  				<label class="control-label col-sm-3 col-md-2" for="username">用户名:</label>
- 				<div class="col-sm-9 col-md-4">
+ 				<div class="col-sm-9 col-md-6">
  					<input class="form-control" id="username" name="username" placeholder="请输入用户名">
  				</div>
  			</div>
  			<div class="form-group">
  				<label class="control-label col-sm-3 col-md-2" for="password">密码:</label>
- 				<div class="col-sm-9 col-md-4">
+ 				<div class="col-sm-9 col-md-6">
  					<input class="form-control" type="password" id="password" name="password" placeholder="请输入密码">
  				</div>
  			</div>

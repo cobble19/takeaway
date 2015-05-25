@@ -9,3 +9,6 @@ html, body, table {
 	height: 100%;
 	width: 100%;
 }
+.nav a {
+	outline:none !important;
+}
