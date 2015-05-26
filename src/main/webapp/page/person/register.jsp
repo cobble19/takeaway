@@ -18,6 +18,10 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<cmn:base/>/jquery/jquery-1.11.1.min.js"></script>
     <script src="<cmn:base/>/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <!-- jQuery Validation -->
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/jquery.validate.min.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/additional-methods.min.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/jquery.validate.message.zh_cn.js"></script>
     <!-- Bootstrap -->
     <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -30,23 +34,30 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
   </head>
   <body>
   	<div class="container-fluid">
   		<div class="row">
   			<h2 class="col-sm-offset-3 col-md-offset-2">个人用户注册</h2>
   		</div>
-  		<form class="form-horizontal" role="form" action='<cmn:base/>/web/user/person/reg' method="post">
+  		<form id="regForm" class="form-horizontal" role="form" action='<cmn:base/>/web/user/person/reg' method="post">
  			<div class="form-group">
  				<label class="control-label col-sm-3 col-md-2" for="username">用户名:</label>
  				<div class="col-sm-9 col-md-6">
- 					<input class="form-control" id="username" name="username" value="" placeholder="请输入用户名">
+ 					<input class="form-control" id="username" name="username" required="required" minlength="1" value="" placeholder="请输入用户名">
  				</div>
  			</div>
  			<div class="form-group">
  				<label class="control-label col-sm-3 col-md-2" for="password">密码:</label>
  				<div class="col-sm-9 col-md-6">
- 					<input class="form-control" type="password" id="password" name="password" value="" placeholder="请输入密码">
+ 					<input class="form-control" type="password" id="password" name="password" required="required" value="" placeholder="请输入密码">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label col-sm-3 col-md-2" for="email">Email:</label>
+ 				<div class="col-sm-9 col-md-6">
+ 					<input class="form-control" type="email" id="email" name="email" required="required" value="" placeholder="请输入email">
  				</div>
  			</div>
  			<div class="form-group">
@@ -58,5 +69,20 @@
   		
 		<footer><hr><p>&copy; 版权所有</p></footer>
 	</div>
+	
+    <script type="text/javascript">
+    	$(function() {
+           $('#regForm').validate();
+        	$('#regForm').submit(function(e) {
+        		console.log('reg form submit');
+
+                var valid = $('#regForm').valid();
+                console.log('valid: ' + valid);
+                if (!valid) {
+                	return false;
+                }
+        	});
+    	})
+    </script>
   </body>
 </html>

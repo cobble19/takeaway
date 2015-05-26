@@ -8,7 +8,8 @@ public class UserPOJO extends BasePOJO {
     private Long userId;
 	private String username;
 	private String password;
-    private Boolean enable;
+	private String email;
+    private Boolean enable = true;
 	private String userType;
 
     private List<Long> roleId;
@@ -63,6 +64,12 @@ public class UserPOJO extends BasePOJO {
 	}
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
     
 }

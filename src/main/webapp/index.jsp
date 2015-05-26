@@ -19,6 +19,9 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<cmn:base/>/jquery/jquery-1.11.1.min.js"></script>
     <script src="<cmn:base/>/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <!-- jQuery Validation -->
+    <%-- <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/jquery.validate.min.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/additional-methods.min.js"></script> --%>
     <!-- Bootstrap -->
     <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -33,11 +36,11 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-<script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script>
+<%-- <script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script> --%>
 <script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
 <script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://api.go2map.com/maps/js/api_v2.5.1.js"></script>
-<script src="js/jquery-1.2.4b.js" type="text/javascript"></script>
+<!-- <script src="js/jquery-1.2.4b.js" type="text/javascript"></script> -->
 <script src="js/ui.core.js" type="text/javascript"></script>
 <script src="js/ui.tabs.js" type="text/javascript"></script>
 
@@ -83,6 +86,16 @@
 		 var page = $(this).attr('page');
 		 $(href).load(page);
 		})
+		
+		// $('#regForm').validate();
+    	/* $('#regForm').submit(function(e) {
+    		console.log('adb');
+			if ($('#regForm').valid()) {
+				
+			}
+            $('#regForm').validate();
+    		return false;
+    	}); */
 		      
        });
        
