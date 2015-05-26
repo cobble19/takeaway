@@ -50,22 +50,22 @@
 			<table>
 				<tbody>
 					<tr>
-						<td class="login-label">用户名:</td>
+						<td class="login-label form-lable">用户名:</td>
 						<td>
-							<input class="login-input" id="name" name="j_username" type="text" placeholder="登陆账号"/>
+							<input class="login-input form-control" id="name" name="j_username" type="text" placeholder="登陆账号"/>
 						</td>
 					</tr>
 					<tr>
-						<td class="login-label">密码:</td>
+						<td class="login-label form-lable">密码:</td>
 						<td>
-							<input class="login-input" id="password" name="j_password" type="password" placeholder="密码"/>
+							<input class="login-input form-control" id="password" name="j_password" type="password" placeholder="密码"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 						</td>
 						<td>
-							<input class="login-btn" id="loginBtn" title="登陆" value="登陆" type="submit"/>
+							<input class="login-btn btn btn-primary" id="loginBtn" title="登陆" value="登陆" type="submit"/>
 						</td>
 					</tr>
 				</tbody>

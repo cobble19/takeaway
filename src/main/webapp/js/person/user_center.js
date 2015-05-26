@@ -80,8 +80,18 @@ $(document).ready(function() {
         ],
         "order": [[1, 'asc']]
     } );
+
+    $('#progress').dialog({
+    	autoOpen: false,
+    	modal: true
+    });
     
     activitySearch(table);
+    
+    $('#searchBtn').click(function() {
+    	console.log('search click...');
+    	activitySearch(table);
+    })
      
     // Add event listener for opening and closing details
     $('#activityList tbody').on('click', 'td.details-control', function () {
@@ -164,6 +174,7 @@ function format ( d ) {
 }
 
 var activitySearch = function(table) {
+	$('#progress').dialog('open');
 	$.ajax({
 		"url" : "../../web/enterprise/activity/list",
 		"type" : "POST",
@@ -175,6 +186,7 @@ var activitySearch = function(table) {
             title: $("#title").val()
         }),*/
         success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
         	console.log("data = " + data);
         	console.log("t= " + table.page.info().pages);
         	table.clear();

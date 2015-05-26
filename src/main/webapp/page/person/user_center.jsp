@@ -19,6 +19,9 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<cmn:base/>/jquery/jquery-1.11.1.min.js"></script>
     <script src="<cmn:base/>/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <!-- jQuery UI -->
+    <link href="<cmn:base/>/jquery-ui-1.11.4/jquery-ui.min.css" rel="stylesheet">
+    <script src="<cmn:base/>/jquery-ui-1.11.4/jquery-ui.min.js"></script>
     <!-- Bootstrap -->
     <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -113,7 +116,7 @@
   			<div class="col-md-3" id="sidebar">
 		          <div class="list-group">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
-		            <a href="#create_activity" class="list-group-item">发起活动</a>
+		            <a href="#create_activity" class="list-group-item">申请活动</a>
 		          </div>
 	     	</div>
 	     	<div class="col-md-9">
@@ -124,6 +127,9 @@
 	     			</div>
 	     			<div id="create_activity">
 	     				<h3>参加活动</h3>
+	     				<div>
+	     					<input id="searchBtn" type="button" class="btn btn-default" value="查询">
+	     				</div>
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
@@ -146,6 +152,9 @@
 	     		</div>
 	     	</div>
   		</div>
+  		
+  		<div id="progress">数据加载中。。。</div>
+  		
 	</div>
   </body>
 </html>

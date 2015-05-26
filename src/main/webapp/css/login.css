@@ -1,13 +1,15 @@
 .login-container {
-	width: 300px;
+	/* width: 300px; */
 	position: relative;
 	top: 40%;
+	/* background-color: #abc; */
+	padding: 24px 0;
 }
 .login-container table tr td {
 	padding-top: 5px;
 }
 .login-label {
-	width: 50%;
+	/* width: 50%; */
 	text-align: right;
 }
 .login-input {

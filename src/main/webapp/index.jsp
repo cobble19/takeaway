@@ -71,18 +71,18 @@
            $('#rotate > ul').tabs({ fx: { opacity: 'toggle' } }).tabs('rotate', 0);
     	   /* $('#rotate1 > ul').tabs(); */
     	   
-    	   	$("#myTab a").each(function(i, ele) {
-    	   		if ($(this).parent().hasClass('active')) {
-   			   	   var href = $(this).attr('href');
-   			   	   var page = $(this).attr('page');
-   			   	   $(href).load(page);
-    	   		}
-    	   	})	
-		      $("#myTab a").click(function(e) {
-		   	   var href = $(this).attr('href');
-		   	   var page = $(this).attr('page');
-		   	   $(href).load(page);
-		      })
+		$("#myTab a, #loginTab a").each(function(i, ele) {
+			if ($(this).parent().hasClass('active')) {
+			   var href = $(this).attr('href');
+			   var page = $(this).attr('page');
+			   $(href).load(page);
+			}
+		});	
+		$("#myTab a, #loginTab a").click(function(e) {
+		 var href = $(this).attr('href');
+		 var page = $(this).attr('page');
+		 $(href).load(page);
+		})
 		      
        });
        
@@ -146,7 +146,8 @@
 	        <%-- <a href='<cmn:base/>/page/person/register.jsp' class="btn btn-success">个人注册</a>
 	        <a href='<cmn:base/>/page/enterprise/register.jsp' class="btn btn-success">企业注册</a> --%>
 	        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
-        	<a href="<cmn:base/>/login.jsp" class="btn btn-info">登录</a>
+	        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
+        	<%-- <a href="<cmn:base/>/login.jsp" class="btn btn-info">登录</a> --%>
         	<%-- <a href="<cmn:base/>/login.jsp" class="sy-dl-wz">登录</a> --%>
         </c:if> 
         <c:if test="${not empty username and (username ne 'anonymousUser')}">
@@ -166,7 +167,7 @@
         	</c:choose>
         </c:if>
     </div>
-    
+    <!-- 注册 -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     	<div class="modal-dialog">
     		<div class="modal-content">
@@ -180,16 +181,16 @@
     				<div role="tabpanel">
     					<ul class="nav nav-tabs nav-justified" role="tablist" id="myTab">
     						<li role="presentation" class="active">
-    							<a href="#person" aria-controls="person" page="page/person/register.jsp" role="tab" data-toggle="tab">个人</a>
+    							<a href="#person" aria-controls="person" page="page/person/register.jsp" role="tab" data-toggle="tab">注册账户</a>
     						</li>
-    						<li role="presentation">
+    						<!-- <li role="presentation">
     							<a href="#enterprise" aria-controls="enterprise" page="page/enterprise/register.jsp" role="tab" data-toggle="tab">企业</a>
-    						</li>
+    						</li> -->
     					</ul>
     					
     					<div class="tab-content">
     						<div role="tabpanel" class="tab-pane active" id="person">person</div>
-    						<div role="tabpanel" class="tab-pane" id="enterprise">enterprise</div>
+    						<!-- <div role="tabpanel" class="tab-pane" id="enterprise">enterprise</div> -->
     					</div>
     				</div>
     			</div><!-- modal-body -->
@@ -200,6 +201,44 @@
     		</div>
     	</div>
     </div>
+    
+    
+    <!-- 登陆 -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    	<div class="modal-dialog">
+    		<div class="modal-content">
+    			<div class="modal-header">
+    				<button type="button" class="close" data-dismiss="modal" aria-label="关闭">
+    					<span aria-hidden="true">&times;</span>
+    				</button>
+    				<h4 class="modal-title" id="myModalLabel">账号登陆</h4>
+    			</div>
+    			<div class="modal-body">
+    				<div role="tabpanel">
+    					<ul class="nav nav-tabs nav-justified" role="tablist" id="loginTab">
+    						<li role="presentation" class="active">
+    							<a href="#loginPerson" aria-controls="login" page="login.jsp" role="tab" data-toggle="tab">登陆</a>
+    						</li>
+    						<!-- <li role="presentation">
+    							<a href="#loginEnterprise" aria-controls="loginEnterprise" page="login.jsp" role="tab" data-toggle="tab">企业登陆</a>
+    						</li> -->
+    					</ul>
+    					
+    					<div class="tab-content">
+    						<div role="tabpanel" class="tab-pane active" id="loginPerson">person</div>
+    						<!-- <div role="tabpanel" class="tab-pane" id="loginEnterprise">enterprise</div> -->
+    					</div>
+    				</div>
+    			</div><!-- modal-body -->
+    			<div class="modal-footer">
+    				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+    				<!-- <button type="button" class="btn btn-primary">创建</button> -->
+    			</div><!-- modal-footer -->
+    		</div>
+    	</div>
+    </div>
+    
+    
 
 
 
