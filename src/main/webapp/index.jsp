@@ -41,8 +41,8 @@
 <script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://api.go2map.com/maps/js/api_v2.5.1.js"></script>
 <!-- <script src="js/jquery-1.2.4b.js" type="text/javascript"></script> -->
-<script src="js/ui.core.js" type="text/javascript"></script>
-<script src="js/ui.tabs.js" type="text/javascript"></script>
+<!-- <script src="js/ui.core.js" type="text/javascript"></script>
+<script src="js/ui.tabs.js" type="text/javascript"></script> -->
 
 
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/media/js/jquery.dataTables.min.js"></script>

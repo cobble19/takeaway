@@ -39,42 +39,63 @@
     
     <!-- 公共的函数 -->
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/common.js"></script>
+    <link href="<cmn:base/>/css/common.css" rel="stylesheet">
     
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity_detail.js"></script>
     
+    <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
   </head>
   <body>
-  	<div class="container">
-  		<div class="row">
+  
+	<div class="container">
+		<div class="row" style="margin-bottom: 50px;">
+			<div class="logo"></div>
+			<div class="qima"></div>
+			<div class="sywz"></div>
+			
+		</div>
+		<div class="row">
+		</div>
+			
+  		<div class="row uc-border">
   			<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
   			<div class="row">
-  				<div class="col-md-9"><h2 class=""><span id="title"></span></h2></div>
-  				<div class="col-md-3"><fieldset>
+  				<div class="col-md-9">
+  					<h4 class="" style="text-align: bottom;"><span id="title"></span></h4>
+  					<hr/>
+		  			<p id="content"></p>
+		  			<hr/> 
+  				</div>
+  				<div class="col-md-3">
+  				<fieldset>
 					<legend>申请活动</legend>
-			<form id="applyForm" class="form-inline">
-				
-					<div class="form-group">
-						<label for="username">姓名: </label> <input id="username"
-							name="username" placeholder="姓名" class="form-control" />
-					</div>
-					<div class="form-group">
-						<label for="phone">手机号: </label> <input id="phone" name="phone"
-							placeholder="手机号" class="form-control" />
-					</div>
-					<input type="submit" id="applyBtn" value="申请参加"
-						class="btn btn-default" />
-				
-			</form>
-</fieldset></div>
+						<form id="applyForm" class="form-inline">
+							
+								<div class="form-group">
+									<label for="username">姓名: </label> <input id="username"
+										name="username" placeholder="姓名" class="form-control" />
+								</div>
+								<div class="form-group">
+									<label for="phone">手机号: </label> <input id="phone" name="phone"
+										placeholder="手机号" class="form-control" />
+								</div>
+								<input type="submit" id="applyBtn" value="申请参加"
+									class="btn btn-default" />
+							
+						</form>
+				</fieldset>
+				</div>
   			</div>
   			
 
-			<hr/>
+			<!-- <hr/>
   			<p id="content"></p>
-  			
+  			<hr/> -->
   		</div>
   		
-		<footer><hr><p>&copy; 版权所有</p></footer>
-	</div>
+		<footer><br/><p>&copy; 版权所有</p></footer>
+	</div> <!-- container -->
+	
+	
   </body>
 </html>
