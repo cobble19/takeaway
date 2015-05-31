@@ -44,6 +44,15 @@
 <script src="js/ui.core.js" type="text/javascript"></script>
 <script src="js/ui.tabs.js" type="text/javascript"></script>
 
+
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/media/js/jquery.dataTables.min.js"></script>
+    <link href="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/media/css/jquery.dataTables.min.css" rel="stylesheet">
+   
+    <script src="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/integration/bootstrap/3/dataTables.bootstrap.css">
+    
+	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/activity_top.js"></script>
+
     <link href="<cmn:base/>/css/common.css" rel="stylesheet">
     
 <script type="text/javascript">
@@ -137,7 +146,8 @@
                             </div>
                         </div>
                         <div class="cont-2"></div>
-                        <div class="cont-3"></div>
+                        <div class="cont-3">
+                        </div>
 			   </ul>
 			   </div>
 
