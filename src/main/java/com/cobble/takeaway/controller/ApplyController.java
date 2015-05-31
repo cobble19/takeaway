@@ -9,13 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cobble.takeaway.pojo.ActivityPOJO;
+import com.cobble.takeaway.pojo.ActivitySearchPOJO;
 import com.cobble.takeaway.pojo.ApplyPOJO;
 import com.cobble.takeaway.pojo.ApplySearchPOJO;
+import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.ApplyService;
@@ -26,6 +30,22 @@ public class ApplyController extends BaseController {
 	
 	@Autowired
 	private ApplyService applyService;
+	
+
+	@RequestMapping(value = "/web/person/applyInActivity/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<ApplyPOJO> applyInActivity(@PathVariable("activityId") Long activityId) throws Exception {
+		DataTablesPOJO<ApplyPOJO> ret = new DataTablesPOJO<ApplyPOJO>();
+		try {
+			List<ApplyPOJO> applyPOJOs = applyService.findsApplyInActivity(activityId);
+			ret.setData(applyPOJOs);
+		} catch (Exception e) {
+			LOGGER.error("applyInActivity error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/person/apply/add", method = {RequestMethod.POST})
 	@ResponseBody

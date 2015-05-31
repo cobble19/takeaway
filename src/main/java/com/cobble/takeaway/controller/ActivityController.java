@@ -68,7 +68,7 @@ public class ActivityController extends BaseController {
 			List<ActivityPOJO> activityPOJOs = activityService.finds(activitySearchPOJO);
 			ret.setData(activityPOJOs);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			LOGGER.error("list error.", e);
 			throw e;
 		}
 		
@@ -84,7 +84,7 @@ public class ActivityController extends BaseController {
 			List<ActivityPOJO> activityPOJOs = activityService.finds(activitySearchPOJO);
 			ret.setData(activityPOJOs);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			LOGGER.error("activityByUserId error.", e);
 			throw e;
 		}
 		

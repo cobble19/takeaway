@@ -16,13 +16,31 @@
     <result column="PHONE" property="phone" />
   </resultMap>
   <sql id="Base_Column_List" >
-    APPLY_ID, USERNAME, PHONE
+    apply.APPLY_ID, apply.USERNAME, apply.PHONE
   </sql>
   <sql id="Clause_Common">
 	<if test="username != null">
 		and USERNAME like concat("%", concat(#{username}, "%"))
 	</if>
   </sql>
+  <select id="findsApplyInActivity" resultMap="ApplyResultMap" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from p_apply apply
+    join rel_activity_apply raa on raa.apply_id = apply.apply_id
+    join e_activity activity on activity.activity_id = raa.activity_id
+    <where>
+  		<trim prefixOverrides="and">
+			and activity.activity_id = #{activityId}
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
   <select id="finds" resultMap="ApplyResultMap" parameterType="com.cobble.takeaway.pojo.ApplySearchPOJO" >
     select
     <if test="distinct" >

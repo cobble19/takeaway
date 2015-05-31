@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	console.log('abc');
     var table = $('#dbTable').DataTable( {
 		"initComplete": function () {
             var api = this.api();
@@ -32,21 +31,21 @@ $(document).ready(function() {
         },
 		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-		"columnDefs" : [ {
+		"columnDefs" : [ /*{
 			"targets" : 0,
 			"render" : function(data, type, full, meta) {
 				console.log(data + " " + type + " " + full + " " + meta);
 				;
 			}
-		}, {
+		}, *//*{
 			"targets" : 3,
 			"render" : function(data, type, full, meta) {
 				var content = (data != '') ? data.substring(0, 10): '';
-				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
-						content + '</a>';
+				var link = '<a href="activity_detail.jsp?activityId=' + full.activityId + '">' +
+						content + '/>';
 				return link
 			}
-		}/*, {
+		}*//*, {
 			"targets" : 0,
 			"searchable" : false,
 			"orderable" : false
@@ -67,34 +66,24 @@ $(document).ready(function() {
 			}
 		}*/ ],
         "columns": [
-            {
+            /*{
                 "className":      'details-control',
                 "orderable":      false,
                 "data":           null,
                 "defaultContent": '',
                 "title": '申请参加'
-            },
-            { "data": "activityId" },
-            { "data": "title" },
-            { "data": "content" }
+            },*/
+            { "data": "applyId" },
+            { "data": "username" },
+            { "data": "phone" }
         ],
         "order": [[1, 'asc']]
     } );
-
-    $('#progress').dialog({
-    	autoOpen: false,
-    	modal: true
-    });
     
-    activitySearch(table);
-    
-    $('#searchBtn').click(function() {
-    	console.log('search click...');
-    	activitySearch(table);
-    })
+    applyInActivitySearch(table);
      
     // Add event listener for opening and closing details
-    $('#dbTable tbody').on('click', 'td.details-control', function () {
+    /*$('#dbTable tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
  
@@ -116,9 +105,6 @@ $(document).ready(function() {
             	$.ajax({
             		"url" : "../../web/person/apply/add",
             		"type" : "POST",
-            		/*"headers" : {
-            			"Content-Type" : "application/json"
-            		},*/
             		"dataType" : 'json',
             		"data": ({
             			username: username,
@@ -139,7 +125,11 @@ $(document).ready(function() {
             	//return false;
             });
         }
-    } );
+    } );*/
+    // 打印
+    /*$("#print").click(function() {
+    	print();
+    })*/
 } );
 
 /* Formatting function for row details - modify as you need */
@@ -173,11 +163,13 @@ function format ( d ) {
     '</table>';*/
 }
 
-var activitySearch = function(table) {
-	$('#progress').dialog('open');
+// query apply by activityId
+var applyInActivitySearch = function(table) {
+	var activityId = getParam('activityId');
+	console.log('title=' + getParam('activityTitle'));
 	$.ajax({
-		"url" : "../../web/enterprise/activity/list",
-		"type" : "POST",
+		"url" : "../../web/person/applyInActivity/" + activityId,
+		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
 		},
@@ -186,7 +178,6 @@ var activitySearch = function(table) {
             title: $("#title").val()
         }),*/
         success: function(data, textStatus, jqXHR ) {
-        	$('#progress').dialog('close');
         	console.log("data = " + data);
         	console.log("t= " + table.page.info().pages);
         	table.clear();
@@ -212,7 +203,10 @@ var activitySearch = function(table) {
 	});
 }
 
-
+/*var print = function() {
+	window.print();
+	return;
+}*/
 
 
  
