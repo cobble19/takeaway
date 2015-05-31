@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cobble.takeaway.dao.ApplyMapper;
+import com.cobble.takeaway.pojo.ActivitySearchPOJO;
 import com.cobble.takeaway.pojo.ApplyPOJO;
 import com.cobble.takeaway.pojo.ApplySearchPOJO;
 import com.cobble.takeaway.pojo.RelActivityApplyPOJO;
@@ -74,6 +75,16 @@ public class ApplyServiceImpl implements ApplyService {
 				ret += applyMapper.deleteById(id);
 			}
 		}
+		return ret;
+	}
+
+	@Override
+	public List<ApplyPOJO> findsApplyInActivity(Long activityId)
+			throws Exception {
+		List<ApplyPOJO> ret = null;
+		ActivitySearchPOJO activitySearchPOJO = new ActivitySearchPOJO();
+		activitySearchPOJO.setActivityId(activityId);
+		ret = applyMapper.findsApplyInActivity(activitySearchPOJO);
 		return ret;
 	}
 

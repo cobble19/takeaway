@@ -43,9 +43,19 @@ $(document).ready(function() {
 			"targets" : 3,
 			"render" : function(data, type, full, meta) {
 				var content = (data != '') ? data.substring(0, 10): '';
-				var link = '<a href="activity_detail.jsp?activityId=' + full.activityId + '">' +
-						content + '/>';
+				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
+						content + '</a>';
 				return link;
+			}
+		}, {
+			"targets" : 4,
+			"render" : function(data, type, full, meta) {
+				var href = '../../page/person/apply_in_activity.jsp?activityId='  + full.activityId
+				+ '&activityTitle=' + ((full.title));
+				var linkApply = '<a class="btn btn-warning" href="' + href
+				+ '">' +
+				'查看申请人' + '</a>';
+				return linkApply;
 			}
 		}/*, {
 			"targets" : 0,
@@ -77,7 +87,14 @@ $(document).ready(function() {
             },
             { "data": "activityId" },
             { "data": "title" },
-            { "data": "content" }
+            { "data": "content" },
+            {
+                /*"className":      'details-control',*/
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": '',
+                "title": '操作'
+            }
         ],
         "order": [[1, 'asc']]
     } );

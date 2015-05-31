@@ -42,8 +42,8 @@ $(document).ready(function() {
 			"targets" : 3,
 			"render" : function(data, type, full, meta) {
 				var content = (data != '') ? data.substring(0, 10): '';
-				var link = '<a href="activity_detail.jsp?activityId=' + full.activityId + '">' +
-						content + '/>';
+				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
+						content + '</a>';
 				return link
 			}
 		}/*, {
@@ -94,7 +94,7 @@ $(document).ready(function() {
     })
      
     // Add event listener for opening and closing details
-    $('#activityList tbody').on('click', 'td.details-control', function () {
+    $('#dbTable tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
  

@@ -4,7 +4,9 @@ getParam = getQueryStringRegExp = function(name)
 	if (reg.test(location.href)) {
 		array = reg.exec(location.href);
 		console.log(array);
-		ret = array[2] | '';
+		ret = ('' + array[2].toString()) /*| ''*/;
+		ret = decodeURI(ret);
+		console.log("getParam ret = " + decodeURI(ret));
 		return ret;
 	}
 		/*return decodeURL(RegExp.$2.replace(/+/g, " ")); */
