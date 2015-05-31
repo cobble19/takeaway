@@ -44,6 +44,10 @@
     
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/user_center.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
+	
+	<link href="<cmn:base/>/css/common.css" rel="stylesheet">
+	
+	<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     
     <script>
     	$(document).ready(function() {
@@ -88,8 +92,35 @@
   </head>
   <body>
   	<div class="container">
+  		<div class="row" style="margin-bottom: 50px;">
+			<div class="logo"></div>
+			<div class="qima"></div>
+			<div class="sywz"></div>
+			
+		</div>
   		<div class="row">
-		    <div class="sy-dl">
+  			<%-- <div class="col-md-12">
+		        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
+		        	<a href="<cmn:base/>/spring_security_login">登录</a>
+		        </c:if> 
+		        <c:if test="${not empty username}">
+		        	欢迎： <c:out value="${username}"></c:out>
+		        	<c:choose>
+		        		<c:when test="${sessionScope.userType eq 'PERSON'}">
+		        			<a  href="<cmn:base/>/web/person/usercenter">个人中心</a>
+		        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
+		        		</c:when>
+		        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
+		        			<a href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
+		        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
+		        		</c:when>
+		        		<c:otherwise>
+		        			userType 可能错误。<c:out value="${sessionScope.userType}"></c:out>
+		        		</c:otherwise>
+		        	</c:choose>
+		        </c:if>
+  			</div> --%>
+		   <%--  <div class="sy-dl">
 		        <div class="sy-dl-img"></div>
 		        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 		        	<a href="<cmn:base/>/spring_security_login" class="sy-dl-wz">登录</a>
@@ -110,17 +141,48 @@
 		        		</c:otherwise>
 		        	</c:choose>
 		        </c:if>
-		    </div>
+		    </div> --%>
   		</div>
-  		<div class="row">
-  			<div class="col-md-3" id="sidebar">
-		          <div class="list-group">
+  		<div class="row uc-border" style="position: relative; min-height: 485px;">
+  			<div class="col-md-3 " id="sidebar">
+  				<div class="uc-lb-bg">
+	  				<div class="" style="padding-left: 5px;">
+	  					<br/>
+				        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
+				        	<a href="<cmn:base/>/spring_security_login">登录</a>
+				        </c:if> 
+				        <c:if test="${not empty username}">
+				        	欢迎： <c:out value="${username}"></c:out>
+				        	<br/>
+				        	<c:choose>
+				        		<c:when test="true">	
+				        			<div style="height: 18px; margin-left: 150px;">
+				        				<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
+				        			</div>
+				        		</c:when>
+				        		<%-- <c:when test="${sessionScope.userType eq 'PERSON'}">
+				        			<a  href="<cmn:base/>/web/person/usercenter">个人中心</a>
+				        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
+				        		</c:when>
+				        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
+				        			<a href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
+				        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
+				        		</c:when>
+				        		<c:otherwise>
+				        			userType 可能错误。<c:out value="${sessionScope.userType}"></c:out>
+				        		</c:otherwise> --%>
+				        	</c:choose>
+				        </c:if>
+		  			</div>
+		          <div class="list-group" style="margin: 10px 15px 0px 5px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
 		            <a href="#create_activity" class="list-group-item">发起活动</a>
 		          </div>
+  				</div>
+  				
 	     	</div>
 	     	<div class="col-md-9">
-	     		<div id="uc_content">
+	     		<div id="uc_content" style="padding-top: 10px;">
 	     			<div id="profile">
 	     				<h3>个人资料</h3>
 	     				<label>名称： </label><c:out value="${myUser.username }"></c:out>
