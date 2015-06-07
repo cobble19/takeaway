@@ -74,6 +74,35 @@
 
 <body onLoad="initialize()">
 	<security:authentication property="principal.username" var="username"/>
+
+<div class="container">
+	<div class="row">
+		<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
+	        <%-- <a href='<cmn:base/>/page/person/register.jsp' class="btn btn-success">个人注册</a>
+	        <a href='<cmn:base/>/page/enterprise/register.jsp' class="btn btn-success">企业注册</a> --%>
+	        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
+	        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
+        	<%-- <a href="<cmn:base/>/login.jsp" class="btn btn-info">登录</a> --%>
+        	<%-- <a href="<cmn:base/>/login.jsp" class="sy-dl-wz">登录</a> --%>
+        </c:if> 
+        <c:if test="${not empty username and (username ne 'anonymousUser')}">
+        	欢迎： <c:out value="${username}"></c:out>
+        	<c:choose>
+        		<c:when test="${sessionScope.userType eq 'PERSON'}">
+        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
+        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
+        		</c:when>
+        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
+        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
+        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
+        		</c:when>
+        		<c:otherwise>
+        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
+        		</c:otherwise>
+        	</c:choose>
+        </c:if>
+	</div>
+</div>
 		
 <div class="main">
 <div class="logo"></div>
@@ -162,34 +191,11 @@
                		   
 		</div>
 	</div>
-    <div class="sy-dl">
+    <!-- <div class="sy-dl">
         <div class="sy-dl-img"></div>
         
-        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-	        <%-- <a href='<cmn:base/>/page/person/register.jsp' class="btn btn-success">个人注册</a>
-	        <a href='<cmn:base/>/page/enterprise/register.jsp' class="btn btn-success">企业注册</a> --%>
-	        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
-	        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
-        	<%-- <a href="<cmn:base/>/login.jsp" class="btn btn-info">登录</a> --%>
-        	<%-- <a href="<cmn:base/>/login.jsp" class="sy-dl-wz">登录</a> --%>
-        </c:if> 
-        <c:if test="${not empty username and (username ne 'anonymousUser')}">
-        	欢迎： <c:out value="${username}"></c:out>
-        	<c:choose>
-        		<c:when test="${sessionScope.userType eq 'PERSON'}">
-        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
-        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
-        		</c:when>
-        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
-        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
-        		</c:when>
-        		<c:otherwise>
-        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
-        		</c:otherwise>
-        	</c:choose>
-        </c:if>
-    </div>
+        
+    </div> -->
     <!-- 注册 -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     	<div class="modal-dialog">
