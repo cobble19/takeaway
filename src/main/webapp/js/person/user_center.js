@@ -41,7 +41,7 @@ $(document).ready(function() {
 		}, {
 			"targets" : 3,
 			"render" : function(data, type, full, meta) {
-				var content = (data != '') ? data.substring(0, 10): '';
+				var content = (data != null) ? data.substring(0, 10): '';
 				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
 						content + '</a>';
 				return link
