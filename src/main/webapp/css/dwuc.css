@@ -583,6 +583,16 @@ ol.hashTabber-data.hashTabber-sandstone>li h3 {
 	margin-left: 36px;
 }
 
+.logomin {
+	background: url(../images/logomin.gif) center no-repeat;
+	width: 50px;
+	height: 50px;
+	margin-top: 2px;
+	margin-bottom:10px;
+	float: left;
+	margin-left: 5px;
+}
+
 .qima {
 	background: url(../images/sy3.gif) center no-repeat;
 	width: 120px;
