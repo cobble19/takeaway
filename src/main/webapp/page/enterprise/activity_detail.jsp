@@ -50,10 +50,10 @@
 	<div class="container">
 		<div class="row" style="border-bottom:1px solid #CCC; ">
 			<div class="col-md-1">
-                 <a href="http://www.deweiyizhan.com" style="font-size:14px;">得味首页</a>
+                 <a href="http://www.deweiyizhan.com" style="font-size:12px;">得味首页</a>
             </div>
             <div class="col-md-1">
-                 <a href="http://#" style="font-size:14px;">活动中心</a>
+                 <a href="http://#" style="font-size:12px;">活动中心</a>
             </div>
             <div class="col-md-8"></div>
             <div class="col-md-2">

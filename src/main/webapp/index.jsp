@@ -55,6 +55,8 @@
 
     <link href="<cmn:base/>/css/common.css" rel="stylesheet">
     
+   
+
 <script type="text/javascript">
  /** 
   * 加载指定城市区域的地图 
@@ -104,8 +106,8 @@
 	</div>
 </div>
 		
-<div class="main">
-<div class="logo"></div>
+<div class="row">
+<div class="col-md-1 logo"></div>
 
   <script type="text/javascript">
        $(function() {
@@ -140,10 +142,9 @@
        
     </script> 
 
-<div class="sy-dw-t">	
+<div class="col-md-10 sy-dw-t">	
 		
-	
-	<div id="rotate">
+		<div id="rotate" class="row">
 		  
             <ul class="sy-lbk">	
                <div class="sy-lb">
@@ -152,15 +153,18 @@
                </div>
             </ul>
 	      
-            <div id="0">               
-               <ul class="sy-jrk">
-                        <div class="qima"></div>
-                        <div class="sywz"></div>
-                        <div class="jrtj"></div>
-                        <div class="jrtg"></div>
-                        <div class="jrhd"></div>
-
-                        <div class="cont-1">
+            <div id="0" class="row">               
+               <ul class="sy-jrk col-md-10">
+                     <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="qima col-md-2"></div>
+                        <div class="sywz col-md-8"></div>
+                        <div class="col-md-1"></div>
+                     </div>
+                     <div class="row">   
+                        <div class="col-md-5" style="padding:0px; margin:0px;">
+                            <div class="jrtj"></div>
+                            <div class="cont-1">
                             <div class="cont-4">
                                 <li><img src="images/5.png" width="252" height="105"></li>
                             </div>
@@ -172,13 +176,26 @@
                                 <li><img src="images/3.png" width="124" height="74"></li>
                                 <li><img src="images/4.png" width="124" height="74"></li>
                                 <!--今日优惠四个图片结束-->
-                            </div>
+                          </div>
+                          </div>
                         </div>
-                        <div class="cont-2"></div>
-                        <div class="cont-3">
+                        <div class="col-md-5" style="padding:0px; margin:0px;">
+                            <div class="jrtg"></div>
+                            <div class="cont-2"></div>
                         </div>
+                        <div class="col-md-2"  style="padding:0px; margin:0px;">
+                            <div class="jrhd"></div>
+                            <div class="cont-3"></div>
+                        </div>
+                        
+                     </div>   
+
+                        
+                        
+                       
 			   </ul>
 			   </div>
+
 
             <div id="1">               
                <ul class="sy-jrk">
