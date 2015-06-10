@@ -19,6 +19,10 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<cmn:base/>/jquery/jquery-1.11.1.min.js"></script>
     <script src="<cmn:base/>/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <!-- jQuery Validation -->
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/jquery.validate.min.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/additional-methods.min.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/jquery.validate.message.zh_cn.js"></script>
     <!-- jQuery UI -->
     <link href="<cmn:base/>/jquery-ui-1.11.4/jquery-ui.min.css" rel="stylesheet">
     <script src="<cmn:base/>/jquery-ui-1.11.4/jquery-ui.min.js"></script>

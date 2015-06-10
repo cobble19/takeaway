@@ -90,16 +90,17 @@
         	<c:choose>
         		<c:when test="${sessionScope.userType eq 'PERSON'}">
         			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
-        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
+        			<%-- <a href='<cmn:base/>/j_spring_security_logout'>退出</a> --%>
         		</c:when>
         		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
         			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
-        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
+        			
         		</c:when>
         		<c:otherwise>
         			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
         		</c:otherwise>
         	</c:choose>
+        	<a href="<cmn:base/>/j_spring_security_logout">退出</a>
         </c:if>
 	</div>
 </div>

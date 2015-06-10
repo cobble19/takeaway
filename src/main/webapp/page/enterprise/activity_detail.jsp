@@ -18,6 +18,10 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<cmn:base/>/jquery/jquery-1.11.1.min.js"></script>
     <script src="<cmn:base/>/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <!-- jQuery Validation -->
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/jquery.validate.min.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/additional-methods.min.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/jquery.validate.message.zh_cn.js"></script>
     <!-- Bootstrap -->
     <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -106,12 +110,12 @@
 						<form id="applyForm" class="form-inline">
 							
 								<div class="form-group">
-									<label for="username">姓名: </label> <input id="username"
-										name="username" placeholder="姓名" class="form-control" />
+									<label for="username">姓名: </label> 
+									<input id="username" name="username" required="required" value="" placeholder="姓名" class="form-control" />
 								</div>
 								<div class="form-group">
-									<label for="phone">手机号: </label> <input id="phone" name="phone"
-										placeholder="手机号" class="form-control" />
+									<label for="phone">手机号: </label> 
+									<input type="tel" id="phone" name="phone"  required="required" value="" placeholder="手机号" class="form-control" />
 								</div>
 								<input type="submit" id="applyBtn" value="申请参加"
 									class="btn btn-default" />

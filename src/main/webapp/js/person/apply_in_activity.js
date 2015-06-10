@@ -139,11 +139,11 @@ function format ( d ) {
     		'<input type="hidden" id="activityId" name="activityId" value="' + d.activityId + '"/>' + 
     		'<div class="form-group">' + 
 	    		'<label for="username">姓名: </label>' +
-	    		'<input id="username" name="username" placeholder="姓名" class="form-control"/>' + 
+	    		'<input id="username" name="username" required="required" value="" placeholder="姓名" class="form-control"/>' + 
 	    	'</div>' +
 	    	'<div class="form-group">' + 
 	    		'<label for="phone">手机号: </label>' +
-	    		'<input id="phone" name="phone" placeholder="手机号" class="form-control"/>' +
+	    		'<input id="phone" name="phone" type="tel" required="required" value="" placeholder="手机号" class="form-control"/>' +
 	    	'</div>' + 
 	    		'<input type="submit" id="applyBtn" value="申请参加" class="btn btn-default"/>' +
     	'</form>';
