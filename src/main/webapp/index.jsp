@@ -79,6 +79,9 @@
 
 <div class="container">
 	<div class="row">
+        <div class="col-md-1 logo"></div>
+        <div class="col-md-9"></div>
+        <div class="col-md-2">
 		<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 	        <%-- <a href='<cmn:base/>/page/person/register.jsp' class="btn btn-success">个人注册</a>
 	        <a href='<cmn:base/>/page/enterprise/register.jsp' class="btn btn-success">企业注册</a> --%>
@@ -107,7 +110,7 @@
 </div>
 		
 <div class="row">
-<div class="col-md-1 logo"></div>
+
 
   <script type="text/javascript">
        $(function() {
@@ -141,27 +144,14 @@
        
        
     </script> 
-
-<div class="col-md-10 sy-dw-t">	
-		
-		<div id="rotate" class="row">
-		  
-            <ul class="sy-lbk">	
-               <div class="sy-lb">
-				<li><a href="#0"><span>今日头条</span></a></li>
-				<li><a href="#1"><span>精品外卖</span></a></li>     
-               </div>
-            </ul>
-	      
+        <div class="col-md-1"></div>
+		<div id="rotate" class="col-md-8" style="margin-left:50px;">    
             <div id="0" class="row">               
-               <ul class="sy-jrk col-md-10">
-                     <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="qima col-md-2"></div>
-                        <div class="sywz col-md-8"></div>
-                        <div class="col-md-1"></div>
-                     </div>
-                     <div class="row">   
+               <ul class="row">
+                        <div class="qima col-md-2"  style="margin-left:50px;"></div>
+                        <div class="sywz col-md-9"></div>
+
+
                         <div class="col-md-5" style="padding:0px; margin:0px;">
                             <div class="jrtj"></div>
                             <div class="cont-1">
@@ -187,12 +177,7 @@
                             <div class="jrhd"></div>
                             <div class="cont-3"></div>
                         </div>
-                        
-                     </div>   
-
-                        
-                        
-                       
+                                
 			   </ul>
 			   </div>
 
@@ -205,9 +190,13 @@
 				   </li>
 			   </ul>
 			   </div>
-               		   
+            <ul class="row sy-lbk">	
+               <div class="sy-lb col-md-12">
+				<li><a href="#0"><span>今日头条</span></a></li>
+				<li><a href="#1"><span>精品外卖</span></a></li>     
+               </div>
+            </ul>               		   
 		</div>
-	</div>
     <!-- <div class="sy-dl">
         <div class="sy-dl-img"></div>
         
