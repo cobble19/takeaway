@@ -6,6 +6,8 @@ public class ActivityPOJO extends BasePOJO {
     private String title;
     private String content;
     
+    private UserPOJO userPOJO;
+    
 	public Long getActivityId() {
 		return activityId;
 	}
@@ -23,5 +25,11 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public UserPOJO getUserPOJO() {
+		return userPOJO;
+	}
+	public void setUserPOJO(UserPOJO userPOJO) {
+		this.userPOJO = userPOJO;
 	}
 }

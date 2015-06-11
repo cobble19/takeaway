@@ -51,6 +51,7 @@ var showDetail = function() {
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);
         	$("#content").html(data.content);
+        	$('#publisher').text(data.userPOJO.username);
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	alert('Load Error!');

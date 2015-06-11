@@ -90,10 +90,14 @@
             </div>
 		</div>
 		<div class="row">
-            <h4 class="" style="text-align: bottom; font-weight:bolder; font-size:36px; height:100px; line-height:100px;"><span id="title"></span></h4>
+			<div class="col-md-12">
+            	<span><h3 id="title"></h3></span>
+			</div>
 		</div>
 		<div class="row">
-        发布者:**********
+			<div class="col-md-12">
+            	发布者:<span id="publisher"></span>
+			</div>
         </div>	
   		<div class="row uc-border">
   			<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>

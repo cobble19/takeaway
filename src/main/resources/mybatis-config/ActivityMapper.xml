@@ -14,6 +14,7 @@
     <id column="ACTIVITY_ID" property="activityId" />
     <result column="TITLE" property="title" jdbcType="VARCHAR"/>
     <result column="CONTENT" property="content" />
+    <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     a.ACTIVITY_ID, a.TITLE, a.CONTENT
@@ -54,8 +55,15 @@
   <select id="findById" resultMap="ActivityResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from e_activity a
-    where a.ACTIVITY_ID = #{activityId}
+			, u.user_id, u.username
+    from e_activity a, rel_activity_user rau, b_user u
+    <where>
+  		<trim prefixOverrides="and">
+			and a.activity_id = rau.activity_id
+			and rau.user_id = u.user_id
+			and a.ACTIVITY_ID = #{activityId}
+  		</trim>
+  	</where>
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from e_activity
