@@ -20,7 +20,7 @@
                  <a href="http://#" style="font-size:12px;">活动中心</a>
             </div>
             <div class="col-md-3 col-xs-6">
-				<jsp:include page="${basePath}/reg_login.jsp"></jsp:include>            
+				<%@include file="../../../reg_login.jsp" %>
             </div>
 		</div>
 		<div class="row">
