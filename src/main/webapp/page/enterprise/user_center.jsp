@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="../common/taglib.jsp" %>
+<%@include file="../../page/common/taglib.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%@include file="../common/head.jsp" %>
+    <%@include file="../../page/common/head.jsp" %>
     
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/user_center.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
@@ -14,42 +14,23 @@
     
     <script>
     	$(document).ready(function() {
-    		$('#sidebar a').click(function() {
-    			$('#sidebar a').each(function() {
-    				$(this).removeClass('active');
-    			})
-    			$this = $(this);
-    			$this.addClass('active');
-    			var contentId = $this.attr('href').substring(1);
-    			console.log('contentId: ' + contentId);
-    			$('#uc_content > div').each(function(i, e) {
-    				$(this).hide();
-    			})
-    			$('#' + contentId).show();
-    		});
     		
-    		$('#sidebar a[href=#profile]').trigger('click');
+    	$('#sidebar a').click(function() {
+			$('#sidebar a').each(function() {
+				$(this).removeClass('active');
+			})
+			$this = $(this);
+			$this.addClass('active');
+			var contentId = $this.attr('href').substring(1);
+			console.log('contentId: ' + contentId);
+			$('#uc_content > div').each(function(i, e) {
+				$(this).hide();
+			})
+			$('#' + contentId).show();
+		});
+		
+		$('#sidebar a[href=#profile]').trigger('click');
     		
-    		/* $('#sidebar div a').click(function() {
-    			var url = $(this).attr('contentPage');
-    			$.ajax({
-    	    		"url" : url,
-    	    		"type" : "GET",
-    	    		"headers" : {
-    	    			"Content-Type" : "application/json"
-    	    		},
-    	            success: function(data, textStatus, jqXHR ) {
-    	            	$('#content').html(data);
-    	            	alert('添加成功！')
-    	            },
-    	            error: function(jqXHR, textStatus, errorThrown) {
-    	            	alert('Load Error!');
-    	            },
-    	            complete: function(jqXHR, textStatus) {
-    	            	console.log('Ajax complete.');
-    	            }
-    	    	});	// ajax
-    		}) */
     	})
     </script>
   </head>
@@ -111,7 +92,8 @@
   				<div class="uc-lb-bg">
 	  				<div class="" style="padding-left: 5px;">
 	  					<br/>
-	  					<jsp:include page="${basePath}/reg_login.jsp"></jsp:include>
+	  					<%@include file="../../reg_login.jsp" %>
+	  					<%-- <jsp:include page="reg_login.jsp"></jsp:include> --%>
 		  			</div>
 		          <div class="list-group" style="margin: 10px 15px 0px 5px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>

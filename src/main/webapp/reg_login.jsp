@@ -1,24 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="page/common/taglib.jsp" %>
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <%@include file="page/common/head.jsp" %>
-
-</head>
-
-<body>
 	<security:authentication property="principal.username" var="username"/>
 
-<div class="container">
 	<div class="row">
-        <div class="col-md-1 col-xs-6 logo"></div>
+        <!-- <div class="col-md-1 col-xs-6 logo"></div> -->
         <div class="col-md-3 col-xs-6 col-md-offset-8">
 			<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-	        <button style="float:right;" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
-	        <button style="float:right; margin-right:10px;" type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
+	        <button style="float:right;" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal">注册</button>
+	        <button style="float:right; margin-right:10px;" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#loginModal">登陆</button>
 	        </c:if> 
 	        <c:if test="${not empty username and (username ne 'anonymousUser')}">
                 <a class="sy-dl-wz" href='<cmn:base/>/j_spring_security_logout'>退出</a>
@@ -160,15 +149,4 @@
 	    		</div>
 	    	</div>
 	    </div>
-	    
-	    
-	
-	
-	
-	
 	</div>
-</div>
-	
-</body>
-
-</html>
