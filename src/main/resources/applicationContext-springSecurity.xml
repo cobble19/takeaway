@@ -23,6 +23,7 @@
 	<security:http pattern="/page/**" security="none" />
 	<security:http pattern="/login*" security="none" />
 	<security:http pattern="/spring_security_login" security="none" />
+	<security:http pattern="/*.jsp" security="none" />
 	<!-- <security:http pattern="/index*" security="none" /> -->
 	<!-- <security:http pattern="/index.jsp" security="none" /> -->
 	<!-- <security:http pattern="/web/**" security="none" /> -->
