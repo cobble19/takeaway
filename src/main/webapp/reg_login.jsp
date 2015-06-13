@@ -14,15 +14,14 @@
 
 <div class="container">
 	<div class="row">
-        <div class="col-md-1 logo"></div>
-        <div class="col-md-9"></div>
-        <div class="col-md-2">
+        <div class="col-md-1 col-xs-6 logo"></div>
+        <div class="col-md-3 col-xs-6 col-md-offset-8">
 			<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-		        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
-		        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
+	        <button style="float:right;" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
+	        <button style="float:right; margin-right:10px;" type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
 	        </c:if> 
 	        <c:if test="${not empty username and (username ne 'anonymousUser')}">
-	        	欢迎： <c:out value="${username}"></c:out>
+                <a class="sy-dl-wz" href='<cmn:base/>/j_spring_security_logout'>退出</a>
 	        	<c:choose>
 	        		<c:when test="${sessionScope.userType eq 'PERSON'}">
 	        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
@@ -34,8 +33,7 @@
 	        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
 	        		</c:otherwise>
 	        	</c:choose>
-	        	
-	        	<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
+                <div class="sy-dl-wz">欢迎:<c:out value="${username}"></c:out></div>
 	        </c:if>
 		</div>
 	</div>

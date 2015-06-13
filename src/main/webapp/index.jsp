@@ -104,7 +104,7 @@
                     <div class="row">
                         <div class="qima col-md-2 hidden-xs"  style="margin-left:60px;"></div>
                         <div class="sywz1 col-md-4 hidden-xs"></div>
-                        <div class="sywz2 col-md-4 hidden-xs" style="margin-left:-50px;"></div>
+                        <div class="sywz2 col-md-4 hidden-xs"></div>
                     </div>
                     <div class="row">
                         <div class="col-md-4" style="padding:0px; margin:0px;">
@@ -128,7 +128,7 @@
                             <div class="jrtg"></div>
                             <div class="cont-2"></div>
                         </div>
-                        <div class="col-md-4" style="margin-left:-25px;">
+                        <div class="col-md-4" style="margin-left:-15px;">
                             <div class="jrhd"></div>
                             <div class="cont-3"></div>
                         </div>
