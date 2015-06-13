@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="page/common/taglib.jsp" %>
+<%@include file="../common/taglib.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%@include file="page/common/head.jsp" %>
+    <%@include file="../common/head.jsp" %>
     
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/person/apply_in_activity.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">

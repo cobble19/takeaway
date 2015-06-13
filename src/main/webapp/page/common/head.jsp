@@ -67,7 +67,15 @@
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/common.js"></script>
     <link href="<cmn:base/>/css/common.css" rel="stylesheet">
 	<link href="<cmn:base/>/css/dwsy.css" rel="stylesheet" media="print, projection, screen">
-    <link href="css/dwsy.css" rel="stylesheet" media="print, projection, screen">
+    <!-- <link href="css/dwsy.css" rel="stylesheet" media="print, projection, screen"> -->
+    
+	<input id="basePath" name="basePath" type="hidden" value='<cmn:base/>'>
+	
+    <%  
+	    String path = request.getContextPath();  
+	    String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/";  
+	%>  
+ 	<base href="<%=basePath%>"> 
     
     
     

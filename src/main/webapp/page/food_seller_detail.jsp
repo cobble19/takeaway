@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="page/common/taglib.jsp" %>
+<%@include file="common/taglib.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%@include file="page/common/head.jsp" %>
+    <%@include file="common/head.jsp" %>
     
      <!--引用百度地图API-->
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=BE59fc66ef5ecb52879a5b5a97cee9b3"></script>

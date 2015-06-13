@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	showDetail();
 	
+	/*apply*/
 	$("form").submit(function(e) {
     	e.preventDefault();
     	var username = $("#username").val();
@@ -32,6 +33,8 @@ $(document).ready(function() {
     	});	// ajax
     	//return false;
     });
+	
+	
 })
 
 var showDetail = function() {

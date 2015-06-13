@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="page/common/taglib.jsp" %>
+<%@include file="../common/taglib.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%@include file="page/common/head.jsp" %>
+    <%@include file="../common/head.jsp" %>
     
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/user_center.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
@@ -111,31 +111,7 @@
   				<div class="uc-lb-bg">
 	  				<div class="" style="padding-left: 5px;">
 	  					<br/>
-				        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-				        	<a href="<cmn:base/>/spring_security_login">登录</a>
-				        </c:if> 
-				        <c:if test="${not empty username}">
-				        	欢迎： <c:out value="${username}"></c:out>
-				        	<br/>
-				        	<c:choose>
-				        		<c:when test="true">	
-				        			<div style="height: 18px; margin-left: 150px;">
-				        				<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
-				        			</div>
-				        		</c:when>
-				        		<%-- <c:when test="${sessionScope.userType eq 'PERSON'}">
-				        			<a  href="<cmn:base/>/web/person/usercenter">个人中心</a>
-				        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
-				        		</c:when>
-				        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-				        			<a href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
-				        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
-				        		</c:when>
-				        		<c:otherwise>
-				        			userType 可能错误。<c:out value="${sessionScope.userType}"></c:out>
-				        		</c:otherwise> --%>
-				        	</c:choose>
-				        </c:if>
+	  					<jsp:include page="${basePath}/reg_login.jsp"></jsp:include>
 		  			</div>
 		          <div class="list-group" style="margin: 10px 15px 0px 5px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
