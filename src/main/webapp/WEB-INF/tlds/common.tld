@@ -17,4 +17,9 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute> -->
 	</tag>
+	<tag>
+		<name>basex</name>
+		<tag-class>com.cobble.takeaway.tag.BaseXTag</tag-class>
+		<body-content>empty</body-content>
+	</tag>
 </taglib>

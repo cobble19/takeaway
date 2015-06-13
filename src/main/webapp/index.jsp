@@ -27,11 +27,10 @@
 
 
 <body onLoad="initialize()">
-	<input id="basePath" type="hidden" value='<cmn:base/>'>
 	<security:authentication property="principal.username" var="username"/>
 
 <div class="container">
-<jsp:include page="${basePath}/reg_login.jsp"></jsp:include>
+<%@include file="reg_login.jsp" %>
 
 	<%-- <div class="row">
         <div class="col-md-1 col-xs-6 logo"></div>

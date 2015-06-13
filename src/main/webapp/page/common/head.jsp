@@ -69,13 +69,16 @@
 	<link href="<cmn:base/>/css/dwsy.css" rel="stylesheet" media="print, projection, screen">
     <!-- <link href="css/dwsy.css" rel="stylesheet" media="print, projection, screen"> -->
     
-	<input id="basePath" name="basePath" type="hidden" value='<cmn:base/>'>
+	<input id="basePath" type="hidden" value='<cmn:base/>'>
+	<c:set var="basePath"><cmn:base/></c:set>
 	
-    <%  
+    <%-- <%  
 	    String path = request.getContextPath();  
 	    String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/";  
-	%>  
- 	<base href="<%=basePath%>"> 
+	%> --%>  
+ 	<%-- <base href="${basePath}"/>  --%>
+ 	
+ 	<cmn:basex/>
     
     
     
