@@ -53,50 +53,47 @@
   
 	<div class="container">
 		<div class="row" style="border-bottom:1px solid #CCC; ">
-			<div class="col-md-1">
-                 <a href="http://www.deweiyizhan.com" style="font-size:12px;">得味首页</a>
-            </div>
-            <div class="col-md-1">
+			<div class="col-md-9 col-xs-6">
+                 <a href="http://www.deweiyizhan.com" style="font-size:12px;">得味首页</a>&nbsp;&nbsp;
                  <a href="http://#" style="font-size:12px;">活动中心</a>
             </div>
-            <div class="col-md-8"></div>
-            <div class="col-md-2">
+            <div class="col-md-3 col-xs-6">
           		<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 	        <%-- <a href='<cmn:base/>/page/person/register.jsp' class="btn btn-success">个人注册</a>
 	        <a href='<cmn:base/>/page/enterprise/register.jsp' class="btn btn-success">企业注册</a> --%>
-	        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
-	        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
+	        <button style="float:right;" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
+	        <button style="float:right; margin-right:10px;" type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
         	<%-- <a href="<cmn:base/>/login.jsp" class="btn btn-info">登录</a> --%>
         	<%-- <a href="<cmn:base/>/login.jsp" class="sy-dl-wz">登录</a> --%>
         </c:if> 
         <c:if test="${not empty username and (username ne 'anonymousUser')}">
-        	欢迎： <c:out value="${username}"></c:out>
         	<c:choose>
         		<c:when test="${sessionScope.userType eq 'PERSON'}">
-        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
-        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
+        			<a class="sy-dl-wz" href='<cmn:base/>/j_spring_security_logout'>退出</a>
+                    <a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>  			
         		</c:when>
         		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
-        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
+        			<a class="sy-dl-wz" href="<cmn:base/>/j_spring_security_logout">退出</a>
+                    <a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
         		</c:when>
         		<c:otherwise>
         			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
         		</c:otherwise>
         	</c:choose>
+        	<div class="sy-dl-wz">欢迎:<c:out value="${username}"></c:out></div>
         </c:if>
             
             
             </div>
 		</div>
 		<div class="row">
-			<div class="col-md-12">
-            	<span><h3 id="title"></h3></span>
+			<div class="col-md-12" >
+            	<span style=" margin-top:50px; margin-bottom:50px; display:block;"><h3 id="title"></h3></span>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-            	发布者:<span id="publisher"></span>
+            	<h5 style=" margin-bottom:10px; display:block;">发布者:<span id="publisher"></span></h5>
 			</div>
         </div>	
   		<div class="row uc-border">

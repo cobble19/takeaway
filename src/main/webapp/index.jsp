@@ -79,37 +79,36 @@
 
 <div class="container">
 	<div class="row">
-        <div class="col-md-1 logo"></div>
-        <div class="col-md-9"></div>
-        <div class="col-md-2">
+        <div class="col-md-1 col-xs-6 logo"></div>
+        <div class="col-md-3 col-xs-6 col-md-offset-8">
 		<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 	        <%-- <a href='<cmn:base/>/page/person/register.jsp' class="btn btn-success">个人注册</a>
 	        <a href='<cmn:base/>/page/enterprise/register.jsp' class="btn btn-success">企业注册</a> --%>
-	        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
-	        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
+	        <button style="float:right;" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">注册</button>
+	        <button style="float:right; margin-right:10px;" type="button" class="btn btn-info" data-toggle="modal" data-target="#loginModal">登陆</button>
         	<%-- <a href="<cmn:base/>/login.jsp" class="btn btn-info">登录</a> --%>
         	<%-- <a href="<cmn:base/>/login.jsp" class="sy-dl-wz">登录</a> --%>
         </c:if> 
         <c:if test="${not empty username and (username ne 'anonymousUser')}">
-        	欢迎： <c:out value="${username}"></c:out>
         	<c:choose>
         		<c:when test="${sessionScope.userType eq 'PERSON'}">
-        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
-        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
+        			<a class="sy-dl-wz" href='<cmn:base/>/j_spring_security_logout'>退出</a>
+                    <a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>	
         		</c:when>
         		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
-        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
+        			<a class="sy-dl-wz" href="<cmn:base/>/j_spring_security_logout">退出</a>
+                    <a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
         		</c:when>
         		<c:otherwise>
         			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
         		</c:otherwise>
         	</c:choose>
+            <div class="sy-dl-wz">欢迎:<c:out value="${username}"></c:out></div>
         </c:if>
 	</div>
 </div>
 		
-<div class="row">
+<div class="row" style="padding-left:50px;">
 
 
   <script type="text/javascript">
@@ -144,15 +143,16 @@
        
        
     </script> 
-        <div class="col-md-1"></div>
-		<div id="rotate" class="col-md-8" style="margin-left:50px;">    
+		<div id="rotate" class="col-md-10 col-md-offset-1">    
             <div id="0" class="row">               
                <ul class="row">
-                        <div class="qima col-md-2"  style="margin-left:50px;"></div>
-                        <div class="sywz col-md-9"></div>
-
-
-                        <div class="col-md-5" style="padding:0px; margin:0px;">
+                    <div class="row">
+                        <div class="qima col-md-2 hidden-xs"  style="margin-left:60px;"></div>
+                        <div class="sywz1 col-md-4 hidden-xs"></div>
+                        <div class="sywz2 col-md-4 hidden-xs" style="margin-left:-50px;"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4" style="padding:0px; margin:0px;">
                             <div class="jrtj"></div>
                             <div class="cont-1">
                             <div class="cont-4">
@@ -169,15 +169,15 @@
                           </div>
                           </div>
                         </div>
-                        <div class="col-md-5" style="padding:0px; margin:0px;">
+                        <div class="col-md-4" style="padding:0px; margin:0px;">
                             <div class="jrtg"></div>
                             <div class="cont-2"></div>
                         </div>
-                        <div class="col-md-2"  style="padding:0px; margin:0px;">
+                        <div class="col-md-4" style="margin-left:-25px;">
                             <div class="jrhd"></div>
                             <div class="cont-3"></div>
                         </div>
-                                
+                     </div>           
 			   </ul>
 			   </div>
 
@@ -191,7 +191,7 @@
 			   </ul>
 			   </div>
             <ul class="row sy-lbk">	
-               <div class="sy-lb col-md-12">
+               <div class="sy-lb col-md-10 col-md-offset-1">
 				<li><a href="#0"><span>今日头条</span></a></li>
 				<li><a href="#1"><span>精品外卖</span></a></li>     
                </div>
