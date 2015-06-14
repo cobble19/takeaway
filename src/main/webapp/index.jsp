@@ -6,7 +6,7 @@
 <html lang="en">
   <head>
     <%@include file="page/common/head_index.jsp" %>
-  	<%-- <jsp:include page="page/common/head.jsp"></jsp:include> --%>
+  	<%-- <jsp:include page="page/common/head_index.jsp"></jsp:include> --%>
   	<!-- only for index page 
     <script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script>
   	<script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
