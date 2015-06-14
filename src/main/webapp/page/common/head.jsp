@@ -73,7 +73,7 @@
     <!--<link href="<cmn:base/>/css/wm.css" rel="stylesheet">-->
     
 	<input id="basePath" type="hidden" value='<cmn:base/>'>
-	<!-- <c:set var="basePath"><cmn:base/></c:set> -->
+	<c:set var="basePath"><cmn:base/></c:set>
 	
     <%-- <%  
 	    String path = request.getContextPath();  
@@ -83,5 +83,5 @@
  	
  	<%-- <cmn:basex/> --%>
     
-    
+
     
