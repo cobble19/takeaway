@@ -14,15 +14,7 @@
   <body>
   
 	<div class="container">
-		<div class="row" style="border-bottom:1px solid #CCC; ">
-			<div class="col-md-9 col-xs-6">
-                 <a href="http://www.deweiyizhan.com" style="font-size:12px;">得味首页</a>&nbsp;&nbsp;
-                 <a href="http://#" style="font-size:12px;">活动中心</a>
-            </div>
-            <div class="col-md-3 col-xs-6">
-				<%@include file="../../../reg_login.jsp" %>
-            </div>
-		</div>
+		<%@include file="../../../reg_login_full.jsp" %>
 		<div class="row">
 			<div class="col-md-12" >
             	<span style=" margin-top:50px; margin-bottom:50px; display:block;"><h3 id="title"></h3></span>

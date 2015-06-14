@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
    <%-- <%@include file="taglib.jsp" %> --%>
    <!-- error @6/12/2015 -->
@@ -48,8 +48,8 @@
     
 <%-- <script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script> --%>
 	<!-- conflict with jQuery-ui -->
-	<%-- <script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
-	<script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script> --%>
+	<!-- <script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
+	<script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script> -->
 	<!-- <script type="text/javascript" src="http://api.go2map.com/maps/js/api_v2.5.1.js"></script> -->
 	<!-- <script src="js/jquery-1.2.4b.js" type="text/javascript"></script> -->
 	
@@ -70,7 +70,7 @@
     <link href="<cmn:base/>/css/common.css" rel="stylesheet">
 	<link href="<cmn:base/>/css/dwsy.css" rel="stylesheet" media="print, projection, screen">
     <!-- <link href="css/dwsy.css" rel="stylesheet" media="print, projection, screen"> -->
-    <link href="<cmn:base/>/css/wm.css" rel="stylesheet">
+    <!--<link href="<cmn:base/>/css/wm.css" rel="stylesheet">-->
     
 	<input id="basePath" type="hidden" value='<cmn:base/>'>
 	<c:set var="basePath"><cmn:base/></c:set>

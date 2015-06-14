@@ -3,7 +3,7 @@
 	<security:authentication property="principal.username" var="username"/>
 
 	<div class="row">
-        <!-- <div class="col-md-1 col-xs-6 logo"></div> -->
+        <div class="col-md-1 col-xs-6 logo"></div>
         <div class="col-md-3 col-xs-6 col-md-offset-8">
 			<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 	        <button style="float:right;" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal">注册</button>

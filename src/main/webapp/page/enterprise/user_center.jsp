@@ -36,14 +36,9 @@
   </head>
   <body>
   	<div class="container">
-  		<div class="row" style="margin-bottom: 50px;">
-			<div class="logo"></div>
-			<div class="qima"></div>
-			<div class="sywz"></div>
-			
-		</div>
-  		<div class="row">
-  			<%-- <div class="col-md-12">
+	  	<%@include file="../../reg_login_full.jsp" %>
+  		<%-- <div class="row">
+  			<div class="col-md-12">
 		        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 		        	<a href="<cmn:base/>/spring_security_login">登录</a>
 		        </c:if> 
@@ -85,22 +80,18 @@
 		        		</c:otherwise>
 		        	</c:choose>
 		        </c:if>
-		    </div> --%>
-  		</div>
-  		<div class="row uc-border" style="position: relative; min-height: 485px;">
+		    </div> 
+  		</div>--%>
+  		<div class="row uc-border">
   			<div class="col-md-3 " id="sidebar">
-  				<div class="uc-lb-bg">
-	  				<div class="" style="padding-left: 5px;">
+	  				<%--<div class="" style="padding-left: 5px;">
 	  					<br/>
-	  					<%@include file="../../reg_login.jsp" %>
-	  					<%-- <jsp:include page="reg_login.jsp"></jsp:include> --%>
-		  			</div>
-		          <div class="list-group" style="margin: 10px 15px 0px 5px;">
+	  					<jsp:include page="reg_login.jsp"></jsp:include> 
+		  			</div>--%>
+		          <div class="list-group">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
 		            <a href="#create_activity" class="list-group-item">发起活动</a>
-		          </div>
-  				</div>
-  				
+		          </div> 				
 	     	</div>
 	     	<div class="col-md-9">
 	     		<div id="uc_content" style="padding-top: 10px;">
