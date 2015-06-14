@@ -105,11 +105,13 @@
 	     					<a class="btn btn-primary" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
 	     					
 	     					<input id="searchBtn" type="button" class="btn btn-default" value="查询">
+	     					<input id="deleteBtn" type="button" class="btn btn-default" value="删除">
 	     					
 	     				</div>
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
+				  						<th><input type="checkbox" name="chkBoxAll" id="chkBoxAll">全选</th>
 				  						<th>No.</th>
 				  						<th>标识</th>
 				  						<th>标题</th>

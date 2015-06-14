@@ -36,11 +36,19 @@ $(document).ready(function() {
 		"columnDefs" : [ {
 			"targets" : 0,
 			"render" : function(data, type, full, meta) {
-				console.log(data + " " + type + " " + full + " " + meta);
+				var checkBox = '<input type="checkbox" name="chkBox" value="'
+					+ full.activityId
+					+ '">';
+				return checkBox;
 				;
 			}
-		}, {
-			"targets" : 3,
+		},{
+			"targets" : 1,
+			"render" : function(data, type, full, meta) {
+				//console.log(data + " " + type + " " + full + " " + meta);
+			}
+		},  {
+			"targets" : 4,
 			"render" : function(data, type, full, meta) {
 				var content = (data != null) ? data.substring(0, 10): '';
 				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
@@ -48,7 +56,7 @@ $(document).ready(function() {
 				return link;
 			}
 		}, {
-			"targets" : 4,
+			"targets" : 5,
 			"render" : function(data, type, full, meta) {
 				var href = '../../page/person/apply_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + ((full.title));
@@ -78,6 +86,12 @@ $(document).ready(function() {
 			}
 		}*/ ],
         "columns": [
+			{
+			    /*"className":      'details-control',*/
+			    "orderable":      false,
+			    "data":           null,
+			    "defaultContent": ''
+			},
             {
                 /*"className":      'details-control',*/
                 "orderable":      false,
@@ -100,10 +114,61 @@ $(document).ready(function() {
     } );
     
     table.on( 'order.dt search.dt', function () {
-    	table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    	table.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
     } ).draw();
+    
+    $('#chkBoxAll').click(function() {
+    	var chkBoxAll = $(this).attr('checked');
+    	if (chkBoxAll) {
+    		$('input[name=chkBox]').attr('checked', true);
+    	} else {
+    		$('input[name=chkBox]').attr('checked', false);
+    	}
+    })
+    
+    $('#deleteBtn').click(function() {
+    	var ids = [];
+    	var chkBox = $('input[name=chkBox]');
+    	chkBox.each(function(index, ele) {
+    		if ($(this).attr('checked')) {
+    			ids.push($(this).val());
+    		}
+    	})
+    	console.log('ids: ' + ids);
+    	if (ids == null || ids.length <= 0) {
+    		alert('请选择一条记录');
+    		return;
+    	}
+
+    	var confirm = window.confirm('确定删除');
+    	if (!confirm) {
+    		return;
+    	}
+    	$.ajax({
+    		"url" : "../../mgr/activity/delete",
+    		"type" : "GET",
+    		/*"headers" : {
+    			"Content-Type" : "application/json"
+    		},*/
+    		"dataType" : 'json',
+    		traditional :true, 
+    		"data": {
+                "ids": ids
+            },
+            success: function(data, textStatus, jqXHR ) {
+            	$('#progress').dialog('close');
+            	activitySearch(table);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	alert('Load Error!');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});
+    })
 
     $('#progress').dialog({
     	autoOpen: false,

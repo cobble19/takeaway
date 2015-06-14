@@ -10,11 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,14 +37,23 @@ public class ActivityController extends BaseController {
 	
 	@Autowired
 	private ActivityService activityService;
+	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@RequestMapping(value = "/web/enterprise/activity/add", produces = {MediaType.APPLICATION_JSON_VALUE})
-	@ResponseBody
+	//@ResponseBody
 	public StatusPOJO add4Web(ActivityPOJO activityPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
+			if (activityPOJO == null) {
+				throw new Exception("activityPOJO can't is NULL.");
+			}
+			int result = -1;
+			if (activityPOJO.getActivityId() != null && activityPOJO.getActivityId() > 0l) {
+				result = activityService.update(activityPOJO);
+			} else {
+				result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
+			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			LOGGER.error("insert error.", e);
@@ -47,7 +61,11 @@ public class ActivityController extends BaseController {
 			throw e;
 		}
 		
-		return ret;
+		String url = "/page/enterprise/activity_detail.jsp?activityId=" + activityPOJO.getActivityId();
+		redirectStrategy.sendRedirect(request, response, url);;
+		
+//		return ret;
+		return null;
 	}
 	
 	@RequestMapping(value = "/web/enterprise/activity/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -157,7 +175,7 @@ public class ActivityController extends BaseController {
 	
 	@RequestMapping(value = "/mgr/activity/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public StatusPOJO delete(Long[] ids, Model model) throws Exception {
+	public StatusPOJO delete(@RequestParam("ids") Long[] ids, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			int result = activityService.delete(ids);

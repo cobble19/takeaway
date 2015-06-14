@@ -48,8 +48,8 @@
     
 <%-- <script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script> --%>
 	<!-- conflict with jQuery-ui -->
-	<!-- <script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
-	<script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script> -->
+    <!--<script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
+	<script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script>-->
 	<!-- <script type="text/javascript" src="http://api.go2map.com/maps/js/api_v2.5.1.js"></script> -->
 	<!-- <script src="js/jquery-1.2.4b.js" type="text/javascript"></script> -->
 	
@@ -73,7 +73,7 @@
     <!--<link href="<cmn:base/>/css/wm.css" rel="stylesheet">-->
     
 	<input id="basePath" type="hidden" value='<cmn:base/>'>
-	<c:set var="basePath"><cmn:base/></c:set>
+	<!-- <c:set var="basePath"><cmn:base/></c:set> -->
 	
     <%-- <%  
 	    String path = request.getContextPath();  
