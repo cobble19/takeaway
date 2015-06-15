@@ -82,13 +82,13 @@
 		        </c:if>
 		    </div> 
   		</div>--%>
-  		<div class="row uc-border">
+  		<div class="row uc-border" style="margin-top:50px;">
   			<div class="col-md-3 " id="sidebar">
 	  				<%--<div class="" style="padding-left: 5px;">
 	  					<br/>
 	  					<jsp:include page="reg_login.jsp"></jsp:include> 
 		  			</div>--%>
-		          <div class="list-group">
+		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
 		            <a href="#create_activity" class="list-group-item">发起活动</a>
 		          </div> 				
@@ -101,7 +101,7 @@
 	     			</div>
 	     			<div id="create_activity">
 	     				<h3>发起活动</h3>
-	     				<div>
+	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
 	     					
 	     					<input id="searchBtn" type="button" class="btn btn-default" value="查询">

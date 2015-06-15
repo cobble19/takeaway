@@ -5,12 +5,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%@include file="page/common/head_index.jsp" %>
+    <%@include file="page/common/head.jsp" %>
   	<%-- <jsp:include page="page/common/head_index.jsp"></jsp:include> --%>
-  	<!-- only for index page 
-    <script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script>
+  	<!-- only for index page -->
+    <!--<script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script>-->
   	<script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
-	<script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script>-->
+	<script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script>
 	
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/activity_top.js"></script>
 
@@ -75,7 +75,7 @@
            $('#rotate > ul').tabs({ fx: { opacity: 'toggle' } }).tabs('rotate', 0);
     	   /* $('#rotate1 > ul').tabs(); */
     	   
-		/* $("#myTab a, #loginTab a").each(function(i, ele) {
+		$("#myTab a, #loginTab a").each(function(i, ele) {
 			if ($(this).parent().hasClass('active')) {
 			   var href = $(this).attr('href');
 			   var page = $(this).attr('page');
@@ -86,7 +86,7 @@
 		 var href = $(this).attr('href');
 		 var page = $(this).attr('page');
 		 $(href).load(page);
-		}) */
+		}) 
 		
 		// $('#regForm').validate();
     	/* $('#regForm').submit(function(e) {

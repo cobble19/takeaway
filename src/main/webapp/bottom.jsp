@@ -5,11 +5,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%@include file="page/common/head.jsp" %>
 </head>
 
 <body>
-&copy;deweiyizhan@sina.cn
+<!--&copy;deweiyizhan@sina.cn -->
 </body>
 
 </html>
