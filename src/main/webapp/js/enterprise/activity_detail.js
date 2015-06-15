@@ -1,12 +1,5 @@
 $(document).ready(function() {
-	$('#editDiv').hide();
-	$('#showDiv').show();
 	showDetail();
-	
-	$('#addBtn').click(function(e) {
-		e.preventDefault();
-		$('#activityForm').submit();
-	})
 	
 	/*apply*/
 	$('#applyBtn').click(function(e) {
@@ -39,23 +32,6 @@ $(document).ready(function() {
 	            }
 	    	});	// ajax
 	    	//return false;
-	})
-	
-	/*for edit*/
-	$('#editBtn').click(function(e) {
-		e.preventDefault();
-		$('#editDiv').show();
-		$('#showDiv').hide();
-		$('#titleE').val($('#title').text());
-		UE.getEditor('editor').setContent($('#content').html());
-	})
-	
-	$('#backBtn').click(function(e) {
-		e.preventDefault();
-		$('#editDiv').hide();
-		$('#showDiv').show();
-		$('#titleE').val($('#title').text());
-		UE.getEditor('editor').setContent($('#content').html());
 	})
 	
 })

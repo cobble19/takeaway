@@ -63,7 +63,12 @@ $(document).ready(function() {
 				var linkApply = '<a class="btn btn-warning" href="' + href
 				+ '">' +
 				'查看申请人' + '</a>';
-				return linkApply;
+				
+				var hrefEdit = $('#basePath').val() + '/page/enterprise/activity_update.jsp?activityId='  + full.activityId;
+				var linkEdit = '<a class="btn btn-warning" href="' + hrefEdit
+								+ '">'
+								+ '修改' + '</a>';
+				return linkApply + "/" + linkEdit;
 			}
 		}/*, {
 			"targets" : 0,

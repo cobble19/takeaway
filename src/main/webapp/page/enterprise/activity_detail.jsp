@@ -8,7 +8,6 @@
     <%@include file="../common/head.jsp" %>
     
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity_detail.js"></script>
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity.js"></script>
     
     <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
   </head>
@@ -16,31 +15,6 @@
   
 	<div class="container">
 		<%@include file="../../../reg_login_full.jsp" %>
-		<div id="editDiv">
-			<form class="form-horizontal" id="activityForm" role="form" action='<cmn:base/>/web/enterprise/activity/add' method="post">
-	  			<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
-	 			<div class="form-group">
-	 				<label class="control-label" for="titleE">主题:</label>
-	 				<div class="">
-	 					<input class="form-control" id="titleE" name="title" placeholder="请输入本次活动主题">
-	 				</div>
-	 			</div>
-	 			<div class="form-group">
-	 				<label class="control-label" for="contentE">活动介绍:</label>
-	 				<div style="" class="">
-	 					<!-- <textarea rows="5" cols="20" id="content" name="content" placeholder="请输入本次活动内容"></textarea>
-	 					<input class="form-control" type="text" id="content" name="content" placeholder="请输入本次活动内容"> -->
-	 					<script id="editor" type="text/plain" name="content"></script>
-	 				</div>
-	 			</div>
-	 			<div class="form-group">
-		 			<div class="">
-		  				<button type="button" class="btn btn-default" id="addBtn">提交</button>
-		  				<button type="button" class="btn btn-default" id="backBtn" >返回</button>
-		 			</div>
-	 			</div>
-	  		</form>
-		</div>
 		<div id="showDiv">
 			<div class="row">
 				<div class="col-md-12" >
@@ -50,7 +24,6 @@
 			<div class="row">
 				<div class="col-md-12">
 	            	<h5 style=" margin-bottom:10px; display:block;">发布者:<span id="publisher"></span>
-	            	<button class="btn btn-success pull-text" type="button" id="editBtn">修改</button>
 				</h5>
 				</div>
 	        </div>	
