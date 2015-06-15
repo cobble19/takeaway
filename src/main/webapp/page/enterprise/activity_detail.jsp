@@ -19,6 +19,7 @@
 			<div class="row">
 				<div class="col-md-12" >
 	            	<span style=" margin-top:50px; margin-bottom:50px; display:block;"><h3 id="title"></h3></span>
+	            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
 				</div>
 			</div>
 			<div class="row">
@@ -47,8 +48,8 @@
 							<form id="applyForm" class="form-inline">
 								
 									<div class="form-group">
-										<label for="username">姓名: </label> 
-										<input id="username" name="username" required="required" value="" placeholder="姓名" class="form-control" />
+										<label for="usernameX">姓名: </label> 
+										<input id="usernameX" name="username" required="required" value="" placeholder="姓名" class="form-control" />
 									</div>
 									<div class="form-group">
 										<label for="phone">手机号: </label> 

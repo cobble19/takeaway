@@ -4,7 +4,7 @@ $(document).ready(function() {
 	/*apply*/
 	$('#applyBtn').click(function(e) {
 	    	e.preventDefault();
-	    	var username = $("#username").val();
+	    	var username = $("#usernameX").val();
 	    	var phone = $("#phone").val();
 	    	var activityId = $("#activityId").val();
 	    	
