@@ -13,6 +13,7 @@
 	<script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script>
 	
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/activity_top.js"></script>
+	<link href="<cmn:base/>/css/activity_top.css" rel="stylesheet">
 
 <script type="text/javascript">
  /** 

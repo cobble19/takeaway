@@ -28,7 +28,8 @@
 	<!-- <security:http pattern="/index.jsp" security="none" /> -->
 	<!-- <security:http pattern="/web/**" security="none" /> -->
 
-	<!-- <security:http pattern="/web/user/**" security="none" /> -->
+	<security:http pattern="/web/person/apply/exist" security="none" />
+	<security:http pattern="/web/person/apply/add" security="none" />
 
 	<security:http pattern="/redirect.html" security="none" />
 	<security:http pattern="/**/*.js" security="none"></security:http>
