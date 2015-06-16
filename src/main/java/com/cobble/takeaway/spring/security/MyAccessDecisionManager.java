@@ -56,6 +56,11 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				|| url.startsWith("/index") ) {
 			return;
 		}
+		
+		if ("admin".equalsIgnoreCase(myUser.getUsername())) {
+			return;
+		}
+		
 		if (CollectionUtils.isEmpty(configAttributes)) {	// 资源需要的角色
 			LOGGER.debug("url= {},  权限需要分配角色。", url);
 //			return;

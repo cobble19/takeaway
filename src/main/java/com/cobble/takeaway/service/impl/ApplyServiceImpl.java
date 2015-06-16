@@ -88,4 +88,24 @@ public class ApplyServiceImpl implements ApplyService {
 		return ret;
 	}
 
+	@Override
+	public Boolean existApplyInActivity(ApplySearchPOJO applySearchPOJO) throws Exception {
+		Boolean ret = false;
+		int result = applyMapper.findsApplyInActivityByPhone(applySearchPOJO);
+		if (result > 0) {
+			ret = true;
+		}
+		return ret;
+	}
+
+	@Override
+	public int getCountApplyInActivity(Long activityId)
+			throws Exception {
+		int ret = 0;
+		ActivitySearchPOJO activitySearchPOJO = new ActivitySearchPOJO();
+		activitySearchPOJO.setActivityId(activityId);
+		ret = applyMapper.getCountApplyInActivity(activitySearchPOJO);
+		return ret;
+	}
+
 }

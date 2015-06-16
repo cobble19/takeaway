@@ -38,9 +38,35 @@ public class ApplyController extends BaseController {
 		DataTablesPOJO<ApplyPOJO> ret = new DataTablesPOJO<ApplyPOJO>();
 		try {
 			List<ApplyPOJO> applyPOJOs = applyService.findsApplyInActivity(activityId);
+			int count = applyService.getCountApplyInActivity(activityId);
 			ret.setData(applyPOJOs);
+			ret.setRecordsTotal(count);
+			ret.setDraw(1);
+			ret.setRecordsFiltered(count);
 		} catch (Exception e) {
 			LOGGER.error("applyInActivity error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/web/person/apply/exist", method = {RequestMethod.POST})
+	@ResponseBody
+	public StatusPOJO existApplyInActivity(ApplySearchPOJO applySearchPOJO) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			Boolean result = applyService.existApplyInActivity(applySearchPOJO);
+			if (result) {
+				ret.setSuccess(true);
+				ret.setDesc("存在手机号：" + applySearchPOJO.getPhone());
+			} else {
+				ret.setSuccess(false);
+				ret.setDesc("不存在手机号：" + applySearchPOJO.getPhone());
+			}
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
+			ret.setSuccess(false);
 			throw e;
 		}
 		

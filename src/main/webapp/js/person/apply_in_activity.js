@@ -14,6 +14,8 @@ $(document).ready(function() {
             console.log('Currently showing page '+(info.page+1)+' of '+info.pages+' pages.');
             
         },
+        'bPaginate': true,
+        "pagingType": "full_numbers",
         "language": {
         	"search": "过滤: ",
         	"lengthMenu": "每页显示 _MENU_ 条记录",
@@ -77,10 +79,11 @@ $(document).ready(function() {
             { "data": "username" },
             { "data": "phone" }
         ],
-        "order": [[1, 'asc']]
+        "order": [[1, 'asc']],
+        "ajax":retrieveData
     } );
     
-    applyInActivitySearch(table);
+    /*applyInActivitySearch(table);*/
      
     // Add event listener for opening and closing details
     /*$('#dbTable tbody').on('click', 'td.details-control', function () {
@@ -185,11 +188,49 @@ var applyInActivitySearch = function(table) {
         	/*if (data.data instanceof Array) {
         		data.content = data.content.substring(0, 10);
         	}*/
-        	
+        	table.recordsTotal = data.recordsTotal;
         	table.rows.add(data.data).draw()
             .nodes()
             .to$()
             .addClass( 'new' );
+        	
+        	// add title
+        	$("td.details-control").attr('title', '申请参加');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	alert('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+
+var retrieveData = function(data, callback, settings) {
+	var activityId = getParam('activityId');
+	console.log('title=' + getParam('activityTitle'));
+	$.ajax({
+		"url" : "../../web/person/applyInActivity/" + activityId,
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		/*"data": JSON.stringify({
+            title: $("#title").val()
+        }),*/
+        success: function(data, textStatus, jqXHR ) {
+        	console.log("data = " + data);
+        	
+        	/*if (data.data instanceof Array) {
+        		data.content = data.content.substring(0, 10);
+        	}*/
+        	/*table.recordsTotal = data.recordsTotal;
+        	table.rows.add(data.data).draw()
+            .nodes()
+            .to$()
+            .addClass( 'new' );*/
+        	callback(data);
         	
         	// add title
         	$("td.details-control").attr('title', '申请参加');

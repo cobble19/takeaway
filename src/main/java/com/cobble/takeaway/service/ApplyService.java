@@ -11,6 +11,8 @@ public interface ApplyService {
 	int update(ApplyPOJO applyPOJO) throws Exception;
 	List<ApplyPOJO> finds(ApplySearchPOJO applySearchPOJO) throws Exception;
 	List<ApplyPOJO> findsApplyInActivity(Long activityId) throws Exception;
+	int getCountApplyInActivity(Long activityId) throws Exception;
+	Boolean existApplyInActivity(ApplySearchPOJO applySearchPOJO) throws Exception;
 	
 	int getCount(ApplySearchPOJO applySearchPOJO) throws Exception;
 	ApplyPOJO findById(Long id) throws Exception;

@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	console.log('abc');
 	activityTop();
    /* var table = $('#dbTable').DataTable( {
 		"initComplete": function () {
@@ -224,9 +223,12 @@ var activityTop = function() {
         		for (var i = 0; i < result.length; i++) {
         			activityPOJO = result[i];
         			console.log('activityPOJO: ' + activityPOJO);
-        			link = '<a href="page/enterprise/activity_detail.jsp?activityId=' + activityPOJO.activityId + '">' +
-        			activityPOJO.title.substring(0, 10) + "..." + '</a>';
-        			top = top + '<li>' + (i+1) + " " + link + "</li>"
+        			link = '<a href="page/enterprise/activity_detail.jsp?activityId=' + activityPOJO.activityId 
+        			+ '"'
+        			+ ' title="' + activityPOJO.title + '"'
+        			+ '>' 
+        			+ (i+1) + "  " + activityPOJO.title.substring(0, 10) + "..." + '</a>';
+        			top = top + '<li>' + link + "</li>"
         		}
         		top = top + "</ul>";
         		console.log('top: ' + top);

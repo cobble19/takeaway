@@ -14,6 +14,8 @@ public interface ApplyMapper {
 	int update(ApplyPOJO applyPOJO) throws Exception;
 	List<ApplyPOJO> finds(ApplySearchPOJO applySearchPOJO) throws Exception;
 	List<ApplyPOJO> findsApplyInActivity(ActivitySearchPOJO activitySearchPOJO) throws Exception;
+	int getCountApplyInActivity(ActivitySearchPOJO activitySearchPOJO) throws Exception;
+	int findsApplyInActivityByPhone(ApplySearchPOJO applySearchPOJO) throws Exception;
 	
 	int getCount(ApplySearchPOJO applySearchPOJO) throws Exception;
 	ApplyPOJO findById(Long id) throws Exception;

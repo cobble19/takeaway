@@ -41,6 +41,36 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
+  
+  <select id="getCountApplyInActivity" resultType="int" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
+    select
+    count(1)
+    from p_apply apply
+    join rel_activity_apply raa on raa.apply_id = apply.apply_id
+    join e_activity activity on activity.activity_id = raa.activity_id
+    <where>
+  		<trim prefixOverrides="and">
+			and activity.activity_id = #{activityId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findsApplyInActivityByPhone" resultType="int"  parameterType="com.cobble.takeaway.pojo.ApplySearchPOJO" >
+    select
+    count(1)
+    from p_apply apply
+    join rel_activity_apply raa on raa.apply_id = apply.apply_id
+    join e_activity activity on activity.activity_id = raa.activity_id
+    <where>
+  		<trim prefixOverrides="and">
+			and apply.phone = #{phone}
+  		</trim>
+  	</where>
+	<!-- <if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if> -->
+  </select>
+  
   <select id="finds" resultMap="ApplyResultMap" parameterType="com.cobble.takeaway.pojo.ApplySearchPOJO" >
     select
     <if test="distinct" >
