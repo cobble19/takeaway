@@ -60,15 +60,15 @@ $(document).ready(function() {
 			"render" : function(data, type, full, meta) {
 				var href = '../../page/person/apply_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + ((full.title));
-				var linkApply = '<a class="btn btn-warning" href="' + href
+				var linkApply = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href
 				+ '">' +
 				'查看申请人' + '</a>';
 				
 				var hrefEdit = $('#basePath').val() + '/page/enterprise/activity_update.jsp?activityId='  + full.activityId;
-				var linkEdit = '<a class="btn btn-warning" href="' + hrefEdit
+				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
-				return linkApply + "/" + linkEdit;
+				return linkApply + "<br/>" + linkEdit;
 			}
 		}/*, {
 			"targets" : 0,

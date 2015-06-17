@@ -102,10 +102,10 @@
 	     			<div id="create_activity">
 	     				<h3>发起活动</h3>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<a class="btn btn-primary" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
+	     					<a class="btn btn-primary btn-xs" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
 	     					
-	     					<input id="searchBtn" type="button" class="btn btn-default" value="查询">
-	     					<input id="deleteBtn" type="button" class="btn btn-default" value="删除">
+	     					<input id="searchBtn" type="button" class="btn btn-default btn-xs" value="查询">
+	     					<input id="deleteBtn" type="button" class="btn btn-default btn-xs" value="删除">
 	     					
 	     				</div>
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
