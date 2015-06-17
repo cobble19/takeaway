@@ -84,6 +84,7 @@ public class ApplyServiceImpl implements ApplyService {
 		List<ApplyPOJO> ret = null;
 		ActivitySearchPOJO activitySearchPOJO = new ActivitySearchPOJO();
 		activitySearchPOJO.setActivityId(activityId);
+		activitySearchPOJO.withAllData();
 		ret = applyMapper.findsApplyInActivity(activitySearchPOJO);
 		return ret;
 	}

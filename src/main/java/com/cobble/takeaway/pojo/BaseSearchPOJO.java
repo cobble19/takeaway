@@ -18,6 +18,12 @@ public class BaseSearchPOJO implements Serializable {
 	// User 
 	private Long userId;
 	
+	// all data
+	
+	public void withAllData() {
+		this.limit = -1;
+	}
+	
 	public Boolean getDistinct() {
 		return distinct;
 	}

@@ -83,7 +83,7 @@ $(document).ready(function() {
         "ajax":retrieveData
     } );
     
-    /*applyInActivitySearch(table);*/
+    applyInActivitySearch(table);
      
     // Add event listener for opening and closing details
     /*$('#dbTable tbody').on('click', 'td.details-control', function () {
@@ -129,10 +129,6 @@ $(document).ready(function() {
             });
         }
     } );*/
-    // 打印
-    /*$("#print").click(function() {
-    	print();
-    })*/
 } );
 
 /* Formatting function for row details - modify as you need */
@@ -220,7 +216,6 @@ var retrieveData = function(data, callback, settings) {
             title: $("#title").val()
         }),*/
         success: function(data, textStatus, jqXHR ) {
-        	console.log("data = " + data[0]);
         	
         	/*if (data.data instanceof Array) {
         		data.content = data.content.substring(0, 10);
@@ -243,11 +238,6 @@ var retrieveData = function(data, callback, settings) {
         }
 	});
 }
-
-/*var print = function() {
-	window.print();
-	return;
-}*/
 
 
  
