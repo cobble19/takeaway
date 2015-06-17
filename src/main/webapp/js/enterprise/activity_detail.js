@@ -9,7 +9,7 @@ $(document).ready(function() {
     	var activityId = $("#activityId").val();
     	
 		if (existApply()) {
-			alert('号码：' + phone + '已报名成功，请勿重复报名！');
+			alert('存在此电话=' + phone);
 			return;
 		}
     	
@@ -27,7 +27,7 @@ $(document).ready(function() {
             }),
             success: function(data, textStatus, jqXHR ) {
             	console.log("data = " + data);
-            	alert('恭喜您报名成功！')
+            	alert('添加成功！')
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	alert('Load Error!');
@@ -57,7 +57,8 @@ var existApply = function() {
     		"dataType" : 'json',
     		"data": ({
     			username: username,
-    			phone: phone
+    			phone: phone,
+    			activityId: activityId
             }),
             success: function(data, textStatus, jqXHR ) {
             	if (data.success) {
