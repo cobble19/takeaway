@@ -57,7 +57,8 @@ var existApply = function() {
     		"dataType" : 'json',
     		"data": ({
     			username: username,
-    			phone: phone
+    			phone: phone,
+    			activityId: activityId
             }),
             success: function(data, textStatus, jqXHR ) {
             	if (data.success) {

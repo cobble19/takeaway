@@ -220,7 +220,7 @@ var retrieveData = function(data, callback, settings) {
             title: $("#title").val()
         }),*/
         success: function(data, textStatus, jqXHR ) {
-        	console.log("data = " + data);
+        	console.log("data = " + data[0]);
         	
         	/*if (data.data instanceof Array) {
         		data.content = data.content.substring(0, 10);

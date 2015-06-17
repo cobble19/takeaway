@@ -65,6 +65,9 @@
   		<trim prefixOverrides="and">
 			and apply.phone = #{phone}
   		</trim>
+  		<trim prefixOverrides="and">
+			and activity.activity_id = #{activityId}
+  		</trim>
   	</where>
 	<!-- <if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
@@ -77,7 +80,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from p_apply
+    from p_apply apply
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -98,7 +101,7 @@
   <select id="findById" resultMap="ApplyResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from p_apply
+    from p_apply apply
     where APPLY_ID = #{applyId}
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >

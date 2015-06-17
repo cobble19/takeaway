@@ -5,6 +5,8 @@ public class ApplySearchPOJO extends BaseSearchPOJO {
     private Long applyId;
     private String username;
     private String phone;
+
+    private Long activityId;
     
 	public Long getApplyId() {
 		return applyId;
@@ -23,6 +25,12 @@ public class ApplySearchPOJO extends BaseSearchPOJO {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public Long getActivityId() {
+		return activityId;
+	}
+	public void setActivityId(Long activityId) {
+		this.activityId = activityId;
 	}
     
 }
