@@ -64,8 +64,6 @@
     <where>
   		<trim prefixOverrides="and">
 			and apply.phone = #{phone}
-  		</trim>
-  		<trim prefixOverrides="and">
 			and activity.activity_id = #{activityId}
   		</trim>
   	</where>
