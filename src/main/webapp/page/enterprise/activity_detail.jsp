@@ -64,9 +64,7 @@
 	  			</div>
 	  		</div>
 		</div><!-- for show -->
-  		
-		<footer><br/><p>&copy; 版权所有</p></footer>
+	<%@include file="../../../bottom.jsp" %>  		
 	</div> <!-- container -->
-	
   </body>
 </html>

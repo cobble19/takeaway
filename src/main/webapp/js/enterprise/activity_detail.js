@@ -9,7 +9,7 @@ $(document).ready(function() {
     	var activityId = $("#activityId").val();
     	
 		if (existApply()) {
-			alert('存在此电话=' + phone);
+			alert('号码：' + phone + '已报名成功，请勿重复报名！');
 			return;
 		}
     	
@@ -27,7 +27,7 @@ $(document).ready(function() {
             }),
             success: function(data, textStatus, jqXHR ) {
             	console.log("data = " + data);
-            	alert('添加成功！')
+            	alert('恭喜您报名成功！')
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	alert('Load Error!');

@@ -232,9 +232,8 @@
 
 
 	</div>
-	
+<div style="display:none;"><%@include file="bottom.jsp" %></div>	
 </div>
 </body>
-<%@include file="bottom.jsp" %>
 </html>
 
