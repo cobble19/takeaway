@@ -112,10 +112,10 @@
 				  				<thead>
 				  					<tr>
 				  						<th><input type="checkbox" name="chkBoxAll" id="chkBoxAll">全选</th>
-				  						<th>No.</th>
+				  						<th>序号</th>
 				  						<th>标识</th>
 				  						<th>标题</th>
-				  						<th>内容</th>
+				  						<th>内容简介</th>
 				  						<th>操作</th>
 				  					</tr>
 				  				</thead>

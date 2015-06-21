@@ -47,10 +47,14 @@ $(document).ready(function() {
 			"render" : function(data, type, full, meta) {
 				//console.log(data + " " + type + " " + full + " " + meta);
 			}
+		}, {
+			"targets" : [2],
+			"visible": false
 		},  {
 			"targets" : 4,
 			"render" : function(data, type, full, meta) {
 				var content = (data != null) ? data.substring(0, 10): '';
+				content += '...>>';
 				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
 						content + '</a>';
 				return link;
@@ -101,8 +105,7 @@ $(document).ready(function() {
                 /*"className":      'details-control',*/
                 "orderable":      false,
                 "data":           null,
-                "defaultContent": '',
-                "title": 'No.'
+                "defaultContent": ''
             },
             { "data": "activityId" },
             { "data": "title" },
