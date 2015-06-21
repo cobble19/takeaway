@@ -5,6 +5,8 @@ public class ApplyPOJO extends BasePOJO {
     private Long applyId;
     private String username;
     private String phone;
+    private String sex;
+    private String description;
     
     // for insert
     private Long activityId;
@@ -32,6 +34,18 @@ public class ApplyPOJO extends BasePOJO {
 	}
 	public void setActivityId(Long activityId) {
 		this.activityId = activityId;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
     
 }

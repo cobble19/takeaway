@@ -33,7 +33,12 @@ $(document).ready(function() {
         },
 		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-		"columnDefs" : [ /*{
+		"columnDefs" : [ {
+			"targets" : 3,
+			"render" : function(data, type, full, meta) {
+				return (data != null && data === 'F') ? '女': '男'
+			}
+		}/*{
 			"targets" : 0,
 			"render" : function(data, type, full, meta) {
 				console.log(data + " " + type + " " + full + " " + meta);
@@ -77,7 +82,9 @@ $(document).ready(function() {
             },*/
             { "data": "applyId" },
             { "data": "username" },
-            { "data": "phone" }
+            { "data": "phone" },
+            { "data": "sex" },
+            { "data": "description" }
         ],
         "order": [[1, 'asc']],
         "ajax":retrieveData

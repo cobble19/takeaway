@@ -14,9 +14,11 @@
     <id column="APPLY_ID" property="applyId" />
     <result column="USERNAME" property="username" jdbcType="VARCHAR"/>
     <result column="PHONE" property="phone" />
+    <result column="SEX" property="sex" />
+    <result column="DESCRIPTION" property="description" />
   </resultMap>
   <sql id="Base_Column_List" >
-    apply.APPLY_ID, apply.USERNAME, apply.PHONE
+    apply.APPLY_ID, apply.USERNAME, apply.PHONE, apply.SEX, apply.DESCRIPTION
   </sql>
   <sql id="Clause_Common">
 	<if test="username != null">
@@ -116,6 +118,12 @@
       <if test="phone != null" >
         PHONE,
       </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="username != null" >
@@ -123,6 +131,12 @@
       </if>
       <if test="phone != null" >
         #{phone},
+      </if>
+      <if test="sex != null" >
+        #{sex},
+      </if>
+      <if test="description != null" >
+        #{description},
       </if>
     </trim>
   </insert>
@@ -154,6 +168,12 @@
       </if>
       <if test="phone != null" >
         PHONE = #{phone},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description},
       </if>
     </set>
     where APPLY_ID = #{applyId}

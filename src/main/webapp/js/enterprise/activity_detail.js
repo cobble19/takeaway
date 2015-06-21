@@ -6,6 +6,8 @@ $(document).ready(function() {
     	e.preventDefault();
     	var username = $("#usernameX").val();
     	var phone = $("#phone").val();
+    	var sex = $("input[type=radio][name=sex]:checked").val();
+    	var description = $("#description").val();
     	var activityId = $("#activityId").val();
     	
 		if (existApply()) {
@@ -23,7 +25,9 @@ $(document).ready(function() {
     		"data": ({
     			username: username,
     			phone: phone,
-    			activityId: activityId
+    			activityId: activityId,
+    			sex: sex,
+    			description: description
             }),
             success: function(data, textStatus, jqXHR ) {
             	console.log("data = " + data);

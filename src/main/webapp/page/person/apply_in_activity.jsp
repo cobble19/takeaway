@@ -23,6 +23,8 @@
   						<th>标识</th>
   						<th>名称</th>
   						<th>电话</th>
+  						<th>性别</th>
+  						<th>备注</th>
   					</tr>
   				</thead>
   				<!-- <tfoot>
