@@ -36,7 +36,11 @@ $(document).ready(function() {
 		"columnDefs" : [ {
 			"targets" : 3,
 			"render" : function(data, type, full, meta) {
-				return (data != null && data === 'F') ? '女': '男'
+				if (data == null) {
+					return '';
+				}
+
+				return (data != null && data === 'F') ? '女': '男';
 			}
 		}/*{
 			"targets" : 0,
