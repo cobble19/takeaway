@@ -15,11 +15,23 @@
   		<div class="row">
   			<h2 class="">活动发布</h2>
   		</div>
-  		<form class="form-horizontal" role="form" action='<cmn:base/>/web/enterprise/activity/add' method="post">
+  		<form id="activityForm" class="form-horizontal" role="form" action='<cmn:base/>/web/enterprise/activity/add' method="post">
  			<div class="form-group">
  				<label class="control-label" for="title">主题:</label>
  				<div class="">
  					<input class="form-control" id="title" name="title" placeholder="请输入本次活动主题">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="startDateTime">活动开始时间:</label>
+ 				<div class="">
+ 					<input class="form-control" id="startDateTime" name="startDateTime" placeholder="请输入开始时间">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="endDateTime">活动结束时间:</label>
+ 				<div class="">
+ 					<input class="form-control" id="endDateTime" name="endDateTime" placeholder="请输入结束时间">
  				</div>
  			</div>
  			<div class="form-group">
@@ -32,7 +44,7 @@
  			</div>
  			<div class="form-group">
 	 			<div class="">
-	  				<button type="submit" class="btn btn-default" id="addBtn">创建</button>
+	  				<button type="button" class="btn btn-default" id="addBtn">创建</button>
 	 			</div>
  			</div>
   		</form>

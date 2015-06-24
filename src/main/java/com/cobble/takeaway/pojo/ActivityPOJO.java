@@ -1,9 +1,13 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.Date;
+
 
 public class ActivityPOJO extends BasePOJO {
     private Long activityId;
     private String title;
+    private Date startDateTime;
+    private Date endDateTime;
     private String content;
     
     private UserPOJO userPOJO;
@@ -31,5 +35,17 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setUserPOJO(UserPOJO userPOJO) {
 		this.userPOJO = userPOJO;
+	}
+	public Date getStartDateTime() {
+		return startDateTime;
+	}
+	public void setStartDateTime(Date startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+	public Date getEndDateTime() {
+		return endDateTime;
+	}
+	public void setEndDateTime(Date endDateTime) {
+		this.endDateTime = endDateTime;
 	}
 }

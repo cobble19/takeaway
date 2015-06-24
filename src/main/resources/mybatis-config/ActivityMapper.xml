@@ -13,11 +13,13 @@
   <resultMap id="ActivityResultMap" type="com.cobble.takeaway.pojo.ActivityPOJO" >
     <id column="ACTIVITY_ID" property="activityId" />
     <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    <result column="START_DATE_TIME" property="startDateTime" />
+    <result column="END_DATE_TIME" property="endDateTime" />
     <result column="CONTENT" property="content" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
-    a.ACTIVITY_ID, a.TITLE, a.CONTENT
+    a.ACTIVITY_ID, a.TITLE, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -76,6 +78,12 @@
       <if test="title != null" >
         TITLE,
       </if>
+      <if test="startDateTime != null" >
+        START_DATE_TIME,
+      </if>
+      <if test="endDateTime != null" >
+        END_DATE_TIME,
+      </if>
       <if test="content != null" >
         CONTENT,
       </if>
@@ -83,6 +91,12 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="title != null" >
         #{title},
+      </if>
+      <if test="startDateTime != null" >
+        #{startDateTime},
+      </if>
+      <if test="endDateTime != null" >
+        #{endDateTime},
       </if>
       <if test="content != null" >
         #{content},
@@ -119,6 +133,12 @@
       </if>
       <if test="content != null" >
         CONTENT = #{content},
+      </if>
+      <if test="startDateTime != null" >
+        CONTENT = #{startDateTime},
+      </if>
+      <if test="endDateTime != null" >
+        END_DATE_TIME = #{endDateTime},
       </if>
     </set>
     where ACTIVITY_ID = #{activityId}
