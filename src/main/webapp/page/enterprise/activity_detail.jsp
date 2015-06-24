@@ -49,11 +49,11 @@
 									<form id="applyForm" class="form-inline">
 											<div class="form-group">
 												<label for="usernameX" class=" ">姓名: </label> 
-												<input id="usernameX" name="username" required="required" value="" placeholder="姓名" class="form-control" />
+												<input id="usernameX" name="username" required="required" value="" placeholder="请填写姓名" class="form-control" />
 											</div>
 											<div class="form-group">
-												<label for="phone" class="">手机号: </label> 
-												<input type="tel" id="phone" name="phone"  required="required" value="" placeholder="手机号" class="form-control" />
+												<label for="phone" class="">手机: </label> 
+												<input type="tel" id="phone" name="phone"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
 											</div>
 											<div class="form-group">
 												<label for="sex" class="">性别: </label> 
@@ -62,7 +62,7 @@
 											</div>
 											<div class="form-group">
 												<label for="description" class="">备注: </label> 
-												<textarea id="description" name="description" rows="3" cols="20" value="" placeholder="备注" class="form-control" ></textarea>
+												<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control" ></textarea>
 											</div>
 											<div class="form-group">
 												<input type="button" id="applyBtn" value="申请参加" class="btn btn-default" />
