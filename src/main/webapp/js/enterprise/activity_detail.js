@@ -1,8 +1,12 @@
 $(document).ready(function() {
 	showDetail();
 	
+	$('#applyForm').validate();
 	/*apply*/
 	$('#applyBtn').click(function(e) {
+		if (!$('#applyForm').valid()) {
+			return ;
+		}
     	e.preventDefault();
     	var username = $("#usernameX").val();
     	var phone = $("#phone").val();

@@ -49,11 +49,11 @@
 									<form id="applyForm" class="form-inline">
 											<div class="form-group">
 												<label for="usernameX" class=" ">姓名: </label> 
-												<input id="usernameX" name="username" required="required" value="" placeholder="请填写姓名" class="form-control" />
+												<input id="usernameX" name="username" minlength="2" required="required" value="" placeholder="请填写姓名" class="form-control" />
 											</div>
 											<div class="form-group">
 												<label for="phone" class="">手机: </label> 
-												<input type="tel" id="phone" name="phone"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
+												<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
 											</div>
 											<div class="form-group">
 												<label for="sex" class="">性别: </label> 

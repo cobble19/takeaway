@@ -19,19 +19,19 @@
  			<div class="form-group">
  				<label class="control-label" for="title">主题:</label>
  				<div class="">
- 					<input class="form-control" id="title" name="title" placeholder="请输入本次活动主题">
+ 					<input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入本次活动主题">
  				</div>
  			</div>
  			<div class="form-group">
  				<label class="control-label" for="startDateTime">活动开始时间:</label>
  				<div class="">
- 					<input class="form-control" id="startDateTime" name="startDateTime" placeholder="请输入开始时间">
+ 					<input class="form-control" id="startDateTime" name="startDateTime" required="required" placeholder="请输入开始时间">
  				</div>
  			</div>
  			<div class="form-group">
  				<label class="control-label" for="endDateTime">活动结束时间:</label>
  				<div class="">
- 					<input class="form-control" id="endDateTime" name="endDateTime" placeholder="请输入结束时间">
+ 					<input class="form-control" id="endDateTime" name="endDateTime" required="required" placeholder="请输入结束时间">
  				</div>
  			</div>
  			<div class="form-group">

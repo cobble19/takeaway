@@ -26,7 +26,7 @@ $(function() {
 			alert('结束时间不能小于开始时间');
 		}
 	})
-	
+	$('#activityForm').validate();
 	$('#addBtn').click(function() {
 		var startDateTime = $('#startDateTime').val();
 		var endDateTime = $('#endDateTime').val();
@@ -34,8 +34,9 @@ $(function() {
 			alert('结束时间不能小于开始时间');
 			return;
 		}
-		
-		$('#activityForm').submit();
+		if ($('#activityForm').valid()) {
+			$('#activityForm').submit();
+		}
 		return ;
 	})
 })

@@ -1,5 +1,5 @@
 jQuery.extend(jQuery.validator.messages, {
-  required: "必选字段",
+  required: "字段不能为空",
   remote: "请修正该字段",
   email: "请输入正确格式的电子邮件",
   url: "请输入合法的网址",
