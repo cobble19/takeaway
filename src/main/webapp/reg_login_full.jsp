@@ -13,7 +13,7 @@
 	<security:authentication property="principal.username" var="username"/>
 			<div class="row" style="border-bottom:1px solid #CCC; ">
 			<div class="col-md-9 col-xs-6">
-                 <a href="http://www.deweiyizhan.com" style="font-size:12px;">得味首页</a>&nbsp;&nbsp;
+                 <a href='<cmn:base/>' style="font-size:12px;">得味首页</a>&nbsp;&nbsp;
                  <a href="http://#" style="font-size:12px;">活动中心</a>
             </div>
             <div class="col-md-3 col-xs-6">
