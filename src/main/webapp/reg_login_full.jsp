@@ -13,7 +13,7 @@
 	<security:authentication property="principal.username" var="username"/>
 			<div class="row" style="border-bottom:1px solid #CCC; ">
 			<div class="col-md-9 col-xs-6">
-                 <a href="http://www.deweiyizhan.com" style="font-size:12px;">得味首页</a>&nbsp;&nbsp;
+                 <a href='<cmn:base/>' style="font-size:12px;">得味首页</a>&nbsp;&nbsp;
                  <a href="http://#" style="font-size:12px;">活动中心</a>
             </div>
             <div class="col-md-3 col-xs-6">
@@ -25,10 +25,10 @@
                 <a class="sy-dl-wz" href='<cmn:base/>/j_spring_security_logout'>退出</a>
 	        	<c:choose>
 	        		<c:when test="${sessionScope.userType eq 'PERSON'}">
-	        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
+	        			<a class="sy-dl-wz" target="_blank" href="<cmn:base/>/web/person/usercenter">个人中心</a>
 	        		</c:when>
 	        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-	        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">企业中心</a>
+	        			<a class="sy-dl-wz" target="_blank" href="<cmn:base/>/web/enterprise/usercenter">企业中心</a>
 	        		</c:when>
 	        		<c:otherwise>
 	        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>

@@ -43,26 +43,26 @@
 			  			<!-- <hr/> -->
 	  				</div>
 	  				<div class="col-md-3">
-		  				<div class="row">
+		  				<div class="row col-md-12">
 			  				<fieldset>
 								<legend>申请活动</legend>
 									<form id="applyForm" class="form-inline">
 											<div class="form-group">
-												<label for="usernameX" class=" ">姓名: </label> 
+												<label for="usernameX" class="control-label">姓名: </label>
 												<input id="usernameX" name="username" minlength="2" required="required" value="" placeholder="请填写姓名" class="form-control" />
 											</div>
 											<div class="form-group">
-												<label for="phone" class="">手机: </label> 
+												<label for="phone" class="control-label">手机: </label>
 												<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
 											</div>
 											<div class="form-group">
-												<label for="sex" class="">性别: </label> 
-												<input type="radio" id="sexM" name="sex" value="M" class="form-control" />男
-												<input type="radio" id="sexF" name="sex" value="F" class="form-control" />女
+												<label for="sex" class="control-label">性别: </label>
+					<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
+					<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
 											</div>
 											<div class="form-group">
-												<label for="description" class="">备注: </label> 
-												<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control" ></textarea>
+												<label for="description" class="control-label">备注: </label> 
+												<textarea id="description" name="description" rows="3" cols="" value="" placeholder="备注为选填项" class="form-control" ></textarea>
 											</div>
 											<div class="form-group">
 												<input type="button" id="applyBtn" value="申请参加" class="btn btn-default" />

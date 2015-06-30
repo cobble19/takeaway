@@ -131,7 +131,9 @@
                         </div>
                         <div class="col-md-4" style="padding:0px; margin:0px;">
                             <div class="jrtg"></div>
-                            <div class="cont-2"></div>
+                            <div class="cont-2">
+                                <li><img src="images/jrtg.png" width="250" height="295"></li>
+                            </div>
                         </div>
                         <div class="col-md-4" style="margin-left:-15px;">
                             <div class="jrhd"></div>

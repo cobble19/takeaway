@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="../common/taglib.jsp" %>
+<%@include file="../../page/common/taglib.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%@include file="../common/head.jsp" %>
+    <%@include file="../../page/common/head.jsp" %>
     
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/person/user_center.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
     
+	<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">   
+     
     <script>
     	$(document).ready(function() {
     		$('#sidebar a').click(function() {
@@ -53,8 +55,9 @@
   </head>
   <body>
   	<div class="container">
-  		<div class="row">
-		    <div class="sy-dl">
+        <%@include file="../../reg_login_full.jsp" %>
+  		<%-- <div class="row">
+		     <div class="sy-dl">
 		        <div class="sy-dl-img"></div>
 		        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 		        	<a href="<cmn:base/>/spring_security_login" class="sy-dl-wz">登录</a>
@@ -76,16 +79,16 @@
 		        	</c:choose>
 		        </c:if>
 		    </div>
-  		</div>
-  		<div class="row">
+  		</div>--%>
+  		<div class="row uc-border" style="margin-top:50px;">
   			<div class="col-md-3" id="sidebar">
-		          <div class="list-group">
+		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
 		            <a href="#create_activity" class="list-group-item">申请活动</a>
 		          </div>
 	     	</div>
 	     	<div class="col-md-9">
-	     		<div id="uc_content">
+	     		<div id="uc_content" style="padding-top: 10px;">
 	     			<div id="profile">
 	     				<h3>个人资料</h3>
 	     				<label>名称： </label><c:out value="${myUser.username }"></c:out>
