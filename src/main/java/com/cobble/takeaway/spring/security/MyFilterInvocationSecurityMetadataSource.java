@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -35,7 +37,17 @@ public class MyFilterInvocationSecurityMetadataSource implements
 				for (PrivilegePOJO privilegePOJO : privilegePOJOs) {
 					String privilegeUrl = privilegePOJO.getUrl();
 					PathMatcher pathMatcher = new AntPathMatcher();
-					boolean isMatcher = pathMatcher.match(privilegeUrl, url);
+					String[] privilegeUrls = StringUtils.split(privilegeUrl, ",");
+					boolean isMatcher = false;
+					if (ArrayUtils.isNotEmpty(privilegeUrls)) {
+						for (String privilegeUrlTemp : privilegeUrls) {
+							isMatcher = pathMatcher.match(privilegeUrlTemp, url);
+							if (isMatcher) {
+								break;
+							}
+						}
+					}
+					
 					if (isMatcher) {
 						List<RolePOJO> rolePOJOs = privilegePOJO.getRolePOJOs();
 						if (CollectionUtils.isEmpty(rolePOJOs)) {
