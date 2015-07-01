@@ -50,8 +50,15 @@ $(document).ready(function() {
 		}, {
 			"targets" : [2],
 			"visible": false
+		}, {
+			"targets": [4,5],
+			"render" : function(data, type, full, meta) {
+				var date = new Date(data);
+				return date.format('Y-m-d H:i:s');
+			}
 		},  {
-			"targets" : 4,
+			"targets" : 6,
+			"visible": false,
 			"render" : function(data, type, full, meta) {
 				var content = (data != null) ? data.substring(0, 10): '';
 				content += '...>>';
@@ -60,7 +67,7 @@ $(document).ready(function() {
 				return link;
 			}
 		}, {
-			"targets" : 5,
+			"targets" : 7,
 			"render" : function(data, type, full, meta) {
 				var href = '../../page/person/apply_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + ((full.title));
@@ -109,13 +116,14 @@ $(document).ready(function() {
             },
             { "data": "activityId" },
             { "data": "title" },
+            { "data": "startDateTime" },
+            { "data": "endDateTime" },
             { "data": "content" },
             {
                 /*"className":      'details-control',*/
                 "orderable":      false,
                 "data":           null,
-                "defaultContent": '',
-                "title": '操作'
+                "defaultContent": ''
             }
         ],
         "order": [[1, 'asc']]

@@ -15,14 +15,25 @@
   <body>
   
 	<div class="container">
-		<%@include file="../../../reg_login.jsp" %>
 		<div id="editDiv">
 			<form class="form-horizontal" id="activityForm" role="form" action='<cmn:base/>/web/enterprise/activity/add' method="post">
 	  			<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
 	 			<div class="form-group">
 	 				<label class="control-label" for="titleE">主题:</label>
 	 				<div class="">
-	 					<input class="form-control" id="titleE" name="title" placeholder="请输入本次活动主题">
+	 					<input class="form-control" id="titleE" name="title" minlength="2" required="required" placeholder="请输入本次活动主题">
+	 				</div>
+	 			</div>
+	 			<div class="form-group">
+	 				<label class="control-label" for="startDateTime">活动开始时间:</label>
+	 				<div class="">
+	 					<input class="form-control" id="startDateTime" name="startDateTime" required="required" placeholder="请输入开始时间">
+	 				</div>
+	 			</div>
+	 			<div class="form-group">
+	 				<label class="control-label" for="endDateTime">活动结束时间:</label>
+	 				<div class="">
+	 					<input class="form-control" id="endDateTime" name="endDateTime" required="required" placeholder="请输入结束时间">
 	 				</div>
 	 			</div>
 	 			<div class="form-group">

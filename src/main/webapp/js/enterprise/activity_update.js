@@ -9,9 +9,43 @@ $(document).ready(function() {
 		});
 	}
 	
+
+	$('#startDateTime').datetimepicker({
+		lang:'ch',
+		timepicker:true,
+		/*format: 'Y-m-d H:i'*/
+		value: '2015-02-20 20:20:20'
+	});
+	$('#endDateTime').datetimepicker({
+		lang:'ch',
+		timepicker:true,
+		/*format: 'Y-m-d H:i'*/
+		value: '2015-02-20 21:22:23'
+	});
+	
+	$('#startDateTime, #endDateTime').change(function() {
+		var startDateTime = $('#startDateTime').val();
+		var endDateTime = $('#endDateTime').val();
+		if (startDateTime >= endDateTime) {
+//			alert('结束时间不能小于开始时间');
+		}
+	})
+	
+	$('#activityForm').validate();
+	
 	$('#addBtn').click(function(e) {
 		e.preventDefault();
-		$('#activityForm').submit();
+
+		var startDateTime = $('#startDateTime').val();
+		var endDateTime = $('#endDateTime').val();
+		if (startDateTime >= endDateTime) {
+			alert('结束时间不能小于开始时间');
+			return;
+		}
+		if ($('#activityForm').valid()) {
+			$('#activityForm').submit();
+		}
+		return ;
 	})
 	
 })
@@ -31,6 +65,8 @@ var showDetail = function() {
         success: function(data, textStatus, jqXHR ) {
         	$('#titleE').val(data.title);
     		ue.setContent(data.content);
+    		$('#startDateTime').val(new Date(data.startDateTime).format('Y/m/d H:i'));
+    		$('#endDateTime').val(new Date(data.endDateTime).format('Y/m/d H:i'));
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	alert('Load Error!');

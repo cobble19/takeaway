@@ -41,7 +41,7 @@ public class MyFilterInvocationSecurityMetadataSource implements
 					boolean isMatcher = false;
 					if (ArrayUtils.isNotEmpty(privilegeUrls)) {
 						for (String privilegeUrlTemp : privilegeUrls) {
-							isMatcher = pathMatcher.match(privilegeUrlTemp, url);
+							isMatcher = pathMatcher.match(StringUtils.trim(privilegeUrlTemp), url);
 							if (isMatcher) {
 								break;
 							}

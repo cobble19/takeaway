@@ -135,7 +135,7 @@
         CONTENT = #{content},
       </if>
       <if test="startDateTime != null" >
-        CONTENT = #{startDateTime},
+        START_DATE_TIME = #{startDateTime},
       </if>
       <if test="endDateTime != null" >
         END_DATE_TIME = #{endDateTime},
