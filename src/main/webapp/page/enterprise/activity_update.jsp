@@ -15,7 +15,6 @@
   <body>
   
 	<div class="container">
-		<%@include file="../../../reg_login.jsp" %>
 		<div id="editDiv">
 			<form class="form-horizontal" id="activityForm" role="form" action='<cmn:base/>/web/enterprise/activity/add' method="post">
 	  			<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
