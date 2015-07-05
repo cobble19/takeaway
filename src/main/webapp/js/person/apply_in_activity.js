@@ -34,7 +34,7 @@ $(document).ready(function() {
 		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
 		"columnDefs" : [ {
-			"targets" : 3,
+			"targets" : 4,
 			"render" : function(data, type, full, meta) {
 				if (data == null) {
 					return '';
@@ -42,13 +42,10 @@ $(document).ready(function() {
 
 				return (data != null && data === 'F') ? '女': '男';
 			}
-		}/*{
+		}, {
 			"targets" : 0,
-			"render" : function(data, type, full, meta) {
-				console.log(data + " " + type + " " + full + " " + meta);
-				;
-			}
-		}, *//*{
+			"visible" : false
+		}, /*{
 			"targets" : 3,
 			"render" : function(data, type, full, meta) {
 				var content = (data != '') ? data.substring(0, 10): '';
@@ -85,6 +82,11 @@ $(document).ready(function() {
                 "title": '申请参加'
             },*/
             { "data": "applyId" },
+            {
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
             { "data": "username" },
             { "data": "phone" },
             { "data": "sex" },
@@ -93,6 +95,12 @@ $(document).ready(function() {
         "order": [[1, 'asc']],
         "ajax":retrieveData
     } );
+    
+    table.on( 'order.dt search.dt', function () {
+    	table.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     
     applyInActivitySearch(table);
      
@@ -175,6 +183,7 @@ function format ( d ) {
 
 // query apply by activityId
 var applyInActivitySearch = function(table) {
+	table.clear();
 	var activityId = getParam('activityId');
 	console.log('title=' + getParam('activityTitle'));
 	$.ajax({

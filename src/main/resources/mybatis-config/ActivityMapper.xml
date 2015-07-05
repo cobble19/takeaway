@@ -16,10 +16,11 @@
     <result column="START_DATE_TIME" property="startDateTime" />
     <result column="END_DATE_TIME" property="endDateTime" />
     <result column="CONTENT" property="content" />
+    <result column="EXPIRED" property="expired" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
-    a.ACTIVITY_ID, a.TITLE, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT
+    a.ACTIVITY_ID, a.TITLE, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -42,6 +43,7 @@
 			</if>
   		</trim>
   	</where>
+  	order by (a.END_DATE_TIME - now()) desc
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>

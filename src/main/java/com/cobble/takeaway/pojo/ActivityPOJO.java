@@ -9,6 +9,9 @@ public class ActivityPOJO extends BasePOJO {
     private Date startDateTime;
     private Date endDateTime;
     private String content;
+
+    // check whether expired
+    private Boolean expired;
     
     private UserPOJO userPOJO;
     
@@ -47,5 +50,11 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setEndDateTime(Date endDateTime) {
 		this.endDateTime = endDateTime;
+	}
+	public Boolean getExpired() {
+		return expired;
+	}
+	public void setExpired(Boolean expired) {
+		this.expired = expired;
 	}
 }
