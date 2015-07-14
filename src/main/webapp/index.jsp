@@ -153,7 +153,7 @@
 			   </ul>
 			   </div>
             <ul class="row sy-lbk">	
-               <div class="sy-lb col-md-10 col-md-offset-1">
+               <div class="sy-lb col-md-10 col-md-offset-1 col-xs-12">
 				<li><a href="#0"><span>今日头条</span></a></li>
 				<li><a href="#1"><span>美食外卖</span></a></li>     
                </div>
