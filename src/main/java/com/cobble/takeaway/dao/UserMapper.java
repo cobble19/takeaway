@@ -9,6 +9,7 @@ import com.cobble.takeaway.pojo.UserSearchPOJO;
 public interface UserMapper {
 	int insert(UserPOJO userPOJO) throws Exception;
 	int update(UserPOJO userPOJO) throws Exception;
+	int updatePassword(UserPOJO userPOJO) throws Exception;
 	List<UserPOJO> finds(UserSearchPOJO userSearchPOJO) throws Exception;
 	int getCount(UserSearchPOJO userSearchPOJO) throws Exception;
 	UserPOJO findById(Integer id) throws Exception;

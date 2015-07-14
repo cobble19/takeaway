@@ -30,7 +30,7 @@
 	        </div>	
 	  		<div class="row uc-border">
 	  			<div class="row">
-	  				<div class="col-md-9">
+	  				<div class="col-md-9 col-xs-12">
 	  					<!-- <h4 class="" style="text-align: bottom;"><span id="title"></span></h4>
 	  					<hr/> -->
 			  			<p style=" margin:10px; border-right:1px solid #CCC;" id="content"></p>
@@ -42,7 +42,7 @@
 		 				</div>
 			  			<!-- <hr/> -->
 	  				</div>
-	  				<div class="col-md-3">
+	  				<div class="col-md-3 col-xs-12">
 		  				<div class="row col-md-12">
 			  				<fieldset>
 								<legend>申请活动</legend>

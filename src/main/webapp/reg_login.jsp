@@ -3,8 +3,9 @@
 	<security:authentication property="principal.username" var="username"/>
 
 	<div class="row">
-        <div class="col-md-1 col-xs-6 logo"></div>
-        <div class="col-md-3 col-xs-6 col-md-offset-8">
+        <div class="col-md-1 logo hidden-xs"></div>
+        <div class="col-xs-5 col-xs-offset-1 logo visible-xs"></div>
+        <div class="col-md-3 col-md-offset-8 col-xs-6">
 			<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 	        <button style="float:right;" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal">注册</button>
 	        <button style="float:right; margin-right:10px;" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#loginModal">登陆</button>
@@ -58,6 +59,12 @@
 							 					<input class="form-control" id="username" name="username" required="required" minlength="1" value="" placeholder="请输入用户名">
 							 				</div>
 							 			</div>
+										<div class="form-group">
+											<label class="control-label col-sm-3 col-md-2" for="nickname">昵称:</label>
+											<div class="col-sm-9 col-md-6">
+												<input class="form-control" id="nickname" name="nickname" required="required" value="" placeholder="请输入昵称">
+											</div>
+										</div>
 							 			<div class="form-group">
 							 				<label class="control-label col-sm-3 col-md-2" for="password">密码:</label>
 							 				<div class="col-sm-9 col-md-6">

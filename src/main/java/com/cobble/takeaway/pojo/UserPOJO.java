@@ -7,6 +7,7 @@ import java.util.List;
 public class UserPOJO extends BasePOJO {
     private Long userId;
 	private String username;
+	private String nickname;
 	private String password;
 	private String email;
     private Boolean enable = true;
@@ -70,6 +71,12 @@ public class UserPOJO extends BasePOJO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
     
 }

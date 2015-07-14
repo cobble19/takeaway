@@ -90,5 +90,12 @@ public class UserServiceImpl implements UserService {
 		return userMapper.findUserByName(username);
 	}
 
+	@Override
+	public int updatePassword(UserPOJO userPOJO) throws Exception {
+		int ret = 0;
+		ret = userMapper.updatePassword(userPOJO);
+		return ret;
+	}
+
 
 }

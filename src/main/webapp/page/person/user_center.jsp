@@ -91,7 +91,8 @@
 	     		<div id="uc_content" style="padding-top: 10px;">
 	     			<div id="profile">
 	     				<h3>个人资料</h3>
-	     				<label>名称： </label><c:out value="${myUser.username }"></c:out>
+	     				<label>名称： </label><c:out value="${myUser.username }"></c:out><br/>
+	     				<label>昵称： </label><c:out value="${myUser.nickname }"></c:out>
 	     			</div>
 	     			<div id="create_activity">
 	     				<h3>参加活动</h3>

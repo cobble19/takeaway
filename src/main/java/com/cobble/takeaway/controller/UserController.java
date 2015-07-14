@@ -42,6 +42,27 @@ public class UserController extends BaseController {
 	private UserService userService;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    
+	@RequestMapping(value = "/web/user/updatePassword")
+	@ResponseBody
+	public StatusPOJO updatePassword(UserPOJO userPOJO, Model model) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			MyUser myUser = UserUtil.getCurrentUser();
+			if (myUser.getUserId().longValue() == userPOJO.getUserId()) {
+				int result = userService.updatePassword(userPOJO);
+				ret.setSuccess(true);
+			} else {
+				ret.setSuccess(false);
+			}
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
     @RequestMapping(value = "/web/enterprise/usercenter", method = {RequestMethod.GET})
 	public ModelAndView usercenter(UserPOJO userPOJO, Model model, 

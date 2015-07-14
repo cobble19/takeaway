@@ -13,6 +13,7 @@
   <resultMap id="UserResultMap" type="UserPOJO" >
     <id column="USER_ID" property="userId" jdbcType="INTEGER" />
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="NICKNAME" property="nickname" jdbcType="VARCHAR" />
     <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
     <result column="EMAIL" property="email" jdbcType="VARCHAR" />
     <result column="ENABLE" property="enable"/>
@@ -20,7 +21,7 @@
     <collection property="rolePOJOs" column="USER_ID" select="com.cobble.takeaway.dao.RoleMapper.findByUserId"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
-    u.USER_ID, u.USERNAME, u.PASSWORD, u.EMAIL, u.ENABLE, u.USER_TYPE
+    u.USER_ID, u.USERNAME, u.NICKNAME, u.PASSWORD, u.EMAIL, u.ENABLE, u.USER_TYPE
   </sql>
   <sql id="Clause_Common">
 	<if test="username != null and username != ''">
@@ -73,14 +74,15 @@
     where USER_ID = #{userId,jdbcType=INTEGER};
   </delete>
   <insert id="insert" parameterType="UserPOJO" useGeneratedKeys="true" keyColumn="USER_ID" keyProperty="userId">
-    insert into b_user (USERNAME, 
+    insert into b_user (USERNAME, NICKNAME, 
       PASSWORD, EMAIL, ENABLE, USER_TYPE)
-    values (#{username,jdbcType=VARCHAR}, 
+    values (#{username,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
       #{password}, #{email}, #{enable}, #{userType})
   </insert>
   <update id="update" parameterType="UserPOJO" >
     update b_user
     set USERNAME = #{username,jdbcType=VARCHAR},
+      NICKNAME = #{nickname,jdbcType=VARCHAR},
       PASSWORD = #{password},
       EMAIL = #{email},
       ENABLE = #{enable},
@@ -93,5 +95,10 @@
     insert into rel_user_role (ROLE_ID, USER_ID)
     values (#{item}, #{userId});
     </foreach>
+  </update>
+  <update id="updatePassword" parameterType="UserPOJO" >
+    update b_user
+    set PASSWORD = #{password}
+    where USER_ID = #{userId,jdbcType=INTEGER};
   </update>
 </mapper>
