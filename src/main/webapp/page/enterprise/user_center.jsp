@@ -91,6 +91,7 @@
 		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
 		            <a href="#create_activity" class="list-group-item">发起活动</a>
+		            <a href="#update_password" class="list-group-item">修改密码</a>
 		          </div> 				
 	     	</div>
 	     	<div class="col-md-9">
@@ -99,30 +100,8 @@
 	     				<h3>个人资料</h3>
 	     				<label>名称： </label><c:out value="${myUser.username }"></c:out>/<c:out value="${myUser.userId }"></c:out><br/>
 	     				<label>昵称： </label><c:out value="${myUser.nickname }"></c:out><br/>
-	     				<label>密码： </label><button id="pwdChg4OpenDialog" class="btn btn-default">修改密码</button>
+	     				<!-- <label>密码： </label><button id="pwdChg4OpenDialog" class="btn btn-default">修改密码</button> -->
 	     				
-						<div id="pwdDiv">
-							<form class="form-horizontal" id="pwdForm" role="form" action='' method="post">
-					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
-					 			<div class="form-group">
-					 				<label class="control-label" for="passwordOld">旧密码:</label>
-					 				<div class="">
-					 					<input type="password" class="form-control" id="passwordOld" name="passwordOld" minlength="2" required="required" placeholder="请输入旧密码">
-					 				</div>
-					 			</div>
-					 			<div class="form-group">
-					 				<label class="control-label" for="password">新密码:</label>
-					 				<div class="">
-					 					<input type="password" class="form-control" id="password" name="password" minlength="2" required="required" placeholder="请输入新密码">
-					 				</div>
-					 			</div>
-					 			<div class="form-group">
-						 			<div class="">
-						  				<button type="button" class="btn btn-default" id="pwdChg">修改密码</button>
-						 			</div>
-					 			</div>
-					  		</form>
-						</div>	<!-- pwd change end -->
 	     			</div>	<!-- profile end -->
 	     			<div id="create_activity">
 	     				<h3>发起活动</h3>
@@ -158,6 +137,31 @@
 				  				</tfoot> -->
 				  			</table>
 	     			</div>	<!-- create_activity end -->
+	     			
+					<div id="update_password">
+						<div class="row">
+							<form class="form-inline" id="pwdForm" role="form" action='' method="post">
+					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
+					 			<!-- <div class="form-group">
+					 				<label class="control-label" for="passwordOld">旧密码:</label>
+					 				<div class="">
+					 					<input type="password" class="form-control" id="passwordOld" name="passwordOld" minlength="2" required="required" placeholder="请输入旧密码">
+					 				</div>
+					 			</div> -->
+					 			<div class="form-group ">
+					 				<label class="" for="password">新密码:</label>
+					 				<input type="password" class="form-control" id="password" name="password" minlength="2" required="required" placeholder="请输入新密码">
+					 			</div>
+					 			<!-- <button type="button" class="btn btn-default" id="pwdChg">修改密码</button> -->
+					 			<div class="form-group">
+						 			<div class="">
+						  				<button type="button" class="btn btn-default" id="pwdChg">修改密码</button>
+						 			</div>
+					 			</div>
+					  		</form>
+						</div>
+					</div>	<!-- pwd change end -->
+						
 	     		</div>
 	     	</div>
   		</div>

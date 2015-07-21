@@ -23,7 +23,7 @@
 	        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
 	        		</c:otherwise>
 	        	</c:choose>
-                <div class="sy-dl-wz">欢迎:<c:out value="${username}"></c:out></div>
+                <div class="sy-dl-wz">欢迎:<c:out value="${username}"></c:out>/<c:out value="${sessionScope.myUser.nickname}"></c:out></div>
 	        </c:if>
 		</div>
 	</div>

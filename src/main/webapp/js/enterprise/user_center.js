@@ -214,10 +214,10 @@ $(document).ready(function() {
     	modal: true
     });
     
-    $('#pwdDiv').dialog({
+    /*$('#pwdDiv').dialog({
     	autoOpen: false,
     	modal: true
-    })
+    })*/
     
     activitySearch(table);
     
@@ -291,7 +291,35 @@ $(document).ready(function() {
 	
 	$('#sidebar a[href=#profile]').trigger('click');
 	
-	$('#pwdChg4OpenDialog').click(function() {
+	$('#pwdChg').click(function() {
+		var userId = $('#update_password').find('#userId').val();
+		var password = $('#update_password').find('#password').val();
+		console.log(password + $('#password').val() + " " + $('#password').text()+ " " + $('#password').html())
+    	$.ajax({
+    		"url" : "../../web/user/updatePassword",
+    		"type" : "GET",
+    		/*"headers" : {
+    			"Content-Type" : "application/json"
+    		},*/
+    		/*"dataType" : 'json',*/
+    		"data": ({
+    			userId: userId,
+    			password: password
+            }),
+            success: function(data, textStatus, jqXHR ) {
+            	console.log("data = " + data);
+            	alert('修改密码成功！')
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	alert('加载失败!');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});	// ajax
+	})
+	
+	/*$('#pwdChg4OpenDialog').click(function() {
 		$('#pwdDiv').dialog('open');
 		$('#pwdChg').click(function() {
 			var userId = $('#pwdDiv').find('#userId').val();
@@ -300,10 +328,10 @@ $(document).ready(function() {
         	$.ajax({
         		"url" : "../../web/user/updatePassword",
         		"type" : "GET",
-        		/*"headers" : {
+        		"headers" : {
         			"Content-Type" : "application/json"
-        		},*/
-        		/*"dataType" : 'json',*/
+        		},
+        		"dataType" : 'json',
         		"data": ({
         			userId: userId,
         			password: password
@@ -323,7 +351,7 @@ $(document).ready(function() {
                 }
         	});	// ajax
 		})
-	});
+	});*/
     
 } );
 
