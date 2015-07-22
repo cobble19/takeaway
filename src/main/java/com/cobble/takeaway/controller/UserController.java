@@ -49,7 +49,7 @@ public class UserController extends BaseController {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			MyUser myUser = UserUtil.getCurrentUser();
-			if (myUser.getUserId().longValue() == userPOJO.getUserId()) {
+			if (myUser.getUserId().longValue() == userPOJO.getUserId() && myUser.getPassword().equals(userPOJO.getPasswordOld())) {
 				int result = userService.updatePassword(userPOJO);
 				ret.setSuccess(true);
 			} else {

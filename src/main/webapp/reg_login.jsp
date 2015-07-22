@@ -23,7 +23,15 @@
 	        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
 	        		</c:otherwise>
 	        	</c:choose>
-                <div class="sy-dl-wz">欢迎:<c:out value="${username}"></c:out>/<c:out value="${sessionScope.myUser.nickname}"></c:out></div>
+                <div class="sy-dl-wz">欢迎:
+                	<%-- <c:out value="${username}"></c:out> --%><%-- <c:out value="${sessionScope.myUser.nickname}"></c:out> --%>
+                	<c:if test="${sessionScope.myUser.nickname != null}">
+                		<c:out value="${sessionScope.myUser.nickname}"></c:out>
+                	</c:if>
+                	<c:if test="${sessionScope.myUser.nickname == null or sessionScope.myUser.nickname eq ''}">
+                		<c:out value="${username}"></c:out>
+                	</c:if>
+                </div>
 	        </c:if>
 		</div>
 	</div>

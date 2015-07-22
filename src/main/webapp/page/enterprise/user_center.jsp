@@ -142,12 +142,10 @@
 						<div class="row">
 							<form class="form-inline" id="pwdForm" role="form" action='' method="post">
 					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
-					 			<!-- <div class="form-group">
-					 				<label class="control-label" for="passwordOld">旧密码:</label>
-					 				<div class="">
-					 					<input type="password" class="form-control" id="passwordOld" name="passwordOld" minlength="2" required="required" placeholder="请输入旧密码">
-					 				</div>
-					 			</div> -->
+					 			<div class="form-group">
+					 				<label class="" for="passwordOld">旧密码:</label>
+				 					<input type="password" class="form-control" id="passwordOld" name="passwordOld" minlength="2" required="required" placeholder="请输入旧密码">
+					 			</div>
 					 			<div class="form-group ">
 					 				<label class="" for="password">新密码:</label>
 					 				<input type="password" class="form-control" id="password" name="password" minlength="2" required="required" placeholder="请输入新密码">

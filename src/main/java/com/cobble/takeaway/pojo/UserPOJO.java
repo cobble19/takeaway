@@ -9,6 +9,8 @@ public class UserPOJO extends BasePOJO {
 	private String username;
 	private String nickname;
 	private String password;
+	private String passwordOld;
+	
 	private String email;
     private Boolean enable = true;
 	private String userType;
@@ -77,6 +79,12 @@ public class UserPOJO extends BasePOJO {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public String getPasswordOld() {
+		return passwordOld;
+	}
+	public void setPasswordOld(String passwordOld) {
+		this.passwordOld = passwordOld;
 	}
     
 }
