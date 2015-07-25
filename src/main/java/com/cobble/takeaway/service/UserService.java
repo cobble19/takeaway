@@ -8,6 +8,7 @@ import com.cobble.takeaway.pojo.UserSearchPOJO;
 public interface UserService {
 	int insert(UserPOJO userPOJO) throws Exception;
 	int update(UserPOJO userPOJO) throws Exception;
+	int updateInfo(UserPOJO userPOJO) throws Exception;
 	int updatePassword(UserPOJO userPOJO) throws Exception;
 	List<UserPOJO> finds(UserSearchPOJO userSearchPOJO) throws Exception;
 	int getCount(UserSearchPOJO userSearchPOJO) throws Exception;

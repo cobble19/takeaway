@@ -97,5 +97,12 @@ public class UserServiceImpl implements UserService {
 		return ret;
 	}
 
+	@Override
+	public int updateInfo(UserPOJO userPOJO) throws Exception {
+		int ret = 0;
+		ret = userMapper.updateInfo(userPOJO);
+		return ret;
+	}
+
 
 }

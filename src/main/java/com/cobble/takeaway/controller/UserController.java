@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -52,6 +53,32 @@ public class UserController extends BaseController {
 			if (myUser.getUserId().longValue() == userPOJO.getUserId() && myUser.getPassword().equals(userPOJO.getPasswordOld())) {
 				int result = userService.updatePassword(userPOJO);
 				ret.setSuccess(true);
+			} else {
+				ret.setSuccess(false);
+			}
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/user/updateInfo")
+	@ResponseBody
+	public StatusPOJO updateInfo(UserPOJO userPOJO, Model model) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			MyUser myUser = UserUtil.getCurrentUser();
+			if (myUser.getUserId().longValue() == userPOJO.getUserId()) {
+				int result = userService.updateInfo(userPOJO);
+				ret.setSuccess(true);
+				myUser.setEmail(userPOJO.getEmail());
+				myUser.setNickname(userPOJO.getNickname());
+				UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, myUser.getPassword(), myUser.getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(anAnthentication);
+				
 			} else {
 				ret.setSuccess(false);
 			}

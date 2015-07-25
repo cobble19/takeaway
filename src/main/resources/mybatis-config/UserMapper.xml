@@ -96,6 +96,18 @@
     values (#{item}, #{userId});
     </foreach>
   </update>
+  
+  <update id="updateInfo" parameterType="UserPOJO" >
+    update b_user
+    <set>
+    	<if test="username != null">USERNAME = #{username},</if>
+    	<if test="nickname != null">NICKNAME = #{nickname},</if>
+    	<if test="email != null">EMAIL = #{email},</if>
+    	<if test="enable != null">ENABLE = #{enable},</if>
+    	<if test="userType != null">USER_TYPE = #{userType}</if>
+    </set>
+    where USER_ID = #{userId,jdbcType=INTEGER};
+  </update>
   <update id="updatePassword" parameterType="UserPOJO" >
     update b_user
     set PASSWORD = #{password}

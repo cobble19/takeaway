@@ -18,6 +18,7 @@ public class MyUser extends User {
 	private Long userId;
 
 	private String nickname = "";
+	private String email = "";
 	
 	public MyUser() {
 		this("guest", "guest", null);
@@ -60,6 +61,7 @@ public class MyUser extends User {
 		this.userType = myUser.getUserType();
 		this.nickname = myUser.getNickname();
 		this.userId = myUser.getUserId();
+		this.email = myUser.getEmail();
 	}
 
 	public String getUserType() {
@@ -93,6 +95,14 @@ public class MyUser extends User {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

@@ -96,10 +96,21 @@
 	     	</div>
 	     	<div class="col-md-9">
 	     		<div id="uc_content" style="padding-top: 10px;">
-	     			<div id="profile">
-	     				<h3>个人资料</h3>
-	     				<label>名称： </label><c:out value="${myUser.username }"></c:out>/<c:out value="${myUser.userId }"></c:out><br/>
-	     				<label>昵称： </label><c:out value="${myUser.nickname }"></c:out><br/>
+	     			<div id="profile" class="row">
+	     				<h3 class="col-md-12">个人资料</h3>
+	     				<div class=" form-inline col-md-12">
+	     					<label class="" for="username">名称： </label>
+	     					<%-- <input type="text" name="username" id="username" value="${myUser.username}" class="form-control"> --%>
+	     					 <c:out value="${myUser.username }"></c:out>/<c:out value="${myUser.userId }"></c:out><br/>
+	     				</div>
+	     				<div class=" form-inline col-md-12">
+	     					<label>昵称： </label><input type="text" name="nickname" id="nickname" value="${myUser.nickname}" class="form-control"><br/>
+	     				</div>
+	     				<div class=" form-inline col-md-12">
+	     					<label>E-MAIL： </label><input type="text" name="email" id="email" value="${myUser.email}" class="form-control"><br/>
+	     				</div>
+	     				<button id="updateInfoBtn" class="col-md-offset-3 col-md-1 btn btn-default">修改</button>
+	     				<%-- <label>昵称： </label><c:out value="${myUser.nickname }"></c:out> --%><br/>
 	     				<!-- <label>密码： </label><button id="pwdChg4OpenDialog" class="btn btn-default">修改密码</button> -->
 	     				
 	     			</div>	<!-- profile end -->
