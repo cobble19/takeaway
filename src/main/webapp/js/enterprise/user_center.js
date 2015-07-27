@@ -234,7 +234,8 @@ $(document).ready(function() {
                 "userId": userId
             },
             success: function(data, textStatus, jqXHR ) {
-            	window.location.reload();
+            	alert('修改成功');
+//            	window.location.reload();
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	alert('Load Error!');
