@@ -12,11 +12,11 @@
 <body>
 	<security:authentication property="principal.username" var="username"/>
 			<div class="row" style="border-bottom:1px solid #CCC; ">
-			<div class="col-md-9 col-xs-6">
+			<div class="col-md-8 col-xs-6">
                  <a href='<cmn:base/>' style="font-size:12px;">得味首页</a>&nbsp;&nbsp;
                  <a href="http://#" style="font-size:12px;">活动中心</a>
             </div>
-            <div class="col-md-3 col-xs-6">
+            <div class="col-md-4 col-xs-6">
 			<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 	        <button style="float:right;" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal">注册</button>
 	        <button style="float:right; margin-right:10px;" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#loginModal">登陆</button>
@@ -28,7 +28,7 @@
 	        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
 	        		</c:when>
 	        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-	        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">企业中心</a>
+	        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">管理中心</a>
 	        		</c:when>
 	        		<c:otherwise>
 	        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>

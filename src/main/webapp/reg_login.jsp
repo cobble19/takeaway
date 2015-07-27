@@ -5,7 +5,7 @@
 	<div class="row">
         <div class="col-md-1 logo hidden-xs"></div>
         <div class="col-xs-5 col-xs-offset-1 logo visible-xs"></div>
-        <div class="col-md-3 col-md-offset-8 col-xs-6">
+        <div class="col-md-4 col-md-offset-7 col-xs-6">
 			<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 	        <button style="float:right;" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal">注册</button>
 	        <button style="float:right; margin-right:10px;" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#loginModal">登陆</button>
@@ -17,7 +17,7 @@
 	        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
 	        		</c:when>
 	        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-	        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">企业中心</a>
+	        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">管理中心</a>
 	        		</c:when>
 	        		<c:otherwise>
 	        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
