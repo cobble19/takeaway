@@ -59,7 +59,7 @@
   <select id="findById" resultMap="ActivityResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-			, u.user_id, u.username
+			, u.user_id, u.username, u.nickname
     from e_activity a, rel_activity_user rau, b_user u
     <where>
   		<trim prefixOverrides="and">
