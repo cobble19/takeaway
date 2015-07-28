@@ -104,7 +104,7 @@ var showDetail = function() {
         	$("#title").html(data.title);
         	$("#content").html(data.content);
         	if (!!data.userPOJO) {
-            	$('#publisher').text(data.userPOJO.username);
+            	$('#publisher').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
