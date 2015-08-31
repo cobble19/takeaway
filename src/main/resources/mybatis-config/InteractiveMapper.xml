@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.InteractiveMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" /><!--1 hour -->
+		<property name="timeToLiveSeconds" value="3600" /><!--1 hour -->
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache>
+	
+  <resultMap id="InteractiveResultMap" type="com.cobble.takeaway.pojo.InteractivePOJO" >
+    <id column="INTERACTIVE_ID" property="interactiveId" />
+    <result column="NAME" property="name" jdbcType="VARCHAR"/>
+    <result column="START_DATE_TIME" property="startDateTime" />
+    <result column="END_DATE_TIME" property="endDateTime" />
+    <result column="CONTENT" property="content" />
+    <result column="RULE" property="rule" />
+    <result column="PRIZE" property="prize" />
+    <result column="ANSWER" property="answer" />
+    <result column="numOfWinner" property="NUM_OF_WINNER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.INTERACTIVE_ID, a.NAME, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, a.RULE, a.PRIZE, a.ANSWER, a.NUM_OF_WINNER
+  </sql>
+  <sql id="Clause_Common">
+	<if test="name != null">
+		and NAME like concat("%", concat(#{name}, "%"))
+	</if>
+  </sql>
+  <select id="finds" resultMap="InteractiveResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from e_interactive a
+	join rel_interactive_user rau on a.interactive_id = rau.interactive_id
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="userId != null">
+				and rau.user_id = #{userId}
+			</if>
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.InteractiveSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from e_interactive
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  <select id="findById" resultMap="InteractiveResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+			, u.user_id, u.username, u.nickname
+    from e_interactive a, rel_interactive_user rau, b_user u
+    <where>
+  		<trim prefixOverrides="and">
+			and a.interactive_id = rau.interactive_id
+			and rau.user_id = u.user_id
+			and a.INTERACTIVE_ID = #{interactiveId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from e_interactive
+    where INTERACTIVE_ID = #{interactiveId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.InteractivePOJO" useGeneratedKeys="true"
+  	keyProperty="interactiveId" keyColumn="INTERACTIVE_ID">
+    insert into e_interactive
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="startDateTime != null" >
+        START_DATE_TIME,
+      </if>
+      <if test="endDateTime != null" >
+        END_DATE_TIME,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="rule != null" >
+        RULE,
+      </if>
+      <if test="content != null" >
+        PRIZE,
+      </if>
+      <if test="content != null" >
+        ANSWER,
+      </if>
+      <if test="numOfWinner != null" >
+        NUM_OF_WINNER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="startDateTime != null" >
+        #{startDateTime},
+      </if>
+      <if test="endDateTime != null" >
+        #{endDateTime},
+      </if>
+      <if test="content != null" >
+        #{content},
+      </if>
+      <if test="rule != null" >
+        #{rule},
+      </if>
+      <if test="prize != null" >
+        #{prize},
+      </if>
+      <if test="answer != null" >
+        #{answer},
+      </if>
+      <if test="numOfWinner != null" >
+        #{numOfWinner},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertRelInteractiveUser" parameterType="com.cobble.takeaway.pojo.RelInteractiveUserPOJO" useGeneratedKeys="true"
+  	keyProperty="interactiveUserId" keyColumn="INTERACTIVE_USER_ID">
+    insert into rel_interactive_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="interactiveId != null" >
+        INTERACTIVE_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="interactiveId != null" >
+        #{interactiveId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.InteractivePOJO" >
+    update e_interactive
+    <set >
+      <if test="name != null" >
+        NAME = #{name},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content},
+      </if>
+      <if test="rule != null" >
+        RULE = #{rule},
+      </if>
+      <if test="startDateTime != null" >
+        START_DATE_TIME = #{startDateTime},
+      </if>
+      <if test="endDateTime != null" >
+        END_DATE_TIME = #{endDateTime},
+      </if>
+      <if test="prize != null" >
+        PRIZE = #{prize},
+      </if>
+      <if test="answer != null" >
+        ANSWER = #{answer},
+      </if>
+      <if test="numOfWinner != null" >
+        ANSWER = #{numOfWinner},
+      </if>
+    </set>
+    where INTERACTIVE_ID = #{interactiveId}
+  </update>
+</mapper>

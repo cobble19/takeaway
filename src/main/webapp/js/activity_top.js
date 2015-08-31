@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	activityTop();
+	interactiveTop();
    /* var table = $('#dbTable').DataTable( {
 		"initComplete": function () {
             var api = this.api();
@@ -232,7 +233,7 @@ var activityTop = function() {
         		}
         		top = top + "</ul>";
         		console.log('top: ' + top);
-        		$('div.cont-3').html(top);
+        		$('#activeTop .cont-3').html(top);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -244,6 +245,47 @@ var activityTop = function() {
 	});
 }
 
+var interactiveTop = function() {
+	$.ajax({
+		"url" : "web/enterprise/interactive/list",
+		/*"type" : "POST",*/
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		/*"data": JSON.stringify({
+            title: $("#title").val()
+        }),*/
+        success: function(data, textStatus, jqXHR ) {
+        	console.log("data = " + data);
+        	console.log(" l: " + data.data.length);
+        	result = data.data;
+        	var top = "";
+        	if (result != null) {
+        		top = top + "<ul>";
+        		for (var i = 0; i < result.length; i++) {
+        			interactivePOJO = result[i];
+        			console.log('interactivePOJO: ' + interactivePOJO);
+        			link = '<a href="page/enterprise/interactive_detail.jsp?interactiveId=' + interactivePOJO.interactiveId 
+        			+ '"'
+        			+ ' title="' + interactivePOJO.name + '"'
+        			+ '>' 
+        			+ (i+1) + "  " + interactivePOJO.name.substring(0, 10) + "..." + '</a>';
+        			top = top + '<li>' + link + "</li>"
+        		}
+        		top = top + "</ul>";
+        		console.log('top: ' + top);
+        		$('#interactiveTop .cont-3').html(top);
+        	}
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	alert('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
 
 
 

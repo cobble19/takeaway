@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.InteractiveApplyMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" /><!--1 hour -->
+		<property name="timeToLiveSeconds" value="3600" /><!--1 hour -->
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache>
+	
+  <resultMap id="InteractiveApplyResultMap" type="com.cobble.takeaway.pojo.InteractiveApplyPOJO" >
+    <id column="INTERACTIVE_APPLY_ID" property="interactiveApplyId" />
+    <result column="INTERACTIVE_ID" property="interactiveId"/>
+    <result column="USER_ID" property="userId" />
+    <result column="USERNAME" property="username" />
+    <result column="ANSWER" property="answer" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.INTERACTIVE_APPLY_ID, a.INTERACTIVE_ID, a.USER_ID, a.ANSWER, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="username != null">
+		<!-- and a.USERNAME like concat("%", concat(#{username}, "%")) -->
+		and 1 > 0
+	</if>
+  </sql>
+  <select id="findsInteractiveApplyInActivity" resultMap="InteractiveApplyResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , c.username
+    from interactive_apply a
+    join e_interactive b on b.interactive_Id = a.interactive_Id
+    join b_user c on c.user_id = a.user_id
+    <where>
+  		<trim prefixOverrides="and">
+			and b.interactive_Id = #{interactiveId}
+  		</trim>
+  		order by abs(b.answer - a.answer) asc
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCountInteractiveApplyByUserId" resultType="int" parameterType="com.cobble.takeaway.pojo.InteractiveApplyPOJO" >
+    select
+    count(1)
+    from interactive_apply a
+    join e_interactive b on b.interactive_Id = a.interactive_Id
+    <where>
+  		<trim prefixOverrides="and">
+			and b.interactive_Id = #{interactiveId}
+			and a.user_id = #{userId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="getCountInteractiveApplyInActivity" resultType="int" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
+    select
+    count(1)
+    from interactive_apply a
+    join e_interactive b on b.interactive_Id = a.interactive_Id
+    <where>
+  		<trim prefixOverrides="and">
+			and b.interactive_Id = #{interactiveId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="finds" resultMap="InteractiveApplyResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Interactive_Apply a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from Interactive_Apply
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  <select id="findById" resultMap="InteractiveApplyResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from Interactive_Apply a
+    where a.INTERACTIVE_APP_ID = #{interactiveApplyId}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from Interactive_Apply
+    where INTERACTIVE_APP_ID = #{interactiveApplyId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.InteractiveApplyPOJO" useGeneratedKeys="true"
+  	keyProperty="interactiveApplyId" keyColumn="INTERACTIVE_APP_ID">
+    insert into Interactive_Apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="interactiveId != null" >
+        INTERACTIVE_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="answer != null" >
+        ANSWER,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="interactiveId != null" >
+        #{interactiveId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="answer != null" >
+        #{answer},
+      </if>
+        now(),
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.cobble.takeaway.pojo.InteractiveApplyPOJO" >
+    update Interactive_Apply
+    <set >
+      <if test="interactiveId != null" >
+        INTERACTIVE_ID = #{interactiveId},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="prize != null" >
+        PRIZE = #{prize},
+      </if>
+      <if test="answer != null" >
+        ANSWER = #{answer},
+      </if>
+    </set>
+    where INTERACTIVE_APP_ID = #{interactiveApplyId}
+  </update>
+</mapper>

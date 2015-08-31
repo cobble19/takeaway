@@ -37,61 +37,13 @@
   <body>
   	<div class="container">
 	  	<%@include file="../../reg_login_full.jsp" %>
-  		<%-- <div class="row">
-  			<div class="col-md-12">
-		        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-		        	<a href="<cmn:base/>/spring_security_login">登录</a>
-		        </c:if> 
-		        <c:if test="${not empty username}">
-		        	欢迎： <c:out value="${username}"></c:out>
-		        	<c:choose>
-		        		<c:when test="${sessionScope.userType eq 'PERSON'}">
-		        			<a  href="<cmn:base/>/web/person/usercenter">个人中心</a>
-		        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
-		        		</c:when>
-		        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-		        			<a href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
-		        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
-		        		</c:when>
-		        		<c:otherwise>
-		        			userType 可能错误。<c:out value="${sessionScope.userType}"></c:out>
-		        		</c:otherwise>
-		        	</c:choose>
-		        </c:if>
-  			</div> --%>
-		   <%--  <div class="sy-dl">
-		        <div class="sy-dl-img"></div>
-		        <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-		        	<a href="<cmn:base/>/spring_security_login" class="sy-dl-wz">登录</a>
-		        </c:if> 
-		        <c:if test="${not empty username}">
-		        	欢迎： <c:out value="${username}"></c:out>
-		        	<c:choose>
-		        		<c:when test="${sessionScope.userType eq 'PERSON'}">
-		        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
-		        			<a href='<cmn:base/>/j_spring_security_logout'>退出</a>
-		        		</c:when>
-		        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-		        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">个人中心</a>
-		        			<a href="<cmn:base/>/j_spring_security_logout">退出</a>
-		        		</c:when>
-		        		<c:otherwise>
-		        			userType 可能错误。<c:out value="${sessionScope.userType}"></c:out>
-		        		</c:otherwise>
-		        	</c:choose>
-		        </c:if>
-		    </div> 
-  		</div>--%>
   		<div class="row uc-border" style="margin-top:50px; min-height:500px;">
   			<div class="col-md-3 " id="sidebar">
-	  				<%--<div class="" style="padding-left: 5px;">
-	  					<br/>
-	  					<jsp:include page="reg_login.jsp"></jsp:include> 
-		  			</div>--%>
 		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
-		            <a href="#create_activity" class="list-group-item">发起活动</a>
+		            <a href="#create_activity" class="list-group-item">活动管理</a>
 		            <a href="#update_password" class="list-group-item">修改密码</a>
+		            <a href="#create_interactive" class="list-group-item">互动活动管理</a>
 		          </div> 				
 	     	</div>
 	     	<div class="col-md-9">
@@ -115,7 +67,7 @@
 	     				
 	     			</div>	<!-- profile end -->
 	     			<div id="create_activity">
-	     				<h3>发起活动</h3>
+	     				<h3>活动管理</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary btn-xs" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
 	     					
@@ -148,6 +100,41 @@
 				  				</tfoot> -->
 				  			</table>
 	     			</div>	<!-- create_activity end -->
+	     			
+	     			<div id="create_interactive">
+	     				<h3>活动管理</h3>
+	     				<div style=" height:50px; line-height:50px;">
+	     					<a class="btn btn-primary btn-xs" target="" href='<cmn:base/>/page/enterprise/interactive.jsp'>添加互动</a>
+	     					
+	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default btn-xs" value="查询">
+	     					<input id="deleteBtn4Interactive" type="button" class="btn btn-default btn-xs" value="删除">
+	     					
+	     				</div>
+				  		<table id="dbTable4Interactive" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+				  				<thead>
+				  					<tr>
+				  						<th><input type="checkbox" name="chkBoxAll" id="chkBoxAll">全选</th>
+				  						<th>序号</th>
+				  						<th>标识</th>
+				  						<th>名称</th>
+				  						<th>开始时间</th>
+				  						<th>截止时间</th>
+				  						<th>奖品</th>
+				  						<th>答案</th>
+				  						<th>内容简介</th>
+				  						<th>操作</th>
+				  					</tr>
+				  				</thead>
+				  				<!-- <tfoot>
+				  					<tr>
+				  						<th>No.</th>
+				  						<th>标识</th>
+				  						<th>标题</th>
+				  						<th>内容</th>
+				  					</tr>
+				  				</tfoot> -->
+				  			</table>
+	     			</div>	<!-- create_interactive end -->
 	     			
 					<div id="update_password">
 						<div class="row">
