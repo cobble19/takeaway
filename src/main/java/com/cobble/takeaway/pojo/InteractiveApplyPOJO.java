@@ -8,7 +8,7 @@ public class InteractiveApplyPOJO extends BasePOJO {
     private Long interactiveId;
     private Long userId;
     private String username;
-    private Integer answer;
+    private Double answer;
     private Date createDateTime;
     
 	public Long getInteractiveApplyId() {
@@ -29,10 +29,10 @@ public class InteractiveApplyPOJO extends BasePOJO {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public Integer getAnswer() {
+	public Double getAnswer() {
 		return answer;
 	}
-	public void setAnswer(Integer answer) {
+	public void setAnswer(Double answer) {
 		this.answer = answer;
 	}
 	public Date getCreateDateTime() {

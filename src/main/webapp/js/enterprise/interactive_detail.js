@@ -32,10 +32,11 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR ) {
             	console.log("data = " + data);
             	if (data.success) {
-                	alert('已成功提交答案！')
+                	alert('已成功提交答案！');
             	} else {
-            		alert('已提交过答案，不能重复提交！')
+            		alert(data.desc);
             	}
+            	winnerSorter();
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	alert('Load Error!');
@@ -105,9 +106,12 @@ var showDetail = function() {
         	$("#title").html(data.name);
         	$("#content").html(data.content);
         	$("#rule").html(data.rule);
-        	/*if (!!data.userPOJO) {
+        	$("#numOfWinner").html(data.numOfWinner);
+        	if (!!data.userPOJO) {
             	$('#publisher').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
-        	}*/
+        	};
+        	$("#startDateTime").html(new Date(data.startDateTime));;
+        	$("#endDateTime").html(data.endDateTime);
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	alert('Load Error!');
@@ -116,7 +120,16 @@ var showDetail = function() {
         	console.log('Ajax complete.');
         }
 	});
+	
+	winnerSorter();
 
+	
+}
+
+var winnerSorter = function() {
+
+	var interactiveId = getParam('interactiveId');
+	
 	$.ajax({
 		"url" : "../../web/person/interactiveApplyInActivity/" + interactiveId,
 		"type" : "GET",
@@ -150,5 +163,9 @@ var showDetail = function() {
         }
 	});
 	
-	
 }
+
+
+
+
+

@@ -76,10 +76,13 @@ public class InteractiveApplyController extends BaseController {
 	@ResponseBody
 	public StatusPOJO apply(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
-		
-		
 		try {
 			Long userId = UserUtil.getCurrentUser().getUserId();
+			if (userId == null || userId == 0) {
+				ret.setSuccess(false);
+				ret.setDesc("请登录！");
+				return ret;
+			}
 			interactiveApplyPOJO.setUserId(userId);
 			
 			Boolean exist = interactiveApplyService.existInteractiveApplyByUserId(interactiveApplyPOJO);

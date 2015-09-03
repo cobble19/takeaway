@@ -143,12 +143,12 @@
 								<div class="cont-3"></div>
 							</div>
 						</div>
-						<div class="row">
+						<!-- <div class="row">
 							<div id="interactiveTop" class="col-md-4" style="margin-left: -15px;">
 								<div class=""><span>互动活动</span></div>
 								<div class="cont-3"></div>
 							</div>
-						</div>
+						</div> -->
 					</ul>
 				</div>
 

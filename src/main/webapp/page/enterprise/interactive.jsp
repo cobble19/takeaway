@@ -49,9 +49,15 @@
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="title">奖品:</label>
+ 				<label class="control-label" for="title">奖品信息:</label>
  				<div class="">
  					<input class="form-control" id="prize" name="prize" minlength="2" required="required" placeholder="请输入本次互动活动奖品">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="title">获奖人数:</label>
+ 				<div class="">
+ 					<input type="number" class="form-control" id="numOfWinner" name="numOfWinner" minlength="1" required="required" placeholder="请输入本次互动活动获奖人数">
  				</div>
  			</div>
  			<div class="form-group">

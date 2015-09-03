@@ -224,16 +224,19 @@ var activityTop = function() {
         		for (var i = 0; i < result.length; i++) {
         			activityPOJO = result[i];
         			console.log('activityPOJO: ' + activityPOJO);
+        			if (activityPOJO.expired) {
+        				continue;
+        			}
         			link = '<a href="page/enterprise/activity_detail.jsp?activityId=' + activityPOJO.activityId 
         			+ '"'
         			+ ' title="' + activityPOJO.title + '"'
         			+ '>' 
-        			+ (i+1) + "  " + activityPOJO.title.substring(0, 10) + "..." + '</a>';
+        			+ '<b>[线下]</b>' + "  " + activityPOJO.title.substring(0, 10) + "..." + '</a>';
         			top = top + '<li>' + link + "</li>"
         		}
         		top = top + "</ul>";
         		console.log('top: ' + top);
-        		$('#activeTop .cont-3').html(top);
+        		$('#activeTop .cont-3').append(top);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -270,12 +273,12 @@ var interactiveTop = function() {
         			+ '"'
         			+ ' title="' + interactivePOJO.name + '"'
         			+ '>' 
-        			+ (i+1) + "  " + interactivePOJO.name.substring(0, 10) + "..." + '</a>';
+        			+ '<b>[互动]</b>' + "  " + interactivePOJO.name.substring(0, 10) + "..." + '</a>';
         			top = top + '<li>' + link + "</li>"
         		}
         		top = top + "</ul>";
         		console.log('top: ' + top);
-        		$('#interactiveTop .cont-3').html(top);
+        		$('#activeTop .cont-3').append(top);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {

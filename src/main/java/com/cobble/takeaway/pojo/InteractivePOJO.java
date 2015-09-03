@@ -11,8 +11,10 @@ public class InteractivePOJO extends BasePOJO {
     private Date startDateTime;
     private Date endDateTime;
     private String prize;
-    private Integer answer;
+    private Double answer;
     private Integer numOfWinner;
+    
+    private UserPOJO userPOJO;
     
 	public Long getInteractiveId() {
 		return interactiveId;
@@ -44,10 +46,10 @@ public class InteractivePOJO extends BasePOJO {
 	public void setPrize(String prize) {
 		this.prize = prize;
 	}
-	public Integer getAnswer() {
+	public Double getAnswer() {
 		return answer;
 	}
-	public void setAnswer(Integer answer) {
+	public void setAnswer(Double answer) {
 		this.answer = answer;
 	}
 	public Date getEndDateTime() {
@@ -67,6 +69,12 @@ public class InteractivePOJO extends BasePOJO {
 	}
 	public void setNumOfWinner(Integer numOfWinner) {
 		this.numOfWinner = numOfWinner;
+	}
+	public UserPOJO getUserPOJO() {
+		return userPOJO;
+	}
+	public void setUserPOJO(UserPOJO userPOJO) {
+		this.userPOJO = userPOJO;
 	}
     
 }

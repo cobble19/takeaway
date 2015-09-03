@@ -572,7 +572,7 @@ $(document).ready(function() {
     
     $('#deleteBtn4Interactive').click(function() {
     	var ids = [];
-    	var chkBox = $(this).find('input[name=chkBox]');
+    	var chkBox = $('#dbTable4Interactive').find('input[name=chkBox4Interactive]');
     	chkBox.each(function(index, ele) {
     		if ($(this).attr('checked')) {
     			ids.push($(this).val());

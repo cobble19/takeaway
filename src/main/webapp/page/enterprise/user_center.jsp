@@ -113,7 +113,7 @@
 				  		<table id="dbTable4Interactive" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
-				  						<th><input type="checkbox" name="chkBoxAll" id="chkBoxAll">全选</th>
+				  						<th><input type="checkbox" name="chkBoxAll4Interactive" id="chkBoxAll4Interactive">全选</th>
 				  						<th>序号</th>
 				  						<th>标识</th>
 				  						<th>名称</th>

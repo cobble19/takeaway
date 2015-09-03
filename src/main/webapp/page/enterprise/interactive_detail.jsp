@@ -35,6 +35,10 @@
 	  					<hr/> -->
 			  			<p><span style="border-bottom: 1px solid #ccc;">活动内容</span><span id="content"></span></p>
 			  			<p><span style="border-bottom: 1px solid #ccc; margin-top: 15px;">活动规则</span><span id="rule"></span></p>
+			  			<p><span style="border-bottom: 1px solid #ccc; margin-top: 15px;">活动时间</span>
+			  				<span id="startDateTime"></span><span id="endDateTime"></span></p>
+			  				
+			  			<p><span style="border-bottom: 1px solid #ccc;">获奖人数</span><span id="numOfWinner"></span></p>
 			  			<!-- for update -->
 			  			<div style="" class="row col-md-12">
 		 					<!-- <textarea rows="5" cols="20" id="content" name="content" placeholder="请输入本次活动内容"></textarea>

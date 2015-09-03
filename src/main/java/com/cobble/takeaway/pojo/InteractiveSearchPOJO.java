@@ -10,7 +10,7 @@ public class InteractiveSearchPOJO extends BaseSearchPOJO {
     private Date startDateTime;
     private Date endDateTime;
     private String prize;
-    private Integer answer;
+    private Double answer;
     
 	public Long getInteractiveId() {
 		return interactiveId;
@@ -42,10 +42,10 @@ public class InteractiveSearchPOJO extends BaseSearchPOJO {
 	public void setPrize(String prize) {
 		this.prize = prize;
 	}
-	public Integer getAnswer() {
+	public Double getAnswer() {
 		return answer;
 	}
-	public void setAnswer(Integer answer) {
+	public void setAnswer(Double answer) {
 		this.answer = answer;
 	}
 	public Date getEndDateTime() {

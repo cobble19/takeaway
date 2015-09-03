@@ -19,7 +19,8 @@
     <result column="RULE" property="rule" />
     <result column="PRIZE" property="prize" />
     <result column="ANSWER" property="answer" />
-    <result column="numOfWinner" property="NUM_OF_WINNER" />
+    <result column="NUM_OF_WINNER" property="numOfWinner" />
+    <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     a.INTERACTIVE_ID, a.NAME, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, a.RULE, a.PRIZE, a.ANSWER, a.NUM_OF_WINNER
