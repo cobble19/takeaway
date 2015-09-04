@@ -33,12 +33,12 @@
 	  				<div class="col-md-9 col-xs-12" style=" border-right:1px solid #CCC; ">
 	  					<!-- <h4 class="" style="text-align: bottom;"><span id="title"></span></h4>
 	  					<hr/> -->
-			  			<p><span style="border-bottom: 1px solid #ccc;">活动内容</span><span id="content"></span></p>
-			  			<p><span style="border-bottom: 1px solid #ccc; margin-top: 15px;">活动规则</span><span id="rule"></span></p>
-			  			<p><span style="border-bottom: 1px solid #ccc; margin-top: 15px;">活动时间</span>
-			  				<span id="startDateTime"></span><span id="endDateTime"></span></p>
+			  			<p style="font-size:14px;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold;">活动内容：</span><span id="content"></span></p>
+			  			<p style="font-size:14px; margin-top: 15px;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold;">活动规则：</span><span id="rule"></span></p>
+			  			<p style="font-size:14px; margin-top: 15px;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold;">活动时间：</span>
+			  				<span id="startDateTime"></span>—<span id="endDateTime"></span></p>
 			  				
-			  			<p><span style="border-bottom: 1px solid #ccc;">获奖人数</span><span id="numOfWinner"></span></p>
+			  			<p style="font-size:14px; margin-top: 15px;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold;">获奖人数：</span>排名前<span id="numOfWinner"></span>名获得奖励。</p>
 			  			<!-- for update -->
 			  			<div style="" class="row col-md-12">
 		 					<!-- <textarea rows="5" cols="20" id="content" name="content" placeholder="请输入本次活动内容"></textarea>
@@ -77,7 +77,7 @@
 	  				</div>
 	  				<div class="col-md-3 col-xs-12">
 	  					<div id="interactiveApplySortor" class="row col-md-12" style="">
-	  						<h2>活动排名</h2>
+	  						<h4>活动排名</h4>
 	  						<div id="interactiveApplyContent">
 	  						</div>
 	  					</div>

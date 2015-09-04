@@ -145,7 +145,7 @@ var winnerSorter = function() {
         	var interactiveApplyPOJOs = data.data;
         	var html = "<ul>";
         	for (var i = 0; i < interactiveApplyPOJOs.length; i++) {
-            	html += "<li>" + (i + 1) + ": " + interactiveApplyPOJOs[i].username + "</li>"
+            	html += "<li>" + (i + 1) + ". " + interactiveApplyPOJOs[i].username + "</li>"
         	}
         	html += "</ul>";
         	$("#interactiveApplyContent").html(html);

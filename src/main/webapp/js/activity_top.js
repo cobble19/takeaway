@@ -231,12 +231,12 @@ var activityTop = function() {
         			+ '"'
         			+ ' title="' + activityPOJO.title + '"'
         			+ '>' 
-        			+ '<b>[线下]</b>' + "  " + activityPOJO.title.substring(0, 10) + "..." + '</a>';
+        			+ (i + 1) + ". " + "  " + activityPOJO.title.substring(0, 10) + "..." + '</a>';
         			top = top + '<li>' + link + "</li>"
         		}
         		top = top + "</ul>";
         		console.log('top: ' + top);
-        		$('#activeTop .cont-3').append(top);
+        		$('#activeTop .cont-7').append(top);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -273,12 +273,12 @@ var interactiveTop = function() {
         			+ '"'
         			+ ' title="' + interactivePOJO.name + '"'
         			+ '>' 
-        			+ '<b>[互动]</b>' + "  " + interactivePOJO.name.substring(0, 10) + "..." + '</a>';
+        			+ (i + 1) + ". " + "  " + interactivePOJO.name.substring(0, 10) + "..." + '</a>';
         			top = top + '<li>' + link + "</li>"
         		}
         		top = top + "</ul>";
         		console.log('top: ' + top);
-        		$('#activeTop .cont-3').append(top);
+        		$('#activeTop .cont-6').append(top);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {

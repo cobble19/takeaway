@@ -44,6 +44,9 @@ a:active {
 .cont-2 li{ width:250px; height:295px; margin:4px auto;}
 .cont-4 li{ width:252px; height:105px; margin-left:4px; margin-top:3px; float:left; }
 .cont-5 li{ width:124px; height:74px; margin-left:4px; margin-top:4px; float:left; }
+.cont-6{ width:206px; height:150px;}
+.cont-7{ width:206px; height:150px;}
+.line{ width:186px; height:0px; border-top:1px ridge #CCC; border-bottom:1px ridge #CCC; margin-top:1px; margin-bottom:1px;}
 
 
 

@@ -140,7 +140,15 @@
 							</div>
 							<div id="activeTop" class="col-md-4" style="margin-left: -15px;">
 								<div class="jrhd"></div>
-								<div class="cont-3"></div>
+								<div class="cont-3">
+                                    <div class="cont-6">
+                                    <p style="font-size:14px; font-weight:bold; color:#009;">线上活动</p>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="cont-7">
+                                    <p style="font-size:14px; font-weight:bold; color:#009;">线下活动</p>
+                                    </div>
+                                </div>
 							</div>
 						</div>
 						<!-- <div class="row">
