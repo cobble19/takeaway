@@ -161,17 +161,31 @@ $(document).ready(function() {
     $('#chkBoxAll').click(function() {
     	var chkBoxAll = $(this).attr('checked');
     	if (chkBoxAll) {
-    		$(this).find('input[name=chkBox]').attr('checked', true);
+    		$('#dbTable').find('input[name=chkBox]').attr('checked', true);
     	} else {
-    		$(this).find('input[name=chkBox]').attr('checked', false);
+    		$('#dbTable').find('input[name=chkBox]').attr('checked', false);
+    	}
+    })
+    
+    $('#chkBoxAll4Interactive').click(function() {
+    	var chkBoxAll = $(this).attr('checked');
+    	if (chkBoxAll) {
+    		$('#dbTable4Interactive').find('input[name=chkBox]').attr('checked', true);
+    	} else {
+    		$('#dbTable4Interactive').find('input[name=chkBox]').attr('checked', false);
     	}
     })
     
     $('#deleteBtn').click(function() {
     	var ids = [];
-    	var chkBox = $(this).find('input[name=chkBox]');
+    	var chkBox = $('#dbTable').find('input[name=chkBox]');
+    	
     	chkBox.each(function(index, ele) {
+//    		console.log($(this).val() + ele.value);
+        	/*var tr = $(this).closest('tr');
+            var row = table.row( tr );*/
     		if ($(this).attr('checked')) {
+//    			ids.push(row.data().activityId);
     			ids.push($(this).val());
     		}
     	})
@@ -199,6 +213,48 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
             	activitySearch(table);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	alert('Load Error!');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});
+    })
+    
+    $('#deleteBtn4Interactive').click(function() {
+    	var ids = [];
+    	var chkBox = $('#dbTable4Interactive').find('input[name=chkBox]');
+    	chkBox.each(function(index, ele) {
+    		if ($(this).attr('checked')) {
+    			ids.push($(this).val());
+    		}
+    	})
+    	console.log('ids: ' + ids);
+    	if (ids == null || ids.length <= 0) {
+    		alert('请选择一条记录');
+    		return;
+    	}
+
+    	var confirm = window.confirm('确定删除');
+    	if (!confirm) {
+    		return;
+    	}
+    	$.ajax({
+    		"url" : "../../mgr/interactive/delete",
+    		"type" : "GET",
+    		/*"headers" : {
+    			"Content-Type" : "application/json"
+    		},*/
+    		"dataType" : 'json',
+    		traditional :true, 
+    		"data": {
+                "ids": ids
+            },
+            success: function(data, textStatus, jqXHR ) {
+            	$('#progress').dialog('close');
+            	interactiveSearch(table4Interactive);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	alert('Load Error!');
@@ -439,7 +495,7 @@ $(document).ready(function() {
 			"targets" : 0,
 			"render" : function(data, type, full, meta) {
 				var checkBox = '<input type="checkbox" name="chkBox" value="'
-					+ full.activityId
+					+ full.interactiveId
 					+ '">';
 				return checkBox;
 				;
@@ -481,24 +537,24 @@ $(document).ready(function() {
 			"render" : function(data, type, full, meta) {
 				var content = (data != null) ? data.substring(0, 10): '';
 				content += '...>>';
-				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.interactiveId + '">' +
+				var link = '<a href="../../page/enterprise/interactive_detail.jsp?interactiveId=' + full.interactiveId + '">' +
 						content + '</a>';
 				return link;
 			}
 		}, {
 			"targets" : 9,
 			"render" : function(data, type, full, meta) {
-				var href = '../../page/person/apply_in_activity.jsp?activityId='  + full.interactiveId
+				/*var href = '../../page/person/apply_in_activity.jsp?activityId='  + full.interactiveId
 				+ '&activityTitle=' + ((full.name));
 				var linkApply = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href
 				+ '">' +
-				'查看申请人' + '</a>';
+				'查看申请人' + '</a>';*/
 				
-				var hrefEdit = $('#basePath').val() + '/page/enterprise/activity_update.jsp?activityId='  + full.interactiveId;
+				var hrefEdit = $('#basePath').val() + '/page/enterprise/interactive_update.jsp?interactiveId='  + full.interactiveId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
-				return linkApply + "<br/>" + linkEdit;
+				return linkEdit;
 			}
 		}/*, {
 			"targets" : 0,
@@ -601,7 +657,7 @@ $(document).ready(function() {
             },
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
-            	activitySearch(table);
+            	activitySearch(table4Interactive);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	alert('Load Error!');
