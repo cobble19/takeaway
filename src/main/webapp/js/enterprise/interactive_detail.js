@@ -110,8 +110,19 @@ var showDetail = function() {
         	if (!!data.userPOJO) {
             	$('#publisher').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
         	};
-        	$("#startDateTime").html(new Date(data.startDateTime));;
-        	$("#endDateTime").html(data.endDateTime);
+        	$("#startDateTime").html(new Date(data.startDateTime).format('Y/m/d H:i:s'));;
+        	$("#endDateTime").html(new Date(data.endDateTime).format('Y/m/d H:i:s'));
+        	
+        	if (new Date(data.endDateTime) < new Date()) {
+        		$('#errorMsg').html('活动已经结束， 欢迎下次参加。');
+            	$('#applyForm').hide();
+        	} else if (new Date(data.startDateTime) > new Date()) {
+        		$('#errorMsg').html('活动还没有开始， 请关注开始时间。');
+            	$('#applyForm').hide();
+        	} else {
+        		$('#errorMsg').html('活动正在进行中。。。');
+        		$('#applyForm').show();
+        	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	alert('Load Error!');

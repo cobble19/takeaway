@@ -50,6 +50,7 @@
 							<div class="row col-md-12" style="margin-top: 50px;">
 			  				<fieldset>
 								<legend>你的答案</legend>
+									<span id="errorMsg" style="color: red;"></span>
 									<form id="applyForm" class="form-inline">
 											<div class="form-group">
 												<label for="usernameX" class="control-label">答案: </label>

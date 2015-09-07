@@ -223,48 +223,6 @@ $(document).ready(function() {
     	});
     })
     
-    $('#deleteBtn4Interactive').click(function() {
-    	var ids = [];
-    	var chkBox = $('#dbTable4Interactive').find('input[name=chkBox]');
-    	chkBox.each(function(index, ele) {
-    		if ($(this).attr('checked')) {
-    			ids.push($(this).val());
-    		}
-    	})
-    	console.log('ids: ' + ids);
-    	if (ids == null || ids.length <= 0) {
-    		alert('请选择一条记录');
-    		return;
-    	}
-
-    	var confirm = window.confirm('确定删除');
-    	if (!confirm) {
-    		return;
-    	}
-    	$.ajax({
-    		"url" : "../../mgr/interactive/delete",
-    		"type" : "GET",
-    		/*"headers" : {
-    			"Content-Type" : "application/json"
-    		},*/
-    		"dataType" : 'json',
-    		traditional :true, 
-    		"data": {
-                "ids": ids
-            },
-            success: function(data, textStatus, jqXHR ) {
-            	$('#progress').dialog('close');
-            	interactiveSearch(table4Interactive);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-            	alert('Load Error!');
-            },
-            complete: function(jqXHR, textStatus) {
-            	console.log('Ajax complete.');
-            }
-    	});
-    })
-    
     $('#updateInfoBtn').click(function() {
     	var confirm = window.confirm('确定修改');
     	if (!confirm) {
@@ -626,47 +584,48 @@ $(document).ready(function() {
     	}
     })
     
-    $('#deleteBtn4Interactive').click(function() {
-    	var ids = [];
-    	var chkBox = $('#dbTable4Interactive').find('input[name=chkBox4Interactive]');
-    	chkBox.each(function(index, ele) {
-    		if ($(this).attr('checked')) {
-    			ids.push($(this).val());
-    		}
-    	})
-    	console.log('ids: ' + ids);
-    	if (ids == null || ids.length <= 0) {
-    		alert('请选择一条记录');
-    		return;
-    	}
+    
+        $('#deleteBtn4Interactive').click(function() {
+        	var ids = [];
+        	var chkBox = $('#dbTable4Interactive').find('input[name=chkBox]');
+        	chkBox.each(function(index, ele) {
+        		if ($(this).attr('checked')) {
+        			ids.push($(this).val());
+        		}
+        	})
+        	console.log('ids: ' + ids);
+        	if (ids == null || ids.length <= 0) {
+        		alert('请选择一条记录');
+        		return;
+        	}
 
-    	var confirm = window.confirm('确定删除');
-    	if (!confirm) {
-    		return;
-    	}
-    	$.ajax({
-    		"url" : "../../mgr/interactive/delete",
-    		"type" : "GET",
-    		/*"headers" : {
-    			"Content-Type" : "application/json"
-    		},*/
-    		"dataType" : 'json',
-    		traditional :true, 
-    		"data": {
-                "ids": ids
-            },
-            success: function(data, textStatus, jqXHR ) {
-            	$('#progress').dialog('close');
-            	activitySearch(table4Interactive);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-            	alert('Load Error!');
-            },
-            complete: function(jqXHR, textStatus) {
-            	console.log('Ajax complete.');
-            }
-    	});
-    })
+        	var confirm = window.confirm('确定删除');
+        	if (!confirm) {
+        		return;
+        	}
+        	$.ajax({
+        		"url" : "../../mgr/interactive/delete",
+        		"type" : "GET",
+        		"headers" : {
+        			"Content-Type" : "application/json"
+        		},
+        		"dataType" : 'json',
+        		traditional :true, 
+        		"data": {
+                    "ids": ids
+                },
+                success: function(data, textStatus, jqXHR ) {
+                	$('#progress').dialog('close');
+                	interactiveSearch(table4Interactive);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                	alert('Load Error!');
+                },
+                complete: function(jqXHR, textStatus) {
+                	console.log('Ajax complete.');
+                }
+        	});
+        })
     
 } );
 
