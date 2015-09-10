@@ -13,6 +13,8 @@ public interface ActivityMapper {
 	int update(ActivityPOJO activityPOJO) throws Exception;
 	List<ActivityPOJO> finds(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 	int getCount(ActivitySearchPOJO activitySearchPOJO) throws Exception;
+	List<ActivityPOJO> findActives(ActivitySearchPOJO activitySearchPOJO) throws Exception;
+	int getActiveCount(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 	ActivityPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
 }

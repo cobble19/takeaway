@@ -53,6 +53,22 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
+	public List<ActivityPOJO> findActives(
+			ActivitySearchPOJO activitySearchPOJO) throws Exception {
+		List<ActivityPOJO> ret = null;
+		ret = activityMapper.findActives(activitySearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public int getActiveCount(ActivitySearchPOJO activitySearchPOJO)
+			throws Exception {
+		int ret = 0;
+		ret = activityMapper.getActiveCount(activitySearchPOJO);
+		return ret;
+	}
+
+	@Override
 	public ActivityPOJO findById(Long id) throws Exception {
 		ActivityPOJO ret = null;
 		ret = activityMapper.findById(id);

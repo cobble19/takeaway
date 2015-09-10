@@ -115,13 +115,16 @@ var showDetail = function() {
         	
         	if (new Date(data.endDateTime) < new Date()) {
         		$('#errorMsg').html('活动已经结束， 欢迎下次参加。');
-            	$('#applyForm').hide();
+            	$('#answer').prop('disabled', true);
+            	$('#applyBtn').prop('disabled', true);
         	} else if (new Date(data.startDateTime) > new Date()) {
         		$('#errorMsg').html('活动还没有开始， 请关注开始时间。');
-            	$('#applyForm').hide();
+            	$('#answer').prop('disabled', true);
+            	$('#applyBtn').prop('disabled', true);
         	} else {
         		$('#errorMsg').html('活动正在进行中。。。');
-        		$('#applyForm').show();
+            	$('#answer').prop('disabled', false);
+            	$('#applyBtn').prop('disabled', false);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {

@@ -102,7 +102,8 @@
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
-				  						<th>申请</th>
+				  						<!-- <th>申请</th> -->
+				  						<th>序号</th>
 				  						<th>标识</th>
 				  						<th>标题</th>
 				  						<th>内容</th>

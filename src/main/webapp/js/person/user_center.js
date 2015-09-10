@@ -32,19 +32,28 @@ $(document).ready(function() {
         },
 		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-		"columnDefs" : [ {
+		"columnDefs" : [ /*{
 			"targets" : 0,
 			"render" : function(data, type, full, meta) {
 				console.log(data + " " + type + " " + full + " " + meta);
 				;
 			}
+		}, */{
+			"targets" : 1,
+			"visible" : false
+		}, {
+			"targets" : 2,
+			"render" : function(data, type, full, meta) {
+//				var content = (data != null) ? data.substring(0, 10): '';
+				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
+						data + '</a>';
+				return link
+			}
 		}, {
 			"targets" : 3,
 			"render" : function(data, type, full, meta) {
-				var content = (data != null) ? data.substring(0, 10): '';
-				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
-						content + '</a>';
-				return link
+				var content = (data != null) ? data.substring(0, 30): '';
+				return content.replace('<', '');
 			}
 		}/*, {
 			"targets" : 0,
@@ -67,13 +76,19 @@ $(document).ready(function() {
 			}
 		}*/ ],
         "columns": [
-            {
+            /*{
                 "className":      'details-control',
                 "orderable":      false,
                 "data":           null,
                 "defaultContent": '',
                 "title": '申请参加'
-            },
+            },*/
+            {
+			    /*"className":      'details-control',*/
+			    "orderable":      false,
+			    "data":           null,
+			    "defaultContent": ''
+			},
             { "data": "activityId" },
             { "data": "title" },
             { "data": "content" }
@@ -85,6 +100,12 @@ $(document).ready(function() {
     	autoOpen: false,
     	modal: true
     });
+    
+    table.on( 'order.dt search.dt', function () {
+    	table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     
     activitySearch(table);
     
@@ -176,7 +197,7 @@ function format ( d ) {
 var activitySearch = function(table) {
 	$('#progress').dialog('open');
 	$.ajax({
-		"url" : "../../web/enterprise/activity/list",
+		"url" : "../../web/enterprise/activity/list/active",
 		"type" : "POST",
 		"headers" : {
 			"Content-Type" : "application/json"

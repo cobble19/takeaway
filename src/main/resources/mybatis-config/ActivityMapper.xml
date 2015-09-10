@@ -56,6 +56,46 @@
   		</trim>
   	</where>
   </select>
+  
+  
+  <select id="findActives" resultMap="ActivityResultMap" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from e_activity a, rel_activity_user rau
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and a.activity_id = rau.activity_id
+			<if test="userId != null">
+				and rau.user_id = #{userId}
+			</if>
+			and a.END_DATE_TIME - now() &gt;= 0
+  		</trim>
+  	</where>
+  	order by (a.END_DATE_TIME - now()) desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getActiveCount" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from e_activity
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and a.activity_id = rau.activity_id
+			<if test="userId != null">
+				and rau.user_id = #{userId}
+			</if>
+			and a.END_DATE_TIME - now() &gt;= 0
+  		</trim>
+  	</where>
+  </select>
+  
+  
+  
   <select id="findById" resultMap="ActivityResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />

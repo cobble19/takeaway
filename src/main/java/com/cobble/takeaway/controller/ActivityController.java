@@ -97,6 +97,21 @@ public class ActivityController extends BaseController {
 		return ret;
 	}
 
+	@RequestMapping(value = "/web/enterprise/activity/list/active", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<ActivityPOJO> queryActive(ActivitySearchPOJO activitySearchPOJO) throws Exception {
+		DataTablesPOJO<ActivityPOJO> ret = new DataTablesPOJO<ActivityPOJO>();
+		try {
+			List<ActivityPOJO> activityPOJOs = activityService.findActives(activitySearchPOJO);
+			ret.setData(activityPOJOs);
+		} catch (Exception e) {
+			LOGGER.error("list error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/enterprise/activityByUserId", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public DataTablesPOJO<ActivityPOJO> queryByUserId(ActivitySearchPOJO activitySearchPOJO) throws Exception {
