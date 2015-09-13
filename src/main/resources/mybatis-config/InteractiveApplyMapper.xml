@@ -27,13 +27,13 @@
 		and 1 > 0
 	</if>
   </sql>
-  <select id="findsInteractiveApplyInActivity" resultMap="InteractiveApplyResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
+  <select id="findsApplyInInteractive" resultMap="InteractiveApplyResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    , c.username
+    , c.user_id, c.username, c.nickname
     from interactive_apply a
     join e_interactive b on b.interactive_Id = a.interactive_Id
     join b_user c on c.user_id = a.user_id
@@ -61,7 +61,7 @@
   	</where>
   </select>
   
-  <select id="getCountInteractiveApplyInActivity" resultType="int" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
+  <select id="getCountInteractiveApplyInInteractive" resultType="int" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
     select
     count(1)
     from interactive_apply a

@@ -9,18 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cobble.takeaway.pojo.ApplyPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.InteractiveApplyPOJO;
 import com.cobble.takeaway.pojo.InteractiveApplySearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.InteractiveApplyService;
+import com.cobble.takeaway.service.InteractiveService;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -29,9 +32,31 @@ public class InteractiveApplyController extends BaseController {
 	
 	@Autowired
 	private InteractiveApplyService interactiveApplyService;
-	
+	@Autowired
+	private InteractiveService interactiveService;
 
-	@RequestMapping(value = "/web/person/interactiveApplyInActivity/{interactiveId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+
+	@RequestMapping(value = "/web/person/interactive/{interactiveId}/apply", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<InteractiveApplyPOJO> applyInInteractive(@PathVariable("interactiveId") Long interactiveId) throws Exception {
+		DataTablesPOJO<InteractiveApplyPOJO> ret = new DataTablesPOJO<InteractiveApplyPOJO>();
+		try {
+			
+			List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.findsApplyInInteractive(interactiveId);
+			int count = CollectionUtils.isEmpty(interactiveApplyPOJOs) ? 0 : interactiveApplyPOJOs.size();
+			ret.setData(interactiveApplyPOJOs);
+			ret.setRecordsTotal(count);
+			ret.setDraw(1);
+			ret.setRecordsFiltered(count);
+		} catch (Exception e) {
+			LOGGER.error("applyInActivity error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+
+	/*@RequestMapping(value = "/web/person/interactiveApplyInActivity/{interactiveId}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public DataTablesPOJO<InteractiveApplyPOJO> applyInActivity(@PathVariable("interactiveId") Long interactiveId) throws Exception {
 		DataTablesPOJO<InteractiveApplyPOJO> ret = new DataTablesPOJO<InteractiveApplyPOJO>();
@@ -48,7 +73,7 @@ public class InteractiveApplyController extends BaseController {
 		}
 		
 		return ret;
-	}
+	}*/
 
 /*	@RequestMapping(value = "/web/person/interactiveApply/exist", method = {RequestMethod.POST})
 	@ResponseBody

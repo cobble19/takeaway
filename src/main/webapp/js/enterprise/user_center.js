@@ -502,17 +502,17 @@ $(document).ready(function() {
 		}, {
 			"targets" : 9,
 			"render" : function(data, type, full, meta) {
-				/*var href = '../../page/person/apply_in_activity.jsp?activityId='  + full.interactiveId
-				+ '&activityTitle=' + ((full.name));
+				var href = $('#basePath').val() + '/page/person/apply_in_interactive.jsp?interactiveId='  + full.interactiveId
+				+ '&name=' + ((full.name));
 				var linkApply = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href
 				+ '">' +
-				'查看申请人' + '</a>';*/
+				'查看获奖人' + '</a>';
 				
 				var hrefEdit = $('#basePath').val() + '/page/enterprise/interactive_update.jsp?interactiveId='  + full.interactiveId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
-				return linkEdit;
+				return linkApply + "<br/>" + linkEdit;
 			}
 		}/*, {
 			"targets" : 0,
