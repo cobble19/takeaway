@@ -51,7 +51,7 @@
 							
 									<span id="errorMsg" style="color: red;"></span>
 			  				<fieldset>
-								<legend>你的答案</legend>
+								<legend style="font-size:16px;font-family:'幼圆'; font-weight:bold;">你的答案</legend>
 									<form id="applyForm" class="form-inline">
 											<div class="form-group">
 												<label for="usernameX" class="control-label">答案: </label>
