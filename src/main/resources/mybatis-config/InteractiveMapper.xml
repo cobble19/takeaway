@@ -37,12 +37,12 @@
     </if>
     <include refid="Base_Column_List" />
     from e_interactive a
-	join rel_interactive_user rau on a.interactive_id = rau.interactive_id
+	join rel_interactive_user riu on a.interactive_id = riu.interactive_id
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
 			<if test="userId != null">
-				and rau.user_id = #{userId}
+				and riu.user_id = #{userId}
 			</if>
   		</trim>
   	</where>
@@ -58,6 +58,45 @@
   		</trim>
   	</where>
   </select>
+  
+  
+  <select id="findActives" resultMap="InteractiveResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from e_interactive a, rel_interactive_user riu
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and a.interactive_id = riu.interactive_id
+			<if test="userId != null">
+				and riu.user_id = #{userId}
+			</if>
+			and a.END_DATE_TIME - now() &gt;= 0
+  		</trim>
+  	</where>
+  	order by (a.END_DATE_TIME - now()) desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getActiveCount" parameterType="com.cobble.takeaway.pojo.InteractiveSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from e_interactive
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and a.interactive_id = riu.interactive_id
+			<if test="userId != null">
+				and riu.user_id = #{userId}
+			</if>
+			and a.END_DATE_TIME - now() &gt;= 0
+  		</trim>
+  	</where>
+  </select>
+  
+  
   <select id="findById" resultMap="InteractiveResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />

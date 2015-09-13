@@ -77,4 +77,18 @@ public class InteractiveServiceImpl implements InteractiveService {
 		return ret;
 	}
 
+	@Override
+	public List<InteractivePOJO> findActives(
+			InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
+		List<InteractivePOJO> ret = interactiveMapper.findActives(interactiveSearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public int getActiveCount(InteractiveSearchPOJO interactiveSearchPOJO)
+			throws Exception {
+		int ret = interactiveMapper.getActiveCount(interactiveSearchPOJO);
+		return ret;
+	}
+
 }

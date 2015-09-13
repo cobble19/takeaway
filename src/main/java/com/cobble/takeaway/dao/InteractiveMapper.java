@@ -13,6 +13,8 @@ public interface InteractiveMapper {
 	int update(InteractivePOJO interactivePOJO) throws Exception;
 	List<InteractivePOJO> finds(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
 	int getCount(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
+	List<InteractivePOJO> findActives(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
+	int getActiveCount(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
 	InteractivePOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
 }

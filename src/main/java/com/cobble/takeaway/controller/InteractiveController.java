@@ -97,6 +97,21 @@ public class InteractiveController extends BaseController {
 		return ret;
 	}
 	
+	@RequestMapping(value = "/web/enterprise/interactive/list/active", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<InteractivePOJO> queryListActive(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
+		DataTablesPOJO<InteractivePOJO> ret = new DataTablesPOJO<InteractivePOJO>();
+		try {
+			List<InteractivePOJO> interactivePOJOs = interactiveService.findActives(interactiveSearchPOJO);
+			ret.setData(interactivePOJOs);
+		} catch (Exception e) {
+			LOGGER.error("list error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/enterprise/interactive", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public DataTablesPOJO<InteractivePOJO> query(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {

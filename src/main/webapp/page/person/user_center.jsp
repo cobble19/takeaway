@@ -84,7 +84,8 @@
   			<div class="col-md-3" id="sidebar">
 		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
-		            <a href="#create_activity" class="list-group-item">申请活动</a>
+		            <a href="#create_activity" class="list-group-item">线下活动</a>
+		            <a href="#interactive" class="list-group-item">互动活动</a>
 		          </div>
 	     	</div>
 	     	<div class="col-md-9">
@@ -95,11 +96,37 @@
 	     				<label>昵称： </label><c:out value="${myUser.nickname }"></c:out>
 	     			</div>
 	     			<div id="create_activity">
-	     				<h3>参加活动</h3>
+	     				<h3>线下活动</h3>
 	     				<div>
 	     					<input id="searchBtn" type="button" class="btn btn-default" value="查询">
 	     				</div>
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+				  				<thead>
+				  					<tr>
+				  						<!-- <th>申请</th> -->
+				  						<th>序号</th>
+				  						<th>标识</th>
+				  						<th>标题</th>
+				  						<th>内容</th>
+				  					</tr>
+				  				</thead>
+				  				<!-- <tfoot>
+				  					<tr>
+				  						<th>申请</th>
+				  						<th>标识</th>
+				  						<th>标题</th>
+				  						<th>内容</th>
+				  					</tr>
+				  				</tfoot> -->
+				  			</table>
+	     			</div>
+	     			
+	     			<div id="interactive">
+	     				<h3>互动活动</h3>
+	     				<div>
+	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default" value="查询">
+	     				</div>
+				  		<table id="dbTable4Interactive" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
 				  						<!-- <th>申请</th> -->
