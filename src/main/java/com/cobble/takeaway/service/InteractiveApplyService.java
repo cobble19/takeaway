@@ -9,8 +9,8 @@ public interface InteractiveApplyService {
 	int insert(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 	int update(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 	List<InteractiveApplyPOJO> finds(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
-	List<InteractiveApplyPOJO> findsInteractiveApplyInActivity(Long interactiveId) throws Exception;
-	int getCountApplyInActivity(Long interactiveId) throws Exception;
+	List<InteractiveApplyPOJO> findsApplyInInteractive(Long interactiveId) throws Exception;
+	int getCountInteractiveApplyInInteractive(Long interactiveId) throws Exception;
 	Boolean existInteractiveApplyByUserId(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 	
 	int getCount(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;

@@ -31,7 +31,6 @@ public class ApplyController extends BaseController {
 	@Autowired
 	private ApplyService applyService;
 	
-
 	@RequestMapping(value = "/web/person/applyInActivity/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public DataTablesPOJO<ApplyPOJO> applyInActivity(@PathVariable("activityId") Long activityId) throws Exception {

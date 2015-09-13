@@ -11,8 +11,8 @@ public interface InteractiveApplyMapper {
 	int insert(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 	int update(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 	List<InteractiveApplyPOJO> finds(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
-	List<InteractiveApplyPOJO> findsInteractiveApplyInActivity(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
-	int getCountInteractiveApplyInActivity(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
+	List<InteractiveApplyPOJO> findsApplyInInteractive(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
+	int getCountInteractiveApplyInInteractive(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
 	int getCountInteractiveApplyByUserId(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 	
 	int getCount(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;

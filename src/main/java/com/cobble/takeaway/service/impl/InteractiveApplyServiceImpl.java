@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cobble.takeaway.dao.InteractiveApplyMapper;
-import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.dao.InteractiveMapper;
 import com.cobble.takeaway.pojo.InteractiveApplyPOJO;
 import com.cobble.takeaway.pojo.InteractiveApplySearchPOJO;
+import com.cobble.takeaway.pojo.InteractivePOJO;
 import com.cobble.takeaway.service.InteractiveApplyService;
 
 @Service
@@ -17,6 +18,8 @@ public class InteractiveApplyServiceImpl implements InteractiveApplyService {
 	
 	@Autowired
 	private InteractiveApplyMapper interactiveApplyMapper;
+	@Autowired
+	private InteractiveMapper interactiveMapper;
 
 	@Override
 	public int insert(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception {
@@ -74,22 +77,25 @@ public class InteractiveApplyServiceImpl implements InteractiveApplyService {
 	}
 
 	@Override
-	public List<InteractiveApplyPOJO> findsInteractiveApplyInActivity(Long interactiveId)
+	public List<InteractiveApplyPOJO> findsApplyInInteractive(Long interactiveId)
 			throws Exception {
 		List<InteractiveApplyPOJO> ret = null;
+		InteractivePOJO interactivePOJO = interactiveMapper.findById(interactiveId);
 		InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
 		interactiveApplySearchPOJO.setInteractiveId(interactiveId);
-		ret = interactiveApplyMapper.findsInteractiveApplyInActivity(interactiveApplySearchPOJO);
+		interactiveApplySearchPOJO.setStart(0);
+		interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());
+		ret = interactiveApplyMapper.findsApplyInInteractive(interactiveApplySearchPOJO);
 		return ret;
 	}
 
 	@Override
-	public int getCountApplyInActivity(Long interactiveId)
+	public int getCountInteractiveApplyInInteractive(Long interactiveId)
 			throws Exception {
 		int ret = 0;
 		InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
 		interactiveApplySearchPOJO.setInteractiveId(interactiveId);
-		ret = interactiveApplyMapper.getCountInteractiveApplyInActivity(interactiveApplySearchPOJO);
+		ret = interactiveApplyMapper.getCountInteractiveApplyInInteractive(interactiveApplySearchPOJO);
 		return ret;
 	}
 

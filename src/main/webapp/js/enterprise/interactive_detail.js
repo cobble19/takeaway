@@ -145,7 +145,7 @@ var winnerSorter = function() {
 	var interactiveId = getParam('interactiveId');
 	
 	$.ajax({
-		"url" : "../../web/person/interactiveApplyInActivity/" + interactiveId,
+		"url" : "../../web/person/interactive/" + interactiveId + "/apply",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
