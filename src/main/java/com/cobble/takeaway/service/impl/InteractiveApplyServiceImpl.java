@@ -80,11 +80,12 @@ public class InteractiveApplyServiceImpl implements InteractiveApplyService {
 	public List<InteractiveApplyPOJO> findsApplyInInteractive(Long interactiveId)
 			throws Exception {
 		List<InteractiveApplyPOJO> ret = null;
-		InteractivePOJO interactivePOJO = interactiveMapper.findById(interactiveId);
+//		InteractivePOJO interactivePOJO = interactiveMapper.findById(interactiveId);
 		InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
 		interactiveApplySearchPOJO.setInteractiveId(interactiveId);
 		interactiveApplySearchPOJO.setStart(0);
-		interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());
+//		interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());
+		interactiveApplySearchPOJO.setLimit(10);
 		ret = interactiveApplyMapper.findsApplyInInteractive(interactiveApplySearchPOJO);
 		return ret;
 	}

@@ -41,7 +41,7 @@
   		<trim prefixOverrides="and">
 			and b.interactive_Id = #{interactiveId}
   		</trim>
-  		order by abs(b.answer - a.answer) asc
+  		order by abs(b.answer - a.answer) asc, a.CREATE_DATE_TIME asc
   	</where>
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
