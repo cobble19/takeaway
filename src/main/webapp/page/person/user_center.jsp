@@ -91,14 +91,14 @@
 	     	<div class="col-md-9">
 	     		<div id="uc_content" style="padding-top: 10px;">
 	     			<div id="profile">
-	     				<h3>个人资料</h3>
+	     				<h3 class="col-md-12" style="margin-bottom:20px;">个人资料</h3>
 	     				<label>名称： </label><c:out value="${myUser.username }"></c:out><br/>
 	     				<label>昵称： </label><c:out value="${myUser.nickname }"></c:out>
 	     			</div>
 	     			<div id="create_activity">
 	     				<h3>线下活动</h3>
-	     				<div>
-	     					<input id="searchBtn" type="button" class="btn btn-default" value="查询">
+	     				<div style=" height:50px; line-height:50px;">
+	     					<input id="searchBtn" type="button" class="btn btn-default btn-xs" value="查询">
 	     				</div>
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
@@ -123,8 +123,8 @@
 	     			
 	     			<div id="interactive">
 	     				<h3>互动活动</h3>
-	     				<div>
-	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default" value="查询">
+	     				<div style=" height:50px; line-height:50px;">
+	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default btn-xs" value="查询">
 	     				</div>
 				  		<table id="dbTable4Interactive" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
