@@ -9,7 +9,7 @@ public interface InteractiveApplyService {
 	int insert(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 	int update(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 	List<InteractiveApplyPOJO> finds(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
-	List<InteractiveApplyPOJO> findsApplyInInteractive(Long interactiveId) throws Exception;
+	List<InteractiveApplyPOJO> findsApplyInInteractive(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
 	int getCountInteractiveApplyInInteractive(Long interactiveId) throws Exception;
 	Boolean existInteractiveApplyByUserId(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 	

@@ -87,7 +87,8 @@ $(document).ready(function() {
                 "data":           null,
                 "defaultContent": ''
             },
-            { "data": "username" }/*,
+            { "data": "nickname" }/*,
+            { "data": "username" }*//*,
             { "data": "phone" },
             { "data": "sex" },
             { "data": "description" }*/
@@ -187,7 +188,7 @@ var applyInInteractiveSearch = function(table) {
 	var interactiveId = getParam('interactiveId');
 	console.log('name=' + getParam('name'));
 	$.ajax({
-		"url" : "../../web/person/interactive/" + interactiveId + "/apply",
+		"url" : "../../web/person/interactive/" + interactiveId + "/apply/winner",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
@@ -226,7 +227,7 @@ var retrieveData = function(data, callback, settings) {
 	var interactiveId = getParam('interactiveId');
 	console.log('name=' + getParam('name'));
 	$.ajax({
-		"url" : "../../web/person/interactive/" + interactiveId + "/apply",
+		"url" : "../../web/person/interactive/" + interactiveId + "/apply/winner",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"

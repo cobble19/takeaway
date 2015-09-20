@@ -84,6 +84,7 @@
   			<div class="col-md-3" id="sidebar">
 		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
+		            <a href="#update_password" class="list-group-item">修改密码</a>
 		            <a href="#create_activity" class="list-group-item">线下活动</a>
 		            <a href="#interactive" class="list-group-item">互动活动</a>
 		          </div>
@@ -146,6 +147,29 @@
 				  				</tfoot> -->
 				  			</table>
 	     			</div>
+	     			
+					<div id="update_password">
+						<div class="row">
+							<form class="form-inline" id="pwdForm" role="form" action='' method="post">
+					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
+					 			<div class="form-group">
+					 				<label class="" for="passwordOld">旧密码:</label>
+				 					<input type="password" class="form-control" id="passwordOld" name="passwordOld" minlength="2" required="required" placeholder="请输入旧密码">
+					 			</div>
+					 			<div class="form-group ">
+					 				<label class="" for="password">新密码:</label>
+					 				<input type="password" class="form-control" id="password" name="password" minlength="2" required="required" placeholder="请输入新密码">
+					 			</div>
+					 			<!-- <button type="button" class="btn btn-default" id="pwdChg">修改密码</button> -->
+					 			<div class="form-group">
+						 			<div class="">
+						  				<button type="button" class="btn btn-default" id="pwdChg">修改密码</button>
+						 			</div>
+					 			</div>
+					  		</form>
+						</div>
+					</div>	<!-- pwd change end -->
+	     			
 	     		</div>
 	     	</div>
   		</div>

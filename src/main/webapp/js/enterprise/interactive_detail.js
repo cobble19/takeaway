@@ -117,6 +117,7 @@ var showDetail = function() {
         		$('#errorMsg').html('活动已经结束， 欢迎下次参加。');
             	$('#answer').prop('disabled', true);
             	$('#applyBtn').prop('disabled', true);
+            	$('#realAnswer').html(data.answer);
         	} else if (new Date(data.startDateTime) > new Date()) {
         		$('#errorMsg').html('活动还没有开始， 请关注开始时间。');
             	$('#answer').prop('disabled', true);
@@ -159,7 +160,7 @@ var winnerSorter = function() {
         	var interactiveApplyPOJOs = data.data;
         	var html = "<ul>";
         	for (var i = 0; i < interactiveApplyPOJOs.length; i++) {
-            	html += "<li>" + (i + 1) + ". " + interactiveApplyPOJOs[i].username + "</li>"
+            	html += "<li>" + (i + 1) + ". " + (interactiveApplyPOJOs[i].nickname == null ? interactiveApplyPOJOs[i].username : interactiveApplyPOJOs[i].nickname) + "</li>"
         	}
         	html += "</ul>";
         	$("#interactiveApplyContent").html(html);

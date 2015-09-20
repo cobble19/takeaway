@@ -41,8 +41,8 @@
   			<div class="col-md-3 " id="sidebar">
 		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
-		            <a href="#create_activity" class="list-group-item">活动管理</a>
 		            <a href="#update_password" class="list-group-item">修改密码</a>
+		            <a href="#create_activity" class="list-group-item">活动管理</a>
 		            <a href="#create_interactive" class="list-group-item">互动活动管理</a>
 		          </div> 				
 	     	</div>

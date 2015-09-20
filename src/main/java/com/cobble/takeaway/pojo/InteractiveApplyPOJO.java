@@ -8,6 +8,7 @@ public class InteractiveApplyPOJO extends BasePOJO {
     private Long interactiveId;
     private Long userId;
     private String username;
+    private String nickname;
     private Double answer;
     private Date createDateTime;
     
@@ -46,6 +47,12 @@ public class InteractiveApplyPOJO extends BasePOJO {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
     
 }

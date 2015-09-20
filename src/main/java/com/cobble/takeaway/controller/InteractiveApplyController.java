@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cobble.takeaway.pojo.ApplyPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.InteractiveApplyPOJO;
 import com.cobble.takeaway.pojo.InteractiveApplySearchPOJO;
+import com.cobble.takeaway.pojo.InteractivePOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.InteractiveApplyService;
 import com.cobble.takeaway.service.InteractiveService;
@@ -36,13 +36,40 @@ public class InteractiveApplyController extends BaseController {
 	private InteractiveService interactiveService;
 
 
+	@RequestMapping(value = "/web/person/interactive/{interactiveId}/apply/winner", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<InteractiveApplyPOJO> applyWinnerInInteractive(@PathVariable("interactiveId") Long interactiveId) throws Exception {
+		DataTablesPOJO<InteractiveApplyPOJO> ret = new DataTablesPOJO<InteractiveApplyPOJO>();
+		try {
+			InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+			InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
+			interactiveApplySearchPOJO.setInteractiveId(interactiveId);
+			interactiveApplySearchPOJO.setStart(0);
+			interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());
+			List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.findsApplyInInteractive(interactiveApplySearchPOJO);
+			int count = CollectionUtils.isEmpty(interactiveApplyPOJOs) ? 0 : interactiveApplyPOJOs.size();
+			ret.setData(interactiveApplyPOJOs);
+			ret.setRecordsTotal(count);
+			ret.setDraw(1);
+			ret.setRecordsFiltered(count);
+		} catch (Exception e) {
+			LOGGER.error("applyInActivity error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+
 	@RequestMapping(value = "/web/person/interactive/{interactiveId}/apply", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public DataTablesPOJO<InteractiveApplyPOJO> applyInInteractive(@PathVariable("interactiveId") Long interactiveId) throws Exception {
 		DataTablesPOJO<InteractiveApplyPOJO> ret = new DataTablesPOJO<InteractiveApplyPOJO>();
 		try {
-			
-			List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.findsApplyInInteractive(interactiveId);
+			InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
+			interactiveApplySearchPOJO.setInteractiveId(interactiveId);
+			interactiveApplySearchPOJO.setStart(0);
+			interactiveApplySearchPOJO.setLimit(10);
+			List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.findsApplyInInteractive(interactiveApplySearchPOJO);
 			int count = CollectionUtils.isEmpty(interactiveApplyPOJOs) ? 0 : interactiveApplyPOJOs.size();
 			ret.setData(interactiveApplyPOJOs);
 			ret.setRecordsTotal(count);

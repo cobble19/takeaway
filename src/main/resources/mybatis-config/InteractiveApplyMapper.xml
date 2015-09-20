@@ -15,6 +15,7 @@
     <result column="INTERACTIVE_ID" property="interactiveId"/>
     <result column="USER_ID" property="userId" />
     <result column="USERNAME" property="username" />
+    <result column="NICKNAME" property="nickname" />
     <result column="ANSWER" property="answer" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>

@@ -34,6 +34,11 @@ $(function() {
 			alert('结束时间不能小于开始时间');
 			return;
 		}
+		
+		if (ue.getContent() == null || ue.getContent() == '') {
+			alert('活动介绍不能为空');
+			return;
+		}
 		if ($('#interactiveForm').valid()) {
 			$('#interactiveForm').submit();
 		}

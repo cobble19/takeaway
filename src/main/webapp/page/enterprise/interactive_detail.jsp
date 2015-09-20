@@ -57,6 +57,10 @@
 												<label for="usernameX" class="control-label">答案: </label>
 												<input type="number" id="answer" name="answer" minlength="1" required="required" value="" placeholder="答案" class="form-control" />
 											</div>
+											<div>
+												<lable for="realAnswer">正确答案：</lable>
+												<span id="realAnswer"></span>
+											</div>
 											<!-- <div class="form-group">
 												<label for="phone" class="control-label">手机: </label>
 												<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
