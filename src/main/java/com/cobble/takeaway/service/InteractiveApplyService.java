@@ -17,5 +17,7 @@ public interface InteractiveApplyService {
 	InteractiveApplyPOJO findById(Long id) throws Exception;
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
+	
+	List<InteractiveApplyPOJO> findsApplyByVerifyCode(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
 
 }

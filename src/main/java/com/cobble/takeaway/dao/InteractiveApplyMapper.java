@@ -18,4 +18,6 @@ public interface InteractiveApplyMapper {
 	int getCount(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
 	InteractiveApplyPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
+
+	List<InteractiveApplyPOJO> findsApplyByVerifyCode(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
 }

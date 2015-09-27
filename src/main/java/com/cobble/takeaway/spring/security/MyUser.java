@@ -9,6 +9,7 @@ public class MyUser extends User {
 	public static String GUEST = "GUEST";
 	public static String PERSON = "PERSON";
 	public static String ENTERPRISE = "ENTERPRISE";
+	public static String MEDIA = "MEDIA";
 	public static String ADMIN = "ADMIN";
 	
 	/**

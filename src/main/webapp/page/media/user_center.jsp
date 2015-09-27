@@ -1,0 +1,184 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@include file="../../page/common/taglib.jsp" %>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%@include file="../../page/common/head.jsp" %>
+    
+	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/user_center.js"></script>
+	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
+	
+	<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
+    
+    <script>
+    	$(document).ready(function() {
+    		
+    	$('#sidebar a').click(function() {
+			$('#sidebar a').each(function() {
+				$(this).removeClass('active');
+			})
+			$this = $(this);
+			$this.addClass('active');
+			var contentId = $this.attr('href').substring(1);
+			console.log('contentId: ' + contentId);
+			$('#uc_content > div').each(function(i, e) {
+				$(this).hide();
+			})
+			$('#' + contentId).show();
+		});
+		
+		$('#sidebar a[href=#profile]').trigger('click');
+    		
+    	})
+    </script>
+  </head>
+  <body>
+  	<div class="container">
+	  	<%@include file="../../reg_login_full.jsp" %>
+  		<div class="row uc-border" style="margin-top:50px; min-height:500px;">
+  			<div class="col-md-3 " id="sidebar">
+		          <div class="list-group" style="margin-top:10px;">
+		            <a href="#profile" class="list-group-item active">个人资料</a>
+		            <a href="#update_password" class="list-group-item">修改密码</a>
+		            <a href="#create_activity" class="list-group-item">活动管理</a>
+		            <a href="#create_interactive" class="list-group-item">互动活动管理</a>
+		          </div> 				
+	     	</div>
+	     	<div class="col-md-9">
+	     		<div id="uc_content" style="padding-top: 10px;">
+	     			<div id="profile" class="row">
+	     				<h3 class="col-md-12" style="margin-bottom:20px;">个人资料</h3>
+	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
+	     					<label class="" for="username">帐　　号：</label>
+	     					<%-- <input type="text" name="username" id="username" value="${myUser.username}" class="form-control"> --%>
+	     					 <c:out value="${myUser.username }"></c:out>/<c:out value="${myUser.userId }"></c:out><br/>
+	     				</div>
+	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
+	     					<label>昵　　称：</label><input type="text" name="nickname" id="nickname" value="${myUser.nickname}" class="form-control input-sm"><br/>
+	     				</div>
+	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
+	     					<label>电子邮箱：</label><input type="text" name="email" id="email" value="${myUser.email}" class="form-control input-sm"><br/>
+	     				</div>
+	     				<button id="updateInfoBtn" class="col-md-1 btn btn-default" style="margin-left:20px;">修改</button>
+	     				<%-- <label>昵称： </label><c:out value="${myUser.nickname }"></c:out> --%><br/>
+	     				<!-- <label>密码： </label><button id="pwdChg4OpenDialog" class="btn btn-default">修改密码</button> -->
+	     				
+	     			</div>	<!-- profile end -->
+	     			<div id="create_activity">
+	     				<h3>活动管理</h3>
+	     				<div style=" height:50px; line-height:50px;">
+	     					<a class="btn btn-primary btn-xs" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
+	     					
+	     					<input id="searchBtn" type="button" class="btn btn-default btn-xs" value="查询">
+	     					<input id="deleteBtn" type="button" class="btn btn-default btn-xs" value="删除">
+	     					
+	     				</div>
+				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+				  				<thead>
+				  					<tr>
+				  						<th><input type="checkbox" name="chkBoxAll" id="chkBoxAll">全选</th>
+				  						<th>序号</th>
+				  						<th>标识</th>
+				  						<th>标题</th>
+				  						<th>开始时间</th>
+				  						<th>截止时间</th>
+				  						<th>期限</th>
+				  						<th>状态</th>
+				  						<th>内容简介</th>
+				  						<th>操作</th>
+				  					</tr>
+				  				</thead>
+				  				<!-- <tfoot>
+				  					<tr>
+				  						<th>No.</th>
+				  						<th>标识</th>
+				  						<th>标题</th>
+				  						<th>内容</th>
+				  					</tr>
+				  				</tfoot> -->
+				  			</table>
+	     			</div>	<!-- create_activity end -->
+	     			
+	     			<div id="create_interactive">
+	     				<h3>活动管理</h3>
+	     				<div style=" height:50px; line-height:50px;">
+	     					<a class="btn btn-primary btn-xs" target="" href='<cmn:base/>/page/enterprise/interactive.jsp'>添加互动</a>
+	     					
+	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default btn-xs" value="查询">
+	     					<input id="deleteBtn4Interactive" type="button" class="btn btn-default btn-xs" value="删除">
+	     					
+	     				</div>
+				  		<table id="dbTable4Interactive" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+				  				<thead>
+				  					<tr>
+				  						<th><input type="checkbox" name="chkBoxAll4Interactive" id="chkBoxAll4Interactive">全选</th>
+				  						<th>序号</th>
+				  						<th>标识</th>
+				  						<th>名称</th>
+				  						<th>开始时间</th>
+				  						<th>截止时间</th>
+				  						<th>奖品</th>
+				  						<th>答案</th>
+				  						<th>内容简介</th>
+				  						<th>操作</th>
+				  					</tr>
+				  				</thead>
+				  				<!-- <tfoot>
+				  					<tr>
+				  						<th>No.</th>
+				  						<th>标识</th>
+				  						<th>标题</th>
+				  						<th>内容</th>
+				  					</tr>
+				  				</tfoot> -->
+				  			</table>
+	     			</div>	<!-- create_interactive end -->
+	     			
+					<div id="update_password">
+						<div class="row">
+							<form class="form-inline" id="pwdForm" role="form" action='' method="post">
+					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
+					 			<div class="form-group">
+					 				<label class="" for="passwordOld">旧密码:</label>
+				 					<input type="password" class="form-control" id="passwordOld" name="passwordOld" minlength="2" required="required" placeholder="请输入旧密码">
+					 			</div>
+					 			<div class="form-group ">
+					 				<label class="" for="password">新密码:</label>
+					 				<input type="password" class="form-control" id="password" name="password" minlength="2" required="required" placeholder="请输入新密码">
+					 			</div>
+					 			<!-- <button type="button" class="btn btn-default" id="pwdChg">修改密码</button> -->
+					 			<div class="form-group">
+						 			<div class="">
+						  				<button type="button" class="btn btn-default" id="pwdChg">修改密码</button>
+						 			</div>
+					 			</div>
+					  		</form>
+						</div>
+					</div>	<!-- pwd change end -->
+						
+	     		</div>
+	     	</div>
+  		</div>
+  		
+  		<div id="progress">数据加载中。。。</div>
+  		
+  		<div id="verifyDiv">
+			<form class="form-inline" id="verifyForm" role="form" action='' method="post">
+				<input type="hidden" id="interactiveId" name="interactiveId"/>
+	 			<div class="form-group">
+	 				<label class="" for="verifyCode">验证码:</label>
+ 					<input type="text" class="form-control" id="verifyCode" name="verifyCode" minlength="8" required="required" placeholder="请输入验证码">
+	 			</div>
+	 			<div class="form-group">
+		 			<div class="">
+		  				<button type="button" class="btn btn-default" id="verifyBtn">验证</button>
+		 			</div>
+	 			</div>
+	  		</form>
+		</div>
+  		
+	</div>
+  </body>
+</html>

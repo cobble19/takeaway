@@ -90,7 +90,20 @@ public class UserController extends BaseController {
 		
 		return ret;
 	}
-	
+
+    @RequestMapping(value = "/web/media/usercenter", method = {RequestMethod.GET})
+	public ModelAndView usercenter4Media(UserPOJO userPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	ModelAndView ret = new ModelAndView();
+    	MyUser myUser = UserUtil.getCurrentUser();
+    	myUser = new MyUser(myUser);
+    	
+    	ret.addObject("myUser", myUser);
+    	ret.setViewName("/page/media/user_center");
+		
+		return ret;
+	}
+    
     @RequestMapping(value = "/web/enterprise/usercenter", method = {RequestMethod.GET})
 	public ModelAndView usercenter(UserPOJO userPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -105,4 +105,13 @@ public class InteractiveApplyServiceImpl implements InteractiveApplyService {
 		return ret;
 	}
 
+	@Override
+	public List<InteractiveApplyPOJO> findsApplyByVerifyCode(
+			InteractiveApplySearchPOJO interactiveApplySearchPOJO)
+			throws Exception {
+		List<InteractiveApplyPOJO> ret = null;
+		ret = interactiveApplyMapper.findsApplyByVerifyCode(interactiveApplySearchPOJO);
+		return ret;
+	}
+
 }
