@@ -8,6 +8,9 @@ public class InteractiveApplySearchPOJO extends BaseSearchPOJO {
     private Long interactiveId;
     private Long userId;
     private Integer answer;
+    private String verifyCode;
+    private Integer isWinner;
+    private Integer isVerified;
     private Date createDateTime;
     
 	public Long getInteractiveApplyId() {
@@ -39,6 +42,24 @@ public class InteractiveApplySearchPOJO extends BaseSearchPOJO {
 	}
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+	public String getVerifyCode() {
+		return verifyCode;
+	}
+	public void setVerifyCode(String verifyCode) {
+		this.verifyCode = verifyCode;
+	}
+	public Integer getIsWinner() {
+		return isWinner;
+	}
+	public void setIsWinner(Integer isWinner) {
+		this.isWinner = isWinner;
+	}
+	public Integer getIsVerified() {
+		return isVerified;
+	}
+	public void setIsVerified(Integer isVerified) {
+		this.isVerified = isVerified;
 	}
     
 }

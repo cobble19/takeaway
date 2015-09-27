@@ -17,10 +17,13 @@
     <result column="USERNAME" property="username" />
     <result column="NICKNAME" property="nickname" />
     <result column="ANSWER" property="answer" />
+    <result column="VERIFY_CODE" property="verifyCode" />
+    <result column="IS_WINNER" property="isWinner" />
+    <result column="IS_VERIFIED" property="isVerified" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   <sql id="Base_Column_List" >
-    a.INTERACTIVE_APPLY_ID, a.INTERACTIVE_ID, a.USER_ID, a.ANSWER, a.CREATE_DATE_TIME
+    a.INTERACTIVE_APPLY_ID, a.INTERACTIVE_ID, a.USER_ID, a.ANSWER, a.VERIFY_CODE, a.IS_WINNER, a.IS_VERIFIED, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="username != null">
@@ -28,6 +31,21 @@
 		and 1 > 0
 	</if>
   </sql>
+  <select id="findsApplyByVerifyCode" resultMap="InteractiveApplyResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from interactive_apply a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.interactive_Id = #{interactiveId}
+			and a.VERIFY_CODE = #{verifyCode}
+			and a.IS_WINNER = #{isWinner}
+  		</trim>
+  	</where>
+  </select>
   <select id="findsApplyInInteractive" resultMap="InteractiveApplyResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
     select
     <if test="distinct" >
@@ -102,14 +120,14 @@
     select 
     <include refid="Base_Column_List" />
     from Interactive_Apply a
-    where a.INTERACTIVE_APP_ID = #{interactiveApplyId}
+    where a.INTERACTIVE_APPLY_ID = #{interactiveApplyId}
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from Interactive_Apply
-    where INTERACTIVE_APP_ID = #{interactiveApplyId}
+    where INTERACTIVE_APPLY_ID = #{interactiveApplyId}
   </delete>
   <insert id="insert" parameterType="com.cobble.takeaway.pojo.InteractiveApplyPOJO" useGeneratedKeys="true"
-  	keyProperty="interactiveApplyId" keyColumn="INTERACTIVE_APP_ID">
+  	keyProperty="interactiveApplyId" keyColumn="INTERACTIVE_APPLY_ID">
     insert into Interactive_Apply
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="interactiveId != null" >
@@ -120,6 +138,15 @@
       </if>
       <if test="answer != null" >
         ANSWER,
+      </if>
+      <if test="verifyCode != null" >
+        VERIFY_CODE,
+      </if>
+      <if test="isWinner != null" >
+        IS_WINNER,
+      </if>
+      <if test="isVerified != null" >
+        IS_VERIFIED,
       </if>
         CREATE_DATE_TIME,
     </trim>
@@ -133,6 +160,15 @@
       <if test="answer != null" >
         #{answer},
       </if>
+      <if test="verifyCode != null" >
+        #{verifyCode},
+      </if>
+      <if test="isWinner != null" >
+        #{isWinner},
+      </if>
+      <if test="isVerified != null" >
+        #{isVerified},
+      </if>
         now(),
     </trim>
   </insert>
@@ -145,13 +181,19 @@
       <if test="userId != null" >
         USER_ID = #{userId},
       </if>
-      <if test="prize != null" >
-        PRIZE = #{prize},
-      </if>
       <if test="answer != null" >
         ANSWER = #{answer},
       </if>
+      <if test="verifyCode != null" >
+        VERIFY_CODE = #{verifyCode},
+      </if>
+      <if test="isWinner != null" >
+        IS_WINNER = #{isWinner},
+      </if>
+      <if test="isVerified != null" >
+        IS_VERIFIED = #{isVerified},
+      </if>
     </set>
-    where INTERACTIVE_APP_ID = #{interactiveApplyId}
+    where INTERACTIVE_APPLY_ID = #{interactiveApplyId}
   </update>
 </mapper>

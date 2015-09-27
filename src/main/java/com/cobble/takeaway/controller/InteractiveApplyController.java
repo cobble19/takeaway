@@ -1,8 +1,11 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +33,11 @@ import com.cobble.takeaway.util.UserUtil;
 @Controller
 public class InteractiveApplyController extends BaseController {
 	private final static Logger LOGGER = LoggerFactory.getLogger(InteractiveApplyController.class);
+	
+	public final static Integer IS_WINNER = 1;
+	public final static Integer IS_NOT_WINNER = 0;
+	public final static Integer IS_VERIFIED = 1;
+	public final static Integer IS_NOT_VERIFIED = 0;
 	
 	@Autowired
 	private InteractiveApplyService interactiveApplyService;
@@ -124,6 +133,51 @@ public class InteractiveApplyController extends BaseController {
 		return ret;
 	}*/
 	
+
+	@RequestMapping(value = "/web/person/interactiveApply/verify", method = {RequestMethod.GET})
+	@ResponseBody
+	public StatusPOJO verify(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			if (userId == null || userId == 0) {
+				ret.setSuccess(false);
+				ret.setDesc("请登录！");
+				return ret;
+			}
+			interactiveApplySearchPOJO.setIsWinner(IS_WINNER);
+			List<InteractiveApplyPOJO> result = interactiveApplyService.findsApplyByVerifyCode(interactiveApplySearchPOJO);
+			
+			if (!CollectionUtils.isEmpty(result) && result.size() == 1) {
+				InteractiveApplyPOJO interactiveApplyPOJO  = result.get(0);
+				if (interactiveApplyPOJO.getIsWinner() == IS_WINNER) {
+					if (interactiveApplyPOJO.getIsVerified() == IS_NOT_VERIFIED) {
+						ret.setSuccess(true);
+						ret.setDesc("验证成功");
+						interactiveApplyPOJO.setIsVerified(IS_VERIFIED);
+						interactiveApplyService.update(interactiveApplyPOJO);
+					} else {
+						ret.setSuccess(false);
+						ret.setDesc("验证码已经被使用");
+					}
+				} else {
+					ret.setSuccess(false);
+					ret.setDesc("不是获奖人");
+				}
+			} else {
+				ret.setSuccess(false);
+				ret.setDesc("无效的验证码");
+			}
+
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/person/interactiveApply/add", method = {RequestMethod.POST})
 	@ResponseBody
 	public StatusPOJO apply(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception {
@@ -143,7 +197,11 @@ public class InteractiveApplyController extends BaseController {
 				ret.setDesc("您已经提交过答案！");
 				return ret;
 			}
-			
+			interactiveApplyPOJO.setIsWinner(IS_NOT_WINNER);
+			interactiveApplyPOJO.setIsVerified(IS_NOT_VERIFIED);
+			String verifyCode = userId + "" + interactiveApplyPOJO.getInteractiveId() + new Date() + RandomStringUtils.random(8);
+			verifyCode = DigestUtils.sha1Hex(verifyCode).substring(0, 8);
+			interactiveApplyPOJO.setVerifyCode(verifyCode);
 			int result = interactiveApplyService.insert(interactiveApplyPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {

@@ -71,7 +71,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		if (CollectionUtils.isEmpty(authorities)) {
 			// 当前的用户和企业用户没有角色和权限， 只有后台管理员有权限
-			if (MyUser.PERSON.equalsIgnoreCase(myUser.getUserType())|| MyUser.ENTERPRISE.equalsIgnoreCase(myUser.getUserType())) {
+			if (MyUser.PERSON.equalsIgnoreCase(myUser.getUserType()) || MyUser.ENTERPRISE.equalsIgnoreCase(myUser.getUserType())
+					|| MyUser.MEDIA.equalsIgnoreCase(myUser.getUserType())) {
 				LOGGER.info("username= {},  User Type = {}", authentication.getName(), myUser.getUserType());
 				return;
 			}

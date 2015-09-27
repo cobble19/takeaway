@@ -10,6 +10,9 @@ public class InteractiveApplyPOJO extends BasePOJO {
     private String username;
     private String nickname;
     private Double answer;
+    private String verifyCode;
+    private Integer isWinner;
+    private Integer isVerified;
     private Date createDateTime;
     
 	public Long getInteractiveApplyId() {
@@ -53,6 +56,24 @@ public class InteractiveApplyPOJO extends BasePOJO {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public String getVerifyCode() {
+		return verifyCode;
+	}
+	public void setVerifyCode(String verifyCode) {
+		this.verifyCode = verifyCode;
+	}
+	public Integer getIsWinner() {
+		return isWinner;
+	}
+	public void setIsWinner(Integer isWinner) {
+		this.isWinner = isWinner;
+	}
+	public Integer getIsVerified() {
+		return isVerified;
+	}
+	public void setIsVerified(Integer isVerified) {
+		this.isVerified = isVerified;
 	}
     
 }
