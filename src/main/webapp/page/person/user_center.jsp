@@ -86,7 +86,7 @@
 		            <a href="#profile" class="list-group-item active">个人资料</a>
 		            <a href="#update_password" class="list-group-item">修改密码</a>
 		            <a href="#create_activity" class="list-group-item">线下活动</a>
-		            <a href="#interactive" class="list-group-item">互动活动</a>
+		            <a href="#interactive" class="list-group-item">线上互动</a>
 		          </div>
 	     	</div>
 	     	<div class="col-md-9">
@@ -123,7 +123,7 @@
 	     			</div>
 	     			
 	     			<div id="interactive">
-	     				<h3>互动活动</h3>
+	     				<h3>线上互动</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default btn-xs" value="查询">
 	     				</div>

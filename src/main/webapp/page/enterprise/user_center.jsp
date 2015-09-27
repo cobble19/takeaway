@@ -42,8 +42,8 @@
 		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
 		            <a href="#update_password" class="list-group-item">修改密码</a>
-		            <a href="#create_activity" class="list-group-item">活动管理</a>
-		            <a href="#create_interactive" class="list-group-item">互动活动管理</a>
+		            <a href="#create_activity" class="list-group-item">线下活动管理</a>
+		            <a href="#create_interactive" class="list-group-item">线上互动管理</a>
 		          </div> 				
 	     	</div>
 	     	<div class="col-md-9">
@@ -67,7 +67,7 @@
 	     				
 	     			</div>	<!-- profile end -->
 	     			<div id="create_activity">
-	     				<h3>活动管理</h3>
+	     				<h3>线下活动管理</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary btn-xs" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
 	     					
@@ -102,7 +102,7 @@
 	     			</div>	<!-- create_activity end -->
 	     			
 	     			<div id="create_interactive">
-	     				<h3>活动管理</h3>
+	     				<h3>线上互动管理</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary btn-xs" target="" href='<cmn:base/>/page/enterprise/interactive.jsp'>添加互动</a>
 	     					
