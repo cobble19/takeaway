@@ -28,7 +28,10 @@
 	        			<a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a>
 	        		</c:when>
 	        		<c:when test="${sessionScope.userType eq 'ENTERPRISE'}">
-	        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">管理中心</a>
+	        			<a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">商家中心</a>
+	        		</c:when>
+	        		<c:when test="${sessionScope.userType eq 'MEDIA'}">
+	        			<a class="sy-dl-wz" href="<cmn:base/>/web/media/usercenter">媒体中心</a>
 	        		</c:when>
 	        		<c:otherwise>
 	        			<%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>

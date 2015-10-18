@@ -42,7 +42,7 @@
 		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
 		            <a href="#update_password" class="list-group-item">修改密码</a>
-		            <a href="#create_activity" class="list-group-item">线下活动管理</a>
+		            <!-- <a href="#create_activity" class="list-group-item">线下活动管理</a> -->
 		            <a href="#create_interactive" class="list-group-item">线上互动管理</a>
 		          </div> 				
 	     	</div>
@@ -66,7 +66,7 @@
 	     				<!-- <label>密码： </label><button id="pwdChg4OpenDialog" class="btn btn-default">修改密码</button> -->
 	     				
 	     			</div>	<!-- profile end -->
-	     			<div id="create_activity">
+	     			<%-- <div id="create_activity">
 	     				<h3>线下活动管理</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary btn-xs" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
@@ -90,16 +90,8 @@
 				  						<th>操作</th>
 				  					</tr>
 				  				</thead>
-				  				<!-- <tfoot>
-				  					<tr>
-				  						<th>No.</th>
-				  						<th>标识</th>
-				  						<th>标题</th>
-				  						<th>内容</th>
-				  					</tr>
-				  				</tfoot> -->
 				  			</table>
-	     			</div>	<!-- create_activity end -->
+	     			</div> --%>	<!-- create_activity end -->
 	     			
 	     			<div id="create_interactive">
 	     				<h3>线上互动管理</h3>
