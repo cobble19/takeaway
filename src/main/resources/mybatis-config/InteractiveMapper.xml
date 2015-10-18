@@ -22,14 +22,19 @@
     <result column="NUM_OF_WINNER" property="numOfWinner" />
     <result column="USER_ID" property="userId" />
     <result column="PRIZE_END_DATE_TIME" property="prizeEndDateTime" />
+    <result column="STATUS" property="status" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
-    a.INTERACTIVE_ID, a.NAME, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, a.RULE, a.PRIZE, a.ANSWER, a.NUM_OF_WINNER
+    a.INTERACTIVE_ID, a.NAME, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, a.RULE, a.PRIZE, a.ANSWER, a.NUM_OF_WINNER, a.STATUS
   </sql>
   <sql id="Clause_Common">
 	<if test="name != null">
 		and NAME like concat("%", concat(#{name}, "%"))
+	</if>
+	
+	<if test="status != null">
+		and STATUS = #{status}
 	</if>
   </sql>
   <select id="finds" resultMap="InteractiveResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveSearchPOJO" >
@@ -52,6 +57,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
+  
   <select id="getCount" parameterType="com.cobble.takeaway.pojo.InteractiveSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from e_interactive
     <where>
@@ -150,6 +156,9 @@
       <if test="prizeEndDateTime != null" >
         PRIZE_END_DATE_TIME,
       </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="name != null" >
@@ -181,6 +190,9 @@
       </if>
       <if test="prizeEndDateTime != null" >
         #{prizeEndDateTime},
+      </if>
+      <if test="status != null" >
+        #{status},
       </if>
     </trim>
   </insert>
@@ -231,9 +243,30 @@
         ANSWER = #{answer},
       </if>
       <if test="numOfWinner != null" >
-        ANSWER = #{numOfWinner},
+        NUM_OF_WINNER = #{numOfWinner},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="prizeEndDateTime != null" >
+        PRIZE_ENT_DATE_TIME = #{prizeEndDateTime},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status},
       </if>
     </set>
     where INTERACTIVE_ID = #{interactiveId}
   </update>
+  
+  
+  <update id="updateStatus" parameterType="com.cobble.takeaway.pojo.InteractivePOJO" >
+    update e_interactive
+    <set >
+      <if test="status != null" >
+        STATUS = #{status},
+      </if>
+    </set>
+    where INTERACTIVE_ID = #{interactiveId}
+  </update>
+  
 </mapper>

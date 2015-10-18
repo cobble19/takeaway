@@ -16,4 +16,5 @@ public interface InteractiveService {
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
 
+	int updateStatus(InteractivePOJO interactivePOJO) throws Exception;
 }

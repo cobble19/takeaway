@@ -135,7 +135,7 @@
 							 			</div>
 							  		</form>
 								</div>
-								
+							</div>
 	    				</div>
 	    			</div><!-- modal-body -->
 	    			<div class="modal-footer">
@@ -144,17 +144,6 @@
 	    		</div>
 	    	</div>
 	    </div>
-	    
-	    <!-- 个人用户注册 企业用户注册 -->
-	    <script type="text/javascript">
-	    	/* $('#personReg').click(function() {
-	    		$('#regForm').attr('action').replace('enterprise', 'person');
-	    	});
-			$('#enterpriseReg').click(function() {
-	    		$('#regForm').attr('action').replace('person', 'enterprise');
-	    	}) */
-	    </script>
-	    
 	    
 	    <!-- 登陆 -->
 	    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

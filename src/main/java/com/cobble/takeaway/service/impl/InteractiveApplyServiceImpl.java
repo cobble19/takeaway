@@ -12,6 +12,7 @@ import com.cobble.takeaway.pojo.InteractiveApplyPOJO;
 import com.cobble.takeaway.pojo.InteractiveApplySearchPOJO;
 import com.cobble.takeaway.pojo.InteractivePOJO;
 import com.cobble.takeaway.service.InteractiveApplyService;
+import com.cobble.takeaway.service.InteractiveService;
 
 @Service
 public class InteractiveApplyServiceImpl implements InteractiveApplyService {
@@ -20,6 +21,8 @@ public class InteractiveApplyServiceImpl implements InteractiveApplyService {
 	private InteractiveApplyMapper interactiveApplyMapper;
 	@Autowired
 	private InteractiveMapper interactiveMapper;
+	@Autowired
+	private InteractiveService interactiveService;
 
 	@Override
 	public int insert(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception {
@@ -113,5 +116,27 @@ public class InteractiveApplyServiceImpl implements InteractiveApplyService {
 		ret = interactiveApplyMapper.findsApplyByVerifyCode(interactiveApplySearchPOJO);
 		return ret;
 	}
+
+	@Override
+	public int updateIsWinner(InteractiveApplyPOJO interactiveApplyPOJO)
+			throws Exception {
+		int ret = interactiveApplyMapper.updateIsWinner(interactiveApplyPOJO);
+		return ret;
+	}
+
+	@Override
+	public List<InteractiveApplyPOJO> getInteractiveApplyWinner(
+			Long interactiveId) throws Exception {
+		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+		
+		InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
+		interactiveApplySearchPOJO.setInteractiveId(interactiveId);
+		interactiveApplySearchPOJO.setStart(0);
+		interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());
+		List<InteractiveApplyPOJO> interactiveApplyPOJOs = this.findsApplyInInteractive(interactiveApplySearchPOJO);
+		
+		return interactiveApplyPOJOs;
+	}
+	
 
 }

@@ -17,6 +17,8 @@ public class InteractivePOJO extends BasePOJO {
     private Long userId;
     private Date prizeEndDateTime;
     
+    private Integer status;
+    
     private UserPOJO userPOJO;
     
 	public Long getInteractiveId() {
@@ -90,6 +92,12 @@ public class InteractivePOJO extends BasePOJO {
 	}
 	public void setPrizeEndDateTime(Date prizeEndDateTime) {
 		this.prizeEndDateTime = prizeEndDateTime;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
     
 }
