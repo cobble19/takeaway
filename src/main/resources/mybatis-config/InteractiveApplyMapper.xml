@@ -200,4 +200,15 @@
     </set>
     where INTERACTIVE_APPLY_ID = #{interactiveApplyId}
   </update>
+  
+  <update id="updateIsWinner" parameterType="com.cobble.takeaway.pojo.InteractiveApplyPOJO" >
+    update Interactive_Apply
+    <set >
+      <if test="isWinner != null" >
+        IS_WINNER = #{isWinner},
+      </if>
+    </set>
+    where INTERACTIVE_APPLY_ID = #{interactiveApplyId}
+  </update>
+  
 </mapper>

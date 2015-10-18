@@ -91,4 +91,10 @@ public class InteractiveServiceImpl implements InteractiveService {
 		return ret;
 	}
 
+	@Override
+	public int updateStatus(InteractivePOJO interactivePOJO) throws Exception {
+		int ret = interactiveMapper.updateStatus(interactivePOJO);
+		return ret;
+	}
+
 }

@@ -20,4 +20,7 @@ public interface InteractiveApplyService {
 	
 	List<InteractiveApplyPOJO> findsApplyByVerifyCode(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
 
+	int updateIsWinner(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
+	
+	List<InteractiveApplyPOJO> getInteractiveApplyWinner(Long interactiveId) throws Exception;
 }

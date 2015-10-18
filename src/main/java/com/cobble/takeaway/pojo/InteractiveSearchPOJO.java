@@ -12,6 +12,8 @@ public class InteractiveSearchPOJO extends BaseSearchPOJO {
     private String prize;
     private Double answer;
     
+    private Integer status;
+    
 	public Long getInteractiveId() {
 		return interactiveId;
 	}
@@ -53,6 +55,12 @@ public class InteractiveSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setEndDateTime(Date endDateTime) {
 		this.endDateTime = endDateTime;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
     
 }

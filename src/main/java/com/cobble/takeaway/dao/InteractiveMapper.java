@@ -17,4 +17,6 @@ public interface InteractiveMapper {
 	int getActiveCount(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
 	InteractivePOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
+
+	int updateStatus(InteractivePOJO interactivePOJO) throws Exception;
 }

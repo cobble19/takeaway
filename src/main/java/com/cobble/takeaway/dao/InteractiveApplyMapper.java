@@ -20,4 +20,6 @@ public interface InteractiveApplyMapper {
 	int deleteById(Long id) throws Exception;
 
 	List<InteractiveApplyPOJO> findsApplyByVerifyCode(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception;
+
+	int updateIsWinner(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception;
 }

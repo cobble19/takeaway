@@ -26,6 +26,7 @@ import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.InteractiveApplyPOJO;
 import com.cobble.takeaway.pojo.InteractiveApplySearchPOJO;
 import com.cobble.takeaway.pojo.InteractivePOJO;
+import com.cobble.takeaway.pojo.InteractiveSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.InteractiveApplyService;
 import com.cobble.takeaway.service.InteractiveService;
@@ -51,12 +52,12 @@ public class InteractiveApplyController extends BaseController {
 	public DataTablesPOJO<InteractiveApplyPOJO> applyWinnerInInteractive(@PathVariable("interactiveId") Long interactiveId) throws Exception {
 		DataTablesPOJO<InteractiveApplyPOJO> ret = new DataTablesPOJO<InteractiveApplyPOJO>();
 		try {
-			InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
-			InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
+			//InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+			/*InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
 			interactiveApplySearchPOJO.setInteractiveId(interactiveId);
 			interactiveApplySearchPOJO.setStart(0);
-			interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());
-			List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.findsApplyInInteractive(interactiveApplySearchPOJO);
+			interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());*/
+			List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.getInteractiveApplyWinner(interactiveId);
 			int count = CollectionUtils.isEmpty(interactiveApplyPOJOs) ? 0 : interactiveApplyPOJOs.size();
 			ret.setData(interactiveApplyPOJOs);
 			ret.setRecordsTotal(count);
@@ -214,6 +215,9 @@ public class InteractiveApplyController extends BaseController {
 			interactiveApplyPOJO.setVerifyCode(verifyCode);
 			int result = interactiveApplyService.insert(interactiveApplyPOJO);
 			ret.setSuccess(true);
+			
+			// 处理获奖人和活动状态
+			dealInteractiveStatus(interactiveApplyPOJO);
 		} catch (Exception e) {
 			LOGGER.error("insert error.", e);
 			ret.setSuccess(false);
@@ -221,6 +225,110 @@ public class InteractiveApplyController extends BaseController {
 		}
 		
 		return ret;
+	}
+	
+	private void dealInteractiveStatus(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception {
+		DealStatusThread dealStatusThread = new DealStatusThread(interactiveApplyPOJO, interactiveService);
+		dealStatusThread.start();
+	}
+	
+	class DealStatusThread extends Thread {
+		private InteractiveApplyPOJO interactiveApplyPOJO;
+		private InteractiveService interactiveService;
+		public DealStatusThread(InteractiveApplyPOJO interactiveApplyPOJO, InteractiveService interactiveService) {
+			this.interactiveApplyPOJO = interactiveApplyPOJO;
+			this.interactiveService = interactiveService;
+		}
+
+		@Override
+		public void run() {
+			try {
+				Long interactiveId = interactiveApplyPOJO.getInteractiveId();
+				InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+				Integer status = interactivePOJO.getStatus();
+				if (-1 == status) {
+					//update status -1 -> 0
+					interactivePOJO.setStatus(0);
+					interactiveService.updateStatus(interactivePOJO);
+					// get end datetime
+					Date endDateTime = interactivePOJO.getEndDateTime();
+					long interval = endDateTime.getTime() - (new Date().getTime()) + (3 * 1000);
+					// 倒计时定时更新结束状态 , update status 0 -> 1
+					Thread.sleep(interval);
+					interactivePOJO.setStatus(1);
+					interactiveService.updateStatus(interactivePOJO);
+					// update 获奖人 IS_WINNER 0->1
+
+//					InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+					/*InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
+					interactiveApplySearchPOJO.setInteractiveId(interactiveId);
+					interactiveApplySearchPOJO.setStart(0);
+					interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());*/
+					List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.getInteractiveApplyWinner(interactiveId);
+					
+					if (!CollectionUtils.isEmpty(interactiveApplyPOJOs)) {
+						for (InteractiveApplyPOJO interactiveApplyPOJO : interactiveApplyPOJOs) {
+							interactiveApplyPOJO.setIsWinner(1);	// 1-winner
+							interactiveApplyService.updateIsWinner(interactiveApplyPOJO);
+						}
+					}
+					
+				}
+				
+				// 每天凌晨0：00 1. 更新活动status， 如果结束0->1, then 步骤2 else end...
+				// 2.更新update 获奖人 IS_WINNER 0->1
+			} catch (Exception e) {
+				LOGGER.error("DealStatusThread error {}", e);
+			}
+			
+		}
+		
+	}
+	
+	public void ScheduleDealInteractiveStatus() throws Exception {
+		// 1. 查询所有的非结束活动 -1 and 0
+		InteractiveSearchPOJO interactiveSearchPOJO = new InteractiveSearchPOJO();
+		interactiveSearchPOJO.setStatus(-1);
+
+		List<InteractivePOJO> interactivePOJOs_1 = interactiveService.finds(interactiveSearchPOJO);
+		
+		interactiveSearchPOJO.setStatus(0);
+		
+		List<InteractivePOJO> interactivePOJOs0 = interactiveService.finds(interactiveSearchPOJO);
+		
+		List<InteractivePOJO> all = new ArrayList<InteractivePOJO>();
+		
+		if (!CollectionUtils.isEmpty(interactivePOJOs_1)) {
+			all.addAll(interactivePOJOs_1);
+		}
+
+		if (!CollectionUtils.isEmpty(interactivePOJOs0)) {
+			all.addAll(interactivePOJOs0);
+		}
+		
+		Date date = new Date();
+		for (InteractivePOJO interactivePOJO : all) {
+			Date endDateTime = interactivePOJO.getEndDateTime();
+			if (endDateTime == null) {
+				continue;
+			}
+			
+			if (endDateTime.before(date)) {	// 活动结束
+				interactivePOJO.setStatus(1);	// 1-end
+				interactiveService.updateStatus(interactivePOJO);
+				
+				List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.getInteractiveApplyWinner(interactivePOJO.getInteractiveId());
+				
+				if (!CollectionUtils.isEmpty(interactiveApplyPOJOs)) {
+					for (InteractiveApplyPOJO interactiveApplyPOJO : interactiveApplyPOJOs) {
+						interactiveApplyPOJO.setIsWinner(1);	// 1-winner
+						interactiveApplyService.updateIsWinner(interactiveApplyPOJO);
+					}
+				}
+			}
+			
+		}
+		
 	}
 	
 	@RequestMapping(value = "/web/interactiveApply/all", method = {RequestMethod.GET})
