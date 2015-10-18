@@ -69,7 +69,7 @@
 	     			<div id="create_activity">
 	     				<h3>活动管理</h3>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<a class="btn btn-primary btn-xs" href='<cmn:base/>/page/enterprise/activity.jsp'>添加活动</a>
+	     					<a class="btn btn-primary btn-xs" href='<cmn:base/>/page/media/activity.jsp'>添加活动</a>
 	     					
 	     					<input id="searchBtn" type="button" class="btn btn-default btn-xs" value="查询">
 	     					<input id="deleteBtn" type="button" class="btn btn-default btn-xs" value="删除">
@@ -104,7 +104,7 @@
 	     			<div id="create_interactive">
 	     				<h3>活动管理</h3>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<a class="btn btn-primary btn-xs" target="" href='<cmn:base/>/page/enterprise/interactive.jsp'>添加互动</a>
+	     					<a class="btn btn-primary btn-xs" target="" href='<cmn:base/>/page/media/interactive.jsp'>添加互动</a>
 	     					
 	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default btn-xs" value="查询">
 	     					<input id="deleteBtn4Interactive" type="button" class="btn btn-default btn-xs" value="删除">

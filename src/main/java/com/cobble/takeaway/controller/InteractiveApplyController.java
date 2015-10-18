@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,6 +160,15 @@ public class InteractiveApplyController extends BaseController {
 					} else {
 						ret.setSuccess(false);
 						ret.setDesc("验证码已经被使用");
+					}
+					try {
+						if (interactiveApplyPOJO.getInteractivePOJO().getPrizeEndDateTime().getTime()
+								<= interactiveApplyPOJO.getInteractivePOJO().getStartDateTime().getTime()) {
+							ret.setSuccess(false);
+							ret.setDesc("截止日期已过。" + interactiveApplyPOJO.getInteractivePOJO().getPrizeEndDateTime());
+						}
+					} catch (Exception e) {
+						LOGGER.error("奖品截止日期 error, {}", e);
 					}
 				} else {
 					ret.setSuccess(false);

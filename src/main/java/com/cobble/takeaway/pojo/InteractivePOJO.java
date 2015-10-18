@@ -14,6 +14,9 @@ public class InteractivePOJO extends BasePOJO {
     private Double answer;
     private Integer numOfWinner;
     
+    private Long userId;
+    private Date prizeEndDateTime;
+    
     private UserPOJO userPOJO;
     
 	public Long getInteractiveId() {
@@ -75,6 +78,18 @@ public class InteractivePOJO extends BasePOJO {
 	}
 	public void setUserPOJO(UserPOJO userPOJO) {
 		this.userPOJO = userPOJO;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	public Date getPrizeEndDateTime() {
+		return prizeEndDateTime;
+	}
+	public void setPrizeEndDateTime(Date prizeEndDateTime) {
+		this.prizeEndDateTime = prizeEndDateTime;
 	}
     
 }

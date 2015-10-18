@@ -20,6 +20,8 @@
     <result column="PRIZE" property="prize" />
     <result column="ANSWER" property="answer" />
     <result column="NUM_OF_WINNER" property="numOfWinner" />
+    <result column="USER_ID" property="userId" />
+    <result column="PRIZE_END_DATE_TIME" property="prizeEndDateTime" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
@@ -142,6 +144,12 @@
       <if test="numOfWinner != null" >
         NUM_OF_WINNER,
       </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="prizeEndDateTime != null" >
+        PRIZE_END_DATE_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="name != null" >
@@ -167,6 +175,12 @@
       </if>
       <if test="numOfWinner != null" >
         #{numOfWinner},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="prizeEndDateTime != null" >
+        #{prizeEndDateTime},
       </if>
     </trim>
   </insert>

@@ -15,6 +15,8 @@ public class InteractiveApplyPOJO extends BasePOJO {
     private Integer isVerified;
     private Date createDateTime;
     
+    private InteractivePOJO interactivePOJO;
+    
 	public Long getInteractiveApplyId() {
 		return interactiveApplyId;
 	}
@@ -74,6 +76,12 @@ public class InteractiveApplyPOJO extends BasePOJO {
 	}
 	public void setIsVerified(Integer isVerified) {
 		this.isVerified = isVerified;
+	}
+	public InteractivePOJO getInteractivePOJO() {
+		return interactivePOJO;
+	}
+	public void setInteractivePOJO(InteractivePOJO interactivePOJO) {
+		this.interactivePOJO = interactivePOJO;
 	}
     
 }

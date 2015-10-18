@@ -5,7 +5,9 @@ public class UserSearchPOJO extends BaseSearchPOJO {
 	private String username;
 	private String password;
     private Boolean enable;
-    
+
+	private String userType;
+	
 	public Long getUserId() {
 		return userId;
 	}
@@ -29,6 +31,12 @@ public class UserSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setEnable(Boolean enable) {
 		this.enable = enable;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
     
 }

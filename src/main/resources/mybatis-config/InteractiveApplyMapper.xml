@@ -21,6 +21,8 @@
     <result column="IS_WINNER" property="isWinner" />
     <result column="IS_VERIFIED" property="isVerified" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
+    
+    <association property="interactivePOJO" resultMap="com.cobble.takeaway.dao.InteractiveMapper.InteractiveResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     a.INTERACTIVE_APPLY_ID, a.INTERACTIVE_ID, a.USER_ID, a.ANSWER, a.VERIFY_CODE, a.IS_WINNER, a.IS_VERIFIED, a.CREATE_DATE_TIME
@@ -37,7 +39,9 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
+    , b.prize_end_date_time
     from interactive_apply a
+    join e_interactive b on b.interactive_Id = a.interactive_Id
     <where>
   		<trim prefixOverrides="and">
 			and a.interactive_Id = #{interactiveId}

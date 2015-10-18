@@ -27,6 +27,9 @@
 	<if test="username != null and username != ''">
 		and u.USERNAME like concat("%", concat(#{username}, "%"))
 	</if>
+	<if test="userType != null and userType != ''">
+		and u.USER_TYPE = #{userType}
+	</if>
   </sql>
   <select id="findUserByName" resultMap="UserResultMap" parameterType="String" >
     select

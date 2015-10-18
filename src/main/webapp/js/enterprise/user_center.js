@@ -512,7 +512,7 @@ $(document).ready(function() {
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
-				return linkApply + "<br/>" + linkEdit;
+				return linkApply/* + "<br/>" + linkEdit*/;
 			}
 		}/*, {
 			"targets" : 0,

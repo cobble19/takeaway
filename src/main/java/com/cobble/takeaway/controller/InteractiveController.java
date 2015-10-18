@@ -28,7 +28,11 @@ import com.cobble.takeaway.pojo.InteractiveSearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
+import com.cobble.takeaway.pojo.UserPOJO;
+import com.cobble.takeaway.pojo.UserSearchPOJO;
 import com.cobble.takeaway.service.InteractiveService;
+import com.cobble.takeaway.service.UserService;
+import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -37,6 +41,8 @@ public class InteractiveController extends BaseController {
 	
 	@Autowired
 	private InteractiveService interactiveService;
+	@Autowired
+	private UserService userService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@RequestMapping(value = "/web/enterprise/interactive/add", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -66,6 +72,22 @@ public class InteractiveController extends BaseController {
 		
 //		return ret;
 		return null;
+	}
+
+	@RequestMapping(value = "/web/enterprise/prize/provider", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public List<UserPOJO> prizeProvider() throws Exception {
+		List<UserPOJO> ret = new ArrayList<UserPOJO>();
+		try {
+			UserSearchPOJO userSearchPOJO = new UserSearchPOJO();
+			userSearchPOJO.setUserType(MyUser.ENTERPRISE);
+			ret = userService.finds(userSearchPOJO);
+		} catch (Exception e) {
+			LOGGER.error("query error.", e);
+			throw e;
+		}
+		
+		return ret;
 	}
 	
 	@RequestMapping(value = "/web/enterprise/interactive/{interactiveId}", produces = {MediaType.APPLICATION_JSON_VALUE})
