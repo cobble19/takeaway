@@ -39,6 +39,7 @@
 	<div class="container">
 		<%@include file="reg_login.jsp"%>
 
+
 		<%-- <div class="row">
         <div class="col-md-1 col-xs-6 logo"></div>
         <div class="col-md-3 col-xs-6 col-md-offset-8">
