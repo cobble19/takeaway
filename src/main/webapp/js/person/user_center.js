@@ -277,6 +277,146 @@ $(document).ready(function() {
     	interactiveSearch(table4Interactive);
     });
     
+//	=======================
+
+    // dbTable4Prize
+    var table4Prize = $('#dbTable4Prize').DataTable( {
+		"initComplete": function () {
+            var api = this.api();
+           /* api.$('td').click( function () {
+                // api.search( this.innerHTML ).draw();
+            	api.ajax.reload();
+            	api.draw();
+            } );*/
+			//$("#matsTeleFraudForm").appendTo($("mats-form"));
+            
+            console.log("page.len = " + api.page.len());
+            var info = api.page.info();
+            console.log('Currently showing page '+(info.page+1)+' of '+info.pages+' pages.');
+            
+        },
+        "language": {
+        	"search": "过滤: ",
+        	"lengthMenu": "每页显示 _MENU_ 条记录",
+        	"zeroRecords": "没有检索到数据",
+        	"info": "显示 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+        	"infoEmpty": "没有数据",
+        	"infoFiltered": "(从 _MAX_ 条数据中检索)",
+        	"paginate": {
+        		"first": "首页",
+        		"previous": "前一页",
+        		"next": "后一页",
+        		"last": "尾页"
+        	}
+        	
+        },
+		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
+		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+		"columnDefs" : [ /*{
+			"targets" : 0,
+			"render" : function(data, type, full, meta) {
+				console.log(data + " " + type + " " + full + " " + meta);
+				;
+			}
+		}, */{
+			"targets" : 1,
+			"visible" : false
+		}, {
+			"targets" : 2,
+			"visible" : false
+		}, {
+			"targets" : 3,
+			"visible" : false
+		}, {
+			"targets" : 4,
+			"render" : function(data, type, full, meta) {
+//				var content = (data != null) ? data.substring(0, 10): '';
+				var link = '<a href="../../page/enterprise/interactive_detail.jsp?interactiveId=' + full.interactiveId + '">' +
+						'前往活动主页' + '</a>';
+				return link
+			}
+		}, {
+			"targets" : 5,
+			"render" : function(data, type, full, meta) {
+				var isVerified = data;
+				if (!!isVerified) {
+					return '已领取';
+				}
+				return '未领取';
+			}
+		}, {
+			"targets" : 6,
+			"render" : function(data, type, full, meta) {
+				var prizeEndDateTime = data;
+				var curDate = new date();
+				if (prizeEndDateTime < curDate) {
+					return '已过期';
+				}
+				return '未过期';
+			}
+		}/*, {
+			"targets" : 0,
+			"searchable" : false,
+			"orderable" : false
+		}, {
+			"targets" : [1, 2, 3, 4, 8, 9, 10, 14],
+			"visible": false
+		}, {
+			"targets" : 15,
+			"render" : function(data, type, full, meta) {
+				var date = new Date();
+				date.setTime(data);
+				return date.format('Y-m-d H:i:s');
+			}
+		}, {
+			"targets" : 11,
+			"render" : function(data, type, full, meta) {
+				return data === 0 ? 'BTS': 'Prod';
+			}
+		}*/ ],
+        "columns": [
+            /*{
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": '',
+                "title": '申请参加'
+            },*/
+            {
+			    /*"className":      'details-control',*/
+			    "orderable":      false,
+			    "data":           null,
+			    "defaultContent": ''
+			},
+            { "data": "interactiveApplyId" },
+            { "data": "userId" },
+            { "data": "interactiveId" },
+            { "data": "interactiveId" },
+            { "data": "isVerified" },
+            { "data": "prizeEndDateTime" }
+        ],
+        "order": [[1, 'asc']]
+    } );
+
+    $('#progress').dialog({
+    	autoOpen: false,
+    	modal: true
+    });
+    
+    table4Prize.on( 'order.dt search.dt', function () {
+    	table4Prize.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
+    
+    prizeSearch(table4Prize);
+    
+    $('#searchBtn4Prize').click(function() {
+    	console.log('search click...');
+    	prizeSearch(table4Prize);
+    });
+//  =======================
+    
 	$('#pwdChg').click(function() {
 		var userId = $('#update_password').find('#userId').val();
 		var password = $('#update_password').find('#password').val();
@@ -422,6 +562,50 @@ var interactiveSearch = function(table) {
         }
 	});
 }
+
+var prizeSearch = function(table) {
+	$('#progress').dialog('open');
+	var userId = $('#userId').val(); 
+	$.ajax({
+		"url" : "../../web/person/interactive/prize/" + userId,
+		"type" : "POST",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		/*"data": JSON.stringify({
+            title: $("#title").val()
+        }),*/
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	console.log("data = " + data);
+        	console.log("t= " + table.page.info().pages);
+        	table.clear();
+        	
+        	/*if (data.data instanceof Array) {
+        		data.content = data.content.substring(0, 10);
+        	}*/
+        	
+        	table.rows.add(data.data).draw()
+            .nodes()
+            .to$()
+            .addClass( 'new' );
+        	
+        	// add title
+//        	$("td.details-control").attr('title', '申请参加');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	alert('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+
+
+
+
 
 
 

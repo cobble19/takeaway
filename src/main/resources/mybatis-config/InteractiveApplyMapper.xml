@@ -32,6 +32,21 @@
 		<!-- and a.USERNAME like concat("%", concat(#{username}, "%")) -->
 		and 1 > 0
 	</if>
+	<if test="interactiveId != null">
+		and a.INTERACTIVE_ID = #{interactiveId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+	<if test="verifyCode != null">
+		and a.VERIFY_CODE = #{verifyCode}
+	</if>
+	<if test="isWinner != null">
+		and a.IS_WINNER = #{isWinner}
+	</if>
+	<if test="isVerified != null">
+		and a.IS_VERIFIED = #{isVerified}
+	</if>
   </sql>
   <select id="findsApplyByVerifyCode" resultMap="InteractiveApplyResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveApplySearchPOJO" >
     select
@@ -56,13 +71,14 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    , c.user_id, c.username, c.nickname
+    , c.user_id, c.username, c.nickname, b.prize_end_date_time
     from interactive_apply a
     join e_interactive b on b.interactive_Id = a.interactive_Id
     join b_user c on c.user_id = a.user_id
     <where>
   		<trim prefixOverrides="and">
 			and b.interactive_Id = #{interactiveId}
+			<include refid="Clause_Common"/>
   		</trim>
   		order by abs(b.answer - a.answer) asc, a.CREATE_DATE_TIME asc
   	</where>
@@ -89,9 +105,11 @@
     count(1)
     from interactive_apply a
     join e_interactive b on b.interactive_Id = a.interactive_Id
+    join b_user c on c.user_id = a.user_id
     <where>
   		<trim prefixOverrides="and">
 			and b.interactive_Id = #{interactiveId}
+			<include refid="Clause_Common"/>
   		</trim>
   	</where>
   </select>

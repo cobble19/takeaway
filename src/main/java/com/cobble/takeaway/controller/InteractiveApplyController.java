@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,7 +44,28 @@ public class InteractiveApplyController extends BaseController {
 	@Autowired
 	private InteractiveService interactiveService;
 
-
+	@RequestMapping(value = "/web/person/interactive/prize/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<InteractiveApplyPOJO> prizeByUserId(@PathVariable("userId") Long userId) throws Exception {
+		DataTablesPOJO<InteractiveApplyPOJO> ret = new DataTablesPOJO<InteractiveApplyPOJO>();
+		try {
+			InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
+			List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.findsApplyInInteractive(interactiveApplySearchPOJO);
+			
+			int count = CollectionUtils.isEmpty(interactiveApplyPOJOs) ? 0 : interactiveApplyPOJOs.size();
+			
+			ret.setData(interactiveApplyPOJOs);
+			ret.setRecordsTotal(count);
+			ret.setDraw(1);
+			ret.setRecordsFiltered(count);
+		} catch (Exception e) {
+			LOGGER.error("applyInActivity error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/person/interactive/{interactiveId}/apply/winner", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public DataTablesPOJO<InteractiveApplyPOJO> applyWinnerInInteractive(@PathVariable("interactiveId") Long interactiveId) throws Exception {

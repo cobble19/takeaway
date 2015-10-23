@@ -7,6 +7,7 @@ public class InteractiveApplySearchPOJO extends BaseSearchPOJO {
     private Long interactiveApplyId;
     private Long interactiveId;
     private Long userId;
+    private String username;
     private Integer answer;
     private String verifyCode;
     private Integer isWinner;

@@ -87,6 +87,7 @@
 		            <a href="#update_password" class="list-group-item">修改密码</a>
 		            <a href="#create_activity" class="list-group-item">线下活动</a>
 		            <a href="#interactive" class="list-group-item">线上互动</a>
+		            <a href="#prize" class="list-group-item">奖品</a>
 		          </div>
 	     	</div>
 	     	<div class="col-md-9">
@@ -135,6 +136,35 @@
 				  						<th>标识</th>
 				  						<th>标题</th>
 				  						<th>内容</th>
+				  					</tr>
+				  				</thead>
+				  				<!-- <tfoot>
+				  					<tr>
+				  						<th>申请</th>
+				  						<th>标识</th>
+				  						<th>标题</th>
+				  						<th>内容</th>
+				  					</tr>
+				  				</tfoot> -->
+				  			</table>
+	     			</div>
+	     			
+	     			<div id="prize">
+	     				<h3>奖品</h3>
+	     				<div style=" height:50px; line-height:50px;">
+	     					<input id="searchBtn4Prize" type="button" class="btn btn-default btn-xs" value="查询">
+	     				</div>
+				  		<table id="dbTable4Prize" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+				  				<thead>
+				  					<tr>
+				  						<!-- <th>申请</th> -->
+				  						<th>序号</th>
+				  						<th>关系标识</th>
+				  						<th>用户标识</th>
+				  						<th>活动标识</th>
+				  						<th>奖品信息</th>
+				  						<th>是否领取</th>
+				  						<th>是否过期</th>
 				  					</tr>
 				  				</thead>
 				  				<!-- <tfoot>
