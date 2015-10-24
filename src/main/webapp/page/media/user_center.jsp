@@ -102,7 +102,7 @@
 	     			</div>	<!-- create_activity end -->
 	     			
 	     			<div id="create_interactive">
-	     				<h3>活动管理</h3>
+	     				<h3>线上活动</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary btn-xs" target="" href='<cmn:base/>/page/media/interactive.jsp'>添加互动</a>
 	     					

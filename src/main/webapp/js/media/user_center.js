@@ -513,13 +513,13 @@ $(document).ready(function() {
 				+ '">' +
 				'查看获奖人' + '</a>';
 				
-				var hrefEdit = $('#basePath').val() + '/page/enterprise/interactive_update.jsp?interactiveId='  + full.interactiveId;
+				/*var hrefEdit = $('#basePath').val() + '/page/enterprise/interactive_update.jsp?interactiveId='  + full.interactiveId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" onclick="verify('
 								+ full.interactiveId
 					       		+ ');" style="margin-bottom:5px;" href="' + '#'
 								+ '">'
-								+ '验证获奖人' + '</a>';
-				return linkApply + "<br/>" + linkEdit;
+								+ '验证获奖人' + '</a>';*/
+				return linkApply/* + "<br/>" + linkEdit*/;
 			}
 		}/*, {
 			"targets" : 0,

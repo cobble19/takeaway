@@ -50,6 +50,8 @@ public class InteractiveApplyController extends BaseController {
 		DataTablesPOJO<InteractiveApplyPOJO> ret = new DataTablesPOJO<InteractiveApplyPOJO>();
 		try {
 			InteractiveApplySearchPOJO interactiveApplySearchPOJO = new InteractiveApplySearchPOJO();
+			interactiveApplySearchPOJO.setUserId(userId);
+			interactiveApplySearchPOJO.setIsWinner(IS_WINNER);
 			List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.findsApplyInInteractive(interactiveApplySearchPOJO);
 			
 			int count = CollectionUtils.isEmpty(interactiveApplyPOJOs) ? 0 : interactiveApplyPOJOs.size();

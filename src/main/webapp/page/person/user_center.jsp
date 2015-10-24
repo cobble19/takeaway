@@ -94,8 +94,20 @@
 	     		<div id="uc_content" style="padding-top: 10px;">
 	     			<div id="profile">
 	     				<h3 class="col-md-12" style="margin-bottom:20px;">个人资料</h3>
-	     				<label>名称： </label><c:out value="${myUser.username }"></c:out><br/>
-	     				<label>昵称： </label><c:out value="${myUser.nickname }"></c:out>
+	     				<%-- <label>名称： </label><c:out value="${myUser.username }"></c:out><br/>
+	     				<label>昵称： </label><c:out value="${myUser.nickname }"></c:out> --%>
+	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
+	     					<label class="" for="username">帐　　号：</label>
+	     					<%-- <input type="text" name="username" id="username" value="${myUser.username}" class="form-control"> --%>
+	     					 <c:out value="${myUser.username }"></c:out>/<c:out value="${myUser.userId }"></c:out><br/>
+	     				</div>
+	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
+	     					<label>昵　　称：</label><input type="text" name="nickname" id="nickname" value="${myUser.nickname}" class="form-control input-sm"><br/>
+	     				</div>
+	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
+	     					<label>电子邮箱：</label><input type="text" name="email" id="email" value="${myUser.email}" class="form-control input-sm"><br/>
+	     				</div>
+	     				<button id="updateInfoBtn" class="col-md-1 btn btn-default" style="margin-left:20px;">修改</button>
 	     			</div>
 	     			<div id="create_activity">
 	     				<h3>线下活动</h3>

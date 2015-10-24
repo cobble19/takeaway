@@ -259,6 +259,43 @@ $(document).ready(function() {
         "order": [[1, 'asc']]
     } );
 
+    $('#updateInfoBtn').click(function() {
+    	var confirm = window.confirm('确定修改');
+    	if (!confirm) {
+    		return;
+    	}
+    	/*var username = $('#profile').find('#username').val();*/
+    	var nickname = $('#profile').find('#nickname').val();
+    	var email = $('#profile').find('#email').val();
+    	var userId = $('#userId').val();
+    	
+    	$.ajax({
+    		"url" : "../../web/user/updateInfo",
+    		"type" : "GET",
+    		/*"headers" : {
+    			"Content-Type" : "application/json"
+    		},*/
+    		"dataType" : 'json',
+    		traditional :true, 
+    		"data": {
+                /*"username": username,*/
+                "nickname": nickname,
+                "email": email,
+                "userId": userId
+            },
+            success: function(data, textStatus, jqXHR ) {
+            	alert('修改成功');
+//            	window.location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	alert('Load Error!');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});
+    })
+    
     $('#progress').dialog({
     	autoOpen: false,
     	modal: true

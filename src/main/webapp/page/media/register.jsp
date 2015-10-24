@@ -42,7 +42,7 @@
  			<div class="form-group">
  				<label class="control-label col-sm-3 col-md-2" for="email">E-Mail:</label>
  				<div class="col-sm-9 col-md-6">
- 					<input class="form-control" type="email" id="email" name="email" value="" placeholder="请输入email">
+ 					<input class="form-control" type="email" id="email" name="email" required="required" value="" placeholder="请输入email">
  				</div>
  			</div>
  			<div class="form-group">

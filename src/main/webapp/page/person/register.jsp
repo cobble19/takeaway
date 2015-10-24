@@ -23,7 +23,7 @@
  			<div class="form-group">
  				<label class="control-label col-sm-3 col-md-2" for="nickname">昵称:</label>
  				<div class="col-sm-9 col-md-6">
- 					<input class="form-control" id="nickname" name="nickname" required="required" value="" placeholder="请输入昵称">
+ 					<input class="form-control" id="nickname" name="nickname" required="required" minlength="1" value="" placeholder="请输入昵称">
  				</div>
  			</div>
  			<div class="form-group">
