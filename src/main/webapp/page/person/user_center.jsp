@@ -81,16 +81,16 @@
 		    </div>
   		</div>--%>
   		<div class="row uc-border" style="margin-top:50px;">
-  			<div class="col-md-3" id="sidebar">
+  			<div class="col-md-3 col-xs-3" id="sidebar">
 		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active">个人资料</a>
 		            <a href="#update_password" class="list-group-item">修改密码</a>
 		            <a href="#create_activity" class="list-group-item">线下活动</a>
 		            <a href="#interactive" class="list-group-item">线上互动</a>
-		            <a href="#prize" class="list-group-item">奖品</a>
+		            <a href="#prize" class="list-group-item">奖品查询</a>
 		          </div>
 	     	</div>
-	     	<div class="col-md-9">
+	     	<div class="col-md-9 col-xs-9">
 	     		<div id="uc_content" style="padding-top: 10px;">
 	     			<div id="profile">
 	     				<h3 class="col-md-12" style="margin-bottom:20px;">个人资料</h3>

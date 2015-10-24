@@ -38,18 +38,18 @@
   	<div class="container">
 	  	<%@include file="../../reg_login_full.jsp" %>
   		<div class="row uc-border" style="margin-top:50px; min-height:500px;">
-  			<div class="col-md-3 " id="sidebar">
+  			<div class="col-md-3 col-xs-3" id="sidebar">
 		          <div class="list-group" style="margin-top:10px;">
-		            <a href="#profile" class="list-group-item active">个人资料</a>
+		            <a href="#profile" class="list-group-item active">媒体资料</a>
 		            <a href="#update_password" class="list-group-item">修改密码</a>
-		            <a href="#create_activity" class="list-group-item">活动管理</a>
-		            <a href="#create_interactive" class="list-group-item">互动活动管理</a>
+		            <a href="#create_activity" class="list-group-item">线下活动管理</a>
+		            <a href="#create_interactive" class="list-group-item">线上互动管理</a>
 		          </div> 				
 	     	</div>
-	     	<div class="col-md-9">
+	     	<div class="col-md-9 col-xs-9">
 	     		<div id="uc_content" style="padding-top: 10px;">
 	     			<div id="profile" class="row">
-	     				<h3 class="col-md-12" style="margin-bottom:20px;">个人资料</h3>
+	     				<h3 class="col-md-12" style="margin-bottom:20px;">媒体资料</h3>
 	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
 	     					<label class="" for="username">帐　　号：</label>
 	     					<%-- <input type="text" name="username" id="username" value="${myUser.username}" class="form-control"> --%>
