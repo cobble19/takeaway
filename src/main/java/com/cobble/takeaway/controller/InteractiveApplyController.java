@@ -249,6 +249,7 @@ public class InteractiveApplyController extends BaseController {
 	}
 	
 	private void dealInteractiveStatus(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception {
+		LOGGER.debug("dealInteractiveStatus start... , interactiveApplyPOJO: {}", interactiveApplyPOJO);
 		DealStatusThread dealStatusThread = new DealStatusThread(interactiveApplyPOJO, interactiveService);
 		dealStatusThread.start();
 	}
@@ -264,9 +265,12 @@ public class InteractiveApplyController extends BaseController {
 		@Override
 		public void run() {
 			try {
+				LOGGER.info("DealStatusThread start..., interactiveApplyPOJO: {}", interactiveApplyPOJO);
 				Long interactiveId = interactiveApplyPOJO.getInteractiveId();
 				InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
 				Integer status = interactivePOJO.getStatus();
+
+				LOGGER.info("DealStatusThread ..., status: {}", status);
 				if (-1 == status) {
 					//update status -1 -> 0
 					interactivePOJO.setStatus(0);
@@ -275,9 +279,16 @@ public class InteractiveApplyController extends BaseController {
 					Date endDateTime = interactivePOJO.getEndDateTime();
 					long interval = endDateTime.getTime() - (new Date().getTime()) + (3 * 1000);
 					// 倒计时定时更新结束状态 , update status 0 -> 1
+
+					LOGGER.info("DealStatusThread sleep start..., interval: {}", interval);
 					Thread.sleep(interval);
+					LOGGER.info("DealStatusThread sleep end..., interval: {}", interval);
+					
+
+					LOGGER.info("interactiveService .updateStatus start...");
 					interactivePOJO.setStatus(1);
 					interactiveService.updateStatus(interactivePOJO);
+					LOGGER.info("interactiveService.updateStatus end...");
 					// update 获奖人 IS_WINNER 0->1
 
 //					InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
@@ -285,6 +296,9 @@ public class InteractiveApplyController extends BaseController {
 					interactiveApplySearchPOJO.setInteractiveId(interactiveId);
 					interactiveApplySearchPOJO.setStart(0);
 					interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());*/
+					
+
+					LOGGER.info("interactiveApplyService.updateIsWinner start...");
 					List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.getInteractiveApplyWinner(interactiveId);
 					
 					if (!CollectionUtils.isEmpty(interactiveApplyPOJOs)) {
@@ -293,6 +307,8 @@ public class InteractiveApplyController extends BaseController {
 							interactiveApplyService.updateIsWinner(interactiveApplyPOJO);
 						}
 					}
+
+					LOGGER.info("interactiveApplyService.updateIsWinner end...");
 					
 				}
 				
