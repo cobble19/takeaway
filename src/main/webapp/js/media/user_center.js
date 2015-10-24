@@ -519,7 +519,13 @@ $(document).ready(function() {
 					       		+ ');" style="margin-bottom:5px;" href="' + '#'
 								+ '">'
 								+ '验证获奖人' + '</a>';*/
-				return linkApply/* + "<br/>" + linkEdit*/;
+
+				var hrefEdit = $('#basePath').val() + '/page/enterprise/interactive_update.jsp?interactiveId='  + full.interactiveId;
+				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
+								+ '">'
+								+ '修改' + '</a>';
+				
+				return linkApply + "<br/>" + linkEdit;
 			}
 		}/*, {
 			"targets" : 0,

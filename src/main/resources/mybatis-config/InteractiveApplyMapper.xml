@@ -77,7 +77,7 @@
     join b_user c on c.user_id = a.user_id
     <where>
   		<trim prefixOverrides="and">
-			and b.interactive_Id = #{interactiveId}
+			<!-- and b.interactive_Id = #{interactiveId} -->
 			<include refid="Clause_Common"/>
   		</trim>
   		order by abs(b.answer - a.answer) asc, a.CREATE_DATE_TIME asc

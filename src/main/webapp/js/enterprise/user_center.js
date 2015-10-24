@@ -507,12 +507,18 @@ $(document).ready(function() {
 				var linkApply = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href
 				+ '">' +
 				'查看获奖人' + '</a>';
-				
+				/*
 				var hrefEdit = $('#basePath').val() + '/page/enterprise/interactive_update.jsp?interactiveId='  + full.interactiveId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
-								+ '修改' + '</a>';
-				return linkApply/* + "<br/>" + linkEdit*/;
+								+ '修改' + '</a>';*/
+				var hrefEdit = $('#basePath').val() + '/page/enterprise/interactive_update.jsp?interactiveId='  + full.interactiveId;
+				var linkEdit = '<a class="btn btn-warning btn-xs" onclick="verify('
+								+ full.interactiveId
+					       		+ ');" style="margin-bottom:5px;" href="' + '#'
+								+ '">'
+								+ '验证获奖人' + '</a>';
+				return linkApply + "<br/>" + linkEdit;
 			}
 		}/*, {
 			"targets" : 0,
