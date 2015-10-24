@@ -97,4 +97,12 @@ public class InteractiveServiceImpl implements InteractiveService {
 		return ret;
 	}
 
+	@Override
+	public List<InteractivePOJO> find4Enterprises(
+			InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
+		List<InteractivePOJO> ret = null;
+		ret = interactiveMapper.find4Enterprises(interactiveSearchPOJO);
+		return ret;
+	}
+
 }

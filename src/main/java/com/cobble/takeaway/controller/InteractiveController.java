@@ -134,13 +134,29 @@ public class InteractiveController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/web/enterprise/interactive", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/web/media/interactive", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public DataTablesPOJO<InteractivePOJO> query(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
 		DataTablesPOJO<InteractivePOJO> ret = new DataTablesPOJO<InteractivePOJO>();
 		try {
 			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
 			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
+			ret.setData(interactivePOJOs);
+		} catch (Exception e) {
+			LOGGER.error("list error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/enterprise/interactive", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<InteractivePOJO> query4Enterprise(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
+		DataTablesPOJO<InteractivePOJO> ret = new DataTablesPOJO<InteractivePOJO>();
+		try {
+			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+			List<InteractivePOJO> interactivePOJOs = interactiveService.find4Enterprises(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {
 			LOGGER.error("list error.", e);

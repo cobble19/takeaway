@@ -264,6 +264,11 @@ $(document).ready(function() {
     	autoOpen: false,
     	modal: true
     });
+
+    $('#verifyDiv').dialog({
+    	autoOpen: false,
+    	modal: true
+    });
     
     /*$('#pwdDiv').dialog({
     	autoOpen: false,
@@ -632,6 +637,39 @@ $(document).ready(function() {
                 }
         	});
         })
+        
+        $('#verifyBtn').click(function() {
+
+	    	var confirm = window.confirm('执行验证');
+	    	if (!confirm) {
+	    		return;
+	    	}
+	    	var interactiveId = $('#verifyDiv').find('#interactiveId').val();
+	    	var verifyCode = $('#verifyDiv').find('#verifyCode').val();
+	    	$.ajax({
+	    		"url" : "../../web/person/interactiveApply/verify",
+	    		"type" : "GET",
+	    		"headers" : {
+	    			"Content-Type" : "application/json"
+	    		},
+	    		"dataType" : 'json',
+	    		traditional :true, 
+	    		"data": {
+	                "interactiveId": interactiveId,
+	                "verifyCode": verifyCode
+	            },
+	            success: function(data, textStatus, jqXHR ) {
+	            	$('#verifyDiv').dialog('close');
+	            	alert(data.desc);
+	            },
+	            error: function(jqXHR, textStatus, errorThrown) {
+	            	alert('Load Error!');
+	            },
+	            complete: function(jqXHR, textStatus) {
+	            	console.log('Ajax complete.');
+	            }
+	    	});
+	    })
     
 } );
 
@@ -744,6 +782,11 @@ var interactiveSearch = function(table) {
 	});
 }
 
+var verify = function(interactiveId) {
+	console.log('111');
+	$("#interactiveId").val(interactiveId);
+	$('#verifyDiv').dialog('open');
+}
 
 
  

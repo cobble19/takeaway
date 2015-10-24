@@ -156,6 +156,20 @@
   		
   		<div id="progress">数据加载中。。。</div>
   		
+  		<div id="verifyDiv">
+			<form class="form-inline" id="verifyForm" role="form" action='' method="post">
+				<input type="hidden" id="interactiveId" name="interactiveId"/>
+	 			<div class="form-group">
+	 				<label class="" for="verifyCode">验证码:</label>
+ 					<input type="text" class="form-control" id="verifyCode" name="verifyCode" minlength="8" required="required" placeholder="请输入验证码">
+	 			</div>
+	 			<div class="form-group">
+		 			<div class="">
+		  				<button type="button" class="btn btn-default" id="verifyBtn">验证</button>
+		 			</div>
+	 			</div>
+	  		</form>
+		</div>
   		
 	</div>
   </body>

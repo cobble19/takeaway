@@ -164,7 +164,7 @@
   		
   		<div id="progress">数据加载中。。。</div>
   		
-  		<div id="verifyDiv">
+  		<!-- <div id="verifyDiv">
 			<form class="form-inline" id="verifyForm" role="form" action='' method="post">
 				<input type="hidden" id="interactiveId" name="interactiveId"/>
 	 			<div class="form-group">
@@ -177,7 +177,7 @@
 		 			</div>
 	 			</div>
 	  		</form>
-		</div>
+		</div> -->
   		
 	</div>
   </body>

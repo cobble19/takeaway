@@ -641,7 +641,7 @@ $(document).ready(function() {
     })
     
     
-    $('#verifyBtn').click(function() {
+    /*$('#verifyBtn').click(function() {
 
     	var confirm = window.confirm('执行验证');
     	if (!confirm) {
@@ -672,7 +672,7 @@ $(document).ready(function() {
             	console.log('Ajax complete.');
             }
     	});
-    })
+    })*/
         
     
 } );
@@ -750,7 +750,7 @@ var activitySearch = function(table) {
 var interactiveSearch = function(table) {
 	$('#progress').dialog('open');
 	$.ajax({
-		"url" : "../../web/enterprise/interactive",
+		"url" : "../../web/media/interactive",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
@@ -786,11 +786,11 @@ var interactiveSearch = function(table) {
 	});
 }
 
-var verify = function(interactiveId) {
+/*var verify = function(interactiveId) {
 	console.log('111');
 	$("#interactiveId").val(interactiveId);
 	$('#verifyDiv').dialog('open');
-}
+}*/
 
 
 

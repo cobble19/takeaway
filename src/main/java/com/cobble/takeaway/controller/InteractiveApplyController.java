@@ -185,9 +185,9 @@ public class InteractiveApplyController extends BaseController {
 					}
 					try {
 						if (interactiveApplyPOJO.getInteractivePOJO().getPrizeEndDateTime().getTime()
-								<= interactiveApplyPOJO.getInteractivePOJO().getStartDateTime().getTime()) {
+								<= new Date().getTime()) {
 							ret.setSuccess(false);
-							ret.setDesc("截止日期已过。" + interactiveApplyPOJO.getInteractivePOJO().getPrizeEndDateTime());
+							ret.setDesc("验证码已经过期!");
 						}
 					} catch (Exception e) {
 						LOGGER.error("奖品截止日期 error, {}", e);
@@ -267,7 +267,10 @@ public class InteractiveApplyController extends BaseController {
 			try {
 				LOGGER.info("DealStatusThread start..., interactiveApplyPOJO: {}", interactiveApplyPOJO);
 				Long interactiveId = interactiveApplyPOJO.getInteractiveId();
+
+				LOGGER.info("DealStatusThread ..., interactiveId: {}", interactiveId);
 				InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+				LOGGER.info("DealStatusThread ..., interactivePOJO: {}, status: {}", interactivePOJO, interactivePOJO.getStatus());
 				Integer status = interactivePOJO.getStatus();
 
 				LOGGER.info("DealStatusThread ..., status: {}", status);
@@ -278,6 +281,9 @@ public class InteractiveApplyController extends BaseController {
 					// get end datetime
 					Date endDateTime = interactivePOJO.getEndDateTime();
 					long interval = endDateTime.getTime() - (new Date().getTime()) + (3 * 1000);
+					if (interval < 0) {
+						interval = 1;
+					}
 					// 倒计时定时更新结束状态 , update status 0 -> 1
 
 					LOGGER.info("DealStatusThread sleep start..., interval: {}", interval);

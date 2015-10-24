@@ -368,30 +368,48 @@ $(document).ready(function() {
 			"targets" : 4,
 			"render" : function(data, type, full, meta) {
 //				var content = (data != null) ? data.substring(0, 10): '';
-				var link = '<a href="../../page/enterprise/interactive_detail.jsp?interactiveId=' + full.interactiveId + '">' +
-						'前往活动主页' + '</a>';
+				var link = '<a target="_blank" href="../../page/enterprise/interactive_detail.jsp?interactiveId=' + full.interactiveId + '">' +
+				full.interactivePOJO.name + '</a>';
 				return link
 			}
 		}, {
 			"targets" : 5,
 			"render" : function(data, type, full, meta) {
-				var isVerified = data;
-				if (!!isVerified) {
-					return '已领取';
-				}
-				return '未领取';
+				return full.interactivePOJO.prize;
 			}
 		}, {
+			"targets" : 7,
+			"render" : function(data, type, full, meta) {
+				var isVerified = data;
+				var verified = "";
+				if (!!isVerified) {
+					verified = '已领取';
+				} else {
+					var prizeEndDateTime = full.interactivePOJO.prizeEndDateTime;
+					var curDate = new Date();
+					var prizeInvalid = "";
+					if (prizeEndDateTime < curDate) {
+						prizeInvalid = '已过期';
+						return prizeInvalid;
+					} else {
+						prizeInvalid = '未过期';
+						verified = '可领取';
+					}
+				}
+				
+				return verified;
+			}
+		}/*, {
 			"targets" : 6,
 			"render" : function(data, type, full, meta) {
 				var prizeEndDateTime = data;
-				var curDate = new date();
+				var curDate = new Date();
 				if (prizeEndDateTime < curDate) {
 					return '已过期';
 				}
 				return '未过期';
 			}
-		}/*, {
+		}*//*, {
 			"targets" : 0,
 			"searchable" : false,
 			"orderable" : false
@@ -428,9 +446,11 @@ $(document).ready(function() {
             { "data": "interactiveApplyId" },
             { "data": "userId" },
             { "data": "interactiveId" },
+            { "data": "interactivePOJO.name" },
             { "data": "interactiveId" },
-            { "data": "isVerified" },
-            { "data": "prizeEndDateTime" }
+            { "data": "verifyCode" },
+            { "data": "isVerified" }/*,
+            { "data": "prizeEndDateTime" }*/
         ],
         "order": [[1, 'asc']]
     } );

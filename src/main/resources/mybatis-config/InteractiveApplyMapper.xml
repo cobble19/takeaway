@@ -71,7 +71,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    , c.user_id, c.username, c.nickname, b.prize_end_date_time
+    , c.user_id, c.username, c.nickname, b.prize_end_date_time, b.prize, b.name
     from interactive_apply a
     join e_interactive b on b.interactive_Id = a.interactive_Id
     join b_user c on c.user_id = a.user_id
