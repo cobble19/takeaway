@@ -14,7 +14,7 @@
     <OBJECT   classid=CLSID:8856F961-340A-11D0-A96B-00C04FD705A2   height=0   id=WB   width=0   VIEWASTEXT></OBJECT>  
   	<div class="container">
   		<div class="row">
-  			<h2 class="">活动[<c:out value="${param.name }"></c:out>]的申请人</h2>
+  			<h2 class="">线上活动[<c:out value="${param.name }"></c:out>]的获奖人人</h2>
   			<button class="btn btn-success" id="print" onclick="javascript: window.print();">打印</button>
   		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
   				<thead>

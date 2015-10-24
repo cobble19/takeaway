@@ -92,8 +92,8 @@ $(document).ready(function() {
             { "data": "sex" },
             { "data": "description" }
         ],
-        "order": [[1, 'asc']],
-        "ajax":retrieveData
+        "order": [[1, 'asc']]/*,
+        "ajax":retrieveData*/
     } );
     
     table.on( 'order.dt search.dt', function () {
