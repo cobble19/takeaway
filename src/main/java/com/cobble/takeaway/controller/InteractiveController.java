@@ -58,6 +58,7 @@ public class InteractiveController extends BaseController {
 			if (interactivePOJO.getInteractiveId() != null && interactivePOJO.getInteractiveId() > 0l) {
 				result = interactiveService.update(interactivePOJO);
 			} else {
+				interactivePOJO.setStatus(-1);
 				result = interactiveService.insert(interactivePOJO, UserUtil.getCurrentUser().getUserId());
 			}
 			ret.setSuccess(true);

@@ -417,10 +417,6 @@ $(document).ready(function() {
 	
 	// interactive 互动活动
     
-    $('#searchBtn4Interactive').click(function() {
-    	console.log('search click...');
-    	interactiveSearch(table4Interactive);
-    })
     var table4Interactive = $('#dbTable4Interactive').DataTable( {
     	"processing": true,
 		"initComplete": function () {
@@ -587,6 +583,12 @@ $(document).ready(function() {
             cell.innerHTML = i+1;
         } );
     } ).draw();
+
+    interactiveSearch(table4Interactive);
+    $('#searchBtn4Interactive').click(function() {
+    	console.log('search click...');
+    	interactiveSearch(table4Interactive);
+    })
     
     $('#chkBoxAll4Interactive').click(function() {
     	var chkBoxAll = $(this).attr('checked');

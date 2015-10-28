@@ -99,7 +99,7 @@
 	     					<%-- <a class="btn btn-primary btn-xs" target="" href='<cmn:base/>/page/enterprise/interactive.jsp'>添加互动</a> --%>
 	     					
 	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default btn-xs" value="查询">
-	     					<input id="deleteBtn4Interactive" type="button" class="btn btn-default btn-xs" value="删除">
+	     					<!-- <input id="deleteBtn4Interactive" type="button" class="btn btn-default btn-xs" value="删除"> -->
 	     					
 	     				</div>
 				  		<table id="dbTable4Interactive" class="display table table-striped table-bordered" cellspacing="0" width="100%">

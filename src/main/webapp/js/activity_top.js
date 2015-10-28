@@ -269,6 +269,10 @@ var interactiveTop = function() {
         		for (var i = 0; i < result.length; i++) {
         			interactivePOJO = result[i];
         			console.log('interactivePOJO: ' + interactivePOJO);
+        			var curDate = new Date();
+        			if (interactivePOJO.endDateTime < curDate) {
+        				continue;
+        			}
         			link = '<a href="page/enterprise/interactive_detail.jsp?interactiveId=' + interactivePOJO.interactiveId 
         			+ '"'
         			+ ' title="' + interactivePOJO.name + '"'

@@ -596,7 +596,7 @@ $(document).ready(function() {
     })
     
     
-        $('#deleteBtn4Interactive').click(function() {
+        /*$('#deleteBtn4Interactive').click(function() {
         	var ids = [];
         	var chkBox = $('#dbTable4Interactive').find('input[name=chkBox]');
         	chkBox.each(function(index, ele) {
@@ -636,7 +636,7 @@ $(document).ready(function() {
                 	console.log('Ajax complete.');
                 }
         	});
-        })
+        })*/
         
         $('#verifyBtn').click(function() {
 
