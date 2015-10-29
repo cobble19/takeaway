@@ -83,6 +83,7 @@ public class InteractiveController extends BaseController {
 			UserSearchPOJO userSearchPOJO = new UserSearchPOJO();
 			userSearchPOJO.setUserType(MyUser.ENTERPRISE);
 			ret = userService.finds(userSearchPOJO);
+			ret = UserUtil.removePassword(ret);
 		} catch (Exception e) {
 			LOGGER.error("query error.", e);
 			throw e;

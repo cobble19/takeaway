@@ -1,9 +1,13 @@
 package com.cobble.takeaway.util;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.CollectionUtils;
 
+import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.spring.security.MyUser;
 
 public class UserUtil {
@@ -27,6 +31,20 @@ public class UserUtil {
 			return ret;
 		}
 		ret = myUser.getUsername();
+		return ret;
+	}
+	
+	public static List<UserPOJO> removePassword(List<UserPOJO> userPOJOs) {
+		List<UserPOJO> ret = userPOJOs;
+		
+		if (CollectionUtils.isEmpty(ret)) {
+			return ret;
+		}
+		
+		for (UserPOJO userPOJO : ret) {
+			userPOJO.setPassword("");
+		}
+		
 		return ret;
 	}
 }

@@ -17,4 +17,7 @@ public interface ActivityMapper {
 	int getActiveCount(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 	ActivityPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
+
+	List<ActivityPOJO> find4Enterprises(ActivitySearchPOJO activitySearchPOJO) throws Exception;
+	int getCount4Enterprise(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 }

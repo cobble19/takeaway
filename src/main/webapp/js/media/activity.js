@@ -38,5 +38,43 @@ $(function() {
 			$('#activityForm').submit();
 		}
 		return ;
-	})
+	});
+	getPrizeProvider();
 })
+
+
+var getPrizeProvider = function() {
+	console.log('getPrizeProvider');
+
+	$.ajax({
+		"url" : "../../web/enterprise/prize/provider",
+		"type" : "GET",
+		/*"headers" : {
+			"Content-Type" : "application/json"
+		},*/
+		"dataType" : 'json',
+		/*"data": ({
+			username: username,
+			phone: phone,
+			activityId: activityId,
+			sex: sex,
+			description: description
+        }),*/
+        success: function(data, textStatus, jqXHR ) {
+        	console.log("data = " + data);
+        	for (i = 0; i < data.length; i++) {
+        		var userPOJO = data[i];
+        		console.log('userPOJO: ' + userPOJO);
+            	$("#userIdEnterpriseX").append("<option value='" + userPOJO.userId +
+            			"'>"  + userPOJO.nickname + 
+            			"</option>");
+        	}
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	alert('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});	// ajax
+}

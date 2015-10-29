@@ -15,6 +15,8 @@ public class ActivityPOJO extends BasePOJO {
     
     private UserPOJO userPOJO;
     
+    private Long userIdEnterprise;
+    
 	public Long getActivityId() {
 		return activityId;
 	}
@@ -56,5 +58,11 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setExpired(Boolean expired) {
 		this.expired = expired;
+	}
+	public Long getUserIdEnterprise() {
+		return userIdEnterprise;
+	}
+	public void setUserIdEnterprise(Long userIdEnterprise) {
+		this.userIdEnterprise = userIdEnterprise;
 	}
 }

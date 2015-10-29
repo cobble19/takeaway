@@ -93,4 +93,20 @@ public class ActivityServiceImpl implements ActivityService {
 		return ret;
 	}
 
+	@Override
+	public List<ActivityPOJO> find4Enterprises(
+			ActivitySearchPOJO activitySearchPOJO) throws Exception {
+		List<ActivityPOJO> ret = null;
+		ret = activityMapper.find4Enterprises(activitySearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public int getCount4Enterprise(ActivitySearchPOJO activitySearchPOJO)
+			throws Exception {
+		int ret = 0;
+		ret = activityMapper.getCount4Enterprise(activitySearchPOJO);
+		return ret;
+	}
+
 }

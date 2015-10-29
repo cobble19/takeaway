@@ -7,7 +7,7 @@
   <head>
     <%@include file="../common/head.jsp" %>
     
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/activity.js"></script>
     
   </head>
   <body>
@@ -21,6 +21,19 @@
  				<div class="">
  					<input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入本次活动主题">
  				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="title">奖品提供者:</label>
+ 				<div class="">
+ 					<!-- <input class="form-control" id="userId" name="userId" minlength="2" required="required" placeholder="请选择本次奖品提供者"> -->
+ 					
+ 				</div>
+ 				<select id="userIdEnterpriseX" name="userIdEnterprise" autofocus="autofocus" class="form-control">
+ 						<option value="-1" selected>--选择奖品提供者--</option>
+ 					</select>
+ 					<!-- <select class="form-control">
+ 						<option selected="selected" value="1">abc</option>
+ 					</select> -->
  			</div>
  			<div class="form-group">
  				<label class="control-label" for="startDateTime">活动开始时间:</label>

@@ -44,6 +44,7 @@
 		            <a href="#update_password" class="list-group-item">修改密码</a>
 		            <!-- <a href="#create_activity" class="list-group-item">线下活动管理</a> -->
 		            <a href="#create_interactive" class="list-group-item">线上互动管理</a>
+		            <a href="#provider_activity" class="list-group-item">所提供的线下活动</a>
 		          </div> 				
 	     	</div>
 	     	<div class="col-md-9 col-xs-9">
@@ -113,6 +114,37 @@
 				  						<th>截止时间</th>
 				  						<th>奖品</th>
 				  						<th>答案</th>
+				  						<th>内容简介</th>
+				  						<th>操作</th>
+				  					</tr>
+				  				</thead>
+				  				<!-- <tfoot>
+				  					<tr>
+				  						<th>No.</th>
+				  						<th>标识</th>
+				  						<th>标题</th>
+				  						<th>内容</th>
+				  					</tr>
+				  				</tfoot> -->
+				  			</table>
+	     			</div>	<!-- create_interactive end -->
+	     			
+	     			<div id="provider_activity">
+	     				<h3>所提供的线下活动</h3>
+	     				<div style=" height:50px; line-height:50px;">
+	     					<input id="searchBtn4Provider" type="button" class="btn btn-default btn-xs" value="查询">
+	     				</div>
+				  		<table id="dbTable4Provider" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+				  				<thead>
+				  					<tr>
+				  						<th><input type="checkbox" name="chkBoxAll4Provider" id="chkBoxAll4Provider">全选</th>
+				  						<th>序号</th>
+				  						<th>标识</th>
+				  						<th>标题</th>
+				  						<th>开始时间</th>
+				  						<th>截止时间</th>
+				  						<th>期限</th>
+				  						<th>状态</th>
 				  						<th>内容简介</th>
 				  						<th>操作</th>
 				  					</tr>

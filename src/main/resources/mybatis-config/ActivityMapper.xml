@@ -17,16 +17,52 @@
     <result column="END_DATE_TIME" property="endDateTime" />
     <result column="CONTENT" property="content" />
     <result column="EXPIRED" property="expired" />
+    <result column="USER_ID_ENTERPRISE" property="userIdEnterprise" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
-    a.ACTIVITY_ID, a.TITLE, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED
+    a.ACTIVITY_ID, a.TITLE, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
 		and TITLE like concat("%", concat(#{title}, "%"))
 	</if>
   </sql>
+  
+  <select id="find4Enterprises" resultMap="ActivityResultMap" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from e_activity a
+	join b_user u on u.user_id = a.user_id_enterprise
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="userId != null">
+				and u.user_id = #{userId}
+			</if>
+  		</trim>
+  	</where>
+  	order by (a.END_DATE_TIME - now()) desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount4Enterprise" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from e_activity a
+	join b_user u on u.user_id = a.user_id_enterprise
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="userId != null">
+				and u.user_id = #{userId}
+			</if>
+  		</trim>
+  	</where>
+  </select>
+  
   <select id="finds" resultMap="ActivityResultMap" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
     select
     <if test="distinct" >
@@ -120,6 +156,9 @@
       <if test="title != null" >
         TITLE,
       </if>
+      <if test="userIdEnterprise != null" >
+        USER_ID_ENTERPRISE,
+      </if>
       <if test="startDateTime != null" >
         START_DATE_TIME,
       </if>
@@ -133,6 +172,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="title != null" >
         #{title},
+      </if>
+      <if test="userIdEnterprise != null" >
+        #{userIdEnterprise},
       </if>
       <if test="startDateTime != null" >
         #{startDateTime},

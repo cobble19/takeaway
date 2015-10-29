@@ -16,4 +16,8 @@ public interface ActivityService {
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
 
+
+	List<ActivityPOJO> find4Enterprises(ActivitySearchPOJO activitySearchPOJO) throws Exception;
+	int getCount4Enterprise(ActivitySearchPOJO activitySearchPOJO) throws Exception;
+	
 }
