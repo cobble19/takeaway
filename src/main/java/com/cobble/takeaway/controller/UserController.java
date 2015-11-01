@@ -183,7 +183,8 @@ public class UserController extends BaseController {
 			ret.addObject("success", false);
 			throw e;
 		}
-		ret.setViewName("redirect:/web/user/person/reg/success");
+		/*ret.setViewName("redirect:/web/user/person/reg/success");*/
+		ret.setViewName("redirect:/index");
 		
 		return ret;
 	}
@@ -194,7 +195,8 @@ public class UserController extends BaseController {
 		
 		Object name = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		ModelAndView ret = new ModelAndView();
-		ret.setViewName("/page/person/reg_success");
+		/*ret.setViewName("/page/person/reg_success");*/
+		ret.setViewName("redirect:/index");
 		
 		return ret;
 	}
@@ -212,7 +214,10 @@ public class UserController extends BaseController {
 			throw e;
 		}
 
-		ret.setViewName("redirect:/web/user/enterprise/reg/success");
+		/*ret.setViewName("redirect:/web/user/enterprise/reg/success");*/
+
+		ret.setViewName("redirect:/index");
+		
 		return ret;
 	}
 	

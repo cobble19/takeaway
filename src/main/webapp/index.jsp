@@ -16,24 +16,11 @@
 	src="<cmn:base/>/js/activity_top.js"></script>
 <link href="<cmn:base/>/css/activity_top.css" rel="stylesheet">
 
-<script type="text/javascript">
-	/** 
-	 * 加载指定城市区域的地图 
-	 */
-	function initialize() {
-		var myOptions = {
-			zoom : 12,
-			center : new sogou.maps.Point(13055906, 3722562)
-		}
-		var map = new sogou.maps.Map(document.getElementById("map_canvas"),
-				myOptions);
-	}
-</script>
 </head>
 
 
 
-<body onLoad="initialize()">
+<body>
 	<security:authentication property="principal.username" var="username" />
 
 	<div class="container">

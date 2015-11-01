@@ -36,6 +36,7 @@
 						</td>
 						<td>
 							<input class="login-btn btn btn-primary" id="loginBtn" title="登陆" value="登陆" type="submit"/>
+							<a href="register.jsp"><small>若没有账号，请点击注册</small></a>
 						</td>
 					</tr>
 				</tbody>
