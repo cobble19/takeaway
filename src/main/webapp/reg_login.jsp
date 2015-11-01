@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 	<security:authentication property="principal.username" var="username"/>
-
+    <script src="<cmn:base/>/js/reg_login.js"></script>
 	<div class="row">
         <div class="col-md-1 logo hidden-xs"></div>
         <div class="col-xs-5 col-xs-offset-1 logo visible-xs"></div>

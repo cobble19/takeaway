@@ -73,7 +73,7 @@
   <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from b_user
     where USER_ID = #{userId,jdbcType=INTEGER};
-    delete from b_user_role
+    delete from rel_user_role
     where USER_ID = #{userId,jdbcType=INTEGER};
   </delete>
   <insert id="insert" parameterType="UserPOJO" useGeneratedKeys="true" keyColumn="USER_ID" keyProperty="userId">
