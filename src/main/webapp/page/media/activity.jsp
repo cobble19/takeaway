@@ -23,13 +23,13 @@
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="title">奖品提供者:</label>
+ 				<label class="control-label" for="title">商家组织者:（本活动是否由商家组织，若是请选择商家，不是则不填）</label>
  				<div class="">
  					<!-- <input class="form-control" id="userId" name="userId" minlength="2" required="required" placeholder="请选择本次奖品提供者"> -->
  					
  				</div>
  				<select id="userIdEnterpriseX" name="userIdEnterprise" autofocus="autofocus" class="form-control">
- 						<option value="-1" selected>--选择奖品提供者--</option>
+ 						<option value="-1" selected>--选择组织活动的商家--</option>
  					</select>
  					<!-- <select class="form-control">
  						<option selected="selected" value="1">abc</option>

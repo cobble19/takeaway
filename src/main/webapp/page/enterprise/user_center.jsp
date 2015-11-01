@@ -44,7 +44,7 @@
 		            <a href="#update_password" class="list-group-item">修改密码</a>
 		            <!-- <a href="#create_activity" class="list-group-item">线下活动管理</a> -->
 		            <a href="#create_interactive" class="list-group-item">线上互动管理</a>
-		            <a href="#provider_activity" class="list-group-item">所提供的线下活动</a>
+		            <a href="#provider_activity" class="list-group-item">线下活动管理</a>
 		          </div> 				
 	     	</div>
 	     	<div class="col-md-9 col-xs-9">
