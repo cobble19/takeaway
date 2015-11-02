@@ -44,6 +44,29 @@ public class UserController extends BaseController {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     
+
+	@RequestMapping(value = "/web/user/exist")
+	@ResponseBody
+	public StatusPOJO existUser(UserPOJO userPOJO, Model model) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			UserPOJO userPOJO2 = userService.findUserByName(userPOJO.getUsername());
+			if (userPOJO2 != null && userPOJO2.getUsername().equals(userPOJO.getUsername())) {
+				ret.setSuccess(true);
+				ret.setDesc("存在此用户： " + userPOJO2.getUsername());
+			} else {
+				ret.setSuccess(false);
+			}
+		} catch (Exception e) {
+			LOGGER.error("insert error.", e);
+			ret.setSuccess(false);
+			ret.setDesc("发生异常： " + e.getMessage());
+			throw e;
+		}
+		
+		return ret;
+	}
+    
 	@RequestMapping(value = "/web/user/updatePassword")
 	@ResponseBody
 	public StatusPOJO updatePassword(UserPOJO userPOJO, Model model) throws Exception {

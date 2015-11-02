@@ -20,7 +20,7 @@
   		<div class="row">
   			<h2 class="col-sm-offset-3 col-md-offset-2">企业用户注册</h2>
   		</div>
-  		<form id="regForm" class="form-horizontal" role="form" action='<cmn:base/>/web/user/enterprise/reg' method="post">
+  		<form id="regForm" class="form-horizontal" role="form" action='<cmn:base/>/web/user/media/reg' method="post">
  			<div class="form-group">
  				<label class="control-label col-sm-3 col-md-2" for="username">用户名:</label>
  				<div class="col-sm-9 col-md-6">

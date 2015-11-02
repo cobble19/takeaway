@@ -71,6 +71,7 @@
 							 				<label class="control-label col-sm-3 col-md-2" for="username">用户名:</label>
 							 				<div class="col-sm-9 col-md-6">
 							 					<input class="form-control" id="username" name="username" required="required" minlength="1" value="" placeholder="请输入用户名">
+							 					<span id="usernameError" style="color: red;"></span>
 							 				</div>
 							 			</div>
 										<div class="form-group">

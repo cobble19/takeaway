@@ -35,6 +35,7 @@ $(document).ready(function() {
                 	alert('已成功提交答案！');
             	} else {
             		alert(data.desc);
+            		window.location.href='../../login.jsp';
             	}
             	winnerSorter();
             },

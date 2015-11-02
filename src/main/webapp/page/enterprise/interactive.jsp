@@ -63,7 +63,7 @@
  			<div class="form-group">
  				<label class="control-label" for="title">答案:</label>
  				<div class="">
- 					<input class="form-control" id="answer" name="answer" minlength="2" required="required" placeholder="请输入本次互动答案">
+ 					<input class="form-control" id="answer" name="answer" minlength="1" required="required" placeholder="请输入本次互动答案">
  				</div>
  			</div>
  			<div class="form-group">
