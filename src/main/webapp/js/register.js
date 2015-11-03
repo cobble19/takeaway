@@ -1,35 +1,33 @@
-$(function() {
-	checkAlphaNum = function(name) {
-		var reg = new RegExp("^[a-zA-Z\d]+$");  
-		if (reg.test(name)) {
-			return true;
-		}
-		return false;
-	};
-	var checkUsername = function() {
+$(function($) {
+	
+	$('#person form').find('input[name=username]').blur(function() {
+		checkUsername($(this).val(), $('#person form').find("#usernameError"));
+	});
+	$('#enterprise form').find('input[name=username]').blur(function() {
+		checkUsername($(this).val(), $('#enterprise form').find("#usernameError"));
+	});
+	
+	var checkUsername = function(username, errorMsg) {
 		var exist = false;
-    	var username = $("#usernameX").val();
-    	var phone = $("#phone").val();
-    	var activityId = $("#activityId").val();
     	
     	$.ajax({
-    		"url" : "../../web/user/exist",
+    		"url" : "web/user/exist",
     		"type" : "GET",
-    		"async": false,
+    		"async": true,
     		/*"headers" : {
     			"Content-Type" : "application/json"
     		},*/
     		"dataType" : 'json',
     		"data": ({
-    			username: username,
-    			phone: phone,
-    			activityId: activityId
+    			username: username
             }),
             success: function(data, textStatus, jqXHR ) {
             	if (data.success) {
             		exist = true;
+            		errorMsg.html('账号存在');
             	} else {
             		exist = false;
+            		errorMsg.html('账号不存在, 可以使用');
             	}
             },
             error: function(jqXHR, textStatus, errorThrown) {

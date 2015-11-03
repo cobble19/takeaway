@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,15 +49,21 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/web/user/exist")
 	@ResponseBody
-	public StatusPOJO existUser(UserPOJO userPOJO, Model model) throws Exception {
+	public StatusPOJO existUser(@RequestParam(value="username", required=true) String username, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			UserPOJO userPOJO2 = userService.findUserByName(userPOJO.getUsername());
-			if (userPOJO2 != null && userPOJO2.getUsername().equals(userPOJO.getUsername())) {
+			if (StringUtils.isBlank(username)) {
+				ret.setSuccess(false);
+				ret.setDesc("用户名不能为空");
+				return ret;
+			}
+			UserPOJO userPOJO2 = userService.findUserByName(username);
+			if (userPOJO2 != null && userPOJO2.getUsername().equals(username)) {
 				ret.setSuccess(true);
-				ret.setDesc("存在此用户： " + userPOJO2.getUsername());
+				ret.setDesc("存在此用户： " + username);
 			} else {
 				ret.setSuccess(false);
+				ret.setDesc("不存在此用户： " + username);
 			}
 		} catch (Exception e) {
 			LOGGER.error("insert error.", e);
