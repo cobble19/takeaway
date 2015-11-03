@@ -1,23 +1,29 @@
 .login-container {
-	/* width: 300px; */
+	/* width: 300px; 
 	position: relative;
 	top: 40%;
-	/* background-color: #abc; */
-	padding: 24px 0;
+	background-color: #abc; 
+	padding: 24px 0;*/
+}
+.login-container form { 
+    border:#CCC solid 2px; border-top:#2f69c9 solid 2px;
+	padding-top: 10px; padding-left:35px; padding-right:35px; padding-bottom:35px; 
+	margin-top:40%;
 }
 .login-container table tr td {
-	padding-top: 5px;
+	padding-top: 20px;
 }
 .login-label {
 	/* width: 50%; */
-	text-align: right;
+	text-align: left;
 }
 .login-input {
-	width: 180px;
+	max-width: 210px;
 	margin-left: 5px;
 	padding: 1px 2px 1px 2px;
 }
 .login-btn {
 	margin-left: 5px;
-	width: 183px;
+	max-width: 210px;
 }
+.smaller{ font-size:12px;}

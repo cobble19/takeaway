@@ -14,11 +14,27 @@
 <body>
 	<security:authentication property="principal.username" var="username"/>
 	
-	<div class="login-container">
+	<div class="login-container container">
+    <div class="row">
+    <div class="col-md-7">
+        <div class="col-md-2 logo hidden-xs"></div>
+        <div class="col-md-8">
+			<div class="row" style="margin-top:40%;">
+				<div class="qima col-md-2 hidden-xs"></div>
+				<div class="sywz1 col-md-4 hidden-xs"></div>
+				<div class="sywz2 col-md-4 hidden-xs"></div>
+			</div>        
+        </div>
+    </div>
+    <div class="col-md-5">
 	<%-- <form action="<%=request.getContextPath() %>/login!execute" id="loginForm" method="post"> --%>
 	<form action="<cmn:base/>/j_spring_security_check" id="loginForm" method="post">
 			<table>
 				<tbody>
+                    <tr style="border-bottom:#2f69c9 solid 1px; ">
+                        <td style="font-weight:bold; padding-bottom:10px; margin-bottom:10px;"><small >帐号登录</small>
+                        </td>
+                    </tr>
 					<tr>
 						<td class="login-label form-lable">用户名:</td>
 						<td>
@@ -26,22 +42,28 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="login-label form-lable">密码:</td>
+						<td class="login-label form-lable">密&nbsp;&nbsp;码:</td>
 						<td>
 							<input class="login-input form-control" id="password" name="j_password" type="password" placeholder="密码"/>
 						</td>
 					</tr>
+                    <tr>
+                        <td><a href="#"><p class="smaller">忘记登录密码？</p></a></td>
+                        <td align="right"><a href="register.jsp"><p class="smaller">免费注册</p></a></td> 
+                    </tr>
 					<tr>
 						<td>
 						</td>
 						<td>
 							<input class="login-btn btn btn-primary" id="loginBtn" title="登陆" value="登陆" type="submit"/>
-							<a href="register.jsp"><small>若没有账号，请点击注册</small></a>
+							
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
+    </div>
+    </div>
 	</div>
 </body>
 
