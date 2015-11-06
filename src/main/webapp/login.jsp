@@ -27,7 +27,10 @@
         </div>
     </div>
     <div class="col-md-5">
+    <div class="row">
+    <div class="col-md-12 hidden-xs" style="margin-top:40%;"></div>
 	<%-- <form action="<%=request.getContextPath() %>/login!execute" id="loginForm" method="post"> --%>
+    <div class="col-md-12">
 	<form action="<cmn:base/>/j_spring_security_check" id="loginForm" method="post">
 			<table>
 				<tbody>
@@ -36,23 +39,26 @@
                         </td>
                     </tr>
 					<tr>
-						<td class="login-label form-lable">用户名:</td>
+						<td class="login-label form-lable hidden-xs">用户名:</td>
 						<td>
 							<input class="login-input form-control" id="name" name="j_username" type="text" placeholder="登陆账号"/>
 						</td>
 					</tr>
 					<tr>
-						<td class="login-label form-lable">密&nbsp;&nbsp;码:</td>
+						<td class="login-label form-lable hidden-xs">密&nbsp;&nbsp;码:</td>
 						<td>
 							<input class="login-input form-control" id="password" name="j_password" type="password" placeholder="密码"/>
 						</td>
 					</tr>
                     <tr>
                         <td><a href="#"><p class="smaller">忘记登录密码？</p></a></td>
-                        <td align="right"><a href="register.jsp"><p class="smaller">免费注册</p></a></td> 
+                        <td align="right" class="hidden-xs"><a href="register.jsp"><p class="smaller">免费注册</p></a></td> 
+                    </tr>
+                    <tr class="visible-xs">
+                        <td><a href="register.jsp"><p class="smaller">免费注册</p></a></td> 
                     </tr>
 					<tr>
-						<td>
+						<td class="hidden-xs">
 						</td>
 						<td>
 							<input class="login-btn btn btn-primary" id="loginBtn" title="登陆" value="登陆" type="submit"/>
@@ -62,6 +68,8 @@
 				</tbody>
 			</table>
 		</form>
+        </div>
+        </div>
     </div>
     </div>
 	</div>
