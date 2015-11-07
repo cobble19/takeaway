@@ -17,4 +17,5 @@ public interface UserService {
 	int delete(Integer[] ids) throws Exception;
 	
 	UserPOJO findUserByName(String username) throws Exception;
+	UserPOJO findUserByNickname(String nickname) throws Exception;
 }

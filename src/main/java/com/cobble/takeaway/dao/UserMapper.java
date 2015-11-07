@@ -17,4 +17,5 @@ public interface UserMapper {
 	int deleteById(Integer id) throws Exception;
 	
 	UserPOJO findUserByName(String username) throws Exception;
+	UserPOJO findUserByNickname(String nickname) throws Exception;
 }

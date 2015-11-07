@@ -104,5 +104,10 @@ public class UserServiceImpl implements UserService {
 		return ret;
 	}
 
+	@Override
+	public UserPOJO findUserByNickname(String nickname) throws Exception {
+		return userMapper.findUserByNickname(nickname);
+	}
+
 
 }

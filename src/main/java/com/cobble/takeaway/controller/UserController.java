@@ -47,6 +47,34 @@ public class UserController extends BaseController {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     
 
+	@RequestMapping(value = "/web/user/nickname/exist")
+	@ResponseBody
+	public StatusPOJO existUserNickname(@RequestParam(value="nickname", required=true) String nickname, Model model) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			if (StringUtils.isBlank(nickname)) {
+				ret.setSuccess(false);
+				ret.setDesc("昵称不能为空");
+				return ret;
+			}
+			UserPOJO userPOJO2 = userService.findUserByNickname(nickname);
+			if (userPOJO2 != null && nickname.equals(userPOJO2.getNickname())) {
+				ret.setSuccess(true);
+				ret.setDesc("存在此昵称： " + nickname);
+			} else {
+				ret.setSuccess(false);
+				ret.setDesc("不存在此昵称： " + nickname);
+			}
+		} catch (Exception e) {
+			LOGGER.error(" error.", e);
+			ret.setSuccess(false);
+			ret.setDesc("发生异常： " + e.getMessage());
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/user/exist")
 	@ResponseBody
 	public StatusPOJO existUser(@RequestParam(value="username", required=true) String username, Model model) throws Exception {

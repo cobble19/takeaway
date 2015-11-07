@@ -42,6 +42,40 @@ $(function($) {
 
     }, "用户名不能重复");
 
+    jQuery.validator.addMethod("duplicateNickname", function(value, element) {    //用jquery ajax的方法验证电话是不是已存在
+        var exist = true;
+        $.ajax({
+    		"url" : "web/user/nickname/exist",
+    		"type" : "GET",
+            async:false,                                             //同步方法，如果用异步的话，flag永远为1
+    		"dataType" : 'json',
+    		"data": ({
+    			nickname: value
+            }),
+            success: function(data, textStatus, jqXHR ) {
+            	if (data.success) {
+            		exist = true;
+//            		errorMsg.html('账号存在');
+            		console.log(value + '昵称存在');
+            	} else {
+            		exist = false;
+//            		errorMsg.html('账号不存在, 可以使用');
+            		console.log(value + '昵称不存在, 可以使用');
+            	}
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Ajax error');
+            	alert('Ajax error');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+        });
+
+        return !exist;
+
+    }, "昵称不能重复");
+
     $("#person form").validate({
         errorPlacement: function(error, element) {
              error.insertAfter(element);
@@ -50,12 +84,20 @@ $(function($) {
              username:{
                required:true,
                duplicateUsername: true
+             },
+             nickname:{
+                 required:true,
+                 duplicateNickname: true
              }
           },
           messages:{
         	  username:{
                   required:"用户名不能为空",
                   duplicateUsername:"用户名不能重复"
+              },
+              nickname:{
+                  required:"昵称不能为空",
+                  duplicateUsername:"昵称不能重复"
               }
           },
          debug:true
@@ -69,12 +111,20 @@ $(function($) {
              username:{
                required:true,
                duplicateUsername: true
+             },
+             nickname:{
+                 required:true,
+                 duplicateNickname: true
              }
           },
           messages:{
         	  username:{
                   required:"用户名不能为空",
                   duplicateUsername:"用户名不能重复"
+              },
+              nickname:{
+                  required:"昵称不能为空",
+                  duplicateUsername:"昵称不能重复"
               }
           },
          debug:true

@@ -38,6 +38,13 @@
     from b_user u
     where u.USERNAME = #{username}
   </select>
+  <select id="findUserByNickname" resultMap="UserResultMap" parameterType="String" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    from b_user u
+    where u.NICKNAME = #{nickname}
+  </select>
   <select id="finds" resultMap="UserResultMap" parameterType="UserSearchPOJO" >
     select
     <if test="distinct" >
