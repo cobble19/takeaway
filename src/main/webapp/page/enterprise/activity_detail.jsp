@@ -16,14 +16,16 @@
 	<div class="container">
 		<%@include file="../../../reg_login_full.jsp" %>
 		<div id="showDiv">
-			<div class="row">
-				<div class="col-md-12 hidden-xs" >
+			<div class="row hidden-xs">
+			  <div class="col-md-12" >
 	            	<span style=" margin-top:50px; margin-bottom:50px; display:block;"><h3 id="title"></h3></span>
 	            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
-				</div>
-				<div class="col-xs-12 visible-xs" >
-	            	<div style=" margin-top:10px; margin-bottom:10px;"><h4 id="title"></h4></div>
-				</div>  
+			  </div>
+            </div>
+            <div class="row visible-xs" style="margin-left:5px; margin-right:5px;">
+			  <div class="col-xs-12">
+	            	<span style=" margin-top:10px; margin-bottom:10px; display:block; text-align:center;"><h4 id="title_1"></h4></span>
+			  </div>
 			</div>
 			<div class="row hidden-xs">
 				<div class="col-md-12">
@@ -34,7 +36,7 @@
             <div class="row visible-xs" style="margin-left:5px; margin-right:5px;padding-top:10px; padding-bottom:10px;">
                 <div class="col-xs-12">
                     <a class="btn btn-default btn-block" href="#" role="button"><h5>查看活动详情</h5></a>
-                    <!--<a class="btn btn-default btn-block" href="#" role="button"><h5><span id="publisher"></span></h5></a>-->
+                    <a class="btn btn-default btn-block" href="#" role="button"><h5>发布者【<span class="h5" id="publisher_1"></span>】</h5></a>
                 </div>
             </div>	
 	  		<div class="row uc-border hidden-xs">
@@ -88,7 +90,7 @@
 	  				<div class="col-xs-12" style="padding-top:5px;">
 		  				<div class="row col-xs-offset-1 col-xs-10">
 			  				<fieldset>
-								<legend>申请活动</legend>
+								<legend class="h4">申请活动</legend>
 									<form id="applyForm" class="form-inline">
 											<div class="form-group">
 												<label for="usernameX" class="control-label">姓名: </label>

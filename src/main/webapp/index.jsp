@@ -155,8 +155,14 @@
 						<li>敬请期待</li>
 					</ul>
 				</div>
-				<ul class="row sy-lbk">
+				<ul class="row sy-lbk hidden-xs">
 					<div class="sy-lb col-md-10 col-md-offset-1 col-xs-12">
+						<li><a href="#0"><span>今日头条</span></a></li>
+						<li><a href="#1"><span>美食外卖</span></a></li>
+					</div>
+				</ul>
+				<ul class="row visible-xs">
+					<div class="sy-lb sy-lbk-sj col-xs-12">
 						<li><a href="#0"><span>今日头条</span></a></li>
 						<li><a href="#1"><span>美食外卖</span></a></li>
 					</div>

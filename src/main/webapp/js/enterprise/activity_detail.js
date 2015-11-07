@@ -102,9 +102,11 @@ var showDetail = function() {
         	console.log("data = " + data);
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);
+			$("#title_1").html(data.title);
         	$("#content").html(data.content);
         	if (!!data.userPOJO) {
             	$('#publisher').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
+            	$('#publisher_1').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {

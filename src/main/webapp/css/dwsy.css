@@ -61,6 +61,7 @@ box-shadow:2px 2px 10px #909090;/*opera或ie9*/}
 .sy-dw-t{}
 .sy-jrk{}
 .sy-lbk{  position:fixed; bottom:0px; left:0px; width:100%;background-color:#e7e7e7; border-top:#bbbec2 1px solid; border-bottom:#dadada 1px solid; }
+.sy-lbk-sj{  position:fixed; bottom:0px; background-color:#e7e7e7; border-top:#bbbec2 1px solid; border-bottom:#dadada 1px solid; }
 .sy-lb{ height: 35px; }
 .sy-lb span{ font-size:14px;}
 

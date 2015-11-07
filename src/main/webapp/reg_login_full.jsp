@@ -75,7 +75,7 @@
 	    					<div class="tab-content">
 	    						<div role="tabpanel" class="tab-pane active" id="person">
 									<div class="row">
-							  			<h2 class="col-sm-offset-3 col-md-offset-2">个人用户注册</h2>
+							  			<h4 class="col-sm-offset-1 col-xs-offset-1 col-md-offset-2">个人用户注册</h4>
 							  		</div>
 							  		<form id="regForm" class="form-horizontal" role="form" action='<cmn:base/>/web/user/person/reg' method="post">
 							 			<div class="form-group">
@@ -106,7 +106,7 @@
 	    						<!-- <div role="tabpanel" class="tab-pane" id="enterprise">enterprise</div> -->
 	    						<div role="tabpanel" class="tab-pane" id="enterprise">
 									<div class="row">
-							  			<h2 class="col-sm-offset-3 col-md-offset-2">商家用户注册</h2>
+							  			<h4 class="col-sm-offset-1 col-xs-offset-1 col-md-offset-2">商家用户注册</h4>
 							  		</div>
 							  		<form id="regForm" class="form-horizontal" role="form" action='<cmn:base/>/web/user/enterprise/reg' method="post">
 							 			<div class="form-group">
