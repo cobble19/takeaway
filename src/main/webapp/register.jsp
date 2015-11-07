@@ -48,7 +48,7 @@ $(function() {
 	    					<div class="tab-content" style="border-left:#e8e8e8 solid 1px; border-right:#e8e8e8 solid 1px; border-bottom:#e8e8e8 solid 1px;">
 	    						<div role="tabpanel" class="tab-pane active" id="person">
 									<div class="row">
-							  			<h2 class="col-sm-offset-2 col-md-offset-1" style="margin-bottom:15px;"><small style="font-weight:bold;">个人用户注册</small></h2>
+							  			<h2 class="col-xs-offset-2 col-md-offset-1" style="margin-bottom:15px;"><small style="font-weight:bold;">个人用户注册</small></h2>
 							  		</div>
 							  		<form id="regForm" class="form-horizontal" role="form" action='<cmn:base/>/web/user/person/reg' method="post">
 							 			<div class="form-group">
@@ -87,7 +87,7 @@ $(function() {
 								
 	    						<div role="tabpanel" class="tab-pane" id="enterprise">
 									<div class="row">
-							  			<h2 class="col-sm-offset-2 col-md-offset-1" style="margin-bottom:15px;"><small style="font-weight:bold;">商家用户注册</small></h2>
+							  			<h2 class="col-xs-offset-2 col-md-offset-1" style="margin-bottom:15px;"><small style="font-weight:bold;">商家用户注册</small></h2>
 							  		</div>
 							  		<form id="regForm" class="form-horizontal" role="form" action='<cmn:base/>/web/user/enterprise/reg' method="post">
 							 			<div class="form-group">

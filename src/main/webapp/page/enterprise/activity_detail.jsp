@@ -17,18 +17,27 @@
 		<%@include file="../../../reg_login_full.jsp" %>
 		<div id="showDiv">
 			<div class="row">
-				<div class="col-md-12" >
+				<div class="col-md-12 hidden-xs" >
 	            	<span style=" margin-top:50px; margin-bottom:50px; display:block;"><h3 id="title"></h3></span>
 	            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
 				</div>
+				<div class="col-xs-12 visible-xs" >
+	            	<div style=" margin-top:10px; margin-bottom:10px;"><h4 id="title"></h4></div>
+				</div>  
 			</div>
-			<div class="row">
+			<div class="row hidden-xs">
 				<div class="col-md-12">
 	            	<h5 style=" margin-bottom:10px; display:block;">发布者:<span id="publisher"></span>
 				</h5>
 				</div>
-	        </div>	
-	  		<div class="row uc-border">
+	        </div>
+            <div class="row visible-xs" style="margin-left:5px; margin-right:5px;padding-top:10px; padding-bottom:10px;">
+                <div class="col-xs-12">
+                    <a class="btn btn-default btn-block" href="#" role="button"><h5>查看活动详情</h5></a>
+                    <!--<a class="btn btn-default btn-block" href="#" role="button"><h5><span id="publisher"></span></h5></a>-->
+                </div>
+            </div>	
+	  		<div class="row uc-border hidden-xs">
 	  			<div class="row">
 	  				<div class="col-md-9 col-xs-12">
 	  					<!-- <h4 class="" style="text-align: bottom;"><span id="title"></span></h4>
@@ -43,7 +52,7 @@
 			  			<!-- <hr/> -->
 	  				</div>
 	  				<div class="col-md-3 col-xs-12">
-		  				<div class="row col-md-12">
+		  				<div class="row col-md-12 col-xs-offset-1 col-xs-10">
 			  				<fieldset>
 								<legend>申请活动</legend>
 									<form id="applyForm" class="form-inline">
@@ -73,6 +82,41 @@
 					</div>
 	  			</div>
 	  		</div>
+            <!-- 手机显示 -->
+            <div class="row uc-border visible-xs" style="margin-top:10px; margin-left:5px; margin-right:5px; background-color:#f5f5f5;">
+	  			<div class="row">
+	  				<div class="col-xs-12" style="padding-top:5px;">
+		  				<div class="row col-xs-offset-1 col-xs-10">
+			  				<fieldset>
+								<legend>申请活动</legend>
+									<form id="applyForm" class="form-inline">
+											<div class="form-group">
+												<label for="usernameX" class="control-label">姓名: </label>
+												<input id="usernameX" name="username" minlength="2" required="required" value="" placeholder="请填写姓名" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label for="phone" class="control-label">手机: </label>
+												<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label for="sex" class="control-label">性别: </label>
+					<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
+					<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
+											</div>
+											<div class="form-group">
+												<label for="description" class="control-label">备注: </label> 
+												<textarea id="description" name="description" rows="3" cols="" value="" placeholder="备注为选填项" class="form-control" ></textarea>
+											</div>
+											<div class="form-group">
+												<input type="button" id="applyBtn" value="申请参加" class="btn btn-default" />
+											</div>
+									</form>
+							</fieldset>	
+	  					</div>
+					</div>
+	  			</div>
+	  		</div>
+            <!-- 手机显示 -->
 		</div><!-- for show -->
 	<%@include file="../../../bottom.jsp" %>  		
 	</div> <!-- container -->
