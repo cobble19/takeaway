@@ -78,7 +78,7 @@ $(function() {
 							 			</div>
 							 			<div class="form-group">
 								 			<div class="col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-7">
-								  				<button type="submit" class="btn btn-default reg-btn" id="registerBtn">注册</button>
+								  				<button type="button" class="btn btn-default reg-btn" id="registerBtn">注册</button>
                                                 <span style="height:24px; line-height:24px; text-align:right;"><a href="login.jsp"><p class="smaller">已有帐号，点击登陆</p></a></span>
 								 			</div>
 							 			</div>
@@ -117,7 +117,7 @@ $(function() {
 							 			</div>
 							 			<div class="form-group">
 								 			<div class="col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-7">
-								  				<button type="submit" class="btn btn-default" id="registerBtn">注册</button>
+								  				<button type="button" class="btn btn-default" id="registerBtn">注册</button>
                                                 <span style="height:24px; line-height:24px; text-align:right;"><a href="login.jsp"><p class="smaller">已有帐号，点击登陆</p></a></span>
 								 			</div>
 							 			</div>
