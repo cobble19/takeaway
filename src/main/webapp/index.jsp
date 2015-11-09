@@ -57,7 +57,7 @@
 	</div>
 </div> --%>
 
-		<div class="row" style="padding-left: 50px;">
+		<div class="row" style="margin-left:45px; margin-right:15px;">
 
 
 			<script type="text/javascript">
@@ -94,16 +94,16 @@
 
 				});
 			</script>
-			<div id="rotate" class="col-md-10 col-md-offset-1">
+			<div id="rotate" class="col-md-10 col-md-offset-1 col-xs-12">
 				<div id="0" class="row">
 					<ul class="row">
-						<div class="row">
-							<div class="qima col-md-2 hidden-xs" style="margin-left: 60px;"></div>
-							<div class="sywz1 col-md-4 hidden-xs"></div>
-							<div class="sywz2 col-md-4 hidden-xs"></div>
+						<div class="row hidden-xs">
+							<div class="qima col-md-2" style="margin-left: 60px;"></div>
+							<div class="sywz1 col-md-4"></div>
+							<div class="sywz2 col-md-4"></div>
 						</div>
 						<div class="row">
-							<div class="col-md-4" style="padding: 0px; margin: 0px;">
+							<div class="col-md-4 col-xs-12" style="padding: 0px; margin: 0px;">
 								<div class="jrtj"></div>
 								<div class="cont-1">
 									<div class="cont-4">
@@ -120,13 +120,13 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-4" style="padding: 0px; margin: 0px;">
+							<div class="col-md-4 col-xs-12" style="padding: 0px; margin: 0px;">
 								<div class="jrtg"></div>
 								<div class="cont-2">
 									<li><img src="images/jrtg.png" width="250" height="295"></li>
 								</div>
 							</div>
-							<div id="activeTop" class="col-md-4" style="margin-left: -15px;">
+							<div id="activeTop" class="col-md-4 col-xs-12" style="margin-left: -15px;">
 								<div class="jrhd"></div>
 								<div class="cont-3">
                                     <div class="cont-6">
@@ -156,15 +156,15 @@
 					</ul>
 				</div>
 				<ul class="row sy-lbk hidden-xs">
-					<div class="sy-lb col-md-10 col-md-offset-1 col-xs-12">
-						<li><a href="#0"><span>今日头条</span></a></li>
-						<li><a href="#1"><span>美食外卖</span></a></li>
+					<div class="sy-lb col-md-10 col-md-offset-1">
+						<li><a href="#0"><span style="padding:0px 30px;">今日头条</span></a></li>
+						<li><a href="#1"><span style="padding:0px 30px;">美食外卖</span></a></li>
 					</div>
 				</ul>
-				<ul class="row visible-xs">
-					<div class="sy-lb sy-lbk-sj col-xs-12">
-						<li><a href="#0"><span>今日头条</span></a></li>
-						<li><a href="#1"><span>美食外卖</span></a></li>
+				<ul class="row sy-lbk-sj visible-xs">
+					<div class="sy-lb-sj col-xs-12">
+						<li><a href="#0"><span style="padding:0px 10px;">今日头条</span></a></li>
+						<li><a href="#1"><span style="padding:0px 10px;">美食外卖</span></a></li>
 					</div>
 				</ul>
 			</div>
