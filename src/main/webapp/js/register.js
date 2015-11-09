@@ -75,6 +75,82 @@ $(function($) {
         return !exist;
 
     }, "昵称不能重复");
+    
+    $('#person form').find('#registerBtn').click(function(e) {
+    	e.preventDefault();
+    	console.log('person form');
+    	
+    	var form = $('#person form');
+    	var username = form.find('input[name=username]').val();
+    	var nickname = form.find('input[name=nickname]').val();
+    	var password = form.find('input[name=password]').val();
+    	var email = form.find('input[name=email]').val();
+    	$.ajax({
+    		"url" : "web/user/person/reg",
+    		"type" : "POST",
+            async:true,                                             
+    		"dataType" : 'json',
+    		"data": ({
+    			username: username,
+    			nickname: nickname,
+    			password: password,
+    			email: email
+            }),
+            success: function(data, textStatus, jqXHR ) {
+        		console.log(data);
+        		if (data.success) {
+        			window.location.href = $('#basePath').val() + '/web/regSuccess';
+        		} else {
+        			alert(data.desc);
+        		}
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Ajax error');
+            	alert('Ajax error');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+        });
+    })
+    
+    $('#enterprise form').find('#registerBtn').click(function(e) {
+    	e.preventDefault();
+    	console.log('person form');
+    	
+    	var form = $('#enterprise form');
+    	var username = form.find('input[name=username]').val();
+    	var nickname = form.find('input[name=nickname]').val();
+    	var password = form.find('input[name=password]').val();
+    	var email = form.find('input[name=email]').val();
+    	$.ajax({
+    		"url" : "web/user/enterprise/reg",
+    		"type" : "POST",
+            async:true,                                             
+    		"dataType" : 'json',
+    		"data": ({
+    			username: username,
+    			nickname: nickname,
+    			password: password,
+    			email: email
+            }),
+            success: function(data, textStatus, jqXHR ) {
+        		console.log(data);
+        		if (data.success) {
+        			window.location.href = $('#basePath').val() + '/web/regSuccess';
+        		} else {
+        			alert(data.desc);
+        		}
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Ajax error');
+            	alert('Ajax error');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+        });
+    })
 
     $("#person form").validate({
         errorPlacement: function(error, element) {
