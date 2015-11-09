@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ExtjsPOJO;
+import com.cobble.takeaway.pojo.LocationAreaPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
@@ -230,20 +232,37 @@ public class UserController extends BaseController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/web/user/person/reg", method = {RequestMethod.POST})
-	public ModelAndView regPerson(UserPOJO userPOJO, Model model) throws Exception {
+	@RequestMapping(value = "/web/regSuccess")
+	public ModelAndView regSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
+		
+		HttpSession session = request.getSession();
+		UserPOJO userPOJO = (UserPOJO) session.getAttribute("regUserPOJO");
+		if (userPOJO != null) {
+			ret.addObject("j_username", userPOJO.getUsername());
+			ret.addObject("j_password", userPOJO.getPassword());
+		}
+		ret.setViewName("/reg_success");
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/user/person/reg", method = {RequestMethod.POST})
+	@ResponseBody
+	public StatusPOJO regPerson(UserPOJO userPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
 		try {
 			userPOJO.setUserType(MyUser.PERSON);
 			int result = userService.insert(userPOJO);
-			ret.addObject("success", true);
+			ret.setSuccess(true);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("regUserPOJO", userPOJO);
 		} catch (Exception e) {
 			LOGGER.error("insert error.", e);
-			ret.addObject("success", false);
-			throw e;
+			ret.setSuccess(false);
+			ret.setDesc(e.getMessage());
 		}
-		/*ret.setViewName("redirect:/web/user/person/reg/success");*/
-		ret.setViewName("redirect:/index");
 		
 		return ret;
 	}
@@ -261,22 +280,23 @@ public class UserController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/web/user/enterprise/reg", method = {RequestMethod.POST})
-	public ModelAndView regEnterprise(UserPOJO userPOJO, Model model) throws Exception {
-		ModelAndView ret = new ModelAndView();
+	@ResponseBody
+	public StatusPOJO regEnterprise(UserPOJO userPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
 		try {
 			userPOJO.setUserType(MyUser.ENTERPRISE);
 			int result = userService.insert(userPOJO);
-			ret.addObject("success", true);
+			ret.setSuccess(true);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("regUserPOJO", userPOJO);
 		} catch (Exception e) {
 			LOGGER.error("insert error.", e);
-			ret.addObject("success", false);
-			throw e;
+			ret.setSuccess(false);
+			ret.setDesc(e.getMessage());
 		}
 
-		/*ret.setViewName("redirect:/web/user/enterprise/reg/success");*/
-
-		ret.setViewName("redirect:/index");
-		
 		return ret;
 	}
 	
