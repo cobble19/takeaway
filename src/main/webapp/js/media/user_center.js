@@ -92,7 +92,7 @@ $(document).ready(function() {
 				+ '">' +
 				'查看申请人' + '</a>';
 				
-				var hrefEdit = $('#basePath').val() + '/page/enterprise/activity_update.jsp?activityId='  + full.activityId;
+				var hrefEdit = $('#basePath').val() + '/page/media/activity_update.jsp?activityId='  + full.activityId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';

@@ -8,7 +8,7 @@
     <%@include file="../common/head.jsp" %>
     
     <%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity.js"></script> --%>
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity_update.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/activity_update.js"></script>
     
     <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
   </head>
@@ -23,6 +23,19 @@
 	 				<div class="">
 	 					<input class="form-control" id="titleE" name="title" minlength="2" required="required" placeholder="请输入本次活动主题">
 	 				</div>
+	 			</div>
+	 			<div class="form-group">
+	 				<label class="control-label" for="title">商家组织者:（本活动是否由商家组织，若是请选择商家，不是则选择自己）</label>
+	 				<div class="">
+	 					<!-- <input class="form-control" id="userId" name="userId" minlength="2" required="required" placeholder="请选择本次奖品提供者"> -->
+	 					
+	 				</div>
+	 				<select id="userIdEnterpriseX" name="userIdEnterprise" autofocus="autofocus" class="form-control">
+	 						<option value="-1" selected>--选择组织活动的商家--</option>
+	 					</select>
+	 					<!-- <select class="form-control">
+	 						<option selected="selected" value="1">abc</option>
+	 					</select> -->
 	 			</div>
 	 			<div class="form-group">
 	 				<label class="control-label" for="startDateTime">活动开始时间:</label>

@@ -10,9 +10,9 @@
   <body>
   	<div class="container">
   		<h1>注册成功</h1>
-		<p><security:authentication property="principal.username" var="username"/> <c:out value="${username}"></c:out> Reg success</p> 
-		<div style="display: none;">
-			<form action="<cmn:base/>/j_spring_security_check" id="loginForm" method="post">
+		<p><security:authentication property="principal.username" var="username"/> <c:out value="${username}"></c:out> 注册成功，<span id="interval"></span>秒后跳转到首页</p> 
+		<div>
+			<form style="display: none;" action="<cmn:base/>/j_spring_security_check" id="loginForm" method="post">
 				<table>
 					<tbody>
 	                    <tr style="border-bottom:#2f69c9 solid 1px; ">
@@ -49,14 +49,30 @@
 					</tbody>
 				</table>
 			</form>
+			<a id="toIndex" class="btn btn-link" href="<cmn:base/>">如果5秒不自动跳转，请点击链接，手动跳转到首页</a>
+			
 		</div>
 		
-		<footer><hr><p>&copy; 版权所有</p></footer>
+		<!-- <footer><hr><p>&copy; 版权所有</p></footer> -->
 	</div>
 	<script>
 		$(function() {
+			var count = 5;
+			$('#interval').text(5);
+			var interval = window.setInterval(function() {
+				$('#interval').text(--count);
+				if (count <= 0) {
+					clearInterval(interval);
+				}
+			}, 1000);
+			$('#toIndex').click(function(e) {
+				e.preventDefault();
+				$('#loginForm').submit();
+			});
 			console.log('auto submit');
-			$('#loginForm').submit();
+			window.setTimeout(function() {
+				$('#loginForm').submit();
+			}, 6000);
 		})
 	</script>
   </body>

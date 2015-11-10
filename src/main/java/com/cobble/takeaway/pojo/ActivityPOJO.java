@@ -16,6 +16,7 @@ public class ActivityPOJO extends BasePOJO {
     private UserPOJO userPOJO;
     
     private Long userIdEnterprise;
+    private String usernameEnterprise;
     
 	public Long getActivityId() {
 		return activityId;
@@ -64,5 +65,11 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setUserIdEnterprise(Long userIdEnterprise) {
 		this.userIdEnterprise = userIdEnterprise;
+	}
+	public String getUsernameEnterprise() {
+		return usernameEnterprise;
+	}
+	public void setUsernameEnterprise(String usernameEnterprise) {
+		this.usernameEnterprise = usernameEnterprise;
 	}
 }
