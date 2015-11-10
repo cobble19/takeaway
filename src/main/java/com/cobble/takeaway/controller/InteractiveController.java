@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -83,6 +84,15 @@ public class InteractiveController extends BaseController {
 			UserSearchPOJO userSearchPOJO = new UserSearchPOJO();
 			userSearchPOJO.setUserType(MyUser.ENTERPRISE);
 			ret = userService.finds(userSearchPOJO);
+			
+			//add meida self
+			MyUser user = UserUtil.getCurrentUser();
+			UserPOJO userPOJO = new UserPOJO();
+			BeanUtils.copyProperties(user, userPOJO);
+			/*userPOJO.setUserId(user.getUserId());
+			userPOJO.setUsername(user.getUsername());
+			userPOJO.setNickname(user.getNickname());*/
+			ret.add(userPOJO);
 			ret = UserUtil.removePassword(ret);
 		} catch (Exception e) {
 			LOGGER.error("query error.", e);

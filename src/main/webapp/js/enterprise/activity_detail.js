@@ -108,6 +108,8 @@ var showDetail = function() {
             	$('#publisher').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
             	$('#publisher_1').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
         	}
+        	$('#organiser').text(data.usernameEnterprise);
+        	$('#organiser_1').text(data.usernameEnterprise);
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	alert('Load Error!');

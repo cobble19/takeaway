@@ -23,7 +23,7 @@
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="title">商家组织者:（本活动是否由商家组织，若是请选择商家，不是则不填）</label>
+ 				<label class="control-label" for="title">商家组织者:（本活动是否由商家组织，若是请选择商家，不是则选择自己）</label>
  				<div class="">
  					<!-- <input class="form-control" id="userId" name="userId" minlength="2" required="required" placeholder="请选择本次奖品提供者"> -->
  					

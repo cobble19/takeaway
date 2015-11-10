@@ -29,7 +29,8 @@
 			</div>
 			<div class="row hidden-xs">
 				<div class="col-md-12">
-	            	<h5 style=" margin-bottom:10px; display:block;">发布者:<span id="publisher"></span>
+	            	<h5 style=" margin-bottom:10px; display:block; float: left;margin-right: 20px;">发布者:<span id="publisher"></span>
+	            	<h5 style="margin-bottom:10px; display:block;">组织者:<span id="organiser"></span>
 				</h5>
 				</div>
 	        </div>
@@ -37,6 +38,7 @@
                 <div class="col-xs-12">
                     <a class="btn btn-default btn-block" href="#" role="button"><h5>查看活动详情</h5></a>
                     <a class="btn btn-default btn-block" href="#" role="button"><h5>发布者【<span class="h5" id="publisher_1"></span>】</h5></a>
+                    <a class="btn btn-default btn-block" href="#" role="button"><h5>组织者【<span class="h5" id="organiser_1"></span>】</h5></a>
                 </div>
             </div>	
 	  		<div class="row uc-border hidden-xs">
