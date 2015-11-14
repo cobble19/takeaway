@@ -37,14 +37,14 @@
   <body>
   	<div class="container">
 	  	<%@include file="../../reg_login_full.jsp" %>
-  		<div class="row uc-border" style="margin-top:50px; min-height:500px;">
-  			<div class="col-md-3 col-xs-3" id="sidebar">
+  		<div class="row" style="margin-top:20px; min-height:500px; border:1px solid #CCC;">
+  			<div class="col-md-3 col-xs-12" id="sidebar">
 		          <div class="list-group" style="margin-top:10px;">
-		            <a href="#profile" class="list-group-item active">商家资料</a>
-		            <a href="#update_password" class="list-group-item">修改密码</a>
+		            <a href="#profile" class="list-group-item active col-md-12 col-xs-6">商家资料</a>
+		            <a href="#update_password" class="list-group-item col-md-12 col-xs-6">修改密码</a>
 		            <!-- <a href="#create_activity" class="list-group-item">线下活动管理</a> -->
-		            <a href="#create_interactive" class="list-group-item">线上互动管理</a>
-		            <a href="#provider_activity" class="list-group-item">线下活动管理</a>
+		            <a href="#create_interactive" class="list-group-item col-md-12 col-xs-6">线上互动管理</a>
+		            <a href="#provider_activity" class="list-group-item col-md-12 col-xs-6">线下活动管理</a>
 		          </div> 				
 	     	</div>
 	     	<div class="col-md-9 col-xs-9">
@@ -130,7 +130,7 @@
 	     			</div>	<!-- create_interactive end -->
 	     			
 	     			<div id="provider_activity">
-	     				<h3>所提供的线下活动</h3>
+	     				<h3>线下活动管理</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<input id="searchBtn4Provider" type="button" class="btn btn-default btn-xs" value="查询">
 	     				</div>
@@ -161,7 +161,8 @@
 	     			</div>	<!-- create_interactive end -->
 	     			
 					<div id="update_password">
-						<div class="row">
+                        <h3 style="margin-bottom:20px;">修改密码</h3>
+						<div class="row" style="margin-left:5px;">
 							<form class="form-inline" id="pwdForm" role="form" action='' method="post">
 					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
 					 			<div class="form-group">
