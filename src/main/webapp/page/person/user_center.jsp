@@ -80,14 +80,14 @@
 		        </c:if>
 		    </div>
   		</div>--%>
-  		<div class="row uc-border" style="margin-top:50px;">
-  			<div class="col-md-3 col-xs-3" id="sidebar">
+  		<div class="row" style="margin-top:20px; border:1px solid #CCC;">
+  			<div class="col-md-3 col-xs-12" id="sidebar">
 		          <div class="list-group" style="margin-top:10px;">
-		            <a href="#profile" class="list-group-item active">个人资料</a>
-		            <a href="#update_password" class="list-group-item">修改密码</a>
-		            <a href="#create_activity" class="list-group-item">线下活动</a>
-		            <a href="#interactive" class="list-group-item">线上互动</a>
-		            <a href="#prize" class="list-group-item">奖品查询</a>
+		            <a href="#profile" class="list-group-item active col-md-12 col-xs-6">个人资料</a>
+		            <a href="#update_password" class="list-group-item col-md-12 col-xs-6">修改密码</a>
+		            <a href="#create_activity" class="list-group-item col-md-12 col-xs-6">线下活动</a>
+		            <a href="#interactive" class="list-group-item col-md-12 col-xs-6">线上互动</a>
+		            <a href="#prize" class="list-group-item col-md-12 col-xs-6">奖品查询</a>
 		          </div>
 	     	</div>
 	     	<div class="col-md-9 col-xs-9">
@@ -162,7 +162,7 @@
 	     			</div>
 	     			
 	     			<div id="prize">
-	     				<h3>奖品</h3>
+	     				<h3>奖品查询</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<input id="searchBtn4Prize" type="button" class="btn btn-default btn-xs" value="查询">
 	     				</div>
@@ -193,7 +193,8 @@
 	     			</div>
 	     			
 					<div id="update_password">
-						<div class="row">
+                        <h3 style="margin-bottom:20px;">修改密码</h3>
+						<div class="row" style="margin-left:5px;">
 							<form class="form-inline" id="pwdForm" role="form" action='' method="post">
 					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
 					 			<div class="form-group">
