@@ -20,13 +20,14 @@
     <result column="PRIZE" property="prize" />
     <result column="ANSWER" property="answer" />
     <result column="NUM_OF_WINNER" property="numOfWinner" />
-    <result column="USER_ID" property="userId" />
+    <result column="USER_ID_ENTERPRISE" property="userId" />
     <result column="PRIZE_END_DATE_TIME" property="prizeEndDateTime" />
     <result column="STATUS" property="status" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     a.INTERACTIVE_ID, a.NAME, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, a.RULE, a.PRIZE, a.ANSWER, a.NUM_OF_WINNER, a.STATUS
+    , a.PRIZE_END_DATE_TIME, a.USER_ID AS USER_ID_ENTERPRISE
   </sql>
   <sql id="Clause_Common">
 	<if test="name != null">
@@ -43,8 +44,10 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
+			, u.user_id, u.username, u.nickname
     from e_interactive a
 	join rel_interactive_user riu on a.interactive_id = riu.interactive_id
+	join b_user u on u.user_id = riu.user_id
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>

@@ -7,13 +7,13 @@
   <head>
     <%@include file="../common/head.jsp" %>
     
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/interactive_update.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/interactive_update.js"></script>
     
   </head>
   <body>
   	<div class="container">
   		<div class="row">
-  			<h2 class="">添加互动</h2>
+  			<h2 class="">修改互动</h2>
   		</div>
   		<form id="interactiveForm" class="form-horizontal" role="form" action='<cmn:base/>/web/enterprise/interactive/add' method="post">
 	  		<input type="hidden" id="interactiveId" name="interactiveId" value="<%=request.getParameter("interactiveId") %>"/>
@@ -53,6 +53,25 @@
  				<label class="control-label" for="title">奖品信息:</label>
  				<div class="">
  					<input class="form-control" id="prize" name="prize" minlength="2" required="required" placeholder="请输入本次互动活动奖品">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="userIdX">奖品提供者:</label>
+ 				<div class="">
+ 					<!-- <input class="form-control" id="userId" name="userId" minlength="2" required="required" placeholder="请选择本次奖品提供者"> -->
+ 					
+ 				</div>
+ 				<select id="userIdX" name="userId" autofocus="autofocus" class="form-control">
+ 						<option value="0" selected>--选择奖品提供者--</option>
+ 					</select>
+ 					<!-- <select class="form-control">
+ 						<option selected="selected" value="1">abc</option>
+ 					</select> -->
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="prizeEndDateTime">奖品截止时间:</label>
+ 				<div class="">
+ 					<input class="form-control" id="prizeEndDateTime" name="prizeEndDateTime" required="required" placeholder="请输入奖品截止时间">
  				</div>
  			</div>
  			<div class="form-group">

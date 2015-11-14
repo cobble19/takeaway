@@ -475,14 +475,33 @@ $(document).ready(function() {
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets": [6]/*,
+			"targets": [6],
+			"render" : function(data, type, full, meta) {
+				var startDateTime = new Date(full.startDateTime);
+				var endDateTime = new Date(full.endDateTime);
+				return startDateTime.format('Y-m-d') + "/" + endDateTime.format('Y-m-d');
+			}
+		}, {
+			"targets": [7],
+			"render" : function(data, type, full, meta) {
+				var expired = false;
+//				var startDateTime = new Date(full.startDateTime);
+				var endDateTime = new Date(full.endDateTime);
+				var curDate = new Date();
+				if (endDateTime < curDate) {
+					expired = true;
+				}
+				return expired ? '<font style="color: red;">过期</font>' : '未过期';
+			}
+		}, {
+			"targets": [8]/*,
 			"render" : function(data, type, full, meta) {
 				var startDateTime = new Date(full.startDateTime);
 				var endDateTime = new Date(full.endDateTime);
 				return startDateTime.format('Y-m-d') + "/" + endDateTime.format('Y-m-d');
 			}*/
 		}, {
-			"targets": [7]/*,
+			"targets": [9]/*,
 			"render" : function(data, type, full, meta) {
 				var expired = false;
 				if (data != null && data) {
@@ -491,7 +510,7 @@ $(document).ready(function() {
 				return expired ? '<font style="color: red;">过期</font>' : '未过期';
 			}*/
 		},  {
-			"targets" : 8,
+			"targets" : 10,
 			"visible": false,
 			"render" : function(data, type, full, meta) {
 				var content = (data != null) ? data.substring(0, 10): '';
@@ -501,7 +520,7 @@ $(document).ready(function() {
 				return link;
 			}
 		}, {
-			"targets" : 9,
+			"targets" : 11,
 			"render" : function(data, type, full, meta) {
 				var href = $('#basePath').val() + '/page/person/apply_in_interactive.jsp?interactiveId='  + full.interactiveId
 				+ '&name=' + ((full.name));
@@ -516,7 +535,7 @@ $(document).ready(function() {
 								+ '">'
 								+ '验证获奖人' + '</a>';*/
 
-				var hrefEdit = $('#basePath').val() + '/page/enterprise/interactive_update.jsp?interactiveId='  + full.interactiveId;
+				var hrefEdit = $('#basePath').val() + '/page/media/interactive_update.jsp?interactiveId='  + full.interactiveId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
@@ -565,6 +584,18 @@ $(document).ready(function() {
                 "data":           null,
                 "defaultContent": ''
             },*/
+            {
+                /*"className":      'details-control',*/
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            {
+                /*"className":      'details-control',*/
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
             { "data": "prize" },
             { "data": "answer" },
             { "data": "content" },
