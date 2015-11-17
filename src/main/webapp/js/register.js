@@ -1,4 +1,4 @@
-$(function($) {
+$(document).ready(function() {
 	
 	/*$('#person form').find('input[name=username]').blur(function() {
 		checkUsername($(this).val(), $('#person form').find("#usernameError"));

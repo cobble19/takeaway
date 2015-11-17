@@ -5,7 +5,7 @@ ue.ready(function() {
 	
 });
 
-$(function() {
+$(document).ready(function() {
 	$('#startDateTime').datetimepicker({
 		lang:'ch',
 		timepicker:true,

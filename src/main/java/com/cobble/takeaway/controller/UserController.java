@@ -48,6 +48,34 @@ public class UserController extends BaseController {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     
+    @RequestMapping(value = "/web/user/check", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO checkUser(UserPOJO userPOJO, Model model) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			UserPOJO user = userService.findUserByName(userPOJO.getUsername());
+			if (user == null) {
+				ret.setErrorCode("1");
+				ret.setErrorMsg("没有发现用户: " + userPOJO.getUsername());
+			} else {
+				if (!user.getPassword().equals(userPOJO.getPassword())) {
+					ret.setErrorCode("2");
+					ret.setErrorMsg("密码不正确");
+				} else {
+					ret.setErrorCode("0");
+					ret.setErrorMsg("用户存在");
+				}
+			}
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error("find user error: ", e);
+			ret.setSuccess(false);
+			ret.setDesc(e.getMessage());
+//			throw e;
+		}
+		
+		return ret;
+	}
 
 	@RequestMapping(value = "/web/user/nickname/exist")
 	@ResponseBody

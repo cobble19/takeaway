@@ -1,5 +1,5 @@
 var ue;
-$(function() {
+$(document).ready(function() {
 	if (!ue) {
 		ue = UE.getEditor('editor', {
 			initialFrameHeight: 400

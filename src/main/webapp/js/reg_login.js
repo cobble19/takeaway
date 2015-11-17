@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
 	checkAlphaNum = function(name) {
 		var reg = new RegExp("^[a-zA-Z\d]+$");  
 		if (reg.test(name)) {

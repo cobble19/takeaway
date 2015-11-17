@@ -7,6 +7,7 @@
   <head>
     <%@include file="page/common/head.jsp" %>
     <link href="<cmn:base/>/css/login.css" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/login.js"></script>
 </head>
 
 
@@ -61,8 +62,14 @@
 						<td class="hidden-xs">
 						</td>
 						<td>
-							<input class="login-btn btn btn-primary" id="loginBtn" title="登陆" value="登陆" type="submit"/>
-							
+							<input class="login-btn btn btn-primary" id="loginBtn" title="登陆" value="登陆" type="button"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="hidden-xs">
+						</td>
+						<td>
+							<span id="errorMsg" style="color: red;"></span>
 						</td>
 					</tr>
 				</tbody>
