@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxLinkMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxLinkResultMap" type="com.cobble.takeaway.pojo.WxLinkPOJO" >
+    <id column="WX_LINK_ID" property="wxLinkId" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    <result column="IMG_SRC" property="imgSrc" />
+    <result column="LINK_URL" property="linkUrl" />
+    <result column="DISPLAY" property="display" />
+    <result column="ORDER_NO" property="orderNo" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.WX_LINK_ID, a.TITLE, a.IMG_SRC, a.LINK_URL, a.DISPLAY, a.ORDER_NO
+  </sql>
+  <sql id="Clause_Common">
+	<if test="title != null">
+		and a.TITLE like concat("%", concat(#{title}, "%"))
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="WxLinkResultMap" parameterType="com.cobble.takeaway.pojo.WxLinkSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wx_link a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="display != null">
+				and a.DISPLAY = #{display}
+			</if>
+			
+  		</trim>
+  	</where>
+  	order by a.ORDER_NO
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.WxLinkSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from wx_link a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and a.DISPLAY = #{display}
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxLinkResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from wx_link a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.LINK_ID = #{linkId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from wx_link
+    where WX_LINK_ID = #{wxLinkId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.WxLinkPOJO" useGeneratedKeys="true"
+  	keyProperty="wxLinkId" keyColumn="WX_LINK_ID">
+    insert into wx_link
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="imgSrc != null" >
+        IMG_SRC,
+      </if>
+      <if test="linkUrl != null" >
+        LINK_URL,
+      </if>
+      <if test="display != null" >
+        DISPLAY,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        #{title},
+      </if>
+      <if test="imgSrc != null" >
+        #{imgSrc},
+      </if>
+      <if test="linkUrl != null" >
+        #{linkUrl},
+      </if>
+      <if test="display != null" >
+        #{display},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.WxLinkPOJO" >
+    update wx_link
+    <set >
+      <if test="title != null" >
+        TITLE = #{title},
+      </if>
+      <if test="imgSrc != null" >
+        IMG_SRC = #{imgSrc},
+      </if>
+      <if test="linkUrl != null" >
+        LINK_URL = #{linkUrl},
+      </if>
+      <if test="display != null" >
+        DISPLAY = #{display},
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo},
+      </if>
+    </set>
+    where WX_LINK_ID = #{wxLinkId}
+  </update>
+</mapper>
