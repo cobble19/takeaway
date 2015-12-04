@@ -28,7 +28,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">½ÚÄ¿Ö±²¥/»ØÌý</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">èŠ‚ç›®ç›´æ’­/å›žå¬</p>
 					 </div>
                    </div>
 				</div>
@@ -38,7 +38,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">Î¢ÉçÇø£¨ÂÛÌ³£©</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">å¾®ç¤¾åŒºï¼ˆè®ºå›ï¼‰</p>
 					 </div>
                    </div> 
                 </div>
@@ -48,7 +48,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">½ÚÄ¿½éÉÜ</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">èŠ‚ç›®ä»‹ç»</p>
 					 </div>
                    </div>
 				</div>
@@ -60,14 +60,14 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">ÍùÆÚ¾«²Ê</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">å¾€æœŸç²¾å½©</p>
 					 </div>
                    </div>
                 </div>
 				<div class="col-md-8 col-xs-8">
                    <div class="row" style="border-left:#f1f1f1 4px solid;">
 					 <div class="col-md-4 col-xs-4">
-	            		<p style="text-align:center; margin-top:30px; font-size:12px; line-height:12px;">½üÆÚÖØÒª»î¶¯</p>
+	            		<p style="text-align:center; margin-top:30px; font-size:12px; line-height:12px;">è¿‘æœŸé‡è¦æ´»åŠ¨</p>
 					 </div>
                      <div class="col-md-8 col-xs-8">
                      <div class="row">
@@ -87,7 +87,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">²âÊÔ ²âÊÔ</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">æµ‹è¯• æµ‹è¯•</p>
 					 </div>
                    </div>
 				</div>
@@ -97,7 +97,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">²âÊÔ ²âÊÔ</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">æµ‹è¯• æµ‹è¯•</p>
 					 </div>
                    </div>
 				</div>
@@ -107,16 +107,16 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">²âÊÔ ²âÊÔ</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">æµ‹è¯• æµ‹è¯•</p>
 					 </div>
                    </div>
 				</div>
 			</div>
             <div class="row" style="background-color:#f1f1f1;">
-                <p style="text-align:center; margin-bottom:10px; margin-top:20px; font-size:12px; line-height:12px;">2015 ºÏ·Ê½»Í¨¹ã²¥</p>
+                <p style="text-align:center; margin-bottom:10px; margin-top:20px; font-size:12px; line-height:12px;">2015 åˆè‚¥äº¤é€šå¹¿æ’­</p>
             </div>
             <div class="row" style="background-color:#333;">
-                <p style="text-align:center; margin-bottom:5px; margin-top:5px; font-size:12px; line-height:12px; color:#ffffff;">¼¼ÊõÖ§³Ö:µÃÎ¶æäÕ¾</p>
+                <p style="text-align:center; margin-bottom:5px; margin-top:5px; font-size:12px; line-height:12px; color:#ffffff;">æŠ€æœ¯æ”¯æŒ:å¾—å‘³é©¿ç«™</p>
             </div>
 		<!-- </div> --><!-- for show -->
 	  		
