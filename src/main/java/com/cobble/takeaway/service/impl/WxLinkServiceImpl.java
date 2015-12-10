@@ -72,4 +72,17 @@ public class WxLinkServiceImpl implements WxLinkService {
 		return ret;
 	}
 
+	@Override
+	public int updateByKey(WxLinkPOJO wxLinkPOJO) throws Exception {
+		int ret = wxLinkMapper.updateByKey(wxLinkPOJO);
+		return ret;
+	}
+
+	@Override
+	public int getCountByKey(WxLinkPOJO wxLinkPOJO) throws Exception {
+		int ret = 0;
+		ret = wxLinkMapper.getCountByKey(wxLinkPOJO);
+		return ret;
+	}
+
 }

@@ -14,4 +14,7 @@ public interface WxLinkService {
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
 	
+	int updateByKey(WxLinkPOJO wxLinkPOJO) throws Exception;
+	int getCountByKey(WxLinkPOJO wxLinkPOJO) throws Exception;
+	
 }

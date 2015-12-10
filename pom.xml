@@ -43,7 +43,18 @@
         <commons.codec.version>1.10</commons.codec.version>
 	</properties>
 	<dependencies>
-
+		<dependency>
+		  <groupId>org.apache.httpcomponents</groupId>
+		  <artifactId>httpclient</artifactId>
+		  <version>4.5.1</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.httpcomponents</groupId>
+		  <artifactId>httpasyncclient</artifactId>
+		  <version>4.1.1</version>
+		</dependency>
+		
+		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>

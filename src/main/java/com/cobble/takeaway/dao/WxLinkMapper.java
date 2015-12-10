@@ -13,4 +13,7 @@ public interface WxLinkMapper {
 	int getCount(WxLinkSearchPOJO wxLinkSearchPOJO) throws Exception;
 	WxLinkPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
+	
+	int updateByKey(WxLinkPOJO wxLinkPOJO) throws Exception;
+	int getCountByKey(WxLinkPOJO wxLinkPOJO) throws Exception;
 }

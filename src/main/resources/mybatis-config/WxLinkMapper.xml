@@ -48,6 +48,17 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
+  
+  <select id="getCountByKey" resultType="java.lang.Integer" parameterType="com.cobble.takeaway.pojo.WxLinkPOJO" >
+    select count(1)
+    from wx_link a
+    <where>
+  		<trim prefixOverrides="and">
+				and a.ORDER_NO = #{orderNo}
+  		</trim>
+  	</where>
+  </select>
+  
   <select id="getCount" parameterType="com.cobble.takeaway.pojo.WxLinkSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from wx_link a
     <where>
@@ -131,5 +142,24 @@
       </if>
     </set>
     where WX_LINK_ID = #{wxLinkId}
+  </update>
+  
+  <update id="updateByKey" parameterType="com.cobble.takeaway.pojo.WxLinkPOJO" >
+    update wx_link
+    <set >
+      <if test="title != null" >
+        TITLE = #{title},
+      </if>
+      <if test="imgSrc != null" >
+        IMG_SRC = #{imgSrc},
+      </if>
+      <if test="linkUrl != null" >
+        LINK_URL = #{linkUrl},
+      </if>
+      <if test="display != null" >
+        DISPLAY = #{display},
+      </if>
+    </set>
+    where ORDER_NO = #{orderNo}
   </update>
 </mapper>

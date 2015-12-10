@@ -27,8 +27,8 @@
 					 <div id="sec2" class="col-md-12 col-xs-12" style="text-align:center;">
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
-					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">节目直播/回听</p>
+					 <div class="title col-md-12 col-xs-12">
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">节目直播/回听</p>
 					 </div>
                    </div>
 				</div>
@@ -38,7 +38,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">微社区（论坛）</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">微社区（论坛）</p>
 					 </div>
                    </div> 
                 </div>
@@ -48,7 +48,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">节目介绍</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">节目介绍</p>
 					 </div>
                    </div>
 				</div>
@@ -60,14 +60,14 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">往期精彩</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">往期精彩</p>
 					 </div>
                    </div>
                 </div>
 				<div class="col-md-8 col-xs-8">
                    <div class="row" style="border-left:#f1f1f1 4px solid;">
 					 <div class="col-md-4 col-xs-4">
-	            		<p style="text-align:center; margin-top:30px; font-size:12px; line-height:12px;">近期重要活动</p>
+	            		<p style="text-align:center; margin-top:30px; font-size:12px; line-height:12px; min-height:25px;">近期重要活动</p>
 					 </div>
                      <div class="col-md-8 col-xs-8">
                      <div class="row">
@@ -87,7 +87,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">测试 测试</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">测试 测试</p>
 					 </div>
                    </div>
 				</div>
@@ -97,7 +97,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">测试 测试</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">测试 测试</p>
 					 </div>
                    </div>
 				</div>
@@ -107,7 +107,7 @@
 	            		<a href=""><img alt="" src=""></a>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px;">测试 测试</p>
+	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">测试 测试</p>
 					 </div>
                    </div>
 				</div>

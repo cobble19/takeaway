@@ -1,14 +1,17 @@
 package com.cobble.takeaway.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -23,6 +26,7 @@ import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.WxLinkPOJO;
 import com.cobble.takeaway.pojo.WxLinkSearchPOJO;
 import com.cobble.takeaway.service.WxLinkService;
+import com.cobble.takeaway.util.HttpClientUtil;
 
 @Controller
 public class WxLinkController extends BaseController {
@@ -31,6 +35,30 @@ public class WxLinkController extends BaseController {
 	@Autowired
 	private WxLinkService wxLinkService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+	@Autowired
+	private MessageSource messageSource;
+
+	@RequestMapping(value = "/web/media/wxLink/toHtml", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO toHtml(@RequestParam(value = "fromFullUrl", required = true) String fromFullUrl,
+			@RequestParam(value = "toFilePath", required = true) String toFilePath, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			String resp = HttpClientUtil.get(fromFullUrl);
+			String dir = messageSource.getMessage("files.directory", null, null);
+			File dest = new File(dir + File.separator + "htmls" + File.separator + toFilePath);
+			FileUtils.writeStringToFile(dest, resp, "UTF-8");
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error("toHtml error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/media/wxLink/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
@@ -42,8 +70,9 @@ public class WxLinkController extends BaseController {
 				throw new Exception("wxLinkPOJO can't is NULL.");
 			}
 			int result = -1;
-			if (wxLinkPOJO.getWxLinkId() != null && wxLinkPOJO.getWxLinkId() > 0l) {
-				result = wxLinkService.update(wxLinkPOJO);
+			result = wxLinkService.getCountByKey(wxLinkPOJO);
+			if (result > 0) {
+				result = wxLinkService.updateByKey(wxLinkPOJO);
 			} else {
 				result = wxLinkService.insert(wxLinkPOJO);
 			}

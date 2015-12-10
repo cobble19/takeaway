@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,10 @@ public class MyHtmlEditorController extends BaseController {
 			if (file != null && !file.isEmpty()) {
 				LOGGER.info("Uploading Html Editor file: " + file.getOriginalFilename());
 				String dir = messageSource.getMessage("files.directory", null, null);
-				File dest = new File(dir + File.separator + file.getOriginalFilename());
+				File dest = new File(dir + File.separator + "images" + File.separator + file.getOriginalFilename());
 				file.transferTo(dest);
-				LOGGER.info("Upload Success Html Editor file: " + file.getOriginalFilename());
-				ret.put("file_url", file.getOriginalFilename());
+				LOGGER.info("Upload Success Html Editor file: " + "images" + File.separator + file.getOriginalFilename());
+				ret.put("file_url", "images" + "/" + file.getOriginalFilename());
 			}
 			
 			ret.put("success", true);

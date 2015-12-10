@@ -3,8 +3,9 @@ $(document).ready(function() {
 })
 
 var showDetail = function() {
+	
 	$.ajax({
-		"url" : "../../web/media/wxLink/list",
+		"url" : $('#basePath').val() + "/web/media/wxLink/list",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
