@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  
     <%@include file="../common/head.jsp" %>
     
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/wx_link_index.js"></script>
