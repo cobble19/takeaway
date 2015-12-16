@@ -128,7 +128,7 @@ var showDetail = function() {
         				break;
         			}
         			imgSrc = $('#basePath').val() + "/files/" + wxLink.imgSrc
-        			var sec = $('#sec' + (i+1));
+        			var sec = $('#sec' + (i));
         			sec.find('a').attr('href', wxLink.linkUrl)
 												.attr('alt', wxLink.title)
 												.attr('title', wxLink.title);

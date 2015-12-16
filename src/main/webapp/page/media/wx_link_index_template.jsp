@@ -31,7 +31,7 @@
 			<div class="row">
 				<div id="sec0" class="col-md-12 col-xs-12 sec" style="padding:0px; text-align:center;">
 					 	<input type="hidden" name="linkUrl">
-	            	<img alt="" src="">
+	            		<img alt="" src="">
 				</div>
 			</div>
 			<div class="row" style="background-color:#ffffff; border-left:#f1f1f1 4px solid;border-right:#f1f1f1 4px solid; border-top:#f1f1f1 2px solid; border-bottom:#f1f1f1 2px solid;">
@@ -82,21 +82,21 @@
                    </div>
                 </div>
 				<div class="col-md-8 col-xs-8">
-                   <div class="row" style="border-left:#f1f1f1 4px solid;">
-                     <div class="row">
-					    <div id="sec5" class="col-md-12 col-xs-12 sec" style="text-align:center;">
-					 		<input type="hidden" name="linkUrl">
-							 <div class="col-md-4 col-xs-4">
-			            		<p class="title" style="text-align:center; margin-top:30px; font-size:12px; line-height:12px; min-height:25px;">近期重要活动</p>
-							 </div>
-		                     <div class="col-md-8 col-xs-8">
-	            		    <img alt="" src="">
-					    </div>
-                     </div>
-                     </div>
-                   </div>
-                </div>
-			</div>
+					<div class="row" style="border-left: #f1f1f1 4px solid;">
+						<div id="sec5" class="col-md-12 col-xs-12 sec"
+							style="text-align: center;">
+							<input type="hidden" name="linkUrl">
+							<div class="col-md-4 col-xs-4">
+								<p class="title"
+									style="text-align: center; margin-top: 30px; font-size: 12px; line-height: 12px; min-height: 25px;">近期重要活动</p>
+							</div>
+							<div class="col-md-8 col-xs-8">
+								<img alt="" src="">
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
 
 			<div class="row" style="background-color:#ffffff; border-left:#f1f1f1 4px solid;border-right:#f1f1f1 4px solid; border-top:#f1f1f1 2px solid; border-bottom:#f1f1f1 2px solid;">
 				<div class="col-md-4 col-xs-4" >
@@ -180,7 +180,7 @@
 			 			<input type="hidden" class="" id="orderNo" name="orderNo">
 			 			<div class="form-group">
 				 			<div class="">
-				  				<button type="button" class="btn btn-default" id="addBtn">创建</button>
+				  				<button type="button" class="btn btn-default" id="addBtn">确定</button>
 				 			</div>
 			 			</div>
 			  		</form>
