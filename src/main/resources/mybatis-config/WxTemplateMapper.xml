@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxTemplateMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxTemplateResultMap" type="com.cobble.takeaway.pojo.WxTemplatePOJO" >
+    <id column="WX_TEMPLATE_ID" property="wxTemplateId" />
+    <result column="WX_TEMPLATE_PAGE" property="wxTemplatePage" jdbcType="VARCHAR"/>
+    <result column="WX_PAGE" property="wxPage" jdbcType="VARCHAR"/>
+    <result column="WX_TEMPLATE_NAME" property="wxTemplateName" />
+    <result column="WX_TEMPLATE_DESC" property="wxTemplateDesc" />
+    
+    <association property="relWxTemplateUserPOJO" resultMap="com.cobble.takeaway.dao.WxTemplateMapper.RelWxTemplateUserResultMap"></association>
+  </resultMap>
+  
+  <resultMap id="RelWxTemplateUserResultMap" type="com.cobble.takeaway.pojo.RelWxTemplateUserPOJO" >
+    <id column="REL_WX_TEMPLATE_USER_ID" property="relWxTemplateUserId" />
+    <result column="USER_ID" property="userId"/>
+    <result column="WX_TEMPLATE_ID" property="wxTemplateId"/>
+    <result column="DISPLAY_FLAG" property="displayFlag" />
+    <result column="WX_STATIC_PAGE" property="wxStaticPage" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_TEMPLATE_ID, a.WX_TEMPLATE_PAGE, a.WX_TEMPLATE_NAME, a.WX_TEMPLATE_DESC, a.WX_PAGE
+  </sql>
+  <sql id="Clause_Common">
+	<if test="wxTemplateName != null">
+		and a.WX_TEMPLATE_NAME like concat("%", concat(#{wxTemplateName}, "%"))
+	</if>
+  </sql>
+  
+  <select id="findsByUserId" resultMap="WxTemplateResultMap" parameterType="com.cobble.takeaway.pojo.WxTemplateSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , c.user_id, b.display_flag, b.wx_static_page
+    from WX_TEMPLATE a, REL_WX_TEMPLATE_USER b, b_user c
+    <where>
+  		<trim prefixOverrides="and">
+  			and a.wx_template_id = b.wx_template_id
+  			and b.user_id = c.user_id
+  			and c.user_id = #{userId}
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="finds" resultMap="WxTemplateResultMap" parameterType="com.cobble.takeaway.pojo.WxTemplateSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WX_TEMPLATE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="wxTemplatePage != null">
+				and a.WX_TEMPLATE_PAGE = #{wxTemplatePage}
+			</if>
+			
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.WxTemplateSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_TEMPLATE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="wxTemplatePage != null">
+				and a.WX_TEMPLATE_PAGE = #{wxTemplatePage}
+			</if>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxTemplateResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_TEMPLATE a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_TEMPLATE_ID = #{wxTemplateId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_TEMPLATE
+    where WX_TEMPLATE_ID = #{wxTemplateId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.WxTemplatePOJO" useGeneratedKeys="true"
+  	keyProperty="wxTemplateId" keyColumn="WX_TEMPLATE_ID">
+    insert into WX_TEMPLATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wxTemplatePage != null" >
+        WX_TEMPLATE_PAGE,
+      </if>
+      <if test="wxTemplateName != null" >
+        WX_TEMPLATE_NAME,
+      </if>
+      <if test="wxTemplateDesc != null" >
+        WX_TEMPLATE_DESC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wxTemplatePage != null" >
+        #{wxTemplatePage},
+      </if>
+      <if test="wxTemplateName != null" >
+        #{wxTemplateName},
+      </if>
+      <if test="wxTemplateDesc != null" >
+        #{wxTemplateDesc},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.WxTemplatePOJO" >
+    update WX_TEMPLATE
+    <set >
+      <if test="wxTemplatePage != null" >
+        WX_TEMPLATE_PAGE = #{wxTemplatePage},
+      </if>
+      <if test="wxTemplateName != null" >
+        WX_TEMPLATE_NAME = #{wxTemplateName},
+      </if>
+      <if test="wxTemplateDesc != null" >
+        WX_TEMPLATE_DESC = #{wxTemplateDesc},
+      </if>
+    </set>
+    where WX_TEMPLATE_ID = #{wxTemplateId}
+  </update>
+  
+  
+  <update id="updateRelWxTemplateUser4Status" parameterType="com.cobble.takeaway.pojo.RelWxTemplateUserPOJO" >
+    update REL_WX_TEMPLATE_USER
+    <set >
+      <if test="displayFlag != null" >
+        DISPLAY_FLAG = #{displayFlag},
+      </if>
+    </set>
+    where REL_WX_TEMPLATE_ID = #{relWxTemplateId}
+  </update>
+  
+  
+  <update id="updateRelWxTemplateUser4WxStaticPage" parameterType="com.cobble.takeaway.pojo.RelWxTemplateUserPOJO" >
+    update REL_WX_TEMPLATE_USER
+    <set >
+      <if test="wxStaticPage != null" >
+        WX_STATIC_PAGE = #{wxStaticPage},
+      </if>
+    </set>
+    where USER_ID = #{userId}
+    and WX_TEMPLATE_ID = #{wxTemplateId}
+  </update>
+  
+</mapper>
