@@ -47,4 +47,17 @@ public class UserUtil {
 		
 		return ret;
 	}
+	
+	public static void main(String[] args) {
+		logger.info("Test....");
+		
+		String str = "C:/abc/def/gh";
+		logger.info(str);
+		str = str.replaceAll("/", "\\\\");
+		logger.info(str);
+		str = "C:\\abc\\def\\gh";
+		logger.info(str);
+		str = str.replaceAll("\\\\", "/");
+		logger.info(str);
+	}
 }

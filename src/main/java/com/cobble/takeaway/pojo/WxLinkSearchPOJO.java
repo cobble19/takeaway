@@ -9,6 +9,10 @@ public class WxLinkSearchPOJO extends BaseSearchPOJO {
     private String linkUrl;
     private Integer display;
     private Integer orderNo;
+
+    ///
+    private Long wxTemplateId;
+    private Long userId;
     
 	public String getTitle() {
 		return title;
@@ -45,6 +49,18 @@ public class WxLinkSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setWxLinkId(Long wxLinkId) {
 		this.wxLinkId = wxLinkId;
+	}
+	public Long getWxTemplateId() {
+		return wxTemplateId;
+	}
+	public void setWxTemplateId(Long wxTemplateId) {
+		this.wxTemplateId = wxTemplateId;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
     
 }

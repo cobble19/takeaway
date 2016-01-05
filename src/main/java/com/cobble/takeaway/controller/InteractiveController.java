@@ -38,7 +38,7 @@ import com.cobble.takeaway.util.UserUtil;
 
 @Controller
 public class InteractiveController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(InteractiveController.class);
+	private final static Logger logger = LoggerFactory.getLogger(InteractiveController.class);
 	
 	@Autowired
 	private InteractiveService interactiveService;
@@ -64,7 +64,7 @@ public class InteractiveController extends BaseController {
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -95,7 +95,7 @@ public class InteractiveController extends BaseController {
 			ret.add(userPOJO);
 			ret = UserUtil.removePassword(ret);
 		} catch (Exception e) {
-			LOGGER.error("query error.", e);
+			logger.error("query error.", e);
 			throw e;
 		}
 		
@@ -109,7 +109,7 @@ public class InteractiveController extends BaseController {
 		try {
 			ret = interactiveService.findById(interactiveId);
 		} catch (Exception e) {
-			LOGGER.error("query error.", e);
+			logger.error("query error.", e);
 			throw e;
 		}
 		
@@ -124,7 +124,7 @@ public class InteractiveController extends BaseController {
 			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {
-			LOGGER.error("list error.", e);
+			logger.error("list error.", e);
 			throw e;
 		}
 		
@@ -139,7 +139,7 @@ public class InteractiveController extends BaseController {
 			List<InteractivePOJO> interactivePOJOs = interactiveService.findActives(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {
-			LOGGER.error("list error.", e);
+			logger.error("list error.", e);
 			throw e;
 		}
 		
@@ -155,7 +155,7 @@ public class InteractiveController extends BaseController {
 			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {
-			LOGGER.error("list error.", e);
+			logger.error("list error.", e);
 			throw e;
 		}
 		
@@ -171,7 +171,7 @@ public class InteractiveController extends BaseController {
 			List<InteractivePOJO> interactivePOJOs = interactiveService.find4Enterprises(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {
-			LOGGER.error("list error.", e);
+			logger.error("list error.", e);
 			throw e;
 		}
 		
@@ -187,7 +187,7 @@ public class InteractiveController extends BaseController {
 			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {
-			LOGGER.error("interactiveByUserId error.", e);
+			logger.error("interactiveByUserId error.", e);
 			throw e;
 		}
 		
@@ -230,7 +230,7 @@ public class InteractiveController extends BaseController {
 			int result = interactiveService.insert(interactivePOJO, UserUtil.getCurrentUser().getUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -246,7 +246,7 @@ public class InteractiveController extends BaseController {
 			int result = interactiveService.update(interactivePOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -262,7 +262,7 @@ public class InteractiveController extends BaseController {
 			int result = interactiveService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

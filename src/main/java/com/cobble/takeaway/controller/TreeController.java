@@ -14,7 +14,7 @@ import com.cobble.takeaway.service.TreeService;
 
 @Controller
 public class TreeController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(TreeController.class);
+	private final static Logger logger = LoggerFactory.getLogger(TreeController.class);
 	
 	@Autowired
 	private TreeService treeService;

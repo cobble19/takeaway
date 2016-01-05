@@ -20,6 +20,8 @@ public class UserPOJO extends BasePOJO {
 	
     private List<RolePOJO> rolePOJOs = new ArrayList<RolePOJO>();
     
+    private RelWxIndexMapPOJO relWxIndexMapPOJO;
+    
 	public Long getUserId() {
 		return userId;
 	}

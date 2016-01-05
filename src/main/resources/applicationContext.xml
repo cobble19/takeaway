@@ -128,6 +128,7 @@
 			</props>
 		</property>
 	</bean>
+	
 	<bean id="internalResourceViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/" />

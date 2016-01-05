@@ -20,7 +20,7 @@ import com.cobble.takeaway.service.FoodService;
 
 @Controller
 public class FoodController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(FoodController.class);
+	private final static Logger logger = LoggerFactory.getLogger(FoodController.class);
 	
 	@Autowired
 	private FoodService foodService;
@@ -55,7 +55,7 @@ public class FoodController extends BaseController {
 			int result = foodService.insert(foodPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -71,7 +71,7 @@ public class FoodController extends BaseController {
 			int result = foodService.update(foodPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -87,7 +87,7 @@ public class FoodController extends BaseController {
 			int result = foodService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

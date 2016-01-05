@@ -24,7 +24,7 @@ import com.cobble.takeaway.service.RoleService;
 
 @Controller
 public class RoleController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(RoleController.class);
+	private final static Logger logger = LoggerFactory.getLogger(RoleController.class);
 	
 	@Autowired
 	private RoleService roleService;
@@ -117,7 +117,7 @@ public class RoleController extends BaseController {
 			int result = roleService.insert(rolePOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -133,7 +133,7 @@ public class RoleController extends BaseController {
 			int result = roleService.update(rolePOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -149,7 +149,7 @@ public class RoleController extends BaseController {
 			int result = roleService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

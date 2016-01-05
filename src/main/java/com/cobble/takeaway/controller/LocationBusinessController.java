@@ -20,7 +20,7 @@ import com.cobble.takeaway.service.LocationBusinessService;
 
 @Controller
 public class LocationBusinessController extends BaseController {
-private final static Logger LOGGER = LoggerFactory.getLogger(LocationBusinessController.class);
+private final static Logger logger = LoggerFactory.getLogger(LocationBusinessController.class);
 	
 	@Autowired
 	private LocationBusinessService locationBusinessService;
@@ -47,7 +47,7 @@ private final static Logger LOGGER = LoggerFactory.getLogger(LocationBusinessCon
 			int result = locationBusinessService.insert(locationBusinessPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -63,7 +63,7 @@ private final static Logger LOGGER = LoggerFactory.getLogger(LocationBusinessCon
 			int result = locationBusinessService.update(locationBusinessPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -79,7 +79,7 @@ private final static Logger LOGGER = LoggerFactory.getLogger(LocationBusinessCon
 			int result = locationBusinessService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

@@ -33,7 +33,7 @@ import com.cobble.takeaway.service.FoodService;
 
 @Controller
 public class FoodSellerController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(FoodSellerController.class);
+	private final static Logger logger = LoggerFactory.getLogger(FoodSellerController.class);
 	
 	@Autowired
 	private FoodSellerService foodSellerService;
@@ -163,18 +163,18 @@ public class FoodSellerController extends BaseController {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			if (file != null && !file.isEmpty()) {
-				LOGGER.info("Uploading logoUrl file: " + file.getOriginalFilename());
+				logger.info("Uploading logoUrl file: " + file.getOriginalFilename());
 				String dir = messageSource.getMessage("files.directory", null, null);
 				File dest = new File(dir + File.separator + file.getOriginalFilename());
 				file.transferTo(dest);
-				LOGGER.info("Upload Success logoUrl file: " + file.getOriginalFilename());
+				logger.info("Upload Success logoUrl file: " + file.getOriginalFilename());
 			}
 			foodSellerPOJO.setLogoUrl(file.getOriginalFilename());
 			
 			int result = foodSellerService.insert(foodSellerPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -188,17 +188,17 @@ public class FoodSellerController extends BaseController {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			if (file != null && !file.isEmpty()) {
-				LOGGER.info("Uploading logoUrl file: " + file.getOriginalFilename());
+				logger.info("Uploading logoUrl file: " + file.getOriginalFilename());
 				String dir = messageSource.getMessage("files.directory", null, null);
 				File dest = new File(dir + File.separator + file.getOriginalFilename());
 				file.transferTo(dest);
-				LOGGER.info("Upload Success logoUrl file: " + file.getOriginalFilename());
+				logger.info("Upload Success logoUrl file: " + file.getOriginalFilename());
 			}
 			foodSellerPOJO.setLogoUrl(file.getOriginalFilename());
 			int result = foodSellerService.update(foodSellerPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("update error.", e);
+			logger.error("update error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -214,7 +214,7 @@ public class FoodSellerController extends BaseController {
 			int result = foodSellerService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("delete error.", e);
+			logger.error("delete error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

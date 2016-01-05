@@ -18,4 +18,6 @@ public interface UserService {
 	
 	UserPOJO findUserByName(String username) throws Exception;
 	UserPOJO findUserByNickname(String nickname) throws Exception;
+
+	UserPOJO findUserByIndexCode(String wxIndexCode) throws Exception;
 }

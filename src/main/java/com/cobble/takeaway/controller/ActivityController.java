@@ -33,7 +33,7 @@ import com.cobble.takeaway.util.UserUtil;
 
 @Controller
 public class ActivityController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(ActivityController.class);
+	private final static Logger logger = LoggerFactory.getLogger(ActivityController.class);
 	
 	@Autowired
 	private ActivityService activityService;
@@ -56,7 +56,7 @@ public class ActivityController extends BaseController {
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -75,7 +75,7 @@ public class ActivityController extends BaseController {
 		try {
 			ret = activityService.findById(activityId);
 		} catch (Exception e) {
-			LOGGER.error("query error.", e);
+			logger.error("query error.", e);
 			throw e;
 		}
 		
@@ -90,7 +90,7 @@ public class ActivityController extends BaseController {
 			List<ActivityPOJO> activityPOJOs = activityService.finds(activitySearchPOJO);
 			ret.setData(activityPOJOs);
 		} catch (Exception e) {
-			LOGGER.error("list error.", e);
+			logger.error("list error.", e);
 			throw e;
 		}
 		
@@ -109,7 +109,7 @@ public class ActivityController extends BaseController {
 			List<ActivityPOJO> activityPOJOs = activityService.find4Enterprises(activitySearchPOJO);
 			ret.setData(activityPOJOs);
 		} catch (Exception e) {
-			LOGGER.error("list error.", e);
+			logger.error("list error.", e);
 			throw e;
 		}
 		
@@ -124,7 +124,7 @@ public class ActivityController extends BaseController {
 			List<ActivityPOJO> activityPOJOs = activityService.findActives(activitySearchPOJO);
 			ret.setData(activityPOJOs);
 		} catch (Exception e) {
-			LOGGER.error("list error.", e);
+			logger.error("list error.", e);
 			throw e;
 		}
 		
@@ -140,7 +140,7 @@ public class ActivityController extends BaseController {
 			List<ActivityPOJO> activityPOJOs = activityService.finds(activitySearchPOJO);
 			ret.setData(activityPOJOs);
 		} catch (Exception e) {
-			LOGGER.error("activityByUserId error.", e);
+			logger.error("activityByUserId error.", e);
 			throw e;
 		}
 		
@@ -183,7 +183,7 @@ public class ActivityController extends BaseController {
 			int result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -199,7 +199,7 @@ public class ActivityController extends BaseController {
 			int result = activityService.update(activityPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -215,7 +215,7 @@ public class ActivityController extends BaseController {
 			int result = activityService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

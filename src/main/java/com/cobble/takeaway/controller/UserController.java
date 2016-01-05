@@ -36,7 +36,7 @@ import com.cobble.takeaway.util.UserUtil;
 
 @Controller
 public class UserController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+	private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	public final static String URL_ADMIN = "/mgr/ta/index.html";
 	public final static String URL_INDEX = "/index";
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("find user error: ", e);
+			logger.error("find user error: ", e);
 			ret.setSuccess(false);
 			ret.setDesc(e.getMessage());
 //			throw e;
@@ -96,7 +96,7 @@ public class UserController extends BaseController {
 				ret.setDesc("不存在此昵称： " + nickname);
 			}
 		} catch (Exception e) {
-			LOGGER.error(" error.", e);
+			logger.error(" error.", e);
 			ret.setSuccess(false);
 			ret.setDesc("发生异常： " + e.getMessage());
 			throw e;
@@ -124,7 +124,7 @@ public class UserController extends BaseController {
 				ret.setDesc("不存在此用户： " + username);
 			}
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			ret.setDesc("发生异常： " + e.getMessage());
 			throw e;
@@ -146,7 +146,7 @@ public class UserController extends BaseController {
 				ret.setSuccess(false);
 			}
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -172,7 +172,7 @@ public class UserController extends BaseController {
 				ret.setSuccess(false);
 			}
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -287,7 +287,7 @@ public class UserController extends BaseController {
 			HttpSession session = request.getSession();
 			session.setAttribute("regUserPOJO", userPOJO);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			ret.setDesc(e.getMessage());
 		}
@@ -320,7 +320,7 @@ public class UserController extends BaseController {
 			HttpSession session = request.getSession();
 			session.setAttribute("regUserPOJO", userPOJO);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			ret.setDesc(e.getMessage());
 		}
@@ -361,7 +361,7 @@ public class UserController extends BaseController {
 			int result = userService.insert(userPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -377,7 +377,7 @@ public class UserController extends BaseController {
 			int result = userService.update(userPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -393,7 +393,7 @@ public class UserController extends BaseController {
 			int result = userService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

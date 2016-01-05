@@ -109,5 +109,12 @@ public class UserServiceImpl implements UserService {
 		return userMapper.findUserByNickname(nickname);
 	}
 
+	@Override
+	public UserPOJO findUserByIndexCode(String wxIndexCode) throws Exception {
+		UserPOJO ret = null;
+		ret = userMapper.findUserByIndexCode(wxIndexCode);
+		return ret;
+	}
+
 
 }

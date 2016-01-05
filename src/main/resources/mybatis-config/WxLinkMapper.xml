@@ -17,7 +17,25 @@
     <result column="LINK_URL" property="linkUrl" />
     <result column="DISPLAY" property="display" />
     <result column="ORDER_NO" property="orderNo" />
+    
+    <result column="WX_TEMPLATE_ID" property="wxTemplateId" />
+    <result column="USER_ID" property="userId" />
   </resultMap>
+  
+  <resultMap id="RelWxLinkResultMap" type="com.cobble.takeaway.pojo.RelWxLinkPOJO" >
+    <id column="REL_WX_LINK_ID" property="relWxLinkId" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    <result column="IMG_SRC" property="imgSrc" />
+    <result column="LINK_URL" property="linkUrl" />
+    <result column="DISPLAY" property="display" />
+    <result column="ORDER_NO" property="orderNo" />
+    
+    <result column="WX_TEMPLATE_ID" property="wxTemplateId" />
+    <result column="USER_ID" property="userId" />
+  </resultMap>
+  
+  
+  
   <sql id="Base_Column_List" >
     a.WX_LINK_ID, a.TITLE, a.IMG_SRC, a.LINK_URL, a.DISPLAY, a.ORDER_NO
   </sql>
@@ -47,6 +65,42 @@
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>
+  </select>
+  
+  
+  <select id="findsByIds" resultMap="WxLinkResultMap" parameterType="com.cobble.takeaway.pojo.WxLinkPOJO" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    , d.wx_template_id, e.user_id
+    from wx_link a, rel_wx_link b, rel_wx_template_user c, wx_template d, b_user e
+    <where>
+  		<trim prefixOverrides="and">
+  			and a.wx_link_id = b.wx_link_id
+  			and b.wx_template_id = c.wx_template_id
+  			and b.user_id = c.user_id
+  			and c.wx_template_id = d.wx_template_id
+  			and c.user_id = e.user_id
+			<include refid="Clause_Common"/>
+			<if test="display != null">
+				and a.DISPLAY = #{display}
+			</if>
+			<if test="orderNo != null">
+				and a.ORDER_NO = #{orderNo}
+			</if>
+			<if test="userId != null">
+				and e.USER_ID = #{userId}
+			</if>
+			<if test="wxTemplateId != null">
+				and d.WX_TEMPLATE_ID = #{wxTemplateId}
+			</if>
+			
+  		</trim>
+  	</where>
+  	order by a.ORDER_NO
+	<!-- <if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if> -->
   </select>
   
   <select id="getCountByKey" resultType="java.lang.Integer" parameterType="com.cobble.takeaway.pojo.WxLinkPOJO" >
@@ -118,6 +172,34 @@
       </if>
       <if test="orderNo != null" >
         #{orderNo},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <insert id="insertRelWxLink" parameterType="com.cobble.takeaway.pojo.RelWxLinkPOJO" useGeneratedKeys="true"
+  	keyProperty="relWxLinkId" keyColumn="REL_WX_LINK_ID">
+    insert into rel_wx_link
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wxLinkId != null" >
+        WX_LINK_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="wxTemplateId != null" >
+        WX_TEMPLATE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wxLinkId != null" >
+        #{wxLinkId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="wxTemplateId != null" >
+        #{wxTemplateId},
       </if>
     </trim>
   </insert>

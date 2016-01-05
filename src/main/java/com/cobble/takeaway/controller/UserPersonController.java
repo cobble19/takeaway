@@ -13,7 +13,7 @@ import com.cobble.takeaway.service.UserPersonService;
 
 @Controller
 public class UserPersonController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(UserPersonController.class);
+	private final static Logger logger = LoggerFactory.getLogger(UserPersonController.class);
 	
 	@Autowired
 	private UserPersonService userPersonService;

@@ -1,13 +1,52 @@
 $(document).ready(function() {
 	showDetail();
-	addSec();
+	mouseOverSec();
 	clickSec();
 	
     $('#wxLinkDiv').dialog({
     	autoOpen: false,
     	modal: true
     });
+    
+    onClickWxTemplateIdRd();
+    
+    onClickDeploy();
 })
+
+var onClickDeploy = function() {
+	$('#deployHtml').click(function() {
+		var wxTemplateId = $('input[name=wxTemplateId]:checked').val()
+	    console.log("wxTemplateId: " + wxTemplateId);
+		
+		$.ajax({
+			"url" : $('#basePath').val() + "/web/media/wxLink/toHtml",
+			"type" : "GET",
+			"headers" : {
+				"Content-Type" : "application/json"
+			},
+			"dataType" : 'json',
+			"data": {
+				wxTemplateId: wxTemplateId
+	        },
+	        success: function(data, textStatus, jqXHR ) {
+	        	console.log("data = " + data);
+	        },
+	        error: function(jqXHR, textStatus, errorThrown) {
+	        	alert('Load Error!');
+	        },
+	        complete: function(jqXHR, textStatus) {
+	        	console.log('Ajax complete.');
+	        }
+		});
+	})
+}
+
+var onClickWxTemplateIdRd = function() {
+	$('input[name=wxTemplateId]').click(function() {
+		var wxTemplateId = $(this).val();
+		window.location.href = $('#basePath').val() + "/web/media/wxTemplate" + "?wxTemplateId=" + wxTemplateId;
+	})
+}
 
 var clickSec = function() {
 	$('div.sec').click(function() {
@@ -78,6 +117,10 @@ var clickSec = function() {
 		    formData.append('linkUrl', $(form1.find('input[name=linkUrl]').get(0)).val());
 		    formData.append('display', 1/*$(form1.find('input[name=display]').get(0)).val()*/);
 		    formData.append('orderNo', $(form1.find('input[name=orderNo]').get(0)).val());
+		    var wxTemplateId = $('input[name=wxTemplateId]:checked').val()
+		    console.log("wxTemplateId: " + wxTemplateId);
+		    formData.append('wxTemplateId', wxTemplateId);
+		    
 		    $.ajax({
 		        url: '../../web/media/wxLink/add',
 		        contentType:"application/x-www-form-urlencoded",
@@ -97,7 +140,7 @@ var clickSec = function() {
 	});
 }
 
-var addSec = function() {
+var mouseOverSec = function() {
 	$('div.sec').mouseover(function() {
 		/*$(this).css('background-color', 'red');*/
 		$(this).addClass('mover');
@@ -109,16 +152,19 @@ var addSec = function() {
 
 var showDetail = function() {
 	
+	var wxTemplateId = $('input[name=wxTemplateId]:checked').val()
+    console.log("wxTemplateId: " + wxTemplateId);
+	
 	$.ajax({
 		"url" : $('#basePath').val() + "/web/media/wxLink/list",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
 		},
-		/*"dataType" : 'json',*/
-		/*"data": JSON.stringify({
-            title: $("#title").val()
-        }),*/
+		"dataType" : 'json',
+		"data": {
+			wxTemplateId: wxTemplateId
+        },
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
         	if (data.gridModelList != null && data.gridModelList.length > 0) {

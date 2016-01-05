@@ -23,7 +23,7 @@ import com.cobble.takeaway.service.PrivilegeService;
 
 @Controller
 public class PrivilegeController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(PrivilegeController.class);
+	private final static Logger logger = LoggerFactory.getLogger(PrivilegeController.class);
 	
 	@Autowired
 	private PrivilegeService privilegeService;
@@ -90,7 +90,7 @@ public class PrivilegeController extends BaseController {
 			int result = privilegeService.insert(privilegePOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -106,7 +106,7 @@ public class PrivilegeController extends BaseController {
 			int result = privilegeService.update(privilegePOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -122,7 +122,7 @@ public class PrivilegeController extends BaseController {
 			int result = privilegeService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

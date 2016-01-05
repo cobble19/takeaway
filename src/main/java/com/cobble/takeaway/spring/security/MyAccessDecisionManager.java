@@ -22,7 +22,7 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.CollectionUtils;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MyAccessDecisionManager.class);
+	private static final Logger logger = LoggerFactory.getLogger(MyAccessDecisionManager.class);
 
 	@Override
 	public void decide(Authentication authentication, Object object,
@@ -48,10 +48,10 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			session.setAttribute("myUser", myUser);
 		} 
 		
-		LOGGER.info("Login success: {}", principal);
+		logger.info("Login success: {}", principal);
 		
 		String url = ((FilterInvocation) object).getRequestUrl();
-		LOGGER.debug("URL = {}", url);
+		logger.debug("URL = {}", url);
 		if (url.equalsIgnoreCase("/") || url.equalsIgnoreCase("")
 				|| url.startsWith("/index") ) {
 			return;
@@ -62,7 +62,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		}
 		
 		if (CollectionUtils.isEmpty(configAttributes)) {	// 资源需要的角色
-			LOGGER.debug("url= {},  权限需要分配角色。", url);
+			logger.debug("url= {},  权限需要分配角色。", url);
 //			return;
 			throw new AccessDeniedException("权限需要分配角色," + ", configAttributes is null, user = " + authentication.getName()
 					+ ", url = " + url);
@@ -73,10 +73,10 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			// 当前的用户和企业用户没有角色和权限， 只有后台管理员有权限
 			if (MyUser.PERSON.equalsIgnoreCase(myUser.getUserType()) || MyUser.ENTERPRISE.equalsIgnoreCase(myUser.getUserType())
 					|| MyUser.MEDIA.equalsIgnoreCase(myUser.getUserType())) {
-				LOGGER.info("username= {},  User Type = {}", authentication.getName(), myUser.getUserType());
+				logger.info("username= {},  User Type = {}", authentication.getName(), myUser.getUserType());
 				return;
 			}
-			LOGGER.debug("username= {},  用户需要分配角色。", authentication.getName());
+			logger.debug("username= {},  用户需要分配角色。", authentication.getName());
 			throw new AccessDeniedException("用户需要分配角色," + ", authorities is null, user = " + authentication.getName()
 					+ ", url = " + url);
 		}
@@ -85,12 +85,12 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		for (ConfigAttribute configAttribute : configAttributes) {
 			temp += configAttribute.getAttribute() + ", ";
 		}
-		LOGGER.info("需要的角色：{}", temp);
+		logger.info("需要的角色：{}", temp);
 		temp = "";
 		for (GrantedAuthority authority : authorities) {
 			temp += authority.getAuthority() + ", ";
 		}
-		LOGGER.info("用户的角色：{}", temp);
+		logger.info("用户的角色：{}", temp);
 		
 		while (it.hasNext()) {
 			ConfigAttribute configAttribute = it.next();

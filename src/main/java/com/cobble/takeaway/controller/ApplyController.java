@@ -26,7 +26,7 @@ import com.cobble.takeaway.service.ApplyService;
 
 @Controller
 public class ApplyController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(ApplyController.class);
+	private final static Logger logger = LoggerFactory.getLogger(ApplyController.class);
 	
 	@Autowired
 	private ApplyService applyService;
@@ -43,7 +43,7 @@ public class ApplyController extends BaseController {
 			ret.setDraw(1);
 			ret.setRecordsFiltered(count);
 		} catch (Exception e) {
-			LOGGER.error("applyInActivity error.", e);
+			logger.error("applyInActivity error.", e);
 			throw e;
 		}
 		
@@ -64,7 +64,7 @@ public class ApplyController extends BaseController {
 				ret.setDesc("不存在手机号：" + applySearchPOJO.getPhone());
 			}
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -80,7 +80,7 @@ public class ApplyController extends BaseController {
 			int result = applyService.insert(applyPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -129,7 +129,7 @@ public class ApplyController extends BaseController {
 			int result = applyService.insert(applyPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -145,7 +145,7 @@ public class ApplyController extends BaseController {
 			int result = applyService.update(applyPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -161,7 +161,7 @@ public class ApplyController extends BaseController {
 			int result = applyService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

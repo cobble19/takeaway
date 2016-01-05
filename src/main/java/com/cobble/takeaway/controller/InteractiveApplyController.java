@@ -32,7 +32,7 @@ import com.cobble.takeaway.util.UserUtil;
 
 @Controller
 public class InteractiveApplyController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(InteractiveApplyController.class);
+	private final static Logger logger = LoggerFactory.getLogger(InteractiveApplyController.class);
 	
 	public final static Integer IS_WINNER = 1;
 	public final static Integer IS_NOT_WINNER = 0;
@@ -61,7 +61,7 @@ public class InteractiveApplyController extends BaseController {
 			ret.setDraw(1);
 			ret.setRecordsFiltered(count);
 		} catch (Exception e) {
-			LOGGER.error("applyInActivity error.", e);
+			logger.error("applyInActivity error.", e);
 			throw e;
 		}
 		
@@ -85,7 +85,7 @@ public class InteractiveApplyController extends BaseController {
 			ret.setDraw(1);
 			ret.setRecordsFiltered(count);
 		} catch (Exception e) {
-			LOGGER.error("applyInActivity error.", e);
+			logger.error("applyInActivity error.", e);
 			throw e;
 		}
 		
@@ -108,7 +108,7 @@ public class InteractiveApplyController extends BaseController {
 			ret.setDraw(1);
 			ret.setRecordsFiltered(count);
 		} catch (Exception e) {
-			LOGGER.error("applyInActivity error.", e);
+			logger.error("applyInActivity error.", e);
 			throw e;
 		}
 		
@@ -127,7 +127,7 @@ public class InteractiveApplyController extends BaseController {
 			ret.setDraw(1);
 			ret.setRecordsFiltered(count);
 		} catch (Exception e) {
-			LOGGER.error("applyInActivity error.", e);
+			logger.error("applyInActivity error.", e);
 			throw e;
 		}
 		
@@ -148,7 +148,7 @@ public class InteractiveApplyController extends BaseController {
 //				ret.setDesc("不存在手机号：" + interactiveApplySearchPOJO.getPhone());
 			}
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -190,7 +190,7 @@ public class InteractiveApplyController extends BaseController {
 							ret.setDesc("验证码已经过期!");
 						}
 					} catch (Exception e) {
-						LOGGER.error("奖品截止日期 error, {}", e);
+						logger.error("奖品截止日期 error, {}", e);
 					}
 				} else {
 					ret.setSuccess(false);
@@ -202,7 +202,7 @@ public class InteractiveApplyController extends BaseController {
 			}
 
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -240,7 +240,7 @@ public class InteractiveApplyController extends BaseController {
 			// 处理获奖人和活动状态
 			dealInteractiveStatus(interactiveApplyPOJO);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -249,7 +249,7 @@ public class InteractiveApplyController extends BaseController {
 	}
 	
 	private void dealInteractiveStatus(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception {
-		LOGGER.debug("dealInteractiveStatus start... , interactiveApplyPOJO: {}", interactiveApplyPOJO);
+		logger.debug("dealInteractiveStatus start... , interactiveApplyPOJO: {}", interactiveApplyPOJO);
 		DealStatusThread dealStatusThread = new DealStatusThread(interactiveApplyPOJO, interactiveService);
 		dealStatusThread.start();
 	}
@@ -265,15 +265,15 @@ public class InteractiveApplyController extends BaseController {
 		@Override
 		public void run() {
 			try {
-				LOGGER.info("DealStatusThread start..., interactiveApplyPOJO: {}", interactiveApplyPOJO);
+				logger.info("DealStatusThread start..., interactiveApplyPOJO: {}", interactiveApplyPOJO);
 				Long interactiveId = interactiveApplyPOJO.getInteractiveId();
 
-				LOGGER.info("DealStatusThread ..., interactiveId: {}", interactiveId);
+				logger.info("DealStatusThread ..., interactiveId: {}", interactiveId);
 				InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
-				LOGGER.info("DealStatusThread ..., interactivePOJO: {}, status: {}", interactivePOJO, interactivePOJO.getStatus());
+				logger.info("DealStatusThread ..., interactivePOJO: {}, status: {}", interactivePOJO, interactivePOJO.getStatus());
 				Integer status = interactivePOJO.getStatus();
 
-				LOGGER.info("DealStatusThread ..., status: {}", status);
+				logger.info("DealStatusThread ..., status: {}", status);
 				if (-1 == status) {
 					//update status -1 -> 0
 					interactivePOJO.setStatus(0);
@@ -286,15 +286,15 @@ public class InteractiveApplyController extends BaseController {
 					}
 					// 倒计时定时更新结束状态 , update status 0 -> 1
 
-					LOGGER.info("DealStatusThread sleep start..., interval: {}", interval);
+					logger.info("DealStatusThread sleep start..., interval: {}", interval);
 					Thread.sleep(interval);
-					LOGGER.info("DealStatusThread sleep end..., interval: {}", interval);
+					logger.info("DealStatusThread sleep end..., interval: {}", interval);
 					
 
-					LOGGER.info("interactiveService .updateStatus start...");
+					logger.info("interactiveService .updateStatus start...");
 					interactivePOJO.setStatus(1);
 					interactiveService.updateStatus(interactivePOJO);
-					LOGGER.info("interactiveService.updateStatus end...");
+					logger.info("interactiveService.updateStatus end...");
 					// update 获奖人 IS_WINNER 0->1
 
 //					InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
@@ -304,7 +304,7 @@ public class InteractiveApplyController extends BaseController {
 					interactiveApplySearchPOJO.setLimit(interactivePOJO.getNumOfWinner());*/
 					
 
-					LOGGER.info("interactiveApplyService.updateIsWinner start...");
+					logger.info("interactiveApplyService.updateIsWinner start...");
 					List<InteractiveApplyPOJO> interactiveApplyPOJOs = interactiveApplyService.getInteractiveApplyWinner(interactiveId);
 					
 					if (!CollectionUtils.isEmpty(interactiveApplyPOJOs)) {
@@ -314,14 +314,14 @@ public class InteractiveApplyController extends BaseController {
 						}
 					}
 
-					LOGGER.info("interactiveApplyService.updateIsWinner end...");
+					logger.info("interactiveApplyService.updateIsWinner end...");
 					
 				}
 				
 				// 每天凌晨0：00 1. 更新活动status， 如果结束0->1, then 步骤2 else end...
 				// 2.更新update 获奖人 IS_WINNER 0->1
 			} catch (Exception e) {
-				LOGGER.error("DealStatusThread error {}", e);
+				logger.error("DealStatusThread error {}", e);
 			}
 			
 		}
@@ -415,7 +415,7 @@ public class InteractiveApplyController extends BaseController {
 			int result = interactiveApplyService.insert(interactiveApplyPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -431,7 +431,7 @@ public class InteractiveApplyController extends BaseController {
 			int result = interactiveApplyService.update(interactiveApplyPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -447,7 +447,7 @@ public class InteractiveApplyController extends BaseController {
 			int result = interactiveApplyService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

@@ -20,7 +20,7 @@ import com.cobble.takeaway.service.LocationAreaService;
 
 @Controller
 public class LocationAreaController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(LocationAreaController.class);
+	private final static Logger logger = LoggerFactory.getLogger(LocationAreaController.class);
 	
 	@Autowired
 	private LocationAreaService locationAreaService;
@@ -55,7 +55,7 @@ public class LocationAreaController extends BaseController {
 			int result = locationAreaService.insert(locationAreaPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -71,7 +71,7 @@ public class LocationAreaController extends BaseController {
 			int result = locationAreaService.update(locationAreaPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -87,7 +87,7 @@ public class LocationAreaController extends BaseController {
 			int result = locationAreaService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

@@ -22,7 +22,7 @@ import com.cobble.takeaway.service.RecommendService;
 
 @Controller
 public class RecommendController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(RecommendController.class);
+	private final static Logger logger = LoggerFactory.getLogger(RecommendController.class);
 	
 	@Autowired
 	private RecommendService recommendService;
@@ -69,7 +69,7 @@ public class RecommendController extends BaseController {
 			int result = recommendService.insert(recommendPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -85,7 +85,7 @@ public class RecommendController extends BaseController {
 			int result = recommendService.update(recommendPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}
@@ -101,7 +101,7 @@ public class RecommendController extends BaseController {
 			int result = recommendService.delete(ids);
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.setSuccess(false);
 			throw e;
 		}

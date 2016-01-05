@@ -22,7 +22,7 @@ import com.cobble.takeaway.pojo.FoodSellerPOJO;
 
 @Controller
 public class MyHtmlEditorController extends BaseController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(MyHtmlEditorController.class);
+	private final static Logger logger = LoggerFactory.getLogger(MyHtmlEditorController.class);
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -34,17 +34,17 @@ public class MyHtmlEditorController extends BaseController {
 		Map ret = new HashMap();
 		try {
 			if (file != null && !file.isEmpty()) {
-				LOGGER.info("Uploading Html Editor file: " + file.getOriginalFilename());
+				logger.info("Uploading Html Editor file: " + file.getOriginalFilename());
 				String dir = messageSource.getMessage("files.directory", null, null);
 				File dest = new File(dir + File.separator + "images" + File.separator + file.getOriginalFilename());
 				file.transferTo(dest);
-				LOGGER.info("Upload Success Html Editor file: " + "images" + File.separator + file.getOriginalFilename());
+				logger.info("Upload Success Html Editor file: " + "images" + File.separator + file.getOriginalFilename());
 				ret.put("file_url", "images" + "/" + file.getOriginalFilename());
 			}
 			
 			ret.put("success", true);
 		} catch (Exception e) {
-			LOGGER.error("insert error.", e);
+			logger.error("insert error.", e);
 			ret.put("success", false);
 			throw e;
 		}

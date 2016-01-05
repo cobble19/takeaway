@@ -10,6 +10,12 @@
 		<property name="memoryStoreEvictionPolicy" value="LRU" />
 	</cache> -->
 	
+  <resultMap id="RelWxIndexMapResultMap" type="RelWxIndexMapPOJO" >
+    <id column="REL_WX_INDEX_MAP_ID" property="relWxIndexMapId"/>
+    <result column="USER_ID" property="userId"/>
+    <result column="WX_INDEX_CODE" property="wxIndexCode"/>
+  </resultMap>
+  
   <resultMap id="UserResultMap" type="UserPOJO" >
     <id column="USER_ID" property="userId" jdbcType="INTEGER" />
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
@@ -19,7 +25,10 @@
     <result column="ENABLE" property="enable"/>
     <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
     <collection property="rolePOJOs" column="USER_ID" select="com.cobble.takeaway.dao.RoleMapper.findByUserId"></collection>
+    <!-- <association property="relWxIndexMapPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.RelWxIndexMapResultMap"></association> -->
   </resultMap>
+  
+  
   <sql id="Base_Column_List" >
     u.USER_ID, u.USERNAME, u.NICKNAME, u.PASSWORD, u.EMAIL, u.ENABLE, u.USER_TYPE
   </sql>
@@ -31,6 +40,18 @@
 		and u.USER_TYPE = #{userType}
 	</if>
   </sql>
+  
+  <select id="findUserByIndexCode" resultMap="UserResultMap" parameterType="String" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    , b.REL_WX_INDEX_MAP_ID, b.wx_index_code
+    from b_user u, rel_wx_index_map b
+    where 
+    u.user_id = b.user_id
+    and b.wx_index_code = #{wxIndexCode}
+  </select>
+  
   <select id="findUserByName" resultMap="UserResultMap" parameterType="String" >
     select
       distinct
