@@ -24,14 +24,9 @@
   
   <resultMap id="RelWxLinkResultMap" type="com.cobble.takeaway.pojo.RelWxLinkPOJO" >
     <id column="REL_WX_LINK_ID" property="relWxLinkId" />
-    <result column="TITLE" property="title" jdbcType="VARCHAR"/>
-    <result column="IMG_SRC" property="imgSrc" />
-    <result column="LINK_URL" property="linkUrl" />
-    <result column="DISPLAY" property="display" />
-    <result column="ORDER_NO" property="orderNo" />
-    
-    <result column="WX_TEMPLATE_ID" property="wxTemplateId" />
+    <result column="WX_LINK_ID" property="wxLinkId"/>
     <result column="USER_ID" property="userId" />
+    <result column="WX_TEMPLATE_ID" property="wxTemplateId" />
   </resultMap>
   
   
@@ -78,7 +73,7 @@
   		<trim prefixOverrides="and">
   			and a.wx_link_id = b.wx_link_id
   			and b.wx_template_id = c.wx_template_id
-  			and b.user_id = c.user_id
+  			and b.user_id = e.user_id
   			and c.wx_template_id = d.wx_template_id
   			and c.user_id = e.user_id
 			<include refid="Clause_Common"/>

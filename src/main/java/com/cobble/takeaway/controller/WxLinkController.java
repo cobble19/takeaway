@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
@@ -57,9 +58,36 @@ public class WxLinkController extends BaseController {
 	@Autowired
 	private MessageSource messageSource;
 	
+	@RequestMapping(value = "/web/media/wxLink", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ModelAndView wxIndexLink(@RequestParam(value = "wxTemplateId") Long wxTemplateId,
+			@RequestParam(value = "userId") Long userId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			WxLinkPOJO wxLinkPOJO = new WxLinkPOJO();
+			wxLinkPOJO.setWxTemplateId(wxTemplateId);
+			wxLinkPOJO.setUserId(userId);
+			List<WxLinkPOJO> wxLinkPOJOs = wxLinkService.findsByIds(wxLinkPOJO);
+			/*ret.addObject("wxLinkPOJOs", wxLinkPOJOs);*/
+			
+			if (!CollectionUtils.isEmpty(wxLinkPOJOs)) {
+				for (int i = 0; i < wxLinkPOJOs.size(); i++) {
+					ret.addObject("wxLinkPOJO" + i, wxLinkPOJOs.get(i));
+				}
+			}
+			
+			ret.setViewName("/page/media/wx_link_index");
+		} catch (Exception e) {
+			logger.error("toHtml error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/w/{wxIndexCode}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public HtmlConvertedPOJO wxIndex(@PathVariable(value = "wxIndexCode") String wxIndexCode,
+	public HtmlConvertedPOJO wxIndexStatic(@PathVariable(value = "wxIndexCode") String wxIndexCode,
 			/*@RequestParam(value = "userId", required = false) Long userId,*/ Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HtmlConvertedPOJO ret = new HtmlConvertedPOJO();
@@ -129,6 +157,8 @@ public class WxLinkController extends BaseController {
 			if (!UrlUtils.isAbsoluteUrl(fromUrl)) {
 				fromUrl = base + "/" + fromUrl;
 			}
+			
+			fromUrl += "?wxTemplateId=" + wxTemplateId + "&userId=" + userId;
 			
 			ret = FileUtil.url2Html(fromUrl, toFileFullPath);
 			

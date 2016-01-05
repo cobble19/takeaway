@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	showDetail();
+//	showDetail();
 })
 
 var showDetail = function() {
