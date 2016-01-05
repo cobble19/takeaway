@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
@@ -40,6 +41,57 @@ public class WxTemplateController extends BaseController {
 	@Autowired
 	private MessageSource messageSource;
 
+	/**
+	 * by userId and wxTemplateId
+	 * @param relWxTemplateUserPOJO
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/api/web/media/wxTemplate/enable", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO updateRelWxTempalte4Display(RelWxTemplateUserPOJO relWxTemplateUserPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long wxTemplateId = relWxTemplateUserPOJO.getWxTemplateId();
+			
+			// update to 0 on all by userId
+			RelWxTemplateUserPOJO temp = new RelWxTemplateUserPOJO();
+			temp.setUserId(userId);
+			temp.setDisplayFlag(0);
+			int result = wxTemplateService.updateRelWxTemplateUser4Display(temp);
+			
+			// update to 1 by userId and wxTemplateId
+			temp = new RelWxTemplateUserPOJO();
+			temp.setUserId(userId);
+			temp.setWxTemplateId(wxTemplateId);
+			temp.setDisplayFlag(1);
+
+			result = wxTemplateService.updateRelWxTemplateUser4Display(temp);
+			
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	/**
+	 * by relWxTemplateId
+	 * @param relWxTemplateUserPOJO
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/api/web/media/relWxTemplate/status/update", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO updateRelWxTempalte4Status(RelWxTemplateUserPOJO relWxTemplateUserPOJO, Model model, 
@@ -147,15 +199,14 @@ public class WxTemplateController extends BaseController {
 	
 	@RequestMapping(value = "/web/media/wxTemplate/list", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ExtjsPOJO<WxTemplatePOJO> listWxTemplate(WxTemplateSearchPOJO wxTemplateSearchPOJO, Model model) throws Exception {
-		ExtjsPOJO<WxTemplatePOJO> ret = new ExtjsPOJO<WxTemplatePOJO>();
+	public DataTablesPOJO<WxTemplatePOJO> queryWxTemplate(WxTemplateSearchPOJO wxTemplateSearchPOJO, Model model) throws Exception {
+		DataTablesPOJO<WxTemplatePOJO> ret = new DataTablesPOJO<WxTemplatePOJO>();
 		List<WxTemplatePOJO> wxTemplatePOJOList = new ArrayList<WxTemplatePOJO>();
-		wxTemplatePOJOList = wxTemplateService.finds(wxTemplateSearchPOJO);
-		int total = wxTemplateService.getCount(wxTemplateSearchPOJO);
+		Long userId = UserUtil.getCurrentUser().getUserId();
+		wxTemplateSearchPOJO.setUserId(userId);
+		wxTemplatePOJOList = wxTemplateService.findsByUserId4UC(wxTemplateSearchPOJO);
 		
-		ret.setGridModelList(wxTemplatePOJOList);
-		ret.setSuccess(true);
-		ret.setTotal(total);
+		ret.setData(wxTemplatePOJOList);
 		/*model.addAttribute("wxTemplatePOJOList", wxTemplatePOJOList);
 		model.addAttribute("success", true);
 		model.addAttribute("total", 1);*/

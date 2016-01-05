@@ -37,6 +37,35 @@
 	</if>
   </sql>
   
+  <select id="findsByUserId4UC" resultMap="WxTemplateResultMap" parameterType="com.cobble.takeaway.pojo.WxTemplateSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , b.user_id, b.display_flag, b.wx_static_page
+    from WX_TEMPLATE a
+    left join (
+    	select a.user_id, a.wx_template_id, a.display_flag, a.wx_static_page 
+    	from REL_WX_TEMPLATE_USER a
+    	join b_user b on b.user_id = a.user_id
+    	where b.user_id = #{userId}
+    	) b on b.wx_template_id = a.wx_template_id
+    
+    <!-- left join REL_WX_TEMPLATE_USER b on a.wx_template_id = b.wx_template_id
+    left join b_user c on b.user_id = c.user_id -->
+    <!-- <where>
+  		<trim prefixOverrides="and">
+  			and c.user_id = #{userId}
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where> -->
+  	order by b.display_flag desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
   <select id="findsByUserId" resultMap="WxTemplateResultMap" parameterType="com.cobble.takeaway.pojo.WxTemplateSearchPOJO" >
     select
     <if test="distinct" >
@@ -169,6 +198,26 @@
     </set>
     where USER_ID = #{userId}
     and WX_TEMPLATE_ID = #{wxTemplateId}
+  </update>
+  
+  
+  <update id="updateRelWxTemplateUser4Display" parameterType="com.cobble.takeaway.pojo.RelWxTemplateUserPOJO" >
+    update REL_WX_TEMPLATE_USER
+    <set >
+      <if test="displayFlag != null" >
+        DISPLAY_FLAG = #{displayFlag},
+      </if>
+    </set>
+    <where>
+  		<trim prefixOverrides="and">
+  			<if test="wxTemplateId != null and wxTemplateId != 0">
+				and WX_TEMPLATE_ID = #{wxTemplateId}
+  			</if>
+  			<if test="userId != null">
+				and USER_ID = #{userId}
+  			</if>
+  		</trim>
+  	</where>
   </update>
   
 </mapper>

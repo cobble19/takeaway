@@ -44,6 +44,7 @@
 		            <a href="#update_password" class="list-group-item col-md-12 col-xs-6">修改密码</a>
 		            <a href="#create_activity" class="list-group-item col-md-12 col-xs-6">线下活动管理</a>
 		            <a href="#create_interactive" class="list-group-item col-md-12 col-xs-6">线上互动管理</a>
+		            <a href="#create_wxTemplate" class="list-group-item col-md-12 col-xs-6">模板管理</a>
 		          </div> 				
 	     	</div>
 	     	<div class="col-md-9 col-xs-9">
@@ -137,6 +138,9 @@
 				  				</tfoot> -->
 				  			</table>
 	     			</div>	<!-- create_interactive end -->
+	     			
+	     			<!-- create_wxTemplate -->
+	     			<%@include file="wx_template_inc.jsp" %>
 	     			
 					<div id="update_password">
                         <h3 style="margin-bottom:20px;">修改密码</h3>

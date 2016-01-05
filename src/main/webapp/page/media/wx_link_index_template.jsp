@@ -26,8 +26,14 @@
   <body style="padding:0px; background-color:#f1f1f1;">
   	
   	<div class="container">
-  		<div class="row">
-  			<div class="col-md-2">
+  		<div class="row navbar-fixed-top" >
+		  <div class="alert alert-success" style="text-align: center;" role="alert">
+		    <strong>请点击下方各区域进行修改，修改完成后，点击发布按钮才可生效！！</strong> 
+			<button id="deployHtml" class="btn btn-success" type="button">发布</button>
+		  </div>
+  		</div>
+  		<div class="row" style="margin-top: 70px;">
+  			<div class="col-md-2" style="display: none;">
   				<c:forEach items="${wxTemplatePOJOs}" var="wxTemplatePOJO" varStatus="st">
   					<c:if test="${empty wxTemplatePOJO.checked}">
   						<input type="radio" name="wxTemplateId" value="${wxTemplatePOJO.wxTemplateId}"> <c:out value="${wxTemplatePOJO.wxTemplateName}"></c:out>
@@ -38,7 +44,6 @@
   					<br/>
   				</c:forEach>
   				
-  				<button id="deployHtml" class="btn btn-success" type="button">发布</button>
   			</div>
   			<div class="col-md-10">
 			  	<!-- 主体 -->

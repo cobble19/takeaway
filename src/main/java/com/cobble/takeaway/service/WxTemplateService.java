@@ -17,7 +17,11 @@ public interface WxTemplateService {
 
 	List<WxTemplatePOJO> findsByUserId(WxTemplateSearchPOJO wxTemplateSearchPOJO) throws Exception;
 	int updateRelWxTemplateUser4Status(RelWxTemplateUserPOJO relWxTemplateUserPOJO) throws Exception;
+	
+	int updateRelWxTemplateUser4Display(RelWxTemplateUserPOJO relWxTemplateUserPOJO) throws Exception;
 
 	int updateRelWxTemplateUser4WxStaticPage(RelWxTemplateUserPOJO relWxTemplateUserPOJO) throws Exception;
+
+	List<WxTemplatePOJO> findsByUserId4UC(WxTemplateSearchPOJO wxTemplateSearchPOJO) throws Exception;
 	
 }

@@ -97,4 +97,20 @@ public class WxTemplateServiceImpl implements WxTemplateService {
 		return ret;
 	}
 
+	@Override
+	public List<WxTemplatePOJO> findsByUserId4UC(
+			WxTemplateSearchPOJO wxTemplateSearchPOJO) throws Exception {
+		List<WxTemplatePOJO> ret = null;
+		ret = wxTemplateMapper.findsByUserId4UC(wxTemplateSearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public int updateRelWxTemplateUser4Display(
+			RelWxTemplateUserPOJO relWxTemplateUserPOJO) throws Exception {
+		int ret = 0;
+		ret = wxTemplateMapper.updateRelWxTemplateUser4Display(relWxTemplateUserPOJO);
+		return ret;
+	}
+
 }
