@@ -215,6 +215,8 @@
   			</div>	<!-- col-md-10 -->
   		</div>	<!-- row -->
   	</div>	<!-- container -->
+  	
+  	<div id="progress">数据加载中。。。</div>
   
   </body>
 </html>

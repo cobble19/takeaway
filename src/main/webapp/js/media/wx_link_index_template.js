@@ -11,10 +11,16 @@ $(document).ready(function() {
     onClickWxTemplateIdRd();
     
     onClickDeploy();
+    
+    $('#progress').dialog({
+    	autoOpen: false,
+    	modal: true
+    });
 })
 
 var onClickDeploy = function() {
 	$('#deployHtml').click(function() {
+		$('#progress').dialog('open');
 		var wxTemplateId = $('input[name=wxTemplateId]:checked').val()
 	    console.log("wxTemplateId: " + wxTemplateId);
 		
@@ -30,6 +36,7 @@ var onClickDeploy = function() {
 	        },
 	        success: function(data, textStatus, jqXHR ) {
 	        	console.log("data = " + data);
+	        	$('#progress').dialog('close');
 	        },
 	        error: function(jqXHR, textStatus, errorThrown) {
 	        	alert('Load Error!');
