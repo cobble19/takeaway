@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cobble.takeaway.dao.WxTemplateMapper;
+import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
 import com.cobble.takeaway.pojo.WxTemplatePOJO;
 import com.cobble.takeaway.pojo.WxTemplateSearchPOJO;
@@ -110,6 +111,14 @@ public class WxTemplateServiceImpl implements WxTemplateService {
 			RelWxTemplateUserPOJO relWxTemplateUserPOJO) throws Exception {
 		int ret = 0;
 		ret = wxTemplateMapper.updateRelWxTemplateUser4Display(relWxTemplateUserPOJO);
+		return ret;
+	}
+
+	@Override
+	public int updateRelWxIndexMap4WxStaticPage(
+			RelWxIndexMapPOJO relWxIndexMapPOJO) throws Exception {
+		int ret = 0;
+		ret = wxTemplateMapper.updateRelWxIndexMap4WxStaticPage(relWxIndexMapPOJO);
 		return ret;
 	}
 

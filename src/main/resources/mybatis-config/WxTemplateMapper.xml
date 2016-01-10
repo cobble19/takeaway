@@ -18,6 +18,7 @@
     <result column="WX_TEMPLATE_DESC" property="wxTemplateDesc" />
     
     <association property="relWxTemplateUserPOJO" resultMap="com.cobble.takeaway.dao.WxTemplateMapper.RelWxTemplateUserResultMap"></association>
+    <association property="relWxIndexMapPOJO" resultMap="com.cobble.takeaway.dao.WxTemplateMapper.RelWxIndexMapResultMap"></association>
   </resultMap>
   
   <resultMap id="RelWxTemplateUserResultMap" type="com.cobble.takeaway.pojo.RelWxTemplateUserPOJO" >
@@ -26,6 +27,14 @@
     <result column="WX_TEMPLATE_ID" property="wxTemplateId"/>
     <result column="DISPLAY_FLAG" property="displayFlag" />
     <result column="WX_STATIC_PAGE" property="wxStaticPage" />
+  </resultMap>
+  
+  <resultMap id="RelWxIndexMapResultMap" type="com.cobble.takeaway.pojo.RelWxIndexMapPOJO" >
+    <id column="REL_WX_INDEX_MAP_ID" property="relWxIndexMapId" />
+    <result column="USER_ID" property="userId"/>
+    <result column="WX_TEMPLATE_ID" property="wxTemplateId"/>
+    <result column="WX_STATIC_PAGE" property="wxStaticPage" />
+    <result column="WX_INDEX_CODE" property="wxIndexCode" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -43,14 +52,22 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    , b.user_id, b.display_flag, b.wx_static_page
+    , b.user_id, b.wx_static_page
     from WX_TEMPLATE a
-    left join (
+    left join 
+    (
+    	select a.user_id, a.wx_template_id, a.wx_static_page 
+    	from REL_WX_INDEX_MAP a
+    	join b_user b on b.user_id = a.user_id
+    	where b.user_id = #{userId}
+    	) b on b.wx_template_id = a.wx_template_id
+    
+    <!-- (
     	select a.user_id, a.wx_template_id, a.display_flag, a.wx_static_page 
     	from REL_WX_TEMPLATE_USER a
     	join b_user b on b.user_id = a.user_id
     	where b.user_id = #{userId}
-    	) b on b.wx_template_id = a.wx_template_id
+    	) b on b.wx_template_id = a.wx_template_id -->
     
     <!-- left join REL_WX_TEMPLATE_USER b on a.wx_template_id = b.wx_template_id
     left join b_user c on b.user_id = c.user_id -->
@@ -60,7 +77,7 @@
 			<include refid="Clause_Common"/>
   		</trim>
   	</where> -->
-  	order by b.display_flag desc
+  	order by b.wx_template_id desc
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>
@@ -78,7 +95,10 @@
   		<trim prefixOverrides="and">
   			and a.wx_template_id = b.wx_template_id
   			and b.user_id = c.user_id
-  			and c.user_id = #{userId}
+  			and b.user_id = #{userId}
+  			<if test="wxTemplateId != null">
+  				and b.wx_template_id = #{wxTemplateId}
+  			</if>
 			<include refid="Clause_Common"/>
   		</trim>
   	</where>
@@ -198,6 +218,19 @@
     </set>
     where USER_ID = #{userId}
     and WX_TEMPLATE_ID = #{wxTemplateId}
+  </update>
+  
+  <update id="updateRelWxIndexMap4WxStaticPage" parameterType="com.cobble.takeaway.pojo.RelWxIndexMapPOJO" >
+    update REL_WX_INDEX_MAP
+    <set>
+      <if test="wxStaticPage != null" >
+        WX_STATIC_PAGE = #{wxStaticPage},
+      </if>
+      <if test="wxTemplateId != null" >
+        WX_TEMPLATE_ID = #{wxTemplateId},
+      </if>
+    </set>
+    where USER_ID = #{userId}
   </update>
   
   

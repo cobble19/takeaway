@@ -89,8 +89,8 @@ $(document).ready(function() {
             { "data": "wxPage" },
             { "data": "wxTemplateName" },
             { "data": "wxTemplateDesc" },
-            { "data": "relWxTemplateUserPOJO.displayFlag" },
-            { "data": "relWxTemplateUserPOJO.wxStaticPage" },
+            { "data": "relWxIndexMapPOJO.userId" },
+            { "data": "relWxIndexMapPOJO.wxStaticPage" },
             {
                 /*"className":      'details-control',*/
                 "orderable":      false,

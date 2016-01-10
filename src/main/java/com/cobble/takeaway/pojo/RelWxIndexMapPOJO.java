@@ -3,6 +3,8 @@ package com.cobble.takeaway.pojo;
 public class RelWxIndexMapPOJO {
 	private Long relWxIndexMapId;
     private Long userId;
+    private Long wxTemplateId;
+    private String wxStaticPage;
     private String wxIndexCode;
     
 	public Long getRelWxIndexMapId() {
@@ -22,6 +24,18 @@ public class RelWxIndexMapPOJO {
 	}
 	public void setWxIndexCode(String wxIndexCode) {
 		this.wxIndexCode = wxIndexCode;
+	}
+	public Long getWxTemplateId() {
+		return wxTemplateId;
+	}
+	public void setWxTemplateId(Long wxTemplateId) {
+		this.wxTemplateId = wxTemplateId;
+	}
+	public String getWxStaticPage() {
+		return wxStaticPage;
+	}
+	public void setWxStaticPage(String wxStaticPage) {
+		this.wxStaticPage = wxStaticPage;
 	}
     
 }

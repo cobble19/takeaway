@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
+import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.WxTemplatePOJO;
@@ -59,7 +60,24 @@ public class WxTemplateController extends BaseController {
 			Long userId = UserUtil.getCurrentUser().getUserId();
 			Long wxTemplateId = relWxTemplateUserPOJO.getWxTemplateId();
 			
-			// update to 0 on all by userId
+			// 获取已经生成的静态页面
+			WxTemplateSearchPOJO wxTemplateSearchPOJO = new WxTemplateSearchPOJO();
+			wxTemplateSearchPOJO.setUserId(userId);
+			wxTemplateSearchPOJO.setWxTemplateId(wxTemplateId);
+			List<WxTemplatePOJO> wxTemplatePOJOs = wxTemplateService.findsByUserId(wxTemplateSearchPOJO);
+			// only ONE valid
+			if (CollectionUtils.isEmpty(wxTemplatePOJOs)) {
+				throw new IllegalArgumentException("No Found valid wx static page");
+			}
+			WxTemplatePOJO wxTemplatePOJO = wxTemplatePOJOs.get(0);
+			String wxStaticPage = wxTemplatePOJO.getRelWxTemplateUserPOJO().getWxStaticPage();
+			RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();
+			relWxIndexMapPOJO.setUserId(userId);
+			relWxIndexMapPOJO.setWxTemplateId(wxTemplateId);
+			relWxIndexMapPOJO.setWxStaticPage(wxStaticPage);
+			wxTemplateService.updateRelWxIndexMap4WxStaticPage(relWxIndexMapPOJO);
+			
+			/*// update to 0 on all by userId
 			RelWxTemplateUserPOJO temp = new RelWxTemplateUserPOJO();
 			temp.setUserId(userId);
 			temp.setDisplayFlag(0);
@@ -71,12 +89,13 @@ public class WxTemplateController extends BaseController {
 			temp.setWxTemplateId(wxTemplateId);
 			temp.setDisplayFlag(1);
 
-			result = wxTemplateService.updateRelWxTemplateUser4Display(temp);
+			result = wxTemplateService.updateRelWxTemplateUser4Display(temp);*/
 			
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			logger.error("insert error.", e);
+			logger.error("insert error: {}", e);
 			ret.setSuccess(false);
+			ret.setDesc(e.getMessage());
 			throw e;
 		}
 		

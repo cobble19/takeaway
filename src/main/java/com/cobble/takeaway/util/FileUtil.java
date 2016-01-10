@@ -19,6 +19,9 @@ public class FileUtil {
 		try {
 			String resp = HttpClientUtil.get(fromFullUrl);
 			toFileFullPath = toFileFullPath.replace("/", File.separator);
+			
+			logger.info("fromFullUrl: {}, toFileFullPath: {}", fromFullUrl, toFileFullPath);
+			
 			File dest = new File(toFileFullPath);
 			if (!dest.exists()) {
 				dest.createNewFile();
@@ -29,7 +32,7 @@ public class FileUtil {
 			ret.setFromFullUrl(fromFullUrl);
 			ret.setToFilePath(toFileFullPath);
 		} catch (Exception e) {
-			logger.error("toHtml error.", e);
+			logger.error("toHtml error: {}", e);
 			ret.setSuccess(false);
 		}
 		

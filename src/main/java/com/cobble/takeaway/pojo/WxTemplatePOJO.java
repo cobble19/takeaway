@@ -13,6 +13,8 @@ public class WxTemplatePOJO extends BasePOJO {
     
     private RelWxTemplateUserPOJO relWxTemplateUserPOJO;
     
+    private RelWxIndexMapPOJO relWxIndexMapPOJO;
+    
 	public Long getWxTemplateId() {
 		return wxTemplateId;
 	}
@@ -54,6 +56,12 @@ public class WxTemplatePOJO extends BasePOJO {
 	}
 	public void setRelWxTemplateUserPOJO(RelWxTemplateUserPOJO relWxTemplateUserPOJO) {
 		this.relWxTemplateUserPOJO = relWxTemplateUserPOJO;
+	}
+	public RelWxIndexMapPOJO getRelWxIndexMapPOJO() {
+		return relWxIndexMapPOJO;
+	}
+	public void setRelWxIndexMapPOJO(RelWxIndexMapPOJO relWxIndexMapPOJO) {
+		this.relWxIndexMapPOJO = relWxIndexMapPOJO;
 	}
     
 }

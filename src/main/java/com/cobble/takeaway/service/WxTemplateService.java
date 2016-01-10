@@ -2,6 +2,7 @@ package com.cobble.takeaway.service;
 
 import java.util.List;
 
+import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
 import com.cobble.takeaway.pojo.WxTemplatePOJO;
 import com.cobble.takeaway.pojo.WxTemplateSearchPOJO;
@@ -21,6 +22,7 @@ public interface WxTemplateService {
 	int updateRelWxTemplateUser4Display(RelWxTemplateUserPOJO relWxTemplateUserPOJO) throws Exception;
 
 	int updateRelWxTemplateUser4WxStaticPage(RelWxTemplateUserPOJO relWxTemplateUserPOJO) throws Exception;
+	int updateRelWxIndexMap4WxStaticPage(RelWxIndexMapPOJO relWxIndexMapPOJO) throws Exception;
 
 	List<WxTemplatePOJO> findsByUserId4UC(WxTemplateSearchPOJO wxTemplateSearchPOJO) throws Exception;
 	

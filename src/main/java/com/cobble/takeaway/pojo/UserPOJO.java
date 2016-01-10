@@ -20,7 +20,7 @@ public class UserPOJO extends BasePOJO {
 	
     private List<RolePOJO> rolePOJOs = new ArrayList<RolePOJO>();
     
-    private RelWxIndexMapPOJO relWxIndexMapPOJO;
+    private RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();
     
 	public Long getUserId() {
 		return userId;
@@ -87,6 +87,12 @@ public class UserPOJO extends BasePOJO {
 	}
 	public void setPasswordOld(String passwordOld) {
 		this.passwordOld = passwordOld;
+	}
+	public RelWxIndexMapPOJO getRelWxIndexMapPOJO() {
+		return relWxIndexMapPOJO;
+	}
+	public void setRelWxIndexMapPOJO(RelWxIndexMapPOJO relWxIndexMapPOJO) {
+		this.relWxIndexMapPOJO = relWxIndexMapPOJO;
 	}
     
 }

@@ -10,13 +10,14 @@
 		<property name="memoryStoreEvictionPolicy" value="LRU" />
 	</cache> -->
 	
-  <resultMap id="RelWxIndexMapResultMap" type="RelWxIndexMapPOJO" >
+  <!-- <resultMap id="RelWxIndexMapResultMap" type="RelWxIndexMapPOJO" >
     <id column="REL_WX_INDEX_MAP_ID" property="relWxIndexMapId"/>
     <result column="USER_ID" property="userId"/>
     <result column="WX_INDEX_CODE" property="wxIndexCode"/>
-  </resultMap>
+  </resultMap> -->
   
-  <resultMap id="UserResultMap" type="UserPOJO" >
+  
+  <resultMap id="UserResultMap" type="com.cobble.takeaway.pojo.UserPOJO" >
     <id column="USER_ID" property="userId" jdbcType="INTEGER" />
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
     <result column="NICKNAME" property="nickname" jdbcType="VARCHAR" />
@@ -24,8 +25,9 @@
     <result column="EMAIL" property="email" jdbcType="VARCHAR" />
     <result column="ENABLE" property="enable"/>
     <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+    <association property="relWxIndexMapPOJO" resultMap="com.cobble.takeaway.dao.WxTemplateMapper.RelWxIndexMapResultMap"></association>
     <collection property="rolePOJOs" column="USER_ID" select="com.cobble.takeaway.dao.RoleMapper.findByUserId"></collection>
-    <!-- <association property="relWxIndexMapPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.RelWxIndexMapResultMap"></association> -->
+    
   </resultMap>
   
   
@@ -45,7 +47,7 @@
     select
       distinct
     <include refid="Base_Column_List" />
-    , b.REL_WX_INDEX_MAP_ID, b.wx_index_code
+    , b.REL_WX_INDEX_MAP_ID, b.USER_ID, b.WX_TEMPLATE_ID, b.WX_STATIC_PAGE, b.wx_index_code
     from b_user u, rel_wx_index_map b
     where 
     u.user_id = b.user_id

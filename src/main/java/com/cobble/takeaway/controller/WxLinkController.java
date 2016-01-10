@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
+import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.RelWxLinkPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
@@ -72,7 +73,8 @@ public class WxLinkController extends BaseController {
 			
 			if (!CollectionUtils.isEmpty(wxLinkPOJOs)) {
 				for (int i = 0; i < wxLinkPOJOs.size(); i++) {
-					ret.addObject("wxLinkPOJO" + i, wxLinkPOJOs.get(i));
+					WxLinkPOJO temp = wxLinkPOJOs.get(i);
+					ret.addObject("wxLinkPOJO" + temp.getOrderNo(), temp);
 				}
 			}
 			
@@ -85,7 +87,7 @@ public class WxLinkController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/web/w/{wxIndexCode}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/wx/{wxIndexCode}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public HtmlConvertedPOJO wxIndexStatic(@PathVariable(value = "wxIndexCode") String wxIndexCode,
 			/*@RequestParam(value = "userId", required = false) Long userId,*/ Model model, 
@@ -94,7 +96,8 @@ public class WxLinkController extends BaseController {
 		try {
 //			Long userId = UserUtil.getCurrentUser().getUserId();
 			UserPOJO userPOJO = userService.findUserByIndexCode(wxIndexCode);
-			WxTemplateSearchPOJO wxTemplateSearchPOJO = new WxTemplateSearchPOJO();
+			
+			/*WxTemplateSearchPOJO wxTemplateSearchPOJO = new WxTemplateSearchPOJO();
 			wxTemplateSearchPOJO.setUserId(userPOJO.getUserId());
 			
 			WxTemplatePOJO wxTemplatePOJO = null;
@@ -108,7 +111,9 @@ public class WxLinkController extends BaseController {
 				}
 			}
 			
-			String html = wxTemplatePOJO.getRelWxTemplateUserPOJO().getWxStaticPage();
+			String html = wxTemplatePOJO.getRelWxTemplateUserPOJO().getWxStaticPage();*/
+			
+			String html = userPOJO.getRelWxIndexMapPOJO().getWxStaticPage();
 			
 			String base = request.getScheme() + "://" + request.getServerName()
 					+ ":" + request.getServerPort()
@@ -174,6 +179,13 @@ public class WxLinkController extends BaseController {
 			relWxTemplateUserPOJO.setWxStaticPage(htmlPath);
 			
 			wxTemplateService.updateRelWxTemplateUser4WxStaticPage(relWxTemplateUserPOJO);
+			
+			// for discuss with zzd, user rel_index_map_code TABLE
+			/*RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();
+			relWxIndexMapPOJO.setUserId(userId);
+			relWxIndexMapPOJO.setWxTemplateId(wxTemplateId);
+			relWxIndexMapPOJO.setWxStaticPage(htmlPath);
+			wxTemplateService.updateRelWxIndexMap4WxStaticPage(relWxIndexMapPOJO);*/
 			
 		} catch (Exception e) {
 			logger.error("toHtml error.", e);
