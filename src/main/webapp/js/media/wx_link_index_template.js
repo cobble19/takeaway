@@ -36,6 +36,7 @@ var onClickDeploy = function() {
 	        },
 	        success: function(data, textStatus, jqXHR ) {
 	        	console.log("data = " + data);
+	        	alert('发布静态页面成功');
 	        	$('#progress').dialog('close');
 	        },
 	        error: function(jqXHR, textStatus, errorThrown) {

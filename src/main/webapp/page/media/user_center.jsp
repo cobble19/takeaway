@@ -54,7 +54,7 @@
 	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
 	     					<label class="" for="username">帐　　号：</label>
 	     					<%-- <input type="text" name="username" id="username" value="${myUser.username}" class="form-control"> --%>
-	     					 <c:out value="${myUser.username }"></c:out>/<c:out value="${myUser.userId }"></c:out><br/>
+	     					 <c:out value="${myUser.username }"></c:out><%-- /<c:out value="${myUser.userId }"></c:out> --%><br/>
 	     				</div>
 	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
 	     					<label>昵　　称：</label><input type="text" name="nickname" id="nickname" value="${myUser.nickname}" class="form-control input-sm"><br/>
