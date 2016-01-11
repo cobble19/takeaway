@@ -38,8 +38,8 @@ public class MyHtmlEditorController extends BaseController {
 				String dir = messageSource.getMessage("files.directory", null, null);
 				File dest = new File(dir + File.separator + "images" + File.separator + file.getOriginalFilename());
 				file.transferTo(dest);
-				logger.info("Upload Success Html Editor file: " + "images" + File.separator + file.getOriginalFilename());
-				ret.put("file_url", "images" + "/" + file.getOriginalFilename());
+				logger.info("Upload Success Html Editor file: " + dest.getName());
+				ret.put("file_url", "files/images" + "/" + file.getOriginalFilename());
 			}
 			
 			ret.put("success", true);

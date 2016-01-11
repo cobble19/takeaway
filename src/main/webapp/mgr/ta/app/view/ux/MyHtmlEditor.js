@@ -94,7 +94,7 @@ Ext.define('TA.view.ux.MyHtmlEditor', {
                                     url: editor.url, //点击插入执行的方法,将图片保存到服务器上
                                     success: function(form, action) {
                                         var element = document.createElement('img');
-                                        element.src = "../../files/" + action.result.file_url;
+                                        element.src = "../../" + action.result.file_url;
                                         element.title = vals.title;
                                         if(vals.width > 0 && vals.height > 0){
                                             element.width = vals.width;

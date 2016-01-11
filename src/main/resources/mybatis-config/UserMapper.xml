@@ -25,7 +25,9 @@
     <result column="EMAIL" property="email" jdbcType="VARCHAR" />
     <result column="ENABLE" property="enable"/>
     <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+    
     <association property="relWxIndexMapPOJO" resultMap="com.cobble.takeaway.dao.WxTemplateMapper.RelWxIndexMapResultMap"></association>
+    
     <collection property="rolePOJOs" column="USER_ID" select="com.cobble.takeaway.dao.RoleMapper.findByUserId"></collection>
     
   </resultMap>

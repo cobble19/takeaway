@@ -181,7 +181,7 @@ var showDetail = function() {
         			if (i >= 9) {
         				break;
         			}
-        			imgSrc = $('#basePath').val() + "/files/" + wxLink.imgSrc
+        			imgSrc = $('#basePath').val() + "/" + wxLink.imgSrc
         			var sec = $('#sec' + (i));
         			sec.find('a').attr('href', wxLink.linkUrl)
 												.attr('alt', wxLink.title)

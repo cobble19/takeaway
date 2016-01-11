@@ -126,7 +126,7 @@ public class WxLinkController extends BaseController {
 			
 			ret.setSuccess(true);
 		} catch (Exception e) {
-			logger.error("toHtml error.", e);
+			logger.error("wx index static page error: {}", e);
 			ret.setSuccess(false);
 			throw e;
 		}
