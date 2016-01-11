@@ -140,6 +140,7 @@ var clickSec = function() {
 		            alert('创建链接成功');
 
 		    		$('#wxLinkDiv').dialog('close');
+		    		window.location.href = window.location.href;
 		        }
 		    });	// ajax end
 		    

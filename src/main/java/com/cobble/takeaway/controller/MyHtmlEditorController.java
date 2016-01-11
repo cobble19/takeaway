@@ -1,10 +1,11 @@
 package com.cobble.takeaway.controller;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cobble.takeaway.pojo.FoodSellerPOJO;
+import com.cobble.takeaway.util.DateUtil;
 
 @Controller
 public class MyHtmlEditorController extends BaseController {
@@ -35,11 +36,16 @@ public class MyHtmlEditorController extends BaseController {
 		try {
 			if (file != null && !file.isEmpty()) {
 				logger.info("Uploading Html Editor file: " + file.getOriginalFilename());
+				
+				String fileName = DateUtil.toStr(new Date(), "yyyyMMddHHmmss.SSS")
+						+ "." + RandomStringUtils.randomAlphabetic(5)
+						+ "." + file.getOriginalFilename();
+				
 				String dir = messageSource.getMessage("files.directory", null, null);
-				File dest = new File(dir + File.separator + "images" + File.separator + file.getOriginalFilename());
+				File dest = new File(dir + File.separator + "images" + File.separator + fileName);
 				file.transferTo(dest);
 				logger.info("Upload Success Html Editor file: " + dest.getName());
-				ret.put("file_url", "files/images" + "/" + file.getOriginalFilename());
+				ret.put("file_url", "files/images" + "/" + fileName);
 			}
 			
 			ret.put("success", true);

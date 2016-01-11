@@ -165,7 +165,7 @@
 			            
 				  		<div id="wxLinkDiv" class="">
 				  			<fieldset class="scheduler-border">
-				  				<legend class="scheduler-border">添加</legend>
+				  				<legend class="scheduler-border"></legend>
 						  		<form id="wxLinkForm" class="form-horizontal" role="form" action='<cmn:base/>/web/media/wxLink/add' method="post">
 						 			<div class="form-group">
 						 				<label class="control-label" for="title">名称:</label>
