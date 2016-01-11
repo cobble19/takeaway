@@ -71,9 +71,17 @@ public class WxLinkController extends BaseController {
 			List<WxLinkPOJO> wxLinkPOJOs = wxLinkService.findsByIds(wxLinkPOJO);
 			/*ret.addObject("wxLinkPOJOs", wxLinkPOJOs);*/
 			
+			String base = request.getScheme() + "://" + request.getServerName()
+					+ ":" + request.getServerPort()
+					+ request.getServletContext().getContextPath();
+			
 			if (!CollectionUtils.isEmpty(wxLinkPOJOs)) {
 				for (int i = 0; i < wxLinkPOJOs.size(); i++) {
 					WxLinkPOJO temp = wxLinkPOJOs.get(i);
+					if (!UrlUtils.isAbsoluteUrl(temp.getImgSrc())) {
+						String imgSrc = base + "/" + temp.getImgSrc();
+						temp.setImgSrc(imgSrc);
+					}
 					ret.addObject("wxLinkPOJO" + temp.getOrderNo(), temp);
 				}
 			}

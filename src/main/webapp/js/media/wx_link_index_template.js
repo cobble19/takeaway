@@ -181,8 +181,9 @@ var showDetail = function() {
         			if (i >= 9) {
         				break;
         			}
+        			var orderNo = wxLink.orderNo;
         			imgSrc = $('#basePath').val() + "/" + wxLink.imgSrc
-        			var sec = $('#sec' + (i));
+        			var sec = $('#sec' + (orderNo));
         			sec.find('a').attr('href', wxLink.linkUrl)
 												.attr('alt', wxLink.title)
 												.attr('title', wxLink.title);
