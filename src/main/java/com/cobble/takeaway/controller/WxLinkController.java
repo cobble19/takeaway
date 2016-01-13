@@ -61,14 +61,14 @@ public class WxLinkController extends BaseController {
 	private MessageSource messageSource;
 	
 	@RequestMapping(value = "/web/media/wxLink"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
-	public ModelAndView wxIndexLink(@RequestParam(value = "wxTemplateId") Long wxTemplateId,
-			@RequestParam(value = "userId") Long userId, Model model, 
+	public ModelAndView wxIndexLink(/*@RequestParam(value = "wxTemplateId") Long wxTemplateId,
+			@RequestParam(value = "userId") Long userId*/WxLinkPOJO wxLinkPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
-			WxLinkPOJO wxLinkPOJO = new WxLinkPOJO();
+			/*WxLinkPOJO wxLinkPOJO = new WxLinkPOJO();
 			wxLinkPOJO.setWxTemplateId(wxTemplateId);
-			wxLinkPOJO.setUserId(userId);
+			wxLinkPOJO.setUserId(userId);*/
 			List<WxLinkPOJO> wxLinkPOJOs = wxLinkService.findsByIds(wxLinkPOJO);
 			/*ret.addObject("wxLinkPOJOs", wxLinkPOJOs);*/
 			
@@ -165,7 +165,7 @@ public class WxLinkController extends BaseController {
 			String toFileFullPath = dir + File.separator + "htmls" + File.separator + toFilePath;
 			toFileFullPath = toFileFullPath.replace("/", File.separator).replace("\\", File.separator);
 			
-			String base = request.getScheme() + "://" + request.getServerName()
+			String base = request.getScheme() + "://" + /*request.getServerName()*/ "127.0.0.1"
 					+ ":" + request.getServerPort()
 					+ request.getServletContext().getContextPath();
 			if (!UrlUtils.isAbsoluteUrl(fromUrl)) {
