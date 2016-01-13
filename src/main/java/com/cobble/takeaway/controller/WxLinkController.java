@@ -174,7 +174,7 @@ public class WxLinkController extends BaseController {
 			
 			fromUrl += "?wxTemplateId=" + wxTemplateId + "&userId=" + userId;
 			
-			ret = FileUtil.url2Html(fromUrl, toFileFullPath);
+			ret = FileUtil.url2Html(fromUrl, toFileFullPath, request.getServerName());
 			
 			String htmlPath = "files/htmls" + "/" + toFilePath;
 			htmlPath = htmlPath.replace("\\", "/");
