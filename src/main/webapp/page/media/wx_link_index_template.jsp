@@ -170,7 +170,7 @@
 						 			<div class="form-group">
 						 				<label class="control-label" for="title">名称:</label>
 						 				<div class="">
-						 					<input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入图片主题">
+						 					<input class="form-control" id="title" name="title" placeholder="请输入图片主题">
 						 				</div>
 						 			</div>
 						 			<div class="form-group">
@@ -184,7 +184,7 @@
 						 			<div class="form-group">
 						 				<label class="control-label" for="linkUrl">链接:</label>
 						 				<div class="">
-						 					<input class="form-control" id="linkUrl" name="linkUrl" required="required" placeholder="请输入链接">
+						 					<input class="form-control" id="linkUrl" name="linkUrl" placeholder="请输入链接">
 						 				</div>
 						 			</div>
 						 			<!-- <div class="form-group">

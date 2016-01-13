@@ -42,6 +42,7 @@ import com.cobble.takeaway.service.WxLinkService;
 import com.cobble.takeaway.service.WxTemplateService;
 import com.cobble.takeaway.util.FileUtil;
 import com.cobble.takeaway.util.HttpClientUtil;
+import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -59,7 +60,7 @@ public class WxLinkController extends BaseController {
 	@Autowired
 	private MessageSource messageSource;
 	
-	@RequestMapping(value = "/web/media/wxLink", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/web/media/wxLink"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
 	public ModelAndView wxIndexLink(@RequestParam(value = "wxTemplateId") Long wxTemplateId,
 			@RequestParam(value = "userId") Long userId, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -88,7 +89,7 @@ public class WxLinkController extends BaseController {
 			
 			ret.setViewName("/page/media/wx_link_index");
 		} catch (Exception e) {
-			logger.error("toHtml error.", e);
+			logger.error("WX LINK INDEX error.", e);
 			throw e;
 		}
 		
@@ -240,6 +241,14 @@ public class WxLinkController extends BaseController {
 			if (wxLinkPOJO == null) {
 				throw new Exception("wxLinkPOJO can't is NULL.");
 			}
+			
+			String imgSrc = wxLinkPOJO.getImgSrc();
+			String base = HttpRequestUtil.getBase(request);
+			if (imgSrc.indexOf(base) > -1) {
+				imgSrc = imgSrc.substring(base.length() + 1);
+				wxLinkPOJO.setImgSrc(imgSrc);
+			}
+			
 			
 			Long userId = UserUtil.getCurrentUser().getUserId();
 			wxLinkPOJO.setUserId(userId);

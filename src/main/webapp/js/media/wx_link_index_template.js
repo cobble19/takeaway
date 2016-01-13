@@ -68,12 +68,18 @@ var clickSec = function() {
 		}*/
 		
 		var title = $(this).find('img').attr('alt');
-		var src = $(this).find('img').attr('src');
+		var imgSrc = $(this).find('img').attr('src');
 		var linkUrl = $(this).find('input[name=linkUrl]').text();
 		console.log(title);
-		console.log(src);
+		console.log(imgSrc);
 		console.log(linkUrl);
 		console.log(orderNo);
+		
+	    var basePath = $("#basePath").val();
+	    if (imgSrc.indexOf(basePath) > -1) {
+	    	imgSrc = imgSrc.substring(basePath.length + 1);
+	    }
+		
 		var form = $("form[id=wxLinkForm]");
 		$(form).find('input[name=title]').val(title);
 		$(form).find('input[name=imgSrc]').val(imgSrc);
@@ -118,6 +124,11 @@ var clickSec = function() {
 		    if (imgSrc == null || imgSrc == "") {
 		    	alert("请上传图片");
 		    	return;
+		    }
+		    
+		    var basePath = $("#basePath").val();
+		    if (imgSrc.indexOf(basePath) > -1) {
+		    	imgSrc = imgSrc.substring(imgSrc.indexOf(basePath));
 		    }
 		    
 		    formData.append('title', $(form1.find('input[name=title]').get(0)).val());
