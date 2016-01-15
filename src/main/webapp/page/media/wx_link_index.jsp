@@ -20,7 +20,12 @@
 			<div class="row">
 				<div id="sec1" class="col-md-12 col-xs-12" style="padding:0px; text-align:center;">
 					<c:if test="${not empty wxLinkPOJO0}">
-	            		<a href="${wxLinkPOJO0.linkUrl}"><img alt="${wxLinkPOJO0.title}" src="${wxLinkPOJO0.imgSrc}"></a>
+						<c:if test="${empty wxLinkPOJO0.linkUrl and not empty wxLinkPOJO0.imgSrc}">
+							<img alt="${wxLinkPOJO0.title}" src="${wxLinkPOJO0.imgSrc}">
+						</c:if>
+						<c:if test="${not empty wxLinkPOJO0.linkUrl and not empty wxLinkPOJO0.imgSrc}">
+							<a href="${wxLinkPOJO0.linkUrl}"><img alt="${wxLinkPOJO0.title}" src="${wxLinkPOJO0.imgSrc}"></a>
+						</c:if>
 					</c:if>
 				</div>
 			</div>
@@ -29,11 +34,18 @@
                    <div class="row" style="border-left:#ffffff 4px solid;">
 					 <div id="sec2" class="col-md-12 col-xs-12" style="text-align:center;">
 	            		<c:if test="${not empty wxLinkPOJO1}">
-		            		<a href="${wxLinkPOJO1.linkUrl}"><img alt="${wxLinkPOJO1.title}" src="${wxLinkPOJO1.imgSrc}"></a>
+	            			<c:if test="${empty wxLinkPOJO1.linkUrl and not empty wxLinkPOJO1.imgSrc}">
+								<img alt="${wxLinkPOJO1.title}" src="${wxLinkPOJO1.imgSrc}">
+							</c:if>
+							<c:if test="${not empty wxLinkPOJO1.linkUrl and not empty wxLinkPOJO1.imgSrc}">
+								<a href="${wxLinkPOJO1.linkUrl}"><img alt="${wxLinkPOJO1.title}" src="${wxLinkPOJO1.imgSrc}"></a>
+							</c:if>
 						</c:if>
 					 </div>
 					 <div class="title col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">节目直播/回听</p>
+	            		<c:if test="${not empty wxLinkPOJO1}">
+	            			<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;"><c:out value="${wxLinkPOJO1.title}"></c:out> </p>
+	            		</c:if>
 					 </div>
                    </div>
 				</div>
@@ -41,11 +53,19 @@
                    <div class="row" style="border-left:#f1f1f1 4px solid;">
 					 <div id="sec3" class="col-md-12 col-xs-12" style="text-align:center;">
 	            		<c:if test="${not empty wxLinkPOJO2}">
-		            		<a href="${wxLinkPOJO2.linkUrl}"><img alt="${wxLinkPOJO2.title}" src="${wxLinkPOJO2.imgSrc}"></a>
+	            			<c:if test="${empty wxLinkPOJO2.linkUrl and not empty wxLinkPOJO2.imgSrc}">
+								<img alt="${wxLinkPOJO2.title}" src="${wxLinkPOJO2.imgSrc}">
+							</c:if>
+							<c:if test="${not empty wxLinkPOJO2.linkUrl and not empty wxLinkPOJO2.imgSrc}">
+								<a href="${wxLinkPOJO2.linkUrl}"><img alt="${wxLinkPOJO2.title}" src="${wxLinkPOJO2.imgSrc}"></a>
+							</c:if>
+		            		
 						</c:if>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">微社区（论坛）</p>
+	            		<c:if test="${not empty wxLinkPOJO2}">
+	            			<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;"><c:out value="${wxLinkPOJO2.title}"></c:out></p>
+	            		</c:if>
 					 </div>
                    </div> 
                 </div>
@@ -53,11 +73,19 @@
                    <div class="row" style="border-left:#f1f1f1 4px solid;">
 					 <div id="sec4" class="col-md-12 col-xs-12" style="text-align:center;">
 	            		<c:if test="${not empty wxLinkPOJO3}">
-		            		<a href="${wxLinkPOJO3.linkUrl}"><img alt="${wxLinkPOJO3.title}" src="${wxLinkPOJO3.imgSrc}"></a>
+	            			<c:if test="${empty wxLinkPOJO3.linkUrl and not empty wxLinkPOJO3.imgSrc}">
+								<img alt="${wxLinkPOJO3.title}" src="${wxLinkPOJO3.imgSrc}">
+							</c:if>
+							<c:if test="${not empty wxLinkPOJO3.linkUrl and not empty wxLinkPOJO3.imgSrc}">
+								<a href="${wxLinkPOJO3.linkUrl}"><img alt="${wxLinkPOJO3.title}" src="${wxLinkPOJO3.imgSrc}"></a>
+							</c:if>
+		            		
 						</c:if>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">节目介绍</p>
+	            		<c:if test="${not empty wxLinkPOJO3}">
+	            			<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;"><c:out value="${wxLinkPOJO3.title}"></c:out></p>
+	            		</c:if>
 					 </div>
                    </div>
 				</div>
@@ -66,25 +94,41 @@
 				<div class="col-md-4 col-xs-4">
                    <div class="row" style="border-left:#ffffff 4px solid;">
 					 <div id="sec5" class="col-md-12 col-xs-12" style="text-align:center;">
-	            		<c:if test="${not empty wxLinkPOJO1}">
-		            		<a href="${wxLinkPOJO4.linkUrl}"><img alt="${wxLinkPOJO4.title}" src="${wxLinkPOJO4.imgSrc}"></a>
+	            		<c:if test="${not empty wxLinkPOJO4}">
+	            			<c:if test="${empty wxLinkPOJO4.linkUrl and not empty wxLinkPOJO4.imgSrc}">
+								<img alt="${wxLinkPOJO4.title}" src="${wxLinkPOJO4.imgSrc}">
+							</c:if>
+							<c:if test="${not empty wxLinkPOJO4.linkUrl and not empty wxLinkPOJO4.imgSrc}">
+								<a href="${wxLinkPOJO4.linkUrl}"><img alt="${wxLinkPOJO4.title}" src="${wxLinkPOJO4.imgSrc}"></a>
+							</c:if>
+		            		
 						</c:if>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">往期精彩</p>
+	            		<c:if test="${not empty wxLinkPOJO4}">
+	            			<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;"><c:out value="${wxLinkPOJO4.title}"></c:out></p>
+	            		</c:if>
 					 </div>
                    </div>
                 </div>
 				<div class="col-md-8 col-xs-8">
                    <div class="row" style="border-left:#f1f1f1 4px solid;">
 					 <div class="col-md-4 col-xs-4">
-	            		<p style="text-align:center; margin-top:30px; font-size:12px; line-height:12px; min-height:25px;">近期重要活动</p>
+					 	<c:if test="${not empty wxLinkPOJO5}">
+	            			<p style="text-align:center; margin-top:30px; font-size:12px; line-height:12px; min-height:25px;"><c:out value="${wxLinkPOJO5.title}"></c:out></p>
+					 	</c:if>
 					 </div>
                      <div class="col-md-8 col-xs-8">
                      <div class="row">
 					    <div id="sec6" class="col-md-12 col-xs-12" style="text-align:center;">
-	            		<c:if test="${not empty wxLinkPOJO1}">
-		            		<a href="${wxLinkPOJO5.linkUrl}"><img alt="${wxLinkPOJO5.title}" src="${wxLinkPOJO5.imgSrc}"></a>
+	            		<c:if test="${not empty wxLinkPOJO5}">
+	            			<c:if test="${empty wxLinkPOJO5.linkUrl and not empty wxLinkPOJO5.imgSrc}">
+								<img alt="${wxLinkPOJO5.title}" src="${wxLinkPOJO5.imgSrc}">
+							</c:if>
+							<c:if test="${not empty wxLinkPOJO5.linkUrl and not empty wxLinkPOJO5.imgSrc}">
+								<a href="${wxLinkPOJO5.linkUrl}"><img alt="${wxLinkPOJO5.title}" src="${wxLinkPOJO5.imgSrc}"></a>
+							</c:if>
+		            		
 						</c:if>
 					    </div>
                      </div>
@@ -98,11 +142,19 @@
                    <div class="row" style="border-left:#ffffff 4px solid;">
 					 <div id="sec7" class="col-md-12 col-xs-12" style="text-align:center;">
 	            		<c:if test="${not empty wxLinkPOJO6}">
-		            		<a href="${wxLinkPOJO6.linkUrl}"><img alt="${wxLinkPOJO6.title}" src="${wxLinkPOJO6.imgSrc}"></a>
+	            			<c:if test="${empty wxLinkPOJO6.linkUrl and not empty wxLinkPOJO6.imgSrc}">
+								<img alt="${wxLinkPOJO6.title}" src="${wxLinkPOJO6.imgSrc}">
+							</c:if>
+							<c:if test="${not empty wxLinkPOJO6.linkUrl and not empty wxLinkPOJO6.imgSrc}">
+								<a href="${wxLinkPOJO6.linkUrl}"><img alt="${wxLinkPOJO6.title}" src="${wxLinkPOJO6.imgSrc}"></a>
+							</c:if>
+		            		
 						</c:if>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">测试 测试</p>
+					 	<c:if test="${not empty wxLinkPOJO6}">
+	            			<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;"><c:out value="${wxLinkPOJO6.title}"></c:out></p>
+					 	</c:if>
 					 </div>
                    </div>
 				</div>
@@ -110,11 +162,19 @@
                    <div class="row" style="border-left:#f1f1f1 4px solid;">
 					 <div id="sec8" class="col-md-12 col-xs-12" style="text-align:center;">
 	            		<c:if test="${not empty wxLinkPOJO7}">
-		            		<a href="${wxLinkPOJO7.linkUrl}"><img alt="${wxLinkPOJO7.title}" src="${wxLinkPOJO7.imgSrc}"></a>
+	            			<c:if test="${empty wxLinkPOJO7.linkUrl and not empty wxLinkPOJO7.imgSrc}">
+								<img alt="${wxLinkPOJO7.title}" src="${wxLinkPOJO7.imgSrc}">
+							</c:if>
+							<c:if test="${not empty wxLinkPOJO6.linkUrl and not empty wxLinkPOJO6.imgSrc}">
+								<a href="${wxLinkPOJO7.linkUrl}"><img alt="${wxLinkPOJO7.title}" src="${wxLinkPOJO7.imgSrc}"></a>
+							</c:if>
+		            		
 						</c:if>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">测试 测试</p>
+						 <c:if test="${not empty wxLinkPOJO7}">
+						 	<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;"><c:out value="${wxLinkPOJO7.title}"></c:out></p>
+						 </c:if>
 					 </div>
                    </div>
 				</div>
@@ -122,11 +182,19 @@
                    <div class="row" style="border-left:#f1f1f1 4px solid;">
 					 <div id="sec9" class="col-md-12 col-xs-12" style="text-align:center;">
 	            		<c:if test="${not empty wxLinkPOJO8}">
-		            		<a href="${wxLinkPOJO8.linkUrl}"><img alt="${wxLinkPOJO8.title}" src="${wxLinkPOJO8.imgSrc}"></a>
+	            			<c:if test="${empty wxLinkPOJO8.linkUrl and not empty wxLinkPOJO8.imgSrc}">
+								<img alt="${wxLinkPOJO8.title}" src="${wxLinkPOJO8.imgSrc}">
+							</c:if>
+							<c:if test="${not empty wxLinkPOJO8.linkUrl and not empty wxLinkPOJO8.imgSrc}">
+								<a href="${wxLinkPOJO8.linkUrl}"><img alt="${wxLinkPOJO8.title}" src="${wxLinkPOJO8.imgSrc}"></a>
+							</c:if>
+		            		
 						</c:if>
 					 </div>
 					 <div class="col-md-12 col-xs-12">
-	            		<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;">测试 测试</p>
+					 	<c:if test="${not empty wxLinkPOJO8}">
+	            			<p style="text-align:center; margin-bottom:10px; font-size:12px; line-height:12px; min-height:25px;"><c:out value="${wxLinkPOJO8.title}"></c:out></p>
+					 	</c:if>
 					 </div>
                    </div>
 				</div>
