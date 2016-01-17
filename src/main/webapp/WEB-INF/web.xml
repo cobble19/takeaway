@@ -11,6 +11,11 @@
 		
 	</welcome-file-list>
 	
+	<error-page>
+		<error-code>403</error-code>
+		<location>/errors/403</location>
+	</error-page>
+	
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>app.root</param-value>

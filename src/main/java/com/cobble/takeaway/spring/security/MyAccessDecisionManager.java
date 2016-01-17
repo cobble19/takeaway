@@ -7,8 +7,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -19,7 +22,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.FilterInvocation;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.PathMatcher;
+
+import com.cobble.takeaway.util.BeanUtil;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
 	private static final Logger logger = LoggerFactory.getLogger(MyAccessDecisionManager.class);
@@ -52,6 +59,13 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		
 		String url = ((FilterInvocation) object).getRequestUrl();
 		logger.debug("URL = {}", url);
+		
+		if (!checkSessionUrls(url, session)) {
+//			throw new InsufficientAuthenticationException("InsufficientAuthenticationException");
+			throw new AccessDeniedException("需要登录系统" + ", session is null, user = " + authentication.getName()
+					+ ", url = " + url);
+		}
+		
 		if (url.equalsIgnoreCase("/") || url.equalsIgnoreCase("")
 				|| url.startsWith("/index") ) {
 			return;
@@ -113,6 +127,54 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return true;
+	}
+	
+	public boolean checkSessionUrls(String url, HttpSession session) {
+		Boolean ret = true;
+		PathMatcher pathMatcher = new AntPathMatcher();
+		MessageSource ms = (MessageSource) BeanUtil.get("messageSource");
+		String checkSessionUrlsBlacklist = ms.getMessage("check.session.urls.blacklist", null, null);
+		String[] checkSessionUrlsBlacklistArr = StringUtils.split(checkSessionUrlsBlacklist, ",");
+		// blacklist, then return true, not filter
+		if (ArrayUtils.isNotEmpty(checkSessionUrlsBlacklistArr)) {
+			for (String temp : checkSessionUrlsBlacklistArr) {
+				boolean isMatcherBlacklist = pathMatcher.match(StringUtils.trim(temp), url);
+				if (isMatcherBlacklist) {
+					return true;
+				}
+			}
+		}
+
+		String checkSessionUrlsWhitelist = ms.getMessage("check.session.urls.whitelist", null, null);
+		String[] checkSessionUrlsWhitelistArr = StringUtils.split(checkSessionUrlsWhitelist, ",");
+		boolean isMatcher = false;
+		if (ArrayUtils.isNotEmpty(checkSessionUrlsWhitelistArr)) {
+			for (String temp : checkSessionUrlsWhitelistArr) {
+				isMatcher = pathMatcher.match(StringUtils.trim(temp), url);
+				if (isMatcher) {
+					break;
+				}
+			}
+		}
+		
+		MyUser myUser = (MyUser) session.getAttribute("myUser");
+		if (isMatcher) {
+			if (myUser == null || myUser.getUserId() == null) {
+				logger.error("Not user been login, please check it.");
+				ret = false;
+			} else {
+				ret = true;
+			}
+		} else {
+			ret = true;
+		}
+		return ret;
+	}
+	
+	public static void main(String[] argv) {
+		MyAccessDecisionManager madm = new MyAccessDecisionManager();
+		madm.checkSessionUrls("/web/media/wxTemplate?wxTemplate=-2", null);
+		
 	}
 
 }

@@ -92,7 +92,26 @@ var clickSec = function() {
 			var form1 = $(this).parents('form');
 			var formData;
 		    formData = new FormData();
-		    formData.append('pic', form1.find('input[name=pic]').get(0).files[0]);
+
+		    var userId = $('#userId').val();
+			var wxTemplateId = $('input[name=wxTemplateId]:checked').val()
+		    /*formData.append('pic', form1.find('input[name=pic]').get(0).files[0]);*/
+			/*var fileUploadPOJO = {};
+			fileUploadPOJO.file=form1.find('input[name=pic]').get(0).files[0];
+			fileUploadPOJO.userId = userId;
+			fileUploadPOJO.wxTemplateId = wxTemplateId;
+			fileUploadPOJO.orderNo = orderNo;
+			formData.append('fileUploadPOJO', fileUploadPOJO);*/
+			
+		    /*formData.append('fileUploadPOJO.file', form1.find('input[name=pic]').get(0).files[0]);
+		    formData.append('fileUploadPOJO.userId', userId);
+		    formData.append('fileUploadPOJO.wxTemplateId', wxTemplateId);
+		    formData.append('fileUploadPOJO.orderNo', orderNo);*/
+			
+			formData.append('pic', form1.find('input[name=pic]').get(0).files[0]);
+		    formData.append('userId', userId);
+		    formData.append('wxTemplateId', wxTemplateId);
+		    formData.append('orderNo', orderNo);
 
 		    $.ajax({
 		        url: '../../htmleditor/pic/add',

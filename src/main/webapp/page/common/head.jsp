@@ -84,6 +84,7 @@
     
 	<input id="basePath" type="hidden" value='<cmn:base/>'>
 	<c:set var="basePath"><cmn:base/></c:set>
+	<input id="userId" type="hidden" value='${sessionScope.myUser.userId}'>
 	
     <%-- <%  
 	    String path = request.getContextPath();  

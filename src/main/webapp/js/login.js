@@ -11,7 +11,7 @@ $(document).ready(function() {
     	var username = form.find('input[name=j_username]').val();
     	var password = form.find('input[name=j_password]').val();
     	$.ajax({
-    		"url" : "web/user/check",
+    		"url" : $('#basePath').val() + "/web/user/check",
     		"type" : "POST",
             async:false,                                             
     		"dataType" : 'json',

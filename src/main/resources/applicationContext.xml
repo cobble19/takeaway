@@ -108,26 +108,46 @@
 		<!-- timeout value in milliseconds -->
 		<property name="timeoutPerShutdownPhase" value="10000" />
 	</bean>
-	<bean id="exceptionResolver"
+	<bean id="myExceptionHandler" class="com.cobble.takeaway.exception.MyExceptionHandler"></bean>
+	<!-- <bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="defaultErrorView">
-			<value>/errorPages/error</value>
+		<property name="defaultErrorView" value="/errors/error">
 		</property>
-		<property name="defaultStatusCode">
-			<value>500</value>
-		</property>
-		<property name="warnLogCategory">
-			<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
-			</value>
-		</property>
-		<property name="exceptionMappings">
+		定义异常处理页面用来获取异常信息的变量名，默认名为exception
+		<property name="exceptionAttribute" value="exception"></property>
+		
+		<property name="defaultStatusCode" value="500"></property>
+		相关状态码对应的错误页面
+		<property name="statusCodes">
+			<map>
+				<entry key="errors/500" value="500"></entry>
+				<entry key="errors/404" value="404"></entry>
+				<entry key="errors/403" value="403"></entry>
+			</map>
 			<props>
-				<prop
-					key="org.springframework.web.multipart.MaxUploadSizeExceededException">errorPages/maxUploadExceeded</prop>
-				<prop key="java.lang.Throwable">error/500</prop>
+				<prop key="errors/500">500</prop>
+				<prop key="errors/404">404</prop>
+				<prop key="errors/403">403</prop>
 			</props>
 		</property>
-	</bean>
+
+		<property name="warnLogCategory">
+			<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver</value>
+		</property>
+		<property name="exceptionMappings">
+			<map>
+				<entry
+					key="org.springframework.web.multipart.MaxUploadSizeExceededException" value="errorPages/maxUploadExceeded"></entry>
+				<entry key="java.lang.Throwable" value="errors/500"></entry>
+				<entry key="AccessDeniedException" value="errors/403"></entry>
+			</map>
+			<props>
+				<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">errors/maxUploadExceeded</prop>
+				<prop key="java.lang.Throwable">errors/500</prop>
+				<prop key="org.springframework.security.access.AccessDeniedException">errors/403</prop>
+			</props>
+		</property>
+	</bean> -->
 	
 	<bean id="internalResourceViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
