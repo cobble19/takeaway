@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxAttrMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxAttrResultMap" type="com.cobble.takeaway.pojo.WxAttrPOJO" >
+    <id column="WX_ATTR_ID" property="wxAttrId" />
+    <result column="WX_ATTR_DATA" property="wxAttrData"/>
+    <result column="ORDER_NO" property="orderNo" />
+    <result column="WX_SEC_ORDER_NO" property="wxSecOrderNo" />
+    
+    <result column="WX_TEMPLATE_ID" property="wxTemplateId" />
+    <result column="USER_ID" property="userId" />
+  </resultMap>
+  
+  <resultMap id="RelWxAttrResultMap" type="com.cobble.takeaway.pojo.RelWxAttrPOJO" >
+    <id column="REL_WX_ATTR_ID" property="relWxAttrId" />
+    <result column="WX_ATTR_ID" property="wxAttrId"/>
+    <result column="USER_ID" property="userId" />
+    <result column="WX_TEMPLATE_ID" property="wxTemplateId" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_ATTR_ID, a.WX_ATTR_DATA, a.ORDER_NO, a.WX_SEC_ORDER_NO
+  </sql>
+  <sql id="Clause_Common">
+	<if test="wxAttrData != null">
+		and a.WX_ATTR_DATA like concat("%", concat(#{wxAttrData}, "%"))
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="WxAttrResultMap" parameterType="com.cobble.takeaway.pojo.WxAttrSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wx_attr a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.ORDER_NO
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.WxAttrSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from wx_attr a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findsByIds" resultMap="WxAttrResultMap" parameterType="com.cobble.takeaway.pojo.WxAttrSearchPOJO" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    , d.wx_template_id, e.user_id
+    from wx_attr a, rel_wx_attr b, rel_wx_template_user c, wx_template d, b_user e
+    <where>
+  		<trim prefixOverrides="and">
+  			and a.wx_attr_id = b.wx_attr_id
+  			and b.wx_template_id = c.wx_template_id
+  			and b.user_id = e.user_id
+  			and c.wx_template_id = d.wx_template_id
+  			and c.user_id = e.user_id
+			<include refid="Clause_Common"/>
+			<if test="userId != null">
+				and e.USER_ID = #{userId}
+			</if>
+			<if test="wxTemplateId != null">
+				and d.WX_TEMPLATE_ID = #{wxTemplateId}
+			</if>
+			<if test="orderNo != null">
+				and a.ORDER_NO = #{orderNo}
+			</if>
+			<if test="wxSecOrderNo != null">
+				and a.WX_SEC_ORDER_NO = #{wxSecOrderNo}
+			</if>
+			
+  		</trim>
+  	</where>
+  	order by a.WX_SEC_ORDER_NO asc, a.ORDER_NO asc
+	<!-- <if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if> -->
+  </select>
+
+  <select id="findById" resultMap="WxAttrResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from wx_attr a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_ATTR_ID = #{wxAttrId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from wx_attr
+    where WX_ATTR_ID = #{wxAttrId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.WxAttrPOJO" useGeneratedKeys="true"
+  	keyProperty="wxAttrId" keyColumn="WX_ATTR_ID">
+    insert into wx_attr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wxAttrData != null" >
+        WX_ATTR_DATA,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="wxSecOrderNo != null" >
+        WX_SEC_ORDER_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wxAttrData != null" >
+        #{wxAttrData},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo},
+      </if>
+      <if test="wxSecOrderNo != null" >
+        #{wxSecOrderNo},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <insert id="insertRelWxAttr" parameterType="com.cobble.takeaway.pojo.RelWxAttrPOJO" useGeneratedKeys="true"
+  	keyProperty="relWxAttrId" keyColumn="REL_WX_ATTR_ID">
+    insert into rel_wx_attr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wxAttrId != null" >
+        WX_ATTR_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="wxTemplateId != null" >
+        WX_TEMPLATE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wxAttrId != null" >
+        #{wxAttrId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="wxTemplateId != null" >
+        #{wxTemplateId},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.WxAttrPOJO" >
+    update wx_attr
+    <set >
+      <if test="wxAttrData != null" >
+        WX_ATTR_DATA = #{wxAttrData},
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo},
+      </if>
+      <if test="wxSecOrderNo != null" >
+        WX_SEC_ORDER_NO = #{wxSecOrderNo},
+      </if>
+    </set>
+    where WX_ATTR_ID = #{wxAttrId}
+  </update>
+  
+</mapper>
