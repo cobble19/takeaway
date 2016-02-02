@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
+import com.cobble.takeaway.pojo.RelWxTemplateUserSearchPOJO;
 import com.cobble.takeaway.pojo.WxTemplatePOJO;
 import com.cobble.takeaway.pojo.WxTemplateSearchPOJO;
 
@@ -27,6 +28,10 @@ public interface WxTemplateMapper {
 	
 	
 	List<WxTemplatePOJO> findsByUserId4UC(WxTemplateSearchPOJO wxTemplateSearchPOJO) throws Exception;
+	
+
+	List<RelWxTemplateUserPOJO> findRelWxTemplateUsers(RelWxTemplateUserSearchPOJO relWxTemplateUserSearchPOJO) throws Exception;
+	int insertRelWxTemplateUser(RelWxTemplateUserPOJO relWxTemplateUserPOJO) throws Exception;
 	
 
 }

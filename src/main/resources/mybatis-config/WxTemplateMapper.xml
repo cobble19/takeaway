@@ -208,6 +208,56 @@
     where REL_WX_TEMPLATE_ID = #{relWxTemplateId}
   </update>
   
+  <select id="findRelWxTemplateUsers" resultMap="WxTemplateResultMap" parameterType="com.cobble.takeaway.pojo.RelWxTemplateUserSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    a.REL_WX_TEMPLATE_USER_ID, a.USER_ID, a.WX_TEMPLATE_ID, a.DISPLAY_FLAG, a.WX_STATIC_PAGE
+    from REL_WX_TEMPLATE_USER a
+    <where>
+  		<trim prefixOverrides="and">
+  			and a.wx_template_id = #{wxTemplateId}
+  			and a.user_id = #{userId}
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <insert id="insertRelWxTemplateUser" parameterType="com.cobble.takeaway.pojo.RelWxTemplateUserPOJO" useGeneratedKeys="true"
+  	keyProperty="relWxTemplateUserId" keyColumn="REL_WX_TEMPLATE_USER_ID">
+    insert into REL_WX_TEMPLATE_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="wxTemplateId != null" >
+        WX_TEMPLATE_ID,
+      </if>
+      <if test="displayFlag != null" >
+        DISPLAY_FLAG,
+      </if>
+      <if test="wxStaticPage != null" >
+        WX_STATIC_PAGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="wxTemplateId != null" >
+        #{wxTemplateId},
+      </if>
+      <if test="displayFlag != null" >
+        #{displayFlag},
+      </if>
+      <if test="wxStaticPage != null" >
+        #{wxStaticPage},
+      </if>
+    </trim>
+  </insert>
   
   <update id="updateRelWxTemplateUser4WxStaticPage" parameterType="com.cobble.takeaway.pojo.RelWxTemplateUserPOJO" >
     update REL_WX_TEMPLATE_USER

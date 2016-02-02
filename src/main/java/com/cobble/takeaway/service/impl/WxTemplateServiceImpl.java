@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cobble.takeaway.dao.WxTemplateMapper;
 import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
+import com.cobble.takeaway.pojo.RelWxTemplateUserSearchPOJO;
 import com.cobble.takeaway.pojo.WxTemplatePOJO;
 import com.cobble.takeaway.pojo.WxTemplateSearchPOJO;
 import com.cobble.takeaway.service.WxTemplateService;
@@ -119,6 +120,34 @@ public class WxTemplateServiceImpl implements WxTemplateService {
 			RelWxIndexMapPOJO relWxIndexMapPOJO) throws Exception {
 		int ret = 0;
 		ret = wxTemplateMapper.updateRelWxIndexMap4WxStaticPage(relWxIndexMapPOJO);
+		return ret;
+	}
+
+	@Override
+	public List<RelWxTemplateUserPOJO> findRelWxTemplateUsers(
+			RelWxTemplateUserSearchPOJO relWxTemplateUserSearchPOJO)
+			throws Exception {
+		List<RelWxTemplateUserPOJO> ret = null;
+		ret = wxTemplateMapper.findRelWxTemplateUsers(relWxTemplateUserSearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public List<RelWxTemplateUserPOJO> findRelWxTemplateUsers(Long userId,
+			Long wxTemplateId) throws Exception {
+		List<RelWxTemplateUserPOJO> ret = null;
+		RelWxTemplateUserSearchPOJO relWxTemplateUserSearchPOJO = new RelWxTemplateUserSearchPOJO();
+		relWxTemplateUserSearchPOJO.setUserId(userId);
+		relWxTemplateUserSearchPOJO.setWxTemplateId(wxTemplateId);
+		ret = wxTemplateMapper.findRelWxTemplateUsers(relWxTemplateUserSearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public int insertRelWxTemplateUser(RelWxTemplateUserPOJO relWxTemplateUserPOJO)
+			throws Exception {
+		int ret = 0;
+		ret = wxTemplateMapper.insertRelWxTemplateUser(relWxTemplateUserPOJO);
 		return ret;
 	}
 

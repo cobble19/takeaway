@@ -3,17 +3,18 @@ package com.cobble.takeaway.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.util.UrlUtils;
@@ -21,33 +22,43 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
-import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
+import com.cobble.takeaway.pojo.ListParamPOJO;
+import com.cobble.takeaway.pojo.RelWxAttrPOJO;
 import com.cobble.takeaway.pojo.RelWxLinkPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
+import com.cobble.takeaway.pojo.RelWxTemplateUserSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
+import com.cobble.takeaway.pojo.WxAttrPOJO;
 import com.cobble.takeaway.pojo.WxLinkPOJO;
 import com.cobble.takeaway.pojo.WxLinkSearchPOJO;
+import com.cobble.takeaway.pojo.WxSecPOJO;
 import com.cobble.takeaway.pojo.WxTemplatePOJO;
-import com.cobble.takeaway.pojo.WxTemplateSearchPOJO;
 import com.cobble.takeaway.service.UserService;
+import com.cobble.takeaway.service.WxAttrService;
 import com.cobble.takeaway.service.WxLinkService;
 import com.cobble.takeaway.service.WxTemplateService;
 import com.cobble.takeaway.util.FileUtil;
-import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
+import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Controller
 public class WxLinkController extends BaseController {
 	private final static Logger logger = LoggerFactory.getLogger(WxLinkController.class);
+	
+	@Autowired
+	private WxAttrService wxAttrService;
 	
 	@Autowired
 	private WxLinkService wxLinkService;
@@ -59,6 +70,150 @@ public class WxLinkController extends BaseController {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+	@RequestMapping(value = "/web/media/wxAttrs/add", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO addWxAttrs4Web(@RequestBody String body, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			
+			List<WxAttrPOJO> wxAttrPOJOs = (List<WxAttrPOJO>) JsonUtils.convertToJavaBeanList(body, new TypeReference<List<WxAttrPOJO>>() { });
+			if (CollectionUtils.isEmpty(wxAttrPOJOs)) {
+				throw new Exception("wxAttrPOJOs can't is NULL.");
+			}
+			
+			String base = HttpRequestUtil.getBase(request);
+			
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			
+			for (WxAttrPOJO wxAttrPOJO : wxAttrPOJOs) {
+				if (userId.longValue() != wxAttrPOJO.getUserId()) {
+					throw new Exception("User is not yourself");
+				}
+				
+				int result = -1;
+				WxAttrPOJO temp = null;
+				List<WxAttrPOJO> wxAttrPOJOTemps = wxAttrService.findsByIds(wxAttrPOJO.getUserId(), wxAttrPOJO.getWxTemplateId()
+						, wxAttrPOJO.getOrderNo(), wxAttrPOJO.getWxSecOrderNo());
+				if (!CollectionUtils.isEmpty(wxAttrPOJOTemps)) {
+					temp = wxAttrPOJOTemps.get(0);
+				}
+				
+				if (temp == null) {
+					wxAttrService.insert(wxAttrPOJO);
+					RelWxAttrPOJO relWxAttrPOJO = new RelWxAttrPOJO();
+					relWxAttrPOJO.setWxAttrId(wxAttrPOJO.getWxAttrId());
+					relWxAttrPOJO.setUserId(userId);
+					relWxAttrPOJO.setWxTemplateId(wxAttrPOJO.getWxTemplateId());
+					wxAttrService.insertRelWxAttr(relWxAttrPOJO);
+				} else {
+					wxAttrPOJO.setWxAttrId(temp.getWxAttrId());
+					wxAttrService.update(wxAttrPOJO);
+				}
+			}
+			
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/web/media/wxAttr/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO addWxAttr4Web(WxAttrPOJO wxAttrPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			if (wxAttrPOJO == null) {
+				throw new Exception("wxAttrPOJO can't is NULL.");
+			}
+			
+			String base = HttpRequestUtil.getBase(request);
+			
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			
+			if (userId.longValue() != wxAttrPOJO.getUserId()) {
+				throw new Exception("User is not yourself");
+			}
+			
+			int result = -1;
+			WxAttrPOJO temp = null;
+			List<WxAttrPOJO> wxAttrPOJOs = wxAttrService.findsByIds(wxAttrPOJO.getUserId(), wxAttrPOJO.getWxTemplateId()
+					, wxAttrPOJO.getOrderNo(), wxAttrPOJO.getWxSecOrderNo());
+			if (!CollectionUtils.isEmpty(wxAttrPOJOs)) {
+				temp = wxAttrPOJOs.get(0);
+			}
+			
+			if (temp == null) {
+				wxAttrService.insert(wxAttrPOJO);
+				RelWxAttrPOJO relWxAttrPOJO = new RelWxAttrPOJO();
+				relWxAttrPOJO.setWxAttrId(wxAttrPOJO.getWxAttrId());
+				relWxAttrPOJO.setUserId(userId);
+				relWxAttrPOJO.setWxTemplateId(wxAttrPOJO.getWxTemplateId());
+				wxAttrService.insertRelWxAttr(relWxAttrPOJO);
+			} else {
+				wxAttrPOJO.setWxAttrId(temp.getWxAttrId());
+				wxAttrService.update(wxAttrPOJO);
+			}
+			
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/media/wxAttr"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
+	public ModelAndView wxSec(@RequestParam(value = "wxTemplateId") Long wxTemplateId,
+			@RequestParam(value = "userId") Long userId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			
+			List<WxSecPOJO> wxSecPOJOs = wxAttrService.findWxSecsByIds(userId, wxTemplateId);
+			
+			logger.info("wxSecPOJOs: " + wxSecPOJOs);
+			
+			String base = request.getScheme() + "://" + request.getServerName()
+					+ ":" + request.getServerPort()
+					+ request.getServletContext().getContextPath();
+			
+			if (!CollectionUtils.isEmpty(wxSecPOJOs)) {
+				for (int i = 0; i < wxSecPOJOs.size(); i++) {
+					WxSecPOJO temp = wxSecPOJOs.get(i);
+					List<WxAttrPOJO> wxAttrPOJOs = temp.getWxAttrPOJOs();
+					if (!CollectionUtils.isEmpty(wxAttrPOJOs)) {
+						for (WxAttrPOJO wxAttrPOJO : wxAttrPOJOs) {
+							String wxAttrData = wxAttrPOJO.getWxAttrData();
+							if (StringUtils.isNotBlank(wxAttrData) && wxAttrData.startsWith("files/images")) {
+								if (!UrlUtils.isAbsoluteUrl(wxAttrData)) {
+									String imgSrc = base + "/" + wxAttrData;
+									wxAttrPOJO.setWxAttrData(imgSrc);
+								}
+							}
+						}
+					}
+					
+					ret.addObject("wxSecPOJO" + temp.getWxSecOrderNo(), temp);
+				}
+			}
+			
+			ret.setViewName("/page/media/wx_attr");
+		} catch (Exception e) {
+			logger.error("WX LINK INDEX error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/media/wxLink"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
 	public ModelAndView wxIndexLink(/*@RequestParam(value = "wxTemplateId") Long wxTemplateId,
@@ -182,12 +337,19 @@ public class WxLinkController extends BaseController {
 			
 			ret.setSuccess(true);
 			
+			// insert or update RelWxTemplateUser
+
 			RelWxTemplateUserPOJO relWxTemplateUserPOJO = new RelWxTemplateUserPOJO();
 			relWxTemplateUserPOJO.setUserId(userId);
 			relWxTemplateUserPOJO.setWxTemplateId(wxTemplateId);
 			relWxTemplateUserPOJO.setWxStaticPage(htmlPath);
 			
-			wxTemplateService.updateRelWxTemplateUser4WxStaticPage(relWxTemplateUserPOJO);
+			List<RelWxTemplateUserPOJO> relWxTemplateUserPOJOs = wxTemplateService.findRelWxTemplateUsers(userId, wxTemplateId);
+			if (CollectionUtils.isEmpty(relWxTemplateUserPOJOs)) {
+				wxTemplateService.insertRelWxTemplateUser(relWxTemplateUserPOJO);
+			} else {
+				wxTemplateService.updateRelWxTemplateUser4WxStaticPage(relWxTemplateUserPOJO);
+			}
 			
 			// for discuss with zzd, user rel_index_map_code TABLE
 			/*RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();

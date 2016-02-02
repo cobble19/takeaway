@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$(document).ajaxError(function(event, jqxhr, settings, exception) {
-		window.location.href = $('basePath').val() + "/login.jsp";
+		alert('ajaxError');
+//		window.location.href = $('#basePath').val() + "/login.jsp";
 	});
 })
 getParam = getQueryStringRegExp = function(name) {
