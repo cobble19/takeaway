@@ -76,10 +76,6 @@
   			and b.user_id = e.user_id
   			and c.wx_template_id = d.wx_template_id
   			and c.user_id = e.user_id
-			<include refid="Clause_Common"/>
-			<if test="display != null">
-				and a.DISPLAY = #{display}
-			</if>
 			<if test="orderNo != null">
 				and a.ORDER_NO = #{orderNo}
 			</if>
