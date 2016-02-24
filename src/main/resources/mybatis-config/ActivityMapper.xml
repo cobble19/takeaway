@@ -13,6 +13,7 @@
   <resultMap id="ActivityResultMap" type="com.cobble.takeaway.pojo.ActivityPOJO" >
     <id column="ACTIVITY_ID" property="activityId" />
     <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    <result column="LOGO_IMG" property="logoImg" jdbcType="VARCHAR"/>
     <result column="START_DATE_TIME" property="startDateTime" />
     <result column="END_DATE_TIME" property="endDateTime" />
     <result column="CONTENT" property="content" />
@@ -22,7 +23,7 @@
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
-    a.ACTIVITY_ID, a.TITLE, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
+    a.ACTIVITY_ID, a.TITLE, a.LOGO_IMG, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -158,6 +159,9 @@
       <if test="title != null" >
         TITLE,
       </if>
+      <if test="logoImg != null" >
+        LOGO_IMG,
+      </if>
       <if test="userIdEnterprise != null" >
         USER_ID_ENTERPRISE,
       </if>
@@ -174,6 +178,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="title != null" >
         #{title},
+      </if>
+      <if test="logoImg != null" >
+        #{logoImg},
       </if>
       <if test="userIdEnterprise != null" >
         #{userIdEnterprise},
@@ -216,6 +223,9 @@
     <set >
       <if test="title != null" >
         TITLE = #{title},
+      </if>
+      <if test="logoImg != null" >
+        LOGO_IMG = #{logoImg},
       </if>
       <if test="content != null" >
         CONTENT = #{content},

@@ -6,6 +6,7 @@ import java.util.Date;
 public class ActivityPOJO extends BasePOJO {
     private Long activityId;
     private String title;
+    private String logoImg;
     private Date startDateTime;
     private Date endDateTime;
     private String content;
@@ -71,5 +72,11 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setUsernameEnterprise(String usernameEnterprise) {
 		this.usernameEnterprise = usernameEnterprise;
+	}
+	public String getLogoImg() {
+		return logoImg;
+	}
+	public void setLogoImg(String logoImg) {
+		this.logoImg = logoImg;
 	}
 }

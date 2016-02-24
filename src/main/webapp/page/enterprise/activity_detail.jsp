@@ -14,7 +14,10 @@
   <body>
   
 	<div class="container">
-		<%@include file="../../../reg_login_full.jsp" %>
+		<div class="hidden-xs">
+			<%@include file="../../../reg_login_full.jsp" %>
+		</div>
+		
 		<div id="showDiv">
 			<div class="row">
 			  <div class="col-md-12 col-xs-12" >

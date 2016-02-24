@@ -40,12 +40,13 @@ public class FileUtil {
 		return ret;
 	}
 	
-	public static HtmlConvertedPOJO url2Html(String fromFullUrl, String toFileFullPath, String serverName) {
+	public static HtmlConvertedPOJO url2Html(String fromFullUrl, String toFileFullPath, String serverName, String nickname) {
 		HtmlConvertedPOJO ret = null;
 		try {
 			String resp = HttpClientUtil.get(fromFullUrl);
 			
 			resp = resp.replace("127.0.0.1", serverName);
+			resp = resp.replace("<title>得味驿站</title>", "<title>" + nickname + "</title>");
 			
 			toFileFullPath = toFileFullPath.replace("/", File.separator);
 			

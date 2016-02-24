@@ -116,6 +116,24 @@ public class ActivityController extends BaseController {
 		return ret;
 	}
 	
+	@RequestMapping(value = "/web/enterprise/activity/list/active/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ModelAndView queryActive4Page(@PathVariable(value = "userId") Long userId, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			ActivitySearchPOJO activitySearchPOJO = new ActivitySearchPOJO();
+			activitySearchPOJO.setUserId(userId);
+			List<ActivityPOJO> activityPOJOs = activityService.findActives(activitySearchPOJO);
+			ret.addObject("activityPOJOs", activityPOJOs);
+			ret.setViewName("/page/enterprise/activity_active");
+		} catch (Exception e) {
+			logger.error("list error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/enterprise/activity/list/active", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public DataTablesPOJO<ActivityPOJO> queryActive(ActivitySearchPOJO activitySearchPOJO) throws Exception {

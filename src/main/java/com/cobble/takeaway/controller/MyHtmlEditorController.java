@@ -35,7 +35,7 @@ public class MyHtmlEditorController extends BaseController {
 	@RequestMapping(value = "/htmleditor/pic/add", produces = {MediaType.APPLICATION_JSON_VALUE}, method=RequestMethod.POST)
 	@ResponseBody
 	public Map add(@RequestParam("pic") MultipartFile file, @RequestParam("userId") Long userId
-			, @RequestParam("wxTemplateId") Long wxTemplateId, @RequestParam("orderNo") Integer orderNo, Model model) throws Exception {
+			, @RequestParam(value = "wxTemplateId", required = false) Long wxTemplateId, @RequestParam(value = "orderNo", required = false) Integer orderNo, Model model) throws Exception {
 		Map ret = new HashMap();
 		try {
 //			MultipartFile file = fileUploadPOJO.getFile();
