@@ -21,7 +21,8 @@
 			  </div>
 			  <div class="media-body">
 			    <h4 class="media-heading">${activityPOJO.title}</h4>
-			    ${activityPOJO.content}
+			    发布者:${activityPOJO.userPOJO.username} 组织者:${activityPOJO.usernameEnterprise}
+			    <%-- ${activityPOJO.content} --%>
 			  </div>
 			</div>
 		</c:forEach>

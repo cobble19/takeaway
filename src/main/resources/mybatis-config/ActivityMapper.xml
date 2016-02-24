@@ -102,7 +102,8 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from e_activity a, rel_activity_user rau
+			, u.user_id, u.username, u.nickname, uEnt.username as username_enterprise, uEnt.user_id as user_id_enterprise
+    from e_activity a, rel_activity_user rau, b_user u, b_user uEnt
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -110,6 +111,8 @@
 			<if test="userId != null">
 				and rau.user_id = #{userId}
 			</if>
+			and rau.user_id = u.user_id
+			and a.user_Id_Enterprise = uEnt.user_id
 			and a.END_DATE_TIME - now() &gt;= 0
   		</trim>
   	</where>
