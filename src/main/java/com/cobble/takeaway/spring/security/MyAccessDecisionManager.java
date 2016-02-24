@@ -133,7 +133,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		Boolean ret = true;
 		PathMatcher pathMatcher = new AntPathMatcher();
 		MessageSource ms = (MessageSource) BeanUtil.get("messageSource");
-		String checkSessionUrlsBlacklist = ms.getMessage("check.session.urls.blacklist", null, null);
+		String checkSessionUrlsBlacklist = ms.getMessage("check.session.urls.noneedlogin", null, null);
 		String[] checkSessionUrlsBlacklistArr = StringUtils.split(checkSessionUrlsBlacklist, ",");
 		// blacklist, then return true, not filter
 		if (ArrayUtils.isNotEmpty(checkSessionUrlsBlacklistArr)) {
@@ -145,7 +145,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			}
 		}
 
-		String checkSessionUrlsWhitelist = ms.getMessage("check.session.urls.whitelist", null, null);
+		String checkSessionUrlsWhitelist = ms.getMessage("check.session.urls.needlogin", null, null);
 		String[] checkSessionUrlsWhitelistArr = StringUtils.split(checkSessionUrlsWhitelist, ",");
 		boolean isMatcher = false;
 		if (ArrayUtils.isNotEmpty(checkSessionUrlsWhitelistArr)) {

@@ -1,6 +1,6 @@
 package com.cobble.takeaway.pojo;
 
-public class RelWxIndexMapPOJO {
+public class RelWxIndexMapPOJO extends BasePOJO {
 	private Long relWxIndexMapId;
     private Long userId;
     private Long wxTemplateId;

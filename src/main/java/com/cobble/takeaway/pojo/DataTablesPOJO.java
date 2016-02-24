@@ -2,7 +2,7 @@ package com.cobble.takeaway.pojo;
 
 import java.util.List;
 
-public class DataTablesPOJO<T> {
+public class DataTablesPOJO<T> extends BasePOJO {
 	private Integer draw;
 	private Integer recordsTotal;
 	private Integer recordsFiltered;
