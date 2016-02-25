@@ -79,7 +79,7 @@ $(document).ready(function() {
 			"render" : function(data, type, full, meta) {
 				var content = (data != null) ? data.substring(0, 10): '';
 				content += '...>>';
-				var link = '<a href="../../page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
+				var link = '<a href="' + $('#basePath').val() + '/page/enterprise/activity_detail.jsp?activityId=' + full.activityId + '">' +
 						content + '</a>';
 				return link;
 			}
@@ -96,7 +96,13 @@ $(document).ready(function() {
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
-				return linkApply + "<br/>" + linkEdit;
+
+				var url = $('#basePath').val() + '/page/enterprise/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1";
+				var urlCopy = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
+				+ '编辑报名表单' + '</a>';
+				
+				
+				return linkApply + "<br/>" + linkEdit + "<br/>" + urlCopy;
 			}
 		}/*, {
 			"targets" : 0,
@@ -263,6 +269,17 @@ $(document).ready(function() {
     $('#progress').dialog({
     	autoOpen: false,
     	modal: true
+    });
+    
+    $('#activityDetailDiv').dialog({
+    	autoOpen: false,
+    	modal: true,
+    	width: 450,
+    	height: 150
+    });
+
+    $('#copyInput').click(function() {
+    	jsCopy();
     });
 
     $('#verifyDiv').dialog({
@@ -818,6 +835,20 @@ var interactiveSearch = function(table) {
         }
 	});
 }
+
+var openUrlDiv = function(url) {
+	$('#activityDetailDiv').dialog('open');
+	
+	$('#activityDetailUrl').val(url);
+	
+}
+
+function jsCopy(){ 
+    var e=document.getElementById("activityDetailUrl");//对象是content 
+    e.select(); //选择对象 
+    document.execCommand("Copy"); //执行浏览器复制命令
+    alert("已复制好，可贴粘。"); 
+} 
 
 /*var verify = function(interactiveId) {
 	console.log('111');
