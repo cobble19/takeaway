@@ -88,6 +88,7 @@ var existApply = function() {
 
 var showDetail = function() {
 	var activityId = getParam('activityId');
+	var hidContent = getParam('hidContent');
 	$.ajax({
 		"url" : "../../web/enterprise/activity/" + activityId,
 		"type" : "GET",
@@ -103,15 +104,21 @@ var showDetail = function() {
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);
 			$("#title_1").html(data.title);
-			$("#title_2").html(data.title);
+			/*$("#title_2").html(data.title);*/
         	$("#content").html(data.content);
-			$("#content_1").html(data.content);
+			/*$("#content_1").html(data.content);*/
         	if (!!data.userPOJO) {
             	$('#publisher').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
-            	$('#publisher_1').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
+            	/*$('#publisher_1').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);*/
         	}
         	$('#organiser').text(data.usernameEnterprise);
-        	$('#organiser_1').text(data.usernameEnterprise);
+        	/*$('#organiser_1').text(data.usernameEnterprise);*/
+        	if ('1' == hidContent) {
+        		$("#logoImg").show();
+    			$("#logoImg").attr('src', $('#basePath').val() + "/" + data.logoImg);
+        	} else {
+        		$("#logoImg").hide();
+        	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	alert('Load Error!');

@@ -93,8 +93,11 @@ var showDetail = function() {
         success: function(data, textStatus, jqXHR ) {
         	$('#titleE').val(data.title);
     		ue.setContent(data.content);
+//    		$('#userIdEnterpriseX option[value="' + data.userIdEnterprise + "'").attr('selected', true);
     		$('#startDateTime').val(new Date(data.startDateTime).format('Y/m/d H:i'));
     		$('#endDateTime').val(new Date(data.endDateTime).format('Y/m/d H:i'));
+    		$('#logoImg').val(data.logoImg);
+    		
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	alert('Load Error!');

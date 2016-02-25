@@ -39,6 +39,10 @@
 	        </div>
 			<div class="row" style=" margin-top:10px; margin-left:5px; margin-right:5px;">
   			  <div class="row">
+  			  	<% 
+  			  		String hidContent = request.getParameter("hidContent");
+  			  		if (!"1".equalsIgnoreCase(hidContent)) {
+  			  	%>
 	  				<div class="col-md-12 col-xs-12">
 	  					<!-- <h4 class="" style="text-align: bottom;"><span id="title"></span></h4>
 	  					<hr/> -->
@@ -51,6 +55,9 @@
 		 				</div>
 			  			<!-- <hr/> -->
 	  				</div>
+	  				<%
+  			  		}
+	  				%>
                     <h4 style="border-bottom:5px ridge #0FF;">活动报名</h4>
 	  				<div class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px; margin-top:10px;">
 		  				<div class="row col-md-12 col-xs-12">
