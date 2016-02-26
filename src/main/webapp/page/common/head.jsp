@@ -73,6 +73,14 @@
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/integration/bootstrap/3/dataTables.bootstrap.css">
 	<!-- Date.format('Y-m-d H:i:s'); -->
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/date.format.js"></script>
+	
+	<%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/jquery-zeroclipboard/jquery.zeroclipboard.js"></script> --%>
+	
+	<%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/jquery-clipboard/jquery.clipboard.js"></script> --%>
+	
+	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/clipboard/clipboard.min.js"></script>
+	
+	<%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/zeroclipboard/ZeroClipboard.min.js"></script> --%>
     
     <!-- customer -->
     <!-- 公共的函数 -->

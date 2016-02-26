@@ -97,7 +97,7 @@ $(document).ready(function() {
 								+ '">'
 								+ '修改' + '</a>';
 
-				var url = $('#basePath').val() + '/page/enterprise/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1";
+				var url = $('#basePath').val() + '/page/enterprise/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1&a=1";
 				var urlCopy = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
 				+ '编辑报名表单' + '</a>';
 				
@@ -278,9 +278,75 @@ $(document).ready(function() {
     	height: 150
     });
 
-    $('#copyInput').click(function() {
+   /* $('#copyInput').click(function() {
     	jsCopy();
+    });*/
+    
+    var clipboard = new Clipboard('#copyBtn');
+
+    clipboard.on('success', function(e) {
+    	try {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+    	} catch (ex) {
+    		console.log("ex: " + ex);
+    	}
+
+//        e.clearSelection();
+        alert('复制成功！');
     });
+
+    clipboard.on('error', function(e) {
+    	try {
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+    	} catch (ex) {
+    		console.log("ex: " + ex);
+    	}
+        alert('复制失败！ 请用【Ctrl+C】， 同时按下Ctrl和C');
+    });
+    
+   /* var client = new ZeroClipboard( document.getElementById("copyInput") );
+
+    client.on( "ready", function( readyEvent ) {
+      // alert( "ZeroClipboard SWF is ready!" );
+
+      client.on( "aftercopy", function( event ) {
+        // `this` === `client`
+        // `event.target` === the element that was clicked
+        event.target.style.display = "none";
+        alert("Copied text to clipboard: " + event.data["text/plain"] );
+      } );
+    } );*/
+    
+/*    var copyBtn = $('#copyBtn');
+
+    // Disables other default handlers on click (avoid issues)
+    copyBtn.on('click', function(e) {
+        e.preventDefault();
+    });
+
+    // Apply clipboard click event
+    copyBtn.clipboard({
+        path: $('#basePath').val() + '/js/thirdpart/jquery-clipboard/jquery.clipboard.swf',
+
+        copy: function() {
+        	console.log('jquery.clipboard');
+            // Hide "Copy" and show "Copied, copy again?" message in link
+//            $('#copyMsg').show().val('复制成功');
+
+            // Return text in closest element (useful when you have multiple boxes that can be copied)
+            return $('#activityDetailUrl').text() || $('#activityDetailUrl').val();
+        }
+    });*/
+    
+   /* $("body")
+    .on("copy", ".zclip", function( ClipboardEvent  e) {
+      e.clipboardData.clearData();
+      e.clipboardData.setData("text/plain", $(this).data("zclip-text"));
+      e.preventDefault();
+    });*/
 
     $('#verifyDiv').dialog({
     	autoOpen: false,

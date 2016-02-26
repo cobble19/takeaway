@@ -171,11 +171,17 @@
   		
   		<div id="progress">数据加载中。。。</div>
   		
-  		<div id="activityDetailDiv" style="width: 450px; height: 120px;">
+  		<div id="activityDetailDiv" class="row" style="width: 450px; height: 120px;">
 	  			<input type="text" class="" style="width: 300px;" id="activityDetailUrl"><br/>
 	  			<!-- <a href="#none" id="copyInput">点击复制单中的文本</a> -->
-	  			<input type="button" id="copyInput" class="btn btn-info" value="复制链接">
+	  			<!-- <input type="button" id="copyInput" class="btn btn-info" value="复制链接"> -->
+	  			<span id="copyMsg" style="color: red;"></span>
+	  			<button class="btn btn-info" id="copyBtn" data-clipboard-target="#activityDetailUrl">
+				    复制链接
+				</button>
   		</div>
+  		
+		<!-- <button class="zclip" data-zclip-text="Testing 1-2-3!">Click to copy!</button> -->
   		
   		<!-- <div id="verifyDiv">
 			<form class="form-inline" id="verifyForm" role="form" action='' method="post">
