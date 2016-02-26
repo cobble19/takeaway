@@ -58,8 +58,8 @@
 	  				<%
   			  		}
 	  				%>
-                    <h4 style="border-bottom:5px ridge #0FF;">活动报名</h4>
-	  				<div class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px; margin-top:10px;">
+                    <div style="margin-top:30px;"><h4 style="border-bottom:5px ridge #ccc;">活动报名</h4></div>
+	  				<div class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
 		  				<div class="row col-md-12 col-xs-12">
 			  				<fieldset>
 									<form id="applyForm" class="form-inline">
