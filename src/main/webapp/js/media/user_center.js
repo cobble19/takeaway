@@ -101,7 +101,6 @@ $(document).ready(function() {
 				var urlCopy = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
 				+ '编辑报名表单' + '</a>';
 				
-				
 				return linkApply + "<br/>" + linkEdit + "<br/>" + urlCopy;
 			}
 		}/*, {
