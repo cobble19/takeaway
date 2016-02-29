@@ -107,8 +107,9 @@ var showDetail = function() {
 			/*$("#title_2").html(data.title);*/
         	$("#content").html(data.content);
 			/*$("#content_1").html(data.content);*/
+        	var publisher = data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username;
         	if (!!data.userPOJO) {
-            	$('#publisher').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);
+            	$('#publisher').text(publisher);
             	/*$('#publisher_1').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);*/
         	}
         	$('#organiser').text(data.usernameEnterprise);
@@ -119,6 +120,8 @@ var showDetail = function() {
         	} else {
         		$("#logoImg").hide();
         	}
+        	
+        	$(document).find("title").text(publisher + "|" + data.title);
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	alert('Load Error!');

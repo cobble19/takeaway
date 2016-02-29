@@ -7,6 +7,7 @@
   <head>
     <%@include file="../common/head.jsp" %>
     
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity_active.js"></script>
   </head>
   <body>
   

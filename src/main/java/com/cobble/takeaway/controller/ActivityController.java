@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -124,6 +126,12 @@ public class ActivityController extends BaseController {
 			ActivitySearchPOJO activitySearchPOJO = new ActivitySearchPOJO();
 			activitySearchPOJO.setUserId(userId);
 			List<ActivityPOJO> activityPOJOs = activityService.findActives(activitySearchPOJO);
+			
+			if (!CollectionUtils.isEmpty(activityPOJOs)) {
+				String documentTitle = StringUtils.isNotBlank(activityPOJOs.get(0).getUserPOJO().getNickname()) ? 
+						activityPOJOs.get(0).getUserPOJO().getNickname() : activityPOJOs.get(0).getUserPOJO().getUsername();
+				ret.addObject("documentTitle", documentTitle);
+			}
 			ret.addObject("activityPOJOs", activityPOJOs);
 			ret.setViewName("/page/enterprise/activity_active");
 		} catch (Exception e) {

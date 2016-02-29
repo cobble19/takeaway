@@ -7,7 +7,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>得味驿站</title>
+    <c:if test="${not empty documentTitle}">
+    	<title>${documentTitle}</title>
+    </c:if>
+    <c:if test="${empty documentTitle}">
+    	<title>得味驿站</title>
+    </c:if>
+    
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="<cmn:base/>/jquery/jquery-1.11.1.min.js"></script>
     <script src="<cmn:base/>/jquery/jquery-migrate-1.2.1.min.js"></script>
@@ -93,6 +99,7 @@
 	<input id="basePath" type="hidden" value='<cmn:base/>'>
 	<c:set var="basePath"><cmn:base/></c:set>
 	<input id="userId" type="hidden" value='${sessionScope.myUser.userId}'>
+	<input id="username" type="hidden" value='${sessionScope.myUser.username}'>
 	
     <%-- <%  
 	    String path = request.getContextPath();  
@@ -101,6 +108,7 @@
  	<%-- <base href="${basePath}"/>  --%>
  	
  	<%-- <cmn:basex/> --%>
+ 	
     
 
     
