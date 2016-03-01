@@ -33,32 +33,32 @@ $(document).ready(function() {
 	
 	$('#activityForm').validate();
 
-	$('#activityForm').find('#uploadBtn').click(function(e) {
-		var form1 = $(this).parents('form');
-		var formData;
-	    formData = new FormData();
-
-	    var userId = $('#userId').val();
-		
-		formData.append('pic', form1.find('input[name=pic]').get(0).files[0]);
-	    formData.append('userId', userId);
-	    /*formData.append('wxTemplateId', wxTemplateId);
-	    formData.append('orderNo', orderNo);*/
-
-	    $.ajax({
-	        url: '../../htmleditor/pic/add',
-	        contentType:"multipart/form-data",
-	        data: formData,
-	        processData: false,
-	        type: 'POST',
-	        contentType: false, // tell jQuery not to set contentType
-	        success : function(data) {
-	            alert('上传成功');
-	            form1.find('#logoImg').val(data.file_url);
-	        }
-	    });	// ajax end
-	    
-	});	// upload pic to picture files
+//	$('#activityForm').find('#uploadBtn').click(function(e) {
+//		var form1 = $(this).parents('form');
+//		var formData;
+//	    formData = new FormData();
+//
+//	    var userId = $('#userId').val();
+//		
+//		formData.append('pic', form1.find('input[name=pic]').get(0).files[0]);
+//	    formData.append('userId', userId);
+//	    /*formData.append('wxTemplateId', wxTemplateId);
+//	    formData.append('orderNo', orderNo);*/
+//
+//	    $.ajax({
+//	        url: '../../htmleditor/pic/add',
+//	        contentType:"multipart/form-data",
+//	        data: formData,
+//	        processData: false,
+//	        type: 'POST',
+//	        contentType: false, // tell jQuery not to set contentType
+//	        success : function(data) {
+//	            alert('上传成功');
+//	            form1.find('#logoImg').val(data.file_url);
+//	        }
+//	    });	// ajax end
+//	    
+//	});	// upload pic to picture files
 	
 	$('#addBtn').click(function(e) {
 		e.preventDefault();

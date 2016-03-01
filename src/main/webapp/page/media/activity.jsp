@@ -22,14 +22,14 @@
  					<input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入本次活动主题">
  				</div>
  			</div>
- 			<div class="form-group">
+ 			<!-- <div class="form-group">
  				<label class="control-label" for="logoImg">图片:</label>
  				<div class="">
  					<input class="form-control" id="logoImg" name="logoImg" readonly="readonly" required="required" placeholder="请上传图片">
  					<input class="" id="pic" name="pic" type="file">
  					<input class="btn btn-info" id="uploadBtn" name="uploadBtn" type="button" value="上传">
  				</div>
- 			</div>
+ 			</div> -->
  			<div class="form-group">
  				<label class="control-label" for="title">商家组织者:（本活动是否由商家组织，若是请选择商家，不是则选择自己）</label>
  				<div class="">

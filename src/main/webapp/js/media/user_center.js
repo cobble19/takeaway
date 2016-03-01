@@ -100,8 +100,10 @@ $(document).ready(function() {
 				var url = $('#basePath').val() + '/page/enterprise/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1&a=1";
 				var urlCopy = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
 				+ '编辑报名表单' + '</a>';
+				var picBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this)">'
+				+ '添加图片LOGO' + '</a>';
 				
-				return linkApply + "<br/>" + linkEdit + "<br/>" + urlCopy;
+				return linkApply + " " + linkEdit + " " + urlCopy + " " + picBtn;
 			}
 		}/*, {
 			"targets" : 0,
@@ -162,6 +164,78 @@ $(document).ready(function() {
             cell.innerHTML = i+1;
         } );
     } ).draw();
+    
+    /*$('a.picBtn').click(function(e) {
+    	e.preventDefault();
+    	console.log($(this));
+    	data = table.row($(this).parent('tr')).data();
+    	console.log(data);
+    });*/
+    
+
+	$('#picForm').validate();
+	
+	$('#picForm').find('#uploadBtn').click(function(e) {
+		$('#progress').dialog('open');
+		var form1 = $(this).parents('form');
+		var formData;
+	    formData = new FormData();
+
+	    var userId = $('#userId').val();
+		
+		formData.append('pic', form1.find('input[name=pic]').get(0).files[0]);
+	    formData.append('userId', userId);
+	    formData.append('wxTemplateId', $('#activityId').val());
+	    formData.append('orderNo', 9999);
+
+	    $.ajax({
+	        url: '../../htmleditor/pic/add',
+	        contentType:"multipart/form-data",
+	        data: formData,
+	        processData: false,
+	        type: 'POST',
+	        contentType: false, // tell jQuery not to set contentType
+	        success : function(data) {
+	    		$('#progress').dialog('close');
+	            alert('上传成功');
+	            form1.find('#logoImg').val(data.file_url);
+	        }
+	    });	// ajax end
+	    
+	});	// upload pic to picture files
+	
+	$('#picForm').find('#addBtn').click(function(e) {
+		$('#progress').dialog('open');
+		var params = {
+				userId: $('#userId').val(),
+				logoImg: $('#logoImg').val(),
+				activityId: $('#activityId').val()
+		};
+		$.ajax({
+			"url" : $('#basePath').val() + "/api/enterprise/activity/addOrUpdate",
+			"type" : "POST",
+			/*"headers" : {
+				"Content-Type" : "application/json"
+			},*/
+			"dataType" : 'json',
+			/*"data": JSON.stringify({
+	            title: $("#title").val()
+	        }),*/
+			data: params,
+	        success: function(data, textStatus, jqXHR ) {
+	    		$('#progress').dialog('close');
+	    		alert('更新图片成功');
+	        	$('#picDiv').dialog('close');
+	        	console.log("data = " + data);
+	        },
+	        error: function(jqXHR, textStatus, errorThrown) {
+	        	alert('Load Error!');
+	        },
+	        complete: function(jqXHR, textStatus) {
+	        	console.log('Ajax complete.');
+	        }
+		});
+	});
     
     $('#chkBoxAll').click(function() {
     	var chkBoxAll = $(this).attr('checked');
@@ -275,6 +349,13 @@ $(document).ready(function() {
     	modal: true,
     	width: 450,
     	height: 150
+    });
+    
+    $('#picDiv').dialog({
+    	autoOpen: false,
+    	modal: true,
+    	width: 450,
+    	height: 350
     });
 
    /* $('#copyInput').click(function() {
@@ -906,6 +987,14 @@ var openUrlDiv = function(url) {
 	
 	$('#activityDetailUrl').val(url);
 	
+}
+
+var openPicDiv = function(t) {
+	data = $('#dbTable').DataTable().row($(t).closest('tr')).data();
+	console.log(data);
+	$('#activityId').val(data.activityId);
+	$('#logoImg').val(data.logoImg);
+	$('#picDiv').dialog('open');
 }
 
 function jsCopy(){ 
