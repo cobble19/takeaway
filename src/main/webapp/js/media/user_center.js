@@ -90,18 +90,18 @@ $(document).ready(function() {
 				+ '&activityTitle=' + ((full.title));
 				var linkApply = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href
 				+ '">' +
-				'查看申请人' + '</a>';
+				'查看报名详情' + '</a>';
 				
 				var hrefEdit = $('#basePath').val() + '/page/media/activity_update.jsp?activityId='  + full.activityId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
-								+ '修改' + '</a>';
+								+ '修改活动内容' + '</a>';
 
 				var url = $('#basePath').val() + '/page/enterprise/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1&a=1";
 				var urlCopy = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
 				+ '编辑报名表单' + '</a>';
 				var picBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this)">'
-				+ '添加图片LOGO' + '</a>';
+				+ '上传活动简图' + '</a>';
 				
 				return linkApply + " " + linkEdit + " " + urlCopy + " " + picBtn;
 			}
@@ -196,15 +196,17 @@ $(document).ready(function() {
 	        type: 'POST',
 	        contentType: false, // tell jQuery not to set contentType
 	        success : function(data) {
-	    		$('#progress').dialog('close');
-	            alert('上传成功');
+	    		/*$('#progress').dialog('close');
+	            alert('上传成功');*/
 	            form1.find('#logoImg').val(data.file_url);
+	            
+	            addOrUpdatePic();
 	        }
 	    });	// ajax end
 	    
 	});	// upload pic to picture files
 	
-	$('#picForm').find('#addBtn').click(function(e) {
+	/*$('#picForm').find('#addBtn').click(function(e) {
 		$('#progress').dialog('open');
 		var params = {
 				userId: $('#userId').val(),
@@ -214,13 +216,13 @@ $(document).ready(function() {
 		$.ajax({
 			"url" : $('#basePath').val() + "/api/enterprise/activity/addOrUpdate",
 			"type" : "POST",
-			/*"headers" : {
+			"headers" : {
 				"Content-Type" : "application/json"
-			},*/
+			},
 			"dataType" : 'json',
-			/*"data": JSON.stringify({
+			"data": JSON.stringify({
 	            title: $("#title").val()
-	        }),*/
+	        }),
 			data: params,
 	        success: function(data, textStatus, jqXHR ) {
 	    		$('#progress').dialog('close');
@@ -235,7 +237,7 @@ $(document).ready(function() {
 	        	console.log('Ajax complete.');
 	        }
 		});
-	});
+	});*/
     
     $('#chkBoxAll').click(function() {
     	var chkBoxAll = $(this).attr('checked');
@@ -1002,7 +1004,40 @@ function jsCopy(){
     e.select(); //选择对象 
     document.execCommand("Copy"); //执行浏览器复制命令
     alert("已复制好，可贴粘。"); 
-} 
+}
+
+function addOrUpdatePic() {
+	// update DB
+    var params = {
+			userId: $('#userId').val(),
+			logoImg: $('#logoImg').val(),
+			activityId: $('#activityId').val()
+	};
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/enterprise/activity/addOrUpdate",
+		"type" : "POST",
+		/*"headers" : {
+			"Content-Type" : "application/json"
+		},*/
+		"dataType" : 'json',
+		/*"data": JSON.stringify({
+            title: $("#title").val()
+        }),*/
+		data: params,
+        success: function(data, textStatus, jqXHR ) {
+    		$('#progress').dialog('close');
+    		alert('更新图片成功');
+        	$('#picDiv').dialog('close');
+        	console.log("data = " + data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	alert('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
 
 /*var verify = function(interactiveId) {
 	console.log('111');

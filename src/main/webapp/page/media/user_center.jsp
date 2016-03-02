@@ -182,20 +182,20 @@
   		</div>
   		<div id="picDiv">
 	  		<form id="picForm" class="form-horizontal" role="form" action='' method="post">
-	  			<input type="text" id="activityId">
+	  			<input type="hidden" id="activityId">
 	 			<div class="form-group">
 	 				<label class="control-label" for="logoImg">图片:</label>
 	 				<div class="">
 	 					<input class="form-control" id="logoImg" name="logoImg" readonly="readonly" required="required" placeholder="请上传图片">
 	 					<input class="" id="pic" name="pic" type="file">
-	 					<input class="btn btn-info" id="uploadBtn" name="uploadBtn" type="button" value="上传">
+	 					<input class="btn btn-info" id="uploadBtn" name="uploadBtn" type="button" value="上传图片">
 	 				</div>
 	 			</div>
-	 			<div class="form-group">
+	 			<!-- <div class="form-group">
 		 			<div class="">
 		  				<button type="button" class="btn btn-default" id="addBtn">添加图片</button>
 		 			</div>
-	 			</div>
+	 			</div> -->
 	  		</form>
   		</div>
 		<!-- <button class="zclip" data-zclip-text="Testing 1-2-3!">Click to copy!</button> -->
