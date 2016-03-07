@@ -109,4 +109,11 @@ public class ActivityServiceImpl implements ActivityService {
 		return ret;
 	}
 
+	@Override
+	public ActivityPOJO find2ById(Long id) throws Exception {
+		ActivityPOJO ret = null;
+		ret = activityMapper.find2ById(id);
+		return ret;
+	}
+
 }

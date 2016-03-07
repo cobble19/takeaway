@@ -14,6 +14,14 @@
     <id column="APPLY2_ID" property="apply2Id" />
     <result column="DESCRIPTION" property="description" />
   </resultMap>
+  
+  <resultMap id="Apply2Result2Map" type="com.cobble.takeaway.pojo.Apply2POJO" >
+    <id column="APPLY2_ID" property="apply2Id" />
+    <result column="DESCRIPTION" property="description" />
+    <collection property="apply2AttrPOJOs" column="APPLY2_ID" ofType="com.cobble.takeaway.pojo.Apply2AttrPOJO"
+    		select="com.cobble.takeaway.dao.Apply2AttrMapper.finds2ByApply2Id"></collection>
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     apply2.APPLY2_ID, apply2.DESCRIPTION
   </sql>
@@ -100,6 +108,14 @@
     <include refid="Base_Column_List" />
     from p_apply2 apply2
     where APPLY2_ID = #{apply2Id}
+  </select>
+  
+  <select id="finds2ByActivityId" resultMap="Apply2Result2Map" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from p_apply2 apply2, rel_activity_apply2 raa2
+    where apply2.apply2_id = raa2.apply2_id
+    and raa2.ACTIVITY_ID = #{activityId}
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from p_apply2

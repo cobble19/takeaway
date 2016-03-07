@@ -71,6 +71,18 @@
   		</trim>
   	</where>
   </select>
+  
+  <select id="finds2ByApply2Id" resultMap="Apply2AttrResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from p_apply2_attr a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.Apply2_ID = #{apply2Id}
+  		</trim>
+  	</where>
+  </select>
+  
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from p_apply2_attr
     where Apply2_ATTR_ID = #{apply2AttrId}

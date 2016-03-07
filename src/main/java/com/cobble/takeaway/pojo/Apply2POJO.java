@@ -1,9 +1,14 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Apply2POJO extends BasePOJO {
     private Long apply2Id;
     private String description;
+    
+    private List<Apply2AttrPOJO> apply2AttrPOJOs = new ArrayList<Apply2AttrPOJO>();
 
 	public Long getApply2Id() {
 		return apply2Id;
@@ -19,6 +24,14 @@ public class Apply2POJO extends BasePOJO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<Apply2AttrPOJO> getApply2AttrPOJOs() {
+		return apply2AttrPOJOs;
+	}
+
+	public void setApply2AttrPOJOs(List<Apply2AttrPOJO> apply2AttrPOJOs) {
+		this.apply2AttrPOJOs = apply2AttrPOJOs;
 	}
     
 }

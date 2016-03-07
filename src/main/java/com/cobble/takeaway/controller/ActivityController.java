@@ -40,6 +40,20 @@ public class ActivityController extends BaseController {
 	@Autowired
 	private ActivityService activityService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+	@RequestMapping(value = "/api/activity/2/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public ActivityPOJO query4Detail(@PathVariable("activityId") Long activityId) throws Exception {
+		ActivityPOJO ret = new ActivityPOJO();
+		try {
+			ret = activityService.find2ById(activityId);
+		} catch (Exception e) {
+			logger.error("query error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/api/enterprise/activity/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody

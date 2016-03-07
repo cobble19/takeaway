@@ -1,6 +1,8 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class ActivityPOJO extends BasePOJO {
@@ -18,6 +20,8 @@ public class ActivityPOJO extends BasePOJO {
     
     private Long userIdEnterprise;
     private String usernameEnterprise;
+    
+    private List<Apply2POJO> apply2POJOs = new ArrayList<Apply2POJO>();
     
 	public Long getActivityId() {
 		return activityId;
@@ -78,5 +82,11 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setLogoImg(String logoImg) {
 		this.logoImg = logoImg;
+	}
+	public List<Apply2POJO> getApply2POJOs() {
+		return apply2POJOs;
+	}
+	public void setApply2POJOs(List<Apply2POJO> apply2pojOs) {
+		apply2POJOs = apply2pojOs;
 	}
 }

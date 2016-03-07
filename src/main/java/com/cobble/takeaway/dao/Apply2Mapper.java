@@ -20,4 +20,6 @@ public interface Apply2Mapper {
 	Apply2POJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
 	int insertRelActivityApply2(RelActivityApply2POJO relActivityApply2POJO) throws Exception;
+	
+	List<Apply2POJO> finds2ByActivityId(Long activityId) throws Exception;
 }

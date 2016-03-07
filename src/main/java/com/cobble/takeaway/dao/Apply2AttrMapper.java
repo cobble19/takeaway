@@ -13,4 +13,6 @@ public interface Apply2AttrMapper {
 	int getCount(Apply2AttrSearchPOJO apply2AttrSearchPOJO) throws Exception;
 	Apply2AttrPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
+	
+	List<Apply2AttrPOJO> finds2ByApply2Id(Long apply2Id) throws Exception;
 }

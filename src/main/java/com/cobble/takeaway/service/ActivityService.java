@@ -20,4 +20,6 @@ public interface ActivityService {
 	List<ActivityPOJO> find4Enterprises(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 	int getCount4Enterprise(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 	
+	ActivityPOJO find2ById(Long id) throws Exception;
+	
 }

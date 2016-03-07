@@ -22,6 +22,22 @@
     <result column="USERNAME_ENTERPRISE" property="usernameEnterprise" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
+  
+  <resultMap id="ActivityResult2Map" type="com.cobble.takeaway.pojo.ActivityPOJO" >
+    <id column="ACTIVITY_ID" property="activityId" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    <result column="LOGO_IMG" property="logoImg" jdbcType="VARCHAR"/>
+    <result column="START_DATE_TIME" property="startDateTime" />
+    <result column="END_DATE_TIME" property="endDateTime" />
+    <result column="CONTENT" property="content" />
+    <result column="EXPIRED" property="expired" />
+    <result column="USER_ID_ENTERPRISE" property="userIdEnterprise" />
+    <result column="USERNAME_ENTERPRISE" property="usernameEnterprise" />
+    <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
+    <collection property="apply2POJOs" column="ACTIVITY_ID" ofType="com.cobble.takeaway.pojo.Apply2POJO"
+    	 select="com.cobble.takeaway.dao.Apply2Mapper.finds2ByActivityId" ></collection>
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     a.ACTIVITY_ID, a.TITLE, a.LOGO_IMG, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
   </sql>
@@ -135,7 +151,20 @@
   	</where>
   </select>
   
-  
+  <select id="find2ById" resultMap="ActivityResult2Map" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+			, u.user_id, u.username, u.nickname, uEnt.username as username_enterprise, uEnt.user_id as user_id_enterprise
+    from e_activity a, rel_activity_user rau, b_user u, b_user uEnt
+    <where>
+  		<trim prefixOverrides="and">
+			and a.activity_id = rau.activity_id
+			and rau.user_id = u.user_id
+			and a.user_Id_Enterprise = uEnt.user_id
+			and a.ACTIVITY_ID = #{activityId}
+  		</trim>
+  	</where>
+  </select>
   
   <select id="findById" resultMap="ActivityResultMap" parameterType="java.lang.Long" >
     select 
@@ -151,6 +180,7 @@
   		</trim>
   	</where>
   </select>
+  
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from e_activity
     where ACTIVITY_ID = #{activityId}
