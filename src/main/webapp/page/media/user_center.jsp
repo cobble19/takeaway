@@ -198,6 +198,50 @@
 	 			</div> -->
 	  		</form>
   		</div>
+  		
+  		<!-- 申请人信息model数据 -->
+  		<div id="apply2AttrModelDiv" class="">
+  			<fieldset class="scheduler-border">
+  				<legend class="scheduler-border"></legend>
+		  		<form id="apply2AttrModelForm" class="form-horizontal" role="form" action='<cmn:base/>/web/media/apply2AttrModel/add' method="post">
+	  				<input type="hidden" id="activityId">
+		 			<!-- <div class="form-group static-attr">
+		 				<label class="control-label col-sm-4" for="attr0">信息类型0:</label>
+		 				<div class="col-sm-8">
+		 					<input type="text" class="form-control" readonly id="attr0" name="attr0" placeholder="请输入信息类型0内容" value="个人名称">
+		 				</div>
+		 			</div>
+		 			<div class="form-group static-attr">
+		 				<label class="control-label col-sm-4" for="attr1">信息类型1:</label>
+		 				<div class="col-sm-8">
+		 					<input type="text" class="form-control" readonly id="attr1" name="attr1" placeholder="请输入信息类型1内容" value="电话">
+		 				</div>
+		 			</div>
+		 			<div class="form-group static-attr">
+		 				<label class="control-label col-sm-4" for="attr2">信息类型2:</label>
+		 				<div class="col-sm-8">
+		 					<input type="text" class="form-control" readonly id="attr2" name="attr2" placeholder="请输入信息类型1内容" value="性别">
+		 				</div>
+		 			</div> -->
+		 			<!-- <div class="form-group">
+		 				<label class="control-label" for="imgSrc">图片:</label>
+		 				<div class="">
+		 					<input class="form-control" id="imgSrc" name="imgSrc" readonly="readonly" required="required" placeholder="请上传图片">
+		 					<input class="" id="pic" name="pic" type="file">
+		 					<input class="btn btn-info" id="uploadBtn" name="uploadBtn" type="button" value="上传">
+		 				</div>
+		 			</div> -->
+		 			<div class="form-group">
+			 			<div class="">
+			 				<!-- <button type="button" class="btn btn-default" id="addPicBtn">增加图片/文件</button> -->
+			 				<button type="button" class="btn btn-default" id="addAttrBtn">增加条目</button>
+			  				<button type="button" class="btn btn-default" id="addBtn">确定</button>
+			 			</div>
+		 			</div>
+		  		</form>
+  			</fieldset>
+  		</div>
+  		
 		<!-- <button class="zclip" data-zclip-text="Testing 1-2-3!">Click to copy!</button> -->
   		
   		<!-- <div id="verifyDiv">

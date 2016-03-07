@@ -47,5 +47,9 @@
 		<mapper resource="mybatis-config/WxTemplateMapper.xml" />
 		
 		<mapper resource="mybatis-config/WxAttrMapper.xml" />
+		
+		<mapper resource="mybatis-config/Apply2AttrMapper.xml" />
+		<mapper resource="mybatis-config/Apply2AttrModelMapper.xml" />
+		<mapper resource="mybatis-config/Apply2Mapper.xml" />
 	</mappers>
 </configuration>

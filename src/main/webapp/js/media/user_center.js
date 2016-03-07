@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	console.log('abc');
+	
     var table = $('#dbTable').DataTable( {
     	"processing": true,
 		"initComplete": function () {
@@ -103,7 +104,10 @@ $(document).ready(function() {
 				var picBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this)">'
 				+ '上传活动简图' + '</a>';
 				
-				return linkApply + " " + linkEdit + " " + urlCopy + " " + picBtn;
+				var apply2AttrModelBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this)">'
+					+ '申请人信息字段' + '</a>';
+				
+				return linkApply + " " + linkEdit + " " + urlCopy + " " + picBtn + " " + apply2AttrModelBtn;
 			}
 		}/*, {
 			"targets" : 0,
@@ -359,11 +363,16 @@ $(document).ready(function() {
     	width: 450,
     	height: 350
     });
-
-   /* $('#copyInput').click(function() {
-    	jsCopy();
-    });*/
+    $('#apply2AttrModelDiv').dialog({
+    	autoOpen: false,
+    	modal: true,
+    	width: 450,
+    	height: 350
+    });
     
+    onClickAddAttr();
+    onClickAttrSummit();
+
     var clipboard = new Clipboard('#copyBtn');
 
     clipboard.on('success', function(e) {
@@ -389,46 +398,6 @@ $(document).ready(function() {
         alert('复制失败！ 请用【Ctrl+C】， 同时按下Ctrl和C');
     });
     
-   /* var client = new ZeroClipboard( document.getElementById("copyInput") );
-
-    client.on( "ready", function( readyEvent ) {
-      // alert( "ZeroClipboard SWF is ready!" );
-
-      client.on( "aftercopy", function( event ) {
-        // `this` === `client`
-        // `event.target` === the element that was clicked
-        event.target.style.display = "none";
-        alert("Copied text to clipboard: " + event.data["text/plain"] );
-      } );
-    } );*/
-    
-/*    var copyBtn = $('#copyBtn');
-
-    // Disables other default handlers on click (avoid issues)
-    copyBtn.on('click', function(e) {
-        e.preventDefault();
-    });
-
-    // Apply clipboard click event
-    copyBtn.clipboard({
-        path: $('#basePath').val() + '/js/thirdpart/jquery-clipboard/jquery.clipboard.swf',
-
-        copy: function() {
-        	console.log('jquery.clipboard');
-            // Hide "Copy" and show "Copied, copy again?" message in link
-//            $('#copyMsg').show().val('复制成功');
-
-            // Return text in closest element (useful when you have multiple boxes that can be copied)
-            return $('#activityDetailUrl').text() || $('#activityDetailUrl').val();
-        }
-    });*/
-    
-   /* $("body")
-    .on("copy", ".zclip", function( ClipboardEvent  e) {
-      e.clipboardData.clearData();
-      e.clipboardData.setData("text/plain", $(this).data("zclip-text"));
-      e.preventDefault();
-    });*/
 
     $('#verifyDiv').dialog({
     	autoOpen: false,
@@ -998,6 +967,12 @@ var openPicDiv = function(t) {
 	$('#logoImg').val(data.logoImg);
 	$('#picDiv').dialog('open');
 }
+var openApply2AttrModelDiv = function(t) {
+	data = $('#dbTable').DataTable().row($(t).closest('tr')).data();
+	console.log(data);
+	$('#apply2AttrModelForm').find('#activityId').val(data.activityId);
+	$('#apply2AttrModelDiv').dialog('open');
+}
 
 function jsCopy(){ 
     var e=document.getElementById("activityDetailUrl");//对象是content 
@@ -1037,6 +1012,139 @@ function addOrUpdatePic() {
         	console.log('Ajax complete.');
         }
 	});
+}
+
+var onClickAddAttr = function() {
+	$('#addAttrBtn').click(function() {
+		var lables = $('#apply2AttrModelForm .control-label');
+		var i = lables.length;
+		var inputText = '<div class="form-group dynamic-attr">'
+						+ '<label class="control-label col-sm-4" for="' + 'attr' + i + '">' + '条目' + i + ':' + '</label>'
+						+ '<div class="col-sm-8">'
+						+  '<input type="text" class="form-control attr" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '条目' + i + '内容' + '">'
+						+  '<input type="text" class="form-control remark" id="' + 'remark' + i + '" name="' + 'remark' + i + '" placeholder="请输入' + '条目' + i + '备注' + '">'
+						+ '</div>'
+						+'</div>'
+			;
+		$('#apply2AttrModelForm div.form-group:nth-last-child(1)').before(inputText);
+		var form = $('#apply2AttrModelForm'); // trigger
+	});
+	/*$('#addPicBtn').click(function() {
+		var lables = $('#apply2AttrModelForm .control-label');
+		var i = lables.length;
+		var inputText = '<div class="form-group">'
+						+ '<label class="control-label col-sm-4" for="' + 'attr' + i + '">' + '条目图片、文件' + i + ':' + '</label>'
+						+ '<div class="col-sm-8">'
+						+  '<input type="text" class="form-control" id="' + 'attr' + i + '" name="' + 'attr' + i + '" readonly="readonly" placeholder="请输入' + '条目' + i + '内容' + '">'
+						+  '<input class="" id="pic" name="pic" type="file">'
+						+  '<input class="btn btn-info" id="uploadBtn" name="uploadBtn" type="button" value="上传">'
+						+ '</div>'
+						+'</div>'
+			;
+		$('#apply2AttrModelForm div.form-group:nth-last-child(2)').after(inputText);
+		var form = $('#apply2AttrModelForm'); // trigger
+	})*/
+}
+
+var onClickAttrSummit = function() {
+		var form = $("form[id=apply2AttrModelForm]");
+		
+		$(form).find('#addBtn').click(function(e) {
+			$('#apply2AttrModelDiv').dialog('open');
+			var form1 = $(this).parents('form');
+			
+			if (!$(form1).valid()) {
+//				alert('请正确输入');
+				return;
+			}
+			
+			var formData;
+		    formData = new FormData();
+		    
+		    
+		    inputTexts = $('#apply2AttrModelForm div input.form-control.attr:text');
+		    var apply2AttrModelPOJOs = [];
+		    /*var count = 0;*/
+		    
+		    var userId = $('#userId').val();
+		    var activityId = $(form1).find('#activityId').val();
+		    
+		    console.log('inputTexts length: ' + inputTexts.length);
+
+		    for (var i = 0; i < inputTexts.length; i++) {
+		    	var inputText = inputTexts[i];
+		    	var apply2AttrModelPOJO = {};
+		    	apply2AttrModelPOJO.apply2AttrModelName = $(inputText).val();
+		    	apply2AttrModelPOJO.apply2AttrModelRemark = $(inputText).next().val();
+		    	apply2AttrModelPOJO.orderNo = i;
+		    	apply2AttrModelPOJO.activityId = activityId;
+		    	apply2AttrModelPOJOs.push(apply2AttrModelPOJO);
+		    }
+
+		    /*var count = count + inputTexts.length;*/
+		    
+		   /* inputRadios = $('#apply2AttrModelForm div.form-group.static-attr-radio input[type=radio]:checked');
+		    console.log('inputRadios length: ' + inputRadios.length);
+		    for (var i = 0; i < inputRadios.length; i++) {
+		    	var index = i + count;
+		    	var inputRadio = inputRadios[i];
+		    	var apply2AttrModelPOJO = {};
+		    	apply2AttrModelPOJO.apply2AttrModelName = $(inputRadio).val();
+		    	apply2AttrModelPOJO.orderNo = index;
+		    	apply2AttrModelPOJO.activityId = activityId;
+		    	apply2AttrModelPOJOs.push(apply2AttrModelPOJO);
+		    }*/
+
+		    /*count = count + inputRadios.length;
+		    
+		    inputTexts = $('#apply2AttrModelForm div.dynamic-attr input:text');
+
+		    console.log('inputTexts dynamic length: ' + inputTexts.length);
+		    console.log('inputTexts: ' + JSON.stringify(inputTexts));
+		    
+		    for (var i = 0; i < inputTexts.length; i++) {
+		    	var index = i + count;
+		    	var inputText = inputTexts[i];
+		    	var apply2AttrModelPOJO = {};
+		    	apply2AttrModelPOJO.apply2AttrModelName = $(inputText).val();
+		    	apply2AttrModelPOJO.orderNo = index;
+		    	apply2AttrModelPOJO.activityId = activityId;
+		    	apply2AttrModelPOJOs.push(apply2AttrModelPOJO);
+		    }*/
+		    
+		    var basePath = $("#basePath").val();
+		    /*if (imgSrc.indexOf(basePath) > -1) {
+		    	imgSrc = imgSrc.substring(imgSrc.indexOf(basePath));
+		    }*/
+		    
+		    /*var wxTemplateId = $('input[name=wxTemplateId]:checked').val()
+		    console.log("wxTemplateId: " + wxTemplateId);
+		    formData.append('wxTemplateId', wxTemplateId);
+		    var userId = $('#userId').val();
+		    formData.append('userId', userId);*/
+		    formData.append('apply2AttrModelPOJOs', apply2AttrModelPOJOs);
+		    
+		    console.log("apply2AttrModelPOJOs: " + JSON.stringify(apply2AttrModelPOJOs));
+		    
+		    $.ajax({
+		        url: $("#basePath").val() + '/api/media/apply2AttrModels/add',
+		        data: JSON.stringify(apply2AttrModelPOJOs),
+//		        processData: false,
+		        type: 'POST',
+		        contentType: "application/json",
+		        success : function(data) {
+		        	if (data.success) {
+			            alert('创建申请人信息字段成功');
+		        	} else {
+			            alert('创建申请人信息字段失败！！！msg：' + data.desc);
+		        	}
+
+		    		$('#apply2AttrModelDiv').dialog('close');
+		        }
+		    });	// ajax end
+		    
+		})
+		
 }
 
 /*var verify = function(interactiveId) {

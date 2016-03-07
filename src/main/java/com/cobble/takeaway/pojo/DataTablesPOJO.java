@@ -73,6 +73,12 @@ public class DataTablesPOJO<T> extends BasePOJO {
 	public void setDT_RowAttr(Object dT_RowAttr) {
 		DT_RowAttr = dT_RowAttr;
 	}
+	public Boolean getSuccess() {
+		return success;
+	}
+	public void setSuccess(Boolean success) {
+		this.success = success;
+	}
 	
 	
 }

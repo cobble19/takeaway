@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.Apply2Mapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="Apply2ResultMap" type="com.cobble.takeaway.pojo.Apply2POJO" >
+    <id column="APPLY2_ID" property="apply2Id" />
+    <result column="DESCRIPTION" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    apply2.APPLY2_ID, apply2.DESCRIPTION
+  </sql>
+  <sql id="Clause_Common">
+	<if test="description != null">
+		and DESCRIPTION like concat("%", concat(#{description}, "%"))
+	</if>
+  </sql>
+  <select id="findsApply2InActivity" resultMap="Apply2ResultMap" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from p_apply2 apply2
+    join rel_activity_apply2 raa on raa.apply2_id = apply2.apply2_id
+    join e_activity activity on activity.activity_id = raa.activity_id
+    <where>
+  		<trim prefixOverrides="and">
+			and activity.activity_id = #{activityId}
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCountApply2InActivity" resultType="int" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
+    select
+    count(1)
+    from p_apply2 apply2
+    join rel_activity_apply2 raa on raa.apply2_id = apply2.apply2_id
+    join e_activity activity on activity.activity_id = raa.activity_id
+    <where>
+  		<trim prefixOverrides="and">
+			and activity.activity_id = #{activityId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findsApply2InActivityByPhone" resultType="int"  parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
+    select
+    count(1)
+    from p_apply2 apply2
+    join rel_activity_apply2 raa on raa.apply2_id = apply2.apply2_id
+    join e_activity activity on activity.activity_id = raa.activity_id
+    <where>
+  		<trim prefixOverrides="and">
+			and apply2.phone = #{phone}
+			and activity.activity_id = #{activityId}
+  		</trim>
+  	</where>
+	<!-- <if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if> -->
+  </select>
+  
+  <select id="finds" resultMap="Apply2ResultMap" parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from p_apply2 apply2
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from p_apply2
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  <select id="findById" resultMap="Apply2ResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from p_apply2 apply2
+    where APPLY2_ID = #{apply2Id}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from p_apply2
+    where APPLY2_ID = #{apply2Id}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.Apply2POJO" useGeneratedKeys="true"
+  	keyProperty="apply2Id" keyColumn="APPLY2_ID">
+    insert into p_apply2
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="description != null" >
+        #{description},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertRelActivityApply2" parameterType="com.cobble.takeaway.pojo.RelActivityApply2POJO" useGeneratedKeys="true"
+  	keyProperty="relActivityApply2Id">
+    insert into rel_activity_apply2
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="activityId != null" >
+        ACTIVITY_ID,
+      </if>
+      <if test="apply2Id != null" >
+        APPLY2_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="activityId != null" >
+        #{activityId},
+      </if>
+      <if test="apply2Id != null" >
+        #{apply2Id},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.cobble.takeaway.pojo.Apply2POJO" >
+    update p_apply2
+    <set >
+      <if test="description != null" >
+        DESCRIPTION = #{description},
+      </if>
+    </set>
+    where APPLY2_ID = #{apply2Id}
+  </update>
+</mapper>

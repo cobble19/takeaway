@@ -59,7 +59,36 @@
   			  		}
 	  				%>
                     <div style="margin-top:30px;"><h4 style="border-bottom:5px ridge #ccc;">活动报名</h4></div>
-	  				<div class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
+	  				<div id="apply2Div" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
+		  				<div class="row col-md-12 col-xs-12">
+			  				<fieldset>
+									<form id="apply2Form" class="form-horizontal">
+											<!-- <div class="form-group">
+												<label for="usernameX" class="control-label h5">姓名: </label>
+												<input id="usernameX" name="username" minlength="2" required="required" value="" placeholder="请填写姓名" class="form-control" />
+											</div> -->
+											<!-- <div class="form-group">
+												<label for="phone" class="control-label h5">手机: </label>
+												<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
+											</div>
+											<div class="form-group">
+												<label for="sex" class="control-label h5">性别: </label>
+												<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
+												<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
+											</div>
+											<div class="form-group">
+												<label for="description" class="control-label h5">备注: </label> 
+												<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control"  style="margin-bottom:5px;"></textarea>
+											</div> -->
+											<div class="form-group">
+												<input type="button" id="apply2Btn" value="申请参加" class="btn btn-default" />
+											</div>
+									</form>
+							</fieldset>	
+	  					</div>
+					</div>
+					<!-- 隐藏 -->
+	  				<div id="applyDiv" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px; display:none;">
 		  				<div class="row col-md-12 col-xs-12">
 			  				<fieldset>
 									<form id="applyForm" class="form-inline">
@@ -73,8 +102,8 @@
 											</div>
 											<div class="form-group">
 												<label for="sex" class="control-label h5">性别: </label>
-					<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
-					<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
+												<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
+												<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
 											</div>
 											<div class="form-group">
 												<label for="description" class="control-label h5">备注: </label> 

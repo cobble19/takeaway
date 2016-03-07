@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.Apply2AttrModelMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="Apply2AttrModelResultMap" type="com.cobble.takeaway.pojo.Apply2AttrModelPOJO" >
+    <id column="APPLY2_ATTR_MODEL_ID" property="apply2AttrModelId" />
+    <result column="APPLY2_ATTR_MODEL_NAME" property="apply2AttrModelName"/>
+    <result column="APPLY2_ATTR_MODEL_REMARK" property="apply2AttrModelRemark"/>
+    <result column="ORDER_NO" property="orderNo" />
+    <result column="ACTIVITY_ID" property="activityId" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.APPLY2_ATTR_MODEL_ID, a.APPLY2_ATTR_MODEL_NAME, a.APPLY2_ATTR_MODEL_REMARK, a.ORDER_NO, a.ACTIVITY_ID
+  </sql>
+  <sql id="Clause_Common">
+	<if test="apply2AttrModelName != null">
+		and a.APPLY2_ATTR_MODEL_NAME like concat("%", concat(#{apply2AttrModelName}, "%"))
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="Apply2AttrModelResultMap" parameterType="com.cobble.takeaway.pojo.Apply2AttrModelSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from p_apply2_attr_model a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="activityId != null">
+				and a.ACTIVITY_ID = ${activityId}
+			</if>
+  		</trim>
+  	</where>
+  	order by a.ORDER_NO
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" resultType="java.lang.Integer" parameterType="com.cobble.takeaway.pojo.Apply2AttrModelSearchPOJO" >
+    select count(1) from p_apply2_attr_model a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="activityId != null">
+				and a.ACTIVITY_ID = ${activityId}
+			</if>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="Apply2AttrModelResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from p_apply2_attr_model a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.APPLY2_ATTR_MODEL_ID = #{apply2AttrModelId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from p_apply2_attr_model
+    where APPLY2_ATTR_MODEL_ID = #{apply2AttrModelId}
+  </delete>
+  
+  <delete id="deleteByActivityId" parameterType="java.lang.Long" >
+    delete from p_apply2_attr_model
+    where ACTIVITY_ID = #{activityId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.Apply2AttrModelPOJO" useGeneratedKeys="true"
+  	keyProperty="apply2AttrModelId" keyColumn="APPLY2_ATTR_MODEL_ID">
+    insert into p_apply2_attr_model
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="apply2AttrModelName != null" >
+        APPLY2_ATTR_MODEL_NAME,
+      </if>
+      <if test="apply2AttrModelRemark != null" >
+        APPLY2_ATTR_MODEL_REMARK,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="activityId != null" >
+        ACTIVITY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="apply2AttrModelName != null" >
+        #{apply2AttrModelName},
+      </if>
+      <if test="apply2AttrModelRemark != null" >
+        #{apply2AttrModelRemark},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo},
+      </if>
+      <if test="activityId != null" >
+        #{activityId},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.Apply2AttrModelPOJO" >
+    update p_apply2_attr_model
+    <set >
+      <if test="apply2AttrModelName != null" >
+        APPLY2_ATTR_MODEL_NAME = #{apply2AttrModelName},
+      </if>
+      <if test="apply2AttrModelRemark != null" >
+        APPLY2_ATTR_MODEL_REMARK = #{apply2AttrModelRemark},
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo},
+      </if>
+      <if test="activityId != null" >
+        ACTIVITY_ID = #{activityId},
+      </if>
+    </set>
+    where APPLY2_ATTR_MODEL_ID = #{apply2AttrModelId}
+  </update>
+  
+</mapper>
