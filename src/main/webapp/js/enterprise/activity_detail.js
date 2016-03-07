@@ -97,7 +97,7 @@ var showApply2 = function() {
         	$.each(apply2AttrModels, function(i, e) {
         		var inputText = '<div class="form-group ">'
         						+ '<div class="col-sm-8">'
-        						+ '<label class="control-label" for="' + 'attr' + i + '">' + i + ". " + '<span>' + e.apply2AttrModelName + '</span>' + ':' + '</label>'
+        						+ '<label class="control-label" for="' + 'attr' + i + '">' + (i + 1) + ". " + '<span>' + e.apply2AttrModelName + '</span>' + ':' + '</label>'
         						+ '<br>'
         						+ '<span style="font-size:10px;">' + e.apply2AttrModelRemark + '</span>'
         						+  '<textarea class="form-control" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'

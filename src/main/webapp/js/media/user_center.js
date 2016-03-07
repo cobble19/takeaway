@@ -1019,10 +1019,10 @@ var onClickAddAttr = function() {
 		var lables = $('#apply2AttrModelForm .control-label');
 		var i = lables.length;
 		var inputText = '<div class="form-group dynamic-attr">'
-						+ '<label class="control-label col-sm-4" for="' + 'attr' + i + '">' + '条目' + i + ':' + '</label>'
+						+ '<label class="control-label col-sm-4" for="' + 'attr' + i + '">' + '条目' + (i + 1) + ':' + '</label>'
 						+ '<div class="col-sm-8">'
-						+  '<input type="text" class="form-control attr" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '条目' + i + '内容' + '">'
-						+  '<input type="text" class="form-control remark" id="' + 'remark' + i + '" name="' + 'remark' + i + '" placeholder="请输入' + '条目' + i + '备注' + '">'
+						+  '<input type="text" class="form-control attr" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '条目' + (i + 1) + '标题' + '">'
+						+  '<input type="text" class="form-control remark" id="' + 'remark' + i + '" name="' + 'remark' + i + '" placeholder="请输入' + '条目' + (i + 1) + '备注' + '">'
 						+ '</div>'
 						+'</div>'
 			;
