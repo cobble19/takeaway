@@ -75,11 +75,12 @@ $(document).ready(function() {
 		return ;
 	})
 	
-	getPrizeProvider();
+	/*getPrizeProvider();*/
 })
 
 var showDetail = function() {
 	var activityId = getParam('activityId');
+	getPrizeProvider();
 	$.ajax({
 		"url" : "../../web/enterprise/activity/" + activityId,
 		"type" : "GET",
@@ -91,8 +92,10 @@ var showDetail = function() {
             title: $("#title").val()
         }),*/
         success: function(data, textStatus, jqXHR ) {
+        	$('#typeCode').val(data.typeCode);
         	$('#titleE').val(data.title);
     		ue.setContent(data.content);
+    		$('#userIdEnterpriseX').val(data.userIdEnterprise);
 //    		$('#userIdEnterpriseX option[value="' + data.userIdEnterprise + "'").attr('selected', true);
     		$('#startDateTime').val(new Date(data.startDateTime).format('Y/m/d H:i'));
     		$('#endDateTime').val(new Date(data.endDateTime).format('Y/m/d H:i'));
@@ -114,6 +117,7 @@ var getPrizeProvider = function() {
 	$.ajax({
 		"url" : "../../web/enterprise/prize/provider",
 		"type" : "GET",
+		async: false,
 		/*"headers" : {
 			"Content-Type" : "application/json"
 		},*/

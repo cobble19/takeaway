@@ -3,6 +3,7 @@ package com.cobble.takeaway.pojo;
 
 public class ActivitySearchPOJO extends BaseSearchPOJO {
     private Long activityId;
+    private Integer typeCode;
     private String title;
     private String content;
     
@@ -23,5 +24,11 @@ public class ActivitySearchPOJO extends BaseSearchPOJO {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public Integer getTypeCode() {
+		return typeCode;
+	}
+	public void setTypeCode(Integer typeCode) {
+		this.typeCode = typeCode;
 	}
 }

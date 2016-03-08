@@ -12,6 +12,7 @@
 	
   <resultMap id="ActivityResultMap" type="com.cobble.takeaway.pojo.ActivityPOJO" >
     <id column="ACTIVITY_ID" property="activityId" />
+    <result column="TYPE_CODE" property="typeCode" />
     <result column="TITLE" property="title" jdbcType="VARCHAR"/>
     <result column="LOGO_IMG" property="logoImg" jdbcType="VARCHAR"/>
     <result column="START_DATE_TIME" property="startDateTime" />
@@ -25,6 +26,7 @@
   
   <resultMap id="ActivityResult2Map" type="com.cobble.takeaway.pojo.ActivityPOJO" >
     <id column="ACTIVITY_ID" property="activityId" />
+    <result column="TYPE_CODE" property="typeCode" />
     <result column="TITLE" property="title" jdbcType="VARCHAR"/>
     <result column="LOGO_IMG" property="logoImg" jdbcType="VARCHAR"/>
     <result column="START_DATE_TIME" property="startDateTime" />
@@ -39,11 +41,14 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.ACTIVITY_ID, a.TITLE, a.LOGO_IMG, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
+    a.ACTIVITY_ID, a.TYPE_CODE, a.TITLE, a.LOGO_IMG, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
 		and TITLE like concat("%", concat(#{title}, "%"))
+	</if>
+	<if test="typeCode != null">
+		and TYPE_CODE = #{typeCode}
 	</if>
   </sql>
   
@@ -189,6 +194,9 @@
   	keyProperty="activityId" keyColumn="ACTIVITY_ID">
     insert into e_activity
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeCode != null" >
+        TYPE_CODE,
+      </if>
       <if test="title != null" >
         TITLE,
       </if>
@@ -209,6 +217,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeCode != null" >
+        #{typeCode},
+      </if>
       <if test="title != null" >
         #{title},
       </if>
@@ -254,6 +265,9 @@
   <update id="update" parameterType="com.cobble.takeaway.pojo.ActivityPOJO" >
     update e_activity
     <set >
+      <if test="typeCode != null" >
+        TYPE_CODE = #{typeCode},
+      </if>
       <if test="title != null" >
         TITLE = #{title},
       </if>

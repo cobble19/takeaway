@@ -16,6 +16,18 @@
   			<h2 class="">活动发布</h2>
   		</div>
   		<form id="activityForm" class="form-horizontal" role="form" action='<cmn:base/>/web/enterprise/activity/add' method="post">
+  			<div class="form-group">
+ 				<label class="control-label" for="typeCode">活动类型:</label>
+ 				<div class="">
+ 					<select class="form-control" id="typeCode" name="typeCode">
+   						<option value="" selected="selected">所有</option>
+   						<option value="1">线下活动</option>
+   						<option value="2">信息收集</option>
+   					</select>
+ 					<!-- <input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入本次活动主题"> -->
+ 				</div>
+ 			</div>
+  		
  			<div class="form-group">
  				<label class="control-label" for="title">主题:</label>
  				<div class="">

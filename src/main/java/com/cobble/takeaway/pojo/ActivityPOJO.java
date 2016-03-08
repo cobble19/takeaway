@@ -7,6 +7,7 @@ import java.util.List;
 
 public class ActivityPOJO extends BasePOJO {
     private Long activityId;
+    private Integer typeCode;
     private String title;
     private String logoImg;
     private Date startDateTime;
@@ -88,5 +89,11 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setApply2POJOs(List<Apply2POJO> apply2pojOs) {
 		apply2POJOs = apply2pojOs;
+	}
+	public Integer getTypeCode() {
+		return typeCode;
+	}
+	public void setTypeCode(Integer typeCode) {
+		this.typeCode = typeCode;
 	}
 }

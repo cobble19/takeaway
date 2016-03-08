@@ -132,6 +132,16 @@
 	     					<input id="deleteBtn" type="button" class="btn btn-default btn-xs" value="删除">
 	     					
 	     				</div>
+	     				<div id="queryCondition" style="">
+	     					<fieldset class="scheduler-border">
+	     						<legend class="scheduler-border">查询条件</legend>
+		     					<select id="typeCode" name="typeCode">
+		     						<option value="" selected="selected">所有</option>
+		     						<option value="1">线下活动</option>
+		     						<option value="2">信息收集</option>
+		     					</select>
+	     					</fieldset>
+	     				</div>
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
@@ -144,6 +154,7 @@
 				  						<th>期限</th>
 				  						<th>状态</th>
 				  						<th>内容简介</th>
+				  						<th>类型</th>
 				  						<th>操作</th>
 				  					</tr>
 				  				</thead>
@@ -291,6 +302,7 @@
 			 			<div class="">
 			 				<!-- <button type="button" class="btn btn-default" id="addPicBtn">增加图片/文件</button> -->
 			 				<button type="button" class="btn btn-default" id="addAttrBtn">增加条目</button>
+			 				<button type="button" class="btn btn-default" id="popAttrBtn">移除最后一个条目</button>
 			  				<button type="button" class="btn btn-default" id="addBtn">确定</button>
 			 			</div>
 		 			</div>

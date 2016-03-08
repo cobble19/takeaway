@@ -84,8 +84,21 @@ $(document).ready(function() {
 						content + '</a>';
 				return link;
 			}
-		}, {
+		},  {
 			"targets" : 9,
+			"render" : function(data, type, full, meta) {
+				var ret = '未知';
+				if (data == null) {
+					ret = '未知';
+				} else if (data == 1) {
+					ret = '线下活动';
+				} else if (data == 2) {
+					ret = '信息收集';
+				}
+				return ret;
+			}
+		}, {
+			"targets" : 10,
 			"render" : function(data, type, full, meta) {
 				var href = '../../page/person/apply_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + ((full.title));
@@ -153,6 +166,7 @@ $(document).ready(function() {
             },
             { "data": "expired" },
             { "data": "content" },
+            { "data": "typeCode" },
             {
                 /*"className":      'details-control',*/
                 "orderable":      false,
@@ -372,6 +386,7 @@ $(document).ready(function() {
     
     onClickAddAttr();
     onClickAttrSummit();
+    onClickPopAttr();
 
     var clipboard = new Clipboard('#copyBtn');
 
@@ -877,16 +892,18 @@ function format ( d ) {
 
 var activitySearch = function(table) {
 	$('#progress').dialog('open');
+	var params = {
+            typeCode: $("#typeCode option:selected").val()
+	}
 	$.ajax({
 		"url" : "../../web/enterprise/activityByUserId",
 		"type" : "POST",
-		"headers" : {
+		/*"headers" : {
 			"Content-Type" : "application/json"
-		},
+		},*/
+		/*contentType:"application/x-www-form-urlencoded",*/
 		"dataType" : 'json',
-		/*"data": JSON.stringify({
-            title: $("#title").val()
-        }),*/
+		"data": (params),
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');
         	console.log("data = " + data);
@@ -1013,7 +1030,11 @@ function addOrUpdatePic() {
         }
 	});
 }
-
+var onClickPopAttr = function() {
+	$('#popAttrBtn').click(function() {
+		$('#apply2AttrModelForm div.form-group:nth-last-child(2)').remove();
+	});
+}
 var onClickAddAttr = function() {
 	$('#addAttrBtn').click(function() {
 		var lables = $('#apply2AttrModelForm .control-label');
