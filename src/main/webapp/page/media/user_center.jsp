@@ -50,7 +50,7 @@
   					<li class="list-group-item col-md-12 col-xs-6">
 			          	<div class="dropdown">
 						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						    账号中心
+						     账号中心
 						    <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
@@ -62,7 +62,7 @@
 					<li class="list-group-item col-md-12 col-xs-6">
 			          	<div class="dropdown">
 						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						    活动管理
+						     活动管理
 						    <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
@@ -87,7 +87,7 @@
 					<li class="list-group-item col-md-12 col-xs-6">
 			          	<div class="dropdown">
 						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						    模板管理
+						     模板管理
 						    <span class="caret"></span>
 						  </button>
 						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
