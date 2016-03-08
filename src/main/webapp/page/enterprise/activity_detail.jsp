@@ -81,7 +81,7 @@
 												<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control"  style="margin-bottom:5px;"></textarea>
 											</div> -->
 											<div class="form-group">
-												<input type="button" id="apply2Btn" value="申请参加" class="btn btn-default" />
+												<input type="button" id="apply2Btn" value="提交" class="btn btn-default" />
 											</div>
 									</form>
 							</fieldset>	
@@ -110,7 +110,7 @@
 												<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control"  style="margin-bottom:5px;"></textarea>
 											</div>
 											<div class="form-group">
-												<input type="button" id="applyBtn" value="申请参加" class="btn btn-default" />
+												<input type="button" id="applyBtn" value="提交" class="btn btn-default" />
 											</div>
 									</form>
 							</fieldset>	

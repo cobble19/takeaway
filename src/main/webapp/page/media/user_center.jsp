@@ -5,22 +5,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  
+	<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     <%@include file="../../page/common/head.jsp" %>
     
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/user_center.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
 	
-	<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     
     <script>
     	$(document).ready(function() {
     		
     	$('#sidebar a').click(function() {
-			$('#sidebar a').each(function() {
+			/* $('#sidebar a').each(function() {
 				$(this).removeClass('active');
-			})
+			}) */
 			$this = $(this);
-			$this.addClass('active');
+			/* $this.addClass('active'); */
 			var contentId = $this.attr('href').substring(1);
 			console.log('contentId: ' + contentId);
 			$('#uc_content > div').each(function(i, e) {
@@ -33,19 +34,74 @@
     		
     	})
     </script>
+    <style type="text/css">
+    	#sidebar ul li > a {
+    		display: block;
+    	}
+    	
+    </style>
   </head>
   <body>
   	<div class="container">
 	  	<%@include file="../../reg_login_full.jsp" %>
   		<div class="row" style="margin-top:20px; min-height:500px; border:1px solid #CCC;">
   			<div class="col-md-3 col-xs-12" id="sidebar">
-		          <div class="list-group" style="margin-top:10px;">
-		            <a href="#profile" class="list-group-item active col-md-12 col-xs-6">媒体资料</a>
-		            <a href="#update_password" class="list-group-item col-md-12 col-xs-6">修改密码</a>
-		            <a href="#create_activity" class="list-group-item col-md-12 col-xs-6">线下活动管理</a>
-		            <a href="#create_interactive" class="list-group-item col-md-12 col-xs-6">线上互动管理</a>
-		            <a href="#create_wxTemplate" class="list-group-item col-md-12 col-xs-6">模板管理</a>
-		          </div> 				
+		          <ul class="list-group" style="margin-top:10px;">
+  					<li class="list-group-item col-md-12 col-xs-6">
+			          	<div class="dropdown">
+						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    账号中心
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
+						    <li><a href="#profile">媒体资料</a></li>
+						    <li><a href="#update_password">修改密码</a></li>
+						  </ul>
+						</div>
+					</li>
+					<li class="list-group-item col-md-12 col-xs-6">
+			          	<div class="dropdown">
+						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    活动管理
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
+						    <li><a href="#create_activity">活动报名</a></li>
+						    <li><a href="#create_interactive">有奖互动</a></li>
+						  </ul>
+						</div>
+					</li>
+					
+					<li class="list-group-item col-md-12 col-xs-6">
+			          	<div class="dropdown">
+						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						     信息管理
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
+						    <li><a href="#create_wxTemplate">信息征集</a></li>
+						  </ul>
+						</div>
+					</li>
+					
+					<li class="list-group-item col-md-12 col-xs-6">
+			          	<div class="dropdown">
+						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    模板管理
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
+						    <li><a href="#create_wxTemplate">微官网首页</a></li>
+						  </ul>
+						</div>
+					</li>
+		          
+		            <!-- <li class="list-group-item active col-md-12 col-xs-6"><a href="#profile">媒体资料</a></li>
+		            <li class="list-group-item col-md-12 col-xs-6"><a href="#update_password">修改密码</a></li>
+		            <li class="list-group-item col-md-12 col-xs-6"><a href="#create_activity">线下活动管理</a></li>
+		            <li class="list-group-item col-md-12 col-xs-6"><a href="#create_interactive">线上互动管理</a></li>
+		            <li class="list-group-item col-md-12 col-xs-6"><a href="#create_wxTemplate">模板管理</a></li> -->
+		          </ul> 				
 	     	</div>
 	     	<div class="col-md-9 col-xs-9">
 	     		<div id="uc_content" style="padding-top: 10px;">

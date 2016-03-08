@@ -100,12 +100,12 @@ $(document).ready(function() {
 
 				var url = $('#basePath').val() + '/page/enterprise/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1&a=1";
 				var urlCopy = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
-				+ '编辑报名表单' + '</a>';
+				+ '复制相关链接' + '</a>';
 				var picBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this)">'
 				+ '上传活动简图' + '</a>';
 				
 				var apply2AttrModelBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this)">'
-					+ '申请人信息字段' + '</a>';
+					+ '编辑报名表单' + '</a>';
 				
 				return linkApply + " " + linkEdit + " " + urlCopy + " " + picBtn + " " + apply2AttrModelBtn;
 			}

@@ -85,9 +85,9 @@ a:hover {
 	color: #4cca92
 }
 
-p a, ol a, ul a, blockquote a {
+/* p a, ol a, ul a, blockquote a {
 	border-bottom: 0.125rem solid #00b464
-}
+} */
 
 p a:hover, ol a:hover, ul a:hover, blockquote a:hover {
 	border-color: transparent
