@@ -1,7 +1,10 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,9 +19,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,10 +28,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.Apply2AttrPOJO;
+import com.cobble.takeaway.pojo.Apply2POJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.ActivityService;
+import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -43,10 +47,42 @@ public class ActivityController extends BaseController {
 
 	@RequestMapping(value = "/api/activity/2/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ActivityPOJO query4Detail(@PathVariable("activityId") Long activityId) throws Exception {
-		ActivityPOJO ret = new ActivityPOJO();
+	public Map query4Detail(@PathVariable("activityId") Long activityId) throws Exception {
+		/**
+		 * apply2POJOList: List<Map>
+		 * columns: List<String>
+		 * trHeaderNames
+		 */
+		Map ret = new HashMap();
+		ActivityPOJO activityPOJO = new ActivityPOJO();
 		try {
-			ret = activityService.find2ById(activityId);
+			activityPOJO = activityService.find2ById(activityId);
+			logger.info("activityPOJO convert to Json: " + JsonUtils.convertToJson(activityPOJO));
+			
+			List<Map> maps = new ArrayList<Map>();
+			List<String> columns = new ArrayList<String>();
+			List<String> trHeaderNames = new ArrayList<String>();
+			List<Apply2POJO> apply2pojos = activityPOJO.getApply2POJOs();
+			for (int i = 0; i < apply2pojos.size(); i++) {
+				Apply2POJO apply2pojo = apply2pojos.get(i);
+				Map map = new LinkedHashMap();
+				List<Apply2AttrPOJO> apply2AttrPOJOs = apply2pojo.getApply2AttrPOJOs();
+				for (int j = 0; j < apply2AttrPOJOs.size(); j++) {
+					Apply2AttrPOJO apply2AttrPOJO = apply2AttrPOJOs.get(j);
+					String key = "attr" + j;
+					map.put(key, apply2AttrPOJO.getApply2AttrData());
+					if (i == 0) {
+						trHeaderNames.add(apply2AttrPOJO.getApply2AttrModelName());
+						columns.add(key);
+					}
+				}
+				maps.add(map);
+			}
+			
+			ret.put("apply2POJOList", maps);
+			ret.put("columns", columns);
+			ret.put("trHeaderNames", trHeaderNames);
+			
 		} catch (Exception e) {
 			logger.error("query error.", e);
 			throw e;

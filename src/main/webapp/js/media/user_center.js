@@ -100,11 +100,17 @@ $(document).ready(function() {
 		}, {
 			"targets" : 10,
 			"render" : function(data, type, full, meta) {
-				var href = '../../page/person/apply_in_activity.jsp?activityId='  + full.activityId
+				var href = $('#basePath').val() + '/page/person/apply_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + ((full.title));
 				var linkApply = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href
 				+ '">' +
 				'查看报名详情' + '</a>';
+
+				var href2 = $('#basePath').val() + '/page/person/apply2_in_activity.jsp?activityId='  + full.activityId
+				+ '&activityTitle=' + ((full.title));
+				var linkApply2 = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
+				+ '">' +
+				'查看报名详情2' + '</a>';
 				
 				var hrefEdit = $('#basePath').val() + '/page/media/activity_update.jsp?activityId='  + full.activityId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
@@ -120,7 +126,7 @@ $(document).ready(function() {
 				var apply2AttrModelBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this)">'
 					+ '编辑报名表单' + '</a>';
 				
-				return linkApply + " " + linkEdit + " " + urlCopy + " " + picBtn + " " + apply2AttrModelBtn;
+				return /*linkApply + " " + */linkApply2 + " " + linkEdit + " " + urlCopy + " " + picBtn + " " + apply2AttrModelBtn;
 			}
 		}/*, {
 			"targets" : 0,

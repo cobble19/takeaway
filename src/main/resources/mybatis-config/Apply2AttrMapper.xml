@@ -20,7 +20,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.Apply2_ATTR_ID, a.Apply2_ATTR_MODEL_NAME, a.ORDER_NO, a.ACTIVITY_ID, a.Apply2_ID
+    a.Apply2_ATTR_ID, a.Apply2_ATTR_MODEL_NAME, a.Apply2_ATTR_DATA, a.ORDER_NO, a.ACTIVITY_ID, a.Apply2_ID
   </sql>
   <sql id="Clause_Common">
 	<if test="apply2AttrName != null">
