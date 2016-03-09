@@ -17,11 +17,11 @@
     	$(document).ready(function() {
     		
     	$('#sidebar a').click(function() {
-			/* $('#sidebar a').each(function() {
+			 $('#sidebar a').each(function() {
 				$(this).removeClass('active');
-			}) */
+			}) 
 			$this = $(this);
-			/* $this.addClass('active'); */
+			 $this.addClass('active'); 
 			var contentId = $this.attr('href').substring(1);
 			console.log('contentId: ' + contentId);
 			$('#uc_content > div').each(function(i, e) {
@@ -34,79 +34,43 @@
     		
     	})
     </script>
-    <style type="text/css">
-    	#sidebar ul li > a {
-    		display: block;
-    	}
-    	
-    </style>
+
   </head>
   <body>
-  	<div class="container">
+  	<div class="container-fluid">
+        <div  class="row" style=" height:4px; background-color:#44b549;"></div>
 	  	<%@include file="../../reg_login_full.jsp" %>
-  		<div class="row" style="margin-top:20px; min-height:500px; border:1px solid #CCC;">
-  			<div class="col-md-3 col-xs-12" id="sidebar">
-		          <ul class="list-group" style="margin-top:10px;">
-  					<li class="list-group-item col-md-12 col-xs-6">
-			          	<div class="dropdown">
-						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						     账号中心
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
-						    <li><a href="#profile">媒体资料</a></li>
-						    <li><a href="#update_password">修改密码</a></li>
-						  </ul>
-						</div>
-					</li>
-					<li class="list-group-item col-md-12 col-xs-6">
-			          	<div class="dropdown">
-						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						     活动管理
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
-						    <li><a href="#create_activity">活动报名</a></li>
-						    <li><a href="#create_interactive">有奖互动</a></li>
-						  </ul>
-						</div>
-					</li>
-					
-					<li class="list-group-item col-md-12 col-xs-6">
-			          	<div class="dropdown">
-						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						     信息管理
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
-						    <li><a href="#create_wxTemplate">信息征集</a></li>
-						  </ul>
-						</div>
-					</li>
-					
-					<li class="list-group-item col-md-12 col-xs-6">
-			          	<div class="dropdown">
-						  <button class="btn btn-default btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						     模板管理
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu btn-block" aria-labelledby="dropdownMenu1">
-						    <li><a href="#create_wxTemplate">微官网首页</a></li>
-						  </ul>
-						</div>
-					</li>
+        <div  class="row" style=" height:36px; background-color:#e7e8eb;"></div>
+  		<div class="row" style="min-height:500px; border:1px solid #CCC;">
+  			<div class="col-md-3 col-xs-3" style="margin-top:30px; margin-left:-15px; margin-right:-15px;" id="sidebar">
+                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
+                      <li style="margin-left:30px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;帐号中心</h5></li>
+                      <li role="presentation" class="active"><a href="#profile"><h6 style=" margin-left:40px;">基本资料</h6></a></li>
+                      <li role="presentation"><a href="#update_password"><h6 style=" margin-left:40px;">修改密码</h6></a></li>
+                  </ul>
+                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
+                      <li style="margin-left:30px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;信息发布</h5></li>
+                      <li role="presentation"><a href="#create_activity"><h6 style=" margin-left:40px;">表单类信息</h6></a></li>
+                  </ul>
+                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
+                      <li style="margin-left:30px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;o2o互动</h5></li>
+                      <li role="presentation"><a href="#create_interactive"><h6 style=" margin-left:40px;">数字竞猜</h6></a></li>
+                  </ul> 
+                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
+                      <li style="margin-left:30px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;模版管理</h5></li>
+                      <li role="presentation"><a href="#create_wxTemplate"><h6 style=" margin-left:40px;">微官网首页</h6></a></li>
+                  </ul>                    
 		          
 		            <!-- <li class="list-group-item active col-md-12 col-xs-6"><a href="#profile">媒体资料</a></li>
 		            <li class="list-group-item col-md-12 col-xs-6"><a href="#update_password">修改密码</a></li>
 		            <li class="list-group-item col-md-12 col-xs-6"><a href="#create_activity">线下活动管理</a></li>
 		            <li class="list-group-item col-md-12 col-xs-6"><a href="#create_interactive">线上互动管理</a></li>
-		            <li class="list-group-item col-md-12 col-xs-6"><a href="#create_wxTemplate">模板管理</a></li> -->
-		          </ul> 				
+		            <li class="list-group-item col-md-12 col-xs-6"><a href="#create_wxTemplate">模板管理</a></li> -->			
 	     	</div>
-	     	<div class="col-md-9 col-xs-9">
-	     		<div id="uc_content" style="padding-top: 10px;">
+	     	<div class="col-md-9 col-xs-9" style="min-height:500px; border-left:1px solid #e7e7eb;">
+	     		<div id="uc_content" style="padding-top:40px; padding-left:20px; margin-right:-30px;">
 	     			<div id="profile" class="row">
-	     				<h3 class="col-md-12" style="margin-bottom:20px;">媒体资料</h3>
+	     				<strong>基本资料</strong>
 	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
 	     					<label class="" for="username">帐　　号：</label>
 	     					<%-- <input type="text" name="username" id="username" value="${myUser.username}" class="form-control"> --%>
@@ -124,17 +88,17 @@
 	     				
 	     			</div>	<!-- profile end -->
 	     			<div id="create_activity">
-	     				<h3>线下活动管理</h3>
+	     				<strong>表单类信息</strong>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<a class="btn btn-primary btn-xs" href='<cmn:base/>/page/media/activity.jsp'>添加活动</a>
+	     					<a class="btn btn-success btn-xs" href='<cmn:base/>/page/media/activity.jsp'>添加</a>
 	     					
-	     					<input id="searchBtn" type="button" class="btn btn-default btn-xs" value="查询">
-	     					<input id="deleteBtn" type="button" class="btn btn-default btn-xs" value="删除">
+	     					<input id="searchBtn" type="button" class="btn btn-info btn-xs" value="查询">
+	     					<input id="deleteBtn" type="button" class="btn btn-danger btn-xs" value="删除">
 	     					
 	     				</div>
 	     				<div id="queryCondition" style="">
 	     					<fieldset class="scheduler-border">
-	     						<legend class="scheduler-border">查询条件</legend>
+	     						<legend class="scheduler-border"><h5>查询条件</h5></legend>
 		     					<select id="typeCode" name="typeCode">
 		     						<option value="" selected="selected">所有</option>
 		     						<option value="1">线下活动</option>
@@ -142,6 +106,7 @@
 		     					</select>
 	     					</fieldset>
 	     				</div>
+                        <div class="table-responsive">
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
@@ -167,15 +132,16 @@
 				  					</tr>
 				  				</tfoot> -->
 				  			</table>
+                            </div>
 	     			</div>	<!-- create_activity end -->
 	     			
 	     			<div id="create_interactive">
-	     				<h3>线上活动管理</h3>
+	     				<strong>数字竞猜</strong>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<a class="btn btn-primary btn-xs" target="" href='<cmn:base/>/page/media/interactive.jsp'>添加互动</a>
+	     					<a class="btn btn-success btn-xs" target="" href='<cmn:base/>/page/media/interactive.jsp'>添加</a>
 	     					
-	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default btn-xs" value="查询">
-	     					<input id="deleteBtn4Interactive" type="button" class="btn btn-default btn-xs" value="删除">
+	     					<input id="searchBtn4Interactive" type="button" class="btn btn-info btn-xs" value="查询">
+	     					<input id="deleteBtn4Interactive" type="button" class="btn btn-danger btn-xs" value="删除">
 	     					
 	     				</div>
 				  		<table id="dbTable4Interactive" class="display table table-striped table-bordered" cellspacing="0" width="100%">
@@ -210,7 +176,7 @@
 	     			<%@include file="wx_template_inc.jsp" %>
 	     			
 					<div id="update_password">
-                        <h3 style="margin-bottom:20px;">修改密码</h3>
+                        <strong>修改密码</strong>
 						<div class="row" style="margin-left:5px;">
 							<form class="form-inline" id="pwdForm" role="form" action='' method="post">
 					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
