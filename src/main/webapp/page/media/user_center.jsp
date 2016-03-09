@@ -18,10 +18,10 @@
     		
     	$('#sidebar a').click(function() {
 			 $('#sidebar a').each(function() {
-				$(this).removeClass('active');
+				$(this).parent('li').removeClass('active');
 			}) 
 			$this = $(this);
-			 $this.addClass('active'); 
+			$this.parent('li').addClass('active'); 
 			var contentId = $this.attr('href').substring(1);
 			console.log('contentId: ' + contentId);
 			$('#uc_content > div').each(function(i, e) {

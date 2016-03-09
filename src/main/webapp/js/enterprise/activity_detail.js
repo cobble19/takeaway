@@ -100,7 +100,7 @@ var showApply2 = function() {
         						+ '<label class="control-label" for="' + 'attr' + i + '">' + (i + 1) + ". " + '<span>' + e.apply2AttrModelName + '</span>' + ':' + '</label>'
         						+ '<br>'
         						+ '<span style="font-size:10px;">' + e.apply2AttrModelRemark + '</span>'
-        						+  '<textarea class="form-control" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'
+        						+  '<textarea class="form-control" required="required" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'
         						+ '</textarea>'
         						+ '</div>'
 //        						+ '<div class="col-sm-8">'
