@@ -22,8 +22,9 @@ git merge origin refs/heads/master -m "git merge from github"
 echo "[COBBLE.GE] Finish git fetch & merge..."
 echo "[COBBLE.GE] Start mvn..."
 mvn clean install -Dmaven.test.skip=true
-echo "[COBBLE.GE] Copy jdbc.properties"
+echo "[COBBLE.GE] Copy jdbc.properties takeaway.properties"
 /bin/cp -f ${HS_BASE}/target/takeaway/WEB-INF/classes/jdbc.release.properties ${HS_BASE}/target/takeaway/WEB-INF/classes/jdbc.properties
+/bin/cp -f ${HS_BASE}/target/takeaway/WEB-INF/classes/takeaway.release.properties ${HS_BASE}/target/takeaway/WEB-INF/classes/takeaway.properties
 echo "cd ${HS_BASE}/target/takeaway/mgr/ta ..."
 cd ${HS_BASE}/target/takeaway/mgr/ta
 echo "Ext sencha app build ..."
