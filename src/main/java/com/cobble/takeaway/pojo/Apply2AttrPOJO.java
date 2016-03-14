@@ -1,5 +1,7 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.Date;
+
 
 public class Apply2AttrPOJO extends BasePOJO {
     private Long apply2AttrId;
@@ -8,6 +10,7 @@ public class Apply2AttrPOJO extends BasePOJO {
     private Integer orderNo;
     private Long activityId;
     private Long apply2Id;
+    private Date createDateTime;
     
 	public Long getApply2AttrId() {
 		return apply2AttrId;
@@ -44,6 +47,12 @@ public class Apply2AttrPOJO extends BasePOJO {
 	}
 	public void setApply2Id(Long apply2Id) {
 		this.apply2Id = apply2Id;
+	}
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
 	}
     
 }

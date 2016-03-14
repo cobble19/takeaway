@@ -1,6 +1,7 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -65,6 +66,7 @@ public class ActivityController extends BaseController {
 			List<Apply2POJO> apply2pojos = activityPOJO.getApply2POJOs();
 			for (int i = 0; i < apply2pojos.size(); i++) {
 				Apply2POJO apply2pojo = apply2pojos.get(i);
+				Date createDateTime = apply2pojo.getCreateDateTime();
 				Map map = new LinkedHashMap();
 				List<Apply2AttrPOJO> apply2AttrPOJOs = apply2pojo.getApply2AttrPOJOs();
 				for (int j = 0; j < apply2AttrPOJOs.size(); j++) {
@@ -76,8 +78,12 @@ public class ActivityController extends BaseController {
 						columns.add(key);
 					}
 				}
+				map.put("createDateTime", createDateTime);
 				maps.add(map);
 			}
+
+			trHeaderNames.add("提交时间");
+			columns.add("createDateTime");
 			
 			ret.put("apply2POJOList", maps);
 			ret.put("columns", columns);

@@ -18,6 +18,61 @@ $(document).ready(function() {
 	
 })
 
+var existApply2 = function() {
+		var exist = false;
+		
+	    var activityId = $('#activityId').val();
+    	
+	    inputTexts = $('#apply2Form div.form-group textarea.form-control');
+	    var apply2AttrPOJOs = [];
+	    /*var count = 0;*/
+	    
+//	    var userId = $('#userId').val();
+	    
+	    console.log('inputTexts length: ' + inputTexts.length);
+	    
+	    if (inputTexts.length < 2) {
+	    	alert('缺少名称和手机号');
+	    	return;
+	    }
+	    
+	    var params = {
+	    		
+	    };
+
+    	var inputText = inputTexts[1];	// 第2个是手机号
+//    	params.apply2AttrModelName = $(inputText).prev().prev().prev().children('span').html();
+    	params.apply2AttrData = $(inputText).val();
+    	params.orderNo = 1;
+    	params.activityId = activityId;
+    	
+    	$.ajax({
+    		"url" : $('#basePath').val() + "/api/apply2Attr/apply2/exist",
+    		"type" : "POST",
+    		"async": false,
+    		/*"headers" : {
+    			"Content-Type" : "application/json"
+    		},*/
+    		"dataType" : 'json',
+    		"data": (params),
+            success: function(data, textStatus, jqXHR ) {
+            	if (data.success) {
+            		exist = true;
+            	} else {
+            		exist = false;
+            	}
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Ajax error');
+            	alert('Ajax error');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});	// ajax
+    	return exist;
+}
+
 var onClickApply2Summit = function() {
 		var form = $("form[id=apply2Form]");
 		
@@ -26,6 +81,12 @@ var onClickApply2Summit = function() {
 			
 			if (!$(form1).valid()) {
 //				alert('请正确输入');
+				return;
+			}
+			
+			var exist = existApply2();
+			if (exist) {
+				alert('已经存在此手机号。')
 				return;
 			}
 			

@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.Apply2AttrPOJO;
 import com.cobble.takeaway.pojo.Apply2AttrSearchPOJO;
+import com.cobble.takeaway.pojo.ApplySearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
@@ -43,6 +44,31 @@ public class Apply2AttrController extends BaseController {
 	private Apply2AttrService apply2AttrService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+	
+
+	@RequestMapping(value = "/api/apply2Attr/apply2/exist", method = {RequestMethod.POST})
+	@ResponseBody
+	public StatusPOJO existApply2InActivity(Apply2AttrSearchPOJO apply2AttrSearchPOJO) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			int result = apply2AttrService.getCount(apply2AttrSearchPOJO);
+			if (result > 0) {
+				ret.setSuccess(true);
+				ret.setDesc("存在手机号：" + apply2AttrSearchPOJO.getApply2AttrData());
+			} else {
+				ret.setSuccess(false);
+				ret.setDesc("不存在手机号：" + apply2AttrSearchPOJO.getApply2AttrData());
+			}
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			ret.setDesc(e.getMessage());
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/apply2Attr/list", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public DataTablesPOJO<Apply2AttrPOJO> query(Apply2AttrSearchPOJO apply2AttrSearchPOJO) throws Exception {

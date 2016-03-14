@@ -13,17 +13,19 @@
   <resultMap id="Apply2ResultMap" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
     <result column="DESCRIPTION" property="description" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
   <resultMap id="Apply2Result2Map" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
     <result column="DESCRIPTION" property="description" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
     <collection property="apply2AttrPOJOs" column="APPLY2_ID" ofType="com.cobble.takeaway.pojo.Apply2AttrPOJO"
     		select="com.cobble.takeaway.dao.Apply2AttrMapper.finds2ByApply2Id"></collection>
   </resultMap>
   
   <sql id="Base_Column_List" >
-    apply2.APPLY2_ID, apply2.DESCRIPTION
+    apply2.APPLY2_ID, apply2.DESCRIPTION, apply2.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="description != null">
@@ -44,6 +46,7 @@
 			and activity.activity_id = #{activityId}
   		</trim>
   	</where>
+  	order by apply2.CREATE_DATE_TIME asc
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>
@@ -60,6 +63,7 @@
 			and activity.activity_id = #{activityId}
   		</trim>
   	</where>
+  	order by apply2.CREATE_DATE_TIME asc
   </select>
   
   <select id="findsApply2InActivityByPhone" resultType="int"  parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
@@ -74,6 +78,7 @@
 			and activity.activity_id = #{activityId}
   		</trim>
   	</where>
+  	order by apply2.CREATE_DATE_TIME asc
 	<!-- <if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if> -->
@@ -91,6 +96,7 @@
 			<include refid="Clause_Common"/>
   		</trim>
   	</where>
+  	order by apply2.CREATE_DATE_TIME asc
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>
@@ -102,6 +108,7 @@
 			<include refid="Clause_Common"/>
   		</trim>
   	</where>
+  	order by apply2.CREATE_DATE_TIME asc
   </select>
   <select id="findById" resultMap="Apply2ResultMap" parameterType="java.lang.Long" >
     select 
@@ -116,6 +123,7 @@
     from p_apply2 apply2, rel_activity_apply2 raa2
     where apply2.apply2_id = raa2.apply2_id
     and raa2.ACTIVITY_ID = #{activityId}
+  	order by apply2.CREATE_DATE_TIME asc
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from p_apply2
@@ -128,11 +136,13 @@
       <if test="description != null" >
         DESCRIPTION,
       </if>
+        CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="description != null" >
         #{description},
       </if>
+        SYSDATE(),
     </trim>
   </insert>
   <insert id="insertRelActivityApply2" parameterType="com.cobble.takeaway.pojo.RelActivityApply2POJO" useGeneratedKeys="true"
@@ -161,6 +171,7 @@
       <if test="description != null" >
         DESCRIPTION = #{description},
       </if>
+        CREATE_DATE_TIME = sysdate(),
     </set>
     where APPLY2_ID = #{apply2Id}
   </update>

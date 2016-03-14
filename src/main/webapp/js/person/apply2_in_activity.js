@@ -108,7 +108,7 @@ var buildTable = function(result) {
             { "data": "sex" },
             { "data": "description" }
         ]*/,
-        "order": [[1, 'asc']]
+        "order": [[columns.length - 1, 'asc']]
     }
 	
 	$('#dbTable').DataTable().clear();

@@ -1,12 +1,14 @@
 package com.cobble.takeaway.pojo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 public class Apply2POJO extends BasePOJO {
     private Long apply2Id;
     private String description;
+    private Date createDateTime;
     
     private List<Apply2AttrPOJO> apply2AttrPOJOs = new ArrayList<Apply2AttrPOJO>();
 
@@ -32,6 +34,14 @@ public class Apply2POJO extends BasePOJO {
 
 	public void setApply2AttrPOJOs(List<Apply2AttrPOJO> apply2AttrPOJOs) {
 		this.apply2AttrPOJOs = apply2AttrPOJOs;
+	}
+
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
 	}
     
 }

@@ -17,13 +17,14 @@
     <result column="ORDER_NO" property="orderNo" />
     <result column="ACTIVITY_ID" property="activityId" />
     <result column="Apply2_ID" property="apply2Id" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.Apply2_ATTR_ID, a.Apply2_ATTR_MODEL_NAME, a.Apply2_ATTR_DATA, a.ORDER_NO, a.ACTIVITY_ID, a.Apply2_ID
+    a.Apply2_ATTR_ID, a.Apply2_ATTR_MODEL_NAME, a.Apply2_ATTR_DATA, a.ORDER_NO, a.ACTIVITY_ID, a.Apply2_ID, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
-	<if test="apply2AttrName != null">
+	<if test="apply2AttrModelName != null">
 		and a.Apply2_ATTR_MODEL_NAME like concat("%", concat(#{apply2AttrModelName}, "%"))
 	</if>
   </sql>
@@ -41,6 +42,12 @@
 			<if test="activityId != null">
 				and a.ACTIVITY_ID = ${activityId}
 			</if>
+			<if test="orderNo != null">
+				and a.ORDER_NO = ${orderNo}
+			</if>
+			<if test="apply2AttrData != null">
+				and a.Apply2_ATTR_DATA = ${apply2AttrData}
+			</if>
   		</trim>
   	</where>
   	order by a.ORDER_NO
@@ -56,6 +63,12 @@
 			<include refid="Clause_Common"/>
 			<if test="activityId != null">
 				and a.ACTIVITY_ID = ${activityId}
+			</if>
+			<if test="orderNo != null">
+				and a.ORDER_NO = ${orderNo}
+			</if>
+			<if test="apply2AttrData != null">
+				and a.Apply2_ATTR_DATA = ${apply2AttrData}
 			</if>
   		</trim>
   	</where>
@@ -106,6 +119,7 @@
       <if test="apply2Id != null" >
         Apply2_ID,
       </if>
+        CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="apply2AttrModelName != null" >
@@ -123,6 +137,7 @@
       <if test="apply2Id != null" >
         #{apply2Id},
       </if>
+        SYSDATE(),
     </trim>
   </insert>
   
@@ -144,6 +159,7 @@
       <if test="apply2Id != null" >
         Apply2_ID = #{apply2Id},
       </if>
+        CREATE_DATE_TIME = SYSDATE(),
     </set>
     where Apply2_ATTR_ID = #{apply2AttrId}
   </update>
