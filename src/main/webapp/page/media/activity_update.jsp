@@ -19,12 +19,12 @@
 			<form class="form-horizontal" id="activityForm" role="form" action='<cmn:base/>/web/enterprise/activity/add' method="post">
 	  			<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
 	  			<div class="form-group">
-	 				<label class="control-label" for="typeCode">活动类型:</label>
+	 				<label class="control-label" for="typeCode">新增信息类型:</label>
 	 				<div class="">
 	 					<select class="form-control" id="typeCode" name="typeCode">
 	   						<option value="" selected="selected">所有</option>
-	   						<option value="1">线下活动</option>
-	   						<option value="2">信息收集</option>
+	   						<option value="1">报名申请</option>
+	   						<option value="2">征集调查</option>
 	   					</select>
 	 					<!-- <input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入本次活动主题"> -->
 	 				</div>

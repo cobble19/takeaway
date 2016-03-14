@@ -91,9 +91,9 @@ $(document).ready(function() {
 				if (data == null) {
 					ret = '未知';
 				} else if (data == 1) {
-					ret = '线下活动';
+					ret = '报名申请';
 				} else if (data == 2) {
-					ret = '信息收集';
+					ret = '征集调查';
 				}
 				return ret;
 			}
@@ -110,21 +110,21 @@ $(document).ready(function() {
 				+ '&activityTitle=' + ((full.title));
 				var linkApply2 = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
 				+ '">' +
-				'查看报名详情2' + '</a>';
+				'表单详情' + '</a>';
 				
 				var hrefEdit = $('#basePath').val() + '/page/media/activity_update.jsp?activityId='  + full.activityId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
-								+ '修改活动内容' + '</a>';
+								+ '修改内容' + '</a>';
 
 				var url = $('#basePath').val() + '/page/enterprise/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1&a=1";
 				var urlCopy = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
-				+ '复制相关链接' + '</a>';
+				+ '相关链接' + '</a>';
 				var picBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this)">'
-				+ '上传活动简图' + '</a>';
+				+ '活动简图' + '</a>';
 				
 				var apply2AttrModelBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this)">'
-					+ '编辑报名表单' + '</a>';
+					+ '创建表单' + '</a>';
 				
 				return /*linkApply + " " + */linkApply2 + " " + linkEdit + " " + urlCopy + " " + picBtn + " " + apply2AttrModelBtn;
 			}
