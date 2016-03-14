@@ -238,21 +238,19 @@
   				<legend class="scheduler-border"></legend>
 		  		<form id="apply2AttrModelForm" class="form-horizontal" role="form" action='<cmn:base/>/web/media/apply2AttrModel/add' method="post">
 	  				<input type="hidden" id="activityId">
-		 			<div class="form-group static-attr">
-		 				<label class="control-label col-sm-4" for="attr0">条目1:</label>
-		 				<div class="col-sm-8">
-		 					<input type="text" class="form-control attr" required="required" readonly id="attr0" name="attr0" placeholder="请输入条目1内容" value="个人名称">
-		 					<input type="text" class="form-control remark" required="required" readonly id="remark0" name="remark0" placeholder="请输入条目1内容" value="个人名称">
-		 				</div>
-		 			</div>
-		 			<div class="form-group static-attr">
-		 				<label class="control-label col-sm-4" for="attr1">条目2:</label>
-		 				<div class="col-sm-8">
-		 					<input type="text" class="form-control attr" required="required" readonly id="attr1" name="attr1" placeholder="请输入条目2内容" value="手机号码">
-		 					<input type="text" class="form-control remark" required="required" readonly id="remark1" name="remark1" placeholder="请输入条目2内容" value="手机号码">
-		 				</div>
-		 			</div>
 		 			<!-- <div class="form-group static-attr">
+		 				<label class="control-label col-sm-4" for="attr0">信息类型0:</label>
+		 				<div class="col-sm-8">
+		 					<input type="text" class="form-control" readonly id="attr0" name="attr0" placeholder="请输入信息类型0内容" value="个人名称">
+		 				</div>
+		 			</div>
+		 			<div class="form-group static-attr">
+		 				<label class="control-label col-sm-4" for="attr1">信息类型1:</label>
+		 				<div class="col-sm-8">
+		 					<input type="text" class="form-control" readonly id="attr1" name="attr1" placeholder="请输入信息类型1内容" value="电话">
+		 				</div>
+		 			</div>
+		 			<div class="form-group static-attr">
 		 				<label class="control-label col-sm-4" for="attr2">信息类型2:</label>
 		 				<div class="col-sm-8">
 		 					<input type="text" class="form-control" readonly id="attr2" name="attr2" placeholder="请输入信息类型1内容" value="性别">

@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     <%@include file="../common/head.jsp" %>
     
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity_detail.js"></script>
     
-    <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
   </head>
   <body>
   
@@ -58,7 +58,7 @@
 	  				<%
   			  		}
 	  				%>
-                    <div style="margin-top:30px;"><h4 style="border-bottom:5px ridge #ccc;">活动报名</h4></div>
+                    <div class="col-md-12 col-xs-12" style="margin-top:30px;border-bottom:5px ridge #ccc;"></div>
 	  				<div id="apply2Div" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
 		  				<div class="row col-md-12 col-xs-12">
 			  				<fieldset>
@@ -81,7 +81,9 @@
 												<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control"  style="margin-bottom:5px;"></textarea>
 											</div> -->
 											<div class="form-group">
+                                                <div class="col-md-12">
 												<input type="button" id="apply2Btn" value="提交" class="btn btn-default" />
+                                                </div>
 											</div>
 									</form>
 							</fieldset>	
