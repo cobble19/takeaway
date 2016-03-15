@@ -1038,7 +1038,15 @@ function addOrUpdatePic() {
 }
 var onClickPopAttr = function() {
 	$('#popAttrBtn').click(function() {
-		$('#apply2AttrModelForm div.form-group:nth-last-child(2)').remove();
+		var form = $('#apply2AttrModelForm');
+		var formGroup = $('#apply2AttrModelForm label.control-label');
+		var length = formGroup.length;
+		if (length < 2) {
+			alert('必须保留2个条目！');
+			return;
+		} else {
+			$('#apply2AttrModelForm div.form-group:nth-last-child(2)').remove();
+		}
 	});
 }
 var onClickAddAttr = function() {
