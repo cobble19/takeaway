@@ -20,7 +20,7 @@ var applyInActivitySearch = function() {
 	var activityId = getParam('activityId');
 	console.log('title=' + getParam('activityTitle'));
 	$.ajax({
-		"url" : $('#basePath').val() + "/api/activity/2/" + activityId,
+		"url" : $('#basePath').val() + "/api/apply2/v2/" + activityId,
 		"type" : "GET",
 		/*"headers" : {
 			"Content-Type" : "application/json"
@@ -52,6 +52,17 @@ var buildTable = function(result) {
 		};
 		columns.push(column);
 	})
+	
+	columnDefs = [];
+	columnDef = {
+			"targets": [columns.length - 1],
+			"render" : function(data, type, full, meta) {
+				var createDateTime = new Date(full.createDateTime);
+				return createDateTime.format('Y-m-d H:i:s');
+			}
+		};
+	columnDefs.push(columnDef);
+	
 	$.each(result.trHeaderNames, function(i, e){
 		$('#trHeader').append('<th>' + e + '</th>');
 	})
@@ -108,6 +119,7 @@ var buildTable = function(result) {
             { "data": "sex" },
             { "data": "description" }
         ]*/,
+        "columnDefs": columnDefs,
         "order": [[columns.length - 1, 'asc']]
     }
 	

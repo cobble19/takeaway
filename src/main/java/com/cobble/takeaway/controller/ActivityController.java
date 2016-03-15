@@ -29,12 +29,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.Apply2AttrModelPOJO;
 import com.cobble.takeaway.pojo.Apply2AttrPOJO;
 import com.cobble.takeaway.pojo.Apply2POJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.ActivityService;
+import com.cobble.takeaway.service.Apply2AttrModelService;
 import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
 
@@ -44,9 +46,12 @@ public class ActivityController extends BaseController {
 	
 	@Autowired
 	private ActivityService activityService;
+	@Autowired
+	private Apply2AttrModelService apply2AttrModelService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-	@RequestMapping(value = "/api/activity/2/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	// 版本2中的申请人信息
+	@RequestMapping(value = "/api/apply2/v2/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map query4Detail(@PathVariable("activityId") Long activityId) throws Exception {
 		/**
@@ -63,25 +68,46 @@ public class ActivityController extends BaseController {
 			List<Map> maps = new ArrayList<Map>();
 			List<String> columns = new ArrayList<String>();
 			List<String> trHeaderNames = new ArrayList<String>();
+			
+			List<Apply2AttrModelPOJO> apply2AttrModelPOJOs = apply2AttrModelService.findsByActivityId(activityId);
+			
+			if (!CollectionUtils.isEmpty(apply2AttrModelPOJOs)) {
+				for (int i = 0; i < apply2AttrModelPOJOs.size(); i++) {
+					Apply2AttrModelPOJO apply2AttrModelPOJO = apply2AttrModelPOJOs.get(i);
+					String key = "attr" + i;
+					columns.add(key);
+					trHeaderNames.add(apply2AttrModelPOJO.getApply2AttrModelName());
+				}
+			}
+			
 			List<Apply2POJO> apply2pojos = activityPOJO.getApply2POJOs();
-			for (int i = 0; i < apply2pojos.size(); i++) {
-				Apply2POJO apply2pojo = apply2pojos.get(i);
-				Date createDateTime = apply2pojo.getCreateDateTime();
-				Map map = new LinkedHashMap();
-				List<Apply2AttrPOJO> apply2AttrPOJOs = apply2pojo.getApply2AttrPOJOs();
-				for (int j = 0; j < apply2AttrPOJOs.size(); j++) {
-					Apply2AttrPOJO apply2AttrPOJO = apply2AttrPOJOs.get(j);
-					String key = "attr" + j;
-					map.put(key, apply2AttrPOJO.getApply2AttrData());
-					if (i == 0) {
-						trHeaderNames.add(apply2AttrPOJO.getApply2AttrModelName());
-						columns.add(key);
+			if (!CollectionUtils.isEmpty(apply2pojos)) {
+				for (int i = 0; i < apply2pojos.size(); i++) {
+					Apply2POJO apply2pojo = apply2pojos.get(i);
+					Date createDateTime = apply2pojo.getCreateDateTime();
+					Map map = new LinkedHashMap();
+					List<Apply2AttrPOJO> apply2AttrPOJOs = apply2pojo.getApply2AttrPOJOs();
+					if (!CollectionUtils.isEmpty(apply2AttrPOJOs)) {
+						int tempLength = apply2AttrPOJOs.size() > columns.size() ? columns.size() : apply2AttrPOJOs.size();
+						for (int j = 0; j < tempLength; j++) {
+							Apply2AttrPOJO apply2AttrPOJO = apply2AttrPOJOs.get(j);
+							String key = columns.get(j);
+							map.put(key, apply2AttrPOJO.getApply2AttrData());
+						}
+						
+						if (tempLength < columns.size()) {
+							for (int j = tempLength; j < columns.size(); j++) {
+								String key = columns.get(j);
+								map.put(key, "");
+							}
+						}
+						
+						map.put("createDateTime", createDateTime);
+						maps.add(map);
 					}
 				}
-				map.put("createDateTime", createDateTime);
-				maps.add(map);
 			}
-
+			// 放在下面， 上面用到了columns.size()
 			trHeaderNames.add("提交时间");
 			columns.add("createDateTime");
 			
