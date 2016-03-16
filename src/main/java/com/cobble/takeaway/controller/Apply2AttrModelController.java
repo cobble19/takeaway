@@ -43,6 +43,29 @@ public class Apply2AttrModelController extends BaseController {
 	private Apply2AttrModelService apply2AttrModelService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+
+	@RequestMapping(value = "/api/apply2AttrModel/delete/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE}
+				, method = {RequestMethod.GET})
+	@ResponseBody
+	public StatusPOJO delete4WebAPIByActivityId(@PathVariable(value = "activityId") Long activityId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			apply2AttrModelService.deleteByActivityId(activityId);
+			
+			/*String base = HttpRequestUtil.getBase(request);
+			Long userId = UserUtil.getCurrentUser().getUserId();*/
+			
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+//			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/api/apply2AttrModel/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE}
 				, method = {RequestMethod.GET})
 	@ResponseBody
@@ -51,12 +74,9 @@ public class Apply2AttrModelController extends BaseController {
 		DataTablesPOJO<Apply2AttrModelPOJO> ret = new DataTablesPOJO<Apply2AttrModelPOJO>();
 		try {
 			List<Apply2AttrModelPOJO> apply2AttrModelPOJOs = apply2AttrModelService.findsByActivityId(activityId);
-			if (CollectionUtils.isEmpty(apply2AttrModelPOJOs)) {
-				throw new Exception("apply2AttrModelPOJOs can't is NULL.");
-			}
 			
-			String base = HttpRequestUtil.getBase(request);
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			/*String base = HttpRequestUtil.getBase(request);
+			Long userId = UserUtil.getCurrentUser().getUserId();*/
 			
 			ret.setData(apply2AttrModelPOJOs);
 			ret.setSuccess(true);

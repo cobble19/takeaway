@@ -272,6 +272,7 @@
 			 				<button type="button" class="btn btn-default" id="addAttrBtn">增加条目</button>
 			 				<button type="button" class="btn btn-default" id="popAttrBtn">移除最后一个条目</button>
 			  				<button type="button" class="btn btn-default" id="addBtn">确定</button>
+			  				<button type="button" class="btn btn-default" id="deleteAttrBtn">删除</button>
 			 			</div>
 		 			</div>
 		  		</form>

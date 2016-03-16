@@ -77,8 +77,10 @@
   </delete>
   
   <delete id="deleteByActivityId" parameterType="java.lang.Long" >
-    delete from p_apply2_attr_model
-    where ACTIVITY_ID = #{activityId}
+    delete from p_apply2_attr_model where ACTIVITY_ID = #{activityId};
+    delete from p_apply2 where apply2_id in (select apply2_id from rel_activity_apply2 where ACTIVITY_ID = #{activityId});
+    delete from p_apply2_attr where ACTIVITY_ID = #{activityId};
+    delete from rel_activity_apply2 where ACTIVITY_ID = #{activityId}
   </delete>
   
   <insert id="insert" parameterType="com.cobble.takeaway.pojo.Apply2AttrModelPOJO" useGeneratedKeys="true"

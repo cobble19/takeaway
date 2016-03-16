@@ -100,17 +100,17 @@ $(document).ready(function() {
 		}, {
 			"targets" : 10,
 			"render" : function(data, type, full, meta) {
-				var href = $('#basePath').val() + '/page/person/apply_in_activity.jsp?activityId='  + full.activityId
+				/*var href = $('#basePath').val() + '/page/person/apply_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + ((full.title));
 				var linkApply = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href
 				+ '">' +
-				'查看报名详情' + '</a>';
+				'查看报名详情' + '</a>';*/
 
 				var href2 = $('#basePath').val() + '/page/person/apply2_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + ((full.title));
 				var linkApply2 = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
 				+ '">' +
-				'表单详情' + '</a>';
+				'表单汇总' + '</a>';
 				
 				var hrefEdit = $('#basePath').val() + '/page/media/activity_update.jsp?activityId='  + full.activityId;
 				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
@@ -393,7 +393,8 @@ $(document).ready(function() {
     onClickAddAttr();
     onClickAttrSummit();
     onClickPopAttr();
-
+    deleteAttrModel();
+    
     var clipboard = new Clipboard('#copyBtn');
 
     clipboard.on('success', function(e) {
@@ -994,7 +995,122 @@ var openApply2AttrModelDiv = function(t) {
 	data = $('#dbTable').DataTable().row($(t).closest('tr')).data();
 	console.log(data);
 	$('#apply2AttrModelForm').find('#activityId').val(data.activityId);
+	
 	$('#apply2AttrModelDiv').dialog('open');
+	showApply2AttrModel();
+}
+
+function showApply2AttrModel() {
+	var activityId = $('#apply2AttrModelForm').find('#activityId').val();
+
+	$('#progress').dialog('open');
+
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/apply2AttrModel/" + activityId,
+		"type" : "GET",
+		/*"headers" : {
+			"Content-Type" : "application/json"
+		},*/
+		"dataType" : 'json',
+		/*"data": JSON.stringify({
+            title: $("#title").val()
+        }),*/
+		/*data: params,*/
+        success: function(data, textStatus, jqXHR ) {
+    		$('#progress').dialog('close');
+        	console.log("data = " + data);
+        	if (data.success) {
+            	var apply2AttrModels = data.data;
+            	if (apply2AttrModels.length > 0) {
+            		$('#addAttrBtn').hide();
+            		$('#popAttrBtn').hide();
+            		$('#addBtn').hide();
+            		$('#deleteAttrBtn').show();
+            		
+            		// 
+            		$('#apply2AttrModelForm div.form-group.static-attr').remove();
+            		$('#apply2AttrModelForm div.form-group.dynamic-attr').remove();
+            		/*var lables = $('#apply2AttrModelForm .control-label');
+            		var i = lables.length;*/
+            		for (var i = 0; i < apply2AttrModels.length; i++) {
+            			var apply2AttrModel = apply2AttrModels[i];
+                		var inputText = '<div class="form-group dynamic-attr">'
+                						+ '<label class="control-label col-sm-4" for="' + 'attr' + i + '">' + '条目' + (i + 1) + ':' + '</label>'
+                						+ '<div class="col-sm-8">'
+                						+  '<input type="text" class="form-control attr" required="required" readonly id="' + 'attr' + i + '"'
+                						+ ' name="' + 'attr' + i + '"' 
+                						+ ' placeholder="请输入' + '条目' + (i + 1) + '标题' + '"'
+                						+ ' value="' + apply2AttrModel.apply2AttrModelName + '"'
+                						+ '>'
+                						+  '<input type="text" class="form-control remark" readonly id="' + 'remark' + i + '"' 
+                						+ ' name="' + 'remark' + i + '"' 
+                						+ ' placeholder="请输入' + '条目' + (i + 1) + '备注' + '"' 
+                						+ ' value="' + apply2AttrModel.apply2AttrModelRemark + '"'
+                						+ '>'
+                						+ '</div>'
+                						+'</div>'
+                			;
+                		$('#apply2AttrModelForm div.form-group:nth-last-child(1)').before(inputText);
+            		}
+            		var form = $('#apply2AttrModelForm'); // trigger
+            		
+            	} else {
+            		// do nothing
+            		$('#addAttrBtn').show();
+            		$('#popAttrBtn').show();
+            		$('#addBtn').show();
+            		$('#deleteAttrBtn').hide();
+            	}
+        	} else {
+        		alert('查询表单定义失败');
+        	}
+        	
+        	
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	alert('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+
+function deleteAttrModel() {
+	$('#deleteAttrBtn').click(function() {
+		var activityId = $('#apply2AttrModelForm').find('#activityId').val();
+	
+		$('#progress').dialog('open');
+	
+		$.ajax({
+			"url" : $('#basePath').val() + "/api/apply2AttrModel/delete/" + activityId,
+			"type" : "GET",
+			/*"headers" : {
+				"Content-Type" : "application/json"
+			},*/
+			"dataType" : 'json',
+			/*"data": JSON.stringify({
+	            title: $("#title").val()
+	        }),*/
+			/*data: params,*/
+	        success: function(data, textStatus, jqXHR ) {
+	    		$('#progress').dialog('close');
+	        	console.log("data = " + data);
+	        	if (data.success) {
+	        		alert('删除成功');
+	        		$('#apply2AttrModelDiv').dialog('close');
+	        	} else {
+	        		alert('删除失败');
+	        	}
+	        },
+	        error: function(jqXHR, textStatus, errorThrown) {
+	        	alert('Load Error!');
+	        },
+	        complete: function(jqXHR, textStatus) {
+	        	console.log('Ajax complete.');
+	        }
+		});
+	})
 }
 
 function jsCopy(){ 
