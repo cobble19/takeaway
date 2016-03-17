@@ -1055,7 +1055,11 @@ function showApply2AttrModel() {
             		var form = $('#apply2AttrModelForm'); // trigger
             		
             	} else {
-            		// do nothing
+            		// remove all and add tpl_static
+            		$('#apply2AttrModelForm div.form-group.static-attr').remove();
+            		$('#apply2AttrModelForm div.form-group.dynamic-attr').remove();
+            		$('#apply2AttrModelForm div.form-group:nth-last-child(1)').before($('div#tpl_static div.form-group.static-attr').clone());
+            		
             		$('#addAttrBtn').show();
             		$('#popAttrBtn').show();
             		$('#addBtn').show();
@@ -1078,6 +1082,11 @@ function showApply2AttrModel() {
 
 function deleteAttrModel() {
 	$('#deleteAttrBtn').click(function() {
+		var ret = confirm('确认删除此活动的表单 ？ 如果确定， 将删除所有和表单相关的信息！');
+		if (!ret) {
+			return;
+		}
+		
 		var activityId = $('#apply2AttrModelForm').find('#activityId').val();
 	
 		$('#progress').dialog('open');
@@ -1202,6 +1211,13 @@ var onClickAttrSummit = function() {
 		
 		$(form).find('#addBtn').click(function(e) {
 			$('#apply2AttrModelDiv').dialog('open');
+			
+			var ret = confirm('确认添加此活动的表单 ？');
+			if (!ret) {
+				return;
+			}
+			
+			
 			var form1 = $(this).parents('form');
 			
 			if (!$(form1).valid()) {

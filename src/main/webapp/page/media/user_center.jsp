@@ -279,6 +279,23 @@
   			</fieldset>
   		</div>
   		
+  		<div id="tpl_static" style="visibility: hidden;">
+  			<div class="form-group static-attr">
+		 				<label class="control-label col-sm-4" for="attr0">条目1:</label>
+		 				<div class="col-sm-8">
+		 					<input type="text" class="form-control attr" required="required" readonly id="attr0" name="attr0" placeholder="请输入条目1内容" value="个人名称">
+		 					<input type="text" class="form-control remark" required="required" readonly id="remark0" name="remark0" placeholder="请输入条目1内容" value="个人名称">
+		 				</div>
+ 			</div>
+ 			<div class="form-group static-attr">
+ 				<label class="control-label col-sm-4" for="attr1">条目2:</label>
+ 				<div class="col-sm-8">
+ 					<input type="text" class="form-control attr" required="required" readonly id="attr1" name="attr1" placeholder="请输入条目2内容" value="手机号码">
+ 					<input type="text" class="form-control remark" required="required" readonly id="remark1" name="remark1" placeholder="请输入条目2内容" value="手机号码">
+ 				</div>
+ 			</div>
+  		</div>
+  		
 		<!-- <button class="zclip" data-zclip-text="Testing 1-2-3!">Click to copy!</button> -->
   		
   		<!-- <div id="verifyDiv">
