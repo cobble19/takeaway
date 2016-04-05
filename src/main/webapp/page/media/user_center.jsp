@@ -144,6 +144,7 @@
 	     					<input id="deleteBtn4Interactive" type="button" class="btn btn-danger btn-xs" value="删除">
 	     					
 	     				</div>
+                        <div class="table-responsive">
 				  		<table id="dbTable4Interactive" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
@@ -170,6 +171,7 @@
 				  					</tr>
 				  				</tfoot> -->
 				  			</table>
+                            </div>
 	     			</div>	<!-- create_interactive end -->
 	     			
 	     			<!-- create_wxTemplate -->

@@ -5,21 +5,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+	<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     <%@include file="../../page/common/head.jsp" %>
     
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/person/user_center.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
     
-	<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">   
+   
      
     <script>
     	$(document).ready(function() {
     		$('#sidebar a').click(function() {
     			$('#sidebar a').each(function() {
-    				$(this).removeClass('active');
+    				$(this).parent('li').removeClass('active');
     			})
     			$this = $(this);
-    			$this.addClass('active');
+    			$this.parent('li').addClass('active'); 
     			var contentId = $this.attr('href').substring(1);
     			console.log('contentId: ' + contentId);
     			$('#uc_content > div').each(function(i, e) {
@@ -54,8 +55,10 @@
     </script>
   </head>
   <body>
-  	<div class="container">
+  	<div class="container-fluid">
+        <div  class="row" style=" height:4px; background-color:#44b549;"></div>
         <%@include file="../../reg_login_full.jsp" %>
+        <div  class="row" style=" height:36px; background-color:#e7e8eb;"></div>
   		<%-- <div class="row">
 		     <div class="sy-dl">
 		        <div class="sy-dl-img"></div>
@@ -80,7 +83,24 @@
 		        </c:if>
 		    </div>
   		</div>--%>
-  		<div class="row" style="margin-top:20px; border:1px solid #CCC;">
+        
+        
+  		<div class="row" style="min-height:500px; border:1px solid #CCC;">
+  			<div class="col-md-3 col-xs-4" style="margin-top:30px; margin-left:-15px; margin-right:-15px; text-align:center;" id="sidebar">
+                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;帐号中心</h5></li>
+                      <li role="presentation" class="active"><a href="#profile"><h6>基本资料</h6></a></li>
+                      <li role="presentation"><a href="#update_password"><h6>修改密码</h6></a></li>
+                  </ul>
+                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;活动汇总</h5></li>
+                      <li role="presentation"><a href="#create_activity"><h6>报名征集类</h6></a></li>
+                      <li role="presentation"><a href="#interactive"><h6>游戏互动类</h6></a></li>
+                      <li role="presentation"><a href="#prize"><h6>奖品查询</h6></a></li>
+                  </ul>                                
+        </div>           
+        
+  		<!-- <div class="row" style="margin-top:20px; border:1px solid #CCC;">
   			<div class="col-md-3 col-xs-12" id="sidebar">
 		          <div class="list-group" style="margin-top:10px;">
 		            <a href="#profile" class="list-group-item active col-md-12 col-xs-6">个人资料</a>
@@ -89,14 +109,14 @@
 		            <a href="#interactive" class="list-group-item col-md-12 col-xs-6">线上互动</a>
 		            <a href="#prize" class="list-group-item col-md-12 col-xs-6">奖品查询</a>
 		          </div>
-	     	</div>
-	     	<div class="col-md-9 col-xs-9">
-	     		<div id="uc_content" style="padding-top: 10px;">
+	     	</div>-->
+	     	<div class="col-md-9 col-xs-8" style="min-height:500px; border-left:1px solid #e7e7eb;">
+	     		<div id="uc_content" style="padding-top:40px; padding-left:20px; margin-right:-30px;">
 	     			<div id="profile">
-	     				<h3 class="col-md-12" style="margin-bottom:20px;">个人资料</h3>
+	     				<strong>基本资料</strong>
 	     				<%-- <label>名称： </label><c:out value="${myUser.username }"></c:out><br/>
 	     				<label>昵称： </label><c:out value="${myUser.nickname }"></c:out> --%>
-	     				<div class=" form-inline col-md-12" style="margin-bottom:10px;">
+	     				<div class=" form-inline" style="margin-bottom:10px; margin-top:15px;">
 	     					<label class="" for="username">帐　　号：</label>
 	     					<%-- <input type="text" name="username" id="username" value="${myUser.username}" class="form-control"> --%>
 	     					 <c:out value="${myUser.username }"></c:out>/<c:out value="${myUser.userId }"></c:out><br/>
@@ -110,10 +130,11 @@
 	     				<button id="updateInfoBtn" class="col-md-1 btn btn-default" style="margin-left:20px;">修改</button>
 	     			</div>
 	     			<div id="create_activity">
-	     				<h3>线下活动</h3>
+	     				<strong>报名征集类</strong>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<input id="searchBtn" type="button" class="btn btn-default btn-xs" value="查询">
+	     					<input id="searchBtn" type="button" class="btn btn-info btn-xs" value="查询">
 	     				</div>
+                        <div class="table-responsive">
 				  		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
@@ -133,13 +154,15 @@
 				  					</tr>
 				  				</tfoot> -->
 				  			</table>
+                            </div>
 	     			</div>
 	     			
 	     			<div id="interactive">
-	     				<h3>线上互动</h3>
+	     				<strong>游戏互动类</strong>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<input id="searchBtn4Interactive" type="button" class="btn btn-default btn-xs" value="查询">
+	     					<input id="searchBtn4Interactive" type="button" class="btn btn-info btn-xs" value="查询">
 	     				</div>
+                        <div class="table-responsive">
 				  		<table id="dbTable4Interactive" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
@@ -159,13 +182,15 @@
 				  					</tr>
 				  				</tfoot> -->
 				  			</table>
+                            </div>
 	     			</div>
 	     			
 	     			<div id="prize">
-	     				<h3>奖品查询</h3>
+	     				<strong>奖品查询</strong>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<input id="searchBtn4Prize" type="button" class="btn btn-default btn-xs" value="查询">
+	     					<input id="searchBtn4Prize" type="button" class="btn btn-info btn-xs" value="查询">
 	     				</div>
+                        <div class="table-responsive">
 				  		<table id="dbTable4Prize" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
@@ -190,12 +215,13 @@
 				  					</tr>
 				  				</tfoot> -->
 				  			</table>
+                            </div>
 	     			</div>
 	     			
 					<div id="update_password">
-                        <h3 style="margin-bottom:20px;">修改密码</h3>
-						<div class="row" style="margin-left:5px;">
-							<form class="form-inline" id="pwdForm" role="form" action='' method="post">
+                        <strong>修改密码</strong>
+						<div style=" margin-top:15px;">
+							<form id="pwdForm" role="form" action='' method="post">
 					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
 					 			<div class="form-group">
 					 				<label class="" for="passwordOld">旧密码:</label>
