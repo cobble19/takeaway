@@ -53,14 +53,23 @@
 	
 	<security:http>
 		<!-- <security:intercept-url pattern="/**" access="ROLE_USER" /> -->
+		
+		<security:intercept-url pattern="/web/wx/oauth2/**" access="IS_AUTHENTICATED_ANONYMOUSLY"  />
+		<!-- <security:intercept-url pattern="/web/wx/oauth2/success" access="IS_AUTHENTICATED_ANONYMOUSLY"  /> -->
 		<security:intercept-url pattern="/web/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:intercept-url pattern="/index" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<security:form-login login-page="/login.jsp" always-use-default-target="true" default-target-url="/web/login/success"/>
 		<security:logout logout-success-url="/index" />
 		<security:custom-filter ref="myFilterSecurity" before="FILTER_SECURITY_INTERCEPTOR"/>
+		
+        <!-- <security:csrf /> -->
 	</security:http>
 	
+	
+    <bean id="myRedirectStrategy" class="com.cobble.takeaway.oauth2.MyRedirectStrategy"/>
+
+	<!-- Below is custom-filter myFilterSecurity -->
 	<bean name="myFilterSecurity" class="com.cobble.takeaway.spring.security.MyFilterSecurityInterceptor">
 		<property name="authenticationManager" ref="authenticationManager"></property>
 		<property name="accessDecisionManager" ref="myAccessDecisionManager"></property>
@@ -71,11 +80,6 @@
 	
 	<security:authentication-manager alias="authenticationManager" erase-credentials="false">
 		<security:authentication-provider user-service-ref="myUserDetailsService">
-			<!-- <security:user-service>
-				<security:user name="admin" password="adminpassword" authorities="ROLE_USER, ROLE_ADMIN" />
-				<security:user name="ge" password="gepassword" authorities="ROLE_USER, ROLE_ADMIN" />
-				<security:user name="bang" password="bangpassword" authorities="ROLE_USER" />
-			</security:user-service> -->
 		</security:authentication-provider>
 	</security:authentication-manager>
 	

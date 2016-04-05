@@ -1,6 +1,7 @@
 package com.cobble.takeaway.util;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,6 @@ public class JsonUtils {
 		if (objectMapper == null) {
 			objectMapper = new ObjectMapper();
 		}
-		objectMapper.readValue(json, new TypeReference<Map<String,User>>() { });
 		return (T) objectMapper.readValue(json, valueType);
 	}
 
@@ -45,5 +45,17 @@ public class JsonUtils {
 			objectMapper = new ObjectMapper();
 		}
 		return objectMapper.writeValueAsString(object);
+	}
+	
+	public static void main(String[] argv) throws Exception {
+		String str = "{\"a\": \"b\"}";
+		Map map = new HashMap();
+		map.put("a", "b");
+		System.out.println(map);
+		str = JsonUtils.convertToJson(map);
+
+		System.out.println(str);
+		Map map1 = JsonUtils.convertToJavaBean(str, HashMap.class);
+		System.out.println(map1);
 	}
 }

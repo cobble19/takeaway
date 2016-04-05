@@ -59,4 +59,12 @@ public class HttpClientUtil {
         }
 		return ret;
 	}
+	
+	public static void main(String[] argv) {
+		try {
+			String result = HttpClientUtil.get("https://www.google.com.hk");
+		} catch (Exception e) {
+			logger.error("{}", e);
+		}
+	}
 }
