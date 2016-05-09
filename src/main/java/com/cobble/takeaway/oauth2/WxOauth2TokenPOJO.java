@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
 * 描述:  网页授权信息  </br>
  */
-public class WxOauth2TokenPOJO {
+public class WxOauth2TokenPOJO extends WxBasePOJO {
     // 网页授权接口调用凭证
 	@JsonProperty(value="access_token")
 	@org.codehaus.jackson.annotate.JsonProperty("access_token")
@@ -26,6 +26,10 @@ public class WxOauth2TokenPOJO {
 	@JsonProperty(value="scope")
 	@org.codehaus.jackson.annotate.JsonProperty("scope")
     private String scope;
+	// 用户unionID
+	@JsonProperty(value="unionid")
+	@org.codehaus.jackson.annotate.JsonProperty("unionid")
+	private String unionid;
 
     public String getAccessToken() {
         return accessToken;
@@ -66,4 +70,12 @@ public class WxOauth2TokenPOJO {
     public void setScope(String scope) {
         this.scope = scope;
     }
+
+	public String getUnionid() {
+		return unionid;
+	}
+
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
+	}
 }

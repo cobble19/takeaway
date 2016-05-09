@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
 * 描述: 通过网页授权获取的用户信息 </br>
  */
-public class WxUserPOJO {
+public class WxUserPOJO extends WxBasePOJO {
     // 用户标识
 	@JsonProperty(value="openid")
     private String openId;
@@ -29,6 +29,9 @@ public class WxUserPOJO {
     // 用户特权信息
 	@JsonProperty("privilege")
     private List<String> privilegeList;
+    // 用户特权信息
+	@JsonProperty("unionid")
+    private String unionId;
 
     public String getOpenId() {
         return openId;
@@ -93,4 +96,21 @@ public class WxUserPOJO {
     public void setPrivilegeList(List<String> privilegeList) {
         this.privilegeList = privilegeList;
     }
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getUnionId() {
+		return unionId;
+	}
+
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
+	}
+
 }
