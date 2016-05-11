@@ -1,5 +1,8 @@
 package com.cobble.takeaway.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -55,7 +58,31 @@ public class Oauth2Controller extends BaseController {
 	@Value("${WX.siteLoginUrl}")
 	private String siteLoginUrl;
 	
-	
+
+	@RequestMapping(value = "/web/wx/authEventRecieve")
+	public String authEventRecieve(String requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+			logger.info("authEventRecieve begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("authEventRecieve uri: " + uri + ", qs: " + qs);
+			logger.info("requestBody: " + requestBody);
+			BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			logger.info("From request: " + sb.toString());
+			
+//			ret.setViewName("/page/oauth2_success");
+		} catch (Exception e) {
+			logger.error("error: ", e);
+			throw e;
+		}
+		
+		return "success";
+	}
 	
 	@RequestMapping(value = "/web/wx/oauth2/siteLogin")
 	public ModelAndView siteLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
