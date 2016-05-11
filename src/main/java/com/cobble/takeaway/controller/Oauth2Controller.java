@@ -19,6 +19,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -59,7 +60,7 @@ public class Oauth2Controller extends BaseController {
 	private String siteLoginUrl;
 	
 
-	@RequestMapping(value = "/web/wx/authEventRecieve")
+	@RequestMapping(value = "/web/wx/authEventRecieve", method=RequestMethod.POST)
 	public String authEventRecieve(String requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
 			logger.info("authEventRecieve begin...");
