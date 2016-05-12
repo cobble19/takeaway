@@ -18,9 +18,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
@@ -61,20 +63,23 @@ public class Oauth2Controller extends BaseController {
 	
 
 	@RequestMapping(value = "/web/wx/authEventRecieve", method=RequestMethod.POST)
-	public String authEventRecieve(String requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@ResponseBody
+	public String authEventRecieve(@RequestBody String requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
 			logger.info("authEventRecieve begin...");
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("authEventRecieve uri: " + uri + ", qs: " + qs);
 			logger.info("requestBody: " + requestBody);
-			BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
+			/*BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
 			StringBuilder sb = new StringBuilder();
 			String line;
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
 			}
-			logger.info("From request: " + sb.toString());
+			logger.info("From request: " + sb.toString());*/
+			
+//			response.getOutputStream().print("success");
 			
 //			ret.setViewName("/page/oauth2_success");
 		} catch (Exception e) {
