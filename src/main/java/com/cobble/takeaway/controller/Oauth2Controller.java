@@ -79,6 +79,7 @@ public class Oauth2Controller extends BaseController {
 			String token = messageSource.getMessage("WX.third.msgVerifyToken", null, null);
 			String encodingAesKey = messageSource.getMessage("WX.third.msgEncKey", null, null);
 			String appId = messageSource.getMessage("WX.third.clientId", null, null);
+			logger.info("token: {}, encodingAesKey: {}, appId: {}", token, encodingAesKey, appId);
 			
 			WxComVerifyTicketEncryptPOJO wxComVerifyTicketEncryptPOJO = XmlUtils.convertToJavaBean(requestBody, WxComVerifyTicketEncryptPOJO.class);
 			String encrypt = wxComVerifyTicketEncryptPOJO.getEncrypt();

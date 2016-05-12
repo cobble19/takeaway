@@ -22,6 +22,8 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 提供接收和推送给公众平台消息的加解密接口(UTF8编码的字符串).
@@ -39,6 +41,7 @@ import org.apache.commons.codec.binary.Base64;
  * </ol>
  */
 public class WXBizMsgCrypt {
+	private final static Logger logger = LoggerFactory.getLogger(WXBizMsgCrypt.class);
 	static Charset CHARSET = Charset.forName("utf-8");
 	Base64 base64 = new Base64();
 	byte[] aesKey;
@@ -54,6 +57,7 @@ public class WXBizMsgCrypt {
 	 * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
 	 */
 	public WXBizMsgCrypt(String token, String encodingAesKey, String appId) throws AesException {
+		logger.info("token: {}, encodingAesKey: {}, appId: {}", token, encodingAesKey, appId);
 		if (encodingAesKey.length() != 43) {
 			throw new AesException(AesException.IllegalAesKey);
 		}
@@ -210,6 +214,7 @@ public class WXBizMsgCrypt {
 	 * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
 	 */
 	public String encryptMsg(String replyMsg, String timeStamp, String nonce) throws AesException {
+		logger.info("replyMsg: {}, timeStamp: {}, nonce: {}", replyMsg, timeStamp, nonce);
 		// 加密
 		String encrypt = encrypt(getRandomStr(), replyMsg);
 
@@ -244,7 +249,8 @@ public class WXBizMsgCrypt {
 	 */
 	public String decryptMsg(String msgSignature, String timeStamp, String nonce, String postData)
 			throws AesException {
-
+		logger.info("msgSignature: {}, timeStamp: {}, nonce: {}, postData: {}", msgSignature, timeStamp, postData);
+		
 		// 密钥，公众账号的app secret
 		// 提取密文
 		Object[] encrypt = XMLParse.extract(postData);
