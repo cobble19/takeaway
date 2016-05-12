@@ -57,6 +57,7 @@ public class Program {
 
 		String format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%1$s]]></Encrypt></xml>";
 		String fromXML = String.format(format, encrypt);
+		
 
 //		String format = "<xml><ToUserName><![CDATA[]]></ToUserName><Encrypt><![CDATA[%1$s]]></Encrypt></xml>";
 //		String fromXML = String.format(format, "zABNOO10ICfuTrZegTkBSO72qjhwq4Q06FxJLBZwwxKt3z+SRMHRreFVpBqpR8O2NgkfizS4dA95yr79osHX4BnOVvDBxWOkbrisZTys3vlGT22IAJuEpIchfH0xqrOCuaT3s/PpbrLAW1ps2fZ1CuxDeV3mPJkjZc0TpMN+w9Q8ZpxxzDtVu/IztH5fX457JKHINXEhhIi7DgRPlvHiO7mJGXv96xRrfL1mNRAF6vJs1y9iVlFouXlfQJZLRj8g3x9hZae7E31vCTmMsjuOpEwGhynDuXnJCCR+BLyM/PCuC5XL9X3i7Is57OTB6MSupQHF8I/1PgRCOhGUU7L2Efu0tM+eS5sxtz0oRG8MkyAsTquCg4vXO+qyMdzhGx/4w2EcJnImhnAhnR59+tu2bVAIRpbrawuxglNHafNwh0PbDl3iiyFtbqnGR7XlhJtitGFBO1tMEmf6JoerqQ+uYQ==");
