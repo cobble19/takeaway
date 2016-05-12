@@ -23,9 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
 import com.cobble.takeaway.oauth2.WxOauth2TokenPOJO;
 import com.cobble.takeaway.oauth2.WxUserPOJO;
+import com.cobble.takeaway.pojo.WxComVerifyTicketEncryptPOJO;
+import com.cobble.takeaway.pojo.WxComVerifyTicketPOJO;
 import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
+import com.cobble.takeaway.util.XmlUtils;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 
 @Controller
@@ -77,9 +80,18 @@ public class Oauth2Controller extends BaseController {
 			String encodingAesKey = messageSource.getMessage("WX.third.msgEncKey", null, null);
 			String appId = messageSource.getMessage("WX.third.clientId", null, null);
 			
+			WxComVerifyTicketEncryptPOJO wxComVerifyTicketEncryptPOJO = XmlUtils.convertToJavaBean(requestBody, WxComVerifyTicketEncryptPOJO.class);
+			String encrypt = wxComVerifyTicketEncryptPOJO.getEncrypt();
+			
+			String format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%1$s]]></Encrypt></xml>";
+			String fromXML = String.format(format, encrypt);
+			
 			WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
-			String result = pc.decryptMsg(msgSignature, timestamp, nonce, requestBody);
+			String result = pc.decryptMsg(msgSignature, timestamp, nonce, fromXML);
 			logger.info("Paintext: {}", result);
+			
+			WxComVerifyTicketPOJO wxComVerifyTicketPOJO = XmlUtils.convertToJavaBean(result, WxComVerifyTicketPOJO.class);
+			logger.info("wxComVerifyTicketPOJO: {}", wxComVerifyTicketPOJO);
 			
 			/*BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
 			StringBuilder sb = new StringBuilder();
