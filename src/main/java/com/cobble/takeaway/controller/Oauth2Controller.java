@@ -1,8 +1,5 @@
 package com.cobble.takeaway.controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +26,7 @@ import com.cobble.takeaway.oauth2.WxUserPOJO;
 import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
+import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 
 @Controller
 public class Oauth2Controller extends BaseController {
@@ -64,13 +60,27 @@ public class Oauth2Controller extends BaseController {
 
 	@RequestMapping(value = "/web/wx/authEventRecieve", method=RequestMethod.POST)
 	@ResponseBody
-	public String authEventRecieve(@RequestBody String requestBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String authEventRecieve(@RequestBody String requestBody, @RequestParam(value="signature", required = false) String signature,
+			@RequestParam(value="timestamp", required = false) String timestamp,
+			@RequestParam(value="nonce", required = false) String nonce,
+			@RequestParam(value="encrypt_type", required = false) String encryptType,
+			@RequestParam(value="msg_signature", required = false) String msgSignature,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
 			logger.info("authEventRecieve begin...");
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("authEventRecieve uri: " + uri + ", qs: " + qs);
 			logger.info("requestBody: " + requestBody);
+			
+			String token = messageSource.getMessage("WX.third.msgVerifyToken", null, null);
+			String encodingAesKey = messageSource.getMessage("WX.third.msgEncKey", null, null);
+			String appId = messageSource.getMessage("WX.third.clientId", null, null);
+			
+			WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
+			String result = pc.decryptMsg(msgSignature, timestamp, nonce, requestBody);
+			logger.info("Paintext: {}", result);
+			
 			/*BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
 			StringBuilder sb = new StringBuilder();
 			String line;
