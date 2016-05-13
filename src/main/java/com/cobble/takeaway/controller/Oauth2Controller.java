@@ -71,6 +71,8 @@ public class Oauth2Controller extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
 			logger.info("authEventRecieve begin...");
+			logger.info("Request params, signature: {}, timestamp: {}, nonce: {}, encrypt_type: {}, msg_signature: {}",
+					signature, timestamp, nonce, encryptType, msgSignature);
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("authEventRecieve uri: " + uri + ", qs: " + qs);
@@ -84,8 +86,8 @@ public class Oauth2Controller extends BaseController {
 			WxComVerifyTicketEncryptPOJO wxComVerifyTicketEncryptPOJO = XmlUtils.convertToJavaBean(requestBody, WxComVerifyTicketEncryptPOJO.class);
 			String encrypt = wxComVerifyTicketEncryptPOJO.getEncrypt();
 			
-			String format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%1$s]]></Encrypt></xml>";
-			String fromXML = String.format(format, encrypt);
+			String format = "<xml><ToUserName><![CDATA[%1%s]]></ToUserName><Encrypt><![CDATA[%2$s]]></Encrypt></xml>";
+			String fromXML = String.format(format, appId, encrypt);
 			
 			WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
 			String result = pc.decryptMsg(msgSignature, timestamp, nonce, fromXML);
@@ -107,7 +109,7 @@ public class Oauth2Controller extends BaseController {
 //			ret.setViewName("/page/oauth2_success");
 		} catch (Exception e) {
 			logger.error("error: ", e);
-			throw e;
+//			throw e;
 		}
 		
 		return "success";
