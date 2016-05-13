@@ -21,21 +21,21 @@ public class Program {
 		//
 
 		// 需要加密的明文
-		String encodingAesKey = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG";
-		String token = "pamtest";
-		String timestamp = "1409304348";
-		String nonce = "xxxxxx";
-		String appId = "wxb11529c136998cb6";
-		String replyMsg = " 中文<xml><ToUserName><![CDATA[oia2TjjewbmiOUlr6X-1crbLOvLw]]></ToUserName><FromUserName><![CDATA[gh_7f083739789a]]></FromUserName><CreateTime>1407743423</CreateTime><MsgType><![CDATA[video]]></MsgType><Video><MediaId><![CDATA[eYJ1MbwPRJtOvIEabaxHs7TX2D-HV71s79GUxqdUkjm6Gs2Ed1KF3ulAOA9H1xG0]]></MediaId><Title><![CDATA[testCallBackReplyVideo]]></Title><Description><![CDATA[testCallBackReplyVideo]]></Description></Video></xml>";
+//		String encodingAesKey = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG";
+//		String token = "pamtest";
+//		String timestamp = "1409304348";
+//		String nonce = "xxxxxx";
+//		String appId = "wxb11529c136998cb6";
+//		String replyMsg = " 中文<xml><ToUserName><![CDATA[oia2TjjewbmiOUlr6X-1crbLOvLw]]></ToUserName><FromUserName><![CDATA[gh_7f083739789a]]></FromUserName><CreateTime>1407743423</CreateTime><MsgType><![CDATA[video]]></MsgType><Video><MediaId><![CDATA[eYJ1MbwPRJtOvIEabaxHs7TX2D-HV71s79GUxqdUkjm6Gs2Ed1KF3ulAOA9H1xG0]]></MediaId><Title><![CDATA[testCallBackReplyVideo]]></Title><Description><![CDATA[testCallBackReplyVideo]]></Description></Video></xml>";
 
 
-//		String encodingAesKey = "encAESKey0123A1B2C3D4E5h6i7j8k9l0O1P2Q3R4S5";
-//		String token = "token_dwyz";
-//		String timestamp = "1463073712";
-//		String nonce = "1178790654";
-//		String appId = "wx2bec8614a6c47443";
-//		String msgSignature="da5ceb71f4a1094e9e5769ea0f3741c46613cb5a";
-//		String replyMsg = "<xml><AppId><![CDATA[wx2bec8614a6c47443]]></AppId><Encrypt><![CDATA[zABNOO10ICfuTrZegTkBSO72qjhwq4Q06FxJLBZwwxKt3z+SRMHRreFVpBqpR8O2NgkfizS4dA95yr79osHX4BnOVvDBxWOkbrisZTys3vlGT22IAJuEpIchfH0xqrOCuaT3s/PpbrLAW1ps2fZ1CuxDeV3mPJkjZc0TpMN+w9Q8ZpxxzDtVu/IztH5fX457JKHINXEhhIi7DgRPlvHiO7mJGXv96xRrfL1mNRAF6vJs1y9iVlFouXlfQJZLRj8g3x9hZae7E31vCTmMsjuOpEwGhynDuXnJCCR+BLyM/PCuC5XL9X3i7Is57OTB6MSupQHF8I/1PgRCOhGUU7L2Efu0tM+eS5sxtz0oRG8MkyAsTquCg4vXO+qyMdzhGx/4w2EcJnImhnAhnR59+tu2bVAIRpbrawuxglNHafNwh0PbDl3iiyFtbqnGR7XlhJtitGFBO1tMEmf6JoerqQ+uYQ==]]></Encrypt></xml>";
+		String encodingAesKey = "encAESKey0123A1B2C3D4E5h6i7j8k9l0O1P2Q3R4S5";
+		String token = "token_dwyz";
+		String timestamp = "1463107317";
+		String nonce = "1303272735";
+		String appId = "wx2bec8614a6c47443";
+		String msgSignature="a11670a3656448d0c61812b4284f85414a7047b2";
+		String replyMsg = "<xml><AppId><![CDATA[wx2bec8614a6c47443]]></AppId><Encrypt><![CDATA[zABNOO10ICfuTrZegTkBSO72qjhwq4Q06FxJLBZwwxKt3z+SRMHRreFVpBqpR8O2NgkfizS4dA95yr79osHX4BnOVvDBxWOkbrisZTys3vlGT22IAJuEpIchfH0xqrOCuaT3s/PpbrLAW1ps2fZ1CuxDeV3mPJkjZc0TpMN+w9Q8ZpxxzDtVu/IztH5fX457JKHINXEhhIi7DgRPlvHiO7mJGXv96xRrfL1mNRAF6vJs1y9iVlFouXlfQJZLRj8g3x9hZae7E31vCTmMsjuOpEwGhynDuXnJCCR+BLyM/PCuC5XL9X3i7Is57OTB6MSupQHF8I/1PgRCOhGUU7L2Efu0tM+eS5sxtz0oRG8MkyAsTquCg4vXO+qyMdzhGx/4w2EcJnImhnAhnR59+tu2bVAIRpbrawuxglNHafNwh0PbDl3iiyFtbqnGR7XlhJtitGFBO1tMEmf6JoerqQ+uYQ==]]></Encrypt></xml>";
 
 		
 		WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
@@ -53,10 +53,11 @@ public class Program {
 		NodeList nodelist2 = root.getElementsByTagName("MsgSignature");
 
 		String encrypt = nodelist1.item(0).getTextContent();
-		String msgSignature = nodelist2.item(0).getTextContent();
+//		String msgSignature = nodelist2.item(0).getTextContent();
 
-		String format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%1$s]]></Encrypt></xml>";
-		String fromXML = String.format(format, encrypt);
+		encrypt = "XyzXuUyU4ncYb2Q9H3C3Hs8MBJIOc2yPtg2s7KAR021x45pIQjTbF8nKZj8c2iHidhoejuSdXclP5Nf9jQppruGfjEPAq45aSO6HHBgwx/ZddV2/S+riuOlhpqOA5G3BYRq0YU+EB9Ae3tf1n1AIBGeWNdxlUJhJqhdHRFcFXfg5Ahz1UW3f6H2ZAiFF9scirrTNdi+BTaV6xVD8Fjal+8E7I8qoVWjCS7C7yZENxXaDc9utecqslfw6dphILkgM9tyDAE8JWQJ0VOnBUh1TN6/1qMV28m4SgtMueEvS6oHzqlgTOgtpF+5wXYQvFDek9e1tI0OGR7De/5/qKMzfeUuZuw692ukRLl7nScjtus9OlICZy2sj92pv3WNjb8ZAfO8O8jdYI6mj5f/e+8cqdokegz6gqJoyXtNel9P7MGv7w2f7WMs/75EG0392Wy3/XBQTJ91pkQD5TsAGKgzVkQ==";
+		String format = "<xml><ToUserName><![CDATA[%1$s]]></ToUserName><Encrypt><![CDATA[%2$s]]></Encrypt></xml>";
+		String fromXML = String.format(format, appId, encrypt);
 		
 
 //		String format = "<xml><ToUserName><![CDATA[]]></ToUserName><Encrypt><![CDATA[%1$s]]></Encrypt></xml>";

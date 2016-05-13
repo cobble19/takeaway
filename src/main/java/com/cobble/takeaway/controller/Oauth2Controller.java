@@ -85,8 +85,8 @@ public class Oauth2Controller extends BaseController {
 			
 			WxComVerifyTicketEncryptPOJO wxComVerifyTicketEncryptPOJO = XmlUtils.convertToJavaBean(requestBody, WxComVerifyTicketEncryptPOJO.class);
 			String encrypt = wxComVerifyTicketEncryptPOJO.getEncrypt();
-			
-			String format = "<xml><ToUserName><![CDATA[%1%s]]></ToUserName><Encrypt><![CDATA[%2$s]]></Encrypt></xml>";
+			logger.info("encrypt: {}", encrypt);
+			String format = "<xml><ToUserName><![CDATA[%1$s]]></ToUserName><Encrypt><![CDATA[%2$s]]></Encrypt></xml>";
 			String fromXML = String.format(format, appId, encrypt);
 			
 			WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
