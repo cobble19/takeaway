@@ -33,8 +33,10 @@ import com.cobble.takeaway.pojo.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.WxAuthorizerInfoReqPOJO;
 import com.cobble.takeaway.pojo.WxComAccessTokenPOJO;
 import com.cobble.takeaway.pojo.WxComAccessTokenReqPOJO;
+import com.cobble.takeaway.pojo.WxComAccessTokenSearchPOJO;
 import com.cobble.takeaway.pojo.WxComVerifyTicketEncryptPOJO;
 import com.cobble.takeaway.pojo.WxComVerifyTicketPOJO;
+import com.cobble.takeaway.pojo.WxComVerifyTicketSearchPOJO;
 import com.cobble.takeaway.pojo.WxPreAuthCodePOJO;
 import com.cobble.takeaway.pojo.WxPreAuthCodeReqPOJO;
 import com.cobble.takeaway.service.WxComAccessTokenService;
@@ -123,7 +125,8 @@ public class Oauth2Controller extends BaseController {
 			wxAuthorizerAccessTokenReqPOJO.setAuthorizerAppId(authorizerAppId);
 			wxAuthorizerAccessTokenReqPOJO.setComponentAppId(componentAppId);
 
-			List<WxComAccessTokenPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(null);
+			WxComAccessTokenSearchPOJO wxTokenSearchPOJO = new WxComAccessTokenSearchPOJO();
+			List<WxComAccessTokenPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxTokenSearchPOJO);
 			String componentAccessToken = "";
 			if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
 				componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
@@ -155,7 +158,8 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerAccessTokenReqPOJO.setAuthorizationCode(code);
 				wxAuthorizerAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
 				
-				List<WxComAccessTokenPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(null);
+				WxComAccessTokenSearchPOJO wxComAccessTokenSearchPOJO = new WxComAccessTokenSearchPOJO();
+				List<WxComAccessTokenPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxComAccessTokenSearchPOJO);
 				String componentAccessToken = "";
 				if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
 					componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
@@ -190,7 +194,9 @@ public class Oauth2Controller extends BaseController {
 			WxComAccessTokenReqPOJO wxComAccessTokenReqPOJO = new WxComAccessTokenReqPOJO();
 			wxComAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
 			wxComAccessTokenReqPOJO.setComponentAppSecret(wxThirdSecret);
-			List<WxComVerifyTicketPOJO> wxComVerifyTicketPOJOs = wxComVerifyTicketService.finds(null);
+			
+			WxComVerifyTicketSearchPOJO wxComVerifyTicketSearchPOJO = new WxComVerifyTicketSearchPOJO();
+			List<WxComVerifyTicketPOJO> wxComVerifyTicketPOJOs = wxComVerifyTicketService.finds(wxComVerifyTicketSearchPOJO);
 			String componentVerifyTicket = "";
 			if (!CollectionUtils.isEmpty(wxComVerifyTicketPOJOs)) {
 				componentVerifyTicket = wxComVerifyTicketPOJOs.get(0).getComponentVerifyTicket();

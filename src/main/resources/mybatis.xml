@@ -51,5 +51,8 @@
 		<mapper resource="mybatis-config/Apply2AttrMapper.xml" />
 		<mapper resource="mybatis-config/Apply2AttrModelMapper.xml" />
 		<mapper resource="mybatis-config/Apply2Mapper.xml" />
+		
+		<mapper resource="mybatis-config/WxComVerifyTicketMapper.xml" />
+		<mapper resource="mybatis-config/WxComAccessTokenMapper.xml" />
 	</mappers>
 </configuration>
