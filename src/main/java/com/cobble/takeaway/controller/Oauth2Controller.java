@@ -1,5 +1,8 @@
 package com.cobble.takeaway.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,8 +27,18 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
 import com.cobble.takeaway.oauth2.WxOauth2TokenPOJO;
 import com.cobble.takeaway.oauth2.WxUserPOJO;
+import com.cobble.takeaway.pojo.WxAuthorizerAccessTokenPOJO;
+import com.cobble.takeaway.pojo.WxAuthorizerAccessTokenReqPOJO;
+import com.cobble.takeaway.pojo.WxAuthorizerInfoPOJO;
+import com.cobble.takeaway.pojo.WxAuthorizerInfoReqPOJO;
+import com.cobble.takeaway.pojo.WxComAccessTokenPOJO;
+import com.cobble.takeaway.pojo.WxComAccessTokenReqPOJO;
 import com.cobble.takeaway.pojo.WxComVerifyTicketEncryptPOJO;
 import com.cobble.takeaway.pojo.WxComVerifyTicketPOJO;
+import com.cobble.takeaway.pojo.WxPreAuthCodePOJO;
+import com.cobble.takeaway.pojo.WxPreAuthCodeReqPOJO;
+import com.cobble.takeaway.service.WxComAccessTokenService;
+import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
@@ -37,6 +51,10 @@ public class Oauth2Controller extends BaseController {
 	
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private WxComVerifyTicketService wxComVerifyTicketService;
+	@Autowired
+	private WxComAccessTokenService wxComAccessTokenService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -60,6 +78,150 @@ public class Oauth2Controller extends BaseController {
 	@Value("${WX.siteLoginUrl}")
 	private String siteLoginUrl;
 	
+	@Value("${WX.third.clientId}")
+	private String wxThirdClientId;
+	@Value("${WX.third.secret}")
+	private String wxThirdSecret;
+	@Value("${WX.third.sendDomain}")
+	private String wxThirdSendDomain;
+	@Value("${WX.third.authEventRecieve}")
+	private String wxThirdAuthEventRecieve;
+	@Value("${WX.third.msgVerifyToken}")
+	private String wxThirdMsgVerifyToken;
+	@Value("${WX.third.msgEncKey}")
+	private String wxThirdMsgEncKey;
+	@Value("${WX.third.msgEventRecieve}")
+	private String wxThirdMsgEventRecieve;
+	@Value("${WX.third.devDomain}")
+	private String wxThirdDevDomain;
+	@Value("${WX.third.authorizationUrl}")
+	private String wxThirdAuthorizationUrl;
+	@Value("${WX.third.redirectUri}")
+	private String wxThirdRedirectUri;
+	@Value("${WX.third.accessTokenUrl}")
+	private String wxThirdAccessTokenUrl;
+	@Value("${WX.third.preAuthCodeUrl}")
+	private String wxThirdPreAuthCodeUrl;
+	@Value("${WX.third.authorizerAccessTokenUrl}")
+	private String wxThirdAuthorizerAccessTokenUrl;
+	@Value("${WX.third.authorizerRefreshTokenUrl}")
+	private String wxThirdAuthorizerRefreshTokenUrl;
+	@Value("${WX.third.authorizerInfoUrl}")
+	private String wxThirdAuthorizerInfoUrl;
+	
+	@RequestMapping(value = "/web/wx/oauth2/third/authorizerInfo"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
+	public ModelAndView authorizerInfo(@RequestParam(value="componentAppId", required=false) String componentAppId,
+			@RequestParam(value="authorizerAppId", required=false) String authorizerAppId,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			logger.info("authorizerInfo begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("authorizerInfo uri: " + uri + ", qs: " + qs);
+			WxAuthorizerInfoReqPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerInfoReqPOJO();
+			wxAuthorizerAccessTokenReqPOJO.setAuthorizerAppId(authorizerAppId);
+			wxAuthorizerAccessTokenReqPOJO.setComponentAppId(componentAppId);
+
+			List<WxComAccessTokenPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(null);
+			String componentAccessToken = "";
+			if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
+				componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
+			}
+			String wxThirdAuthorizerInfo = HttpClientUtil.post(wxThirdAuthorizerInfoUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
+							JsonUtils.convertToJson(wxAuthorizerAccessTokenReqPOJO));
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerInfo, WxAuthorizerInfoPOJO.class);
+				
+//			ret.setViewName("/page/oauth2_success");
+		} catch (Exception e) {
+			logger.error("authorizerInfo error.", e);
+			throw e;
+		}
+		
+		return null;
+//		return ret;
+	}
+	
+	@RequestMapping(value = "/web/wx/oauth2/third/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
+	public ModelAndView thirdAuthCode(@RequestParam(value="auth_code", required=false) String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			logger.info("authCode begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("authCode uri: " + uri + ", qs: " + qs);
+			if (StringUtils.isNotBlank(code)) {
+				WxAuthorizerAccessTokenReqPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerAccessTokenReqPOJO();
+				wxAuthorizerAccessTokenReqPOJO.setAuthorizationCode(code);
+				wxAuthorizerAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
+				
+				List<WxComAccessTokenPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(null);
+				String componentAccessToken = "";
+				if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
+					componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
+				}
+				
+				String wxThirdAuthorizerToken = HttpClientUtil.post(wxThirdAuthorizerAccessTokenUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
+								JsonUtils.convertToJson(wxAuthorizerAccessTokenReqPOJO));
+				WxAuthorizerAccessTokenPOJO wxAuthorizerAccessTokenPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerToken, WxAuthorizerAccessTokenPOJO.class);
+				
+				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
+			}
+			
+//			ret.setViewName("/page/oauth2_success");
+		} catch (Exception e) {
+			logger.error("authCode error.", e);
+			throw e;
+		}
+		
+		return null;
+//		return ret;
+	}
+	
+	@RequestMapping(value = "/web/wx/oauth2/comLogin")
+	public ModelAndView wxComLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			logger.info("login success begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("login success uri: " + uri + ", qs: " + qs);
+			
+			WxComAccessTokenReqPOJO wxComAccessTokenReqPOJO = new WxComAccessTokenReqPOJO();
+			wxComAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
+			wxComAccessTokenReqPOJO.setComponentAppSecret(wxThirdSecret);
+			List<WxComVerifyTicketPOJO> wxComVerifyTicketPOJOs = wxComVerifyTicketService.finds(null);
+			String componentVerifyTicket = "";
+			if (!CollectionUtils.isEmpty(wxComVerifyTicketPOJOs)) {
+				componentVerifyTicket = wxComVerifyTicketPOJOs.get(0).getComponentVerifyTicket();
+			}
+			wxComAccessTokenReqPOJO.setComponentVerifyTicket(componentVerifyTicket);
+			String wxComAccessTokenStr = HttpClientUtil.post(wxThirdAccessTokenUrl, JsonUtils.convertToJson(wxComAccessTokenReqPOJO));
+			WxComAccessTokenPOJO wxComAccessTokenPOJO = JsonUtils.convertToJavaBean(wxComAccessTokenStr, WxComAccessTokenPOJO.class);
+			wxComAccessTokenPOJO.setCreateDateTime(new Date());
+			
+			wxComAccessTokenService.insert(wxComAccessTokenPOJO);
+			
+			WxPreAuthCodeReqPOJO wxPreAuthCodeReqPOJO = new WxPreAuthCodeReqPOJO();
+			wxPreAuthCodeReqPOJO.setComponentAppId(wxThirdClientId);
+			String preAuthCodeStr = HttpClientUtil.post(wxThirdPreAuthCodeUrl.replace("COMPONENT_ACCESS_TOKEN", wxComAccessTokenPOJO.getComponentAccessToken()), 
+						JsonUtils.convertToJson(wxPreAuthCodeReqPOJO));
+			WxPreAuthCodePOJO wxPreAuthCodePOJO = JsonUtils.convertToJavaBean(preAuthCodeStr, WxPreAuthCodePOJO.class);
+			
+			String wxComLoginUrl = wxThirdAuthorizationUrl
+									.replace("COMPONENT_APPID", wxThirdClientId)
+									.replace("PRE_AUTH_CODE", wxPreAuthCodePOJO.getPreAuthCode())
+									.replace("REDIRECT_URI", wxThirdRedirectUri)
+									;
+			ret.addObject("wxComLoginUrl", wxComLoginUrl);
+			ret.setViewName("/page/weixin/com_login");
+		} catch (Exception e) {
+			logger.error("list error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 
 	@RequestMapping(value = "/web/wx/authEventRecieve", method=RequestMethod.POST)
 	@ResponseBody
@@ -95,6 +257,7 @@ public class Oauth2Controller extends BaseController {
 			
 			WxComVerifyTicketPOJO wxComVerifyTicketPOJO = XmlUtils.convertToJavaBean(result, WxComVerifyTicketPOJO.class);
 			logger.info("wxComVerifyTicketPOJO: {}", wxComVerifyTicketPOJO);
+			wxComVerifyTicketService.insert(wxComVerifyTicketPOJO);
 			
 			/*BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
 			StringBuilder sb = new StringBuilder();

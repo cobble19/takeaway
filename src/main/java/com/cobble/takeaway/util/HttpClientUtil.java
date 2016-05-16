@@ -6,7 +6,10 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -46,10 +49,10 @@ public class HttpClientUtil {
             logger.debug(responseBody);
         } catch (ClientProtocolException e) {
         	logger.error("ClientProtocolException: {}", e);
-        	throw e;
+//        	throw e;
 		} catch (IOException e) {
         	logger.error("IOException: {}", e);
-        	throw e;
+//        	throw e;
 		} finally {
             try {
 				httpclient.close();
@@ -57,6 +60,36 @@ public class HttpClientUtil {
 	        	logger.error("httpclient.close IOException: {}", e.getMessage());
 			}
         }
+		return ret;
+	}
+	
+	public static String post(String url, String requestBody) throws Exception {
+		String ret = "";
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		try {
+			HttpPost httppost = new HttpPost(url);
+			logger.info("Executing request " + httppost.getRequestLine());
+
+			StringEntity reqEntity = new StringEntity(requestBody);
+			reqEntity.setChunked(true);
+
+			httppost.setEntity(reqEntity);
+
+			System.out.println("Executing request: "
+					+ httppost.getRequestLine());
+			CloseableHttpResponse response = httpclient.execute(httppost);
+			try {
+	            logger.debug("----------------------------------------");
+	            logger.debug("Response Status: {}", response.getStatusLine());
+				String responseBody = EntityUtils.toString(response.getEntity());
+				ret = responseBody;
+				logger.debug("Response Body: {}", responseBody);
+			} finally {
+				response.close();
+			}
+		} finally {
+			httpclient.close();
+		}
 		return ret;
 	}
 	

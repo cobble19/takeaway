@@ -5,7 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxComAccessTokenPOJO extends BasePOJO {
+public class WxComAccessTokenSearchPOJO extends BaseSearchPOJO {
 	private Long wxComAccessTokenId;
 	
 	@JsonProperty(value="component_access_token")

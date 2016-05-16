@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxComVerifyTicketMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxComVerifyTicketResultMap" type="com.cobble.takeaway.pojo.WxComVerifyTicketPOJO" >
+    <id column="WX_COM_VERIFY_TICKET_ID" property="wxComVerifyTicketId" />
+    <result column="APP_ID" property="appId"/>
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="INFO_TYPE" property="infoType" />
+    <result column="COMPONENT_VERIFY_TICKET" property="componentVerifyTicket" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_COM_VERIFY_TICKET_ID, a.APP_ID, a.CREATE_TIME, a.INFO_TYPE, a.COMPONENT_VERIFY_TICKET
+  </sql>
+  <sql id="Clause_Common">
+	<if test="appId != null">
+		and a.APP_ID like concat("%", concat(#{appId}, "%"))
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="WxComVerifyTicketResultMap" parameterType="com.cobble.takeaway.pojo.WxComVerifyTicketSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WX_COM_VERIFY_TICKET a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.WxComVerifyTicketSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_COM_VERIFY_TICKET a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxComVerifyTicketResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_COM_VERIFY_TICKET a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_COM_VERIFY_TICKET_ID = #{wxComVerifyTicketId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_COM_VERIFY_TICKET
+    where WX_COM_VERIFY_TICKET_ID = #{wxComVerifyTicketId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.WxComVerifyTicketPOJO" useGeneratedKeys="true"
+  	keyProperty="wxComVerifyTicketId" keyColumn="WX_COM_VERIFY_TICKET_ID">
+    insert into WX_COM_VERIFY_TICKET
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="infoType != null" >
+        INFO_TYPE,
+      </if>
+      <if test="componentVerifyTicket != null" >
+        COMPONENT_VERIFY_TICKET,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        #{appId},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="infoType != null" >
+        #{infoType},
+      </if>
+      <if test="componentVerifyTicket != null" >
+        #{componentVerifyTicket},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.WxComVerifyTicketPOJO" >
+    update WX_COM_VERIFY_TICKET
+    <set >
+      <if test="appId != null" >
+        APP_ID = #{appId},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime},
+      </if>
+      <if test="infoType != null" >
+        INFO_TYPE = #{wxSecOrderNo},
+      </if>
+      <if test="componentVerifyTicket != null" >
+        COMPONENT_VERIFY_TICKET = #{componentVerifyTicket},
+      </if>
+    </set>
+    where WX_COM_VERIFY_TICKET_ID = #{wxComVerifyTicketId}
+  </update>
+  
+</mapper>

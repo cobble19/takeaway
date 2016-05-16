@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="xml")
-public class WxComVerifyTicketPOJO extends BasePOJO {
+public class WxComVerifyTicketSearchPOJO extends BaseSearchPOJO {
 	private Long wxComVerifyTicketId;
 	@XmlElement(name="AppId")
     private String appId;
@@ -47,14 +47,6 @@ public class WxComVerifyTicketPOJO extends BasePOJO {
 	}
 	public void setWxComVerifyTicketId(Long wxComVerifyTicketId) {
 		this.wxComVerifyTicketId = wxComVerifyTicketId;
-	}
-	
-	@Override
-	public String toString() {
-		return "WxComVerifyTicketPOJO [wxComVerifyTicketId="
-				+ wxComVerifyTicketId + ", appId=" + appId + ", createTime="
-				+ createTime + ", infoType=" + infoType
-				+ ", componentVerifyTicket=" + componentVerifyTicket + "]";
 	}
 
 }
