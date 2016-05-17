@@ -120,36 +120,13 @@ public class HttpClientUtil {
 	
 	public static String postHttpsJson(String url, String requestBody) throws Exception {
 		String ret = "";
-		CloseableHttpClient httpclient = getHttpsClient();
-		try {
-			HttpPost httppost = new HttpPost(url);
-			logger.info("Executing request: " + httppost.getRequestLine());
-
-			StringEntity reqEntity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
-//			reqEntity.setChunked(true);
-
-			httppost.setEntity(reqEntity);
-
-			System.out.println("Executing request: "
-					+ httppost.getRequestLine());
-			CloseableHttpResponse response = httpclient.execute(httppost);
-			try {
-	            logger.info("----------------------------------------");
-	            logger.info("Response Status: {}", response.getStatusLine());
-				String responseBody = EntityUtils.toString(response.getEntity());
-				ret = responseBody;
-				logger.info("Response Body: {}", responseBody);
-			} finally {
-				response.close();
-			}
-		} finally {
-			httpclient.close();
-		}
+		ret = postHttps(url, requestBody, ContentType.APPLICATION_JSON);
 		return ret;
 	}
 	
 	public static String postHttps(String url, String requestBody, ContentType contentType) throws Exception {
 		String ret = "";
+		logger.info("Params, Url: {}, RequestBody: {}, ContentType: {}", url, requestBody, contentType);
 		CloseableHttpClient httpclient = getHttpsClient();
 		try {
 			HttpPost httppost = new HttpPost(url);

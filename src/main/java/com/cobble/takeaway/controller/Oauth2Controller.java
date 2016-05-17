@@ -131,7 +131,7 @@ public class Oauth2Controller extends BaseController {
 			if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
 				componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
 			}
-			String wxThirdAuthorizerInfo = HttpClientUtil.post(wxThirdAuthorizerInfoUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
+			String wxThirdAuthorizerInfo = HttpClientUtil.postHttpsJson(wxThirdAuthorizerInfoUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
 							JsonUtils.convertToJson(wxAuthorizerAccessTokenReqPOJO));
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerInfo, WxAuthorizerInfoPOJO.class);
 				
@@ -165,7 +165,7 @@ public class Oauth2Controller extends BaseController {
 					componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
 				}
 				
-				String wxThirdAuthorizerToken = HttpClientUtil.post(wxThirdAuthorizerAccessTokenUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
+				String wxThirdAuthorizerToken = HttpClientUtil.postHttpsJson(wxThirdAuthorizerAccessTokenUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
 								JsonUtils.convertToJson(wxAuthorizerAccessTokenReqPOJO));
 				WxAuthorizerAccessTokenPOJO wxAuthorizerAccessTokenPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerToken, WxAuthorizerAccessTokenPOJO.class);
 				
@@ -202,7 +202,7 @@ public class Oauth2Controller extends BaseController {
 				componentVerifyTicket = wxComVerifyTicketPOJOs.get(0).getComponentVerifyTicket();
 			}
 			wxComAccessTokenReqPOJO.setComponentVerifyTicket(componentVerifyTicket);
-			String wxComAccessTokenStr = HttpClientUtil.post(wxThirdAccessTokenUrl, JsonUtils.convertToJson(wxComAccessTokenReqPOJO));
+			String wxComAccessTokenStr = HttpClientUtil.postHttpsJson(wxThirdAccessTokenUrl, JsonUtils.convertToJson(wxComAccessTokenReqPOJO));
 			WxComAccessTokenPOJO wxComAccessTokenPOJO = JsonUtils.convertToJavaBean(wxComAccessTokenStr, WxComAccessTokenPOJO.class);
 			wxComAccessTokenPOJO.setCreateDateTime(new Date());
 			
@@ -210,7 +210,7 @@ public class Oauth2Controller extends BaseController {
 			
 			WxPreAuthCodeReqPOJO wxPreAuthCodeReqPOJO = new WxPreAuthCodeReqPOJO();
 			wxPreAuthCodeReqPOJO.setComponentAppId(wxThirdClientId);
-			String preAuthCodeStr = HttpClientUtil.post(wxThirdPreAuthCodeUrl.replace("COMPONENT_ACCESS_TOKEN", wxComAccessTokenPOJO.getComponentAccessToken()), 
+			String preAuthCodeStr = HttpClientUtil.postHttpsJson(wxThirdPreAuthCodeUrl.replace("COMPONENT_ACCESS_TOKEN", wxComAccessTokenPOJO.getComponentAccessToken()), 
 						JsonUtils.convertToJson(wxPreAuthCodeReqPOJO));
 			WxPreAuthCodePOJO wxPreAuthCodePOJO = JsonUtils.convertToJavaBean(preAuthCodeStr, WxPreAuthCodePOJO.class);
 			
