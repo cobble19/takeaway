@@ -20,6 +20,8 @@ public class AuthorizerInfoPOJO extends BasePOJO {
     private String qrcodeUrl;
 	@JsonProperty(value="business_info")
     private BusinessInfoPOJO businessInfoPOJO;
+	@JsonProperty(value="idc")
+	private Integer idc;
 	
 	public String getNickName() {
 		return nickName;
@@ -62,5 +64,17 @@ public class AuthorizerInfoPOJO extends BasePOJO {
 	}
 	public void setAlias(String alias) {
 		this.alias = alias;
+	}
+	public String getQrcodeUrl() {
+		return qrcodeUrl;
+	}
+	public void setQrcodeUrl(String qrcodeUrl) {
+		this.qrcodeUrl = qrcodeUrl;
+	}
+	public Integer getIdc() {
+		return idc;
+	}
+	public void setIdc(Integer idc) {
+		this.idc = idc;
 	}
 }

@@ -17,8 +17,12 @@ import java.security.cert.X509Certificate;
 
 
 
+
+
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -143,6 +147,13 @@ public class HttpClientUtil {
 			try {
 	            logger.info("----------------------------------------");
 	            logger.info("Response Status: {}", response.getStatusLine());
+	            Header[] headers = response.getAllHeaders();
+	            if (ArrayUtils.isNotEmpty(headers)) {
+	            	for (Header header : headers) {
+	            		logger.info("Header: {} = {}", header.getName(), header.getValue());
+	            	}
+	            }
+	            
 				String responseBody = EntityUtils.toString(response.getEntity());
 				ret = responseBody;
 				logger.info("Response Body: {}", responseBody);
