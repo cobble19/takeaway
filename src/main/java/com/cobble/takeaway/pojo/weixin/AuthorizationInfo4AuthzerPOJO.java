@@ -6,16 +6,18 @@ import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AuthorizationInfo4AuthzerPOJO extends BasePOJO {
-	@JsonProperty(value="appid")
-    private String appId;
+	@JsonProperty(value="authorizer_appid")
+    private String authorizerAppId;
 	@JsonProperty(value="func_info")
     private List<FuncInfoPOJO> funcInfoPOJOList;
-	public String getAppId() {
-		return appId;
+
+	public String getAuthorizerAppId() {
+		return authorizerAppId;
 	}
-	public void setAppId(String appId) {
-		this.appId = appId;
+	public void setAuthorizerAppId(String authorizerAppId) {
+		this.authorizerAppId = authorizerAppId;
 	}
+	
 	public List<FuncInfoPOJO> getFuncInfoPOJOList() {
 		return funcInfoPOJOList;
 	}
