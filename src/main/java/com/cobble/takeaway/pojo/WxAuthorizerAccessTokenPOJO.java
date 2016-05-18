@@ -9,7 +9,7 @@ public class WxAuthorizerAccessTokenPOJO extends BasePOJO {
 	@JsonProperty(value="authorization_info")
     private AuthorizationInfoPOJO authorizationInfoPOJO;
 	
-	class AuthorizationInfoPOJO extends BasePOJO {
+	public class AuthorizationInfoPOJO extends BasePOJO {
 		@JsonProperty(value="authorizer_appid")
 	    private String authorizerAppId;
 		@JsonProperty(value="authorizer_access_token")
@@ -53,7 +53,7 @@ public class WxAuthorizerAccessTokenPOJO extends BasePOJO {
 		}
 	}
 	
-	class FuncInfoPOJO extends BasePOJO {
+	public class FuncInfoPOJO extends BasePOJO {
 		@JsonProperty(value="funcscope_category")
 	    private FuncscopeCategoryPOJO funcscopeCategoryPOJO;
 
@@ -66,7 +66,7 @@ public class WxAuthorizerAccessTokenPOJO extends BasePOJO {
 		}
 	}
 	
-	class FuncscopeCategoryPOJO extends BasePOJO {
+	public class FuncscopeCategoryPOJO extends BasePOJO {
 		@JsonProperty(value="id")
 	    private Integer id;
 
