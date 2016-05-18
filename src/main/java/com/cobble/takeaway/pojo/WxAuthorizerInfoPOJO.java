@@ -1,6 +1,6 @@
 package com.cobble.takeaway.pojo;
 
-import com.cobble.takeaway.pojo.weixin.AuthorizationInfoPOJO;
+import com.cobble.takeaway.pojo.weixin.AuthorizationInfo4AuthzerPOJO;
 import com.cobble.takeaway.pojo.weixin.AuthorizerInfoPOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,12 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class WxAuthorizerInfoPOJO extends BasePOJO {
 	@JsonProperty(value="authorizer_info")
     private AuthorizerInfoPOJO authorizerInfoPOJO;
-	@JsonProperty(value="qrcode_url")
-    private String qrcodeUrl;
 	@JsonProperty(value="authorization_info")
-    private AuthorizationInfoPOJO authorizationInfo;
+    private AuthorizationInfo4AuthzerPOJO authorizationInfo4AuthzerPOJO;
 	
-
 	public AuthorizerInfoPOJO getAuthorizerInfoPOJO() {
 		return authorizerInfoPOJO;
 	}
@@ -22,20 +19,13 @@ public class WxAuthorizerInfoPOJO extends BasePOJO {
 		this.authorizerInfoPOJO = authorizerInfoPOJO;
 	}
 
-	public String getQrcodeUrl() {
-		return qrcodeUrl;
+	public AuthorizationInfo4AuthzerPOJO getAuthorizationInfo4AuthzerPOJO() {
+		return authorizationInfo4AuthzerPOJO;
 	}
 
-	public void setQrcodeUrl(String qrcodeUrl) {
-		this.qrcodeUrl = qrcodeUrl;
-	}
-
-	public AuthorizationInfoPOJO getAuthorizationInfo() {
-		return authorizationInfo;
-	}
-
-	public void setAuthorizationInfo(AuthorizationInfoPOJO authorizationInfo) {
-		this.authorizationInfo = authorizationInfo;
+	public void setAuthorizationInfo4AuthzerPOJO(
+			AuthorizationInfo4AuthzerPOJO authorizationInfo4AuthzerPOJO) {
+		this.authorizationInfo4AuthzerPOJO = authorizationInfo4AuthzerPOJO;
 	}
 
 }

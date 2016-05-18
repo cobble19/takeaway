@@ -14,10 +14,12 @@ public class AuthorizerInfoPOJO extends BasePOJO {
     private TypeInfoPOJO verifyTypeInfoPOJO;
 	@JsonProperty(value="user_name")
     private String userName;
-	@JsonProperty(value="business_info")
-    private BusinessInfoPOJO businessInfoPOJO;
 	@JsonProperty(value="alias")
     private String alias;
+	@JsonProperty(value="qrcode_url")
+    private String qrcodeUrl;
+	@JsonProperty(value="business_info")
+    private BusinessInfoPOJO businessInfoPOJO;
 	
 	public String getNickName() {
 		return nickName;
