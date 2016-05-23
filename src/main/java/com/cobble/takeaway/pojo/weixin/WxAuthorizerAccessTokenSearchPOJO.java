@@ -1,26 +1,25 @@
 package com.cobble.takeaway.pojo.weixin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import com.cobble.takeaway.pojo.BasePOJO;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
-public class AuthorizationInfoPOJO extends BasePOJO {
-	@JsonProperty(value="authorizer_appid")
+
+public class WxAuthorizerAccessTokenSearchPOJO extends BaseSearchPOJO {
+	private Long wxAuthorizerAccessTokenId;
     private String authorizerAppId;
-	@JsonProperty(value="authorizer_access_token")
     private String authorizerAccessToken;
-	@JsonProperty(value="expires_in")
     private Integer expiresIn;
-	@JsonProperty(value="authorizer_refresh_token")
     private String authorizerRefreshToken;
-	@JsonProperty(value="func_info")
-    private List<FuncInfoPOJO> funcInfoPOJOList = new ArrayList<FuncInfoPOJO>();
+	private String funcInfo;
+	private Date createDateTime;
 	
-	public AuthorizationInfoPOJO() {
+	public Long getWxAuthorizerAccessTokenId() {
+		return wxAuthorizerAccessTokenId;
 	}
-	
+	public void setWxAuthorizerAccessTokenId(Long wxAuthorizerAccessTokenId) {
+		this.wxAuthorizerAccessTokenId = wxAuthorizerAccessTokenId;
+	}
 	public String getAuthorizerAppId() {
 		return authorizerAppId;
 	}
@@ -45,10 +44,17 @@ public class AuthorizationInfoPOJO extends BasePOJO {
 	public void setAuthorizerRefreshToken(String authorizerRefreshToken) {
 		this.authorizerRefreshToken = authorizerRefreshToken;
 	}
-	public List<FuncInfoPOJO> getFuncInfoPOJOList() {
-		return funcInfoPOJOList;
+	public String getFuncInfo() {
+		return funcInfo;
 	}
-	public void setFuncInfoPOJOList(List<FuncInfoPOJO> funcInfoPOJOList) {
-		this.funcInfoPOJOList = funcInfoPOJOList;
+	public void setFuncInfo(String funcInfo) {
+		this.funcInfo = funcInfo;
 	}
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+	
 }

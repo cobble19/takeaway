@@ -1,11 +1,12 @@
-package com.cobble.takeaway.pojo;
+package com.cobble.takeaway.pojo.weixin.api;
 
 import java.util.Date;
 
+import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxComAccessTokenSearchPOJO extends BaseSearchPOJO {
+public class WxComAccessTokenPOJO extends BasePOJO {
 	private Long wxComAccessTokenId;
 	
 	@JsonProperty(value="component_access_token")

@@ -1,4 +1,4 @@
-package com.cobble.takeaway.pojo.weixin;
+package com.cobble.takeaway.pojo.weixin.api;
 
 import java.util.List;
 

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cobble.takeaway.dao.WxComVerifyTicketMapper;
-import com.cobble.takeaway.pojo.WxComVerifyTicketPOJO;
-import com.cobble.takeaway.pojo.WxComVerifyTicketSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchPOJO;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 
 @Service

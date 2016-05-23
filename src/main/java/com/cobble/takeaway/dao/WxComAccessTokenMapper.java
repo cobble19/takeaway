@@ -2,8 +2,8 @@ package com.cobble.takeaway.dao;
 
 import java.util.List;
 
-import com.cobble.takeaway.pojo.WxComAccessTokenPOJO;
-import com.cobble.takeaway.pojo.WxComAccessTokenSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenSearchPOJO;
 
 
 public interface WxComAccessTokenMapper {

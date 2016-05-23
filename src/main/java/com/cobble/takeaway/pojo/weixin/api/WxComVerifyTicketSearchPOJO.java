@@ -1,13 +1,15 @@
-package com.cobble.takeaway.pojo;
+package com.cobble.takeaway.pojo.weixin.api;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.cobble.takeaway.pojo.BaseSearchPOJO;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="xml")
-public class WxComVerifyTicketPOJO extends BasePOJO {
+public class WxComVerifyTicketSearchPOJO extends BaseSearchPOJO {
 	private Long wxComVerifyTicketId;
 	@XmlElement(name="AppId")
     private String appId;
@@ -47,14 +49,6 @@ public class WxComVerifyTicketPOJO extends BasePOJO {
 	}
 	public void setWxComVerifyTicketId(Long wxComVerifyTicketId) {
 		this.wxComVerifyTicketId = wxComVerifyTicketId;
-	}
-	
-	@Override
-	public String toString() {
-		return "WxComVerifyTicketPOJO [wxComVerifyTicketId="
-				+ wxComVerifyTicketId + ", appId=" + appId + ", createTime="
-				+ createTime + ", infoType=" + infoType
-				+ ", componentVerifyTicket=" + componentVerifyTicket + "]";
 	}
 
 }

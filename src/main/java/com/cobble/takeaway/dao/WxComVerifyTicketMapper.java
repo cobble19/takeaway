@@ -2,8 +2,8 @@ package com.cobble.takeaway.dao;
 
 import java.util.List;
 
-import com.cobble.takeaway.pojo.WxComVerifyTicketPOJO;
-import com.cobble.takeaway.pojo.WxComVerifyTicketSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchPOJO;
 
 
 public interface WxComVerifyTicketMapper {

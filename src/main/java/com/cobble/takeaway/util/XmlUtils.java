@@ -10,7 +10,7 @@ import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cobble.takeaway.pojo.WxComVerifyTicketPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO;
 
 public class XmlUtils {
 	private static Logger logger = LoggerFactory.getLogger(XmlUtils.class);

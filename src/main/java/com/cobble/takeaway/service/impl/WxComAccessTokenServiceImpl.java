@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cobble.takeaway.dao.WxComAccessTokenMapper;
-import com.cobble.takeaway.pojo.WxComAccessTokenPOJO;
-import com.cobble.takeaway.pojo.WxComAccessTokenSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenSearchPOJO;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 
 @Service

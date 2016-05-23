@@ -19,6 +19,7 @@ import java.security.cert.X509Certificate;
 
 
 
+
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -43,7 +44,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cobble.takeaway.pojo.WxComAccessTokenReqPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenReqPOJO;
 
 public class HttpClientUtil {
 	private static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);

@@ -7,10 +7,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cobble.takeaway.pojo.WxAuthorizerAccessTokenPOJO;
-import com.cobble.takeaway.pojo.weixin.AuthorizationInfoPOJO;
-import com.cobble.takeaway.pojo.weixin.FuncInfoPOJO;
-import com.cobble.takeaway.pojo.weixin.FuncscopeCategoryPOJO;
+import com.cobble.takeaway.pojo.weixin.api.AuthorizationInfoPOJO;
+import com.cobble.takeaway.pojo.weixin.api.FuncInfoPOJO;
+import com.cobble.takeaway.pojo.weixin.api.FuncscopeCategoryPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenPOJO;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;

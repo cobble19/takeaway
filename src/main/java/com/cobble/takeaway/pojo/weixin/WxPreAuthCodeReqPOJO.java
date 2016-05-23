@@ -1,5 +1,6 @@
-package com.cobble.takeaway.pojo;
+package com.cobble.takeaway.pojo.weixin;
 
+import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
