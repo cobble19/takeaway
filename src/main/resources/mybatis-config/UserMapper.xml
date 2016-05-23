@@ -70,7 +70,7 @@
     from b_user u
     where u.NICKNAME = #{nickname}
   </select>
-  <select id="finds" resultMap="UserResultMap" parameterType="UserSearchPOJO" >
+  <select id="finds" resultMap="UserResultMap" parameterType="com.cobble.takeaway.pojo.UserSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -88,7 +88,7 @@
 	</if>
   </select>
   
-  <select id="getCount" parameterType="UserSearchPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.UserSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from b_user u
     <where>
   		<trim prefixOverrides="and">
@@ -108,13 +108,13 @@
     delete from rel_user_role
     where USER_ID = #{userId,jdbcType=INTEGER};
   </delete>
-  <insert id="insert" parameterType="UserPOJO" useGeneratedKeys="true" keyColumn="USER_ID" keyProperty="userId">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.UserPOJO" useGeneratedKeys="true" keyColumn="USER_ID" keyProperty="userId">
     insert into b_user (USERNAME, NICKNAME, 
       PASSWORD, EMAIL, ENABLE, USER_TYPE)
     values (#{username,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
       #{password}, #{email}, #{enable}, #{userType})
   </insert>
-  <update id="update" parameterType="UserPOJO" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.UserPOJO" >
     update b_user
     set USERNAME = #{username,jdbcType=VARCHAR},
       NICKNAME = #{nickname,jdbcType=VARCHAR},
@@ -132,7 +132,7 @@
     </foreach>
   </update>
   
-  <update id="updateInfo" parameterType="UserPOJO" >
+  <update id="updateInfo" parameterType="com.cobble.takeaway.pojo.UserPOJO" >
     update b_user
     <set>
     	<if test="username != null">USERNAME = #{username},</if>
@@ -143,7 +143,7 @@
     </set>
     where USER_ID = #{userId,jdbcType=INTEGER};
   </update>
-  <update id="updatePassword" parameterType="UserPOJO" >
+  <update id="updatePassword" parameterType="com.cobble.takeaway.pojo.UserPOJO" >
     update b_user
     set PASSWORD = #{password}
     where USER_ID = #{userId,jdbcType=INTEGER};

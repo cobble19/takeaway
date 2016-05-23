@@ -10,7 +10,7 @@
 		<property name="memoryStoreEvictionPolicy" value="LRU" />
 	</cache>
 	
-  <resultMap id="FoodTypeResultMap" type="FoodTypePOJO" >
+  <resultMap id="FoodTypeResultMap" type="com.cobble.takeaway.pojo.FoodTypePOJO" >
     <id column="FOOD_TYPE_ID" property="foodTypeId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     
@@ -25,7 +25,7 @@
 		and ft.NAME like concat("%", concat(#{name}, "%"))
 	</if>
   </sql>
-  <select id="finds" resultMap="FoodTypeResultMap" parameterType="FoodTypeSearchPOJO" >
+  <select id="finds" resultMap="FoodTypeResultMap" parameterType="com.cobble.takeaway.pojo.FoodTypeSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -43,7 +43,7 @@
 	</if>
   </select>
   
-  <select id="getCount" parameterType="FoodTypeSearchPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodTypeSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from food_type ft
     <where>
   		<trim prefixOverrides="and">
@@ -61,7 +61,7 @@
     delete from food_type
     where FOOD_TYPE_ID = #{foodTypeId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="FoodTypePOJO" useGeneratedKeys="true" keyColumn="FOOD_TYPE_ID" keyProperty="foodTypeId">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodTypePOJO" useGeneratedKeys="true" keyColumn="FOOD_TYPE_ID" keyProperty="foodTypeId">
     insert into food_type (NAME)
     values (#{name,jdbcType=VARCHAR})
   </insert>

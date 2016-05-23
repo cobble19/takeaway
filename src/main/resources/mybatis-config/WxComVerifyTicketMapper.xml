@@ -10,7 +10,7 @@
 		<property name="memoryStoreEvictionPolicy" value="LRU" />
 	</cache> -->
 	
-  <resultMap id="WxComVerifyTicketResultMap" type="com.cobble.takeaway.pojo.WxComVerifyTicketPOJO" >
+  <resultMap id="WxComVerifyTicketResultMap" type="com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO" >
     <id column="WX_COM_VERIFY_TICKET_ID" property="wxComVerifyTicketId" />
     <result column="APP_ID" property="appId"/>
     <result column="CREATE_TIME" property="createTime" />
@@ -27,7 +27,7 @@
 	</if>
   </sql>
   
-  <select id="finds" resultMap="WxComVerifyTicketResultMap" parameterType="com.cobble.takeaway.pojo.WxComVerifyTicketSearchPOJO" >
+  <select id="finds" resultMap="WxComVerifyTicketResultMap" parameterType="com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -45,7 +45,7 @@
 	</if>
   </select>
   
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.WxComVerifyTicketSearchPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from WX_COM_VERIFY_TICKET a
     <where>
   		<trim prefixOverrides="and">
@@ -68,7 +68,7 @@
     delete from WX_COM_VERIFY_TICKET
     where WX_COM_VERIFY_TICKET_ID = #{wxComVerifyTicketId}
   </delete>
-  <insert id="insert" parameterType="com.cobble.takeaway.pojo.WxComVerifyTicketPOJO" useGeneratedKeys="true"
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO" useGeneratedKeys="true"
   	keyProperty="wxComVerifyTicketId" keyColumn="WX_COM_VERIFY_TICKET_ID">
     insert into WX_COM_VERIFY_TICKET
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -101,7 +101,7 @@
     </trim>
   </insert>
   
-  <update id="update" parameterType="com.cobble.takeaway.pojo.WxComVerifyTicketPOJO" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO" >
     update WX_COM_VERIFY_TICKET
     <set >
       <if test="appId != null" >

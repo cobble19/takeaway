@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxAuthorizerAccessTokenMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxAuthorizerAccessTokenResultMap" type="com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenPOJO" >
+    <id column="WX_AUTHORIZER_ACCESS_TOKEN_ID" property="wxAuthorizerAccessTokenId" />
+    <result column="AUTHORIZER_APPID" property="authorizerAppId"/>
+    <result column="AUTHORIZER_ACCESS_TOKEN" property="authorizerAccessToken"/>
+    <result column="AUTHORIZER_REFRESH_TOKEN" property="authorizerRefreshToken"/>
+    <result column="FUNC_INFO" property="funcInfo"/>
+    <result column="EXPIRES_IN" property="expiresIn" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_AUTHORIZER_ACCESS_TOKEN_ID, a.AUTHORIZER_APPID, a.AUTHORIZER_ACCESS_TOKEN
+    , a.AUTHORIZER_REFRESH_TOKEN, a.FUNC_INFO, a.EXPIRES_IN
+    , a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="authorizerAccessToken != null">
+		and a.AUTHORIZER_ACCESS_TOKEN like concat("%", concat(#{authorizerAccessToken}, "%"))
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="WxAuthorizerAccessTokenResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WX_AUTHORIZER_ACCESS_TOKEN a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_AUTHORIZER_ACCESS_TOKEN a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxAuthorizerAccessTokenResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_AUTHORIZER_ACCESS_TOKEN a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_AUTHORIZER_ACCESS_TOKEN_ID = #{wxAuthorizerAccessTokenId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_AUTHORIZER_ACCESS_TOKEN
+    where WX_AUTHORIZER_ACCESS_TOKEN_ID = #{wxAuthorizerAccessTokenId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenPOJO" useGeneratedKeys="true"
+  	keyProperty="wxAuthorizerAccessTokenId" keyColumn="WX_AUTHORIZER_ACCESS_TOKEN_ID">
+    insert into WX_AUTHORIZER_ACCESS_TOKEN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID,
+      </if>
+      <if test="authorizerAccessToken != null" >
+        AUTHORIZER_ACCESS_TOKEN,
+      </if>
+      <if test="authorizerRefreshToken != null" >
+        AUTHORIZER_REFRESH_TOKEN,
+      </if>
+      <if test="funcInfo != null" >
+        FUNC_INFO,
+      </if>
+      <if test="expiresIn != null" >
+        EXPIRES_IN,
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="authorizerAccessToken != null" >
+        #{authorizerAccessToken},
+      </if>
+      <if test="authorizerRefreshToken != null" >
+        #{authorizerRefreshToken},
+      </if>
+      <if test="funcInfo != null" >
+        #{funcInfo},
+      </if>
+      <if test="expiresIn != null" >
+        #{expiresIn},
+      </if>
+      <if test="createDateTime != null" >
+        #{createDateTime},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenPOJO" >
+    update WX_AUTHORIZER_ACCESS_TOKEN
+    <set >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID = #{authorizerAppId},
+      </if>
+      <if test="authorizerAccessToken != null" >
+        AUTHORIZER_ACCESS_TOKEN = #{authorizerAccessToken},
+      </if>
+      <if test="authorizerRefreshToken != null" >
+        AUTHORIZER_REFRESH_TOKEN = #{authorizerRefreshToken},
+      </if>
+      <if test="funcInfo != null" >
+        FUNC_INFO = #{funcInfo},
+      </if>
+      <if test="expiresIn != null" >
+        EXPIRES_IN = #{expiresIn},
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME = #{createDateTime},
+      </if>
+    </set>
+    where WX_AUTHORIZER_ACCESS_TOKEN_ID = #{wxAuthorizerAccessTokenId}
+  </update>
+  
+</mapper>

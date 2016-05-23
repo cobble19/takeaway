@@ -32,7 +32,7 @@
     where rab.LOCATION_AREA_ID = #{locationAreaId}
   </select>
   
-  <select id="finds" resultMap="LocationBusinessResultMap" parameterType="LocationBusinessSearchPOJO" >
+  <select id="finds" resultMap="LocationBusinessResultMap" parameterType="com.cobble.takeaway.pojo.LocationBusinessSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -48,7 +48,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
-  <select id="getCount" parameterType="LocationBusinessSearchPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.LocationBusinessSearchPOJO" resultType="java.lang.Integer" >
     select count(*) from location_business
     <where>
   		<trim prefixOverrides="and">

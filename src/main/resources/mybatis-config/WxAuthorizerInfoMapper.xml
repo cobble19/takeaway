@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxAuthorizerInfoMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxAuthorizerInfoResultMap" type="com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO" >
+    <id column="WX_AUTHORIZER_INFO_ID" property="wxAuthorizerInfoId" />
+    <result column="NICK_NAME" property="nickName"/>
+    <result column="HEAD_IMG" property="headImg" />
+    <result column="SERVICE_TYPE_INFO" property="serviceTypeInfo" />
+    <result column="VERIFY_TYPE_INFO" property="verifyTypeInfo" />
+    <result column="USER_NAME" property="userName" />
+    <result column="ALIAS" property="alias" />
+    <result column="QRCODE_URL" property="qrcodeUrl" />
+    <result column="BUSINESS_INFO" property="businessInfo" />
+    <result column="IDC" property="idc" />
+    <result column="AUTHORIZER_APPID" property="authorizerAppId" />
+    <result column="FUNC_INFO" property="funcInfo" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_AUTHORIZER_INFO_ID, a.NICK_NAME, a.HEAD_IMG
+    , a.SERVICE_TYPE_INFO, a.VERIFY_TYPE_INFO, a.USER_NAME
+    , a.ALIAS, a.QRCODE_URL, a.BUSINESS_INFO
+    , a.IDC, a.AUTHORIZER_APPID, a.FUNC_INFO
+    , a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APPID like concat("%", concat(#{authorizerAppId}, "%"))
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="WxAuthorizerInfoResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WX_AUTHORIZER_INFO a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_AUTHORIZER_INFO a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxAuthorizerInfoResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_AUTHORIZER_INFO a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_AUTHORIZER_INFO_ID = #{wxAuthorizerInfoId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_AUTHORIZER_INFO
+    where WX_AUTHORIZER_INFO_ID = #{wxAuthorizerInfoId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO" useGeneratedKeys="true"
+  	keyProperty="wxAuthorizerInfoId" keyColumn="WX_AUTHORIZER_INFO_ID">
+    insert into WX_AUTHORIZER_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nickName != null" >
+        NICK_NAME,
+      </if>
+      <if test="headImg != null" >
+        HEAD_IMG,
+      </if>
+      <if test="serviceTypeInfo != null" >
+        SERVICE_TYPE_INFO,
+      </if>
+      <if test="verifyTypeInfo != null" >
+        VERIFY_TYPE_INFO,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="alias != null" >
+        ALIAS,
+      </if>
+      <if test="qrcodeUrl != null" >
+        QRCODE_URL,
+      </if>
+      <if test="businessInfo != null" >
+        BUSINESS_INFO,
+      </if>
+      <if test="idc != null" >
+        IDC,
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID,
+      </if>
+      <if test="funcInfo != null" >
+        FUNC_INFO,
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nickName != null" >
+        #{nickName},
+      </if>
+      <if test="headImg != null" >
+        #{headImg},
+      </if>
+      <if test="serviceTypeInfo != null" >
+        #{serviceTypeInfo},
+      </if>
+      <if test="verifyTypeInfo != null" >
+        #{verifyTypeInfo},
+      </if>
+      <if test="userName != null" >
+        #{userName},
+      </if>
+      <if test="alias != null" >
+        #{alias},
+      </if>
+      <if test="qrcodeUrl != null" >
+        #{qrcodeUrl},
+      </if>
+      <if test="businessInfo != null" >
+        #{businessInfo},
+      </if>
+      <if test="idc != null" >
+        #{idc},
+      </if>
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="funcInfo != null" >
+        #{funcInfo},
+      </if>
+      <if test="createDateTime != null" >
+        #{createDateTime},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO" >
+    update WX_AUTHORIZER_INFO
+    <set >
+      <if test="nickName != null" >
+        NICK_NAME = #{nickName},
+      </if>
+      <if test="headImg != null" >
+        HEAD_IMG = #{headImg},
+      </if>
+      <if test="serviceTypeInfo != null" >
+        SERVICE_TYPE_INFO = #{serviceTypeInfo},
+      </if>
+      <if test="verifyTypeInfo != null" >
+        VERIFY_TYPE_INFO = #{verifyTypeInfo},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName},
+      </if>
+      <if test="alias != null" >
+        ALIAS = #{alias},
+      </if>
+      <if test="qrcodeUrl != null" >
+        QRCODE_URL = #{qrcodeUrl},
+      </if>
+      <if test="businessInfo != null" >
+        BUSINESS_INFO = #{businessInfo},
+      </if>
+      <if test="idc != null" >
+        IDC = #{idc},
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID = #{authorizerAppId},
+      </if>
+      <if test="funcInfo != null" >
+        FUNC_INFO = #{funcInfo},
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME = #{createDateTime},
+      </if>
+    </set>
+    where WX_AUTHORIZER_INFO_ID = #{wxAuthorizerInfoId}
+  </update>
+  
+</mapper>

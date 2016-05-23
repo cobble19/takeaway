@@ -350,7 +350,7 @@
     </trim>
   </insert>
   
-  <insert id="insertRelFoodSellerType" keyProperty="relFoodSellerTypeId" parameterType="RelFoodSellerTypePOJO" useGeneratedKeys="true">
+  <insert id="insertRelFoodSellerType" keyProperty="relFoodSellerTypeId" parameterType="com.cobble.takeaway.pojo.RelFoodSellerTypePOJO" useGeneratedKeys="true">
     insert into rel_food_seller_type
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="foodSellerTypeId != null" >

@@ -1,5 +1,6 @@
 package com.cobble.takeaway.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
 import com.cobble.takeaway.oauth2.WxOauth2TokenPOJO;
 import com.cobble.takeaway.oauth2.WxUserPOJO;
-import com.cobble.takeaway.pojo.weixin.WxPreAuthCodePOJO;
-import com.cobble.takeaway.pojo.weixin.WxPreAuthCodeReqPOJO;
+import com.cobble.takeaway.pojo.weixin.api.FuncInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenReqPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoPOJO;
@@ -39,6 +39,10 @@ import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodePOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqPOJO;
+import com.cobble.takeaway.service.WxAuthorizerAccessTokenService;
+import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.util.HttpClientUtil;
@@ -57,6 +61,10 @@ public class Oauth2Controller extends BaseController {
 	private WxComVerifyTicketService wxComVerifyTicketService;
 	@Autowired
 	private WxComAccessTokenService wxComAccessTokenService;
+	@Autowired
+	private WxAuthorizerAccessTokenService wxAuthorizerAccessTokenService;
+	@Autowired
+	private WxAuthorizerInfoService wxAuthorizerInfoService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -134,6 +142,43 @@ public class Oauth2Controller extends BaseController {
 			String wxThirdAuthorizerInfo = HttpClientUtil.postHttpsJson(wxThirdAuthorizerInfoUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
 							JsonUtils.convertToJson(wxAuthorizerAccessTokenReqPOJO));
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerInfo, WxAuthorizerInfoPOJO.class);
+			
+			// 保存授权者信息到数据库
+			com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO2 = new com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO();
+			String nickName = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getNickName();
+			wxAuthorizerInfoPOJO2.setNickName(nickName);
+			String headImg = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getHeadImg();
+			wxAuthorizerInfoPOJO2.setHeadImg(headImg);
+			Integer serviceTypeInfo = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getServiceTypeInfoPOJO().getId();
+			wxAuthorizerInfoPOJO2.setServiceTypeInfo(serviceTypeInfo);
+			Integer verifyTypeInfo = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getVerifyTypeInfoPOJO().getId();
+			wxAuthorizerInfoPOJO2.setVerifyTypeInfo(verifyTypeInfo);
+			String userName = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getUserName();
+			wxAuthorizerInfoPOJO2.setUserName(userName);
+			String alias = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getAlias();
+			wxAuthorizerInfoPOJO2.setAlias(alias);
+			String qrcodeUrl = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getQrcodeUrl();
+			wxAuthorizerInfoPOJO2.setQrcodeUrl(qrcodeUrl);
+			String businessInfo = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenStore()
+					 			+ "," + wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenScan()
+					 			+ "," + wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenPay()
+					 			+ "," + wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenCard()
+					 			+ "," + wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenShake();
+			wxAuthorizerInfoPOJO2.setBusinessInfo(businessInfo);
+			Integer idc = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getIdc();
+			wxAuthorizerInfoPOJO2.setIdc(idc);
+			wxAuthorizerInfoPOJO2.setAuthorizerAppId(authorizerAppId);
+			String funcInfo = "";
+			List<FuncInfoPOJO> funcInfoPOJOs = wxAuthorizerInfoPOJO.getAuthorizationInfo4AuthzerPOJO().getFuncInfoPOJOList();
+			List<Integer> ids = new ArrayList<Integer>();
+			if (!CollectionUtils.isEmpty(funcInfoPOJOs)) {
+				for (int i = 0; i < funcInfoPOJOs.size(); i++) {
+					ids.add(funcInfoPOJOs.get(i).getFuncscopeCategoryPOJO().getId());
+				}
+				funcInfo = StringUtils.join(ids, ",");
+			}
+			wxAuthorizerInfoPOJO2.setFuncInfo(funcInfo);
+			wxAuthorizerInfoPOJO2.setCreateDateTime(new Date());
 				
 //			ret.setViewName("/page/oauth2_success");
 		} catch (Exception e) {
@@ -154,6 +199,7 @@ public class Oauth2Controller extends BaseController {
 			String qs = request.getQueryString();
 			logger.info("authCode uri: " + uri + ", qs: " + qs);
 			if (StringUtils.isNotBlank(code)) {
+				// 组建去获取授权者token请求
 				WxAuthorizerAccessTokenReqPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerAccessTokenReqPOJO();
 				wxAuthorizerAccessTokenReqPOJO.setAuthorizationCode(code);
 				wxAuthorizerAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
@@ -164,11 +210,34 @@ public class Oauth2Controller extends BaseController {
 				if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
 					componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
 				}
-				
+				// 获取授权者token信息
 				String wxThirdAuthorizerToken = HttpClientUtil.postHttpsJson(wxThirdAuthorizerAccessTokenUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
 								JsonUtils.convertToJson(wxAuthorizerAccessTokenReqPOJO));
 				WxAuthorizerAccessTokenPOJO wxAuthorizerAccessTokenPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerToken, WxAuthorizerAccessTokenPOJO.class);
 				
+				// 保存授权者token信息到数据库
+				com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenPOJO wxAuthorizerAccessTokenPOJO2 = new com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenPOJO();
+				String authorizerAccessToken = wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAccessToken();
+				wxAuthorizerAccessTokenPOJO2.setAuthorizerAccessToken(authorizerAccessToken);
+				String authorizerAppId = wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId();
+				wxAuthorizerAccessTokenPOJO2.setAuthorizerAppId(authorizerAppId);
+				String authorizerRefreshToken = wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerRefreshToken();
+				wxAuthorizerAccessTokenPOJO2.setAuthorizerRefreshToken(authorizerRefreshToken);
+				wxAuthorizerAccessTokenPOJO2.setCreateDateTime(new Date());
+				Integer expiresIn = wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getExpiresIn();
+				wxAuthorizerAccessTokenPOJO2.setExpiresIn(expiresIn);
+				String funcInfo = "";
+				List<FuncInfoPOJO> funcInfoPOJOs = wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getFuncInfoPOJOList();
+				List<Integer> ids = new ArrayList<Integer>();
+				if (!CollectionUtils.isEmpty(funcInfoPOJOs)) {
+					for (int i = 0; i < funcInfoPOJOs.size(); i++) {
+						ids.add(funcInfoPOJOs.get(i).getFuncscopeCategoryPOJO().getId());
+					}
+					funcInfo = StringUtils.join(ids, ",");
+				}
+				wxAuthorizerAccessTokenPOJO2.setFuncInfo(funcInfo);
+				wxAuthorizerAccessTokenService.insert(wxAuthorizerAccessTokenPOJO2);
+				// 显示获取授权者信息
 				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/third/authorizerInfo"
 						+ "?componentAppId=" + wxThirdClientId + "&authorizerAppId=" + wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId());
 //				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");

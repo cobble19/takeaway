@@ -67,7 +67,7 @@
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage" value="com.cobble.takeaway.pojo" />
+		<!-- <property name="typeAliasesPackage" value="com.cobble.takeaway.pojo" /> -->
 		<property name="configLocation" value="classpath:mybatis.xml"></property>
 		<!-- <property name="mapperLocations">
 			<list>

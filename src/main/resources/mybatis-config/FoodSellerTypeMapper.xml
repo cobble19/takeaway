@@ -10,7 +10,7 @@
 		<property name="memoryStoreEvictionPolicy" value="LRU" />
 	</cache>
 	
-  <resultMap id="FoodSellerTypeResultMap" type="FoodSellerTypePOJO" >
+  <resultMap id="FoodSellerTypeResultMap" type="com.cobble.takeaway.pojo.FoodSellerTypePOJO" >
     <id column="FOOD_SELLER_TYPE_ID" property="foodSellerTypeId" jdbcType="INTEGER" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="ICON" property="icon" jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
 		and NAME like concat("%", concat(#{name}, "%"))
 	</if>
   </sql>
-  <select id="finds" resultMap="FoodSellerTypeResultMap" parameterType="FoodSellerTypeSearchPOJO" >
+  <select id="finds" resultMap="FoodSellerTypeResultMap" parameterType="com.cobble.takeaway.pojo.FoodSellerTypeSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -39,7 +39,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
-  <select id="getCount" parameterType="FoodSellerTypeSearchPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.FoodSellerTypeSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from FOOD_SELLER_TYPE
     <where>
   		<trim prefixOverrides="and">
@@ -57,7 +57,7 @@
     delete from FOOD_SELLER_TYPE
     where FOOD_SELLER_TYPE_ID = #{foodSellerTypeId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="FoodSellerTypePOJO" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.FoodSellerTypePOJO" useGeneratedKeys="true">
     insert into FOOD_SELLER_TYPE
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="foodSellerTypeId != null" >
@@ -82,7 +82,7 @@
       </if>
     </trim>
   </insert>
-  <update id="update" parameterType="FoodSellerTypePOJO" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.FoodSellerTypePOJO" >
     update FOOD_SELLER_TYPE
     <set >
       <if test="name != null" >

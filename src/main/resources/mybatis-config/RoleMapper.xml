@@ -10,7 +10,7 @@
 		<property name="memoryStoreEvictionPolicy" value="LRU" />
 	</cache>
 	
-  <resultMap id="RoleResultMap" type="RolePOJO" >
+  <resultMap id="RoleResultMap" type="com.cobble.takeaway.pojo.RolePOJO" >
     <id column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
     <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
     
@@ -18,7 +18,7 @@
     <collection property="privilegePOJOs" column="ROLE_ID" select="com.cobble.takeaway.dao.PrivilegeMapper.findByRoleId"></collection>
   </resultMap>
   
-  <resultMap id="RoleOnlyResultMap" type="RolePOJO" >
+  <resultMap id="RoleOnlyResultMap" type="com.cobble.takeaway.pojo.RolePOJO" >
     <id column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
     <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
   </resultMap>
@@ -63,7 +63,7 @@
   		</trim>
   	</where>
   </select>
-  <select id="finds" resultMap="RoleResultMap" parameterType="RoleSearchPOJO" >
+  <select id="finds" resultMap="RoleResultMap" parameterType="com.cobble.takeaway.pojo.RoleSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -100,7 +100,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select> -->
-  <select id="getCount" parameterType="RoleSearchPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.RoleSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from b_role r
     <where>
   		<trim prefixOverrides="and">
@@ -122,11 +122,11 @@
     delete from b_user_role
     where ROLE_ID = #{roleId};
   </delete>
-  <insert id="insert" parameterType="RolePOJO" useGeneratedKeys="true" keyColumn="ROLE_ID" keyProperty="roleId">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.RolePOJO" useGeneratedKeys="true" keyColumn="ROLE_ID" keyProperty="roleId">
     insert into b_role ( ROLE_NAME)
     values (#{roleName,jdbcType=VARCHAR});
   </insert>
-  <update id="update" parameterType="RolePOJO" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.RolePOJO" >
     update b_role
     set ROLE_NAME = #{roleName,jdbcType=VARCHAR}
     where ROLE_ID = #{roleId,jdbcType=INTEGER};

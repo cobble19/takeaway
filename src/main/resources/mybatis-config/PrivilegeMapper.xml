@@ -10,7 +10,7 @@
 		<property name="memoryStoreEvictionPolicy" value="LRU" />
 	</cache>
 	
-  <resultMap id="PrivilegeResultMap" type="PrivilegePOJO" >
+  <resultMap id="PrivilegeResultMap" type="com.cobble.takeaway.pojo.PrivilegePOJO" >
     <id column="PRIVILEGE_ID" property="privilegeId" jdbcType="INTEGER" />
     <result column="PRIVILEGE_NAME" property="privilegeName" jdbcType="VARCHAR" />
     <result column="URL" property="url" jdbcType="VARCHAR" />
@@ -18,7 +18,7 @@
     <collection property="rolePOJOs" column="PRIVILEGE_ID" select="com.cobble.takeaway.dao.RoleMapper.findByPrivilegeId"></collection>
   </resultMap>
   	
-  <resultMap id="PrivilegeOnlyResultMap" type="PrivilegePOJO" >
+  <resultMap id="PrivilegeOnlyResultMap" type="com.cobble.takeaway.pojo.PrivilegePOJO" >
     <id column="PRIVILEGE_ID" property="privilegeId" jdbcType="INTEGER" />
     <result column="PRIVILEGE_NAME" property="privilegeName" jdbcType="VARCHAR" />
     <result column="URL" property="url" jdbcType="VARCHAR" />
@@ -51,7 +51,7 @@
   		</trim>
   	</where>
   </select>
-  <select id="finds" resultMap="PrivilegeResultMap" parameterType="PrivilegeSearchPOJO" >
+  <select id="finds" resultMap="PrivilegeResultMap" parameterType="com.cobble.takeaway.pojo.PrivilegeSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -69,7 +69,7 @@
 	</if>
   </select>
   
-  <select id="getCount" parameterType="PrivilegeSearchPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.PrivilegeSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from b_privilege p
     <where>
   		<trim prefixOverrides="and">
@@ -89,12 +89,12 @@
     delete from rel_privilege_role
     where PRIVILEGE_ID = #{privilegeId};
   </delete>
-  <insert id="insert" parameterType="PrivilegePOJO" useGeneratedKeys="true"
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.PrivilegePOJO" useGeneratedKeys="true"
   	keyColumn="PRIVILEGE_ID" keyProperty="privilegeId">
     insert into b_privilege (PRIVILEGE_NAME, URL)
     values (#{privilegeName}, #{url,jdbcType=VARCHAR})
   </insert>
-  <update id="update" parameterType="PrivilegePOJO" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.PrivilegePOJO" >
     update b_privilege
     set PRIVILEGE_NAME = #{privilegeName,jdbcType=INTEGER},
       URL = #{url,jdbcType=VARCHAR}

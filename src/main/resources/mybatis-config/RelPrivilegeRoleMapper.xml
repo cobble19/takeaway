@@ -10,12 +10,12 @@
 		<property name="memoryStoreEvictionPolicy" value="LRU" />
 	</cache>
 	
-  <resultMap id="RelPrivilegeRoleResultMap" type="RelPrivilegeRolePOJO" >
+  <resultMap id="RelPrivilegeRoleResultMap" type="com.cobble.takeaway.pojo.RelPrivilegeRolePOJO" >
     <id column="REL_PRIVIELGE_ROLE_ID" property="relPrivilegeRoleId" jdbcType="INTEGER" />
     <result column="PRIVILEGE_ID" property="privilegeId"/>
     <result column="ROLE_ID" property="roleId"/>
   </resultMap>
-  <insert id="insert" parameterType="RelPrivilegeRolePOJO" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.RelPrivilegeRolePOJO" useGeneratedKeys="true">
     insert into REL_PRIVILEGE_ROLE
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="privilegeId != null" >
