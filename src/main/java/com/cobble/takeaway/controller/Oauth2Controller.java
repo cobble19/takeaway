@@ -179,15 +179,17 @@ public class Oauth2Controller extends BaseController {
 			}
 			wxAuthorizerInfoPOJO2.setFuncInfo(funcInfo);
 			wxAuthorizerInfoPOJO2.setCreateDateTime(new Date());
-				
-//			ret.setViewName("/page/oauth2_success");
+			wxAuthorizerInfoService.insert(wxAuthorizerInfoPOJO2);
+			
+			ret.addObject("msg", wxThirdAuthorizerInfo);
+			ret.setViewName("/page/oauth2_success");
 		} catch (Exception e) {
 			logger.error("authorizerInfo error.", e);
 			throw e;
 		}
 		
-		return null;
-//		return ret;
+//		return null;
+		return ret;
 	}
 	
 	@RequestMapping(value = "/web/wx/oauth2/third/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
