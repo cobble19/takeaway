@@ -44,7 +44,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenReqPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenReqApiPOJO;
 
 public class HttpClientUtil {
 	private static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
@@ -208,7 +208,7 @@ public class HttpClientUtil {
 	public static void main(String[] argv) {
 		try {
 //			String result = HttpClientUtil.get("https://www.google.com.hk");
-			WxComAccessTokenReqPOJO wxComAccessTokenReqPOJO = new WxComAccessTokenReqPOJO();
+			WxComAccessTokenReqApiPOJO wxComAccessTokenReqPOJO = new WxComAccessTokenReqApiPOJO();
 			wxComAccessTokenReqPOJO.setComponentAppId("wx2bec8614a6c47443");
 			wxComAccessTokenReqPOJO.setComponentAppSecret("ed898841d710be0ec6cd7bf19e5f7ced");
 			wxComAccessTokenReqPOJO.setComponentVerifyTicket("ticket@@@5jyb50N-eJvcxNBZMlVf2IQmof7xWB1wA27s3ETFTm5MrdtE67mjFne96IjrbtDlxiArfhvaUB0XsLwtD3nQkg");

@@ -3,18 +3,18 @@ package com.cobble.takeaway.pojo.weixin.api;
 import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class FuncInfoPOJO extends BasePOJO {
+public class FuncInfoApiPOJO extends BasePOJO {
 	@JsonProperty(value="funcscope_category")
-    private FuncscopeCategoryPOJO funcscopeCategoryPOJO;
+    private FuncscopeCategoryApiPOJO funcscopeCategoryPOJO;
 	
-	public FuncInfoPOJO() {
+	public FuncInfoApiPOJO() {
 	}
 
-	public FuncscopeCategoryPOJO getFuncscopeCategoryPOJO() {
+	public FuncscopeCategoryApiPOJO getFuncscopeCategoryPOJO() {
 		return funcscopeCategoryPOJO;
 	}
 
-	public void setFuncscopeCategoryPOJO(FuncscopeCategoryPOJO funcscopeCategoryPOJO) {
+	public void setFuncscopeCategoryPOJO(FuncscopeCategoryApiPOJO funcscopeCategoryPOJO) {
 		this.funcscopeCategoryPOJO = funcscopeCategoryPOJO;
 	}
 }

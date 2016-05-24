@@ -4,15 +4,15 @@ import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxAuthorizerAccessTokenPOJO extends BasePOJO {
+public class WxAuthorizerAccessTokenApiPOJO extends BasePOJO {
 	@JsonProperty(value="authorization_info")
-    private AuthorizationInfoPOJO authorizationInfoPOJO;
+    private AuthorizationInfoApiPOJO authorizationInfoPOJO;
 
-	public AuthorizationInfoPOJO getAuthorizationInfoPOJO() {
+	public AuthorizationInfoApiPOJO getAuthorizationInfoPOJO() {
 		return authorizationInfoPOJO;
 	}
 
-	public void setAuthorizationInfoPOJO(AuthorizationInfoPOJO authorizationInfoPOJO) {
+	public void setAuthorizationInfoPOJO(AuthorizationInfoApiPOJO authorizationInfoPOJO) {
 		this.authorizationInfoPOJO = authorizationInfoPOJO;
 	}
 

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cobble.takeaway.dao.WxComVerifyTicketMapper;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 
 @Service
@@ -18,29 +18,29 @@ public class WxComVerifyTicketServiceImpl implements WxComVerifyTicketService {
 	private WxComVerifyTicketMapper wxComVerifyTicketMapper;
 
 	@Override
-	public int insert(WxComVerifyTicketPOJO wxComVerifyTicketPOJO) throws Exception {
+	public int insert(WxComVerifyTicketApiPOJO wxComVerifyTicketPOJO) throws Exception {
 		int ret = 0;
 		ret = wxComVerifyTicketMapper.insert(wxComVerifyTicketPOJO);
 		return ret;
 	}
 
 	@Override
-	public int update(WxComVerifyTicketPOJO wxComVerifyTicketPOJO) throws Exception {
+	public int update(WxComVerifyTicketApiPOJO wxComVerifyTicketPOJO) throws Exception {
 		int ret = 0;
 		ret = wxComVerifyTicketMapper.update(wxComVerifyTicketPOJO);
 		return ret;
 	}
 
 	@Override
-	public List<WxComVerifyTicketPOJO> finds(
-			WxComVerifyTicketSearchPOJO wxComVerifyTicketSearchPOJO) throws Exception {
-		List<WxComVerifyTicketPOJO> ret = null;
+	public List<WxComVerifyTicketApiPOJO> finds(
+			WxComVerifyTicketSearchApiPOJO wxComVerifyTicketSearchPOJO) throws Exception {
+		List<WxComVerifyTicketApiPOJO> ret = null;
 		ret = wxComVerifyTicketMapper.finds(wxComVerifyTicketSearchPOJO);
 		return ret;
 	}
 
 	@Override
-	public int getCount(WxComVerifyTicketSearchPOJO wxComVerifyTicketSearchPOJO)
+	public int getCount(WxComVerifyTicketSearchApiPOJO wxComVerifyTicketSearchPOJO)
 			throws Exception {
 		int ret = 0;
 		ret = wxComVerifyTicketMapper.getCount(wxComVerifyTicketSearchPOJO);
@@ -48,8 +48,8 @@ public class WxComVerifyTicketServiceImpl implements WxComVerifyTicketService {
 	}
 
 	@Override
-	public WxComVerifyTicketPOJO findById(Long id) throws Exception {
-		WxComVerifyTicketPOJO ret = null;
+	public WxComVerifyTicketApiPOJO findById(Long id) throws Exception {
+		WxComVerifyTicketApiPOJO ret = null;
 		ret = wxComVerifyTicketMapper.findById(id);
 		return ret;
 	}

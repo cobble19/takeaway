@@ -4,7 +4,7 @@ import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxAuthorizerAccessTokenReqPOJO extends BasePOJO {
+public class WxAuthorizerAccessTokenReqApiPOJO extends BasePOJO {
 	@JsonProperty(value="component_appid")
     private String componentAppId;
 	@JsonProperty(value="authorization_code")

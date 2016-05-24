@@ -2,19 +2,19 @@ package com.cobble.takeaway.dao;
 
 import java.util.List;
 
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 
 
 public interface WxComVerifyTicketMapper {
-	int insert(WxComVerifyTicketPOJO wxComVerifyTicketPOJO) throws Exception;
-	int update(WxComVerifyTicketPOJO wxComVerifyTicketPOJO) throws Exception;
-	List<WxComVerifyTicketPOJO> finds(WxComVerifyTicketSearchPOJO wxComVerifyTicketSearchPOJO) throws Exception;
+	int insert(WxComVerifyTicketApiPOJO wxComVerifyTicketPOJO) throws Exception;
+	int update(WxComVerifyTicketApiPOJO wxComVerifyTicketPOJO) throws Exception;
+	List<WxComVerifyTicketApiPOJO> finds(WxComVerifyTicketSearchApiPOJO wxComVerifyTicketSearchPOJO) throws Exception;
 	
-	List<WxComVerifyTicketPOJO> findsByIds(WxComVerifyTicketSearchPOJO wxComVerifyTicketSearchPOJO) throws Exception;
+	List<WxComVerifyTicketApiPOJO> findsByIds(WxComVerifyTicketSearchApiPOJO wxComVerifyTicketSearchPOJO) throws Exception;
 	
-	int getCount(WxComVerifyTicketSearchPOJO wxComVerifyTicketSearchPOJO) throws Exception;
-	WxComVerifyTicketPOJO findById(Long id) throws Exception;
+	int getCount(WxComVerifyTicketSearchApiPOJO wxComVerifyTicketSearchPOJO) throws Exception;
+	WxComVerifyTicketApiPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
 	
 }

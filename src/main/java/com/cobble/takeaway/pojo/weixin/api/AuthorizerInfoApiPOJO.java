@@ -3,15 +3,15 @@ package com.cobble.takeaway.pojo.weixin.api;
 import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AuthorizerInfoPOJO extends BasePOJO {
+public class AuthorizerInfoApiPOJO extends BasePOJO {
 	@JsonProperty(value="nick_name")
     private String nickName;
 	@JsonProperty(value="head_img")
     private String headImg;
 	@JsonProperty(value="service_type_info")
-    private TypeInfoPOJO serviceTypeInfoPOJO;
+    private TypeInfoApiPOJO serviceTypeInfoPOJO;
 	@JsonProperty(value="verify_type_info")
-    private TypeInfoPOJO verifyTypeInfoPOJO;
+    private TypeInfoApiPOJO verifyTypeInfoPOJO;
 	@JsonProperty(value="user_name")
     private String userName;
 	@JsonProperty(value="alias")
@@ -19,7 +19,7 @@ public class AuthorizerInfoPOJO extends BasePOJO {
 	@JsonProperty(value="qrcode_url")
     private String qrcodeUrl;
 	@JsonProperty(value="business_info")
-    private BusinessInfoPOJO businessInfoPOJO;
+    private BusinessInfoApiPOJO businessInfoPOJO;
 	@JsonProperty(value="idc")
 	private Integer idc;
 	
@@ -35,16 +35,16 @@ public class AuthorizerInfoPOJO extends BasePOJO {
 	public void setHeadImg(String headImg) {
 		this.headImg = headImg;
 	}
-	public TypeInfoPOJO getServiceTypeInfoPOJO() {
+	public TypeInfoApiPOJO getServiceTypeInfoPOJO() {
 		return serviceTypeInfoPOJO;
 	}
-	public void setServiceTypeInfoPOJO(TypeInfoPOJO serviceTypeInfoPOJO) {
+	public void setServiceTypeInfoPOJO(TypeInfoApiPOJO serviceTypeInfoPOJO) {
 		this.serviceTypeInfoPOJO = serviceTypeInfoPOJO;
 	}
-	public TypeInfoPOJO getVerifyTypeInfoPOJO() {
+	public TypeInfoApiPOJO getVerifyTypeInfoPOJO() {
 		return verifyTypeInfoPOJO;
 	}
-	public void setVerifyTypeInfoPOJO(TypeInfoPOJO verifyTypeInfoPOJO) {
+	public void setVerifyTypeInfoPOJO(TypeInfoApiPOJO verifyTypeInfoPOJO) {
 		this.verifyTypeInfoPOJO = verifyTypeInfoPOJO;
 	}
 	public String getUserName() {
@@ -53,10 +53,10 @@ public class AuthorizerInfoPOJO extends BasePOJO {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public BusinessInfoPOJO getBusinessInfoPOJO() {
+	public BusinessInfoApiPOJO getBusinessInfoPOJO() {
 		return businessInfoPOJO;
 	}
-	public void setBusinessInfoPOJO(BusinessInfoPOJO businessInfoPOJO) {
+	public void setBusinessInfoPOJO(BusinessInfoApiPOJO businessInfoPOJO) {
 		this.businessInfoPOJO = businessInfoPOJO;
 	}
 	public String getAlias() {

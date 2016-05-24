@@ -1,27 +1,26 @@
 package com.cobble.takeaway.pojo.weixin.api;
 
-import java.util.List;
-
 import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AuthorizationInfo4AuthzerPOJO extends BasePOJO {
+
+public class WxAuthorizerInfoReqApiPOJO extends BasePOJO {
+	@JsonProperty(value="component_appid")
+    private String componentAppId;
 	@JsonProperty(value="authorizer_appid")
     private String authorizerAppId;
-	@JsonProperty(value="func_info")
-    private List<FuncInfoPOJO> funcInfoPOJOList;
-
+	
+	public String getComponentAppId() {
+		return componentAppId;
+	}
+	public void setComponentAppId(String componentAppId) {
+		this.componentAppId = componentAppId;
+	}
 	public String getAuthorizerAppId() {
 		return authorizerAppId;
 	}
 	public void setAuthorizerAppId(String authorizerAppId) {
 		this.authorizerAppId = authorizerAppId;
 	}
-	
-	public List<FuncInfoPOJO> getFuncInfoPOJOList() {
-		return funcInfoPOJOList;
-	}
-	public void setFuncInfoPOJOList(List<FuncInfoPOJO> funcInfoPOJOList) {
-		this.funcInfoPOJOList = funcInfoPOJOList;
-	}
+
 }

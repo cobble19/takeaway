@@ -9,7 +9,7 @@ import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="xml")
-public class WxComVerifyTicketSearchPOJO extends BaseSearchPOJO {
+public class WxComVerifyTicketSearchApiPOJO extends BaseSearchPOJO {
 	private Long wxComVerifyTicketId;
 	@XmlElement(name="AppId")
     private String appId;

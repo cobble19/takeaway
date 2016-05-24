@@ -4,7 +4,7 @@ import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxComAccessTokenReqPOJO extends BasePOJO {
+public class WxComAccessTokenReqApiPOJO extends BasePOJO {
 	@JsonProperty(value="component_appid")
     private String componentAppId;
 	@JsonProperty(value="component_appsecret")

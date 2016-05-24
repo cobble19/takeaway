@@ -9,7 +9,7 @@ import com.cobble.takeaway.pojo.BasePOJO;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="xml")
-public class WxComVerifyTicketEncryptPOJO extends BasePOJO {
+public class WxComVerifyTicketEncryptApiPOJO extends BasePOJO {
 	@XmlElement(name="AppId")
     private String appId;
 	@XmlElement(name="Encrypt")

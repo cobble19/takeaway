@@ -10,7 +10,7 @@ import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketApiPOJO;
 
 public class XmlUtils {
 	private static Logger logger = LoggerFactory.getLogger(XmlUtils.class);
@@ -54,7 +54,7 @@ public class XmlUtils {
 		return t;
 	}
 	public static void main(String[] args) {
-		WxComVerifyTicketPOJO wxComVerifyTicketPOJO = new WxComVerifyTicketPOJO();
+		WxComVerifyTicketApiPOJO wxComVerifyTicketPOJO = new WxComVerifyTicketApiPOJO();
 		wxComVerifyTicketPOJO.setAppId("appid1233");
 		wxComVerifyTicketPOJO.setComponentVerifyTicket("abc");
 		wxComVerifyTicketPOJO.setCreateTime("1233456");

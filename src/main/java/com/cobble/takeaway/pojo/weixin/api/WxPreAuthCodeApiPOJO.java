@@ -4,7 +4,7 @@ import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxPreAuthCodePOJO extends BasePOJO {
+public class WxPreAuthCodeApiPOJO extends BasePOJO {
 	@JsonProperty(value="pre_auth_code")
     private String preAuthCode;
 	@JsonProperty(value="expires_in")

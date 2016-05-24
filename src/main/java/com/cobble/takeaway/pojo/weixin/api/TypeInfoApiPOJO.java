@@ -3,7 +3,7 @@ package com.cobble.takeaway.pojo.weixin.api;
 import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class FuncscopeCategoryPOJO extends BasePOJO {
+public class TypeInfoApiPOJO extends BasePOJO {
 	@JsonProperty(value="id")
     private Integer id;
 

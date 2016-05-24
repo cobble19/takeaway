@@ -28,19 +28,19 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
 import com.cobble.takeaway.oauth2.WxOauth2TokenPOJO;
 import com.cobble.takeaway.oauth2.WxUserPOJO;
-import com.cobble.takeaway.pojo.weixin.api.FuncInfoPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenReqPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoReqPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenReqPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenSearchPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodePOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqPOJO;
+import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenSearchApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqApiPOJO;
 import com.cobble.takeaway.service.WxAuthorizerAccessTokenService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
@@ -129,19 +129,19 @@ public class Oauth2Controller extends BaseController {
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("authorizerInfo uri: " + uri + ", qs: " + qs);
-			WxAuthorizerInfoReqPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerInfoReqPOJO();
+			WxAuthorizerInfoReqApiPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerInfoReqApiPOJO();
 			wxAuthorizerAccessTokenReqPOJO.setAuthorizerAppId(authorizerAppId);
 			wxAuthorizerAccessTokenReqPOJO.setComponentAppId(componentAppId);
 
-			WxComAccessTokenSearchPOJO wxTokenSearchPOJO = new WxComAccessTokenSearchPOJO();
-			List<WxComAccessTokenPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxTokenSearchPOJO);
+			WxComAccessTokenSearchApiPOJO wxTokenSearchPOJO = new WxComAccessTokenSearchApiPOJO();
+			List<WxComAccessTokenApiPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxTokenSearchPOJO);
 			String componentAccessToken = "";
 			if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
 				componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
 			}
 			String wxThirdAuthorizerInfo = HttpClientUtil.postHttpsJson(wxThirdAuthorizerInfoUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
 							JsonUtils.convertToJson(wxAuthorizerAccessTokenReqPOJO));
-			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerInfo, WxAuthorizerInfoPOJO.class);
+			WxAuthorizerInfoApiPOJO wxAuthorizerInfoPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerInfo, WxAuthorizerInfoApiPOJO.class);
 			
 			// 保存授权者信息到数据库
 			com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO2 = new com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO();
@@ -169,7 +169,7 @@ public class Oauth2Controller extends BaseController {
 			wxAuthorizerInfoPOJO2.setIdc(idc);
 			wxAuthorizerInfoPOJO2.setAuthorizerAppId(authorizerAppId);
 			String funcInfo = "";
-			List<FuncInfoPOJO> funcInfoPOJOs = wxAuthorizerInfoPOJO.getAuthorizationInfo4AuthzerPOJO().getFuncInfoPOJOList();
+			List<FuncInfoApiPOJO> funcInfoPOJOs = wxAuthorizerInfoPOJO.getAuthorizationInfo4AuthzerPOJO().getFuncInfoPOJOList();
 			List<Integer> ids = new ArrayList<Integer>();
 			if (!CollectionUtils.isEmpty(funcInfoPOJOs)) {
 				for (int i = 0; i < funcInfoPOJOs.size(); i++) {
@@ -202,12 +202,12 @@ public class Oauth2Controller extends BaseController {
 			logger.info("authCode uri: " + uri + ", qs: " + qs);
 			if (StringUtils.isNotBlank(code)) {
 				// 组建去获取授权者token请求
-				WxAuthorizerAccessTokenReqPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerAccessTokenReqPOJO();
+				WxAuthorizerAccessTokenReqApiPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerAccessTokenReqApiPOJO();
 				wxAuthorizerAccessTokenReqPOJO.setAuthorizationCode(code);
 				wxAuthorizerAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
 				
-				WxComAccessTokenSearchPOJO wxComAccessTokenSearchPOJO = new WxComAccessTokenSearchPOJO();
-				List<WxComAccessTokenPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxComAccessTokenSearchPOJO);
+				WxComAccessTokenSearchApiPOJO wxComAccessTokenSearchPOJO = new WxComAccessTokenSearchApiPOJO();
+				List<WxComAccessTokenApiPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxComAccessTokenSearchPOJO);
 				String componentAccessToken = "";
 				if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
 					componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
@@ -215,7 +215,7 @@ public class Oauth2Controller extends BaseController {
 				// 获取授权者token信息
 				String wxThirdAuthorizerToken = HttpClientUtil.postHttpsJson(wxThirdAuthorizerAccessTokenUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
 								JsonUtils.convertToJson(wxAuthorizerAccessTokenReqPOJO));
-				WxAuthorizerAccessTokenPOJO wxAuthorizerAccessTokenPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerToken, WxAuthorizerAccessTokenPOJO.class);
+				WxAuthorizerAccessTokenApiPOJO wxAuthorizerAccessTokenPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerToken, WxAuthorizerAccessTokenApiPOJO.class);
 				
 				// 保存授权者token信息到数据库
 				com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenPOJO wxAuthorizerAccessTokenPOJO2 = new com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenPOJO();
@@ -229,7 +229,7 @@ public class Oauth2Controller extends BaseController {
 				Integer expiresIn = wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getExpiresIn();
 				wxAuthorizerAccessTokenPOJO2.setExpiresIn(expiresIn);
 				String funcInfo = "";
-				List<FuncInfoPOJO> funcInfoPOJOs = wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getFuncInfoPOJOList();
+				List<FuncInfoApiPOJO> funcInfoPOJOs = wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getFuncInfoPOJOList();
 				List<Integer> ids = new ArrayList<Integer>();
 				if (!CollectionUtils.isEmpty(funcInfoPOJOs)) {
 					for (int i = 0; i < funcInfoPOJOs.size(); i++) {
@@ -264,28 +264,28 @@ public class Oauth2Controller extends BaseController {
 			String qs = request.getQueryString();
 			logger.info("login success uri: " + uri + ", qs: " + qs);
 			
-			WxComAccessTokenReqPOJO wxComAccessTokenReqPOJO = new WxComAccessTokenReqPOJO();
+			WxComAccessTokenReqApiPOJO wxComAccessTokenReqPOJO = new WxComAccessTokenReqApiPOJO();
 			wxComAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
 			wxComAccessTokenReqPOJO.setComponentAppSecret(wxThirdSecret);
 			
-			WxComVerifyTicketSearchPOJO wxComVerifyTicketSearchPOJO = new WxComVerifyTicketSearchPOJO();
-			List<WxComVerifyTicketPOJO> wxComVerifyTicketPOJOs = wxComVerifyTicketService.finds(wxComVerifyTicketSearchPOJO);
+			WxComVerifyTicketSearchApiPOJO wxComVerifyTicketSearchPOJO = new WxComVerifyTicketSearchApiPOJO();
+			List<WxComVerifyTicketApiPOJO> wxComVerifyTicketPOJOs = wxComVerifyTicketService.finds(wxComVerifyTicketSearchPOJO);
 			String componentVerifyTicket = "";
 			if (!CollectionUtils.isEmpty(wxComVerifyTicketPOJOs)) {
 				componentVerifyTicket = wxComVerifyTicketPOJOs.get(0).getComponentVerifyTicket();
 			}
 			wxComAccessTokenReqPOJO.setComponentVerifyTicket(componentVerifyTicket);
 			String wxComAccessTokenStr = HttpClientUtil.postHttpsJson(wxThirdAccessTokenUrl, JsonUtils.convertToJson(wxComAccessTokenReqPOJO));
-			WxComAccessTokenPOJO wxComAccessTokenPOJO = JsonUtils.convertToJavaBean(wxComAccessTokenStr, WxComAccessTokenPOJO.class);
+			WxComAccessTokenApiPOJO wxComAccessTokenPOJO = JsonUtils.convertToJavaBean(wxComAccessTokenStr, WxComAccessTokenApiPOJO.class);
 			wxComAccessTokenPOJO.setCreateDateTime(new Date());
 			
 			wxComAccessTokenService.insert(wxComAccessTokenPOJO);
 			
-			WxPreAuthCodeReqPOJO wxPreAuthCodeReqPOJO = new WxPreAuthCodeReqPOJO();
+			WxPreAuthCodeReqApiPOJO wxPreAuthCodeReqPOJO = new WxPreAuthCodeReqApiPOJO();
 			wxPreAuthCodeReqPOJO.setComponentAppId(wxThirdClientId);
 			String preAuthCodeStr = HttpClientUtil.postHttpsJson(wxThirdPreAuthCodeUrl.replace("COMPONENT_ACCESS_TOKEN", wxComAccessTokenPOJO.getComponentAccessToken()), 
 						JsonUtils.convertToJson(wxPreAuthCodeReqPOJO));
-			WxPreAuthCodePOJO wxPreAuthCodePOJO = JsonUtils.convertToJavaBean(preAuthCodeStr, WxPreAuthCodePOJO.class);
+			WxPreAuthCodeApiPOJO wxPreAuthCodePOJO = JsonUtils.convertToJavaBean(preAuthCodeStr, WxPreAuthCodeApiPOJO.class);
 			
 			String wxComLoginUrl = wxThirdAuthorizationUrl
 									.replace("COMPONENT_APPID", wxThirdClientId)
@@ -324,7 +324,7 @@ public class Oauth2Controller extends BaseController {
 			String appId = messageSource.getMessage("WX.third.clientId", null, null);
 			logger.info("token: {}, encodingAesKey: {}, appId: {}", token, encodingAesKey, appId);
 			
-			WxComVerifyTicketEncryptPOJO wxComVerifyTicketEncryptPOJO = XmlUtils.convertToJavaBean(requestBody, WxComVerifyTicketEncryptPOJO.class);
+			WxComVerifyTicketEncryptApiPOJO wxComVerifyTicketEncryptPOJO = XmlUtils.convertToJavaBean(requestBody, WxComVerifyTicketEncryptApiPOJO.class);
 			String encrypt = wxComVerifyTicketEncryptPOJO.getEncrypt();
 			logger.info("encrypt: {}", encrypt);
 			String format = "<xml><ToUserName><![CDATA[%1$s]]></ToUserName><Encrypt><![CDATA[%2$s]]></Encrypt></xml>";
@@ -334,7 +334,7 @@ public class Oauth2Controller extends BaseController {
 			String result = pc.decryptMsg(msgSignature, timestamp, nonce, fromXML);
 			logger.info("Paintext: {}", result);
 			
-			WxComVerifyTicketPOJO wxComVerifyTicketPOJO = XmlUtils.convertToJavaBean(result, WxComVerifyTicketPOJO.class);
+			WxComVerifyTicketApiPOJO wxComVerifyTicketPOJO = XmlUtils.convertToJavaBean(result, WxComVerifyTicketApiPOJO.class);
 			logger.info("wxComVerifyTicketPOJO: {}", wxComVerifyTicketPOJO);
 			wxComVerifyTicketService.insert(wxComVerifyTicketPOJO);
 			

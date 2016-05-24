@@ -3,7 +3,7 @@ package com.cobble.takeaway.pojo.weixin.api;
 import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BusinessInfoPOJO extends BasePOJO {
+public class BusinessInfoApiPOJO extends BasePOJO {
 	@JsonProperty(value="open_store")
     private Integer openStore;
 	@JsonProperty(value="open_scan")
