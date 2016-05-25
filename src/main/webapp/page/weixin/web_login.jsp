@@ -15,6 +15,7 @@
   			<p>
   				<a href="${wxWebLoginUrl}" class="btn btn-default">登陆</a>
   				<a href="${wxUrl}" class="btn btn-default">EncodeUrl</a>
+  				
   			</p>
   		</div>
   		
