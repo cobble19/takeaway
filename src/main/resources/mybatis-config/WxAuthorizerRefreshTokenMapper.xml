@@ -30,7 +30,7 @@
 	</if>
   </sql>
   
-  <select id="finds" resultMap="WxAuthorizerRefreshTokenResultMap" parameterType="com.cobble.takeaway.pojo.weixin.api.WxAuthorizerRefreshTokenSearchPOJO" >
+  <select id="finds" resultMap="WxAuthorizerRefreshTokenResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -48,7 +48,7 @@
 	</if>
   </select>
   
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.api.WxAuthorizerRefreshTokenSearchPOJO" resultType="java.lang.Integer" >
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO" resultType="java.lang.Integer" >
     select count(1) from WX_AUTHORIZER_REFRESH_TOKEN a
     <where>
   		<trim prefixOverrides="and">
@@ -71,7 +71,7 @@
     delete from WX_AUTHORIZER_REFRESH_TOKEN
     where WX_AUTHORIZER_REFRESH_TOKEN_ID = #{wxAuthorizerRefreshTokenId}
   </delete>
-  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.api.WxAuthorizerRefreshTokenPOJO" useGeneratedKeys="true"
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO" useGeneratedKeys="true"
   	keyProperty="wxAuthorizerRefreshTokenId" keyColumn="WX_AUTHORIZER_REFRESH_TOKEN_ID">
     insert into WX_AUTHORIZER_REFRESH_TOKEN
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -116,7 +116,7 @@
     </trim>
   </insert>
   
-  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.api.WxAuthorizerRefreshTokenPOJO" >
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO" >
     update WX_AUTHORIZER_REFRESH_TOKEN
     <set >
       <if test="componentAppId != null" >

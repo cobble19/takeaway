@@ -130,8 +130,8 @@ public class Oauth2Controller extends BaseController {
 	private String wxThirdWebAccessTokenUrl;
 	@Value("${WX.third.web.refreshTokenUrl}")
 	private String wxThirdWebRefreshTokenUrl;
-	@Value("${WX.third.web.userInfoUrl}")
-	private String wxThirdWebUserInfoUrl;
+	/*@Value("${WX.third.web.userInfoUrl}")
+	private String wxThirdWebUserInfoUrl;*/
 	
 
 	@RequestMapping(value = "/web/wx/oauth2/third/web/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
