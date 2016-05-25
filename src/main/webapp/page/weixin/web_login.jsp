@@ -14,6 +14,7 @@
   			<h2 class="col-sm-offset-3 col-md-offset-2">个人用户微信登陆</h2>
   			<p>
   				<a href="${wxWebLoginUrl}" class="btn btn-default">登陆</a>
+  				<a href="${wxUrl}" class="btn btn-default">EncodeUrl</a>
   			</p>
   		</div>
   		

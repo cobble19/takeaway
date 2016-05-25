@@ -51,6 +51,12 @@ public final class MyRedirectStrategy implements RedirectStrategy {
         }
         return builder.build().toUriString();
     }
+    
+    public String encodeUrl(HttpServletResponse response, String url) {
+    	String redirectUrl = encodeQueryParam(url);
+        redirectUrl = response.encodeRedirectURL(redirectUrl);
+        return redirectUrl;
+    }
 
 
     public MultiValueMap<String, String> encodeParam(MultiValueMap<String, String> queryParams) {

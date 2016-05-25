@@ -215,6 +215,7 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
 			}
 			String wxWebLoginUrl = "";
+			String wxUrl = "";
 			if (wxAuthorizerInfoPOJO != null) {
 				wxWebLoginUrl = wxThirdWebAuthorizeUrl
 				.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())
@@ -223,10 +224,13 @@ public class Oauth2Controller extends BaseController {
 				.replace("STATE", RandomStringUtils.randomAlphabetic(6))
 				.replace("COMPONENT_APPID", wxThirdClientId)
 				;
+				wxUrl = wxWebLoginUrl;
 				wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
+				wxUrl = myRedirectStrategy.encodeUrl(response, wxUrl);
 			}
 			
 			ret.addObject("wxWebLoginUrl", wxWebLoginUrl);
+			ret.addObject("wxUrl", wxUrl);
 			ret.setViewName("/page/weixin/web_login");
 		} catch (Exception e) {
 			logger.error("list error.", e);
