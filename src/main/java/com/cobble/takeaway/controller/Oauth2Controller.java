@@ -218,7 +218,7 @@ public class Oauth2Controller extends BaseController {
 			if (wxAuthorizerInfoPOJO != null) {
 				wxWebLoginUrl = wxThirdWebAuthorizeUrl
 				.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())
-				.replace("REDIRECT_URI", wxThirdWebRedirectUrl)
+				.replace("REDIRECT_URI", myRedirectStrategy.encodeContent(wxThirdWebRedirectUrl))
 				.replace("SCOPE", scope)
 				.replace("STATE", RandomStringUtils.randomAlphabetic(6))
 				.replace("COMPONENT_APPID", wxThirdClientId)

@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -23,7 +24,7 @@ import java.util.Map;
 @Service("myRedirectStrategy")
 public final class MyRedirectStrategy implements RedirectStrategy {
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected static final Logger logger = LoggerFactory.getLogger(MyRedirectStrategy.class);
 
     private boolean contextRelative;
 
@@ -66,7 +67,7 @@ public final class MyRedirectStrategy implements RedirectStrategy {
         return encodedQueryParams;
     }
 
-    private String encodeContent(String source) {
+    public String encodeContent(String source) {
         try {
             return URLEncoder.encode(source, CharEncoding.UTF_8);
         } catch (UnsupportedEncodingException e) {
@@ -108,4 +109,14 @@ public final class MyRedirectStrategy implements RedirectStrategy {
     public void setContextRelative(boolean useRelativeContext) {
         this.contextRelative = useRelativeContext;
     }
+    
+    public static void main(String[] argv) {
+    	MyRedirectStrategy rs = new MyRedirectStrategy();
+    	String result = rs.encodeContent("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe0037de41e16f816&redirect_uri=http://www.deweiyizhan.com/web/wx/oauth2/third/web/authCode&response_type=code&scope=snsapi_userinfo&state=Aaqpwh&component_appid=COMPONENT_wxe0037de41e16f816#wechat_redirect");
+    	logger.info("result: {}", result);
+    }
+    
+    
+    
+    
 }
