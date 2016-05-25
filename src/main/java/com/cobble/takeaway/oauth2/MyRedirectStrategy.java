@@ -120,6 +120,8 @@ public final class MyRedirectStrategy implements RedirectStrategy {
     	MyRedirectStrategy rs = new MyRedirectStrategy();
     	String result = rs.encodeQueryParam("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe0037de41e16f816&redirect_uri=http://www.deweiyizhan.com/web/wx/oauth2/third/web/authCode&response_type=code&scope=snsapi_userinfo&state=Aaqpwh&component_appid=COMPONENT_wxe0037de41e16f816#wechat_redirect");
     	logger.info("result: {}", result);
+    	result = rs.encodeContent("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe0037de41e16f816&redirect_uri=http://www.deweiyizhan.com/web/wx/oauth2/third/web/authCode&response_type=code&scope=snsapi_userinfo&state=Aaqpwh&component_appid=COMPONENT_wxe0037de41e16f816#wechat_redirect");
+    	logger.info("result: {}", result);
     }
     
     
