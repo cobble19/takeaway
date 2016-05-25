@@ -28,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
 import com.cobble.takeaway.oauth2.WxOauth2TokenPOJO;
 import com.cobble.takeaway.oauth2.WxUserPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenReqApiPOJO;
@@ -118,6 +120,120 @@ public class Oauth2Controller extends BaseController {
 	private String wxThirdAuthorizerRefreshTokenUrl;
 	@Value("${WX.third.authorizerInfoUrl}")
 	private String wxThirdAuthorizerInfoUrl;
+	
+	// 第三方网页登陆
+	@Value("${WX.third.web.authorizeUrl}")
+	private String wxThirdWebAuthorizeUrl;
+	@Value("${WX.third.web.redirectUrl}")
+	private String wxThirdWebRedirectUrl;
+	@Value("${WX.third.web.accessTokenUrl}")
+	private String wxThirdWebAccessTokenUrl;
+	@Value("${WX.third.web.refreshTokenUrl}")
+	private String wxThirdWebRefreshTokenUrl;
+	@Value("${WX.third.web.userInfoUrl}")
+	private String wxThirdWebUserInfoUrl;
+	
+
+	@RequestMapping(value = "/web/wx/oauth2/third/web/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
+	public ModelAndView wxWebAuthCode(@RequestParam(value="code", required=false) String code
+			, @RequestParam(value="state", required=false) String state
+			, @RequestParam(value="appid", required=false) String appid
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			logger.info("login begin...");
+			logger.info("code: {}, state: {}, appid: {}", code, state, appid);
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("login uri: " + uri + ", qs: " + qs);
+			if (StringUtils.isNotBlank(code)) {
+				// get token
+
+				WxAuthorizerInfoReqApiPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerInfoReqApiPOJO();
+				wxAuthorizerAccessTokenReqPOJO.setAuthorizerAppId(appid);
+				wxAuthorizerAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
+
+				WxComAccessTokenSearchApiPOJO wxTokenSearchPOJO = new WxComAccessTokenSearchApiPOJO();
+				List<WxComAccessTokenApiPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxTokenSearchPOJO);
+				String componentAccessToken = "";
+				if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
+					componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
+				}
+				
+				String myAccessTokenUrl = wxThirdWebAccessTokenUrl
+						.replace("APPID", appid)
+						.replace("CODE", code)
+						.replace("COMPONENT_APPID", wxThirdClientId)
+						.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken);
+				String result = HttpClientUtil.get(myAccessTokenUrl);
+				WxOauth2TokenPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenPOJO.class);
+				// get user info
+				String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
+									.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
+				String userInfo = HttpClientUtil.get(profileUrl);
+				WxUserPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserPOJO.class);
+				// get user info unionID
+				/*String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
+											.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
+				String myUserInfoUid = HttpClientUtil.get(myUserInfoUidUrl);*/
+				
+				String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserPOJO.getNickname()
+						+ "\n" + "Token: \n" + result + "\n" + "UserInfo: \n" + userInfo + "\n"
+						/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
+				ret.addObject("msg", msg);
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("msg", msg);
+				
+				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
+			} else {
+				
+			}
+			
+//			ret.setViewName("/page/oauth2_success");
+		} catch (Exception e) {
+			logger.error("list error.", e);
+			throw e;
+		}
+		
+		return null;
+//		return ret;
+	}
+
+	@RequestMapping(value = "/web/wx/oauth2/third/web/login")
+	public ModelAndView wxWebLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			logger.info("login success begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("login success uri: " + uri + ", qs: " + qs);
+			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+			}
+			String wxWebLoginUrl = "";
+			if (wxAuthorizerInfoPOJO != null) {
+				wxWebLoginUrl = wxThirdWebAuthorizeUrl
+				.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())
+				.replace("REDIRECT_URI", wxThirdWebRedirectUrl)
+				.replace("SCOPE", scope)
+				.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+				.replace("COMPONENT_APPID", wxThirdClientId)
+				;
+			}
+			
+			ret.addObject("wxWebLoginUrl", wxWebLoginUrl);
+			ret.setViewName("/page/weixin/web_login");
+		} catch (Exception e) {
+			logger.error("list error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/wx/oauth2/third/authorizerInfo"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
 	public ModelAndView authorizerInfo(@RequestParam(value="componentAppId", required=false) String componentAppId,
