@@ -161,9 +161,9 @@ public class Oauth2Controller extends BaseController {
 				}
 				
 				String myAccessTokenUrl = wxThirdWebAccessTokenUrl
+						.replace("COMPONENT_APPID", wxThirdClientId)
 						.replace("APPID", appid)
 						.replace("CODE", code)
-						.replace("COMPONENT_APPID", wxThirdClientId)
 						.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken);
 				String result = HttpClientUtil.get(myAccessTokenUrl);
 				WxOauth2TokenPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenPOJO.class);
