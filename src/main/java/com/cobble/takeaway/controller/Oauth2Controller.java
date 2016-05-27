@@ -18,6 +18,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -425,6 +426,51 @@ public class Oauth2Controller extends BaseController {
 		}
 		
 		return ret;
+	}
+	
+	@RequestMapping(value = "/web/wx/{authorizerAppId}/msgEventRecieve", method=RequestMethod.POST)
+	@ResponseBody
+	public String msgEventRecieve(@RequestBody String requestBody, @PathVariable(value="authorizerAppId") String authorizerAppId, 
+			@RequestParam(value="signature", required = false) String signature,
+			@RequestParam(value="timestamp", required = false) String timestamp,
+			@RequestParam(value="nonce", required = false) String nonce,
+			@RequestParam(value="encrypt_type", required = false) String encryptType,
+			@RequestParam(value="msg_signature", required = false) String msgSignature,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+			logger.info("msgEventRecieve begin...");
+			logger.info("Request params, signature: {}, timestamp: {}, nonce: {}, encrypt_type: {}, msg_signature: {}",
+					signature, timestamp, nonce, encryptType, msgSignature);
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("msgEventRecieve uri: " + uri + ", qs: " + qs);
+			logger.info("requestBody: " + requestBody);
+			
+			String token = messageSource.getMessage("WX.third.msgVerifyToken", null, null);
+			String encodingAesKey = messageSource.getMessage("WX.third.msgEncKey", null, null);
+			String appId = messageSource.getMessage("WX.third.clientId", null, null);
+			logger.info("token: {}, encodingAesKey: {}, appId: {}", token, encodingAesKey, appId);
+			
+			/*WxComVerifyTicketEncryptApiPOJO wxComVerifyTicketEncryptPOJO = XmlUtils.convertToJavaBean(requestBody, WxComVerifyTicketEncryptApiPOJO.class);
+			String encrypt = wxComVerifyTicketEncryptPOJO.getEncrypt();
+			logger.info("encrypt: {}", encrypt);
+			String format = "<xml><ToUserName><![CDATA[%1$s]]></ToUserName><Encrypt><![CDATA[%2$s]]></Encrypt></xml>";
+			String fromXML = String.format(format, appId, encrypt);
+			
+			WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
+			String result = pc.decryptMsg(msgSignature, timestamp, nonce, fromXML);
+			logger.info("Paintext: {}", result);
+			
+			WxComVerifyTicketApiPOJO wxComVerifyTicketPOJO = XmlUtils.convertToJavaBean(result, WxComVerifyTicketApiPOJO.class);
+			logger.info("wxComVerifyTicketPOJO: {}", wxComVerifyTicketPOJO);
+			wxComVerifyTicketService.insert(wxComVerifyTicketPOJO);*/
+			
+		} catch (Exception e) {
+			logger.error("error: ", e);
+//			throw e;
+		}
+		
+		return "success";
 	}
 
 	@RequestMapping(value = "/web/wx/authEventRecieve", method=RequestMethod.POST)
