@@ -1,6 +1,7 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,7 @@ import com.cobble.takeaway.service.WxAuthorizerAccessTokenService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
+import com.cobble.takeaway.util.DateUtil;
 import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
@@ -508,6 +511,37 @@ public class Oauth2Controller extends BaseController {
 			WxComVerifyTicketApiPOJO wxComVerifyTicketPOJO = XmlUtils.convertToJavaBean(result, WxComVerifyTicketApiPOJO.class);
 			logger.info("wxComVerifyTicketPOJO: {}", wxComVerifyTicketPOJO);
 			wxComVerifyTicketService.insert(wxComVerifyTicketPOJO);
+			
+			// add comAccessToken into DB every 1 hour
+			WxComAccessTokenSearchApiPOJO wxComAccessTokenSearchPOJO = new WxComAccessTokenSearchApiPOJO();
+			List<WxComAccessTokenApiPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxComAccessTokenSearchPOJO);
+			String componentAccessToken = "";
+			Date createDateTime = new Date();
+			if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
+				componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
+				createDateTime = wxComAccessTokenPOJOs.get(0).getCreateDateTime();
+			}
+			Date curDate = new Date();
+			
+			if (curDate.getTime() - createDateTime.getTime() >= 1 * 60 * 60 * 1000L) {	// 1 hours
+				WxComAccessTokenReqApiPOJO wxComAccessTokenReqPOJO = new WxComAccessTokenReqApiPOJO();
+				wxComAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
+				wxComAccessTokenReqPOJO.setComponentAppSecret(wxThirdSecret);
+				
+				WxComVerifyTicketSearchApiPOJO wxComVerifyTicketSearchPOJO = new WxComVerifyTicketSearchApiPOJO();
+				List<WxComVerifyTicketApiPOJO> wxComVerifyTicketPOJOs = wxComVerifyTicketService.finds(wxComVerifyTicketSearchPOJO);
+				String componentVerifyTicket = "";
+				if (!CollectionUtils.isEmpty(wxComVerifyTicketPOJOs)) {
+					componentVerifyTicket = wxComVerifyTicketPOJOs.get(0).getComponentVerifyTicket();
+				}
+				wxComAccessTokenReqPOJO.setComponentVerifyTicket(componentVerifyTicket);
+				String wxComAccessTokenStr = HttpClientUtil.postHttpsJson(wxThirdAccessTokenUrl, JsonUtils.convertToJson(wxComAccessTokenReqPOJO));
+				WxComAccessTokenApiPOJO wxComAccessTokenPOJO = JsonUtils.convertToJavaBean(wxComAccessTokenStr, WxComAccessTokenApiPOJO.class);
+				wxComAccessTokenPOJO.setCreateDateTime(new Date());
+				
+				wxComAccessTokenService.insert(wxComAccessTokenPOJO);
+			}
+			
 			
 			/*BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
 			StringBuilder sb = new StringBuilder();
