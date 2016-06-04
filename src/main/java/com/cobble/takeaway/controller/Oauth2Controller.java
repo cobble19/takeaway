@@ -257,8 +257,8 @@ public class Oauth2Controller extends BaseController {
 			throw e;
 		}
 		
-		return null;
-//		return ret;
+//		return null;
+		return ret;
 	}
 
 	@RequestMapping(value = "/web/wx/oauth2/third/web/login")
