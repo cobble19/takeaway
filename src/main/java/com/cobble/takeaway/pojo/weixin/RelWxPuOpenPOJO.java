@@ -1,5 +1,7 @@
 package com.cobble.takeaway.pojo.weixin;
 
+import java.util.Date;
+
 import com.cobble.takeaway.pojo.BasePOJO;
 
 public class RelWxPuOpenPOJO extends BasePOJO {
@@ -7,6 +9,7 @@ public class RelWxPuOpenPOJO extends BasePOJO {
 	private Long wxPersonUserId;
     // 用户标识
     private String openId;
+    private Date createDateTime;
     
 	public Long getRelWxPuOpenId() {
 		return relWxPuOpenId;
@@ -25,6 +28,12 @@ public class RelWxPuOpenPOJO extends BasePOJO {
 	}
 	public void setOpenId(String openId) {
 		this.openId = openId;
+	}
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
 	}
 
 }
