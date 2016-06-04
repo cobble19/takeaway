@@ -1,7 +1,6 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,9 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -29,10 +28,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
-import com.cobble.takeaway.oauth2.WxOauth2TokenPOJO;
-import com.cobble.takeaway.oauth2.WxUserPOJO;
+import com.cobble.takeaway.oauth2.WxOauth2TokenApiPOJO;
+import com.cobble.takeaway.oauth2.WxUserApiPOJO;
+import com.cobble.takeaway.pojo.UserPOJO;
+import com.cobble.takeaway.pojo.weixin.RelWxPuOpenPOJO;
+import com.cobble.takeaway.pojo.weixin.RelWxPuOpenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
+import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenReqApiPOJO;
@@ -41,16 +45,19 @@ import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenSearchApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqApiPOJO;
+import com.cobble.takeaway.service.RelWxPuOpenService;
+import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerAccessTokenService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
-import com.cobble.takeaway.util.DateUtil;
+import com.cobble.takeaway.service.WxPersonUserService;
+import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
@@ -71,6 +78,13 @@ public class Oauth2Controller extends BaseController {
 	private WxAuthorizerAccessTokenService wxAuthorizerAccessTokenService;
 	@Autowired
 	private WxAuthorizerInfoService wxAuthorizerInfoService;
+	
+	@Autowired
+	private WxPersonUserService wxPersonUserService;
+	@Autowired
+	private RelWxPuOpenService relWxPuOpenService;
+	@Autowired
+	private UserService userService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -170,16 +184,54 @@ public class Oauth2Controller extends BaseController {
 						.replace("CODE", code)
 						.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken);
 				String result = HttpClientUtil.get(myAccessTokenUrl);
-				WxOauth2TokenPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenPOJO.class);
+				WxOauth2TokenApiPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenApiPOJO.class);
 				// get user info
 				String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
 									.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
 				String userInfo = HttpClientUtil.get(profileUrl);
-				WxUserPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserPOJO.class);
+				WxUserApiPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserApiPOJO.class);
 				// get user info unionID
 				/*String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
 											.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
 				String myUserInfoUid = HttpClientUtil.get(myUserInfoUidUrl);*/
+				
+				// insert Wx person user into DB
+				UserPOJO userPOJO1 = userService.findUserByName(wxUserPOJO.getUnionId());
+				UserPOJO userPOJO = new UserPOJO();
+				if (userPOJO1 == null) {
+					userPOJO.setUsername(wxUserPOJO.getUnionId());
+					userPOJO.setPassword(wxUserPOJO.getUnionId());
+					userPOJO.setUserType(MyUser.PERSON);
+					userService.insert(userPOJO);
+				} else {
+					BeanUtils.copyProperties(userPOJO1, userPOJO);
+				}
+				
+				WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+				wxPersonUserSearchPOJO.setUnionId(wxUserPOJO.getUnionId());
+				wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
+				List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
+				WxPersonUserPOJO wxPersonUserPOJO = new WxPersonUserPOJO();
+				if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+					BeanUtils.copyProperties(wxUserPOJO, wxPersonUserPOJO);
+					wxPersonUserPOJO.setUserId(userPOJO.getUserId());
+					wxPersonUserService.insert(wxPersonUserPOJO);
+				} else {
+					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+				}
+				
+				RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO = new RelWxPuOpenSearchPOJO();
+				relWxPuOpenSearchPOJO.setOpenId(wxUserPOJO.getOpenId());
+				relWxPuOpenSearchPOJO.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
+				List<RelWxPuOpenPOJO> relWxPuOpenPOJOs = relWxPuOpenService.finds(relWxPuOpenSearchPOJO);
+				if (CollectionUtils.isEmpty(relWxPuOpenPOJOs)) {
+					RelWxPuOpenPOJO relWxPuOpenPOJO = new RelWxPuOpenPOJO();
+					relWxPuOpenPOJO.setOpenId(wxUserPOJO.getOpenId());
+					relWxPuOpenPOJO.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
+					relWxPuOpenService.insert(relWxPuOpenPOJO);
+				}
+				
+				/*ret.setViewName("/page/person/reg_success");*/
 				
 				String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserPOJO.getNickname()
 						+ "\n" + "Token: \n" + result + "\n" + "UserInfo: \n" + userInfo + "\n"
@@ -189,9 +241,14 @@ public class Oauth2Controller extends BaseController {
 				HttpSession session = request.getSession();
 				session.setAttribute("msg", msg);
 				
-				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
-			} else {
+
+				ret.setViewName("redirect:/web/regSuccess");
+				session.setAttribute("regUserPOJO", userPOJO);
 				
+//				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
+			} else {
+				logger.info("code isnot null");
+				throw new NullPointerException("code isnot null");
 			}
 			
 //			ret.setViewName("/page/oauth2_success");
@@ -617,12 +674,12 @@ public class Oauth2Controller extends BaseController {
 				String myAccessTokenUrl = accessTokenUrl.replace("APPID", clientId)
 											.replace("SECRET", secret).replace("CODE", code);
 				String result = HttpClientUtil.get(myAccessTokenUrl);
-				WxOauth2TokenPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenPOJO.class);
+				WxOauth2TokenApiPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenApiPOJO.class);
 				// get user info
 				String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
 									.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
 				String userInfo = HttpClientUtil.get(profileUrl);
-				WxUserPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserPOJO.class);
+				WxUserApiPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserApiPOJO.class);
 				// get user info unionID
 				/*String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
 											.replace("OPENID", wxOauth2TokenPOJO.getOpenId());

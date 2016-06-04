@@ -4,7 +4,7 @@ package com.cobble.takeaway.oauth2;
 * 类名: WxTokenPOJO </br>
 * 描述:  凭证  </br>
  */
-public class WxTokenPOJO extends WxBasePOJO {
+public class WxTokenPOJO extends WxBaseApiPOJO {
     // 接口访问凭证
     private String accessToken;
     // 凭证有效期，单位：秒

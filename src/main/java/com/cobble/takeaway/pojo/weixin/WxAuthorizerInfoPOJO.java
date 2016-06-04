@@ -6,6 +6,7 @@ import com.cobble.takeaway.pojo.BasePOJO;
 
 public class WxAuthorizerInfoPOJO extends BasePOJO {
 	private Long wxAuthorizerInfoId;
+	private Long userId;
     private String nickName;
     private String headImg;
     private Integer serviceTypeInfo;
@@ -96,6 +97,12 @@ public class WxAuthorizerInfoPOJO extends BasePOJO {
 	}
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
     
 	

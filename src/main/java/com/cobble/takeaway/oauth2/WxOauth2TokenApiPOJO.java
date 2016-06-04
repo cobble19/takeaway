@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
 * 描述:  网页授权信息  </br>
  */
-public class WxOauth2TokenPOJO extends WxBasePOJO {
+public class WxOauth2TokenApiPOJO extends WxBaseApiPOJO {
     // 网页授权接口调用凭证
 	@JsonProperty(value="access_token")
 	@org.codehaus.jackson.annotate.JsonProperty("access_token")

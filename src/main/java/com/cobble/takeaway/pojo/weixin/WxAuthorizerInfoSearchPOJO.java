@@ -4,6 +4,7 @@ import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
 public class WxAuthorizerInfoSearchPOJO extends BaseSearchPOJO {
 	private Long wxAuthorizerInfoId;
+	private Long userId;
     private String nickName;
     private String headImg;
     private Integer serviceTypeInfo;
@@ -87,6 +88,12 @@ public class WxAuthorizerInfoSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setFuncInfo(String funcInfo) {
 		this.funcInfo = funcInfo;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
     
 	

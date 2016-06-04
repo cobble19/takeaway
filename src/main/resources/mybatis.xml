@@ -58,5 +58,8 @@
 		<mapper resource="mybatis-config/WxAuthorizerAccessTokenMapper.xml" />
 		<mapper resource="mybatis-config/WxAuthorizerInfoMapper.xml" />
 		<mapper resource="mybatis-config/WxAuthorizerRefreshTokenMapper.xml" />
+		
+		<mapper resource="mybatis-config/WxPersonUserMapper.xml" />
+		<mapper resource="mybatis-config/RelWxPuOpenMapper.xml" />
 	</mappers>
 </configuration>

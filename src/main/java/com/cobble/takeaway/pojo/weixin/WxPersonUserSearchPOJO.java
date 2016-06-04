@@ -1,15 +1,13 @@
-package com.cobble.takeaway.oauth2;
+package com.cobble.takeaway.pojo.weixin;
 
-import java.util.List;
+import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
-/**
-* 描述: 通过网页授权获取的用户信息 </br>
- */
-public class WxUserPOJO extends WxBasePOJO {
+public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
+	private Long wxPersonUserId;
+	private Long userId;
     // 用户标识
-	@JsonProperty(value="openid")
     private String openId;
     // 用户昵称
     private String nickname;
@@ -24,14 +22,13 @@ public class WxUserPOJO extends WxBasePOJO {
     // 城市
     private String city;
     // 用户头像链接
-	@JsonProperty(value="headimgurl")
     private String headImgUrl;
     // 用户特权信息
-	@JsonProperty("privilege")
-    private List<String> privilegeList;
-    // 用户特权信息
-	@JsonProperty("unionid")
+    private String privileges;
+    
     private String unionId;
+    
+    private Date createDateTime;
 
     public String getOpenId() {
         return openId;
@@ -89,14 +86,6 @@ public class WxUserPOJO extends WxBasePOJO {
         this.headImgUrl = headImgUrl;
     }
 
-    public List<String> getPrivilegeList() {
-        return privilegeList;
-    }
-
-    public void setPrivilegeList(List<String> privilegeList) {
-        this.privilegeList = privilegeList;
-    }
-
 	public String getLanguage() {
 		return language;
 	}
@@ -111,6 +100,38 @@ public class WxUserPOJO extends WxBasePOJO {
 
 	public void setUnionId(String unionId) {
 		this.unionId = unionId;
+	}
+
+	public Long getWxPersonUserId() {
+		return wxPersonUserId;
+	}
+
+	public void setWxPersonUserId(Long wxPersonUserId) {
+		this.wxPersonUserId = wxPersonUserId;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public String getPrivileges() {
+		return privileges;
+	}
+
+	public void setPrivileges(String privileges) {
+		this.privileges = privileges;
+	}
+
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
 	}
 
 }

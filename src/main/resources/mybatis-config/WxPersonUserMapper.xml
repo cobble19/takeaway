@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxPersonUserMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxPersonUserResultMap" type="com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO" >
+    <id column="WX_PERSON_USER_ID" property="wxPersonUserId" />
+    <result column="USER_ID" property="userId"/>
+    <result column="NICKNAME" property="nickname" />
+    <result column="SEX" property="sex" />
+    <result column="LANGUAGE" property="language" />
+    <result column="CITY" property="city" />
+    <result column="PROVINCE" property="province" />
+    <result column="COUNTRY" property="country" />
+    <result column="HEAD_IMG_URL" property="headImgUrl" />
+    <result column="PRIVILEGES" property="privileges" />
+    <result column="UNION_ID" property="unionId" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_PERSON_USER_ID, a.USER_ID, a.NICKNAME, a.SEX, a.LANGUAGE
+    , a.CITY, a.PROVINCE, a.COUNTRY, a.HEAD_IMG_URL, a.PRIVILEGES
+    , a.UNION_ID, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="nickname != null">
+		and a.NICKNAME like concat("%", concat(#{nickname}, "%"))
+	</if>
+	<if test="unionId != null">
+		and a.UNION_ID = #{unionId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="WxPersonUserResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WX_PERSON_USER a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_PERSON_USER a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxPersonUserResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_PERSON_USER a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_PERSON_USER_ID = #{wxPersonUserId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_PERSON_USER
+    where WX_PERSON_USER_ID = #{wxPersonUserId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO" useGeneratedKeys="true"
+  	keyProperty="wxPersonUserId" keyColumn="WX_PERSON_USER_ID">
+    insert into WX_PERSON_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="nickname != null" >
+        NICKNAME,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="language != null" >
+        LANGUAGE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="country != null" >
+        COUNTRY,
+      </if>
+      <if test="headImgUrl != null" >
+        HEAD_IMG_URL,
+      </if>
+      <if test="privileges != null" >
+        PRIVILEGES,
+      </if>
+      <if test="unionId != null" >
+        UNION_ID,
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="nickname != null" >
+        #{nickname},
+      </if>
+      <if test="sex != null" >
+        #{sex},
+      </if>
+      <if test="language != null" >
+        #{language},
+      </if>
+      <if test="city != null" >
+        #{city},
+      </if>
+      <if test="province != null" >
+        #{province},
+      </if>
+      <if test="country != null" >
+        #{country},
+      </if>
+      <if test="headImgUrl != null" >
+        #{headImgUrl},
+      </if>
+      <if test="privileges != null" >
+        #{privileges},
+      </if>
+      <if test="unionId != null" >
+        #{unionId},
+      </if>
+      <if test="createDateTime != null" >
+        #{createDateTime},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO" >
+    update WX_PERSON_USER
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="nickname != null" >
+        NICKNAME = #{nickname},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex},
+      </if>
+      <if test="language != null" >
+        LANGUAGE = #{language},
+      </if>
+      <if test="city != null" >
+        CITY = #{city},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province},
+      </if>
+      <if test="country != null" >
+        COUNTRY = #{country},
+      </if>
+      <if test="headImgUrl != null" >
+        HEAD_IMG_URL = #{headImgUrl},
+      </if>
+      <if test="privileges != null" >
+        PRIVILEGES = #{privileges},
+      </if>
+      <if test="unionId != null" >
+        UNION_ID = #{unionId},
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME = #{createDateTime},
+      </if>
+    </set>
+    where WX_PERSON_USER_ID = #{wxPersonUserId}
+  </update>
+  
+</mapper>

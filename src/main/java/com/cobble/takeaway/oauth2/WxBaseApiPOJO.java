@@ -1,6 +1,6 @@
 package com.cobble.takeaway.oauth2;
 
-public class WxBasePOJO {
+public class WxBaseApiPOJO {
 	private String errcode;
 	private String errmsg;
 	
