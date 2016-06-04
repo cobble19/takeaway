@@ -193,8 +193,13 @@ public class Oauth2Controller extends BaseController {
 				String userInfo = HttpClientUtil.get(profileUrl);
 				WxUserApiPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserApiPOJO.class);
 				String nickname = wxUserPOJO.getNickname();
-				logger.info("nickname: {}", nickname);
-				logger.info("nickname encode: {}", new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				String country = wxUserPOJO.getCountry();
+				String province = wxUserPOJO.getProvince();
+				String city = wxUserPOJO.getCity();
+				logger.info("nickname: {}, {}", nickname, new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				logger.info("country: {}, {}", country, new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				logger.info("province: {}, {}", province, new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				logger.info("city: {}, {}", city, new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				// get user info unionID
 				/*String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
 											.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
