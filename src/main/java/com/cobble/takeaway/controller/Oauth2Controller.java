@@ -1,5 +1,6 @@
 package com.cobble.takeaway.controller;
 
+import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -190,6 +192,9 @@ public class Oauth2Controller extends BaseController {
 									.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
 				String userInfo = HttpClientUtil.get(profileUrl);
 				WxUserApiPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserApiPOJO.class);
+				String nickname = wxUserPOJO.getNickname();
+				logger.info("nickname: {}", nickname);
+				logger.info("nickname encode: {}", new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				// get user info unionID
 				/*String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
 											.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
@@ -202,6 +207,7 @@ public class Oauth2Controller extends BaseController {
 					userPOJO.setUsername(wxUserPOJO.getUnionId());
 					userPOJO.setPassword(wxUserPOJO.getUnionId());
 					userPOJO.setUserType(MyUser.PERSON);
+					userPOJO.setNickname(nickname);
 					userService.insert(userPOJO);
 				} else {
 					BeanUtils.copyProperties(userPOJO1, userPOJO);
@@ -510,6 +516,11 @@ public class Oauth2Controller extends BaseController {
 			String encodingAesKey = messageSource.getMessage("WX.third.msgEncKey", null, null);
 			String appId = messageSource.getMessage("WX.third.clientId", null, null);
 			logger.info("token: {}, encodingAesKey: {}, appId: {}", token, encodingAesKey, appId);
+			
+			
+			WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
+			String result = pc.decryptMsg(msgSignature, timestamp, nonce, requestBody);
+			logger.info("Paintext: {}", result);
 			
 			/*WxComVerifyTicketEncryptApiPOJO wxComVerifyTicketEncryptPOJO = XmlUtils.convertToJavaBean(requestBody, WxComVerifyTicketEncryptApiPOJO.class);
 			String encrypt = wxComVerifyTicketEncryptPOJO.getEncrypt();

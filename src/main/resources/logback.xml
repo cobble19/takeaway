@@ -30,7 +30,7 @@
 	<appender name="DR" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${app.root}/logs/takeaway.logback.log</file>
 		<encoder>
-			<pattern>%d [%thread] %-5level [%logger:%line] - %msg%n</pattern>
+			<pattern>%d [%thread] %-5level [%logger.%method:%line] - %msg%n</pattern>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${app.root}/logs/takeaway.%d{yyyy-MM-dd}.log</fileNamePattern>   
