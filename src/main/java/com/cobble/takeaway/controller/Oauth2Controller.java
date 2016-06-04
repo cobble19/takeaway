@@ -196,6 +196,10 @@ public class Oauth2Controller extends BaseController {
 				String country = wxUserPOJO.getCountry();
 				String province = wxUserPOJO.getProvince();
 				String city = wxUserPOJO.getCity();
+				wxUserPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				wxUserPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				wxUserPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				logger.info("nickname: {}, {}", nickname, new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				logger.info("country: {}, {}", country, new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				logger.info("province: {}, {}", province, new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
@@ -343,7 +347,7 @@ public class Oauth2Controller extends BaseController {
 			// 保存授权者信息到数据库
 			com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO2 = new com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO();
 			String nickName = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getNickName();
-			wxAuthorizerInfoPOJO2.setNickName(nickName);
+			wxAuthorizerInfoPOJO2.setNickName(new String(nickName.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 			String headImg = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getHeadImg();
 			wxAuthorizerInfoPOJO2.setHeadImg(headImg);
 			Integer serviceTypeInfo = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getServiceTypeInfoPOJO().getId();
