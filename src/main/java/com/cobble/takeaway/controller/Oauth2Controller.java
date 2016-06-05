@@ -282,6 +282,48 @@ public class Oauth2Controller extends BaseController {
 		return ret;
 	}
 
+	@RequestMapping(value = "/web/wx/oauth2/third/personUser/login")
+	public ModelAndView wxThirdPersonUserLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			logger.info("login success begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("login success uri: " + uri + ", qs: " + qs);
+			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+			}
+			String wxThirdPersonUserLoginUrl = "";
+			if (wxAuthorizerInfoPOJO != null) {
+				wxThirdPersonUserLoginUrl = wxThirdWebAuthorizeUrl
+				.replace("COMPONENT_APPID", wxThirdClientId)
+				.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())
+				.replace("REDIRECT_URI", wxThirdWebRedirectUrl)
+				.replace("SCOPE", scope)
+				.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+				;
+				/*wxEncodeUrl = wxWebLoginUrl;
+				wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
+				wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/
+			}
+			
+			/*ret.addObject("wxWebLoginUrl", wxWebLoginUrl);
+			ret.addObject("wxEncodeUrl", wxEncodeUrl);*/
+			
+			ret.addObject("wxThirdPersonUserLoginUrl", wxThirdPersonUserLoginUrl);
+			
+			ret.setViewName("/wx_third_person_user_login");
+		} catch (Exception e) {
+			logger.error("wx_third_person_user_login error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/wx/oauth2/third/web/login")
 	public ModelAndView wxWebLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();

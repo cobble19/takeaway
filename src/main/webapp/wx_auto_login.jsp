@@ -49,7 +49,7 @@
 					</tbody>
 				</table>
 			</form>
-			<a id="toIndex" class="btn btn-link" href="<cmn:base/>">如果5秒不自动跳转，请点击链接，手动跳转到首页</a>
+			<%-- <a id="toIndex" class="btn btn-link" href="<cmn:base/>">如果5秒不自动跳转，请点击链接，手动跳转到首页</a> --%>
 			
 		</div>
 		
