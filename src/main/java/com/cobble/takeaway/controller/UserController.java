@@ -260,6 +260,20 @@ public class UserController extends BaseController {
 		return null;
 	}
 	
+	@RequestMapping(value = "/web/wxAutoLogin")
+	public ModelAndView wxAutoLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		
+		HttpSession session = request.getSession();
+		UserPOJO userPOJO = (UserPOJO) session.getAttribute("regUserPOJO");
+		if (userPOJO != null) {
+			ret.addObject("j_username", userPOJO.getUsername());
+			ret.addObject("j_password", userPOJO.getPassword());
+		}
+		ret.setViewName("/wx_auto_login");
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/regSuccess")
 	public ModelAndView regSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();

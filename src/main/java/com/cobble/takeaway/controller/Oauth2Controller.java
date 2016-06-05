@@ -161,6 +161,7 @@ public class Oauth2Controller extends BaseController {
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
+			HttpSession session = request.getSession();
 			logger.info("login begin...");
 			logger.info("code: {}, state: {}, appid: {}", code, state, appid);
 			String uri = request.getRequestURI();
@@ -200,6 +201,12 @@ public class Oauth2Controller extends BaseController {
 				wxUserPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				wxUserPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				
+				// 微信用户信息放入session
+				session.setAttribute("wxUserPOJO", wxUserPOJO);
+				session.setAttribute("openId", wxUserPOJO.getOpenId());
+				session.setAttribute("unionId", wxUserPOJO.getUnionId());
+				
 				logger.info("nickname: {}, {}", nickname, new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				logger.info("country: {}, {}", country, new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				logger.info("province: {}, {}", province, new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
@@ -253,11 +260,10 @@ public class Oauth2Controller extends BaseController {
 						/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
 				ret.addObject("msg", msg);
 				
-				HttpSession session = request.getSession();
 				session.setAttribute("msg", msg);
 				
 
-				ret.setViewName("redirect:/web/regSuccess");
+				ret.setViewName("redirect:/web/wxAutoLogin");
 				session.setAttribute("regUserPOJO", userPOJO);
 				
 //				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
