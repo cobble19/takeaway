@@ -32,6 +32,7 @@
 				e.preventDefault();
 				$('#loginForm').submit();
 			}); */
+			
 			console.log('auto submit');
 			window.setTimeout(function() {
 				$('#toIndex').trigger("click");
