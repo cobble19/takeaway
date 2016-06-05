@@ -296,9 +296,10 @@ public class Oauth2Controller extends BaseController {
 			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
 				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
 			}
+			String wxWebLoginUrl = "";
 			String wxThirdPersonUserLoginUrl = "";
 			if (wxAuthorizerInfoPOJO != null) {
-				wxThirdPersonUserLoginUrl = wxThirdWebAuthorizeUrl
+				wxWebLoginUrl = wxThirdWebAuthorizeUrl
 				.replace("COMPONENT_APPID", wxThirdClientId)
 				.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())
 				.replace("REDIRECT_URI", wxThirdWebRedirectUrl)
@@ -308,6 +309,11 @@ public class Oauth2Controller extends BaseController {
 				/*wxEncodeUrl = wxWebLoginUrl;
 				wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
 				wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/
+				
+				wxThirdPersonUserLoginUrl = wxWebLoginUrl;
+				wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+				
+				
 			}
 			
 			/*ret.addObject("wxWebLoginUrl", wxWebLoginUrl);

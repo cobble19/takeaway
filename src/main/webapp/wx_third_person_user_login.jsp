@@ -34,7 +34,7 @@
 			}); */
 			console.log('auto submit');
 			window.setTimeout(function() {
-				$('#toIndex').click();
+				$('#toIndex').trigger("click");
 			}, 500);
 		})
 	</script>
