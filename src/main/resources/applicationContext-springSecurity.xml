@@ -53,6 +53,7 @@
 	
 	<security:http>
 		<!-- <security:intercept-url pattern="/**" access="ROLE_USER" /> -->
+		<security:intercept-url pattern="/wx/hfjt" access="IS_AUTHENTICATED_FULLY"/>
 		
 		<security:intercept-url pattern="/web/wx/oauth2/**" access="IS_AUTHENTICATED_ANONYMOUSLY"  />
 		<!-- <security:intercept-url pattern="/web/wx/oauth2/success" access="IS_AUTHENTICATED_ANONYMOUSLY"  /> -->
