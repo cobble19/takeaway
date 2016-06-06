@@ -1,10 +1,13 @@
 package com.cobble.takeaway.spring.security;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -36,6 +39,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
 		FilterInvocation fi = (FilterInvocation) object;
+		HttpServletResponse response = fi.getHttpResponse();
 		HttpServletRequest request = fi.getRequest();
 		HttpSession session = request.getSession();
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -61,6 +65,16 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		logger.debug("URL = {}", url);
 		
 		if (!checkSessionUrls(url, session)) {
+			if (url.startsWith("/wx/hfjt")) {
+				try {
+					request.getRequestDispatcher("/web/wx/oauth2/third/personUser/login").include(request, response);
+					return;
+				} catch (ServletException e) {
+					logger.error("跳转到微信登陆页面异常ServletException:{}", e);
+				} catch (IOException e) {
+					logger.error("跳转到微信登陆页面异常IOException:{}", e);
+				}
+			}
 //			throw new InsufficientAuthenticationException("InsufficientAuthenticationException");
 			throw new AccessDeniedException("需要登录系统" + ", session is null, user = " + authentication.getName()
 					+ ", url = " + url);
