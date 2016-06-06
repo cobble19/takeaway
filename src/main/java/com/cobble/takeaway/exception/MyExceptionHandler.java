@@ -12,10 +12,10 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-public class MyExceptionHandler implements HandlerExceptionResolver {
+public class MyExceptionHandler /*implements HandlerExceptionResolver*/ {
 	private static final Logger logger = LoggerFactory.getLogger(MyExceptionHandler.class);
 
-	@Override
+	/*@Override
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
 		logger.info("发生异常， 将跳转, ex: {}", ex);
@@ -27,6 +27,6 @@ public class MyExceptionHandler implements HandlerExceptionResolver {
 		} else {
 			return new ModelAndView("/errorPage/error", model);
 		}
-	}
+	}*/
 
 }
