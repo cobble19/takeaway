@@ -71,13 +71,13 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			return;
 		}
 		
-		if (url.equalsIgnoreCase("/wx/hfjt")) {
+		/*if (url.equalsIgnoreCase("/wx/hfjt")) {
 			String openId = (String) session.getAttribute("openId");
 			if (StringUtils.isBlank(openId)) {
 				throw new AccessDeniedException("需要微信登录系统" + ", openId is null, user = " + authentication.getName()
 						+ ", url = " + url);
 			}
-		}
+		}*/
 		
 		if ("admin".equalsIgnoreCase(myUser.getUsername())) {
 			return;
