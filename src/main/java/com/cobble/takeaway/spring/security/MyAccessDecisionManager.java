@@ -63,18 +63,19 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		
 		String url = ((FilterInvocation) object).getRequestUrl();
 		logger.debug("URL = {}", url);
+		if (url.startsWith("/wx/hfjt") 
+				&& ("anonymousUser".equals(myUser.getUsername()) || !checkSessionUrls(url, session))) {
+			try {
+				request.getRequestDispatcher("/web/wx/oauth2/third/personUser/login").include(request, response);
+				return;
+			} catch (ServletException e) {
+				logger.error("跳转到微信登陆页面异常ServletException:{}", e);
+			} catch (IOException e) {
+				logger.error("跳转到微信登陆页面异常IOException:{}", e);
+			}
+		}
 		
 		if (!checkSessionUrls(url, session)) {
-			if (url.startsWith("/wx/hfjt")) {
-				try {
-					request.getRequestDispatcher("/web/wx/oauth2/third/personUser/login").include(request, response);
-					return;
-				} catch (ServletException e) {
-					logger.error("跳转到微信登陆页面异常ServletException:{}", e);
-				} catch (IOException e) {
-					logger.error("跳转到微信登陆页面异常IOException:{}", e);
-				}
-			}
 //			throw new InsufficientAuthenticationException("InsufficientAuthenticationException");
 			throw new AccessDeniedException("需要登录系统" + ", session is null, user = " + authentication.getName()
 					+ ", url = " + url);
