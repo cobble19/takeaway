@@ -35,7 +35,8 @@
 			
 			console.log('auto submit');
 			window.setTimeout(function() {
-				$('#toIndex').trigger("click");
+				/* $('#toIndex').trigger("click"); */
+				window.location.href=$('#toIndex').attr('href');
 			}, 500);
 		})
 	</script>
