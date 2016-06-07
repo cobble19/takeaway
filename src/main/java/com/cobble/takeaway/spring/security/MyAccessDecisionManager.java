@@ -30,6 +30,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.PathMatcher;
 
 import com.cobble.takeaway.util.BeanUtil;
+import com.cobble.takeaway.util.HttpRequestUtil;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
 	private static final Logger logger = LoggerFactory.getLogger(MyAccessDecisionManager.class);
@@ -86,6 +87,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 //		}
 		
 		if (!checkSessionUrls(url, session)) {
+			HttpRequestUtil.saveRequest(request, response);
 //			throw new InsufficientAuthenticationException("InsufficientAuthenticationException");
 			throw new AccessDeniedException("需要登录系统" + ", session is null, user = " + authentication.getName()
 					+ ", url = " + url);
@@ -110,7 +112,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		
 		if (CollectionUtils.isEmpty(configAttributes)) {	// 资源需要的角色
 			logger.debug("url= {},  权限需要分配角色。", url);
-//			return;
+
+			HttpRequestUtil.saveRequest(request, response);
 			throw new AccessDeniedException("权限需要分配角色," + ", configAttributes is null, user = " + authentication.getName()
 					+ ", url = " + url);
 		}
@@ -124,6 +127,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				return;
 			}
 			logger.debug("username= {},  用户需要分配角色。", authentication.getName());
+
+			HttpRequestUtil.saveRequest(request, response);
 			throw new AccessDeniedException("用户需要分配角色," + ", authorities is null, user = " + authentication.getName()
 					+ ", url = " + url);
 		}
@@ -148,10 +153,12 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				}
 			}
 		}
+
+		HttpRequestUtil.saveRequest(request, response);
 		throw new AccessDeniedException("没有权限, user = " + authentication.getName()
 				+ ", url = " + url);
 	}
-
+	
 	@Override
 	public boolean supports(ConfigAttribute attribute) {
 		return true;

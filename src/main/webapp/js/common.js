@@ -4,6 +4,12 @@ $(document).ready(function() {
 //		window.location.href = $('#basePath').val() + "/login.jsp";
 	});
 })
+
+isWeiXin = function() {
+	var ua = navigator.userAgent.toLowerCase();
+    return /micromessenger/i.test(ua) || typeof navigator.wxuserAgent !== 'undefined';
+}
+
 getParam = getQueryStringRegExp = function(name) {
 	var reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
 	if (reg.test(location.href)) {

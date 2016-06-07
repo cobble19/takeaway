@@ -17,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.savedrequest.DefaultSavedRequest;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ExtjsPOJO;
-import com.cobble.takeaway.pojo.LocationAreaPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -42,6 +44,8 @@ public class UserController extends BaseController {
 	public final static String URL_INDEX = "/index";
 	public final static String URL_PERSION = URL_INDEX;
 	public final static String URL_ENTERPRISE = URL_INDEX;
+	public final static String URL_LOGIN_PC = "/login.jsp";
+	public final static String URL_LOGIN_WEIXIN = "/web/wx/oauth2/third/personUser/login";
 	
 	@Autowired
 	private UserService userService;
@@ -227,6 +231,60 @@ public class UserController extends BaseController {
     	ret = new MyUser(ret);
 		
 		return ret;
+	}
+    @RequestMapping(value = "/web/login/dispatcher", method = {RequestMethod.GET})
+	public ModelAndView loginDispatcher(Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		String url = URL_LOGIN_PC;
+		
+		if (HttpRequestUtil.isWeiXin(request)) {
+			url = URL_LOGIN_WEIXIN;
+		}
+		
+		redirectStrategy.sendRedirect(request, response, url);
+//		return ret;
+		return null;
+	}
+    
+    @RequestMapping(value = "/web/login/success/dispatcher", method = {RequestMethod.GET})
+	public ModelAndView loginSuccessDispatcher(Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+
+		/*ret.setViewName("redirect:/web/user/enterprise/reg/success");*/
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		MyUser myUser = null;
+		if (principal instanceof MyUser) {
+			myUser = (MyUser) principal;
+		}
+		
+		if (myUser == null) {
+			response.getWriter().write("Null user");
+		} else {
+			response.getWriter().write("User Type: " + myUser.getUserType());
+		}
+
+		String url = "/mgr/ta/index.html";
+		SavedRequest savedRequest = HttpRequestUtil.getRequest(request, response);
+		/*DefaultSavedRequest defaultSavedRequest = null;
+		if (savedRequest instanceof DefaultSavedRequest) {
+			defaultSavedRequest = (DefaultSavedRequest) savedRequest;
+		}*/
+		if (savedRequest != null) {
+			url = savedRequest.getRedirectUrl();
+		} else {
+			if (MyUser.ADMIN.equals(myUser.getUserType())) {
+				url = URL_ADMIN;
+			} else {
+				url = URL_INDEX;
+			}
+		}
+		
+		redirectStrategy.sendRedirect(request, response, url);
+//		return ret;
+		return null;
 	}
     
 	@RequestMapping(value = "/web/login/success", method = {RequestMethod.GET})
