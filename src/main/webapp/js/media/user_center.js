@@ -1058,7 +1058,7 @@ function showApply2AttrModel() {
             		// remove all and add tpl_static
             		$('#apply2AttrModelForm div.form-group.static-attr').remove();
             		$('#apply2AttrModelForm div.form-group.dynamic-attr').remove();
-            		$('#apply2AttrModelForm div.form-group:nth-last-child(1)').before($('div#tpl_static div.form-group.static-attr').clone());
+            		/*$('#apply2AttrModelForm div.form-group:nth-last-child(1)').before($('div#tpl_static div.form-group.static-attr').clone());*/
             		
             		$('#addAttrBtn').show();
             		$('#popAttrBtn').show();
@@ -1212,6 +1212,13 @@ var onClickAttrSummit = function() {
 		$(form).find('#addBtn').click(function(e) {
 			$('#apply2AttrModelDiv').dialog('open');
 			
+			inputTexts = $('#apply2AttrModelForm div input.form-control.attr:text');
+			
+			if (!!inputTexts && inputTexts.length < 1) {
+				alert('请至少添加一个条目');
+				return;
+			}
+			
 			var ret = confirm('确认添加此活动的表单 ？');
 			if (!ret) {
 				return;
@@ -1229,7 +1236,6 @@ var onClickAttrSummit = function() {
 		    formData = new FormData();
 		    
 		    
-		    inputTexts = $('#apply2AttrModelForm div input.form-control.attr:text');
 		    var apply2AttrModelPOJOs = [];
 		    /*var count = 0;*/
 		    

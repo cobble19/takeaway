@@ -108,4 +108,13 @@ public class Apply2ServiceImpl implements Apply2Service {
 		return ret;
 	}
 
+	@Override
+	public int findsApply2InActivityByUnionId(Apply2SearchPOJO apply2SearchPOJO)
+			throws Exception {
+		int ret = 0;
+		ret = apply2Mapper.findsApply2InActivityByUnionId(apply2SearchPOJO);
+		return ret;
+	}
+
+
 }

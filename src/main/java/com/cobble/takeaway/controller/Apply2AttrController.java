@@ -31,6 +31,7 @@ import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.WxAttrPOJO;
 import com.cobble.takeaway.service.Apply2AttrService;
+import com.cobble.takeaway.service.Apply2Service;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
@@ -43,7 +44,6 @@ public class Apply2AttrController extends BaseController {
 	@Autowired
 	private Apply2AttrService apply2AttrService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
 	
 
 	@RequestMapping(value = "/api/apply2Attr/apply2/exist", method = {RequestMethod.POST})

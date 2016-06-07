@@ -17,6 +17,9 @@ public class MyUser extends User {
 	 */
 	private String userType = "GUEST";
 	private Long userId;
+	
+	private String openId;
+	private String unionId;
 
 	private String nickname = "";
 	private String email = "";
@@ -104,6 +107,22 @@ public class MyUser extends User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
+	public String getUnionId() {
+		return unionId;
+	}
+
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
 	}
 
 }

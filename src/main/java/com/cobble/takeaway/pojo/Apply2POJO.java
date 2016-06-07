@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Apply2POJO extends BasePOJO {
     private Long apply2Id;
+    private String openId;
+    private String unionId;
     private String description;
     private Date createDateTime;
     
@@ -42,6 +44,22 @@ public class Apply2POJO extends BasePOJO {
 
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
+	public String getUnionId() {
+		return unionId;
+	}
+
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
 	}
     
 }

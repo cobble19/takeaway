@@ -31,30 +31,25 @@ var existApply2 = function() {
 	    
 	    console.log('inputTexts length: ' + inputTexts.length);
 	    
-	    if (inputTexts.length < 2) {
-	    	alert('缺少名称和手机号');
-	    	return;
-	    }
-	    
 	    var params = {
 	    		
 	    };
 
-    	var inputText = inputTexts[1];	// 第2个是手机号
+    	/*var inputText = inputTexts[1];	// 第2个是手机号
 //    	params.apply2AttrModelName = $(inputText).prev().prev().prev().children('span').html();
     	params.apply2AttrData = $(inputText).val();
-    	params.orderNo = 1;
+    	params.orderNo = 1;*/
     	params.activityId = activityId;
     	
     	$.ajax({
-    		"url" : $('#basePath').val() + "/api/apply2Attr/apply2/exist",
+    		"url" : $('#basePath').val() + "/api/apply2/existByUnionId",
     		"type" : "POST",
     		"async": false,
     		/*"headers" : {
     			"Content-Type" : "application/json"
     		},*/
     		"dataType" : 'json',
-    		"data": (params),
+    		"data": params,
             success: function(data, textStatus, jqXHR ) {
             	if (data.success) {
             		exist = true;
@@ -86,7 +81,7 @@ var onClickApply2Summit = function() {
 			
 			var exist = existApply2();
 			if (exist) {
-				alert('已经存在此手机号。')
+				alert('请勿重复提交。')
 				return;
 			}
 			

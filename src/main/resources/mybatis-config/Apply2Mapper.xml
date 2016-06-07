@@ -12,12 +12,16 @@
 	
   <resultMap id="Apply2ResultMap" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
+    <result column="OPEN_ID" property="openId" />
+    <result column="UNION_ID" property="unionId" />
     <result column="DESCRIPTION" property="description" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
   <resultMap id="Apply2Result2Map" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
+    <result column="OPEN_ID" property="openId" />
+    <result column="UNION_ID" property="unionId" />
     <result column="DESCRIPTION" property="description" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <collection property="apply2AttrPOJOs" column="APPLY2_ID" ofType="com.cobble.takeaway.pojo.Apply2AttrPOJO"
@@ -25,7 +29,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    apply2.APPLY2_ID, apply2.DESCRIPTION, apply2.CREATE_DATE_TIME
+    apply2.APPLY2_ID, apply2.OPEN_ID, apply2.UNION_ID, apply2.DESCRIPTION, apply2.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="description != null">
@@ -64,6 +68,24 @@
   		</trim>
   	</where>
   	order by apply2.CREATE_DATE_TIME asc
+  </select>
+  
+  <select id="findsApply2InActivityByUnionId" resultType="int"  parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
+    select
+    count(1)
+    from p_apply2 apply2
+    join rel_activity_apply2 raa on raa.apply2_id = apply2.apply2_id
+    join e_activity activity on activity.activity_id = raa.activity_id
+    <where>
+  		<trim prefixOverrides="and">
+			and apply2.UNION_ID = #{unionId}
+			and activity.activity_id = #{activityId}
+  		</trim>
+  	</where>
+  	order by apply2.CREATE_DATE_TIME asc
+	<!-- <if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if> -->
   </select>
   
   <select id="findsApply2InActivityByPhone" resultType="int"  parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
@@ -133,6 +155,12 @@
   	keyProperty="apply2Id" keyColumn="APPLY2_ID">
     insert into p_apply2
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="unionId != null" >
+        UNION_ID,
+      </if>
       <if test="description != null" >
         DESCRIPTION,
       </if>
@@ -168,6 +196,12 @@
   <update id="update" parameterType="com.cobble.takeaway.pojo.Apply2POJO" >
     update p_apply2
     <set >
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="unionId != null" >
+        UNION_ID = #{unionId},
+      </if>
       <if test="description != null" >
         DESCRIPTION = #{description},
       </if>

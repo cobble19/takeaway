@@ -57,7 +57,15 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			session.setAttribute("username", myUser.getUsername());
 			session.setAttribute("userType", myUser.getUserType());
 			session.setAttribute("myUser", myUser);
-		} 
+			String openId = (String) session.getAttribute("openId");
+			String unionId = (String) session.getAttribute("unionId");
+			if (StringUtils.isNotBlank(openId)) {
+				myUser.setOpenId(openId);
+			}
+			if (StringUtils.isNotBlank(unionId)) {
+				myUser.setUnionId(unionId);
+			}
+		}
 		
 		logger.info("Login success: {}", principal);
 		

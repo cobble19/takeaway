@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.Apply2AttrPOJO;
+import com.cobble.takeaway.pojo.Apply2AttrSearchPOJO;
 import com.cobble.takeaway.pojo.Apply2POJO;
 import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
@@ -41,6 +42,32 @@ public class Apply2Controller extends BaseController {
 	@Autowired
 	private Apply2AttrService apply2AttrService;
 	
+
+	@RequestMapping(value = "/api/apply2/existByUnionId", method = {RequestMethod.POST})
+	@ResponseBody
+	public StatusPOJO existApply2InActivity(Apply2SearchPOJO apply2SearchPOJO) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			String unionId = UserUtil.getCurrentUser().getUnionId();
+			apply2SearchPOJO.setUnionId(unionId);
+			int result = apply2Service.findsApply2InActivityByUnionId(apply2SearchPOJO);
+			if (result > 0) {
+				ret.setSuccess(true);
+				ret.setDesc("重复提交：" + unionId);
+			} else {
+				ret.setSuccess(false);
+				ret.setDesc("可以提交：" + unionId);
+			}
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			ret.setDesc(e.getMessage());
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/api/apply2/add", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO apply2Add(@RequestBody String body, Model model, 
@@ -55,6 +82,8 @@ public class Apply2Controller extends BaseController {
 			
 			String base = HttpRequestUtil.getBase(request);
 			Long userId = UserUtil.getCurrentUser().getUserId();
+			String openId = UserUtil.getCurrentUser().getOpenId();
+			String unionId = UserUtil.getCurrentUser().getUnionId();
 			
 			Long apply2Id = -9999L;
 			for (int i = 0; i < apply2AttrPOJOs.size(); i++) {
@@ -63,6 +92,8 @@ public class Apply2Controller extends BaseController {
 				if (0 == i) {
 					Apply2POJO apply2pojo = new Apply2POJO();
 					apply2pojo.setDescription("活动id：" + activityId + ", i: " + i);
+					apply2pojo.setOpenId(openId);
+					apply2pojo.setUnionId(unionId);
 					apply2Service.insert(apply2pojo);
 					
 					apply2Id = apply2pojo.getApply2Id();
