@@ -277,6 +277,7 @@ public class UserController extends BaseController {
 		}
 
 		String url = "/mgr/ta/index.html";
+		
 		SavedRequest savedRequest = HttpRequestUtil.getRequest(request, response);
 		/*DefaultSavedRequest defaultSavedRequest = null;
 		if (savedRequest instanceof DefaultSavedRequest) {
