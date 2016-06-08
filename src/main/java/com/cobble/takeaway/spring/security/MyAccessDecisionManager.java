@@ -25,6 +25,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.PathMatcher;
@@ -110,10 +111,13 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			return;
 		}
 		
+		SavedRequest savedRequest = HttpRequestUtil.getRequest(request, response);
+		
 		if (CollectionUtils.isEmpty(configAttributes)) {	// 资源需要的角色
 			logger.debug("url= {},  权限需要分配角色。", url);
-
-			HttpRequestUtil.saveRequest(request, response);
+			if (savedRequest == null) {
+				HttpRequestUtil.saveRequest(request, response);
+			}
 			throw new AccessDeniedException("权限需要分配角色," + ", configAttributes is null, user = " + authentication.getName()
 					+ ", url = " + url);
 		}
@@ -128,7 +132,9 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			}
 			logger.debug("username= {},  用户需要分配角色。", authentication.getName());
 
-			HttpRequestUtil.saveRequest(request, response);
+			if (savedRequest == null) {
+				HttpRequestUtil.saveRequest(request, response);
+			}
 			throw new AccessDeniedException("用户需要分配角色," + ", authorities is null, user = " + authentication.getName()
 					+ ", url = " + url);
 		}
@@ -154,7 +160,9 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			}
 		}
 
-		HttpRequestUtil.saveRequest(request, response);
+		if (savedRequest == null) {
+			HttpRequestUtil.saveRequest(request, response);
+		}
 		throw new AccessDeniedException("没有权限, user = " + authentication.getName()
 				+ ", url = " + url);
 	}
