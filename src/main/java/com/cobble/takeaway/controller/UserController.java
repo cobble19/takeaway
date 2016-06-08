@@ -235,6 +235,11 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/web/login/dispatcher", method = {RequestMethod.GET})
 	public ModelAndView loginDispatcher(Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		logger.info("Visit uri: " + uri + ", qs: " + qs);
+		
 		ModelAndView ret = new ModelAndView();
 		String url = URL_LOGIN_PC;
 		
@@ -250,6 +255,11 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/web/login/success/dispatcher", method = {RequestMethod.GET})
 	public ModelAndView loginSuccessDispatcher(Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		logger.info("Visit uri: " + uri + ", qs: " + qs);
+		
 		ModelAndView ret = new ModelAndView();
 
 		/*ret.setViewName("redirect:/web/user/enterprise/reg/success");*/

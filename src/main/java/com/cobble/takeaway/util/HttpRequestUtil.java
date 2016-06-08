@@ -30,13 +30,16 @@ public class HttpRequestUtil {
 	}
 	
 	public static void saveRequest(HttpServletRequest request, HttpServletResponse response) {
-		RequestCache requestCache = new HttpSessionRequestCache();
+		logger.info("Save request: {}", request);
+		RequestCache requestCache = new MyHttpSessionRequestCache();
 		requestCache.saveRequest(request, response);
 	}
 	
 	public static SavedRequest getRequest(HttpServletRequest request, HttpServletResponse response) {
-		RequestCache requestCache = new HttpSessionRequestCache();
+		RequestCache requestCache = new MyHttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
+
+		logger.info("Get SavedRequest: {}", savedRequest);
 		return savedRequest;
 	}
 	
