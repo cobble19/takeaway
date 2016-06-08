@@ -1,17 +1,24 @@
 package com.cobble.takeaway.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.cobble.takeaway.dao.RelUserRoleMapper;
 import com.cobble.takeaway.dao.UserMapper;
 import com.cobble.takeaway.pojo.RelUserRolePOJO;
+import com.cobble.takeaway.pojo.RolePOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
 import com.cobble.takeaway.service.UserService;
+import com.cobble.takeaway.spring.security.MyUser;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -88,6 +95,34 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserPOJO findUserByName(String username) throws Exception {
 		return userMapper.findUserByName(username);
+	}
+	
+	@Override
+	public MyUser findMyUserByName(String username) throws Exception {
+		UserPOJO userPOJO = new UserPOJO();
+		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		try {
+			userPOJO = userMapper.findUserByName(username);
+			if (userPOJO == null) {
+				throw new UsernameNotFoundException("Not Found username = " + username);
+			}
+			List<RolePOJO> rolePOJOs = userPOJO.getRolePOJOs();
+			if (!CollectionUtils.isEmpty(rolePOJOs)) {
+				for (RolePOJO rolePOJO : rolePOJOs) {
+					SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(rolePOJO.getRoleName());
+					authorities.add(grantedAuthority);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//User ret = new User(userPOJO.getUsername(), userPOJO.getPassword(), true, true, true, true, authorities);
+		MyUser ret = new MyUser(username, userPOJO.getPassword(), authorities, userPOJO.getUserType());
+		ret.setUserId(userPOJO.getUserId());
+		ret.setNickname(userPOJO.getNickname());
+		ret.setEmail(userPOJO.getEmail());
+		return ret;
 	}
 
 	@Override

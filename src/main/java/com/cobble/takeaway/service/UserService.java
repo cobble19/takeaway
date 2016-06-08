@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
+import com.cobble.takeaway.spring.security.MyUser;
 
 public interface UserService {
 	int insert(UserPOJO userPOJO) throws Exception;
@@ -20,4 +21,6 @@ public interface UserService {
 	UserPOJO findUserByNickname(String nickname) throws Exception;
 
 	UserPOJO findUserByIndexCode(String wxIndexCode) throws Exception;
+	
+	MyUser findMyUserByName(String username) throws Exception;
 }

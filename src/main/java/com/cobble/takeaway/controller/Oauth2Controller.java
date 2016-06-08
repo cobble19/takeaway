@@ -273,7 +273,7 @@ public class Oauth2Controller extends BaseController {
 				
 				///////
 				List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS");
-				MyUser myUser = new MyUser(userPOJO.getUsername(), userPOJO.getPassword(), authorities, userPOJO.getUserType());
+				MyUser myUser = userService.findMyUserByName(userPOJO.getUsername());
 				UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, userPOJO.getPassword(), authorities);
 				SecurityContextHolder.getContext().setAuthentication(anAnthentication);
 				Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
