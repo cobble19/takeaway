@@ -268,8 +268,8 @@ public class Oauth2Controller extends BaseController {
 				session.setAttribute("msg", msg);
 				
 
-				ret.setViewName("redirect:/web/wxAutoLogin");
-				session.setAttribute("regUserPOJO", userPOJO);
+				/*ret.setViewName("redirect:/web/wxAutoLogin");
+				session.setAttribute("regUserPOJO", userPOJO);*/
 				
 				///////
 				List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_WEIXIN");
@@ -323,8 +323,8 @@ public class Oauth2Controller extends BaseController {
 			throw e;
 		}
 		
-//		return null;
-		return ret;
+		return null;
+		/*return ret;*/
 	}
 
 	@RequestMapping(value = "/web/wx/oauth2/third/personUser/login")
