@@ -251,7 +251,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/
 			
 			wxThirdPersonUserLoginUrl = wxWebLoginUrl;
-			wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+//			wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
 		}
 		ret = wxThirdPersonUserLoginUrl;
 		return ret;
