@@ -21,7 +21,7 @@
   			</div>
   			<div class="col-md-12">
 		  		<%-- <a class="btn btn-link" href="<cmn:base/>/login.jsp">如果5秒不自动跳转，请点击链接，手动跳转到登陆界面</a> --%>
-		  		<a id="toIndex" class="btn btn-link" href="<cmn:base/>/web/wx/oauth2/third/personUser/login">如果1秒不自动跳转，请点击链接，手动跳转到登陆界面</a>
+		  		<a id="toIndex" class="btn btn-link" href="<cmn:base/>/web/login/dispatcher">如果1秒不自动跳转，请点击链接，手动跳转到登陆界面</a>
   			</div>
   		</div>
   	</div>	<!-- container -->

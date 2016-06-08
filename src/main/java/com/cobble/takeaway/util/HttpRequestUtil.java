@@ -24,8 +24,9 @@ public class HttpRequestUtil {
 		Boolean ret = false;
 		String userAgent = request.getHeader("User-Agent");
 		if (userAgent.toLowerCase().contains("micromessenger")) {
-			return true;
+			ret = true;
 		}
+		logger.info("isWeiXin: {}, userAgent: {}", ret, userAgent);
 		return ret;
 	}
 	

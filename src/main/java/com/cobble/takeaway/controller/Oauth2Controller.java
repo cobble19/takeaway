@@ -19,6 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -265,6 +270,46 @@ public class Oauth2Controller extends BaseController {
 
 				ret.setViewName("redirect:/web/wxAutoLogin");
 				session.setAttribute("regUserPOJO", userPOJO);
+				
+				///////
+				List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_WEIXIN");
+				MyUser myUser = new MyUser(userPOJO.getUsername(), userPOJO.getPassword(), authorities, userPOJO.getUserType());
+				UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, userPOJO.getPassword(), authorities);
+				SecurityContextHolder.getContext().setAuthentication(anAnthentication);
+				Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				if (principal instanceof MyUser) {
+					myUser = (MyUser) principal;
+					session.setAttribute("username", myUser.getUsername());
+					session.setAttribute("userType", myUser.getUserType());
+					session.setAttribute("myUser", myUser);
+					String openId = (String) session.getAttribute("openId");
+					String unionId = (String) session.getAttribute("unionId");
+					if (StringUtils.isNotBlank(openId)) {
+						myUser.setOpenId(openId);
+					}
+					if (StringUtils.isNotBlank(unionId)) {
+						myUser.setUnionId(unionId);
+					}
+				}
+				
+				SavedRequest savedRequest = HttpRequestUtil.getRequest(request, response);
+				String url = "";
+				/*DefaultSavedRequest defaultSavedRequest = null;
+				if (savedRequest instanceof DefaultSavedRequest) {
+					defaultSavedRequest = (DefaultSavedRequest) savedRequest;
+				}*/
+				if (savedRequest != null) {
+					url  = savedRequest.getRedirectUrl();
+				} else {
+					if (MyUser.ADMIN.equals(myUser.getUserType())) {
+						url = UserController.URL_ADMIN;
+					} else {
+						url = UserController.URL_INDEX;
+					}
+				}
+				
+				myRedirectStrategy.sendRedirect(request, response, url);
+				//////
 				
 //				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
 			} else {

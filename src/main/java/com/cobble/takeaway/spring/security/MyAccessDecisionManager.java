@@ -5,15 +5,16 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,11 +31,17 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.PathMatcher;
 
+import com.cobble.takeaway.oauth2.MyRedirectStrategy;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
+import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.util.BeanUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
 	private static final Logger logger = LoggerFactory.getLogger(MyAccessDecisionManager.class);
+
+	MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 
 	@Override
 	public void decide(Authentication authentication, Object object,
@@ -88,7 +95,12 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 //		}
 		
 		if (!checkSessionUrls(url, session)) {
-			HttpRequestUtil.saveRequest(request, response);
+			this.saveRequest(request, response);
+			try {
+				myRedirectStrategy.sendRedirect(request, response, this.getWxLoginUrl(request, response));
+			} catch (IOException e) {
+				logger.error("Redirect Exception: ", e);
+			}
 //			throw new InsufficientAuthenticationException("InsufficientAuthenticationException");
 			throw new AccessDeniedException("需要登录系统" + ", session is null, user = " + authentication.getName()
 					+ ", url = " + url);
@@ -111,12 +123,14 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			return;
 		}
 		
-		SavedRequest savedRequest = HttpRequestUtil.getRequest(request, response);
 		
 		if (CollectionUtils.isEmpty(configAttributes)) {	// 资源需要的角色
 			logger.debug("url= {},  权限需要分配角色。", url);
-			if (savedRequest == null) {
-				HttpRequestUtil.saveRequest(request, response);
+			this.saveRequest(request, response);
+			try {
+				myRedirectStrategy.sendRedirect(request, response, this.getWxLoginUrl(request, response));
+			} catch (IOException e) {
+				logger.error("Redirect Exception: ", e);
 			}
 			throw new AccessDeniedException("权限需要分配角色," + ", configAttributes is null, user = " + authentication.getName()
 					+ ", url = " + url);
@@ -132,8 +146,11 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			}
 			logger.debug("username= {},  用户需要分配角色。", authentication.getName());
 
-			if (savedRequest == null) {
-				HttpRequestUtil.saveRequest(request, response);
+			this.saveRequest(request, response);
+			try {
+				myRedirectStrategy.sendRedirect(request, response, this.getWxLoginUrl(request, response));
+			} catch (IOException e) {
+				logger.error("Redirect Exception: ", e);
 			}
 			throw new AccessDeniedException("用户需要分配角色," + ", authorities is null, user = " + authentication.getName()
 					+ ", url = " + url);
@@ -159,9 +176,11 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				}
 			}
 		}
-
-		if (savedRequest == null) {
-			HttpRequestUtil.saveRequest(request, response);
+		this.saveRequest(request, response);
+		try {
+			myRedirectStrategy.sendRedirect(request, response, this.getWxLoginUrl(request, response));
+		} catch (IOException e) {
+			logger.error("Redirect Exception: ", e);
 		}
 		throw new AccessDeniedException("没有权限, user = " + authentication.getName()
 				+ ", url = " + url);
@@ -175,6 +194,67 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return true;
+	}
+	
+	public void saveRequest(HttpServletRequest request, HttpServletResponse response) {
+		SavedRequest savedRequest = HttpRequestUtil.getRequest(request, response);
+		if (savedRequest == null) {
+			HttpRequestUtil.saveRequest(request, response);
+		}
+	}
+	
+	public String getWxLoginUrl(HttpServletRequest request, HttpServletResponse response) {
+		String ret = "";
+		if (!HttpRequestUtil.isWeiXin(request)) {
+			return "login.jsp";
+		}
+		
+		logger.info("login success begin...");
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		logger.info("login success uri: " + uri + ", qs: " + qs);
+		
+		WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoService");
+		MessageSource messageSource = (MessageSource) BeanUtil.get("messageSource");
+
+		String wxThirdClientId = messageSource.getMessage("WX.third.clientId", null, null);
+		// 第三方网页登陆
+		String wxThirdWebAuthorizeUrl = messageSource.getMessage("WX.third.web.authorizeUrl", null, null);
+		String wxThirdWebRedirectUrl = messageSource.getMessage("WX.third.web.redirectUrl", null, null);
+		
+		String scope = messageSource.getMessage("WX.scope", null, null);
+		
+		WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+		List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = null;
+		try {
+			wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+		if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+			wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+		}
+		String wxWebLoginUrl = "";
+		String wxThirdPersonUserLoginUrl = "";
+		if (wxAuthorizerInfoPOJO != null) {
+			wxWebLoginUrl = wxThirdWebAuthorizeUrl
+			.replace("COMPONENT_APPID", wxThirdClientId)
+			.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())
+			.replace("REDIRECT_URI", wxThirdWebRedirectUrl)
+			.replace("SCOPE", scope)
+			.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+			;
+			/*wxEncodeUrl = wxWebLoginUrl;
+			wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
+			wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/
+			
+			wxThirdPersonUserLoginUrl = wxWebLoginUrl;
+			wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+		}
+		ret = wxThirdPersonUserLoginUrl;
+		return ret;
 	}
 	
 	public boolean checkSessionUrls(String url, HttpSession session) {
