@@ -214,7 +214,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		String qs = request.getQueryString();
 		logger.info("login success uri: " + uri + ", qs: " + qs);
 		
-		WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoService");
+		WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
 		MessageSource messageSource = (MessageSource) BeanUtil.get("messageSource");
 
 		String wxThirdClientId = messageSource.getMessage("WX.third.clientId", null, null);

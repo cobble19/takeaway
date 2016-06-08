@@ -11,9 +11,12 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
+
+import com.cobble.takeaway.service.WxAuthorizerInfoService;
 
 public class BeanUtil {
 	private static final Logger logger = LoggerFactory.getLogger(BeanUtil.class);
@@ -317,6 +320,9 @@ public class BeanUtil {
 		return methodName;
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+		WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
+		MessageSource messageSource = (MessageSource) BeanUtil.get("messageSource");
 	}
 }
