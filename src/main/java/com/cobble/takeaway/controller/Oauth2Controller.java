@@ -195,7 +195,7 @@ public class Oauth2Controller extends BaseController {
 				String result = HttpClientUtil.get(myAccessTokenUrl);
 				WxOauth2TokenApiPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenApiPOJO.class);
 				// get user info
-				String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
+				String myUserInfoUidUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
 						.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
 				String userInfo = HttpClientUtil.get(myUserInfoUidUrl);
 				WxUserInfoApiPOJO wxUserInfoPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
