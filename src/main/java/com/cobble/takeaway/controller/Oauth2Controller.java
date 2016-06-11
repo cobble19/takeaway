@@ -214,19 +214,23 @@ public class Oauth2Controller extends BaseController {
 				String province = "";
 				String city = "";
 				if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-					wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
-					String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken())
-							.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
-					userInfo = HttpClientUtil.get(myUserInfoUidUrl);
-					wxUserInfoPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
-					nickname = wxUserInfoPOJO.getNickname();
-					country = wxUserInfoPOJO.getCountry();
-					province = wxUserInfoPOJO.getProvince();
-					city = wxUserInfoPOJO.getCity();
-					wxUserInfoPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					wxUserInfoPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					wxUserInfoPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					wxUserInfoPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					try {
+						wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+						String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken())
+								.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
+						userInfo = HttpClientUtil.get(myUserInfoUidUrl);
+						wxUserInfoPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
+						nickname = wxUserInfoPOJO.getNickname();
+						country = wxUserInfoPOJO.getCountry();
+						province = wxUserInfoPOJO.getProvince();
+						city = wxUserInfoPOJO.getCity();
+						wxUserInfoPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						wxUserInfoPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						wxUserInfoPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						wxUserInfoPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					} catch (Exception e) {
+						logger.error("myUserInfoUidUrl exception: {}", e);
+					}
 				}
 				
 				
