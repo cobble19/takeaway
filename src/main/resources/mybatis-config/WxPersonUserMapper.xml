@@ -19,16 +19,21 @@
     <result column="CITY" property="city" />
     <result column="PROVINCE" property="province" />
     <result column="COUNTRY" property="country" />
-    <result column="HEAD_IMG_URL" property="headImgUrl" />
+    <result column="SUBCRIBE" property="subcribe" />
+    <result column="SUBCRIBE_TIME" property="subcribeTime" />
     <result column="PRIVILEGES" property="privileges" />
     <result column="UNION_ID" property="unionId" />
+    <result column="REMARK" property="remark" />
+    <result column="GROUP_ID" property="groupId" />
+    <result column="TAGID_LIST" property="tagidList" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     a.WX_PERSON_USER_ID, a.USER_ID, a.NICKNAME, a.SEX, a.LANGUAGE
     , a.CITY, a.PROVINCE, a.COUNTRY, a.HEAD_IMG_URL, a.PRIVILEGES
-    , a.UNION_ID, a.CREATE_DATE_TIME
+    , a.UNION_ID, a.SUBCRIBE, a.SUBCRIBE_TIME, a.REMARK, a.GROUP_ID
+    , a.TAGID_LIST, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="nickname != null">
@@ -117,6 +122,21 @@
       <if test="unionId != null" >
         UNION_ID,
       </if>
+      <if test="subcribe != null" >
+        SUBCRIBE,
+      </if>
+      <if test="subcribeTime != null" >
+        SUBCRIBE_TIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID,
+      </if>
+      <if test="tagidList != null" >
+        TAGID_LIST,
+      </if>
       <if test="createDateTime != null" >
         CREATE_DATE_TIME,
       </if>
@@ -151,6 +171,21 @@
       </if>
       <if test="unionId != null" >
         #{unionId},
+      </if>
+      <if test="subcribe != null" >
+        #{subcribe},
+      </if>
+      <if test="subcribeTime != null" >
+        #{subcribeTime},
+      </if>
+      <if test="remark != null" >
+        #{remark},
+      </if>
+      <if test="groupId != null" >
+        #{groupId},
+      </if>
+      <if test="tagidList != null" >
+        #{tagidList},
       </if>
       <if test="createDateTime != null" >
         #{createDateTime},
@@ -190,6 +225,21 @@
       </if>
       <if test="unionId != null" >
         UNION_ID = #{unionId},
+      </if>
+      <if test="subcribe != null" >
+        SUBCRIBE = #{subcribe},
+      </if>
+      <if test="subcribeTime != null" >
+        SUBCRIBE_TIME = #{subcribeTime},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark},
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID = #{groupId},
+      </if>
+      <if test="tagidList != null" >
+        TAGID_LIST = #{tagidList},
       </if>
       <if test="createDateTime != null" >
         CREATE_DATE_TIME = #{createDateTime},

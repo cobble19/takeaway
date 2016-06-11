@@ -27,6 +27,11 @@ public class WxPersonUserPOJO extends BasePOJO {
     private String privileges;
     
     private String unionId;
+    private Integer subscribe;
+    private Long subscribeTime;
+    private String remark;
+    private Integer groupId;
+    private String tagidList;
     
     private Date createDateTime;
 
@@ -132,6 +137,46 @@ public class WxPersonUserPOJO extends BasePOJO {
 
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+
+	public Integer getSubscribe() {
+		return subscribe;
+	}
+
+	public void setSubscribe(Integer subscribe) {
+		this.subscribe = subscribe;
+	}
+
+	public Long getSubscribeTime() {
+		return subscribeTime;
+	}
+
+	public void setSubscribeTime(Long subscribeTime) {
+		this.subscribeTime = subscribeTime;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Integer getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Integer groupId) {
+		this.groupId = groupId;
+	}
+
+	public String getTagidList() {
+		return tagidList;
+	}
+
+	public void setTagidList(String tagidList) {
+		this.tagidList = tagidList;
 	}
 
 }
