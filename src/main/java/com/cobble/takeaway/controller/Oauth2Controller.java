@@ -911,6 +911,7 @@ public class Oauth2Controller extends BaseController {
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("login uri: " + uri + ", qs: " + qs);
+			
 			String myAuthorizationUrl = authorizationUri.replace("APPID", clientId)
 										.replace("REDIRECT_URI", redirectUri).replace("SCOPE", scope)
 										.replace("STATE", RandomStringUtils.randomAlphabetic(6));
