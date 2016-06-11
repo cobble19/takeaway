@@ -15,4 +15,6 @@ public interface WxAuthorizerInfoMapper {
 	WxAuthorizerInfoPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
 	
+	WxAuthorizerInfoPOJO findWxAuthorizerInfoByIndexCode(String indexCode) throws Exception;
+	
 }

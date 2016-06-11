@@ -17,4 +17,6 @@ public interface WxAuthorizerInfoService {
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
 	
+	WxAuthorizerInfoPOJO findWxAuthorizerInfoByIndexCode(String indexCode) throws Exception;
+	
 }

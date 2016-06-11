@@ -41,6 +41,8 @@ import com.cobble.takeaway.pojo.weixin.RelWxPuOpenPOJO;
 import com.cobble.takeaway.pojo.weixin.RelWxPuOpenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
@@ -48,6 +50,8 @@ import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerRefreshTokenApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerRefreshTokenReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenSearchApiPOJO;
@@ -61,6 +65,7 @@ import com.cobble.takeaway.service.RelWxPuOpenService;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerAccessTokenService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
+import com.cobble.takeaway.service.WxAuthorizerRefreshTokenService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
@@ -86,6 +91,8 @@ public class Oauth2Controller extends BaseController {
 	private WxAuthorizerAccessTokenService wxAuthorizerAccessTokenService;
 	@Autowired
 	private WxAuthorizerInfoService wxAuthorizerInfoService;
+	@Autowired
+	private WxAuthorizerRefreshTokenService wxAuthorizerRefreshTokenService;
 	
 	@Autowired
 	private WxPersonUserService wxPersonUserService;
@@ -194,31 +201,49 @@ public class Oauth2Controller extends BaseController {
 						.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken);
 				String result = HttpClientUtil.get(myAccessTokenUrl);
 				WxOauth2TokenApiPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenApiPOJO.class);
-				// get user info
-				String myUserInfoUidUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
-						.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
-				String userInfo = HttpClientUtil.get(myUserInfoUidUrl);
-				WxUserInfoApiPOJO wxUserInfoPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
-				String nickname = wxUserInfoPOJO.getNickname();
-				String country = wxUserInfoPOJO.getCountry();
-				String province = wxUserInfoPOJO.getProvince();
-				String city = wxUserInfoPOJO.getCity();
-				wxUserInfoPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-				wxUserInfoPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-				wxUserInfoPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-				wxUserInfoPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-				/*String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
+				// get user info with subscribe
+				logger.info("Get user info with subscribe");
+				WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+				wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(appid);
+				List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
+				WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
+				String userInfo = "";
+				WxUserInfoApiPOJO wxUserInfoPOJO = new WxUserInfoApiPOJO();
+				String nickname = "";
+				String country = "";
+				String province = "";
+				String city = "";
+				if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+					wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+					String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken())
+							.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
+					userInfo = HttpClientUtil.get(myUserInfoUidUrl);
+					wxUserInfoPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
+					nickname = wxUserInfoPOJO.getNickname();
+					country = wxUserInfoPOJO.getCountry();
+					province = wxUserInfoPOJO.getProvince();
+					city = wxUserInfoPOJO.getCity();
+					wxUserInfoPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					wxUserInfoPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					wxUserInfoPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					wxUserInfoPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				}
+				
+				
+				// get user info without subscribe
+				logger.info("Get user info without subscribe");
+				String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
 									.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
-				String userInfo = HttpClientUtil.get(profileUrl);
+				userInfo = HttpClientUtil.get(profileUrl);
 				WxUserApiPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserApiPOJO.class);
-				String nickname = wxUserPOJO.getNickname();
-				String country = wxUserPOJO.getCountry();
-				String province = wxUserPOJO.getProvince();
-				String city = wxUserPOJO.getCity();
+				nickname = wxUserPOJO.getNickname();
+				country = wxUserPOJO.getCountry();
+				province = wxUserPOJO.getProvince();
+				city = wxUserPOJO.getCity();
 				wxUserPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				wxUserPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				wxUserPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-				wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));*/
+				wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				
 				// 微信用户信息放入session
 				session.setAttribute("wxUserPOJO", wxUserInfoPOJO);
@@ -559,6 +584,15 @@ public class Oauth2Controller extends BaseController {
 				}
 				wxAuthorizerAccessTokenPOJO2.setFuncInfo(funcInfo);
 				wxAuthorizerAccessTokenService.insert(wxAuthorizerAccessTokenPOJO2);
+				// 报错授权者refresh token信息进数据库
+				WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
+				wxAuthorizerRefreshTokenPOJO.setAuthorizerAccessToken(authorizerAccessToken);
+				wxAuthorizerRefreshTokenPOJO.setAuthorizerAppId(authorizerAppId);
+				wxAuthorizerRefreshTokenPOJO.setAuthorizerRefreshToken(authorizerRefreshToken);
+				wxAuthorizerRefreshTokenPOJO.setComponentAppId(wxThirdClientId);
+				wxAuthorizerRefreshTokenPOJO.setExpiresIn(expiresIn);
+				wxAuthorizerRefreshTokenPOJO.setCreateDateTime(new Date());
+				wxAuthorizerRefreshTokenService.insert(wxAuthorizerRefreshTokenPOJO);
 				// 显示获取授权者信息
 				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/third/authorizerInfo"
 						+ "?componentAppId=" + wxThirdClientId + "&authorizerAppId=" + wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId());
@@ -736,6 +770,26 @@ public class Oauth2Controller extends BaseController {
 				wxComAccessTokenPOJO.setCreateDateTime(new Date());
 				
 				wxComAccessTokenService.insert(wxComAccessTokenPOJO);
+			}
+			
+			// Refresh authorizer access token every 1 hour
+			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
+			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+				WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+				createDateTime = wxAuthorizerRefreshTokenPOJO.getCreateDateTime();
+				if (curDate.getTime() - createDateTime.getTime() >= 1 * 60 * 60 * 1000L) {	// 1 hours
+					WxAuthorizerRefreshTokenReqApiPOJO wxAuthorizerRefreshTokenReqApiPOJO = new WxAuthorizerRefreshTokenReqApiPOJO();
+					wxAuthorizerRefreshTokenReqApiPOJO.setComponentAppId(wxAuthorizerRefreshTokenPOJO.getComponentAppId());
+					wxAuthorizerRefreshTokenReqApiPOJO.setAuthorizerAppId(wxAuthorizerRefreshTokenPOJO.getAuthorizerAppId());
+					wxAuthorizerRefreshTokenReqApiPOJO.setAuthorizerRefreshToken(wxAuthorizerRefreshTokenPOJO.getAuthorizerRefreshToken());
+					String wxAuthorizerRefreshTokenStr = HttpClientUtil.postHttpsJson(wxThirdAuthorizerRefreshTokenUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken)
+							, JsonUtils.convertToJson(wxAuthorizerRefreshTokenReqApiPOJO));
+					WxAuthorizerRefreshTokenApiPOJO wxAuthorizerRefreshTokenApiPOJO = JsonUtils.convertToJavaBean(wxAuthorizerRefreshTokenStr, WxAuthorizerRefreshTokenApiPOJO.class);
+					BeanUtils.copyProperties(wxAuthorizerRefreshTokenApiPOJO, wxAuthorizerRefreshTokenPOJO);
+					wxAuthorizerRefreshTokenService.insert(wxAuthorizerRefreshTokenPOJO);
+					
+				}
 			}
 			
 			

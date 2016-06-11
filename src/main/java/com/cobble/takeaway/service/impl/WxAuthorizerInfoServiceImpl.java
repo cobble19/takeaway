@@ -72,4 +72,12 @@ public class WxAuthorizerInfoServiceImpl implements WxAuthorizerInfoService {
 		return ret;
 	}
 
+	@Override
+	public WxAuthorizerInfoPOJO findWxAuthorizerInfoByIndexCode(String indexCode)
+			throws Exception {
+		WxAuthorizerInfoPOJO ret = null;
+		ret = wxAuthorizerInfoMapper.findWxAuthorizerInfoByIndexCode(indexCode);
+		return ret;
+	}
+
 }

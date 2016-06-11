@@ -39,6 +39,17 @@
 	</if>
   </sql>
   
+    <select id="findWxAuthorizerInfoByIndexCode" resultMap="WxAuthorizerInfoResultMap" parameterType="String" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    , b.REL_WX_INDEX_MAP_ID, b.USER_ID, b.WX_TEMPLATE_ID, b.WX_STATIC_PAGE, b.wx_index_code
+    from WX_AUTHORIZER_INFO a, rel_wx_index_map b
+    where 
+    a.user_id = b.user_id
+    and b.wx_index_code = #{wxIndexCode}
+  </select>
+  
   <select id="finds" resultMap="WxAuthorizerInfoResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO" >
     select
     <if test="distinct" >
