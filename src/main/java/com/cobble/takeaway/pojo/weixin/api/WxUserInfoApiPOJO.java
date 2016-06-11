@@ -25,9 +25,14 @@ public class WxUserInfoApiPOJO extends BasePOJO {
 	@JsonProperty(value="headimgurl")
     private String headImgUrl;
 
+    // 用户特权信息
+	@JsonProperty("privilege")
+    private List<String> privilegeList;
 	@JsonProperty(value="unionid")
     private String unionId;
+	@JsonProperty(value="subscribe")
     private Integer subscribe;
+	@JsonProperty(value="subscribe_time")
     private Long subscribeTime;
     private String remark;
 	@JsonProperty(value="groupid")
