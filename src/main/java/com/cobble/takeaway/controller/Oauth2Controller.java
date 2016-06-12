@@ -791,6 +791,7 @@ public class Oauth2Controller extends BaseController {
 							, JsonUtils.convertToJson(wxAuthorizerRefreshTokenReqApiPOJO));
 					WxAuthorizerRefreshTokenApiPOJO wxAuthorizerRefreshTokenApiPOJO = JsonUtils.convertToJavaBean(wxAuthorizerRefreshTokenStr, WxAuthorizerRefreshTokenApiPOJO.class);
 					BeanUtils.copyProperties(wxAuthorizerRefreshTokenApiPOJO, wxAuthorizerRefreshTokenPOJO);
+					wxAuthorizerRefreshTokenPOJO.setCreateDateTime(new Date());
 					wxAuthorizerRefreshTokenService.insert(wxAuthorizerRefreshTokenPOJO);
 					
 				}
