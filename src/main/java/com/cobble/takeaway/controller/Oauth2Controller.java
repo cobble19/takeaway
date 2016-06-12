@@ -81,6 +81,8 @@ import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 public class Oauth2Controller extends BaseController {
 	private final static Logger logger = LoggerFactory.getLogger(Oauth2Controller.class);
 	
+	public final static int WX_SUBSCRIBE = 1;
+	
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
@@ -220,40 +222,57 @@ public class Oauth2Controller extends BaseController {
 								.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
 						userInfo = HttpClientUtil.get(myUserInfoUidUrl);
 						wxUserInfoPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
-						nickname = wxUserInfoPOJO.getNickname();
-						country = wxUserInfoPOJO.getCountry();
-						province = wxUserInfoPOJO.getProvince();
-						city = wxUserInfoPOJO.getCity();
-						wxUserInfoPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-						wxUserInfoPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-						wxUserInfoPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-						wxUserInfoPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						if (wxUserInfoPOJO.getSubscribe() == WX_SUBSCRIBE) {
+							nickname = wxUserInfoPOJO.getNickname();
+							country = wxUserInfoPOJO.getCountry();
+							province = wxUserInfoPOJO.getProvince();
+							city = wxUserInfoPOJO.getCity();
+							wxUserInfoPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+							wxUserInfoPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+							wxUserInfoPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+							wxUserInfoPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						}
 					} catch (Exception e) {
 						logger.error("myUserInfoUidUrl exception: {}", e);
 					}
 				}
 				
-				
-				// get user info without subscribe
-				logger.info("Get user info without subscribe");
-				String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
-									.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
-				userInfo = HttpClientUtil.get(profileUrl);
-				WxUserApiPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserApiPOJO.class);
-				nickname = wxUserPOJO.getNickname();
-				country = wxUserPOJO.getCountry();
-				province = wxUserPOJO.getProvince();
-				city = wxUserPOJO.getCity();
-				wxUserPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-				wxUserPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-				wxUserPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-				wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				if (wxUserInfoPOJO.getSubscribe() != WX_SUBSCRIBE) {
+					// show qrcode
+					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+					wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(appid);
+					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+					
+					if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+						WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+						ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+						ret.setViewName("/page/weixin/authorizer_qrcode");
+						return ret;
+					}
+					
+					// get user info without subscribe
+					/*logger.info("Get user info without subscribe");
+					String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
+										.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
+					userInfo = HttpClientUtil.get(profileUrl);
+					WxUserApiPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserApiPOJO.class);
+					nickname = wxUserPOJO.getNickname();
+					country = wxUserPOJO.getCountry();
+					province = wxUserPOJO.getProvince();
+					city = wxUserPOJO.getCity();
+					wxUserPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					wxUserPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					wxUserPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					
+					BeanUtils.copyProperties(wxUserPOJO, wxUserInfoPOJO);*/
+				}
 				
 				// 微信用户信息放入session
-				session.setAttribute("wxUserPOJO", wxUserPOJO);
-				session.setAttribute("wxUserInfoPOJO", wxUserPOJO);
-				session.setAttribute("openId", wxUserPOJO.getOpenId());
-				session.setAttribute("unionId", wxUserPOJO.getUnionId());
+				session.setAttribute("wxUserPOJO", wxUserInfoPOJO);
+				session.setAttribute("wxUserInfoPOJO", wxUserInfoPOJO);
+				session.setAttribute("openId", wxUserInfoPOJO.getOpenId());
+				session.setAttribute("unionId", wxUserInfoPOJO.getUnionId());
 				
 				logger.info("nickname: {}, {}", nickname, new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				logger.info("country: {}, {}", country, new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
@@ -265,11 +284,11 @@ public class Oauth2Controller extends BaseController {
 				String myUserInfoUid = HttpClientUtil.get(myUserInfoUidUrl);*/
 				
 				// insert Wx person user into DB
-				UserPOJO userPOJO1 = userService.findUserByName(wxUserPOJO.getUnionId());
+				UserPOJO userPOJO1 = userService.findUserByName(wxUserInfoPOJO.getUnionId());
 				UserPOJO userPOJO = new UserPOJO();
 				if (userPOJO1 == null) {
-					userPOJO.setUsername(wxUserPOJO.getUnionId());
-					userPOJO.setPassword(wxUserPOJO.getUnionId());
+					userPOJO.setUsername(wxUserInfoPOJO.getUnionId());
+					userPOJO.setPassword(wxUserInfoPOJO.getUnionId());
 					userPOJO.setUserType(MyUser.PERSON);
 					userPOJO.setNickname(nickname);
 					userService.insert(userPOJO);
@@ -278,12 +297,12 @@ public class Oauth2Controller extends BaseController {
 				}
 				
 				WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
-				wxPersonUserSearchPOJO.setUnionId(wxUserPOJO.getUnionId());
+				wxPersonUserSearchPOJO.setUnionId(wxUserInfoPOJO.getUnionId());
 				wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
 				List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
 				WxPersonUserPOJO wxPersonUserPOJO = new WxPersonUserPOJO();
 				if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
-					BeanUtils.copyProperties(wxUserPOJO, wxPersonUserPOJO);
+					BeanUtils.copyProperties(wxUserInfoPOJO, wxPersonUserPOJO);
 					/*List<String> tagidList = wxUserPOJO.getTagidList();
 					String tagidListStr = "";
 					if (!CollectionUtils.isEmpty(tagidList)) {
@@ -297,19 +316,19 @@ public class Oauth2Controller extends BaseController {
 				}
 				
 				RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO = new RelWxPuOpenSearchPOJO();
-				relWxPuOpenSearchPOJO.setOpenId(wxUserPOJO.getOpenId());
+				relWxPuOpenSearchPOJO.setOpenId(wxUserInfoPOJO.getOpenId());
 				relWxPuOpenSearchPOJO.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
 				List<RelWxPuOpenPOJO> relWxPuOpenPOJOs = relWxPuOpenService.finds(relWxPuOpenSearchPOJO);
 				if (CollectionUtils.isEmpty(relWxPuOpenPOJOs)) {
 					RelWxPuOpenPOJO relWxPuOpenPOJO = new RelWxPuOpenPOJO();
-					relWxPuOpenPOJO.setOpenId(wxUserPOJO.getOpenId());
+					relWxPuOpenPOJO.setOpenId(wxUserInfoPOJO.getOpenId());
 					relWxPuOpenPOJO.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
 					relWxPuOpenService.insert(relWxPuOpenPOJO);
 				}
 				
 				/*ret.setViewName("/page/person/reg_success");*/
 				
-				String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserPOJO.getNickname()
+				String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoPOJO.getNickname()
 						+ "\n" + "Token: \n" + result + "\n" + "UserInfo: \n" + userInfo + "\n"
 						/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
 				/*ret.addObject("msg", msg);
