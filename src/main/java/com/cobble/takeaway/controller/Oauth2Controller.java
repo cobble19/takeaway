@@ -251,7 +251,7 @@ public class Oauth2Controller extends BaseController {
 					}
 					
 					// get user info without subscribe
-					/*logger.info("Get user info without subscribe");
+					logger.info("Get user info without subscribe");
 					String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
 										.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
 					userInfo = HttpClientUtil.get(profileUrl);
@@ -265,7 +265,7 @@ public class Oauth2Controller extends BaseController {
 					wxUserPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 					wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 					
-					BeanUtils.copyProperties(wxUserPOJO, wxUserInfoPOJO);*/
+					BeanUtils.copyProperties(wxUserPOJO, wxUserInfoPOJO);
 				}
 				
 				// 微信用户信息放入session
