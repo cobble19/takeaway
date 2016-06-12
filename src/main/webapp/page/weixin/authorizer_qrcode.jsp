@@ -11,7 +11,7 @@
   <body>
   	<div class="container-fluid">
   		<div class="row">
-  			<h2 class="col-sm-offset-3 col-md-offset-2">请关注公众号 <c:out value="${wxAuthorizerInfoPOJO.nickname}"></c:out></h2>
+  			<h2 class="col-sm-offset-3 col-md-offset-2">请关注公众号 <c:out value="${wxAuthorizerInfoPOJO.nickName}"></c:out></h2>
   			<p>
   				<img alt="" src="${wxAuthorizerInfoPOJO.qrcodeUrl}">
   				
