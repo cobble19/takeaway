@@ -356,7 +356,7 @@ var showDetail = function() {
         }),*/
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
-        	$("#wxAuthorizerAppId").html(data.wxAuthorizerAppId);
+        	$("#authorizerAppId").html(data.authorizerAppId);
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);
 			$("#title_1").html(data.title);
