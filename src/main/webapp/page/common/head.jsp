@@ -101,6 +101,8 @@
 	<input id="userId" type="hidden" value='${sessionScope.myUser.userId}'>
 	<input id="username" type="hidden" value='${sessionScope.myUser.username}'>
 	
+	<input id="unionId" type="hidden" value='${sessionScope.unionId}'>
+	
     <%-- <%  
 	    String path = request.getContextPath();  
 	    String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/";  

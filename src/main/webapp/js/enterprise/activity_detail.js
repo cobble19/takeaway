@@ -165,7 +165,7 @@ var onClickApply2Summit = function() {
 			
 			var subscribe = isSubscribe();
 			if (!subscribe) {
-				alert('请关注该活动发布方微信。');
+				alert('请关注该活动发布方微信公众号');
 				/// 跳出微信qrcode进行关注
 				return;
 			}
@@ -356,7 +356,7 @@ var showDetail = function() {
         }),*/
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
-        	$("#authorizerAppId").html(data.authorizerAppId);
+        	$("#authorizerAppId").html(data.wxAuthorizerInfoPOJO.authorizerAppId);
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);
 			$("#title_1").html(data.title);
