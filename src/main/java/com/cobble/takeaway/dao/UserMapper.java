@@ -20,5 +20,6 @@ public interface UserMapper {
 	UserPOJO findUserByNickname(String nickname) throws Exception;
 	
 	UserPOJO findUserByIndexCode(String wxIndexCode) throws Exception;
+	UserPOJO findUserByActivityId(Long activityId) throws Exception;
 	
 }

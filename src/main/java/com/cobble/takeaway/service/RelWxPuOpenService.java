@@ -10,6 +10,8 @@ public interface RelWxPuOpenService {
 	int insert(RelWxPuOpenPOJO relWxPuOpenPOJO) throws Exception;
 	int update(RelWxPuOpenPOJO relWxPuOpenPOJO) throws Exception;
 	List<RelWxPuOpenPOJO> finds(RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO) throws Exception;
+	List<RelWxPuOpenPOJO> findWithPu(RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO) throws Exception;
+	RelWxPuOpenPOJO findWithPu(String unionId, String authorizerAppId) throws Exception;
 	
 	int getCount(RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO) throws Exception;
 	RelWxPuOpenPOJO findById(Long id) throws Exception;

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.cobble.takeaway.dao.WxAuthorizerInfoMapper;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
@@ -77,6 +78,20 @@ public class WxAuthorizerInfoServiceImpl implements WxAuthorizerInfoService {
 			throws Exception {
 		WxAuthorizerInfoPOJO ret = null;
 		ret = wxAuthorizerInfoMapper.findWxAuthorizerInfoByIndexCode(indexCode);
+		return ret;
+	}
+
+	@Override
+	public WxAuthorizerInfoPOJO findWxAuthorizerInfoByUserId(Long userId)
+			throws Exception {
+		WxAuthorizerInfoPOJO ret = null;
+		List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = null;
+		WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+		wxAuthorizerInfoSearchPOJO.setUserId(userId);
+		wxAuthorizerInfoPOJOs = wxAuthorizerInfoMapper.finds(wxAuthorizerInfoSearchPOJO);
+		if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+			ret = wxAuthorizerInfoPOJOs.get(0);
+		}
 		return ret;
 	}
 

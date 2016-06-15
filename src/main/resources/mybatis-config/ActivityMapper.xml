@@ -22,6 +22,7 @@
     <result column="USER_ID_ENTERPRISE" property="userIdEnterprise" />
     <result column="USERNAME_ENTERPRISE" property="usernameEnterprise" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
+    <association property="wxAuthorizerInfoPOJO" resultMap="com.cobble.takeaway.dao.WxAuthorizerInfoMapper.WxAuthorizerInfoResultMap" columnPrefix="B_"></association>
   </resultMap>
   
   <resultMap id="ActivityResult2Map" type="com.cobble.takeaway.pojo.ActivityPOJO" >
@@ -175,12 +176,19 @@
     select 
     <include refid="Base_Column_List" />
 			, u.user_id, u.username, u.nickname, uEnt.username as username_enterprise, uEnt.user_id as user_id_enterprise
-    from e_activity a, rel_activity_user rau, b_user u, b_user uEnt
+			b.WX_AUTHORIZER_INFO_ID B_WX_AUTHORIZER_INFO_ID, b.USER_ID B_USER_ID, b.NICK_NAME B_NICK_NAME, b.HEAD_IMG B_HEAD_IMG
+    , b.SERVICE_TYPE_INFO B_SERVICE_TYPE_INFO, b.VERIFY_TYPE_INFO B_VERIFY_TYPE_INFO, b.USER_NAME B_USER_NAME
+    , b.ALIAS B_ALIAS, b.QRCODE_URL B_QRCODE_URL, b.BUSINESS_INFO B_BUSINESS_INFO
+    , b.IDC B_IDC, b.AUTHORIZER_APPID B_AUTHORIZER_APPID, b.FUNC_INFO B_FUNC_INFO
+    , b.QRCODE_FILE_PATH B_QRCODE_FILE_PATH
+    , b.CREATE_DATE_TIME B_CREATE_DATE_TIME
+    from e_activity a, rel_activity_user rau, b_user u, b_user uEnt, wx_authorizer_info b
     <where>
   		<trim prefixOverrides="and">
 			and a.activity_id = rau.activity_id
 			and rau.user_id = u.user_id
 			and a.user_Id_Enterprise = uEnt.user_id
+			and u.user_id = b.user_id
 			and a.ACTIVITY_ID = #{activityId}
   		</trim>
   	</where>

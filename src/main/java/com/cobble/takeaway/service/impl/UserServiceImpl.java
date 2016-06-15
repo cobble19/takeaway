@@ -151,5 +151,12 @@ public class UserServiceImpl implements UserService {
 		return ret;
 	}
 
+	@Override
+	public UserPOJO findUserByActivityId(Long activityId) throws Exception {
+		UserPOJO ret = null;
+		ret = userMapper.findUserByActivityId(activityId);
+		return ret;
+	}
+
 
 }

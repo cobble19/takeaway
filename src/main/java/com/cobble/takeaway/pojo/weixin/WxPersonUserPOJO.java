@@ -9,6 +9,8 @@ public class WxPersonUserPOJO extends BasePOJO {
 	private Long userId;
     // 用户标识
     private String openId;
+    // 
+    private String authorizerAppId;
     // 用户昵称
     private String nickname;
     // 性别（1是男性，2是女性，0是未知）
@@ -177,6 +179,14 @@ public class WxPersonUserPOJO extends BasePOJO {
 
 	public void setTagidList(String tagidList) {
 		this.tagidList = tagidList;
+	}
+
+	public String getAuthorizerAppId() {
+		return authorizerAppId;
+	}
+
+	public void setAuthorizerAppId(String authorizerAppId) {
+		this.authorizerAppId = authorizerAppId;
 	}
 
 }

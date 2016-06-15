@@ -7,9 +7,11 @@ import com.cobble.takeaway.pojo.BasePOJO;
 public class RelWxPuOpenPOJO extends BasePOJO {
 	private Long relWxPuOpenId;
 	private Long wxPersonUserId;
-    // 用户标识
     private String openId;
+    private String authorizerAppId;
     private Date createDateTime;
+    
+    private WxPersonUserPOJO wxPersonUserPOJO;
     
 	public Long getRelWxPuOpenId() {
 		return relWxPuOpenId;
@@ -34,6 +36,18 @@ public class RelWxPuOpenPOJO extends BasePOJO {
 	}
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+	public String getAuthorizerAppId() {
+		return authorizerAppId;
+	}
+	public void setAuthorizerAppId(String authorizerAppId) {
+		this.authorizerAppId = authorizerAppId;
+	}
+	public WxPersonUserPOJO getWxPersonUserPOJO() {
+		return wxPersonUserPOJO;
+	}
+	public void setWxPersonUserPOJO(WxPersonUserPOJO wxPersonUserPOJO) {
+		this.wxPersonUserPOJO = wxPersonUserPOJO;
 	}
 
 }

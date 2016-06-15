@@ -12,6 +12,7 @@
 	
   <resultMap id="WxAuthorizerInfoResultMap" type="com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO" >
     <id column="WX_AUTHORIZER_INFO_ID" property="wxAuthorizerInfoId" />
+    <result column="USER_ID" property="userId"/>
     <result column="NICK_NAME" property="nickName"/>
     <result column="HEAD_IMG" property="headImg" />
     <result column="SERVICE_TYPE_INFO" property="serviceTypeInfo" />
@@ -23,19 +24,24 @@
     <result column="IDC" property="idc" />
     <result column="AUTHORIZER_APPID" property="authorizerAppId" />
     <result column="FUNC_INFO" property="funcInfo" />
+    <result column="QRCODE_FILE_PATH" property="qrcodeFilePath" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.WX_AUTHORIZER_INFO_ID, a.NICK_NAME, a.HEAD_IMG
+    a.WX_AUTHORIZER_INFO_ID, a.USER_ID, a.NICK_NAME, a.HEAD_IMG
     , a.SERVICE_TYPE_INFO, a.VERIFY_TYPE_INFO, a.USER_NAME
     , a.ALIAS, a.QRCODE_URL, a.BUSINESS_INFO
     , a.IDC, a.AUTHORIZER_APPID, a.FUNC_INFO
+    , a.QRCODE_FILE_PATH
     , a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APPID like concat("%", concat(#{authorizerAppId}, "%"))
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
 	</if>
   </sql>
   
@@ -128,6 +134,9 @@
       <if test="funcInfo != null" >
         FUNC_INFO,
       </if>
+      <if test="qrcodeFilePath != null" >
+        QRCODE_FILE_PATH,
+      </if>
       <if test="createDateTime != null" >
         CREATE_DATE_TIME,
       </if>
@@ -165,6 +174,9 @@
       </if>
       <if test="funcInfo != null" >
         #{funcInfo},
+      </if>
+      <if test="qrcodeFilePath != null" >
+        #{qrcodeFilePath},
       </if>
       <if test="createDateTime != null" >
         #{createDateTime},
@@ -207,6 +219,9 @@
       </if>
       <if test="funcInfo != null" >
         FUNC_INFO = #{funcInfo},
+      </if>
+      <if test="qrcodeFilePath != null" >
+        QRCODE_FILE_PATH = #{qrcodeFilePath},
       </if>
       <if test="createDateTime != null" >
         CREATE_DATE_TIME = #{createDateTime},

@@ -7,6 +7,9 @@ public class RelWxPuOpenSearchPOJO extends BaseSearchPOJO {
 	private Long wxPersonUserId;
     // 用户标识
     private String openId;
+    private String unionId;
+    
+    private String authorizerAppId;
     
 	public Long getRelWxPuOpenId() {
 		return relWxPuOpenId;
@@ -25,6 +28,18 @@ public class RelWxPuOpenSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setOpenId(String openId) {
 		this.openId = openId;
+	}
+	public String getUnionId() {
+		return unionId;
+	}
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
+	}
+	public String getAuthorizerAppId() {
+		return authorizerAppId;
+	}
+	public void setAuthorizerAppId(String authorizerAppId) {
+		this.authorizerAppId = authorizerAppId;
 	}
 
 }

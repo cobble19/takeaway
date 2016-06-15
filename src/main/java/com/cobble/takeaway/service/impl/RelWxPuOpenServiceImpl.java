@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.cobble.takeaway.dao.RelWxPuOpenMapper;
 import com.cobble.takeaway.pojo.weixin.RelWxPuOpenPOJO;
@@ -68,6 +69,29 @@ public class RelWxPuOpenServiceImpl implements RelWxPuOpenService {
 			for (Long id : ids) {
 				ret += relWxPuOpenMapper.deleteById(id);
 			}
+		}
+		return ret;
+	}
+
+	@Override
+	public List<RelWxPuOpenPOJO> findWithPu(
+			RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO) throws Exception {
+		List<RelWxPuOpenPOJO> ret = null;
+		ret = relWxPuOpenMapper.findWithPu(relWxPuOpenSearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public RelWxPuOpenPOJO findWithPu(String unionId, String authorizerAppId)
+			throws Exception {
+		RelWxPuOpenPOJO ret = null;
+		RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO = new RelWxPuOpenSearchPOJO();
+		relWxPuOpenSearchPOJO.setUnionId(unionId);
+		relWxPuOpenSearchPOJO.setAuthorizerAppId(authorizerAppId);
+		List<RelWxPuOpenPOJO> relWxPuOpenPOJOs = null;
+		relWxPuOpenPOJOs = relWxPuOpenMapper.findWithPu(relWxPuOpenSearchPOJO);
+		if (!CollectionUtils.isEmpty(relWxPuOpenPOJOs)) {
+			ret = relWxPuOpenPOJOs.get(0);
 		}
 		return ret;
 	}

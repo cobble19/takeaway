@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +16,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -32,8 +33,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.PathMatcher;
 
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
+import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
+import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.util.BeanUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
@@ -98,7 +101,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			this.saveRequest(request, response);
 			try {
 				myRedirectStrategy.sendRedirect(request, response, this.getWxLoginUrl(request, response));
-			} catch (IOException e) {
+			} catch (Exception e) {
 				logger.error("Redirect Exception: ", e);
 			}
 //			throw new InsufficientAuthenticationException("InsufficientAuthenticationException");
@@ -129,7 +132,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			this.saveRequest(request, response);
 			try {
 				myRedirectStrategy.sendRedirect(request, response, this.getWxLoginUrl(request, response));
-			} catch (IOException e) {
+			} catch (Exception e) {
 				logger.error("Redirect Exception: ", e);
 			}
 			throw new AccessDeniedException("权限需要分配角色," + ", configAttributes is null, user = " + authentication.getName()
@@ -149,7 +152,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			this.saveRequest(request, response);
 			try {
 				myRedirectStrategy.sendRedirect(request, response, this.getWxLoginUrl(request, response));
-			} catch (IOException e) {
+			} catch (Exception e) {
 				logger.error("Redirect Exception: ", e);
 			}
 			throw new AccessDeniedException("用户需要分配角色," + ", authorities is null, user = " + authentication.getName()
@@ -179,7 +182,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		this.saveRequest(request, response);
 		try {
 			myRedirectStrategy.sendRedirect(request, response, this.getWxLoginUrl(request, response));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("Redirect Exception: ", e);
 		}
 		throw new AccessDeniedException("没有权限, user = " + authentication.getName()
@@ -203,16 +206,18 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		}
 	}
 	
-	public String getWxLoginUrl(HttpServletRequest request, HttpServletResponse response) {
+	public String getWxLoginUrl(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String ret = "";
 		if (!HttpRequestUtil.isWeiXin(request)) {
-			return "login.jsp";
+			return HttpRequestUtil.getBase(request) + "/login.jsp";
 		}
 		
 		logger.info("login success begin...");
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
-		logger.info("login success uri: " + uri + ", qs: " + qs);
+		String url = request.getRequestURL().toString();
+		logger.info("login success uri: " + uri + ", qs: " + qs + ", url: " + url);
+		
 		
 		WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
 		MessageSource messageSource = (MessageSource) BeanUtil.get("messageSource");
@@ -224,18 +229,44 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		
 		String scope = messageSource.getMessage("WX.scope", null, null);
 		
-		WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
-		List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = null;
-		try {
-			wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		UserService userService = (UserService) BeanUtil.get("userServiceImpl");
+		UserPOJO userPOJO = null;
+		// 1. 根据indexCode,得到user。 2. 根据activityid得到user
+		if (url.startsWith("/wx/")) {
+			int index = url.indexOf("/wx/");
+			String indexCode = url.substring(index + 4);
+			if (!indexCode.contains("/")) {
+				userPOJO = userService.findUserByIndexCode(indexCode);
+			}
+		} else if (url.startsWith("/page/enterprise/activity_detail.jsp?activityId=")) {	// /page/enterprise/activity_detail.jsp?activityId=31
+			Pattern p = Pattern.compile("(activityId=)(\\d+)");
+			Matcher m = p.matcher(url);
+			if (m.find() && m.groupCount() == 2) {
+				String s = m.group(2);
+				Long activityId = Long.parseLong(s);
+				userPOJO = userService.findUserByActivityId(activityId);
+			}
 		}
+
+		// 获取AuthorizerAppId
 		WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
-		if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
-			wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+		if (userPOJO == null) {
+			logger.info("微官网、活动发布者为空");
+			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = null;
+			try {
+				wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+			} catch (Exception e) {
+				logger.error("Got Authorizer Exception: {}", e);
+			}
+			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+			}
+		} else {
+			logger.info("微官网、活动发布者不为空");
+			wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userPOJO.getUserId());
 		}
+		
 		String wxWebLoginUrl = "";
 		String wxThirdPersonUserLoginUrl = "";
 		if (wxAuthorizerInfoPOJO != null) {
@@ -300,8 +331,15 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	}
 	
 	public static void main(String[] argv) {
-		MyAccessDecisionManager madm = new MyAccessDecisionManager();
-		madm.checkSessionUrls("/web/media/wxTemplate?wxTemplate=-2", null);
+		/*MyAccessDecisionManager madm = new MyAccessDecisionManager();
+		madm.checkSessionUrls("/web/media/wxTemplate?wxTemplate=-2", null);*/
+			Pattern p = Pattern.compile("(activityId=)(\\d+)");
+			Matcher m = p.matcher("/page/enterprise/activity_detail.jsp?activityId=31&h=1");
+			if (m.find()) {
+				String s = m.group(2);
+//				Long activityId = Long.parseLong(s);
+				logger.info(s + "   " + m.groupCount());
+			}
 		
 	}
 

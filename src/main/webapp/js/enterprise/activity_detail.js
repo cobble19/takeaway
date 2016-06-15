@@ -18,6 +18,84 @@ $(document).ready(function() {
 	
 })
 
+var showQrcode = function() {
+		
+	    var authorizerAppId = $('#authorizerAppId').val();
+    	
+	    var params = {
+	    		
+	    };
+
+    	params.authorizerAppId = authorizerAppId;
+    	
+    	$.ajax({
+    		"url" : $('#basePath').val() + "/api/wx/oauth2/third/web/authorizer",
+    		"type" : "POST",
+    		"async": false,
+    		/*"headers" : {
+    			"Content-Type" : "application/json"
+    		},*/
+    		"dataType" : 'json',
+    		"data": params,
+            success: function(data, textStatus, jqXHR ) {
+            	if (data != null) {
+            		String qrcodeFilePath = data.qrcodeFilePath;
+            		window.location.href = $('#basePath').val() + "/" + qrcodeFilePath;
+            	} else {
+            		alert("获取活动发布者的微信二维码错误");
+            	}
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Ajax error');
+            	alert('Ajax error');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});	// ajax
+    	return ;
+}
+
+var isSubscribe = function() {
+		var exist = false;
+		
+	    var unionId = $('#unionId').val();
+	    var authorizerAppId = $('#authorizerAppId').val();
+    	
+	    var params = {
+	    		
+	    };
+
+    	params.unionId = unionId;
+    	params.authorizerAppId = authorizerAppId;
+    	
+    	$.ajax({
+    		"url" : $('#basePath').val() + "/api/wx/oauth2/third/web/subscribe",
+    		"type" : "POST",
+    		"async": false,
+    		/*"headers" : {
+    			"Content-Type" : "application/json"
+    		},*/
+    		"dataType" : 'json',
+    		"data": params,
+            success: function(data, textStatus, jqXHR ) {
+            	if (data.success) {
+            		exist = true;
+            	} else {
+            		exist = false;
+            	}
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Ajax error');
+            	alert('Ajax error');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});	// ajax
+    	return exist;
+}
+
 var existApply2 = function() {
 		var exist = false;
 		
@@ -85,6 +163,13 @@ var onClickApply2Summit = function() {
 				return;
 			}
 			
+			var subscribe = isSubscribe();
+			if (!subscribe) {
+				alert('请关注该活动发布方微信。');
+				/// 跳出微信qrcode进行关注
+				return;
+			}
+			
 //			var formData;
 //		    formData = new FormData();
 		    
@@ -130,7 +215,7 @@ var onClickApply2Summit = function() {
 		        }
 		    });	// ajax end
 		    
-		})
+		});
 		
 }
 
@@ -271,6 +356,7 @@ var showDetail = function() {
         }),*/
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
+        	$("#wxAuthorizerAppId").html(data.wxAuthorizerAppId);
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);
 			$("#title_1").html(data.title);

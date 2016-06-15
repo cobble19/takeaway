@@ -18,6 +18,9 @@ public class WxAuthorizerInfoPOJO extends BasePOJO {
 	private Integer idc;
     private String authorizerAppId;
     private String funcInfo;
+    
+    private String qrcodeFilePath;
+    
     private Date createDateTime;
     
 	public Long getWxAuthorizerInfoId() {
@@ -103,6 +106,12 @@ public class WxAuthorizerInfoPOJO extends BasePOJO {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public String getQrcodeFilePath() {
+		return qrcodeFilePath;
+	}
+	public void setQrcodeFilePath(String qrcodeFilePath) {
+		this.qrcodeFilePath = qrcodeFilePath;
 	}
     
 	
