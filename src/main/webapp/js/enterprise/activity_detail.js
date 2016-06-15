@@ -39,7 +39,7 @@ var showQrcode = function() {
     		"data": params,
             success: function(data, textStatus, jqXHR ) {
             	if (data != null) {
-            		String qrcodeFilePath = data.qrcodeFilePath;
+            		var qrcodeFilePath = data.qrcodeFilePath;
             		window.location.href = $('#basePath').val() + "/" + qrcodeFilePath;
             	} else {
             		alert("获取活动发布者的微信二维码错误");
