@@ -18,6 +18,18 @@
 			<%@include file="../../../reg_login_full.jsp" %>
 		</div>
 		
+		
+			<!-- 隐藏 -->
+ 				<div id="qrcodeDiv" class="col-md-12 col-xs-12" style="border:1px solid #CCC; display:none; margin: auto;">
+ 					<div class="thumbnail">
+			      <div class="caption">
+			        <h3>请通过长按识别二维码或微信扫描二维码关注公众号</h3>
+			        <p></p>
+			      </div>
+			      <img id="qrcodeImg" src="" alt="">
+			    </div>
+			</div>
+		
 		<div id="showDiv">
 			<div class="row">
 			  <div class="col-md-12 col-xs-12" >
@@ -120,17 +132,6 @@
 	  					</div>
 					</div>
 					
-					
-					<!-- 隐藏 -->
-	  				<div id="qrcodeDiv" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px; display:none;">
-	  					<div class="thumbnail">
-					      <div class="caption">
-					        <h3>请通过长按识别二维码或微信扫描二维码关注公众号</h3>
-					        <p></p>
-					      </div>
-					      <img id="qrcodeImg" src="" alt="">
-					    </div>
-					</div>
 					
 	  			</div>
 	  		</div>

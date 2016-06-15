@@ -402,6 +402,8 @@ public class Oauth2Controller extends BaseController {
 					RelWxPuOpenPOJO relWxPuOpenPOJO = new RelWxPuOpenPOJO();
 					relWxPuOpenPOJO.setOpenId(wxUserInfoApiPOJO.getOpenId());
 					relWxPuOpenPOJO.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
+					relWxPuOpenPOJO.setAuthorizerAppId(appid);
+					relWxPuOpenPOJO.setCreateDateTime(new Date());
 					relWxPuOpenService.insert(relWxPuOpenPOJO);
 				}
 				
