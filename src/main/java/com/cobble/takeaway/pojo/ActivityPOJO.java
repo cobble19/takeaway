@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
+
 
 public class ActivityPOJO extends BasePOJO {
     private Long activityId;
@@ -21,6 +23,8 @@ public class ActivityPOJO extends BasePOJO {
     
     private Long userIdEnterprise;
     private String usernameEnterprise;
+    
+    private WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO;
     
     private List<Apply2POJO> apply2POJOs = new ArrayList<Apply2POJO>();
     
@@ -95,5 +99,11 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setTypeCode(Integer typeCode) {
 		this.typeCode = typeCode;
+	}
+	public WxAuthorizerInfoPOJO getWxAuthorizerInfoPOJO() {
+		return wxAuthorizerInfoPOJO;
+	}
+	public void setWxAuthorizerInfoPOJO(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO) {
+		this.wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJO;
 	}
 }
