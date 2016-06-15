@@ -188,6 +188,13 @@ public class Oauth2Controller extends BaseController {
 					toFilePath = toFilePath.replace("/", File.separator);
 					HtmlConvertedPOJO htmlConvertedPOJO = FileUtil.url2File(ret.getQrcodeUrl(), toDir, toFilePath);
 					ret.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
+					
+					WxAuthorizerInfoPOJO temp = new WxAuthorizerInfoPOJO();
+					temp.setWxAuthorizerInfoId(ret.getWxAuthorizerInfoId());
+					temp.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
+					
+					wxAuthorizerInfoService.insert(temp);
+					
 				}
 				
 			}

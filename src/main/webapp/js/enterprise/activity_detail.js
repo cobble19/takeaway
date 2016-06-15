@@ -20,7 +20,11 @@ $(document).ready(function() {
 
 var showQrcode = function() {
 		
-	    var authorizerAppId = $('#authorizerAppId').val();
+	    var authorizerAppId = $('#authorizerAppId').text();
+	    
+	    if (authorizerAppId == null || authorizerAppId == "") {
+	    	alert('微信公众号的ID为空， 请重新登录');
+	    }
     	
 	    var params = {
 	    		
@@ -60,7 +64,14 @@ var isSubscribe = function() {
 		var exist = false;
 		
 	    var unionId = $('#unionId').val();
-	    var authorizerAppId = $('#authorizerAppId').val();
+	    var authorizerAppId = $('#authorizerAppId').text();
+	    
+	    if (unionId == null || authorizerAppId == "") {
+	    	alert("微信用户的联合ID为空， 请重新登录");
+	    }
+	    if (authorizerAppId == null || authorizerAppId == "") {
+	    	alert("微信公众号ID为空， 请重新登录");
+	    }
     	
 	    var params = {
 	    		
@@ -167,6 +178,7 @@ var onClickApply2Summit = function() {
 			if (!subscribe) {
 				alert('请关注该活动发布方微信公众号');
 				/// 跳出微信qrcode进行关注
+				showQrcode();
 				return;
 			}
 			

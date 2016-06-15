@@ -41,7 +41,7 @@ public class FileUtil {
 			CloseableHttpClient httpclient = HttpClients.createDefault();
 
             String toFileFullPath = toDir + File.separator + toFilePath;
-            String htmlPath = "files" + "/" + toFileFullPath.replace("\\", "/");
+            String htmlPath = "files" + "/" + toFilePath.replace("\\", "/");
 	        try {
 	            HttpGet httpget = new HttpGet(fromFullUrl);
 

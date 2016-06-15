@@ -32,9 +32,6 @@
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>
-	<if test="unionId != null">
-		and a.UNION_ID = #{unionId}
-	</if>
   </sql>
   
   <select id="findWithPu" resultMap="RelWxPuOpenResultMap" parameterType="com.cobble.takeaway.pojo.weixin.RelWxPuOpenSearchPOJO" >
@@ -51,6 +48,9 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
+			<if test="unionId != null">
+				and b.UNION_ID = #{unionId}
+			</if>
   		</trim>
   	</where>
   	order by a.CREATE_DATE_TIME desc
