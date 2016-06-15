@@ -193,7 +193,7 @@ public class Oauth2Controller extends BaseController {
 					temp.setWxAuthorizerInfoId(ret.getWxAuthorizerInfoId());
 					temp.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
 					
-					wxAuthorizerInfoService.insert(temp);
+					wxAuthorizerInfoService.update(temp);
 					
 				}
 				
