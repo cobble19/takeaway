@@ -16,6 +16,12 @@ $(document).ready(function() {
     	//return false;
 	})
 	
+
+    $('#qrcodeDiv').dialog({
+    	autoOpen: false,
+    	modal: true
+    });
+	
 })
 
 var showQrcode = function() {
@@ -44,7 +50,11 @@ var showQrcode = function() {
             success: function(data, textStatus, jqXHR ) {
             	if (data != null) {
             		var qrcodeFilePath = data.qrcodeFilePath;
-            		window.location.href = $('#basePath').val() + "/" + qrcodeFilePath;
+//            		window.location.href = $('#basePath').val() + "/" + qrcodeFilePath;
+            		
+            		$('#qrcodeDiv').dialog('open');
+            		$('#qrcodeImg').attr('src', $('#basePath').val() + "/" + qrcodeFilePath);
+            		
             	} else {
             		alert("获取活动发布者的微信二维码错误");
             	}
