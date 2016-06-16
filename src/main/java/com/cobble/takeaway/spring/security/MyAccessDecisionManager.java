@@ -232,16 +232,16 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		UserService userService = (UserService) BeanUtil.get("userServiceImpl");
 		UserPOJO userPOJO = null;
 		// 1. 根据indexCode,得到user。 2. 根据activityid得到user
-		if (url.startsWith("/wx/")) {
-			int index = url.indexOf("/wx/");
-			String indexCode = url.substring(index + 4);
+		if (uri.startsWith("/wx/")) {
+			int index = uri.indexOf("/wx/");
+			String indexCode = uri.substring(index + 4);
 			logger.info("Index Code: {}", indexCode);
 			if (!indexCode.contains("/")) {
 				userPOJO = userService.findUserByIndexCode(indexCode);
 			}
-		} else if (url.startsWith("/page/enterprise/activity_detail.jsp?activityId=")) {	// /page/enterprise/activity_detail.jsp?activityId=31
+		} else if (uri.startsWith("/page/enterprise/activity_detail.jsp")) {	// /page/enterprise/activity_detail.jsp?activityId=31
 			Pattern p = Pattern.compile("(activityId=)(\\d+)");
-			Matcher m = p.matcher(url);
+			Matcher m = p.matcher(qs);
 			if (m.find() && m.groupCount() == 2) {
 				String s = m.group(2);
 				logger.info("activityId: {}", s);
