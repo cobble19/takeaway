@@ -216,6 +216,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		String qs = request.getQueryString();
 		String url = request.getRequestURL().toString();
 		
+		logger.info("uri: {}, qs: {}, url: {}", uri, qs, url);
+		
 		
 		WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
 		MessageSource messageSource = (MessageSource) BeanUtil.get("messageSource");
