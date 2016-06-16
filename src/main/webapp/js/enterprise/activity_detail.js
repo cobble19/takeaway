@@ -190,7 +190,7 @@ var onClickApply2Summit = function() {
 			if (!subscribe) {
 //				alert('请关注该活动发布方微信公众号');
 				/// 跳出微信qrcode进行关注
-				confirm = window.confirm('参加活动，需要活动， 是否关注？');
+				confirm = window.confirm('参加活动，需要关注， 是否关注？');
 				if (confirm) {
 					showQrcode();
 				} else {
@@ -288,7 +288,7 @@ var showApply2 = function() {
         	if (!subscribe) {
 //        		alert('请关注该活动发布方微信公众号');
         		/// 跳出微信qrcode进行关注
-        		confirm = window.confirm('参加活动，需要活动， 是否关注？');
+        		confirm = window.confirm('参加活动，需要关注， 是否关注？');
         		if (confirm) {
         			showQrcode();
         		} else {
