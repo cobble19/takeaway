@@ -167,6 +167,12 @@
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="unionId != null" >
+        #{unionId},
+      </if>
       <if test="description != null" >
         #{description},
       </if>

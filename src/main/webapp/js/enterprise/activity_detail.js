@@ -402,6 +402,15 @@ var showDetail = function() {
         	}
         	
         	$(document).find("title").text(publisher + "|" + data.title);
+        	
+        	var subscribe = isSubscribe();
+			if (!subscribe) {
+				alert('请关注该活动发布方微信公众号');
+				/// 跳出微信qrcode进行关注
+				showQrcode();
+				return;
+			}
+        	
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	alert('Load Error!');
