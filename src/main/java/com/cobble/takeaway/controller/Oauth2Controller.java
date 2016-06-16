@@ -463,22 +463,25 @@ public class Oauth2Controller extends BaseController {
 				///////
 				List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS");
 				MyUser myUser = userService.findMyUserByName(userPOJO.getUsername());
+
+				String openId = (String) session.getAttribute("openId");
+				String unionId = (String) session.getAttribute("unionId");
+				if (StringUtils.isNotBlank(openId)) {
+					myUser.setOpenId(openId);
+				}
+				if (StringUtils.isNotBlank(unionId)) {
+					myUser.setUnionId(unionId);
+				}
+				
 				UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, userPOJO.getPassword(), authorities);
 				SecurityContextHolder.getContext().setAuthentication(anAnthentication);
 				Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				logger.info("principal instanceof MyUser: " + (principal instanceof MyUser));
 				if (principal instanceof MyUser) {
 					myUser = (MyUser) principal;
 					session.setAttribute("username", myUser.getUsername());
 					session.setAttribute("userType", myUser.getUserType());
 					session.setAttribute("myUser", myUser);
-					String openId = (String) session.getAttribute("openId");
-					String unionId = (String) session.getAttribute("unionId");
-					if (StringUtils.isNotBlank(openId)) {
-						myUser.setOpenId(openId);
-					}
-					if (StringUtils.isNotBlank(unionId)) {
-						myUser.setUnionId(unionId);
-					}
 				}
 				
 				SavedRequest savedRequest = HttpRequestUtil.getRequest(request, response);
