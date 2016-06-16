@@ -20,7 +20,15 @@
 	<security:http pattern="/mgr/ta/*.json" security="none" />
 	
 	<security:http pattern="/mgr/data/**" security="none" />
-	<security:http pattern="/page/**" security="none" />
+	<!-- <security:http pattern="/page/**" security="none" /> -->
+	
+	<security:http pattern="/page/*.jsp" security="none" />
+	<security:http pattern="/page/common/**" security="none" />
+	<security:http pattern="/page/media/**" security="none" />
+	<security:http pattern="/page/person/**" security="none" />
+	<security:http pattern="/page/weixin/**" security="none" />
+	
+	
 	<security:http pattern="/login*" security="none" />
 	<security:http pattern="/spring_security_login" security="none" />
 	<security:http pattern="/*.jsp" security="none" />

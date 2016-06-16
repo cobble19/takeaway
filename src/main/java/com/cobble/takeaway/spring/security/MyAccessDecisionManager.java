@@ -212,11 +212,9 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			return HttpRequestUtil.getBase(request) + "/login.jsp";
 		}
 		
-		logger.info("login success begin...");
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
 		String url = request.getRequestURL().toString();
-		logger.info("login success uri: " + uri + ", qs: " + qs + ", url: " + url);
 		
 		
 		WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
@@ -235,6 +233,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		if (url.startsWith("/wx/")) {
 			int index = url.indexOf("/wx/");
 			String indexCode = url.substring(index + 4);
+			logger.info("Index Code: {}", indexCode);
 			if (!indexCode.contains("/")) {
 				userPOJO = userService.findUserByIndexCode(indexCode);
 			}
@@ -243,6 +242,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			Matcher m = p.matcher(url);
 			if (m.find() && m.groupCount() == 2) {
 				String s = m.group(2);
+				logger.info("activityId: {}", s);
 				Long activityId = Long.parseLong(s);
 				userPOJO = userService.findUserByActivityId(activityId);
 			}
