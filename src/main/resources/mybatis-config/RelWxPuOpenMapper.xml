@@ -47,6 +47,7 @@
     from REL_WX_PU_OPEN a, WX_PERSON_USER b
     <where>
   		<trim prefixOverrides="and">
+  			and a.WX_PERSON_USER_ID = b.WX_PERSON_USER_ID
 			<include refid="Clause_Common"/>
 			<if test="unionId != null">
 				and b.UNION_ID = #{unionId}
