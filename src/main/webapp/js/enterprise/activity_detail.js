@@ -31,42 +31,44 @@ var showQrcode = function() {
 	    if (authorizerAppId == null || authorizerAppId == "") {
 	    	alert('微信公众号的ID为空， 请重新登录');
 	    }
+	    
+	    window.location.href = $('$basePath').val() + "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
     	
-	    var params = {
-	    		
-	    };
-
-    	params.authorizerAppId = authorizerAppId;
-    	
-    	$.ajax({
-    		"url" : $('#basePath').val() + "/api/wx/oauth2/third/web/authorizer",
-    		"type" : "POST",
-    		"async": false,
-    		/*"headers" : {
-    			"Content-Type" : "application/json"
-    		},*/
-    		"dataType" : 'json',
-    		"data": params,
-            success: function(data, textStatus, jqXHR ) {
-            	if (data != null) {
-            		var qrcodeFilePath = data.qrcodeFilePath;
-//            		window.location.href = $('#basePath').val() + "/" + qrcodeFilePath;
-            		
-            		$('#qrcodeDiv').dialog('open');
-            		$('#qrcodeImg').attr('src', $('#basePath').val() + "/" + qrcodeFilePath);
-            		
-            	} else {
-            		alert("获取活动发布者的微信二维码错误");
-            	}
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-            	console.log('Ajax error');
-            	alert('Ajax error');
-            },
-            complete: function(jqXHR, textStatus) {
-            	console.log('Ajax complete.');
-            }
-    	});	// ajax
+//	    var params = {
+//	    		
+//	    };
+//
+//    	params.authorizerAppId = authorizerAppId;
+//    	
+//    	$.ajax({
+//    		"url" : $('#basePath').val() + "/api/wx/oauth2/third/web/authorizer",
+//    		"type" : "POST",
+//    		"async": false,
+//    		/*"headers" : {
+//    			"Content-Type" : "application/json"
+//    		},*/
+//    		"dataType" : 'json',
+//    		"data": params,
+//            success: function(data, textStatus, jqXHR ) {
+//            	if (data != null) {
+//            		var qrcodeFilePath = data.qrcodeFilePath;
+////            		window.location.href = $('#basePath').val() + "/" + qrcodeFilePath;
+//            		
+//            		$('#qrcodeDiv').dialog('open');
+//            		$('#qrcodeImg').attr('src', $('#basePath').val() + "/" + qrcodeFilePath);
+//            		
+//            	} else {
+//            		alert("获取活动发布者的微信二维码错误");
+//            	}
+//            },
+//            error: function(jqXHR, textStatus, errorThrown) {
+//            	console.log('Ajax error');
+//            	alert('Ajax error');
+//            },
+//            complete: function(jqXHR, textStatus) {
+//            	console.log('Ajax complete.');
+//            }
+//    	});	// ajax
     	return ;
 }
 

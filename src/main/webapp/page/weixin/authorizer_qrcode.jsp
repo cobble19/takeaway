@@ -5,30 +5,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     <%@include file="../common/head.jsp" %>
-    <script type="text/javascript">
-    $(document).ready(function() {
-    	$('#qrcodeDiv').load('http://mmbiz.qpic.cn/mmbiz/6A93MryJWuLwVfT3lcQCICJbZvu6d5MdmmuF1C5Sk3kibYyQLZOiaHZ45sjVic7oXwEl4H2MfnVoibKjTrBV33cFVA/0');
-    	
-    		window.open('http://mmbiz.qpic.cn/mmbiz/6A93MryJWuLwVfT3lcQCICJbZvu6d5MdmmuF1C5Sk3kibYyQLZOiaHZ45sjVic7oXwEl4H2MfnVoibKjTrBV33cFVA/0');
-    	
-    })
-    </script>
+    
+    <%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/authorizer_qrcode.js"></script> --%>
     
   </head>
   <body>
   	<div class="container-fluid">
   		<div class="row">
-  			<h2 class="col-sm-offset-3 col-md-offset-2">请关注公众号 1111111111111111111111111<c:out value="${wxAuthorizerInfoPOJO.nickName}"></c:out></h2>
-  			<p>
-  				<img alt="" src="http://deweiyizhan.com/page/0">
-  				<iframe src="http://mmbiz.qpic.cn/mmbiz/6A93MryJWuLwVfT3lcQCICJbZvu6d5MdmmuF1C5Sk3kibYyQLZOiaHZ45sjVic7oXwEl4H2MfnVoibKjTrBV33cFVA/0"></iframe>
-  				<div id="qrcodeDiv">dvivdivdi</div>
-  				<a href="http://mmbiz.qpic.cn/mmbiz/6A93MryJWuLwVfT3lcQCICJbZvu6d5MdmmuF1C5Sk3kibYyQLZOiaHZ45sjVic7oXwEl4H2MfnVoibKjTrBV33cFVA/0" target="_blank">Rffffff</a>
-  				<%-- <%
-  					response.sendRedirect("http://mmbiz.qpic.cn/mmbiz/6A93MryJWuLwVfT3lcQCICJbZvu6d5MdmmuF1C5Sk3kibYyQLZOiaHZ45sjVic7oXwEl4H2MfnVoibKjTrBV33cFVA/0");
-  				%> --%>
-  			</p>
+  			<div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
+  				<div class="thumbnail">
+			      <div class="caption">
+			        <h3>请通过长按识别二维码或微信扫描二维码关注公众号</h3>
+			        <p></p>
+			      </div>
+			      <img id="qrcodeImg" src="<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}" alt="">
+			    </div>
+  			</div>
   		</div>
   		
 		<footer><hr><p>&copy; 版权所有</p></footer>

@@ -102,6 +102,7 @@
 	<input id="username" type="hidden" value='${sessionScope.myUser.username}'>
 	
 	<input id="unionId" type="hidden" value='${sessionScope.unionId}'>
+	<input id="openId" type="hidden" value='${sessionScope.openId}'>
 	
     <%-- <%  
 	    String path = request.getContextPath();  

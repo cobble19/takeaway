@@ -172,6 +172,46 @@ public class Oauth2Controller extends BaseController {
 	private String wxThirdWebUserInfoUrl;*/
 	
 	
+	@RequestMapping(value = "/web/wx/oauth2/third/authorizer/qrcode", method = {RequestMethod.GET})
+	public ModelAndView wxQrcode(@RequestParam(value="authorizerAppId", required=true) String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = new WxAuthorizerInfoPOJO();
+			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+				
+				if (StringUtils.isBlank(wxAuthorizerInfoPOJO.getQrcodeFilePath())) {
+					// 生成qrcodeFilePath
+					String toDir = messageSource.getMessage("files.directory", null, null);
+					String toFilePath = "wx/authorizer/qrcode/" + wxAuthorizerInfoPOJO.getAuthorizerAppId() + ".jpg";
+					toFilePath = toFilePath.replace("/", File.separator);
+					HtmlConvertedPOJO htmlConvertedPOJO = FileUtil.url2File(wxAuthorizerInfoPOJO.getQrcodeUrl(), toDir, toFilePath);
+					wxAuthorizerInfoPOJO.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
+					
+					WxAuthorizerInfoPOJO temp = new WxAuthorizerInfoPOJO();
+					temp.setWxAuthorizerInfoId(wxAuthorizerInfoPOJO.getWxAuthorizerInfoId());
+					temp.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
+					
+					wxAuthorizerInfoService.update(temp);
+				}
+				
+				ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+				ret.setViewName("/page/weixin/authorizer_qrcode");
+				
+			}
+			
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/api/wx/oauth2/third/web/authorizer", method = {RequestMethod.POST})
 	@ResponseBody
 	public WxAuthorizerInfoPOJO authorizer(WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO) throws Exception {
