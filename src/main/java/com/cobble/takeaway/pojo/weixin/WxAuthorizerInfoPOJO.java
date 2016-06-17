@@ -113,6 +113,19 @@ public class WxAuthorizerInfoPOJO extends BasePOJO {
 	public void setQrcodeFilePath(String qrcodeFilePath) {
 		this.qrcodeFilePath = qrcodeFilePath;
 	}
+	
+	@Override
+	public String toString() {
+		return "WxAuthorizerInfoPOJO [wxAuthorizerInfoId=" + wxAuthorizerInfoId
+				+ ", userId=" + userId + ", nickName=" + nickName
+				+ ", headImg=" + headImg + ", serviceTypeInfo="
+				+ serviceTypeInfo + ", verifyTypeInfo=" + verifyTypeInfo
+				+ ", userName=" + userName + ", alias=" + alias
+				+ ", qrcodeUrl=" + qrcodeUrl + ", businessInfo=" + businessInfo
+				+ ", idc=" + idc + ", authorizerAppId=" + authorizerAppId
+				+ ", funcInfo=" + funcInfo + ", qrcodeFilePath="
+				+ qrcodeFilePath + ", createDateTime=" + createDateTime + "]";
+	}
     
 	
 }

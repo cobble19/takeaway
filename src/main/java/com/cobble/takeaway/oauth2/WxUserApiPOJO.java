@@ -29,7 +29,7 @@ public class WxUserApiPOJO extends WxBaseApiPOJO {
     // 用户特权信息
 	@JsonProperty("privilege")
     private List<String> privilegeList;
-    // 用户特权信息
+    // 用户全微信ID
 	@JsonProperty("unionid")
     private String unionId;
 

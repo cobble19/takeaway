@@ -200,6 +200,8 @@ public class Oauth2Controller extends BaseController {
 				}
 				
 				ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+				String documentTitle = wxAuthorizerInfoPOJO.getNickName();
+				ret.addObject("documentTitle", documentTitle);
 				ret.setViewName("/page/weixin/authorizer_qrcode");
 				
 			}
@@ -297,7 +299,7 @@ public class Oauth2Controller extends BaseController {
 	
 	private WxUserInfoApiPOJO getWxUserInfoApi(String authorizerAccessToken, String openId, String thirdWebAccessToken) throws Exception {
 		String userInfo = "";
-		WxUserInfoApiPOJO wxUserInfoPOJO = new WxUserInfoApiPOJO();
+		WxUserInfoApiPOJO wxUserInfoApiPOJO = new WxUserInfoApiPOJO();
 		String nickname = "";
 		String country = "";
 		String province = "";
@@ -307,23 +309,23 @@ public class Oauth2Controller extends BaseController {
 				String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", authorizerAccessToken)
 						.replace("OPENID", openId);
 				userInfo = HttpClientUtil.get(myUserInfoUidUrl);
-				wxUserInfoPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
-				if (wxUserInfoPOJO.getSubscribe() == WX_SUBSCRIBE) {
-					nickname = wxUserInfoPOJO.getNickname();
-					country = wxUserInfoPOJO.getCountry();
-					province = wxUserInfoPOJO.getProvince();
-					city = wxUserInfoPOJO.getCity();
-					wxUserInfoPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					wxUserInfoPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					wxUserInfoPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					wxUserInfoPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				wxUserInfoApiPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
+				if (wxUserInfoApiPOJO.getSubscribe() == WX_SUBSCRIBE) {
+					nickname = wxUserInfoApiPOJO.getNickname();
+					country = wxUserInfoApiPOJO.getCountry();
+					province = wxUserInfoApiPOJO.getProvince();
+					city = wxUserInfoApiPOJO.getCity();
+					wxUserInfoApiPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					wxUserInfoApiPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					wxUserInfoApiPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					wxUserInfoApiPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 				}
 			} catch (Exception e) {
 				logger.error("myUserInfoUidUrl exception: {}", e);
 			}
 		}
 		
-		if (wxUserInfoPOJO.getSubscribe() != WX_SUBSCRIBE && StringUtils.isNotBlank(thirdWebAccessToken)) {
+		if (wxUserInfoApiPOJO.getSubscribe() != WX_SUBSCRIBE && StringUtils.isNotBlank(thirdWebAccessToken)) {
 			// get user info without subscribe
 			logger.info("Get user info without subscribe");
 			String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", thirdWebAccessToken)
@@ -339,9 +341,11 @@ public class Oauth2Controller extends BaseController {
 			wxUserPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 			wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 			
-			BeanUtils.copyProperties(wxUserPOJO, wxUserInfoPOJO);
+			BeanUtils.copyProperties(wxUserPOJO, wxUserInfoApiPOJO);
 		}
-		return wxUserInfoPOJO;
+		
+		logger.info("wxUserInfoApiPOJO: {}", wxUserInfoApiPOJO);
+		return wxUserInfoApiPOJO;
 	}
 	
 	@RequestMapping(value = "/web/wx/oauth2/third/web/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)

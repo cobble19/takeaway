@@ -124,5 +124,18 @@ public class WxUserInfoApiPOJO extends WxBaseApiPOJO {
 	public void setTagidList(List<String> tagidList) {
 		this.tagidList = tagidList;
 	}
+	@Override
+	public String toString() {
+		return "WxUserInfoApiPOJO [openId=" + openId + ", nickname=" + nickname
+				+ ", sex=" + sex + ", language=" + language + ", country="
+				+ country + ", province=" + province + ", city=" + city
+				+ ", headImgUrl=" + headImgUrl + ", privilegeList="
+				+ privilegeList + ", unionId=" + unionId + ", subscribe="
+				+ subscribe + ", subscribeTime=" + subscribeTime + ", remark="
+				+ remark + ", groupId=" + groupId + ", tagidList=" + tagidList
+				+ "]";
+	}
+	
+	
 
 }

@@ -190,7 +190,7 @@ var onClickApply2Summit = function() {
 			if (!subscribe) {
 //				alert('请关注该活动发布方微信公众号');
 				/// 跳出微信qrcode进行关注
-				confirm = window.confirm('参加活动，需要关注， 是否关注？');
+				confirm = window.confirm('提交信息，需要关注公众号， 是否关注？');
 				if (confirm) {
 					showQrcode();
 				} else {
@@ -283,20 +283,22 @@ var showApply2 = function() {
         		$('#apply2Form div.form-group:nth-last-child(1)').before(inputText);
         		var form = $('#apply2Form'); // trigger
         	});
-
-        	var subscribe = isSubscribe();
-        	if (!subscribe) {
-//        		alert('请关注该活动发布方微信公众号');
-        		/// 跳出微信qrcode进行关注
-        		confirm = window.confirm('参加活动，需要关注， 是否关注？');
-        		if (confirm) {
-        			showQrcode();
-        		} else {
-        			return;
-        		}
-        		
-        		return;
-        	}
+        	
+        	window.setTimeout(function() {
+            	var subscribe = isSubscribe();
+            	if (!subscribe) {
+//            		alert('请关注该活动发布方微信公众号');
+            		/// 跳出微信qrcode进行关注
+            		confirm = window.confirm('参加活动，需要关注， 是否关注？');
+            		if (confirm) {
+            			showQrcode();
+            		} else {
+            			return;
+            		}
+            		
+            		return;
+            	}
+        	}, 5000);
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {

@@ -215,6 +215,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
 		String url = request.getRequestURL().toString();
+		HttpSession session = request.getSession();
 		
 		logger.info("uri: {}, qs: {}, url: {}", uri, qs, url);
 		
@@ -271,6 +272,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		
 		String wxWebLoginUrl = "";
 		String wxThirdPersonUserLoginUrl = "";
+		
+		logger.info("wxAuthorizerInfoPOJO: {}", wxAuthorizerInfoPOJO);
 		if (wxAuthorizerInfoPOJO != null) {
 			wxWebLoginUrl = wxThirdWebAuthorizeUrl
 			.replace("COMPONENT_APPID", wxThirdClientId)
@@ -279,6 +282,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			.replace("SCOPE", scope)
 			.replace("STATE", RandomStringUtils.randomAlphabetic(6))
 			;
+			
+			session.setAttribute("authorizerAppId", wxAuthorizerInfoPOJO.getAuthorizerAppId());
 			/*wxEncodeUrl = wxWebLoginUrl;
 			wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
 			wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/
