@@ -298,11 +298,11 @@ var showApply2 = function() {
             		
             		return;
             	}
-        	}, 5000);
+        	}, 1000);
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	alert('Load Error!' + textStatus);
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -344,7 +344,7 @@ var addApply = function() {
         	alert('恭喜您报名成功！')
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	alert('Load Error!' + textStatus);
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -429,7 +429,7 @@ var showDetail = function() {
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	alert('Load Error!' + textStatus);
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
