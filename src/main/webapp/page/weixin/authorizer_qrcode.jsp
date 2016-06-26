@@ -21,7 +21,7 @@
 			        <p></p>
 			      </div>
 			      <img id="qrcodeImg" src="<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}" alt="">
-			    </div>
+			      </div>
   			</div>
   		</div>
   		
