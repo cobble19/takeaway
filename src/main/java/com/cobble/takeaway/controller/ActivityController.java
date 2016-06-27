@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -37,6 +38,7 @@ import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.Apply2AttrModelService;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
 
@@ -179,10 +181,16 @@ public class ActivityController extends BaseController {
 	
 	@RequestMapping(value = "/web/enterprise/activity/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public ActivityPOJO query(@PathVariable("activityId") Long activityId) throws Exception {
+	public ActivityPOJO query(@PathVariable("activityId") Long activityId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActivityPOJO ret = new ActivityPOJO();
 		try {
 			ret = activityService.findById(activityId);
+			if (ret != null && ret.getWxAuthorizerInfoPOJO() != null) {
+				String authorizerAppId = ret.getWxAuthorizerInfoPOJO().getAuthorizerAppId();
+				HttpSession session = request.getSession();
+				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, authorizerAppId);
+			}
 		} catch (Exception e) {
 			logger.error("query error.", e);
 			throw e;

@@ -39,6 +39,7 @@ import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.util.BeanUtil;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.HttpRequestUtil;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
@@ -283,7 +284,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			.replace("STATE", RandomStringUtils.randomAlphabetic(6))
 			;
 			
-			session.setAttribute("authorizerAppId", wxAuthorizerInfoPOJO.getAuthorizerAppId());
+			session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
 			/*wxEncodeUrl = wxWebLoginUrl;
 			wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
 			wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/

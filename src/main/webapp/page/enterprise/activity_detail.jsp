@@ -36,7 +36,7 @@
 	            	<span class=" hidden-xs" style=" margin-top:50px; margin-bottom:50px; display:block;"><h3 id="title"></h3></span>
 	            	<span class="visible-xs" style="margin-left:5px; margin-right:5px; margin-top:10px; margin-bottom:10px; display:block; text-align:center;"><h4 id="title_1"></h4></span>                    
 	            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
-	            	<input type="hidden" id="authorizerAppId" name="authorizerAppId"/>
+	            	<!-- <input type="hidden" id="authorizerAppId" name="authorizerAppId"/> -->
 			  </div>
             </div>
             <div class="row visible-xs">

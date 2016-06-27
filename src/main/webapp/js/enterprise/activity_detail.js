@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 var showQrcode = function() {
 		
-	    var authorizerAppId = $('#authorizerAppId').text();
+	    var authorizerAppId = $('#authorizerAppId').val();
 	    
 	    if (authorizerAppId == null || authorizerAppId == "") {
 	    	alert('微信公众号的ID为空， 请重新登录');
@@ -76,7 +76,7 @@ var isSubscribe = function() {
 		var exist = false;
 		
 	    var unionId = $('#unionId').val();
-	    var authorizerAppId = $('#authorizerAppId').text();
+	    var authorizerAppId = $('#authorizerAppId').val();
 	    
 	    if (unionId == null || authorizerAppId == "") {
 	    	alert("微信用户的联合ID为空， 请重新登录");
@@ -404,7 +404,7 @@ var showDetail = function() {
         }),*/
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
-        	$("#authorizerAppId").html(data.wxAuthorizerInfoPOJO.authorizerAppId);
+//        	$("#authorizerAppId").html(data.wxAuthorizerInfoPOJO.authorizerAppId);
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);
 			$("#title_1").html(data.title);

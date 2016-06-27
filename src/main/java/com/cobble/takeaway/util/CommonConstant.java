@@ -20,4 +20,9 @@ public interface CommonConstant {
 	String WX_THIRD_MSG_EVENT_RECIEVE = "WX.third.msgEventRecieve";
 	// 网页开发域名
 	String WX_THIRD_DEV_DOMAIN = "WX.third.devDomain";
+	
+	
+	// For session
+	String AUTHORIZER_APP_ID = "authorizerAppId";
+	
 }
