@@ -1,6 +1,8 @@
 $(document).ready(function() {
 	$(document).ajaxError(function(event, jqxhr, settings, exception) {
 		console.log('global ajaxError');
+		alert('Global ajaxError, event: ' + event + ", jqxhr: " + jqxhr
+				+ ', setting: ' + settings + ", exception: " + exception);
 //		alert('ajaxError');
 //		window.location.href = $('#basePath').val() + "/login.jsp";
 	});

@@ -67,7 +67,7 @@ var showDetail = function() {
         	$('#answer').val(data.answer);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

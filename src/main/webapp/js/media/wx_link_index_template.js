@@ -40,7 +40,7 @@ var onClickDeploy = function() {
 	        	$('#progress').dialog('close');
 	        },
 	        error: function(jqXHR, textStatus, errorThrown) {
-	        	alert('Load Error!');
+	        	console.log('Load Error!');
 	        },
 	        complete: function(jqXHR, textStatus) {
 	        	console.log('Ajax complete.');
@@ -228,7 +228,7 @@ var showDetail = function() {
 //        	$("#activityId").html(data.activityId);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

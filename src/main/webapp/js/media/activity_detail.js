@@ -38,7 +38,7 @@ $(document).ready(function() {
             	alert('恭喜您报名成功！')
             },
             error: function(jqXHR, textStatus, errorThrown) {
-            	alert('Load Error!');
+            	console.log('Load Error!');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -107,7 +107,7 @@ var showDetail = function() {
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

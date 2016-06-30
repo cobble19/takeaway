@@ -79,9 +79,11 @@ var isSubscribe = function() {
 	    
 	    if (unionId == null || authorizerAppId == "") {
 	    	alert("微信用户的联合ID为空， 请重新登录");
+	    	return;
 	    }
 	    if (authorizerAppId == null || authorizerAppId == "") {
 	    	alert("微信公众号ID为空， 请重新登录");
+	    	return;
 	    }
     	
 	    var params = {
@@ -299,7 +301,7 @@ var showApply2 = function() {
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!' + textStatus);
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -341,7 +343,7 @@ var addApply = function() {
         	alert('恭喜您报名成功！')
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!' + textStatus);
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -425,7 +427,7 @@ var showDetail = function() {
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!' + textStatus);
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

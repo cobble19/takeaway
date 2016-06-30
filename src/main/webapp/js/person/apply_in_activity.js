@@ -138,7 +138,7 @@ $(document).ready(function() {
                     	alert('添加成功！')
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                    	alert('Load Error!');
+                    	console.log('Load Error!');;
                     },
                     complete: function(jqXHR, textStatus) {
                     	console.log('Ajax complete.');
@@ -214,7 +214,7 @@ var applyInActivitySearch = function(table) {
         	$("td.details-control").attr('title', '申请参加');
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');;
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -251,7 +251,7 @@ var retrieveData = function(data, callback, settings) {
         	$("td.details-control").attr('title', '申请参加');
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');;
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

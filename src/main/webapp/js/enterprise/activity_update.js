@@ -69,7 +69,7 @@ var showDetail = function() {
     		$('#endDateTime').val(new Date(data.endDateTime).format('Y/m/d H:i'));
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

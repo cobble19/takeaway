@@ -34,7 +34,7 @@ var applyInActivitySearch = function() {
         	buildTable(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');;
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
