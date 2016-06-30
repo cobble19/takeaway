@@ -28,9 +28,9 @@ var showQrcode = function() {
 		
 	    var authorizerAppId = $('#authorizerAppId').val();
 	    
-	    if (authorizerAppId == null || authorizerAppId == "") {
+	    /*if (authorizerAppId == null || authorizerAppId == "") {
 	    	alert('微信公众号的ID为空， 请重新登录');
-	    }
+	    }*/
 	    
 	    window.location.href = $('#basePath').val() + "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
     	
@@ -77,14 +77,14 @@ var isSubscribe = function() {
 	    var unionId = $('#unionId').val();
 	    var authorizerAppId = $('#authorizerAppId').val();
 	    
-	    if (unionId == null || authorizerAppId == "") {
+	    /*if (unionId == null || authorizerAppId == "") {
 	    	alert("微信用户的联合ID为空， 请重新登录");
 	    	return;
 	    }
 	    if (authorizerAppId == null || authorizerAppId == "") {
 	    	alert("微信公众号ID为空， 请重新登录");
 	    	return;
-	    }
+	    }*/
     	
 	    var params = {
 	    		

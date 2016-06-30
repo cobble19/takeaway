@@ -197,10 +197,15 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	@RequestMapping(value = "/web/wx/oauth2/third/authorizer/qrcode", method = {RequestMethod.GET})
-	public ModelAndView wxQrcode(@RequestParam(value="authorizerAppId", required=true) String authorizerAppId
+	public ModelAndView wxQrcode(@RequestParam(value="authorizerAppId", required=false) String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
+			HttpSession session = request.getSession();
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			
 			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
 			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = new WxAuthorizerInfoPOJO();

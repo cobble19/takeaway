@@ -662,7 +662,7 @@ $(document).ready(function() {
 	            },
 	            success: function(data, textStatus, jqXHR ) {
 	            	$('#verifyDiv').dialog('close');
-	            	alert(data.desc);
+	            	alert('验证成功');
 	            },
 	            error: function(jqXHR, textStatus, errorThrown) {
 	            	console.log('Load Error!');
