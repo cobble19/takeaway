@@ -173,14 +173,12 @@ public class Oauth2Controller extends BaseController {
 	/*@Value("${WX.third.web.userInfoUrl}")
 	private String wxThirdWebUserInfoUrl;*/
 	
-	@RequestMapping(value = "/web/media/wxLinkUserCenter", method = {RequestMethod.GET}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public ModelAndView wxLinkUserCenter(@RequestParam(value="userId", required=false) Long userId
-			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/web/media/wx/wxLinkUserCenter", method = {RequestMethod.GET})
+	public ModelAndView wxLinkUserCenter(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
 			HttpSession session = request.getSession();
 			logger.info("wxLinkUserCenter begin...");
-			logger.info("userId: {}", userId);
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("wxLinkUserCenter uri: " + uri + ", qs: " + qs);
