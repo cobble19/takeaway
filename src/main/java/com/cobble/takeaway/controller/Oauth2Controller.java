@@ -205,7 +205,6 @@ public class Oauth2Controller extends BaseController {
 			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = new WxAuthorizerInfoPOJO();
 			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
-			
 			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
 				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
 				
