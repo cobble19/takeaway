@@ -24,5 +24,8 @@ public interface CommonConstant {
 	
 	// For session
 	String AUTHORIZER_APP_ID = "authorizerAppId";
+	String UNION_ID = "unionId";
+	String OPEN_ID = "openId";
+	String WX_USER_INFO_API_POJO = "wxUserInfoApiPOJO";
 	
 }

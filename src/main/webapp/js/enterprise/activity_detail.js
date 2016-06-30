@@ -63,7 +63,6 @@ var showQrcode = function() {
 //            },
 //            error: function(jqXHR, textStatus, errorThrown) {
 //            	console.log('Ajax error');
-//            	alert('Ajax error');
 //            },
 //            complete: function(jqXHR, textStatus) {
 //            	console.log('Ajax complete.');
@@ -110,7 +109,6 @@ var isSubscribe = function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Ajax error');
-            	alert('Ajax error');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -160,7 +158,6 @@ var existApply2 = function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Ajax error');
-            	alert('Ajax error');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -380,7 +377,6 @@ var existApply = function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Ajax error');
-            	alert('Ajax error');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');

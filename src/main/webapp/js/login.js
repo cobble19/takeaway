@@ -36,7 +36,6 @@ $(document).ready(function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Ajax error');
-            	alert('Ajax error');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');

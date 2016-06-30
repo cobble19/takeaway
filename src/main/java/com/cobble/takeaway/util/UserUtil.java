@@ -34,6 +34,17 @@ public class UserUtil {
 		return ret;
 	}
 	
+	public static Long getCurrentUserId() {
+		Long ret = null;
+		MyUser myUser = getCurrentUser();
+		
+		if (myUser == null) {
+			return ret;
+		}
+		ret = myUser.getUserId();
+		return ret;
+	}
+	
 	public static List<UserPOJO> removePassword(List<UserPOJO> userPOJOs) {
 		List<UserPOJO> ret = userPOJOs;
 		
