@@ -282,12 +282,22 @@ public class Oauth2Controller extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	public StatusPOJO subscribe(RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO) throws Exception {
+	public StatusPOJO subscribe(RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			// 根据unionId and authorizerAppId, 获取是否存在openId
 			String unionId = relWxPuOpenSearchPOJO.getUnionId();
 			String authorizerAppId = relWxPuOpenSearchPOJO.getAuthorizerAppId();
+
+			HttpSession session = request.getSession();
+			if (StringUtils.isBlank(unionId)) {
+				unionId = (String) session.getAttribute(CommonConstant.UNION_ID);
+			}
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			
+			
 			RelWxPuOpenPOJO relWxPuOpenPOJO = relWxPuOpenService.findWithPu(unionId, authorizerAppId);
 			
 			if (relWxPuOpenPOJO == null) {
