@@ -173,7 +173,7 @@ public class Oauth2Controller extends BaseController {
 	/*@Value("${WX.third.web.userInfoUrl}")
 	private String wxThirdWebUserInfoUrl;*/
 	
-	@RequestMapping(value = "/web/media/wxLinkUserCenter")
+	@RequestMapping(value = "/web/media/wxLinkUserCenter", method = {RequestMethod.GET})
 	public ModelAndView wxLinkUserCenter(@RequestParam(value="userId", required=false) Long userId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
