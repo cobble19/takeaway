@@ -12,20 +12,17 @@
     
   </head>
   <body>
-  	<div class="container-fluid">
+  	<div class="container">
   		<div class="row">
-  			<div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
+            <div class="col-md-6 col-md-offset-3 col-xs-12" style=" margin-top:20px; margin-bottom:50px;">
+			        <h4>请长按识别二维码或微信扫描二维码关注公众号</h4>
+            </div>      
+  			<div class="col-md-6 col-md-offset-3 col-xs-12">
   				<div class="thumbnail">
-			      <div class="caption">
-			        <h3>请通过长按识别二维码或微信扫描二维码关注公众号</h3>
-			        <p></p>
-			      </div>
 			      <img id="qrcodeImg" src="<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}" alt="">
 			    </div>
   			</div>
   		</div>
-  		
-		<footer><hr><p>&copy; 版权所有</p></footer>
 	</div>
   </body>
 </html>
