@@ -1,7 +1,9 @@
 $(document).ready(function() {
-	
 	$.ajaxSetup({
-		timeout: 120000
+		"timeout": 300000
+	});
+	$(document).ajaxSetup({
+		"timeout": 300000
 	});
 	
 	$(document).ajaxError(function(event, jqxhr, settings, exception) {
