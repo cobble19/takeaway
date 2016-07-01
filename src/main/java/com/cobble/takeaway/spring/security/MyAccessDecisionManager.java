@@ -39,6 +39,7 @@ import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.util.BeanUtil;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.HttpRequestUtil;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
@@ -138,7 +139,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			throw new AccessDeniedException("权限需要分配角色," + ", configAttributes is null, user = " + authentication.getName()
 					+ ", url = " + url);
 		}
-		Iterator<ConfigAttribute> it = configAttributes.iterator();
+		/*Iterator<ConfigAttribute> it = configAttributes.iterator();*/
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		if (CollectionUtils.isEmpty(authorities)) {
 			// 当前的用户和企业用户没有角色和权限， 只有后台管理员有权限
@@ -170,6 +171,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		}
 		logger.info("用户的角色：{}", temp);
 		
+		Iterator<ConfigAttribute> it = configAttributes.iterator();
 		while (it.hasNext()) {
 			ConfigAttribute configAttribute = it.next();
 			String needRole = configAttribute.getAttribute();
@@ -283,7 +285,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			.replace("STATE", RandomStringUtils.randomAlphabetic(6))
 			;
 			
-			session.setAttribute("authorizerAppId", wxAuthorizerInfoPOJO.getAuthorizerAppId());
+			session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
 			/*wxEncodeUrl = wxWebLoginUrl;
 			wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
 			wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/

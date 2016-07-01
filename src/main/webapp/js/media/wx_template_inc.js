@@ -157,7 +157,7 @@ $(document).ready(function() {
             	wxTemplateSearch(table4WxTemplate);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-            	alert('Load Error!');
+            	console.log('Load Error!');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -191,7 +191,7 @@ var enableDisplay = function(wxTemplateId) {
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -230,7 +230,7 @@ var wxTemplateSearch = function(table) {
 //        	$("td.details-control").attr('title', '申请参加');
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

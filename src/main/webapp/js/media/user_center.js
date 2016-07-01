@@ -255,7 +255,7 @@ $(document).ready(function() {
 	        	console.log("data = " + data);
 	        },
 	        error: function(jqXHR, textStatus, errorThrown) {
-	        	alert('Load Error!');
+	        	console.log('Load Error!');
 	        },
 	        complete: function(jqXHR, textStatus) {
 	        	console.log('Ajax complete.');
@@ -320,7 +320,7 @@ $(document).ready(function() {
             	activitySearch(table);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-            	alert('Load Error!');
+            	console.log('Load Error!');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -357,7 +357,7 @@ $(document).ready(function() {
 //            	window.location.reload();
             },
             error: function(jqXHR, textStatus, errorThrown) {
-            	alert('Load Error!');
+            	console.log('Load Error!');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -475,7 +475,7 @@ $(document).ready(function() {
                     	alert('添加成功！')
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                    	alert('Load Error!');
+                    	console.log('Load Error!');
                     },
                     complete: function(jqXHR, textStatus) {
                     	console.log('Ajax complete.');
@@ -821,7 +821,7 @@ $(document).ready(function() {
             	interactiveSearch(table4Interactive);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-            	alert('Load Error!');
+            	console.log('Load Error!');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -855,7 +855,7 @@ $(document).ready(function() {
             	alert(data.desc);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-            	alert('Load Error!');
+            	console.log('Load Error!');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -930,7 +930,7 @@ var activitySearch = function(table) {
         	$("td.details-control").attr('title', '申请参加');
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -969,7 +969,7 @@ var interactiveSearch = function(table) {
 //        	$("td.details-control").attr('title', '申请参加');
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -1072,7 +1072,7 @@ function showApply2AttrModel() {
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -1113,7 +1113,7 @@ function deleteAttrModel() {
 	        	}
 	        },
 	        error: function(jqXHR, textStatus, errorThrown) {
-	        	alert('Load Error!');
+	        	console.log('Load Error!');
 	        },
 	        complete: function(jqXHR, textStatus) {
 	        	console.log('Ajax complete.');
@@ -1154,7 +1154,7 @@ function addOrUpdatePic() {
         	console.log("data = " + data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

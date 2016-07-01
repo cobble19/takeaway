@@ -122,7 +122,7 @@ $(document).ready(function() {
                     	alert('添加成功！')
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                    	alert('Load Error!');
+                    	console.log('Load Error!');;
                     },
                     complete: function(jqXHR, textStatus) {
                     	console.log('Ajax complete.');

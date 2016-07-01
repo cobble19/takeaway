@@ -71,7 +71,7 @@ var onClickDeploy = function() {
 	        	$('#progress').dialog('close');
 	        },
 	        error: function(jqXHR, textStatus, errorThrown) {
-	        	alert('Load Error!');
+	        	console.log('Load Error!');
 	        },
 	        complete: function(jqXHR, textStatus) {
 	        	console.log('Ajax complete.');
@@ -293,7 +293,7 @@ var mouseOverSec = function() {
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

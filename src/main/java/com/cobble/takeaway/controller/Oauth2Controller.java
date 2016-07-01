@@ -73,10 +73,12 @@ import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.FileUtil;
 import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
+import com.cobble.takeaway.util.UserUtil;
 import com.cobble.takeaway.util.XmlUtils;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 
@@ -171,12 +173,39 @@ public class Oauth2Controller extends BaseController {
 	/*@Value("${WX.third.web.userInfoUrl}")
 	private String wxThirdWebUserInfoUrl;*/
 	
+	@RequestMapping(value = "/web/media/wx/wxLinkUserCenter", method = {RequestMethod.GET})
+	public ModelAndView wxLinkUserCenter(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			HttpSession session = request.getSession();
+			logger.info("wxLinkUserCenter begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("wxLinkUserCenter uri: " + uri + ", qs: " + qs);
+			
+			UserUtil.getCurrentUser().getUserId();
+			WxUserInfoApiPOJO wxUserInfoApiPOJO = (WxUserInfoApiPOJO) session.getAttribute(CommonConstant.WX_USER_INFO_API_POJO);
+			
+			ret.addObject(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
+			ret.setViewName("/page/media/wx_link_user_center");
+		} catch (Exception e) {
+			logger.error("wxLinkUserCenter error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/wx/oauth2/third/authorizer/qrcode", method = {RequestMethod.GET})
-	public ModelAndView wxQrcode(@RequestParam(value="authorizerAppId", required=true) String authorizerAppId
+	public ModelAndView wxQrcode(@RequestParam(value="authorizerAppId", required=false) String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
+			HttpSession session = request.getSession();
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			
 			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
 			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = new WxAuthorizerInfoPOJO();
@@ -258,12 +287,22 @@ public class Oauth2Controller extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	public StatusPOJO subscribe(RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO) throws Exception {
+	public StatusPOJO subscribe(RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			// 根据unionId and authorizerAppId, 获取是否存在openId
 			String unionId = relWxPuOpenSearchPOJO.getUnionId();
 			String authorizerAppId = relWxPuOpenSearchPOJO.getAuthorizerAppId();
+
+			HttpSession session = request.getSession();
+			if (StringUtils.isBlank(unionId)) {
+				unionId = (String) session.getAttribute(CommonConstant.UNION_ID);
+			}
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			
+			
 			RelWxPuOpenPOJO relWxPuOpenPOJO = relWxPuOpenService.findWithPu(unionId, authorizerAppId);
 			
 			if (relWxPuOpenPOJO == null) {
@@ -395,10 +434,10 @@ public class Oauth2Controller extends BaseController {
 				WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken(), 
 						wxOauth2TokenPOJO.getOpenId(), wxOauth2TokenPOJO.getAccessToken());
 				// 微信用户信息放入session
-				session.setAttribute("wxUserInfoApiPOJO", wxUserInfoApiPOJO);
-				session.setAttribute("openId", wxUserInfoApiPOJO.getOpenId());
-				session.setAttribute("unionId", wxUserInfoApiPOJO.getUnionId());
-				session.setAttribute("authorizerAppId", appid);
+				session.setAttribute(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
+				session.setAttribute(CommonConstant.OPEN_ID, wxUserInfoApiPOJO.getOpenId());
+				session.setAttribute(CommonConstant.UNION_ID, wxUserInfoApiPOJO.getUnionId());
+				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, appid);
 				
 				logger.info("wxUserInfoApiPOJO: {}", wxUserInfoApiPOJO);
 				// get user info unionID

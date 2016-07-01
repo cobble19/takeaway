@@ -26,11 +26,12 @@ $(document).ready(function() {
 
 var showQrcode = function() {
 		
-	    var authorizerAppId = $('#authorizerAppId').text();
+	    var authorizerAppId = $('#authorizerAppId').val();
 	    
-	    if (authorizerAppId == null || authorizerAppId == "") {
+	    /*if (authorizerAppId == null || authorizerAppId == "") {
 	    	alert('微信公众号的ID为空， 请重新登录');
-	    }
+	    }*/
+	    
 	    
 	    window.location.href = $('#basePath').val() + "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
     	
@@ -63,7 +64,6 @@ var showQrcode = function() {
 //            },
 //            error: function(jqXHR, textStatus, errorThrown) {
 //            	console.log('Ajax error');
-//            	alert('Ajax error');
 //            },
 //            complete: function(jqXHR, textStatus) {
 //            	console.log('Ajax complete.');
@@ -76,14 +76,16 @@ var isSubscribe = function() {
 		var exist = false;
 		
 	    var unionId = $('#unionId').val();
-	    var authorizerAppId = $('#authorizerAppId').text();
+	    var authorizerAppId = $('#authorizerAppId').val();
 	    
-	    if (unionId == null || authorizerAppId == "") {
+	    /*if (unionId == null || authorizerAppId == "") {
 	    	alert("微信用户的联合ID为空， 请重新登录");
+	    	return;
 	    }
 	    if (authorizerAppId == null || authorizerAppId == "") {
 	    	alert("微信公众号ID为空， 请重新登录");
-	    }
+	    	return;
+	    }*/
     	
 	    var params = {
 	    		
@@ -110,7 +112,6 @@ var isSubscribe = function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Ajax error');
-            	alert('Ajax error');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -160,7 +161,6 @@ var existApply2 = function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Ajax error');
-            	alert('Ajax error');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -302,7 +302,7 @@ var showApply2 = function() {
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!' + textStatus);
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -344,7 +344,7 @@ var addApply = function() {
         	alert('恭喜您报名成功！')
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!' + textStatus);
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -380,7 +380,6 @@ var existApply = function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Ajax error');
-            	alert('Ajax error');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -404,7 +403,7 @@ var showDetail = function() {
         }),*/
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
-        	$("#authorizerAppId").html(data.wxAuthorizerInfoPOJO.authorizerAppId);
+//        	$("#authorizerAppId").html(data.wxAuthorizerInfoPOJO.authorizerAppId);
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);
 			$("#title_1").html(data.title);
@@ -429,7 +428,7 @@ var showDetail = function() {
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!' + textStatus);
+        	console.log('Load Error!');
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');

@@ -151,7 +151,7 @@ $(document).ready(function() {
                     	alert('添加成功！')
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                    	alert('Load Error!');
+                    	console.log('Load Error!');;
                     },
                     complete: function(jqXHR, textStatus) {
                     	console.log('Ajax complete.');
@@ -288,7 +288,7 @@ $(document).ready(function() {
 //            	window.location.reload();
             },
             error: function(jqXHR, textStatus, errorThrown) {
-            	alert('Load Error!');
+            	console.log('Load Error!');;
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
@@ -573,7 +573,7 @@ var activitySearch = function(table) {
         	$("td.details-control").attr('title', '申请参加');
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');;
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -612,7 +612,7 @@ var interactiveSearch = function(table) {
 //        	$("td.details-control").attr('title', '申请参加');
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');;
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
@@ -652,7 +652,7 @@ var prizeSearch = function(table) {
 //        	$("td.details-control").attr('title', '申请参加');
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('Load Error!');
+        	console.log('Load Error!');;
         },
         complete: function(jqXHR, textStatus) {
         	console.log('Ajax complete.');
