@@ -1,4 +1,9 @@
 $(document).ready(function() {
+	
+	$.ajaxSetup({
+		timeout: 120000
+	});
+	
 	$(document).ajaxError(function(event, jqxhr, settings, exception) {
 		console.log('global ajaxError');
 		alert('Global ajaxError, event: ' + event + ", jqxhr: " + jqxhr
