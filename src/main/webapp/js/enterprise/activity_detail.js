@@ -101,7 +101,7 @@ var isSubscribe = function() {
     		/*"headers" : {
     			"Content-Type" : "application/json"
     		},*/
-    		"timeout": 300000,
+//    		"timeout": 300000,
     		"dataType" : 'json',
     		"data": params,
             success: function(data, textStatus, jqXHR ) {

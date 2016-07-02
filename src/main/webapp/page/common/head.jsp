@@ -91,10 +91,10 @@
 	<!-- JQuery-weui -->
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/weui/weui.css">
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/weui/jquery-weui.css">
-    <script src="<cmn:base/>/js/thirdpart/weui/jquery-weui.js"></script>
+    <%--<script src="<cmn:base/>/js/thirdpart/weui/jquery-weui.js"></script>
     <script src="<cmn:base/>/js/thirdpart/weui/city-picker.js"></script>
     <script src="<cmn:base/>/js/thirdpart/weui/swiper.js"></script>
-    <script src="<cmn:base/>/js/thirdpart/weui/zepto.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/weui/zepto.js"></script>--%>
 	
     
     <!-- customer -->

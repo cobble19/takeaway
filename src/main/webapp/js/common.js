@@ -2,9 +2,9 @@ $(document).ready(function() {
 	$.ajaxSetup({
 		"timeout": 300000
 	});
-	$(document).ajaxSetup({
-		"timeout": 300000
-	});
+//	$(document).ajaxSetup({
+//		"timeout": 30000
+//	});
 	
 	$(document).ajaxError(function(event, jqxhr, settings, exception) {
 		console.log('global ajaxError');
