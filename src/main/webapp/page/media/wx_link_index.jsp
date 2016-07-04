@@ -199,11 +199,15 @@
                    </div>
 				</div>
 			</div>
-            <div class="row" style="background-color:#f1f1f1;">
+            <!-- <div class="row" style="background-color:#f1f1f1;">
                 <p style="text-align:center; margin-bottom:10px; margin-top:20px; font-size:12px; line-height:12px;">2016 合肥交通广播</p>
             </div>
             <div class="row" style="background-color:#333;">
                 <p style="text-align:center; margin-bottom:5px; margin-top:5px; font-size:12px; line-height:12px; color:#ffffff;">技术支持:得味驿站</p>
+            </div> -->
+            
+            <div class="row" style="background-color:#333;">
+                <%@include file="../media/wx_link_bottom.jsp" %>
             </div>
 		<!-- </div> --><!-- for show -->
 	  		

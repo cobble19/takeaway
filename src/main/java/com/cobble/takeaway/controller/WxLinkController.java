@@ -3,18 +3,18 @@ package com.cobble.takeaway.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.util.UrlUtils;
@@ -31,11 +31,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
-import com.cobble.takeaway.pojo.ListParamPOJO;
 import com.cobble.takeaway.pojo.RelWxAttrPOJO;
 import com.cobble.takeaway.pojo.RelWxLinkPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
-import com.cobble.takeaway.pojo.RelWxTemplateUserSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.WxAttrPOJO;
@@ -43,10 +41,13 @@ import com.cobble.takeaway.pojo.WxLinkPOJO;
 import com.cobble.takeaway.pojo.WxLinkSearchPOJO;
 import com.cobble.takeaway.pojo.WxSecPOJO;
 import com.cobble.takeaway.pojo.WxTemplatePOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAttrService;
+import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxLinkService;
 import com.cobble.takeaway.service.WxTemplateService;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.FileUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
@@ -66,6 +67,9 @@ public class WxLinkController extends BaseController {
 	private WxTemplateService wxTemplateService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private WxAuthorizerInfoService wxAuthorizerInfoService;
+	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Autowired
@@ -177,6 +181,7 @@ public class WxLinkController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
+			HttpSession session = request.getSession();
 			
 			List<WxSecPOJO> wxSecPOJOs = wxAttrService.findWxSecsByIds(userId, wxTemplateId);
 			
@@ -206,6 +211,18 @@ public class WxLinkController extends BaseController {
 				}
 			}
 			
+
+			userId = UserUtil.getCurrentUser().getUserId();
+			UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userId);
+			if (user4IndexCode != null) {
+				String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+				session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+			}
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userId);
+			if (wxAuthorizerInfoPOJO != null) {
+				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+			}
+			
 			ret.setViewName("/page/media/wx_attr");
 		} catch (Exception e) {
 			logger.error("WX LINK INDEX error.", e);
@@ -221,6 +238,8 @@ public class WxLinkController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
+			HttpSession session = request.getSession();
+			
 			/*WxLinkPOJO wxLinkPOJO = new WxLinkPOJO();
 			wxLinkPOJO.setWxTemplateId(wxTemplateId);
 			wxLinkPOJO.setUserId(userId);*/
@@ -240,6 +259,17 @@ public class WxLinkController extends BaseController {
 					}
 					ret.addObject("wxLinkPOJO" + temp.getOrderNo(), temp);
 				}
+			}
+			
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userId);
+			if (user4IndexCode != null) {
+				String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+				session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+			}
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userId);
+			if (wxAuthorizerInfoPOJO != null) {
+				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
 			}
 			
 			ret.setViewName("/page/media/wx_link_index");

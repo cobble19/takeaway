@@ -173,8 +173,8 @@ public class Oauth2Controller extends BaseController {
 	/*@Value("${WX.third.web.userInfoUrl}")
 	private String wxThirdWebUserInfoUrl;*/
 	
-	@RequestMapping(value = "/web/media/wx/wxLinkUserCenter", method = {RequestMethod.GET})
-	public ModelAndView wxLinkUserCenter(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/web/wx/usercenter/{indexCode}/person", method = {RequestMethod.GET})
+	public ModelAndView wxPersonUserCenter(@PathVariable(value="indexCode") String indexCode, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
 			HttpSession session = request.getSession();
@@ -187,7 +187,7 @@ public class Oauth2Controller extends BaseController {
 			WxUserInfoApiPOJO wxUserInfoApiPOJO = (WxUserInfoApiPOJO) session.getAttribute(CommonConstant.WX_USER_INFO_API_POJO);
 			
 			ret.addObject(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
-			ret.setViewName("/page/media/wx_link_user_center");
+			ret.setViewName("/page/weixin/wx_person_user_center");
 		} catch (Exception e) {
 			logger.error("wxLinkUserCenter error.", e);
 			throw e;

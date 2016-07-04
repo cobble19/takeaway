@@ -67,6 +67,17 @@
     and b.wx_index_code = #{wxIndexCode}
   </select>
   
+  <select id="findUser4IndexCodeByUserId" resultMap="UserResultMap" parameterType="java.lang.Long" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    , b.REL_WX_INDEX_MAP_ID, b.USER_ID, b.WX_TEMPLATE_ID, b.WX_STATIC_PAGE, b.wx_index_code
+    from b_user u, rel_wx_index_map b
+    where 
+    u.user_id = b.user_id
+    and u.user_id = #{userId}
+  </select>
+  
   <select id="findUserByName" resultMap="UserResultMap" parameterType="String" >
     select
       distinct

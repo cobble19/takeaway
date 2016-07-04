@@ -240,6 +240,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			String indexCode = uri.substring(index + 4);
 			logger.info("Index Code: {}", indexCode);
 			if (!indexCode.contains("/")) {
+				session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
 				userPOJO = userService.findUserByIndexCode(indexCode);
 			}
 		} else if (uri.startsWith("/page/enterprise/activity_detail.jsp")) {	// /page/enterprise/activity_detail.jsp?activityId=31
@@ -250,6 +251,14 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				logger.info("activityId: {}", s);
 				Long activityId = Long.parseLong(s);
 				userPOJO = userService.findUserByActivityId(activityId);
+				
+				if (userPOJO != null && userPOJO.getUserId() != null) {
+					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+					if (user4IndexCode != null) {
+						String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+					}
+				}
 			}
 		}
 

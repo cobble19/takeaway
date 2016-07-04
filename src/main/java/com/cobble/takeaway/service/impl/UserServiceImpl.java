@@ -158,5 +158,13 @@ public class UserServiceImpl implements UserService {
 		return ret;
 	}
 
+	@Override
+	public UserPOJO findUser4IndexCodeByUserId(Long userId)
+			throws Exception {
+		UserPOJO ret = null;
+		ret = userMapper.findUser4IndexCodeByUserId(userId);
+		return ret;
+	}
+
 
 }

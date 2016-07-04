@@ -26,6 +26,22 @@
     
   </head>
   <body>
+  
+  	<div class="weui_panel weui_panel_access">
+	  <div class="weui_panel_hd">个人中心</div>
+	  <div class="weui_panel_bd">
+	    <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+	      <div class="weui_media_hd">
+	        <img class="weui_media_appmsg_thumb head-img" src="${wxUserInfoApiPOJO.headImgUrl}" alt="">
+	      </div>
+	      <div class="weui_media_bd">
+	        <h4 class="weui_media_title"><c:out value="${wxUserInfoApiPOJO.nickname}"></c:out></h4>
+	        <p class="weui_media_desc"><c:out value="${wxUserInfoApiPOJO.nickname}"></c:out></p>
+	      </div>
+	    </a>
+	  </div>
+  	</div>
+  	
   	<div class="weui_cells">
 	  <div class="weui_cell" >
 	    <div class="weui_cell_hd">

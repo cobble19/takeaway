@@ -22,6 +22,7 @@ public interface UserService {
 
 	UserPOJO findUserByIndexCode(String wxIndexCode) throws Exception;
 	UserPOJO findUserByActivityId(Long activityId) throws Exception;
+	UserPOJO findUser4IndexCodeByUserId(Long userId) throws Exception;
 	
 	MyUser findMyUserByName(String username) throws Exception;
 }

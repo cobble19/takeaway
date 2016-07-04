@@ -27,5 +27,6 @@ public interface CommonConstant {
 	String UNION_ID = "unionId";
 	String OPEN_ID = "openId";
 	String WX_USER_INFO_API_POJO = "wxUserInfoApiPOJO";
+	String INDEX_CODE = "indexCode";
 	
 }
