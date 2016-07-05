@@ -13,6 +13,7 @@
 
 <div class="row" style="background-color:#f1f1f1;">
     <div class="col-md-4 col-xs-4" >
+    <c:out value="${sessionScope.indexCode}"/> | <c:out value="${indexCode}"/>
     <a style="text-align:center; margin-bottom:10px; margin-top:20px; font-size:12px; line-height:12px; display:block;" href="<cmn:base/>/wx/${sessionScope.indexCode}">首页</a>
     </div>
     <div class="col-md-4 col-xs-4" >

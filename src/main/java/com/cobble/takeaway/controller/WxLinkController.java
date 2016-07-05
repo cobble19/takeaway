@@ -261,16 +261,18 @@ public class WxLinkController extends BaseController {
 				}
 			}
 			
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = wxLinkPOJO.getUserId();	/*UserUtil.getCurrentUser().getUserId()*/
 			UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userId);
 			if (user4IndexCode != null) {
 				String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
 				session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+				ret.addObject("indexCode", indexCode);
 			}
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userId);
 			if (wxAuthorizerInfoPOJO != null) {
 				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
 			}
+			
 			
 			ret.setViewName("/page/media/wx_link_index");
 		} catch (Exception e) {
