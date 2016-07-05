@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +27,14 @@ import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.RelWxTemplateUserPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
+import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.WxTemplatePOJO;
 import com.cobble.takeaway.pojo.WxTemplateSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
+import com.cobble.takeaway.service.UserService;
+import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxTemplateService;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -37,6 +43,11 @@ public class WxTemplateController extends BaseController {
 	
 	@Autowired
 	private WxTemplateService wxTemplateService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private WxAuthorizerInfoService wxAuthorizerInfoService;
+	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Autowired
@@ -158,6 +169,8 @@ public class WxTemplateController extends BaseController {
 		List<WxTemplatePOJO> wxTemplatePOJOs = new ArrayList<WxTemplatePOJO>();
 		WxTemplatePOJO wxTemplate = null;
 		try {
+			HttpSession session = request.getSession();
+			
 			wxTemplatePOJOs = wxTemplateService.finds(null);
 			if (!CollectionUtils.isEmpty(wxTemplatePOJOs)) {
 				if (wxTemplateId != null) {
@@ -177,6 +190,17 @@ public class WxTemplateController extends BaseController {
 				}
 			}
 			
+
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userId);
+			if (user4IndexCode != null) {
+				String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+				session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+			}
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userId);
+			if (wxAuthorizerInfoPOJO != null) {
+				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+			}
 			
 			ret.addObject("wxTemplatePOJOs", wxTemplatePOJOs);
 			String viewName = wxTemplate.getWxTemplatePage();
