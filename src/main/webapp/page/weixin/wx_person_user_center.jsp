@@ -8,19 +8,19 @@
   
     <%@include file="../common/head.jsp" %>
     
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/wx_link_user_center.js"></script>
+    <%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/wx_person_user_center.js"></script> --%>
     
     <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     
     <style type="text/css">
 		.head-img {
-			width: 20px;
-			height: 20px;
-			margin-right: 5px;
+			/* width: 20px;
+			height: 20px; */
+			/* margin-right: 5px; */
 			display: block;
-			-moz-border-radius: 10px; /* Gecko browsers */
-			-webkit-border-radius: 10px; /* Webkit browsers */
-			border-radius: 10px; /* W3C syntax */
+			-moz-border-radius: 30px; /* Gecko browsers */
+			-webkit-border-radius: 30px; /* Webkit browsers */
+			border-radius: 30px; /* W3C syntax */
 		}
 	</style>
     
@@ -36,13 +36,13 @@
 	      </div>
 	      <div class="weui_media_bd">
 	        <h4 class="weui_media_title"><c:out value="${wxUserInfoApiPOJO.nickname}"></c:out></h4>
-	        <p class="weui_media_desc"><c:out value="${wxUserInfoApiPOJO.nickname}"></c:out></p>
+	        <p class="weui_media_desc"><c:out value="${wxUserInfoApiPOJO.city}"></c:out></p>
 	      </div>
 	    </a>
 	  </div>
   	</div>
   	
-  	<div class="weui_cells">
+  	<%-- <div class="weui_cells">
 	  <div class="weui_cell" >
 	    <div class="weui_cell_hd">
 	      <img src="${wxUserInfoApiPOJO.headImgUrl}" alt="icon" title="头像" class="head-img" style="">
@@ -54,7 +54,7 @@
 	      
 	    </div>
 	  </div>
-	</div>
+	</div> --%>
 
   	<div class="weui_cells weui_cells_access">
 	  <a class="weui_cell" href="javascript:;">
