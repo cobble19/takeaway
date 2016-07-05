@@ -263,6 +263,7 @@ var showApply2 = function() {
 		/*"data": JSON.stringify({
             title: $("#title").val()
         }),*/
+		"timeout": 300000,
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
         	
@@ -398,6 +399,7 @@ var showDetail = function() {
 		"headers" : {
 			"Content-Type" : "application/json"
 		},
+		"timeout": 300000,
 		/*"dataType" : 'json',*/
 		/*"data": JSON.stringify({
             title: $("#title").val()
