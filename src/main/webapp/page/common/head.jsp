@@ -1,8 +1,5 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-   <%-- <%@include file="taglib.jsp" %> --%>
-   <!-- error @6/12/2015 -->
-  <%--  <jsp:include page="taglib.jsp"></jsp:include> --%>
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
