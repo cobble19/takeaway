@@ -7,6 +7,10 @@ public class ActivitySearchPOJO extends BaseSearchPOJO {
     private String title;
     private String content;
     
+    private String openId;
+    private String unionId;
+    private String wxIndexCode;
+    
 	public Long getActivityId() {
 		return activityId;
 	}
@@ -30,5 +34,23 @@ public class ActivitySearchPOJO extends BaseSearchPOJO {
 	}
 	public void setTypeCode(Integer typeCode) {
 		this.typeCode = typeCode;
+	}
+	public String getOpenId() {
+		return openId;
+	}
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+	public String getUnionId() {
+		return unionId;
+	}
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
+	}
+	public String getWxIndexCode() {
+		return wxIndexCode;
+	}
+	public void setWxIndexCode(String wxIndexCode) {
+		this.wxIndexCode = wxIndexCode;
 	}
 }

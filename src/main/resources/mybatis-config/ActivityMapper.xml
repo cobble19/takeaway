@@ -195,7 +195,7 @@
   </select>
   
   
-  <select id="findActivitys4WxPerson" resultMap="ActivityResultMap" parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
+  <select id="findActivitys4WxPerson" resultMap="ActivityResultMap" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
     select
     <if test="distinct" >
       distinct
@@ -230,7 +230,7 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
-  <select id="getActivitys4WxPersonCount" parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" resultType="java.lang.Integer" >
+  <select id="getActivitys4WxPersonCount" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" resultType="java.lang.Integer" >
     select count(1) 
     from e_activity a, rel_activity_apply2 b, p_apply2 c, b_user u, b_user uMedia, rel_activity_user d, wx_authorizer_info e
     <where>
