@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cobble.takeaway.dao.ActivityMapper;
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.RelActivityUserPOJO;
 import com.cobble.takeaway.service.ActivityService;
 
@@ -113,6 +114,22 @@ public class ActivityServiceImpl implements ActivityService {
 	public ActivityPOJO find2ById(Long id) throws Exception {
 		ActivityPOJO ret = null;
 		ret = activityMapper.find2ById(id);
+		return ret;
+	}
+
+	@Override
+	public List<ActivityPOJO> findActivitys4WxPerson(
+			Apply2SearchPOJO apply2SearchPOJO) throws Exception {
+		List<ActivityPOJO> ret = null;
+		ret = activityMapper.findActivitys4WxPerson(apply2SearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public int getActivitys4WxPersonCount(Apply2SearchPOJO apply2SearchPOJO)
+			throws Exception {
+		int ret = 0;
+		ret = activityMapper.getActivitys4WxPersonCount(apply2SearchPOJO);
 		return ret;
 	}
 

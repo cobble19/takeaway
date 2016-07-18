@@ -194,6 +194,69 @@
   	</where>
   </select>
   
+  
+  <select id="findActivitys4WxPerson" resultMap="ActivityResultMap" parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+			, u.user_id, u.username, u.nickname
+    from e_activity a, rel_activity_apply2 b, p_apply2 c, b_user u, b_user uMedia, rel_activity_user d, rel_wx_index_map e
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and a.activity_id = b.activity_id
+			and b.apply2_id = c.apply2_id
+			and c.union_id = u.username
+			and uMedia.user_id = d.user_id
+			and d.activity_id = a.activity_id
+			and d.user_id = e.user_id
+			
+			<if test="openId != null">
+				and c.openId = #{openId}
+			</if>
+			<if test="unionId != null">
+				and u.username = #{unionId}
+			</if>
+			<if test="wxIndexCode != null">
+				and e.WX_INDEX_CODE = #{wxIndexCode}
+			</if>
+			
+  		</trim>
+  	</where>
+  	order by a.END_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getActivitys4WxPersonCount" parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" resultType="java.lang.Integer" >
+    select count(1) 
+    from e_activity a, rel_activity_apply2 b, p_apply2 c, b_user u, b_user uMedia, rel_activity_user d, wx_authorizer_info e
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and a.activity_id = b.activity_id
+			and b.apply2_id = c.apply2_id
+			and c.union_id = u.username
+			and uMedia.user_id = d.user_id
+			and d.activity_id = a.activity_id
+			and d.user_id = e.user_id
+			
+			<if test="openId != null">
+				and c.openId = #{openId}
+			</if>
+			<if test="unionId != null">
+				and u.username = #{unionId}
+			</if>
+			<if test="wxIndexCode != null">
+				and e.WX_INDEX_CODE = #{wxIndexCode}
+			</if>
+			
+  		</trim>
+  	</where>
+  </select>
+  
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from e_activity
     where ACTIVITY_ID = #{activityId}

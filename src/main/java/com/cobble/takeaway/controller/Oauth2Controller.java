@@ -37,6 +37,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
 import com.cobble.takeaway.oauth2.WxOauth2TokenApiPOJO;
 import com.cobble.takeaway.oauth2.WxUserApiPOJO;
+import com.cobble.takeaway.pojo.ActivityPOJO;
+import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
@@ -64,6 +67,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
+import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.RelWxPuOpenService;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerAccessTokenService;
@@ -107,6 +111,9 @@ public class Oauth2Controller extends BaseController {
 	private RelWxPuOpenService relWxPuOpenService;
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ActivityService activityService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -172,9 +179,43 @@ public class Oauth2Controller extends BaseController {
 	private String wxThirdWebRefreshTokenUrl;
 	/*@Value("${WX.third.web.userInfoUrl}")
 	private String wxThirdWebUserInfoUrl;*/
+
+	@RequestMapping(value = "/web/weixin/wxactivitys", method = {RequestMethod.GET})
+	public ModelAndView wxActivitys(@RequestParam(value="wxIndexCode") String wxIndexCode
+			, @RequestParam(value="openId") String openId
+			, @RequestParam(value="unionId") String unionId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			HttpSession session = request.getSession();
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			logger.info("begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("uri: " + uri + ", qs: " + qs);
+			Apply2SearchPOJO apply2SearchPOJO = new Apply2SearchPOJO();
+			apply2SearchPOJO.setOpenId(openId);
+			apply2SearchPOJO.setUnionId(unionId);
+			apply2SearchPOJO.setWxIndexCode(wxIndexCode);
+			List<ActivityPOJO> activityPOJOs4WxPerson = activityService.findActivitys4WxPerson(apply2SearchPOJO);
+			
+			ActivitySearchPOJO activitySearchPOJO = new ActivitySearchPOJO();
+			activitySearchPOJO.setUserId(userId);
+			List<ActivityPOJO> activityPOJOs = activityService.findActives(activitySearchPOJO);
+			
+			ret.addObject("activityPOJOs4WxPerson", activityPOJOs4WxPerson);
+			ret.addObject("activityPOJOs", activityPOJOs);
+			ret.setViewName("/page/weixin/wx_activitys");
+		} catch (Exception e) {
+			logger.error("wxLinkUserCenter error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
-	@RequestMapping(value = "/web/wx/usercenter/{indexCode}/person", method = {RequestMethod.GET})
-	public ModelAndView wxPersonUserCenter(@PathVariable(value="indexCode") String indexCode, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/web/wx/usercenter/{wxIndexCode}/person", method = {RequestMethod.GET})
+	public ModelAndView wxPersonUserCenter(@PathVariable(value="wxIndexCode") String wxIndexCode, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
 			HttpSession session = request.getSession();
@@ -187,6 +228,9 @@ public class Oauth2Controller extends BaseController {
 			WxUserInfoApiPOJO wxUserInfoApiPOJO = (WxUserInfoApiPOJO) session.getAttribute(CommonConstant.WX_USER_INFO_API_POJO);
 			
 			ret.addObject(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
+			ret.addObject("wxActivitysUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxactivitys" + "?wxIndexCode=" + wxIndexCode
+					+ "&openId=" + session.getAttribute(CommonConstant.OPEN_ID)
+					+ "&unionId=" + session.getAttribute(CommonConstant.UNION_ID));
 			ret.setViewName("/page/weixin/wx_person_user_center");
 		} catch (Exception e) {
 			logger.error("wxLinkUserCenter error.", e);

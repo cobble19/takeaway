@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 
 public interface ActivityService {
 	int insert(ActivityPOJO activityPOJO, Long userId) throws Exception;
@@ -21,5 +22,8 @@ public interface ActivityService {
 	int getCount4Enterprise(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 	
 	ActivityPOJO find2ById(Long id) throws Exception;
+
+	List<ActivityPOJO> findActivitys4WxPerson(Apply2SearchPOJO apply2SearchPOJO) throws Exception;
+	int getActivitys4WxPersonCount(Apply2SearchPOJO apply2SearchPOJO) throws Exception;
 	
 }

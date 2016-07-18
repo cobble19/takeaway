@@ -6,6 +6,8 @@ public class Apply2SearchPOJO extends BaseSearchPOJO {
     private String openId;
     private String unionId;
     private String description;
+    
+    private String wxIndexCode;
 
     private Long activityId;
 
@@ -47,6 +49,14 @@ public class Apply2SearchPOJO extends BaseSearchPOJO {
 
 	public void setActivityId(Long activityId) {
 		this.activityId = activityId;
+	}
+
+	public String getWxIndexCode() {
+		return wxIndexCode;
+	}
+
+	public void setWxIndexCode(String wxIndexCode) {
+		this.wxIndexCode = wxIndexCode;
 	}
     
 }

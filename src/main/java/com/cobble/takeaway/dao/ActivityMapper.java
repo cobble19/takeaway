@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.RelActivityUserPOJO;
 
 
@@ -22,4 +23,7 @@ public interface ActivityMapper {
 	int getCount4Enterprise(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 
 	ActivityPOJO find2ById(Long id) throws Exception;
+
+	List<ActivityPOJO> findActivitys4WxPerson(Apply2SearchPOJO apply2SearchPOJO) throws Exception;
+	int getActivitys4WxPersonCount(Apply2SearchPOJO apply2SearchPOJO) throws Exception;
 }
