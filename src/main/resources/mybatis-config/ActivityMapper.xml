@@ -133,6 +133,9 @@
 			<if test="userId != null">
 				and rau.user_id = #{userId}
 			</if>
+			<if test="typeCode != null">
+				and a.type_code = #{typeCode}
+			</if>
 			and rau.user_id = u.user_id
 			and a.user_Id_Enterprise = uEnt.user_id
 			and a.END_DATE_TIME - now() &gt;= 0
@@ -144,7 +147,8 @@
 	</if>
   </select>
   <select id="getActiveCount" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" resultType="java.lang.Integer" >
-    select count(1) from e_activity
+    select count(1) 
+    from e_activity a, rel_activity_user rau, b_user u, b_user uEnt
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -152,6 +156,11 @@
 			<if test="userId != null">
 				and rau.user_id = #{userId}
 			</if>
+			<if test="typeCode != null">
+				and a.type_code = #{typeCode}
+			</if>
+			and rau.user_id = u.user_id
+			and a.user_Id_Enterprise = uEnt.user_id
 			and a.END_DATE_TIME - now() &gt;= 0
   		</trim>
   	</where>
@@ -222,6 +231,9 @@
 			<if test="wxIndexCode != null">
 				and e.WX_INDEX_CODE = #{wxIndexCode}
 			</if>
+			<if test="typeCode != null">
+				and a.TYPE_CODE = #{typeCode}
+			</if>
 			
   		</trim>
   	</where>
@@ -251,6 +263,9 @@
 			</if>
 			<if test="wxIndexCode != null">
 				and e.WX_INDEX_CODE = #{wxIndexCode}
+			</if>
+			<if test="typeCode != null">
+				and a.TYPE_CODE = #{typeCode}
 			</if>
 			
   		</trim>

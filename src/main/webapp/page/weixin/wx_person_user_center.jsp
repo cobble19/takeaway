@@ -54,25 +54,25 @@
 	</div> --%>
 
   	<div class="weui_cells weui_cells_access">
-	  <a class="weui_cell" href="${wxActivitysUrl}">
+	  <a class="weui_cell" href="${wxActivitys4ApplyUrl}">
 	    <div class="weui_cell_bd weui_cell_primary">
 	      <p style="font-size:12px;">活动报名</p>
 	    </div>
         <div class="weui_cell_ft"></div>
 	  </a>
-	  <a class="weui_cell" href="javascript:;">
+	  <a class="weui_cell" href="${wxActivitys4SurveyUrl}">
 	    <div class="weui_cell_bd weui_cell_primary">
 	      <p style="font-size:12px;">征集调查</p>
 	    </div>
         <div class="weui_cell_ft"></div>
 	  </a>
-	  <a class="weui_cell" href="javascript:;">
+	  <a class="weui_cell" href="${wxScoreUrl}">
 	    <div class="weui_cell_bd weui_cell_primary">
 	      <p style="font-size:12px;">我的积分</p>
 	    </div>
         <div class="weui_cell_ft"></div>
 	  </a>
-	  <a class="weui_cell" href="javascript:;">
+	  <a class="weui_cell" href="${wxPrizeUrl}">
 	    <div class="weui_cell_bd weui_cell_primary">
 	      <p style="font-size:12px;">我的奖品</p>
 	    </div>

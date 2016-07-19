@@ -180,10 +180,49 @@ public class Oauth2Controller extends BaseController {
 	/*@Value("${WX.third.web.userInfoUrl}")
 	private String wxThirdWebUserInfoUrl;*/
 
+	@RequestMapping(value = "/web/weixin/wxprize", method = {RequestMethod.GET})
+	public ModelAndView wxPrize(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			HttpSession session = request.getSession();
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			logger.info("begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("uri: " + uri + ", qs: " + qs);
+			ret.setViewName("/page/weixin/wx_prize");
+		} catch (Exception e) {
+			logger.error("error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/weixin/wxscore", method = {RequestMethod.GET})
+	public ModelAndView wxScore(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			HttpSession session = request.getSession();
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			logger.info("begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("uri: " + uri + ", qs: " + qs);
+			ret.setViewName("/page/weixin/wx_score");
+		} catch (Exception e) {
+			logger.error("error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/weixin/wxactivitys", method = {RequestMethod.GET})
 	public ModelAndView wxActivitys(@RequestParam(value="wxIndexCode") String wxIndexCode
 			, @RequestParam(value="openId") String openId
 			, @RequestParam(value="unionId") String unionId
+			, @RequestParam(value="typeCode") Integer typeCode
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
@@ -197,11 +236,13 @@ public class Oauth2Controller extends BaseController {
 			activitySearchPOJO.setOpenId(openId);
 			activitySearchPOJO.setUnionId(unionId);
 			activitySearchPOJO.setWxIndexCode(wxIndexCode);
+			activitySearchPOJO.setTypeCode(typeCode);
 			List<ActivityPOJO> activityPOJOs4WxPerson = activityService.findActivitys4WxPerson(activitySearchPOJO);
 			
 			UserPOJO userPOJO = userService.findUserByIndexCode(wxIndexCode);
 			activitySearchPOJO = new ActivitySearchPOJO();
 			activitySearchPOJO.setUserId(userPOJO.getUserId());
+			activitySearchPOJO.setTypeCode(typeCode);
 			List<ActivityPOJO> activityPOJOs = activityService.findActives(activitySearchPOJO);
 			
 			ret.addObject("activityPOJOs4WxPerson", activityPOJOs4WxPerson);
@@ -229,9 +270,17 @@ public class Oauth2Controller extends BaseController {
 			WxUserInfoApiPOJO wxUserInfoApiPOJO = (WxUserInfoApiPOJO) session.getAttribute(CommonConstant.WX_USER_INFO_API_POJO);
 			
 			ret.addObject(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
-			ret.addObject("wxActivitysUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxactivitys" + "?wxIndexCode=" + wxIndexCode
+			ret.addObject("wxActivitys4ApplyUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxactivitys" + "?wxIndexCode=" + wxIndexCode
 					+ "&openId=" + session.getAttribute(CommonConstant.OPEN_ID)
-					+ "&unionId=" + session.getAttribute(CommonConstant.UNION_ID));
+					+ "&unionId=" + session.getAttribute(CommonConstant.UNION_ID)
+					+ "&typeCode=" + 1);
+			ret.addObject("wxActivitys4SurveyUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxactivitys" + "?wxIndexCode=" + wxIndexCode
+					+ "&openId=" + session.getAttribute(CommonConstant.OPEN_ID)
+					+ "&unionId=" + session.getAttribute(CommonConstant.UNION_ID)
+					+ "&typeCode=" + 2);
+
+			ret.addObject("wxScoreUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxscore");
+			ret.addObject("wxPrizeUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxprize");
 			ret.setViewName("/page/weixin/wx_person_user_center");
 		} catch (Exception e) {
 			logger.error("wxLinkUserCenter error.", e);
