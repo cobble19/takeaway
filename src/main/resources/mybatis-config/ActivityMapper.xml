@@ -214,7 +214,7 @@
 			and d.user_id = e.user_id
 			
 			<if test="openId != null">
-				and c.openId = #{openId}
+				and c.open_id = #{openId}
 			</if>
 			<if test="unionId != null">
 				and u.username = #{unionId}
@@ -244,7 +244,7 @@
 			and d.user_id = e.user_id
 			
 			<if test="openId != null">
-				and c.openId = #{openId}
+				and c.open_id = #{openId}
 			</if>
 			<if test="unionId != null">
 				and u.username = #{unionId}
