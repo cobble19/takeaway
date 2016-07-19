@@ -23,7 +23,7 @@ public interface ActivityService {
 	
 	ActivityPOJO find2ById(Long id) throws Exception;
 
-	List<ActivityPOJO> findActivitys4WxPerson(Apply2SearchPOJO apply2SearchPOJO) throws Exception;
-	int getActivitys4WxPersonCount(Apply2SearchPOJO apply2SearchPOJO) throws Exception;
+	List<ActivityPOJO> findActivitys4WxPerson(ActivitySearchPOJO activitySearchPOJO) throws Exception;
+	int getActivitys4WxPersonCount(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 	
 }

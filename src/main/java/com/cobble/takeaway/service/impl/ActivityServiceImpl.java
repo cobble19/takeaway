@@ -118,18 +118,17 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public List<ActivityPOJO> findActivitys4WxPerson(
-			Apply2SearchPOJO apply2SearchPOJO) throws Exception {
+	public List<ActivityPOJO> findActivitys4WxPerson(ActivitySearchPOJO activitySearchPOJO) throws Exception {
 		List<ActivityPOJO> ret = null;
-		ret = activityMapper.findActivitys4WxPerson(apply2SearchPOJO);
+		ret = activityMapper.findActivitys4WxPerson(activitySearchPOJO);
 		return ret;
 	}
 
 	@Override
-	public int getActivitys4WxPersonCount(Apply2SearchPOJO apply2SearchPOJO)
+	public int getActivitys4WxPersonCount(ActivitySearchPOJO activitySearchPOJO)
 			throws Exception {
 		int ret = 0;
-		ret = activityMapper.getActivitys4WxPersonCount(apply2SearchPOJO);
+		ret = activityMapper.getActivitys4WxPersonCount(activitySearchPOJO);
 		return ret;
 	}
 

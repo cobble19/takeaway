@@ -193,13 +193,13 @@ public class Oauth2Controller extends BaseController {
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("uri: " + uri + ", qs: " + qs);
-			Apply2SearchPOJO apply2SearchPOJO = new Apply2SearchPOJO();
-			apply2SearchPOJO.setOpenId(openId);
-			apply2SearchPOJO.setUnionId(unionId);
-			apply2SearchPOJO.setWxIndexCode(wxIndexCode);
-			List<ActivityPOJO> activityPOJOs4WxPerson = activityService.findActivitys4WxPerson(apply2SearchPOJO);
-			
 			ActivitySearchPOJO activitySearchPOJO = new ActivitySearchPOJO();
+			activitySearchPOJO.setOpenId(openId);
+			activitySearchPOJO.setUnionId(unionId);
+			activitySearchPOJO.setWxIndexCode(wxIndexCode);
+			List<ActivityPOJO> activityPOJOs4WxPerson = activityService.findActivitys4WxPerson(activitySearchPOJO);
+			
+			activitySearchPOJO = new ActivitySearchPOJO();
 			activitySearchPOJO.setUserId(userId);
 			List<ActivityPOJO> activityPOJOs = activityService.findActives(activitySearchPOJO);
 			
