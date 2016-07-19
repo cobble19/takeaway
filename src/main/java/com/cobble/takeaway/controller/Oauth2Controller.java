@@ -199,8 +199,9 @@ public class Oauth2Controller extends BaseController {
 			activitySearchPOJO.setWxIndexCode(wxIndexCode);
 			List<ActivityPOJO> activityPOJOs4WxPerson = activityService.findActivitys4WxPerson(activitySearchPOJO);
 			
+			UserPOJO userPOJO = userService.findUserByIndexCode(wxIndexCode);
 			activitySearchPOJO = new ActivitySearchPOJO();
-			activitySearchPOJO.setUserId(userId);
+			activitySearchPOJO.setUserId(userPOJO.getUserId());
 			List<ActivityPOJO> activityPOJOs = activityService.findActives(activitySearchPOJO);
 			
 			ret.addObject("activityPOJOs4WxPerson", activityPOJOs4WxPerson);

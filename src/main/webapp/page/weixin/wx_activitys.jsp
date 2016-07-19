@@ -39,7 +39,7 @@
 	      <h1 class="doc-head">已参加活动</h1>
 	      
 		  	<div class="weui_cells weui_cells_access">
-		  		<c:forEach items="activityPOJOs4WxPerson" var="activityPOJO" varStatus="st">
+		  		<c:forEach items="${activityPOJOs4WxPerson}" var="activityPOJO" varStatus="st">
 				  <a class="weui_cell" href="/page/enterprise/activity_detail.jsp?activityId=${activityPOJO.activityId}">
 				    <div class="weui_cell_bd weui_cell_primary">
 				      <p style="font-size:12px;"><c:out value="${activityPOJO.title}"></c:out></p>
@@ -53,7 +53,7 @@
 	      <h1 class="doc-head">所有活动</h1>
 	      
 		  	<div class="weui_cells weui_cells_access">
-		  		<c:forEach items="activityPOJOs" var="activityPOJO" varStatus="st">
+		  		<c:forEach items="${activityPOJOs}" var="activityPOJO" varStatus="st">
 				  <a class="weui_cell" href="/page/enterprise/activity_detail.jsp?activityId=${activityPOJO.activityId}">
 				    <div class="weui_cell_bd weui_cell_primary">
 				      <p style="font-size:12px;"><c:out value="${activityPOJO.title}"></c:out></p>
