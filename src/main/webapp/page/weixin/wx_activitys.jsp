@@ -28,18 +28,18 @@
 	<div class="weui_tab">
 	  <div class="weui_navbar">
 	    <a href="#tab1" class="weui_navbar_item weui_bar_item_on">
-	      已参加活动
+	      全部
 	    </a>
 	    <a href="#tab2" class="weui_navbar_item">
-	      所有活动
+	      已参加
 	    </a>
 	  </div>
 	  <div class="weui_tab_bd">
 	    <div id="tab1" class="weui_tab_bd_item weui_tab_bd_item_active">
-	      <h1 class="doc-head">已参加活动</h1>
+	      <!--<h1 class="doc-head">所有活动</h1>-->
 	      
 		  	<div class="weui_cells weui_cells_access">
-		  		<c:forEach items="${activityPOJOs4WxPerson}" var="activityPOJO" varStatus="st">
+		  		<c:forEach items="${activityPOJOs}" var="activityPOJO" varStatus="st">
 				  <a class="weui_cell" href="/page/enterprise/activity_detail.jsp?activityId=${activityPOJO.activityId}">
 				    <div class="weui_cell_bd weui_cell_primary">
 				      <p style="font-size:12px;"><c:out value="${activityPOJO.title}"></c:out></p>
@@ -50,10 +50,10 @@
 			</div>
 	    </div>
 	    <div id="tab2" class="weui_tab_bd_item">
-	      <h1 class="doc-head">所有活动</h1>
+	      <!--<h1 class="doc-head">已参加活动</h1>-->
 	      
 		  	<div class="weui_cells weui_cells_access">
-		  		<c:forEach items="${activityPOJOs}" var="activityPOJO" varStatus="st">
+		  		<c:forEach items="${activityPOJOs4WxPerson}" var="activityPOJO" varStatus="st">
 				  <a class="weui_cell" href="/page/enterprise/activity_detail.jsp?activityId=${activityPOJO.activityId}">
 				    <div class="weui_cell_bd weui_cell_primary">
 				      <p style="font-size:12px;"><c:out value="${activityPOJO.title}"></c:out></p>
