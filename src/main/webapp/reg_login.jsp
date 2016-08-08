@@ -3,9 +3,9 @@
 	<security:authentication property="principal.username" var="username"/>
     <script src="<cmn:base/>/js/reg_login.js"></script>
 	<div class="row">
-        <div class="col-md-1 logo hidden-xs"></div>
+        <div class="col-md-offset-1 col-md-1 logo hidden-xs"></div>
         <div class="col-xs-5 col-xs-offset-1 logo visible-xs"></div>
-        <div class="col-md-4 col-md-offset-7 col-xs-6">
+        <div class="col-md-4 col-md-offset-6 col-xs-6">
 			<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
 	        <button style="float:right;" type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal">注册</button>
 	        <button style="float:right; margin-right:10px;" type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#loginModal">登陆</button>

@@ -23,7 +23,7 @@
 <body>
 	<security:authentication property="principal.username" var="username" />
 
-	<div class="container">
+	<div class="container-fluid">
 		<%@include file="reg_login.jsp"%>
 
 
@@ -59,115 +59,12 @@
 
 		<div class="row" style="margin-left:45px; margin-right:15px;">
 
-
-			<script type="text/javascript">
-				$(function() {
-					$('#rotate > ul').tabs({
-						fx : {
-							opacity : 'toggle'
-						}
-					}).tabs('rotate', 0);
-					/* $('#rotate1 > ul').tabs(); */
-
-					$("#myTab a, #loginTab a").each(function(i, ele) {
-						if ($(this).parent().hasClass('active')) {
-							var href = $(this).attr('href');
-							var page = $(this).attr('page');
-							$(href).load(page);
-						}
-					});
-					$("#myTab a, #loginTab a").click(function(e) {
-						var href = $(this).attr('href');
-						var page = $(this).attr('page');
-						$(href).load(page);
-					})
-
-					// $('#regForm').validate();
-					/* $('#regForm').submit(function(e) {
-						console.log('adb');
-						if ($('#regForm').valid()) {
-							
-						}
-					    $('#regForm').validate();
-						return false;
-					}); */
-
-				});
-			</script>
-			<div id="rotate" class="col-md-10 col-md-offset-1 col-xs-12">
-				<div id="0" class="row">
-					<ul class="row">
+			<div class="col-md-10 col-md-offset-1 col-xs-12">
 						<div class="row hidden-xs">
 							<div class="qima col-md-2" style="margin-left: 60px;"></div>
 							<div class="sywz1 col-md-4"></div>
 							<div class="sywz2 col-md-4"></div>
 						</div>
-						<div class="row">
-							<div class="col-md-4 col-xs-12" style="padding: 0px; margin: 0px;">
-								<div class="jrtj"></div>
-								<div class="cont-1">
-									<div class="cont-4">
-										<li><img src="images/5.png" width="252" height="105"></li>
-									</div>
-									<div class="jryh"></div>
-									<div class="cont-5">
-										<!--今日优惠四个图片开始-->
-										<li><img src="images/1.png" width="124" height="74"></li>
-										<li><img src="images/2.png" width="124" height="74"></li>
-										<li><img src="images/3.png" width="124" height="74"></li>
-										<li><img src="images/4.png" width="124" height="74"></li>
-										<!--今日优惠四个图片结束-->
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 col-xs-12" style="padding: 0px; margin: 0px;">
-								<div class="jrtg"></div>
-								<div class="cont-2">
-									<li><img src="images/jrtg.png" width="250" height="295"></li>
-								</div>
-							</div>
-							<div id="activeTop" class="col-md-4 col-xs-12" style="margin-left: -15px;">
-								<div class="jrhd"></div>
-								<div class="cont-3">
-                                    <div class="cont-6">
-                                    <p style="font-size:14px; font-weight:bold; color:#009;">线上活动</p>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="cont-7">
-                                    <p style="font-size:14px; font-weight:bold; color:#009;">线下活动</p>
-                                    </div>
-                                </div>
-							</div>
-						</div>
-						<!-- <div class="row">
-							<div id="interactiveTop" class="col-md-4" style="margin-left: -15px;">
-								<div class=""><span>互动活动</span></div>
-								<div class="cont-3"></div>
-							</div>
-						</div> -->
-					</ul>
-				</div>
-
-
-				<div id="1">
-					<ul class="sy-jrk">
-
-						<li>敬请期待</li>
-					</ul>
-				</div>
-				<ul class="row sy-lbk hidden-xs">
-					<div class="sy-lb col-md-10 col-md-offset-1">
-						<li><a href="#0"><span style="padding:0px 30px;">今日头条</span></a></li>
-						<li><a href="#1"><span style="padding:0px 30px;">美食外卖</span></a></li>
-					</div>
-				</ul>
-				<ul class="row sy-lbk-sj visible-xs">
-					<div class="sy-lb-sj col-xs-12">
-						<li><a href="#0"><span style="padding:0px 10px;">今日头条</span></a></li>
-						<li><a href="#1"><span style="padding:0px 10px;">美食外卖</span></a></li>
-					</div>
-				</ul>
-			</div>
 			<!-- <div class="sy-dl">
         <div class="sy-dl-img"></div>
         
