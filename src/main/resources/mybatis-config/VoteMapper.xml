@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.VoteMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="VoteResultMap" type="com.cobble.takeaway.pojo.VotePOJO" >
+    <id column="VOTE_ID" property="voteId" />
+    <result column="USER_ID" property="userId" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    <result column="CONTENT" property="content" jdbcType="VARCHAR"/>
+    <result column="VOTE_TYPE" property="voteType" />
+    <result column="PUBLISH_TYPE" property="publishType" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    a.VOTE_ID, a.USER_ID, a.TITLE, a.CONTENT, a.VOTE_TYPE, a.PUBLISH_TYPE, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="title != null">
+		and TITLE like concat("%", concat(#{title}, "%"))
+	</if>
+	<if test="userId != null">
+		and USER_ID = #{userId}
+	</if>
+	<if test="voteType != null">
+		and VOTE_TYPE = #{voteType}
+	</if>
+	<if test="publishType != null">
+		and PUBLISH_TYPE = #{publishType}
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="VoteResultMap" parameterType="com.cobble.takeaway.pojo.VoteSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from v_vote a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.VoteSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from v_vote
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="VoteResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from v_vote a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.VOTE_ID = #{voteId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from v_vote
+    where VOTE_ID = #{voteId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.VotePOJO" useGeneratedKeys="true"
+  	keyProperty="voteId" keyColumn="VOTE_ID">
+    insert into v_vote
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="voteType != null" >
+        VOTE_TYPE,
+      </if>
+      <if test="publishType != null" >
+        PUBLISH_TYPE,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="title != null" >
+        #{title},
+      </if>
+      <if test="content != null" >
+        #{content},
+      </if>
+      <if test="voteType != null" >
+        #{voteType},
+      </if>
+      <if test="publishType != null" >
+        #{publishType},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.VotePOJO" >
+    update v_vote
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content},
+      </if>
+      <if test="voteType != null" >
+        VOTE_TYPE = #{voteType},
+      </if>
+      <if test="publishType != null" >
+        PUBLISH_TYPE = #{publishType},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where VOTE_ID = #{voteId}
+  </update>
+</mapper>

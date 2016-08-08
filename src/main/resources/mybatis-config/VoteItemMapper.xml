@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.VoteItemMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="VoteItemResultMap" type="com.cobble.takeaway.pojo.VoteItemPOJO" >
+    <id column="VOTE_ITEM_ID" property="voteItemId" />
+    <result column="VOTE_ID" property="voteId" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR"/>
+    <result column="DESCRIPTION" property="description" />
+    <result column="TOTAL_NUM" property="totalNum" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.VOTE_ITEM_ID, a.VOTE_ID, a.TITLE, a.IMG_URL, a.DESCRIPTION
+    , a.TOTAL_NUM, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="title != null">
+		and a.TITLE like concat("%", concat(#{title}, "%"))
+	</if>
+	<if test="voteId != null">
+		and a.VOTE_ID = #{voteId}
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="VoteItemResultMap" parameterType="com.cobble.takeaway.pojo.VoteItemSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from v_vote_item a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.title asc, a.vote_item_id asc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.VoteItemSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from e_voteItem
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="VoteItemResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from v_vote_item a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.VOTE_ITEM_ID = #{voteItemId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from v_vote_item
+    where VOTE_ITEM_ID = #{voteItemId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.VoteItemPOJO" useGeneratedKeys="true"
+  	keyProperty="voteItemId" keyColumn="VOTE_ITEM_ID">
+    insert into v_vote_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="voteId != null" >
+        VOTE_ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="totalNum != null" >
+        TOTAL_NUM,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="voteId != null" >
+        #{voteId},
+      </if>
+      <if test="title != null" >
+        #{title},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl},
+      </if>
+      <if test="description != null" >
+        #{description},
+      </if>
+      <if test="totalNum != null" >
+        #{totalNum},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.VoteItemPOJO" >
+    update v_vote_item
+    <set >
+      <if test="voteId != null" >
+        VOTE_ID = #{voteId},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title},
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL = #{imgUrl},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description},
+      </if>
+      <if test="totalNum != null" >
+        TOTAL_NUM = #{totalNum},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where VOTE_ITEM_ID = #{voteItemId}
+  </update>
+  
+  <update id="increaseTotalNumPlusOne" parameterType="com.cobble.takeaway.pojo.VoteItemPOJO" >
+    update v_vote_item
+    <set >
+        TOTAL_NUM = TOTAL_NUM + 1,
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where VOTE_ITEM_ID = #{voteItemId}
+  </update>
+  
+</mapper>

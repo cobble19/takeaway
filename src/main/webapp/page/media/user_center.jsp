@@ -59,6 +59,10 @@
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;模版管理</h5></li>
                       <li role="presentation"><a href="#create_wxTemplate"><h6>微官网首页</h6></a></li>
+                  </ul> 
+                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;网上投票</h5></li>
+                      <li role="presentation"><a href="#create_vote"><h6>投票</h6></a></li>
                   </ul>                    
 		          
 		            <!-- <li class="list-group-item active col-md-12 col-xs-6"><a href="#profile">媒体资料</a></li>
@@ -138,7 +142,7 @@
 	     			<div id="create_interactive">
 	     				<strong>数字竞猜</strong>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<a class="btn btn-success btn-xs" target="" href='<cmn:base/>/page/media/interactive.jsp'>添加</a>
+	     					<a class="btn btn-success btn-xs" target="_blank" href='<cmn:base/>/page/media/interactive.jsp'>添加</a>
 	     					
 	     					<input id="searchBtn4Interactive" type="button" class="btn btn-info btn-xs" value="查询">
 	     					<input id="deleteBtn4Interactive" type="button" class="btn btn-danger btn-xs" value="删除">
@@ -176,6 +180,8 @@
 	     			
 	     			<!-- create_wxTemplate -->
 	     			<%@include file="wx_template_inc.jsp" %>
+	     			<!-- create_vote -->
+	     			<%@include file="vote_inc.jsp" %>
 	     			
 					<div id="update_password">
                         <strong>修改密码</strong>

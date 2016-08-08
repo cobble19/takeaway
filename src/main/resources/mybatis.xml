@@ -61,5 +61,9 @@
 		
 		<mapper resource="mybatis-config/WxPersonUserMapper.xml" />
 		<mapper resource="mybatis-config/RelWxPuOpenMapper.xml" />
+		
+		<mapper resource="mybatis-config/VoteMapper.xml" />
+		<mapper resource="mybatis-config/VoteItemMapper.xml" />
+		<mapper resource="mybatis-config/RelVoteUserMapper.xml" />
 	</mappers>
 </configuration>
