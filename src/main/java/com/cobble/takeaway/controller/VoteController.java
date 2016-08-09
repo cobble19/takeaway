@@ -40,6 +40,38 @@ public class VoteController extends BaseController {
 	private VoteItemService voteItemService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+
+	@RequestMapping(value = "/web/media/voteDetail")
+	public ModelAndView voteDetail(@RequestParam(value="voteId") Long voteId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		VotePOJO votePOJO = new VotePOJO();
+		try {
+			if (voteId == null) {
+				throw new Exception("voteId can't is NULL.");
+			}
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			/*if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+			votePOJO  = voteService.findById(voteId);
+			List<VoteItemPOJO> voteItemPOJOs = voteItemService.findsByVoteId(voteId);
+			if (votePOJO != null) {
+				votePOJO.setVoteItemPOJOs(voteItemPOJOs);
+			}
+			
+			ret.addObject("votePOJO", votePOJO);
+			ret.setViewName("/page/media/vote_detail");
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			throw e;
+		}
+		
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/media/vote/query/{id}")
 	public ModelAndView listVoteById(@PathVariable(value="id") Long id, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {

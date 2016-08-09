@@ -60,12 +60,29 @@ $(document).ready(function() {
 		}, {
 			"targets" : [9],
 			"render" : function(data, type, full, meta) {
-
 				var hrefEdit = $('#basePath').val() + '/page/media/vote_update.jsp?voteId='  + full.voteId;
-				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
+				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
-				return linkEdit;
+				
+				var hrefVIAdd = $('#basePath').val() + '/web/media/voteDetail?voteId='  + full.voteId;
+				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
+								+ '">'
+								+ '追加投票项' + '</a>';
+				var oper =
+					'<div class="btn-group" role="group">'
+						+ '<button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+							+ '操作选项'
+								+ '<span class="caret"></span>'
+						+ '</button>'
+						+ '<ul class="dropdown-menu dropdown-menu-xs">'
+							+ '<li>' + linkEdit + '</li>'
+							+ '<li>' + linkVIAdd + '</li>'
+						+ '</ul>'
+					+ '</div>';
+					
+			      
+				return oper;
 			}
 		} ],
         "columns": [

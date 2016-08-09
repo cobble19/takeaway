@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	showDetail();
+	/*showDetail();*/
 	
 	$('#applyForm').find('#uploadBtn').click(function(e) {
 		var form1 = $(this).parents('form');
@@ -60,7 +60,8 @@ $(document).ready(function() {
             }),
             success: function(data, textStatus, jqXHR ) {
             	console.log("data = " + data);
-            	alert('恭喜您报名成功！')
+            	alert('恭喜您添加投票选项成功！')
+            	window.location.reload();
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Load Error!');
@@ -72,43 +73,53 @@ $(document).ready(function() {
     	//return false;
 	})
 	
-})
+    $('#progress').dialog({
+    	autoOpen: false,
+    	modal: true
+    });
+	
+	$('input[type=button].btn4del').click(function(e) {
+		var voteItemId = $(this).attr('voteItemId');
+		var ids = [];
+		ids.push(voteItemId);
+    	console.log('ids: ' + ids);
+    	if (ids == null || ids.length <= 0) {
+    		alert('请选择一条记录');
+    		return;
+    	}
 
-/*var existApply = function() {
-		var exist = false;
-    	var username = $("#usernameX").val();
-    	var phone = $("#phone").val();
-    	var activityId = $("#activityId").val();
+    	var confirm = window.confirm('确定删除');
+    	if (!confirm) {
+    		return;
+    	}
+
+    	$('#progress').dialog('open');
     	
     	$.ajax({
-    		"url" : "../../web/person/apply/exist",
-    		"type" : "POST",
-    		"async": false,
+    		"url" : "../../mgr/voteItem/delete",
+    		"type" : "GET",
     		"headers" : {
     			"Content-Type" : "application/json"
     		},
     		"dataType" : 'json',
-    		"data": ({
-    			username: username,
-    			phone: phone,
-    			activityId: activityId
-            }),
+    		traditional :true, 
+    		"data": {
+                "ids": ids
+            },
             success: function(data, textStatus, jqXHR ) {
-            	if (data.success) {
-            		exist = true;
-            	} else {
-            		exist = false;
-            	}
+            	$('#progress').dialog('close');
+            	window.location.reload();
             },
             error: function(jqXHR, textStatus, errorThrown) {
-            	console.log('Ajax error');
+            	console.log('Load Error!');
             },
             complete: function(jqXHR, textStatus) {
             	console.log('Ajax complete.');
             }
-    	});	// ajax
-    	return exist;
-}*/
+    	});
+    })
+	
+})
 
 var showDetail = function() {
 	var activityId = getParam('voteId');
