@@ -42,7 +42,7 @@
     <!-- customer -->
     <!-- 公共的函数 -->
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/common.js"></script>
-    <link href="<cmn:base/>/css/common.css" rel="stylesheet">
+    <!--<link href="<cmn:base/>/css/common.css" rel="stylesheet"> -->
     
 	<input id="basePath" type="hidden" value='<cmn:base/>'>
 	<c:set var="basePath"><cmn:base/></c:set>
