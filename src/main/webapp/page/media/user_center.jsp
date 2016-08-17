@@ -50,7 +50,8 @@
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;信息发布</h5></li>
-                      <li role="presentation"><a href="#create_activity"><h6>表单类信息</h6></a></li>
+                      <li role="presentation"><a href="#create_activity"><h6>报名征集</h6></a></li>
+                      <li role="presentation"><a href="#create_vote"><h6>网络投票</h6></a></li>
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;o2o互动</h5></li>
@@ -59,10 +60,6 @@
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;模版管理</h5></li>
                       <li role="presentation"><a href="#create_wxTemplate"><h6>微官网首页</h6></a></li>
-                  </ul> 
-                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
-                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;网上投票</h5></li>
-                      <li role="presentation"><a href="#create_vote"><h6>投票</h6></a></li>
                   </ul>                    
 		          
 		            <!-- <li class="list-group-item active col-md-12 col-xs-6"><a href="#profile">媒体资料</a></li>

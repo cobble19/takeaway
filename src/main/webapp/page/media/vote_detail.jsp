@@ -37,11 +37,11 @@
 		<%-- <%@include file="../../../reg_login_full.jsp" %> --%>
 		<div id="showDiv">
 			<div class="row">
-				<div class="col-md-8 col-xs-12" >
+				<div class="col-md-6 col-xs-6" >
 	            	<span style=" margin-top:10px; margin-bottom:50px; display:block;"><h3 id="title"><c:out value="${votePOJO.title}"></c:out></h3></span>
 	            	<input type="hidden" id="voteId" name="voteId" value="<%=request.getParameter("voteId") %>"/>
 				</div>
-				<div class="col-md-4 col-xs-12" >
+				<div class="col-md-6 col-xs-6" >
 	            	<div style="font-size: 14px; margin-top: 15px; float: right;  margin-left: 30px;">
 						<span style="font-size: 16px; font-family: '幼圆'; font-weight: bold;">投票类型：</span>
 						<span id="voteType"><c:out value="${votePOJO.voteType}"/></span>
@@ -97,7 +97,27 @@
   				<div class="col-md-6 col-xs-12" style="margin-top: 50px;">
   				<fieldset class="scheduler-border">
 					<legend class="scheduler-border" style="font-size:16px;font-family:'幼圆'; font-weight:bold;">已添加投票项</legend>
-					<div class="weui_grids">
+                    
+                    
+                    <div class="row">
+                   <c:forEach items="${votePOJO.voteItemPOJOs}" var="voteItemPOJO" varStatus="st">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img src="<cmn:base/>/${voteItemPOJO.imgUrl}" title="${voteItemPOJO.title}" alt="${voteItemPOJO.title}">
+      <div class="caption">
+        <p style=" font-weight:bold;"><c:out value="${voteItemPOJO.title}"></c:out></p>
+        <p><c:out value="${voteItemPOJO.description}"></c:out></p>
+        <p>票数：<c:out value="${voteItemPOJO.totalNum}"></c:out></p>
+      </div>
+    </div>
+  </div>
+  </c:forEach> 
+</div>
+                   
+                    
+                    
+                    
+					<!--<div class="weui_grids">
 						<c:forEach items="${votePOJO.voteItemPOJOs}" var="voteItemPOJO" varStatus="st">
 						  <a href="javascript:;" class="weui_grid js_grid" data-id="button">
 						    <div class="weui_grid_icon">
@@ -107,12 +127,12 @@
 						    <c:out value="${voteItemPOJO.title}"></c:out>|
 						    <c:out value="${voteItemPOJO.description}"></c:out>|
 						      票数：<c:out value="${voteItemPOJO.totalNum}"></c:out>
-						      <%-- <input type="checkbox" name="chkBox" id="chkBox_${voteItemPOJO.voteItemId}" value="${voteItemPOJO.voteItemId}"> --%>
+						     <input type="checkbox" name="chkBox" id="chkBox_${voteItemPOJO.voteItemId}" value="${voteItemPOJO.voteItemId}">
 						      <input type="button" id="delBtn_${voteItemPOJO.voteItemId}" voteItemId="${voteItemPOJO.voteItemId}" value="删除" class="btn btn-default btn-xs btn4del">
 						    </p>
 						  </a>
 						</c:forEach>
-					</div>
+					</div> -->
 				</fieldset>
 				</div>
   			</div>
