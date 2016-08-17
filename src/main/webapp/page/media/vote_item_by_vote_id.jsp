@@ -37,21 +37,22 @@
           <input type="checkbox" name="chkBox" id="chkBox_${voteItemPOJO.voteItemId}" value="${voteItemPOJO.voteItemId}">
         </h4>
         <div class="weui_media_box weui_media_appmsg">
-        <div class="swiper-wrapper"> 
-        <img class="weui_media_appmsg_thumb" src="<cmn:base/>/${voteItemPOJO.imgUrl}" alt="${voteItemPOJO.title}"> 
-        </div>
+	        <div class="swiper-wrapper"> 
+	        	<img class="weui_media_appmsg_thumb" src="<cmn:base/>/${voteItemPOJO.imgUrl}" alt="${voteItemPOJO.title}"> 
+	        </div>
         </div>
         <ul class="weui_media_info">
           <li class="weui_media_info_meta" style="color:#000">票数：
             <c:out value="${voteItemPOJO.totalNum}"></c:out>
           </li>
-          <li class="weui_media_info_meta"><a href="javascript:;" class="open-popup" data-target="1" style="color:#000">详细信息...</a></li>
+          <li class="weui_media_info_meta"><a href="javascript:;" class="open-popup" data-target="#voteItem_description" style="color:#000">详细信息...</a></li>
         </ul>
       </div>
-      <div id="1" class="weui-popup-container">
+      <div id="voteItem_description" class="weui-popup-container">
         <div class="weui-popup-overlay"></div>
         <div class="weui-popup-modal">
           <c:out value="${voteItemPOJO.description}"></c:out>
+          <a href="javascript:;" class="weui_btn weui_btn_plain_primary close-popup">关闭</a>
         </div>
       </div>
     </c:forEach>
