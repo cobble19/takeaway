@@ -5,7 +5,58 @@ $(document).ready(function() {
 
 })
 
+
+var existUser4VoteItem = function() {
+		var exist = false;
+		
+		/*var ids = [];
+		var chkBox = $('input[name=chkBox]');
+		chkBox.each(function(index, ele) {
+			if ($(this).attr('checked')) {
+				ids.push($(this).val());
+			}
+		})*/
+		var userId = $('#userId').val();
+		var voteId = $('#voteId').val();
+		
+		/*if (ids == null || ids.length <= 0) {
+			alert('请选择一条记录');
+			return;
+		}*/
+    	
+    	$.ajax({
+    		"url" : $('#basePath').val() + "/api/media/voteItem/existUser4VoteItem",
+    		"type" : "POST",
+    		"async": false,
+    		"dataType" : 'json',
+    		"data": ({
+    			voteId: voteId,
+    			userId: userId
+            }),
+            success: function(data, textStatus, jqXHR ) {
+            	if (data.success) {
+            		exist = true;
+            	} else {
+            		exist = false;
+            	}
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Ajax error');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});	// ajax
+    	return exist;
+}
+
 var onAddVoteItem = function() {
+	var exist = existUser4VoteItem();
+	if (exist) {
+		$.alert('您已经投过票了！');
+		return;
+	}
+	
 	var ids = [];
 	var chkBox = $('input[name=chkBox]');
 	chkBox.each(function(index, ele) {

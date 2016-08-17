@@ -101,6 +101,8 @@ public class UserServiceImpl implements UserService {
 	public MyUser findMyUserByName(String username) throws Exception {
 		UserPOJO userPOJO = new UserPOJO();
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		
+		
 		try {
 			userPOJO = userMapper.findUserByName(username);
 			if (userPOJO == null) {
@@ -113,6 +115,31 @@ public class UserServiceImpl implements UserService {
 					authorities.add(grantedAuthority);
 				}
 			}
+
+			SimpleGrantedAuthority anonymousAuthority = new SimpleGrantedAuthority("ROLE_ANONYMOUS");
+			authorities.add(anonymousAuthority);
+			SimpleGrantedAuthority baseAuthority = new SimpleGrantedAuthority("ROLE_BASE");
+			authorities.add(baseAuthority);
+			if (MyUser.MEDIA.equalsIgnoreCase(userPOJO.getUserType())) {
+				SimpleGrantedAuthority userTypeAuthority = new SimpleGrantedAuthority("ROLE_MEDIA");
+				authorities.add(userTypeAuthority);
+			} else if (MyUser.ENTERPRISE.equalsIgnoreCase(userPOJO.getUserType())) {
+				SimpleGrantedAuthority userTypeAuthority = new SimpleGrantedAuthority("ROLE_ENTERPRISE");
+				authorities.add(userTypeAuthority);
+			} else if (MyUser.PERSON.equalsIgnoreCase(userPOJO.getUserType())) {
+				SimpleGrantedAuthority userTypeAuthority = new SimpleGrantedAuthority("ROLE_PERSON");
+				authorities.add(userTypeAuthority);
+			} else if (MyUser.ADMIN.equalsIgnoreCase(userPOJO.getUserType())) {
+				SimpleGrantedAuthority userTypeAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
+				authorities.add(userTypeAuthority);
+			} else if (MyUser.GUEST.equalsIgnoreCase(userPOJO.getUserType())) {
+				SimpleGrantedAuthority userTypeAuthority = new SimpleGrantedAuthority("ROLE_GUEST");
+				authorities.add(userTypeAuthority);
+			} else {
+				SimpleGrantedAuthority userTypeAuthority = new SimpleGrantedAuthority("ROLE_UNKNOWN");
+				authorities.add(userTypeAuthority);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

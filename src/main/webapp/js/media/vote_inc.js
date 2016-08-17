@@ -69,6 +69,10 @@ $(document).ready(function() {
 				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
 								+ '">'
 								+ '追加投票项' + '</a>';
+				
+				var publishType = (full.publishType == null || full.publishType == 0) ? '未发布' : '已发布';
+				var linkPublish = '<a class="btn btn-success btn-xs" href=# onclick=changePublish(' + full.voteId + ',' + full.publishType + ')>' + publishType + '</a>';
+				
 				var oper =
 					'<div class="btn-group" role="group">'
 						+ '<button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
@@ -82,7 +86,7 @@ $(document).ready(function() {
 					+ '</div>';
 					
 			      
-				return oper;
+				return oper + linkPublish;
 			}
 		} ],
         "columns": [
@@ -181,6 +185,45 @@ $(document).ready(function() {
     
     
 } );
+
+var changePublish = function(voteId, publishType) {
+	// 取反
+	if (publishType == null || publishType == 0) {
+		publishType = 1;
+	} else {
+		publishType = 0;
+	}
+	
+	$('#progress').dialog('open');
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/media/vote/publishType",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		/*"data": JSON.stringify({
+			wxTemplateId: wxTemplateId
+        }),*/
+		"data": {
+			voteId: voteId,
+			publishType: publishType
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	
+        	alert('更新成功' + voteId);
+        	voteSearch(table4Vote);
+        	
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
 
 var voteSearch = function(table) {
 	$('#progress').dialog('open');

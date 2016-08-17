@@ -2,6 +2,7 @@ package com.cobble.takeaway.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -598,7 +599,7 @@ public class Oauth2Controller extends BaseController {
 				session.setAttribute("regUserPOJO", userPOJO);*/
 				
 				///////
-				List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS");
+				
 				MyUser myUser = userService.findMyUserByName(userPOJO.getUsername());
 
 				String openId = (String) session.getAttribute("openId");
@@ -609,6 +610,8 @@ public class Oauth2Controller extends BaseController {
 				if (StringUtils.isNotBlank(unionId)) {
 					myUser.setUnionId(unionId);
 				}
+				//List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS");
+				Collection<GrantedAuthority> authorities = myUser.getAuthorities();
 				
 				UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, userPOJO.getPassword(), authorities);
 				SecurityContextHolder.getContext().setAuthentication(anAnthentication);

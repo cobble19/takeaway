@@ -6,7 +6,14 @@ public class RelVoteUserSearchPOJO extends BaseSearchPOJO {
     private Long relVoteUserId;
     private Long voteId;
     private Long userId;
+    private Long voteItemId;
     
+	public Long getVoteItemId() {
+		return voteItemId;
+	}
+	public void setVoteItemId(Long voteItemId) {
+		this.voteItemId = voteItemId;
+	}
 	public Long getRelVoteUserId() {
 		return relVoteUserId;
 	}

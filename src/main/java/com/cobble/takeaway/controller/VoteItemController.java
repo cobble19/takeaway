@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.RelVoteUserPOJO;
+import com.cobble.takeaway.pojo.RelVoteUserSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.VoteItemPOJO;
 import com.cobble.takeaway.pojo.VoteItemSearchPOJO;
@@ -38,9 +39,45 @@ public class VoteItemController extends BaseController {
 	private RelVoteUserService relVoteUserService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
+	@RequestMapping(value = "/api/media/voteItem/existUser4VoteItem", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO existUser4VoteItem(@RequestParam("voteId") Long voteId, @RequestParam("userId") Long userId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			if (voteId == null) {
+				throw new Exception("voteId can't is NULL.");
+			}
+			if (userId == null) {
+				userId = UserUtil.getCurrentUserId();
+			}
+			int result = -1;
+			// Check whether user have addVote to this voteItem
+			RelVoteUserSearchPOJO relVoteUserSearchPOJO = new RelVoteUserSearchPOJO();
+			relVoteUserSearchPOJO.setUserId(userId);
+			relVoteUserSearchPOJO.setVoteId(voteId);
+			Integer totalHasAddVote = relVoteUserService.getCount(relVoteUserSearchPOJO);
+			if (totalHasAddVote > 0) {
+				ret.setSuccess(true);
+				ret.setDesc("已经投过票");
+			} else {
+				ret.setSuccess(false);
+				ret.setDesc("还没有投票");
+			}
+			
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/api/media/voteItem/addVote", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public StatusPOJO addVote(@RequestParam("ids") Long[] ids, Long voteId, Model model, 
+	public StatusPOJO addVote(@RequestParam("ids") Long[] ids, @RequestParam("voteId") Long voteId, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
@@ -51,15 +88,25 @@ public class VoteItemController extends BaseController {
 			int result = -1;
 			for (int i = 0; i < ids.length; i++) {
 				VoteItemPOJO voteItemPOJO = new VoteItemPOJO();
-				voteItemPOJO.setVoteItemId(ids[i]);
-				voteItemService.increaseTotalNumPlusOne(voteItemPOJO);
+				Long voteItemId = ids[i];
 				
-				// insert REL
-				RelVoteUserPOJO relVoteUserPOJO = new RelVoteUserPOJO();
-				relVoteUserPOJO.setUserId(userId);
-				relVoteUserPOJO.setVoteId(voteId);
-				relVoteUserPOJO.setVoteItemId(ids[i]);
-				relVoteUserService.insert(relVoteUserPOJO);
+				// Check whether user have addVote to this voteItem
+				RelVoteUserSearchPOJO relVoteUserSearchPOJO = new RelVoteUserSearchPOJO();
+				relVoteUserSearchPOJO.setUserId(userId);
+				relVoteUserSearchPOJO.setVoteId(voteId);
+				relVoteUserSearchPOJO.setVoteItemId(voteItemId);
+				Integer totalHasAddVote = relVoteUserService.getCount(relVoteUserSearchPOJO);
+				if (totalHasAddVote <= 0) {
+					voteItemPOJO.setVoteItemId(voteItemId);
+					voteItemService.increaseTotalNumPlusOne(voteItemPOJO);
+					
+					// insert REL
+					RelVoteUserPOJO relVoteUserPOJO = new RelVoteUserPOJO();
+					relVoteUserPOJO.setUserId(userId);
+					relVoteUserPOJO.setVoteId(voteId);
+					relVoteUserPOJO.setVoteItemId(voteItemId);
+					relVoteUserService.insert(relVoteUserPOJO);
+				}
 			}
 			
 			ret.setSuccess(true);

@@ -40,6 +40,33 @@ public class VoteController extends BaseController {
 	private VoteItemService voteItemService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+	
+
+	@RequestMapping(value = "/api/media/vote/publishType", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO publishType(VotePOJO votePOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			if (votePOJO.getVoteId() == null || votePOJO.getPublishType() == null) {
+				throw new Exception("voteId/publishType can't is NULL.");
+			}
+
+			int result = -1;
+			/*Long userId = UserUtil.getCurrentUserId();
+			if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+			result = voteService.update(votePOJO);
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
 
 	@RequestMapping(value = "/web/media/voteDetail")
 	public ModelAndView voteDetail(@RequestParam(value="voteId") Long voteId, Model model, 

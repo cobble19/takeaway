@@ -1,23 +1,16 @@
 package com.cobble.takeaway.spring.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.util.CollectionUtils;
 
-import com.cobble.takeaway.pojo.RolePOJO;
-import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.service.UserService;
 
 public class MyUserDetailsService implements UserDetailsService {
+	private final static Logger logger = LoggerFactory.getLogger(MyUserDetailsService.class);
 
 	@Autowired
 	private UserService userService;
@@ -25,29 +18,12 @@ public class MyUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		UserPOJO userPOJO = new UserPOJO();
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		MyUser ret = null;
 		try {
-			userPOJO = userService.findUserByName(username);
-			if (userPOJO == null) {
-				throw new UsernameNotFoundException("Not Found username = " + username);
-			}
-			List<RolePOJO> rolePOJOs = userPOJO.getRolePOJOs();
-			if (!CollectionUtils.isEmpty(rolePOJOs)) {
-				for (RolePOJO rolePOJO : rolePOJOs) {
-					SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(rolePOJO.getRoleName());
-					authorities.add(grantedAuthority);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			ret = userService.findMyUserByName(username);
+		} catch (Exception e1) {
+			logger.error("Can't get MyUser by username = {}", username);
 		}
-		
-		//User ret = new User(userPOJO.getUsername(), userPOJO.getPassword(), true, true, true, true, authorities);
-		MyUser ret = new MyUser(username, userPOJO.getPassword(), authorities, userPOJO.getUserType());
-		ret.setUserId(userPOJO.getUserId());
-		ret.setNickname(userPOJO.getNickname());
-		ret.setEmail(userPOJO.getEmail());
 		return ret;
 	}
 
