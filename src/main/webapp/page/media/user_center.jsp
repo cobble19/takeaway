@@ -36,10 +36,10 @@
     </script>
 
   </head>
-  <body>
+  <body style="padding-top: 100px;">
+  	<%@include file="../../reg_login.jsp" %>
   	<div class="container-fluid">
         <div  class="row" style=" height:4px; background-color:#44b549;"></div>
-	  	<%@include file="../../reg_login_full.jsp" %>
         <div  class="row" style=" height:36px; background-color:#e7e8eb;"></div>
   		<div class="row" style="min-height:500px; border:1px solid #CCC;">
   			<div class="col-md-3 col-xs-4" style="margin-top:30px; margin-left:-15px; margin-right:-15px; text-align:center;" id="sidebar">

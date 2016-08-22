@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="page/common/taglib.jsp"%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,23 +10,15 @@
 <!--<script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script>-->
 <script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
 <script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script>
-
 <script type="text/javascript" charset="utf-8"
 	src="<cmn:base/>/js/activity_top.js"></script>
 <link href="<cmn:base/>/css/activity_top.css" rel="stylesheet">
-
 </head>
-
-
-
-<body>
-	<security:authentication property="principal.username" var="username" />
-
-	<div class="container-fluid">
-		<%@include file="reg_login.jsp"%>
-
-
-		<%-- <div class="row">
+<body style="padding-top: 100px;">
+<security:authentication property="principal.username" var="username" />
+<%@include file="reg_login.jsp"%>
+<div class="container-fluid">
+  <%-- <div class="row">
         <div class="col-md-1 col-xs-6 logo"></div>
         <div class="col-md-3 col-xs-6 col-md-offset-8">
 		<c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
@@ -56,22 +47,28 @@
         </c:if>
 	</div>
 </div> --%>
-
-		<div class="row" style="margin-left:45px; margin-right:15px;">
-
-			<div class="col-md-10 col-md-offset-1 col-xs-12">
-						<div class="row hidden-xs">
-							<div class="qima col-md-2" style="margin-left: 60px;"></div>
-							<div class="sywz1 col-md-4"></div>
-							<div class="sywz2 col-md-4"></div>
-						</div>
-			<!-- <div class="sy-dl">
-        <div class="sy-dl-img"></div>
-        
-        
-    </div> -->
-			<!-- 注册 -->
-			<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="row">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+      </ol>
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+        <div class="item active" style="background:#0099cc;"> <img src="/images/index_1.jpg" class="img-responsive center-block" alt="">
+          <div class="carousel-caption"> </div>
+        </div>
+        <div class="item" style="background:#0099cc;"> <img src="/images/index_2.jpg" class="img-responsive center-block" alt="">
+          <div class="carousel-caption"> </div>
+        </div>
+      </div>
+      <!-- Controls -->
+      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+  </div>
+  <!-- 注册 -->
+  <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     	<div class="modal-dialog">
     		<div class="modal-content">
     			<div class="modal-header">
@@ -104,10 +101,8 @@
     		</div>
     	</div>
     </div> -->
-
-
-			<!-- 登陆 -->
-			<!-- <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!-- 登陆 -->
+  <!-- <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     	<div class="modal-dialog">
     		<div class="modal-content">
     			<div class="modal-header">
@@ -136,11 +131,8 @@
     		</div>
     	</div>
     </div> -->
-
-
-
-		</div>
-		<div style="display: none;"><%@include file="bottom.jsp"%></div>
-	</div>
+  <div class="row" style="border-top:10px solid #CCC; background:#f4faf6;"> <img src="/images/index_3.jpg" class="img-responsive center-block" alt=""> </div>
+  <%@include file="bottom.jsp"%>
+</div>
 </body>
 </html>

@@ -53,10 +53,10 @@
 					</tr>
                     <tr>
                         <td><a href="#"><p class="smaller">忘记登录密码？</p></a></td>
-                        <td align="right" class="hidden-xs"><a href="register.jsp"><p class="smaller">免费注册</p></a></td> 
+                        <!--<td align="right" class="hidden-xs"><a href="register.jsp"><p class="smaller">免费注册</p></a></td>--> 
                     </tr>
                     <tr class="visible-xs">
-                        <td><a href="register.jsp"><p class="smaller">免费注册</p></a></td> 
+                        <!--<td><a href="register.jsp"><p class="smaller">免费注册</p></a></td>--> 
                     </tr>
 					<tr>
 						<td class="hidden-xs">

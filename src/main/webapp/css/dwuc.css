@@ -77,13 +77,7 @@ a {
 	text-decoration: none
 }
 
-a:visited {
-	color: #a1a1a1
-}
 
-a:hover {
-	color: #4cca92
-}
 
 /* p a, ol a, ul a, blockquote a {
 	border-bottom: 0.125rem solid #00b464
@@ -578,9 +572,6 @@ ol.hashTabber-data.hashTabber-sandstone>li h3 {
 	background: url(../images/sy1.gif) center no-repeat;
 	width: 68px;
 	height: 72px;
-	margin-top: 24px;
-	float: left;
-	margin-left: 36px;
 }
 
 .logomin {
