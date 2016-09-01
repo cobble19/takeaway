@@ -40,6 +40,15 @@ public class WxAuthorizerRefreshTokenServiceImpl implements WxAuthorizerRefreshT
 	}
 
 	@Override
+	public List<WxAuthorizerRefreshTokenPOJO> findAuthorizerAppIds(
+			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO)
+			throws Exception {
+		List<WxAuthorizerRefreshTokenPOJO> ret = null;
+		ret = wxAuthorizerRefreshTokenMapper.findAuthorizerAppIds(wxAuthorizerRefreshTokenSearchPOJO);
+		return ret;
+	}
+
+	@Override
 	public int getCount(WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO)
 			throws Exception {
 		int ret = 0;

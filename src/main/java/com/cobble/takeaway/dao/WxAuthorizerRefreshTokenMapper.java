@@ -10,6 +10,7 @@ public interface WxAuthorizerRefreshTokenMapper {
 	int insert(WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO) throws Exception;
 	int update(WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO) throws Exception;
 	List<WxAuthorizerRefreshTokenPOJO> finds(WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO) throws Exception;
+	List<WxAuthorizerRefreshTokenPOJO> findAuthorizerAppIds(WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO) throws Exception;
 	
 	int getCount(WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO) throws Exception;
 	WxAuthorizerRefreshTokenPOJO findById(Long id) throws Exception;

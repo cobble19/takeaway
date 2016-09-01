@@ -30,6 +30,22 @@
 	</if>
   </sql>
   
+  <select id="findAuthorizerAppIds" resultMap="WxAuthorizerRefreshTokenResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO" >
+    select
+      distinct 
+      a.COMPONENT_APPID, a.AUTHORIZER_APPID
+    from WX_AUTHORIZER_REFRESH_TOKEN a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
   <select id="finds" resultMap="WxAuthorizerRefreshTokenResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO" >
     select
     <if test="distinct" >
