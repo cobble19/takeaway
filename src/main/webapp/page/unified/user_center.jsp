@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.cobble.takeaway.util.CommonConstant" %>
 <%@include file="../../page/common/taglib.jsp" %>
 
 <!DOCTYPE html>
@@ -9,8 +10,8 @@
 	<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     <%@include file="../../page/common/head.jsp" %>
     
-	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/user_center.js"></script>
-	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
+	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/user_center.js"></script>
+	<link href="<cmn:base/>/css/unified/activity_list.css" rel="stylesheet">
 	
     
     <script>
@@ -51,15 +52,22 @@
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;信息发布</h5></li>
                       <li role="presentation"><a href="#create_activity"><h6>报名征集</h6></a></li>
-                      <li role="presentation"><a href="#create_vote"><h6>网络投票</h6></a></li>
+                      <cmn:privilege havePrivilege="<%= com.cobble.takeaway.util.CommonConstant.NUMBER_GUESS%>">
+                      	<li role="presentation"><a href="#create_vote"><h6>网络投票</h6></a></li>
+                      </cmn:privilege>
+                      
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;o2o互动</h5></li>
-                      <li role="presentation"><a href="#create_interactive"><h6>数字竞猜</h6></a></li>
+                      <cmn:privilege havePrivilege="<%= com.cobble.takeaway.util.CommonConstant.NUMBER_GUESS%>">
+                      	<li role="presentation"><a href="#create_interactive"><h6>数字竞猜</h6></a></li>
+                      </cmn:privilege>
                   </ul> 
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;模版管理</h5></li>
-                      <li role="presentation"><a href="#create_wxTemplate"><h6>微官网首页</h6></a></li>
+                      <c:if test="${sessionScope.userType eq 'MEDIA'}">
+                      	<li role="presentation"><a href="#create_wxTemplate"><h6>微官网首页</h6></a></li>
+                      </c:if>
                   </ul>                    
 		          
 		            <!-- <li class="list-group-item active col-md-12 col-xs-6"><a href="#profile">媒体资料</a></li>

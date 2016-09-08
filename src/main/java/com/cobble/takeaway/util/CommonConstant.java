@@ -29,4 +29,7 @@ public interface CommonConstant {
 	String WX_USER_INFO_API_POJO = "wxUserInfoApiPOJO";
 	String INDEX_CODE = "indexCode";
 	
+	// 权限
+	String NUMBER_GUESS = "3001";
+	
 }

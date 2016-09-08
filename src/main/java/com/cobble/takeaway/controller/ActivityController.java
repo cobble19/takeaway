@@ -51,6 +51,36 @@ public class ActivityController extends BaseController {
 	@Autowired
 	private Apply2AttrModelService apply2AttrModelService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+
+	@RequestMapping(value = "/web/unified/activity/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	//@ResponseBody
+	public StatusPOJO add4WebUnified(ActivityPOJO activityPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			if (activityPOJO == null) {
+				throw new Exception("activityPOJO can't is NULL.");
+			}
+			int result = -1;
+			if (activityPOJO.getActivityId() != null && activityPOJO.getActivityId() > 0l) {
+				result = activityService.update(activityPOJO);
+			} else {
+				result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
+			}
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		String url = "/page/unified/activity_detail.jsp?activityId=" + activityPOJO.getActivityId();
+		redirectStrategy.sendRedirect(request, response, url);
+		
+//		return ret;
+		return null;
+	}
 
 	// 版本2中的申请人信息
 	@RequestMapping(value = "/api/apply2/v2/export", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -203,7 +233,7 @@ public class ActivityController extends BaseController {
 	
 	@RequestMapping(value = "/api/enterprise/activity/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public StatusPOJO add4WebPI(ActivityPOJO activityPOJO, Model model, 
+	public StatusPOJO add4WebAPI(ActivityPOJO activityPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {

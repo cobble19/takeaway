@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.CollaboratingWorkbooksEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -32,7 +33,7 @@ public class MyFilterInvocationSecurityMetadataSource implements
 		FilterInvocation fi = (FilterInvocation) object;
 		String url = fi.getRequestUrl();
 		try {
-			List<PrivilegePOJO> privilegePOJOs = privilegeService.finds(null);
+			/*List<PrivilegePOJO> privilegePOJOs = privilegeService.finds(null);
 			if (!CollectionUtils.isEmpty(privilegePOJOs)) {
 				for (PrivilegePOJO privilegePOJO : privilegePOJOs) {
 					String privilegeUrl = privilegePOJO.getUrl();
@@ -59,7 +60,16 @@ public class MyFilterInvocationSecurityMetadataSource implements
 						}
 					}
 				}
+			}*/
+			List<String> roles = privilegeService.findRoles(url);
+			
+			if (!CollectionUtils.isEmpty(roles)) {
+				for (String role : roles) {
+					ConfigAttribute configAttribute = new SecurityConfig(role);
+					ret.add(configAttribute);
+				}
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

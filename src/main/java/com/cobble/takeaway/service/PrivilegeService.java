@@ -16,4 +16,6 @@ public interface PrivilegeService {
 	PrivilegePOJO findById(Integer id) throws Exception;
 	int delete(Integer id) throws Exception;
 	int delete(Integer[] ids) throws Exception;
+	
+	List<String> findRoles(String url) throws Exception;
 }

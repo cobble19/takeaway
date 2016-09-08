@@ -22,4 +22,15 @@
 		<tag-class>com.cobble.takeaway.tag.BaseXTag</tag-class>
 		<body-content>empty</body-content>
 	</tag>
+	
+	<tag>
+		<name>privilege</name>
+		<tag-class>com.cobble.takeaway.tag.PrivilegeTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>havePrivilege</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
 </taglib>

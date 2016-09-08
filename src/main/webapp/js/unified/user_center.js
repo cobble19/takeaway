@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	console.log('abc');
+//	console.log('abc');
 	
 	$('#progress').dialog({
     	autoOpen: false,

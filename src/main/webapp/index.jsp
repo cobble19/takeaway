@@ -10,9 +10,9 @@
 <!--<script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script>-->
 <script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
 <script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script>
-<script type="text/javascript" charset="utf-8"
-	src="<cmn:base/>/js/activity_top.js"></script>
-<link href="<cmn:base/>/css/activity_top.css" rel="stylesheet">
+<%-- <script type="text/javascript" charset="utf-8"
+	src="<cmn:base/>/js/activity_top.js"></script> --%>
+<%-- <link href="<cmn:base/>/css/activity_top.css" rel="stylesheet"> --%>
 </head>
 <body style="padding-top: 100px;">
 <security:authentication property="principal.username" var="username" />
@@ -57,10 +57,10 @@
       </ol>
       <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
-        <div class="item active" style="background:#0099cc;"> <img src="/images/index_1.jpg" class="img-responsive center-block" alt="">
+        <div class="item active" style="background:#0099cc;"> <img src='<cmn:base/>/images/index_1.jpg' class="img-responsive center-block" alt="">
           <div class="carousel-caption"> </div>
         </div>
-        <div class="item" style="background:#0099cc;"> <img src="/images/index_2.jpg" class="img-responsive center-block" alt="">
+        <div class="item" style="background:#0099cc;"> <img src="<cmn:base/>/images/index_2.jpg" class="img-responsive center-block" alt="">
           <div class="carousel-caption"> </div>
         </div>
       </div>
@@ -131,7 +131,7 @@
     		</div>
     	</div>
     </div> -->
-  <div class="row" style="border-top:10px solid #CCC; background:#f4faf6;"> <img src="/images/index_3.jpg" class="img-responsive center-block" alt=""> </div>
+  <div class="row" style="border-top:10px solid #CCC; background:#f4faf6;"> <img src="<cmn:base/>/images/index_3.jpg" class="img-responsive center-block" alt=""> </div>
   <%@include file="bottom.jsp"%>
 </div>
 </body>
