@@ -188,7 +188,7 @@ public class VoteController extends BaseController {
 			throw e;
 		}
 		
-		String url = "/page/media/vote_detail.jsp?voteId=" + votePOJO.getVoteId();
+		String url = "/web/media/voteDetail?voteId=" + votePOJO.getVoteId();
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;

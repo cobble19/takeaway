@@ -13,6 +13,8 @@
   <resultMap id="WxPersonUserResultMap" type="com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO" >
     <id column="WX_PERSON_USER_ID" property="wxPersonUserId" />
     <result column="USER_ID" property="userId"/>
+    <result column="OPEN_ID" property="openId" />
+    <result column="AUTHORIZER_APP_ID" property="authorizerAppId" />
     <result column="NICKNAME" property="nickname" />
     <result column="SEX" property="sex" />
     <result column="LANGUAGE" property="language" />
@@ -30,7 +32,8 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.WX_PERSON_USER_ID, a.USER_ID, a.NICKNAME, a.SEX, a.LANGUAGE
+    a.WX_PERSON_USER_ID, a.USER_ID, a.OPEN_ID, a.AUTHORIZER_APP_ID
+    , a.NICKNAME, a.SEX, a.LANGUAGE
     , a.CITY, a.PROVINCE, a.COUNTRY, a.HEAD_IMG_URL, a.PRIVILEGES
     , a.UNION_ID, a.SUBSCRIBE, a.SUBSCRIBE_TIME, a.REMARK, a.GROUP_ID
     , a.TAGID_LIST, a.CREATE_DATE_TIME
@@ -44,6 +47,12 @@
 	</if>
 	<if test="userId != null">
 		and a.USER_ID = #{userId}
+	</if>
+	<if test="openId != null">
+		and a.OPEN_ID = #{openId}
+	</if>
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>
   </sql>
   
@@ -95,6 +104,12 @@
       <if test="userId != null" >
         USER_ID,
       </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID,
+      </if>
       <if test="nickname != null" >
         NICKNAME,
       </if>
@@ -137,13 +152,17 @@
       <if test="tagidList != null" >
         TAGID_LIST,
       </if>
-      <if test="createDateTime != null" >
         CREATE_DATE_TIME,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         #{userId},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
       </if>
       <if test="nickname != null" >
         #{nickname},
@@ -187,9 +206,7 @@
       <if test="tagidList != null" >
         #{tagidList},
       </if>
-      <if test="createDateTime != null" >
-        #{createDateTime},
-      </if>
+        sysdate(),
     </trim>
   </insert>
   
@@ -198,6 +215,12 @@
     <set >
       <if test="userId != null" >
         USER_ID = #{userId},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID = #{authorizerAppId},
       </if>
       <if test="nickname != null" >
         NICKNAME = #{nickname},
@@ -241,9 +264,7 @@
       <if test="tagidList != null" >
         TAGID_LIST = #{tagidList},
       </if>
-      <if test="createDateTime != null" >
-        CREATE_DATE_TIME = #{createDateTime},
-      </if>
+        CREATE_DATE_TIME = sysdate(),
     </set>
     where WX_PERSON_USER_ID = #{wxPersonUserId}
   </update>

@@ -22,7 +22,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
@@ -40,12 +39,9 @@ import com.cobble.takeaway.oauth2.WxOauth2TokenApiPOJO;
 import com.cobble.takeaway.oauth2.WxUserApiPOJO;
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
-import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
-import com.cobble.takeaway.pojo.weixin.RelWxPuOpenPOJO;
-import com.cobble.takeaway.pojo.weixin.RelWxPuOpenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
@@ -69,7 +65,6 @@ import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
 import com.cobble.takeaway.service.ActivityService;
-import com.cobble.takeaway.service.RelWxPuOpenService;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerAccessTokenService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
@@ -108,8 +103,8 @@ public class Oauth2Controller extends BaseController {
 	
 	@Autowired
 	private WxPersonUserService wxPersonUserService;
-	@Autowired
-	private RelWxPuOpenService relWxPuOpenService;
+	/*@Autowired
+	private RelWxPuOpenService relWxPuOpenService;*/
 	@Autowired
 	private UserService userService;
 	
@@ -382,12 +377,12 @@ public class Oauth2Controller extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	public StatusPOJO subscribe(RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public StatusPOJO subscribe(WxPersonUserSearchPOJO wxPersonUserSearchPOJO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			// 根据unionId and authorizerAppId, 获取是否存在openId
-			String unionId = relWxPuOpenSearchPOJO.getUnionId();
-			String authorizerAppId = relWxPuOpenSearchPOJO.getAuthorizerAppId();
+			String unionId = wxPersonUserSearchPOJO.getUnionId();
+			String authorizerAppId = wxPersonUserSearchPOJO.getAuthorizerAppId();
 
 			HttpSession session = request.getSession();
 			if (StringUtils.isBlank(unionId)) {
@@ -398,22 +393,24 @@ public class Oauth2Controller extends BaseController {
 			}
 			
 			
-			RelWxPuOpenPOJO relWxPuOpenPOJO = relWxPuOpenService.findWithPu(unionId, authorizerAppId);
+			/*RelWxPuOpenPOJO relWxPuOpenPOJO = relWxPuOpenService.findWithPu(unionId, authorizerAppId);*/
+			List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
 			
-			if (relWxPuOpenPOJO == null) {
+			if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 				ret.setSuccess(false);
 				ret.setDesc("没有关注：");
 				return ret;
 			}
+			WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);	//获取第一个 微信个人用户信息
 			
 			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(relWxPuOpenPOJO.getAuthorizerAppId());
+			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
 			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
 			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
 			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
 				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
 			}
-			WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken(), relWxPuOpenPOJO.getOpenId(), null);
+			WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken(), wxPersonUserPOJO.getOpenId(), null);
 			if (wxUserInfoApiPOJO != null && wxUserInfoApiPOJO.getSubscribe() == WX_SUBSCRIBE) {
 				ret.setSuccess(true);
 				ret.setDesc("已经关注：" + wxUserInfoApiPOJO.getOpenId());
@@ -541,11 +538,11 @@ public class Oauth2Controller extends BaseController {
 				String myUserInfoUid = HttpClientUtil.get(myUserInfoUidUrl);*/
 				
 				// insert Wx person user into DB
-				UserPOJO userPOJO1 = userService.findUserByName(wxUserInfoApiPOJO.getUnionId());
+				UserPOJO userPOJO1 = userService.findUserByName(wxUserInfoApiPOJO.getOpenId());
 				UserPOJO userPOJO = new UserPOJO();
 				if (userPOJO1 == null) {
-					userPOJO.setUsername(wxUserInfoApiPOJO.getUnionId());
-					userPOJO.setPassword(wxUserInfoApiPOJO.getUnionId());
+					userPOJO.setUsername(wxUserInfoApiPOJO.getOpenId());
+					userPOJO.setPassword(wxUserInfoApiPOJO.getOpenId());
 					userPOJO.setUserType(MyUser.PERSON);
 					userPOJO.setNickname(wxUserInfoApiPOJO.getNickname());
 					userService.insert(userPOJO);
@@ -572,7 +569,7 @@ public class Oauth2Controller extends BaseController {
 					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 				}
 				
-				RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO = new RelWxPuOpenSearchPOJO();
+				/*RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO = new RelWxPuOpenSearchPOJO();
 				relWxPuOpenSearchPOJO.setOpenId(wxUserInfoApiPOJO.getOpenId());
 				relWxPuOpenSearchPOJO.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
 				List<RelWxPuOpenPOJO> relWxPuOpenPOJOs = relWxPuOpenService.finds(relWxPuOpenSearchPOJO);
@@ -583,7 +580,7 @@ public class Oauth2Controller extends BaseController {
 					relWxPuOpenPOJO.setAuthorizerAppId(appid);
 					relWxPuOpenPOJO.setCreateDateTime(new Date());
 					relWxPuOpenService.insert(relWxPuOpenPOJO);
-				}
+				}*/
 				
 				/*ret.setViewName("/page/person/reg_success");*/
 				

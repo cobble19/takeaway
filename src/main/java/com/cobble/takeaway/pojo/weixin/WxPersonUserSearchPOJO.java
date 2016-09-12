@@ -7,8 +7,10 @@ import com.cobble.takeaway.pojo.BaseSearchPOJO;
 public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
 	private Long wxPersonUserId;
 	private Long userId;
-    // 用户标识
+    // 
     private String openId;
+    // 
+    private String authorizerAppId;
     // 用户昵称
     private String nickname;
     // 性别（1是男性，2是女性，0是未知）
@@ -132,6 +134,14 @@ public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
 
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+
+	public String getAuthorizerAppId() {
+		return authorizerAppId;
+	}
+
+	public void setAuthorizerAppId(String authorizerAppId) {
+		this.authorizerAppId = authorizerAppId;
 	}
 
 }

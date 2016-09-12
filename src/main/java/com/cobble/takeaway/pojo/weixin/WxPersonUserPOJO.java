@@ -7,7 +7,7 @@ import com.cobble.takeaway.pojo.BasePOJO;
 public class WxPersonUserPOJO extends BasePOJO {
 	private Long wxPersonUserId;
 	private Long userId;
-    // 用户标识
+    // 
     private String openId;
     // 
     private String authorizerAppId;
