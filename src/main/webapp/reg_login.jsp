@@ -27,16 +27,8 @@
           <button style="float:right; margin-top:30px;" type="button" class="btn btn-success" disabled="disabled" data-toggle="modal" data-target="#myModal">&nbsp;注册&nbsp;</button>
           <button style="float:right; margin-top:30px; margin-right:10px;" type="button" class="btn btn-warning" data-toggle="modal" data-target="#loginModal">&nbsp;登陆&nbsp;</button>
         </c:if>
-        <c:if test="${not empty username and (username ne 'anonymousUser')}"> <a class="sy-dl-wz" href='<cmn:base/>/j_spring_security_logout'>退出</a>
-          <c:choose>
-            <c:when test="${sessionScope.userType eq 'PERSON'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a> </c:when>
-            <c:when test="${sessionScope.userType eq 'ENTERPRISE'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">商家中心</a> </c:when>
-            <c:when test="${sessionScope.userType eq 'MEDIA'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/media/usercenter">媒体中心</a> </c:when>
-            <c:otherwise>
-              <%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
-            </c:otherwise>
-          </c:choose>
-          <div class="sy-dl-wz">欢迎:
+        <c:if test="${not empty username and (username ne 'anonymousUser')}"> 
+          <div class="sy-dl-wz" style="margin-top:30px;">欢迎:
             <%-- <c:out value="${username}"></c:out> --%>
             <%-- <c:out value="${sessionScope.myUser.nickname}"></c:out> --%>
             <c:if test="${sessionScope.myUser.nickname != null}">
@@ -46,6 +38,17 @@
               <c:out value="${username}"></c:out>
             </c:if>
           </div>
+        <div class="sy-dl-wz">          
+        <a class="sy-dl-wz" href='<cmn:base/>/j_spring_security_logout'>退出</a>
+          <c:choose>
+            <c:when test="${sessionScope.userType eq 'PERSON'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a> </c:when>
+            <c:when test="${sessionScope.userType eq 'ENTERPRISE'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">商家中心</a> </c:when>
+            <c:when test="${sessionScope.userType eq 'MEDIA'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/media/usercenter">媒体中心</a> </c:when>
+            <c:otherwise>
+              <%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
+            </c:otherwise>
+          </c:choose>
+         </div> 
         </c:if>
       </div>
     </div>
