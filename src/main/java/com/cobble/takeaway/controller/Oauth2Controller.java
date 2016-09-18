@@ -64,6 +64,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqTextApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvEventApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRespTextApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqApiPOJO;
@@ -983,29 +984,44 @@ public class Oauth2Controller extends BaseController {
 			logger.info("Paintext: {}", result);
 			
 			// for username is autoTest and contains "text" and content is "TESTCOMPONENT_MSG_TYPE_TEXT"
-			if (StringUtils.isNotBlank(result) && result.contains("text")
-					&& result.contains("TESTCOMPONENT_MSG_TYPE_TEXT")) {
-				logger.info("Text: TESTCOMPONENT_MSG_TYPE_TEXT, autoTest");
-				WxMsgEventRecvApiPOJO wxMsgEventRecvApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvApiPOJO.class);
-				if (wxAutoTestUsername.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
-					WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
-					wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
-					wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
-					wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
-					wxMsgEventRespTextApiPOJO.setMsgType("text");
-					wxMsgEventRespTextApiPOJO.setContent(wxMsgEventRecvApiPOJO.getContent() + "_callback");
-					String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
-					String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
-					return encryptMsg;
-				}
-			} else if (StringUtils.isNotBlank(result) && result.contains("text")
-					&& result.contains("QUERY_AUTH_CODE:")) {
-				logger.info("Text: QUERY_AUTH_CODE:, autoTest");
-				WxMsgEventRecvApiPOJO wxMsgEventRecvApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvApiPOJO.class);
-				if (wxAutoTestUsername.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
-					KfInfoInterfaceThread kfInfoInterfaceThread = new KfInfoInterfaceThread(wxMsgEventRecvApiPOJO);
-					kfInfoInterfaceThread.start();
-					return "";
+			if (StringUtils.isNotBlank(result)) {
+				if (result.contains("text")) {
+					if (result.contains("TESTCOMPONENT_MSG_TYPE_TEXT")) {
+						logger.info("Text: TESTCOMPONENT_MSG_TYPE_TEXT, autoTest");
+						WxMsgEventRecvApiPOJO wxMsgEventRecvApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvApiPOJO.class);
+						if (wxAutoTestUsername.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
+							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
+							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setMsgType("text");
+							wxMsgEventRespTextApiPOJO.setContent(wxMsgEventRecvApiPOJO.getContent() + "_callback");
+							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+							return encryptMsg;
+						}
+					} else if (result.contains("QUERY_AUTH_CODE:")) {
+						logger.info("Text: QUERY_AUTH_CODE:, autoTest");
+						WxMsgEventRecvApiPOJO wxMsgEventRecvApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvApiPOJO.class);
+						if (wxAutoTestUsername.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
+							KfInfoInterfaceThread kfInfoInterfaceThread = new KfInfoInterfaceThread(wxMsgEventRecvApiPOJO);
+							kfInfoInterfaceThread.start();
+							return "success";
+						}
+					}
+				} else if (result.contains("event")) {
+					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
+					if (wxAutoTestUsername.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
+						WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+						wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
+						wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
+						wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+						wxMsgEventRespTextApiPOJO.setMsgType("text");
+						wxMsgEventRespTextApiPOJO.setContent(wxMsgEventRecvEventApiPOJO.getEvent() + "from_callback");
+						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+						return encryptMsg;
+					}
 				}
 			}
 			
