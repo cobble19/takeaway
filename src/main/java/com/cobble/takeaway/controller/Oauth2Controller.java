@@ -1030,7 +1030,7 @@ public class Oauth2Controller extends BaseController {
 		public void run() {
 			try {
 				logger.info("客服发送接口线程开始。。。");
-				Thread.sleep(1 * 1000l);	// 1s
+//				Thread.sleep(1 * 1000l);	// 1s
 				String code = wxMsgEventRecvApiPOJO.getContent().replace("QUERY_AUTH_CODE:", "");
 				if (StringUtils.isNotBlank(code)) {
 					// 组建去获取授权者token请求
