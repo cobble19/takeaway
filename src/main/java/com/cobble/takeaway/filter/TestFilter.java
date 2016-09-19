@@ -42,6 +42,8 @@ public class TestFilter implements Filter {
 				if (StringUtils.isNotBlank(msgSignature)) {
 					logger.info("Request params, signature: {}, timestamp: {}, nonce: {}, openid: {}, encrypt_type: {}, msg_signature: {}",
 							signature, timestamp, nonce, openid, encryptType, msgSignature);
+					/// may be not get request stream,
+					/// this test is not working
 					BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream()));
 					StringBuilder sb = new StringBuilder();
 					String line = null;
