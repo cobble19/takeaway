@@ -15,16 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cobble.takeaway.util.BeanUtil;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 
 public class TestFilter implements Filter {
 	private static final Logger logger = LoggerFactory.getLogger(TestFilter.class);
-	private static MessageSource messageSource = (MessageSource) BeanUtil.get("messageSource");
-
+	
 	@Override
 	public void destroy() {
 
@@ -57,13 +53,9 @@ public class TestFilter implements Filter {
 					String qs = request.getQueryString();
 					logger.info("uri: " + uri + ", qs: " + qs);
 					
-					if (messageSource == null) {
-						messageSource = (MessageSource) BeanUtil.get("messageSource");
-					}
-					
-					String token = messageSource.getMessage("WX.third.msgVerifyToken", null, null);
-					String encodingAesKey = messageSource.getMessage("WX.third.msgEncKey", null, null);
-					String appId = messageSource.getMessage("WX.third.clientId", null, null);
+					String token = "token_dwyz";
+					String encodingAesKey = "encAESKey0123A1B2C3D4E5h6i7j8k9l0O1P2Q3R4S5";
+					String appId = "wx2bec8614a6c47443";
 					logger.info("token: {}, encodingAesKey: {}, appId: {}", token, encodingAesKey, appId);
 				
 					WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
