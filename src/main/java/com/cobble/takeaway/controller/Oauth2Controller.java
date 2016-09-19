@@ -49,6 +49,7 @@ import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxAuthEventRecvAuthorizedApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoApiPOJO;
@@ -1011,7 +1012,7 @@ public class Oauth2Controller extends BaseController {
 					}
 				} else if (result.contains("event")) {
 					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
-					if (wxAutoTestUsername.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
+					//if (wxAutoTestUsername.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
 						WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 						wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
 						wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
@@ -1021,7 +1022,7 @@ public class Oauth2Controller extends BaseController {
 						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 						return encryptMsg;
-					}
+					//}
 				}
 			}
 			
@@ -1192,6 +1193,35 @@ public class Oauth2Controller extends BaseController {
 				
 				return "success";
 			}	// end ComponentVerifyTicket(Event)
+			
+			// authorized
+			if (!StringUtils.isBlank(result) && result.contains("authorized")) {
+				WxAuthEventRecvAuthorizedApiPOJO wxAuthEventRecvAuthorizedApiPOJO = XmlUtils.convertToJavaBean(result, WxAuthEventRecvAuthorizedApiPOJO.class);
+				logger.info("WxAuthEventRecvAuthorizedApiPOJO: {}", wxAuthEventRecvAuthorizedApiPOJO);
+				WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+				wxMsgEventRespTextApiPOJO.setToUserName(wxAutoTestUsername);
+				wxMsgEventRespTextApiPOJO.setFromUserName(wxAuthEventRecvAuthorizedApiPOJO.getAppId());
+				wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+				wxMsgEventRespTextApiPOJO.setMsgType("text");
+				wxMsgEventRespTextApiPOJO.setContent(wxAuthEventRecvAuthorizedApiPOJO.getInfoType() + "from_callback");
+				String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+				String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+				return encryptMsg;
+			}
+			// unauthorized
+			if (!StringUtils.isBlank(result) && result.contains("unauthorized")) {
+				WxAuthEventRecvAuthorizedApiPOJO wxAuthEventRecvAuthorizedApiPOJO = XmlUtils.convertToJavaBean(result, WxAuthEventRecvAuthorizedApiPOJO.class);
+				logger.info("WxAuthEventRecvAuthorizedApiPOJO: {}", wxAuthEventRecvAuthorizedApiPOJO);
+				WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+				wxMsgEventRespTextApiPOJO.setToUserName(wxAutoTestUsername);
+				wxMsgEventRespTextApiPOJO.setFromUserName(wxAuthEventRecvAuthorizedApiPOJO.getAppId());
+				wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+				wxMsgEventRespTextApiPOJO.setMsgType("text");
+				wxMsgEventRespTextApiPOJO.setContent(wxAuthEventRecvAuthorizedApiPOJO.getInfoType() + "from_callback");
+				String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+				String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+				return encryptMsg;
+			}
 			
 			
 			/*BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
