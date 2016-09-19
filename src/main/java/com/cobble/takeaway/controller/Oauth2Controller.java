@@ -1208,6 +1208,7 @@ public class Oauth2Controller extends BaseController {
 				String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 				return encryptMsg;
 			}
+			
 			// unauthorized
 			if (!StringUtils.isBlank(result) && result.contains("unauthorized")) {
 				WxAuthEventRecvAuthorizedApiPOJO wxAuthEventRecvAuthorizedApiPOJO = XmlUtils.convertToJavaBean(result, WxAuthEventRecvAuthorizedApiPOJO.class);
