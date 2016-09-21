@@ -34,12 +34,14 @@
 		     					<c:if test="${not empty wxAuthorizerInfoPOJO}">
 	     							<div class="col-md-12">
 	     								<label>授权方昵称:</label><c:out value="${wxAuthorizerInfoPOJO.nickName}"></c:out>
-	     								<label>授权方头像:</label><c:out value="${wxAuthorizerInfoPOJO.headImg}"></c:out>
+	     								<label>授权方头像:</label>
+	     								<img alt="授权方头像" src="${wxAuthorizerInfoPOJO.headImg}">
 	     								<label>授权方公众号类型:</label><c:out value="${wxAuthorizerInfoPOJO.serviceTypeInfo}"></c:out>
 	     								<label>授权方认证类型:</label><c:out value="${wxAuthorizerInfoPOJO.verifyTypeInfo}"></c:out>
 	     								<label>授权方公众号的原始ID:</label><c:out value="${wxAuthorizerInfoPOJO.userName}"></c:out>
 	     								<label>授权方公众号所设置的微信号:</label><c:out value="${wxAuthorizerInfoPOJO.alias}"></c:out>
 	     								<label>二维码图片:</label><c:out value="${wxAuthorizerInfoPOJO.qrcodeFilePath}"></c:out>
+	     								<img alt="二维码图片" src='<cmn:base/>${wxAuthorizerInfoPOJO.qrcodeFilePath}'>
 	     								<label>授权方appid:</label><c:out value="${wxAuthorizerInfoPOJO.authorizerAppId}"></c:out>
 	     								<label>公众号授权给开发者的权限集列表:</label><c:out value="${wxAuthorizerInfoPOJO.funcInfo}"></c:out>
 	     								<label>创建时间:</label><c:out value="${wxAuthorizerInfoPOJO.createDateTime}"></c:out>
