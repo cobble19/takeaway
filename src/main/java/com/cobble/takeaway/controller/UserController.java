@@ -17,7 +17,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,10 +30,13 @@ import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.service.UserService;
+import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.UserUtil;
+import com.cobble.takeaway.util.WxUtil;
 
 @Controller
 public class UserController extends BaseController {
@@ -49,6 +51,8 @@ public class UserController extends BaseController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private WxAuthorizerInfoService wxAuthorizerInfoService;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     
@@ -191,7 +195,13 @@ public class UserController extends BaseController {
     	MyUser myUser = UserUtil.getCurrentUser();
     	myUser = new MyUser(myUser);
     	
+    	String wxComLoginUrl = WxUtil.getWxComLoginUrl();
+    	
+    	WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
+    	
     	ret.addObject("myUser", myUser);
+    	ret.addObject("wxComLoginUrl", wxComLoginUrl);
+    	ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
     	ret.setViewName("/page/unified/user_center");
 		
 		return ret;

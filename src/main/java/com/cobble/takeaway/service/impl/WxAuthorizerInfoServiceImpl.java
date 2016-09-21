@@ -1,26 +1,44 @@
 package com.cobble.takeaway.service.impl;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.cobble.takeaway.dao.WxAuthorizerInfoMapper;
+import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
+import com.cobble.takeaway.util.FileUtil;
 
 @Service
 public class WxAuthorizerInfoServiceImpl implements WxAuthorizerInfoService {
 	
+
+	@Autowired
+	private MessageSource messageSource;
 	@Autowired
 	private WxAuthorizerInfoMapper wxAuthorizerInfoMapper;
 
 	@Override
 	public int insert(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO) throws Exception {
 		int ret = 0;
+		
+		if (StringUtils.isBlank(wxAuthorizerInfoPOJO.getQrcodeFilePath())) {
+			// 生成qrcodeFilePath
+			String toDir = messageSource.getMessage("files.directory", null, null);
+			String toFilePath = "wx/authorizer/qrcode/" + wxAuthorizerInfoPOJO.getAuthorizerAppId() + ".jpg";
+			toFilePath = toFilePath.replace("/", File.separator);
+			HtmlConvertedPOJO htmlConvertedPOJO = FileUtil.url2File(wxAuthorizerInfoPOJO.getQrcodeUrl(), toDir, toFilePath);
+			wxAuthorizerInfoPOJO.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
+		}
+		
 		ret = wxAuthorizerInfoMapper.insert(wxAuthorizerInfoPOJO);
 		return ret;
 	}
@@ -28,6 +46,15 @@ public class WxAuthorizerInfoServiceImpl implements WxAuthorizerInfoService {
 	@Override
 	public int update(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO) throws Exception {
 		int ret = 0;
+
+		if (StringUtils.isBlank(wxAuthorizerInfoPOJO.getQrcodeFilePath())) {
+			// 生成qrcodeFilePath
+			String toDir = messageSource.getMessage("files.directory", null, null);
+			String toFilePath = "wx/authorizer/qrcode/" + wxAuthorizerInfoPOJO.getAuthorizerAppId() + ".jpg";
+			toFilePath = toFilePath.replace("/", File.separator);
+			HtmlConvertedPOJO htmlConvertedPOJO = FileUtil.url2File(wxAuthorizerInfoPOJO.getQrcodeUrl(), toDir, toFilePath);
+			wxAuthorizerInfoPOJO.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
+		}
 		ret = wxAuthorizerInfoMapper.update(wxAuthorizerInfoPOJO);
 		return ret;
 	}
@@ -37,6 +64,29 @@ public class WxAuthorizerInfoServiceImpl implements WxAuthorizerInfoService {
 			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO) throws Exception {
 		List<WxAuthorizerInfoPOJO> ret = null;
 		ret = wxAuthorizerInfoMapper.finds(wxAuthorizerInfoSearchPOJO);
+		
+		if (!CollectionUtils.isEmpty(ret)) {
+			for (WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO : ret) {
+				if (StringUtils.isBlank(wxAuthorizerInfoPOJO.getQrcodeFilePath())) {
+					// 生成qrcodeFilePath
+					String toDir = messageSource.getMessage("files.directory", null, null);
+					String toFilePath = "wx/authorizer/qrcode/" + wxAuthorizerInfoPOJO.getAuthorizerAppId() + ".jpg";
+					toFilePath = toFilePath.replace("/", File.separator);
+					HtmlConvertedPOJO htmlConvertedPOJO = FileUtil.url2File(wxAuthorizerInfoPOJO.getQrcodeUrl(), toDir, toFilePath);
+					wxAuthorizerInfoPOJO.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
+					
+					WxAuthorizerInfoPOJO temp = new WxAuthorizerInfoPOJO();
+					temp.setWxAuthorizerInfoId(wxAuthorizerInfoPOJO.getWxAuthorizerInfoId());
+					temp.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
+					
+					wxAuthorizerInfoMapper.update(temp);
+					
+				}
+			}
+			
+			
+		}
+		
 		return ret;
 	}
 

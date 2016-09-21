@@ -85,6 +85,7 @@ import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
+import com.cobble.takeaway.util.WxUtil;
 import com.cobble.takeaway.util.XmlUtils;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 
@@ -348,42 +349,6 @@ public class Oauth2Controller extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/api/wx/oauth2/third/web/authorizer", method = {RequestMethod.POST})
-	@ResponseBody
-	public WxAuthorizerInfoPOJO authorizer(WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO) throws Exception {
-		WxAuthorizerInfoPOJO ret = new WxAuthorizerInfoPOJO();
-		try {
-			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
-			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
-				ret = wxAuthorizerInfoPOJOs.get(0);
-				
-				if (StringUtils.isBlank(ret.getQrcodeFilePath())) {
-					// 生成qrcodeFilePath
-					String toDir = messageSource.getMessage("files.directory", null, null);
-					String toFilePath = "wx/authorizer/qrcode/" + ret.getAuthorizerAppId() + ".jpg";
-					toFilePath = toFilePath.replace("/", File.separator);
-					HtmlConvertedPOJO htmlConvertedPOJO = FileUtil.url2File(ret.getQrcodeUrl(), toDir, toFilePath);
-					ret.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
-					
-					WxAuthorizerInfoPOJO temp = new WxAuthorizerInfoPOJO();
-					temp.setWxAuthorizerInfoId(ret.getWxAuthorizerInfoId());
-					temp.setQrcodeFilePath(htmlConvertedPOJO.getHtmlPath());
-					
-					wxAuthorizerInfoService.update(temp);
-					
-				}
-				
-			}
-			
-		} catch (Exception e) {
-			logger.error("insert error.", e);
-			throw e;
-		}
-		
-		return ret;
-	} 
-	
-
 	@RequestMapping(value = "/api/wx/oauth2/third/web/subscribe", method = {RequestMethod.POST})
 	@ResponseBody
 	/**
@@ -769,6 +734,7 @@ public class Oauth2Controller extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
+			Long userId = UserUtil.getCurrentUserId();
 			logger.info("authorizerInfo begin...");
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
@@ -823,7 +789,24 @@ public class Oauth2Controller extends BaseController {
 			}
 			wxAuthorizerInfoPOJO2.setFuncInfo(funcInfo);
 			wxAuthorizerInfoPOJO2.setCreateDateTime(new Date());
-			wxAuthorizerInfoService.insert(wxAuthorizerInfoPOJO2);
+			wxAuthorizerInfoPOJO2.setUserId(userId);
+			
+			// if exist authorizerAppId, then update
+			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+			if (CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {	// insert
+				wxAuthorizerInfoService.insert(wxAuthorizerInfoPOJO2);
+			} else {	// update
+				if (wxAuthorizerInfoPOJOs.size() > 1) {
+					logger.error("存在多个相同的公众号， 请检查数据库和代码。wxAuthorizerInfoPOJOs size: {}", wxAuthorizerInfoPOJOs.size());
+				}
+				
+				WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO3 = wxAuthorizerInfoPOJOs.get(0);
+				wxAuthorizerInfoPOJO2.setWxAuthorizerInfoId(wxAuthorizerInfoPOJO3.getWxAuthorizerInfoId());
+				wxAuthorizerInfoService.update(wxAuthorizerInfoPOJO2);
+			}
+			
 			
 			ret.addObject("msg", wxThirdAuthorizerInfo);
 			ret.setViewName("/page/oauth2_success");
@@ -883,7 +866,7 @@ public class Oauth2Controller extends BaseController {
 				}
 				wxAuthorizerAccessTokenPOJO2.setFuncInfo(funcInfo);
 				wxAuthorizerAccessTokenService.insert(wxAuthorizerAccessTokenPOJO2);
-				// 报错授权者refresh token信息进数据库
+				// 保存授权者refresh token信息进数据库
 				WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
 				wxAuthorizerRefreshTokenPOJO.setAuthorizerAccessToken(authorizerAccessToken);
 				wxAuthorizerRefreshTokenPOJO.setAuthorizerAppId(authorizerAppId);
@@ -908,6 +891,27 @@ public class Oauth2Controller extends BaseController {
 //		return ret;
 	}
 	
+	@RequestMapping(value = "/api/wx/oauth2/comLogin")
+	@ResponseBody
+	public ModelAndView wxComLogin4Api(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			logger.info("login success begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("login success uri: " + uri + ", qs: " + qs);
+			
+			String wxComLoginUrl = WxUtil.getWxComLoginUrl();
+			ret.addObject("wxComLoginUrl", wxComLoginUrl);
+//			ret.setViewName("/page/weixin/com_login");
+		} catch (Exception e) {
+			logger.error("list error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/wx/oauth2/comLogin")
 	public ModelAndView wxComLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
@@ -917,22 +921,32 @@ public class Oauth2Controller extends BaseController {
 			String qs = request.getQueryString();
 			logger.info("login success uri: " + uri + ", qs: " + qs);
 			
-			WxComAccessTokenReqApiPOJO wxComAccessTokenReqPOJO = new WxComAccessTokenReqApiPOJO();
-			wxComAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
-			wxComAccessTokenReqPOJO.setComponentAppSecret(wxThirdSecret);
-			
-			WxComVerifyTicketSearchApiPOJO wxComVerifyTicketSearchPOJO = new WxComVerifyTicketSearchApiPOJO();
-			List<WxComVerifyTicketApiPOJO> wxComVerifyTicketPOJOs = wxComVerifyTicketService.finds(wxComVerifyTicketSearchPOJO);
-			String componentVerifyTicket = "";
-			if (!CollectionUtils.isEmpty(wxComVerifyTicketPOJOs)) {
-				componentVerifyTicket = wxComVerifyTicketPOJOs.get(0).getComponentVerifyTicket();
+
+			WxComAccessTokenSearchApiPOJO wxComAccessTokenSearchPOJO = new WxComAccessTokenSearchApiPOJO();
+			List<WxComAccessTokenApiPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxComAccessTokenSearchPOJO);
+			WxComAccessTokenApiPOJO wxComAccessTokenPOJO = null;
+			if (!CollectionUtils.isEmpty(wxComAccessTokenPOJOs)) {
+				wxComAccessTokenPOJO = wxComAccessTokenPOJOs.get(0);
 			}
-			wxComAccessTokenReqPOJO.setComponentVerifyTicket(componentVerifyTicket);
-			String wxComAccessTokenStr = HttpClientUtil.postHttpsJson(wxThirdAccessTokenUrl, JsonUtils.convertToJson(wxComAccessTokenReqPOJO));
-			WxComAccessTokenApiPOJO wxComAccessTokenPOJO = JsonUtils.convertToJavaBean(wxComAccessTokenStr, WxComAccessTokenApiPOJO.class);
-			wxComAccessTokenPOJO.setCreateDateTime(new Date());
 			
-			wxComAccessTokenService.insert(wxComAccessTokenPOJO);
+			if (wxComAccessTokenPOJO == null) {
+				WxComAccessTokenReqApiPOJO wxComAccessTokenReqPOJO = new WxComAccessTokenReqApiPOJO();
+				wxComAccessTokenReqPOJO.setComponentAppId(wxThirdClientId);
+				wxComAccessTokenReqPOJO.setComponentAppSecret(wxThirdSecret);
+				
+				WxComVerifyTicketSearchApiPOJO wxComVerifyTicketSearchPOJO = new WxComVerifyTicketSearchApiPOJO();
+				List<WxComVerifyTicketApiPOJO> wxComVerifyTicketPOJOs = wxComVerifyTicketService.finds(wxComVerifyTicketSearchPOJO);
+				String componentVerifyTicket = "";
+				if (!CollectionUtils.isEmpty(wxComVerifyTicketPOJOs)) {
+					componentVerifyTicket = wxComVerifyTicketPOJOs.get(0).getComponentVerifyTicket();
+				}
+				wxComAccessTokenReqPOJO.setComponentVerifyTicket(componentVerifyTicket);
+				String wxComAccessTokenStr = HttpClientUtil.postHttpsJson(wxThirdAccessTokenUrl, JsonUtils.convertToJson(wxComAccessTokenReqPOJO));
+				wxComAccessTokenPOJO = JsonUtils.convertToJavaBean(wxComAccessTokenStr, WxComAccessTokenApiPOJO.class);
+				wxComAccessTokenPOJO.setCreateDateTime(new Date());
+				
+				wxComAccessTokenService.insert(wxComAccessTokenPOJO);
+			}
 			
 			WxPreAuthCodeReqApiPOJO wxPreAuthCodeReqPOJO = new WxPreAuthCodeReqApiPOJO();
 			wxPreAuthCodeReqPOJO.setComponentAppId(wxThirdClientId);
@@ -984,6 +998,7 @@ public class Oauth2Controller extends BaseController {
 			String result = pc.decryptMsg(msgSignature, timestamp, nonce, requestBody);
 			logger.info("Paintext: {}", result);
 			
+			// 全网发布监测开始
 			// for username is autoTest and contains "text" and content is "TESTCOMPONENT_MSG_TYPE_TEXT"
 			if (StringUtils.isNotBlank(result)) {
 				if (result.contains("text")) {
@@ -1012,7 +1027,7 @@ public class Oauth2Controller extends BaseController {
 					}
 				} else if (result.contains("event")) {
 					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
-					//if (wxAutoTestUsername.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
+					if (wxAutoTestUsername.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
 						WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 						wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
 						wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
@@ -1022,9 +1037,9 @@ public class Oauth2Controller extends BaseController {
 						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 						return encryptMsg;
-					//}
+					}
 				}
-			}
+			}	// 全网发布监测结束
 			
 			
 			
@@ -1206,7 +1221,7 @@ public class Oauth2Controller extends BaseController {
 				wxMsgEventRespTextApiPOJO.setContent(wxAuthEventRecvAuthorizedApiPOJO.getInfoType() + "from_callback");
 				String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 				String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
-				return encryptMsg;
+//				return encryptMsg;
 			}
 			
 			// unauthorized
@@ -1221,7 +1236,7 @@ public class Oauth2Controller extends BaseController {
 				wxMsgEventRespTextApiPOJO.setContent(wxAuthEventRecvAuthorizedApiPOJO.getInfoType() + "from_callback");
 				String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 				String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
-				return encryptMsg;
+//				return encryptMsg;
 			}
 			
 			
