@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <security:authentication property="principal.username" var="username"/>
 <script src="<cmn:base/>/js/reg_login.js"></script>
@@ -28,7 +28,7 @@
           <button style="float:right; margin-top:30px; margin-right:10px;" type="button" class="btn btn-warning" data-toggle="modal" data-target="#loginModal">&nbsp;登陆&nbsp;</button>
         </c:if>
         <c:if test="${not empty username and (username ne 'anonymousUser')}"> 
-          <div class="sy-dl-wz" style="margin-top:30px;">欢迎:
+          <div class="sy-dl-wz" style="margin-top:30px; width:250px; text-align:right;">欢迎:
             <%-- <c:out value="${username}"></c:out> --%>
             <%-- <c:out value="${sessionScope.myUser.nickname}"></c:out> --%>
             <c:if test="${sessionScope.myUser.nickname != null}">
@@ -42,8 +42,8 @@
         <a class="sy-dl-wz" href='<cmn:base/>/j_spring_security_logout'>退出</a>
           <c:choose>
             <c:when test="${sessionScope.userType eq 'PERSON'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a> </c:when>
-            <c:when test="${sessionScope.userType eq 'ENTERPRISE'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/enterprise/usercenter">商家中心</a> </c:when>
-            <c:when test="${sessionScope.userType eq 'MEDIA'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/media/usercenter">媒体中心</a> </c:when>
+            <c:when test="${sessionScope.userType eq 'ENTERPRISE'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/unified/usercenter">管理中心</a> </c:when>
+            <c:when test="${sessionScope.userType eq 'MEDIA'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/unified/usercenter">媒体中心</a> </c:when>
             <c:otherwise>
               <%-- 用户类型: <c:out value="${sessionScope.userType}"></c:out> --%>
             </c:otherwise>

@@ -97,7 +97,7 @@
   		
   		<div id="progress">数据加载中。。。</div>
   		
-  		
+  	<%@include file="../../bottom.jsp"%>	
 	</div>
   </body>
 </html>
