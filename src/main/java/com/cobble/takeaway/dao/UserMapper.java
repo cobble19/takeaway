@@ -13,8 +13,8 @@ public interface UserMapper {
 	int updatePassword(UserPOJO userPOJO) throws Exception;
 	List<UserPOJO> finds(UserSearchPOJO userSearchPOJO) throws Exception;
 	int getCount(UserSearchPOJO userSearchPOJO) throws Exception;
-	UserPOJO findById(Integer id) throws Exception;
-	int deleteById(Integer id) throws Exception;
+	UserPOJO findById(Long id) throws Exception;
+	int deleteById(Long id) throws Exception;
 	
 	UserPOJO findUserByName(String username) throws Exception;
 	UserPOJO findUserByNickname(String nickname) throws Exception;

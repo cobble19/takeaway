@@ -118,13 +118,13 @@
   		</trim>
   	</where>
   </select>
-  <select id="findById" resultMap="UserResultMap" parameterType="java.lang.Integer" >
+  <select id="findById" resultMap="UserResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from b_user u
     where USER_ID = #{userId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteById" parameterType="java.lang.Integer" >
+  <delete id="deleteById" parameterType="java.lang.Long" >
     delete from b_user
     where USER_ID = #{userId,jdbcType=INTEGER};
     delete from rel_user_role

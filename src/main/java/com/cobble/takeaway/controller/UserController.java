@@ -415,20 +415,30 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/web/user/enterprise/reg", method = {RequestMethod.POST})
 	@ResponseBody
-	public StatusPOJO regEnterprise(UserPOJO userPOJO, Model model, 
+	public ModelAndView regEnterprise(UserPOJO userPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		StatusPOJO ret = new StatusPOJO();
+		ModelAndView ret = new ModelAndView();
 		try {
 			userPOJO.setUserType(MyUser.ENTERPRISE);
 			int result = userService.insert(userPOJO);
-			ret.setSuccess(true);
+			/*ret.setSuccess(true);*/
+			ret.addObject("success", true);
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("regUserPOJO", userPOJO);
+			// create MyUser
+			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
+			// add wxComLoginUrl
+
+	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl();
+	    	
+	    	ret.addObject("wxComLoginUrl", wxComLoginUrl);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
-			ret.setSuccess(false);
-			ret.setDesc(e.getMessage());
+			ret.addObject("success", false);
+			ret.addObject("desc", e.getMessage());
+			/*ret.setSuccess(false);
+			ret.setDesc(e.getMessage());*/
 		}
 
 		return ret;
@@ -493,7 +503,7 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/mgr/user/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public StatusPOJO delete(Integer[] ids, Model model) throws Exception {
+	public StatusPOJO delete(Long[] ids, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			int result = userService.delete(ids);

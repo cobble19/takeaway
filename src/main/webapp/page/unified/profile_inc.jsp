@@ -25,10 +25,10 @@
 		     					<div class="col-md-12">
 		     						<label>是否已经授权给第三方：</label>
 		     						<c:if test="${not empty wxAuthorizerInfoPOJO}">
-		     							已经授权给微信开发第三方【得味驿站】, <a href="${wxComLoginUrl}">重新授权</a>
+		     							已经授权给微信开发第三方【得味驿站】, <a target="_blank" href="${wxComLoginUrl}">重新授权</a>
 		     						</c:if>
 		     						<c:if test="${empty wxAuthorizerInfoPOJO}">
-		     							您没有授权对应的公众号给微信开发第三方【得味驿站】, 需要<a href="${wxComLoginUrl}">点击去授权</a>
+		     							您没有授权对应的公众号给微信开发第三方【得味驿站】, 需要<a target="_blank" href="${wxComLoginUrl}">点击去授权</a>
 		     						</c:if>
 		     					</div>
 		     					<c:if test="${not empty wxAuthorizerInfoPOJO}">

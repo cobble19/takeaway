@@ -577,9 +577,9 @@ public class Oauth2Controller extends BaseController {
 				
 				///////
 				
-				MyUser myUser = userService.findMyUserByName(userPOJO.getUsername());
+				MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
 
-				String openId = (String) session.getAttribute("openId");
+				/*String openId = (String) session.getAttribute("openId");
 				String unionId = (String) session.getAttribute("unionId");
 				if (StringUtils.isNotBlank(openId)) {
 					myUser.setOpenId(openId);
@@ -587,7 +587,6 @@ public class Oauth2Controller extends BaseController {
 				if (StringUtils.isNotBlank(unionId)) {
 					myUser.setUnionId(unionId);
 				}
-				//List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS");
 				Collection<GrantedAuthority> authorities = myUser.getAuthorities();
 				
 				UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, userPOJO.getPassword(), authorities);
@@ -599,7 +598,7 @@ public class Oauth2Controller extends BaseController {
 					session.setAttribute("username", myUser.getUsername());
 					session.setAttribute("userType", myUser.getUserType());
 					session.setAttribute("myUser", myUser);
-				}
+				}*/
 				
 				SavedRequest savedRequest = HttpRequestUtil.getRequest(request, response);
 				String url = "";
@@ -810,6 +809,7 @@ public class Oauth2Controller extends BaseController {
 			
 			ret.addObject("msg", wxThirdAuthorizerInfo);
 			ret.setViewName("/page/oauth2_success");
+			/*ret.setViewName("/web/unified/usercenter");*/
 		} catch (Exception e) {
 			logger.error("authorizerInfo error.", e);
 			throw e;

@@ -34,9 +34,11 @@ import org.springframework.util.PathMatcher;
 
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
 import com.cobble.takeaway.pojo.UserPOJO;
+import com.cobble.takeaway.pojo.VotePOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.service.UserService;
+import com.cobble.takeaway.service.VoteService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.util.BeanUtil;
 import com.cobble.takeaway.util.CommonConstant;
@@ -233,6 +235,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		String scope = messageSource.getMessage("WX.scope", null, null);
 		
 		UserService userService = (UserService) BeanUtil.get("userServiceImpl");
+		VoteService voteService = (VoteService) BeanUtil.get("voteServiceImpl");
+		
 		UserPOJO userPOJO = null;
 		// 1. 根据indexCode,得到user。 2. 根据activityid得到user
 		if (uri.startsWith("/wx/")) {
@@ -251,6 +255,25 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				logger.info("activityId: {}", s);
 				Long activityId = Long.parseLong(s);
 				userPOJO = userService.findUserByActivityId(activityId);
+				
+				if (userPOJO != null && userPOJO.getUserId() != null) {
+					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+					if (user4IndexCode != null) {
+						String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+					}
+				}
+			}
+		} else if (uri.startsWith("/web/media/vote/query/")) {	// /page/enterprise/activity_detail.jsp?activityId=31
+			Pattern p = Pattern.compile("(/web/media/vote/query/)(\\d+)");
+			Matcher m = p.matcher(uri);
+			if (m.find() && m.groupCount() == 2) {
+				String s = m.group(2);
+				logger.info("voteId: {}", s);
+				Long voteId = Long.parseLong(s);
+				VotePOJO votePOJO = voteService.findById(voteId);
+				
+				userPOJO = userService.findById(votePOJO.getUserId());
 				
 				if (userPOJO != null && userPOJO.getUserId() != null) {
 					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());

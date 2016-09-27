@@ -7,7 +7,6 @@ $(document).ready(function() {
 		checkUsername($(this).val(), $('#enterprise form').find("#usernameError"));
 	});*/
 	
-
     jQuery.validator.addMethod("duplicateUsername", function(value, element) {    //用jquery ajax的方法验证电话是不是已存在
         var exist = true;
         $.ajax({
@@ -134,7 +133,9 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR ) {
         		console.log(data);
         		if (data.success) {
-        			window.location.href = $('#basePath').val() + '/web/regSuccess';
+        			//window.location.href = $('#basePath').val() + '/web/regSuccess';
+        			//@09/27/2016, redirect to wxComLogin
+        			window.location.href = data.wxComLoginUrl;
         		} else {
         			alert(data.desc);
         		}
@@ -201,6 +202,10 @@ $(document).ready(function() {
           },
          debug:true
        })
+       
+       
+
+   	clearInput();
 
 	
 	/*var checkUsername = function(username, errorMsg) {
@@ -234,3 +239,14 @@ $(document).ready(function() {
 	}	*/
 	
 })
+
+function clearInput() {
+	$('#nickname').val("");
+	$('#password').val("");
+	
+}
+
+
+
+
+

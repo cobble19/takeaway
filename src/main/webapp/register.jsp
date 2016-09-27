@@ -37,16 +37,16 @@ $(function() {
                 <div class="modal-body">
 	    				<div role="tabpanel">
 	    					<ul class="nav nav-tabs nav-justified" role="tablist" id="myTab">
-	    						<li role="presentation" class="active">
+	    						<!-- <li style="display: none;" role="presentation" class="">
 	    							<a href="#person" aria-controls="person" role="tab" data-toggle="tab" id="personReg">注册个人账户</a>
-	    						</li>
-	    						<li role="presentation" class="">
+	    						</li> -->
+	    						<li role="presentation" class="active">
 	    							<a href="#enterprise" aria-controls="enterprise" role="tab" data-toggle="tab" id="enterpriseReg">注册商家账户</a>
 	    						</li>
 	    					</ul>
 	    					
 	    					<div class="tab-content" style="border-left:#e8e8e8 solid 1px; border-right:#e8e8e8 solid 1px; border-bottom:#e8e8e8 solid 1px;">
-	    						<div role="tabpanel" class="tab-pane active" id="person">
+	    						<%-- <div role="tabpanel" class="tab-pane active" id="person">
 									<div class="row">
 							  			<h2 class="col-xs-offset-2 col-md-offset-1" style="margin-bottom:15px;"><small style="font-weight:bold;">个人用户注册</small></h2>
 							  		</div>
@@ -83,9 +83,9 @@ $(function() {
 								 			</div>
 							 			</div>
 							  		</form>
-								</div>
+								</div> --%>
 								
-	    						<div role="tabpanel" class="tab-pane" id="enterprise">
+	    						<div role="tabpanel" class="tab-pane active" id="enterprise">
 									<div class="row">
 							  			<h2 class="col-xs-offset-2 col-md-offset-1" style="margin-bottom:15px;"><small style="font-weight:bold;">商家用户注册</small></h2>
 							  		</div>

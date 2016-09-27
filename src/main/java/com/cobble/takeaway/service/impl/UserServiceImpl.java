@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -22,6 +29,7 @@ import com.cobble.takeaway.spring.security.MyUser;
 
 @Service
 public class UserServiceImpl implements UserService {
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Autowired
 	private UserMapper userMapper;
@@ -67,26 +75,26 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserPOJO findById(Integer id) throws Exception {
+	public UserPOJO findById(Long id) throws Exception {
 		UserPOJO ret = null;
 		ret = userMapper.findById(id);
 		return ret;
 	}
 
 	@Override
-	public int delete(Integer id) throws Exception {
+	public int delete(Long id) throws Exception {
 		int ret = 0;
 		ret = userMapper.deleteById(id);
 		return ret;
 	}
 
 	@Override
-	public int delete(Integer[] ids) throws Exception {
+	public int delete(Long[] ids) throws Exception {
 		int ret = 0;
 		if (ids == null) {
 			return ret;
 		}
-		for (Integer id: ids) {
+		for (Long id: ids) {
 			ret += userMapper.deleteById(id);
 		}
 		return ret;
@@ -151,6 +159,37 @@ public class UserServiceImpl implements UserService {
 		ret.setEmail(userPOJO.getEmail());
 		return ret;
 	}
+	
+
+	@Override
+	public MyUser createPrincipalByName(String username, HttpSession session)
+			throws Exception {
+
+		MyUser myUser = this.findMyUserByName(username);
+
+		String openId = (String) session.getAttribute("openId");
+		String unionId = (String) session.getAttribute("unionId");
+		if (StringUtils.isNotBlank(openId)) {
+			myUser.setOpenId(openId);
+		}
+		if (StringUtils.isNotBlank(unionId)) {
+			myUser.setUnionId(unionId);
+		}
+		//List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS");
+		Collection<GrantedAuthority> authorities = myUser.getAuthorities();
+		
+		UsernamePasswordAuthenticationToken anAnthentication = new UsernamePasswordAuthenticationToken(myUser, myUser.getPassword(), authorities);
+		SecurityContextHolder.getContext().setAuthentication(anAnthentication);
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		logger.info("principal instanceof MyUser: " + (principal instanceof MyUser));
+		if (principal instanceof MyUser) {
+			myUser = (MyUser) principal;
+			session.setAttribute("username", myUser.getUsername());
+			session.setAttribute("userType", myUser.getUserType());
+			session.setAttribute("myUser", myUser);
+		}
+		return myUser;
+	}
 
 	@Override
 	public int updatePassword(UserPOJO userPOJO) throws Exception {
@@ -192,6 +231,5 @@ public class UserServiceImpl implements UserService {
 		ret = userMapper.findUser4IndexCodeByUserId(userId);
 		return ret;
 	}
-
 
 }

@@ -157,5 +157,11 @@ public class UserUtil {
 		logger.info(str);
 		str = str.replaceAll("\\\\", "/");
 		logger.info(str);
+		str = "<tr>center> ag<font color=\"red\">abcd</tr>";
+		str = str.replaceAll("center>.*<font color=.*>", "<font color='green'>");
+		logger.info(str);
+		str = str.replace("bb", "GG");
+		logger.info(str);
+		
 	}
 }
