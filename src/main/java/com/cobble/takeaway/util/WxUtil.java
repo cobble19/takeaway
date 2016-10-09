@@ -1,8 +1,12 @@
 package com.cobble.takeaway.util;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -23,6 +27,10 @@ public class WxUtil {
 	
 
 	public static String getWxComLoginUrl() throws Exception {
+		return getWxComLoginUrl(null);
+	}
+	
+	public static String getWxComLoginUrl(Map redirectReqParamMap) throws Exception {
 		String wxComLoginUrl = null;
 
 		try {
@@ -36,6 +44,18 @@ public class WxUtil {
 
 			String wxThirdAuthorizationUrl = messageSource.getMessage("WX.third.authorizationUrl", null, null);
 			String wxThirdRedirectUri = messageSource.getMessage("WX.third.redirectUri", null, null);
+			String redirectReqParams = "?abc=1";
+			if (MapUtils.isNotEmpty(redirectReqParamMap)) {
+				Set keySet = redirectReqParamMap.keySet();
+				Iterator it = keySet.iterator();
+				while (it.hasNext()) {
+					Object key = it.next();
+					Object value = redirectReqParamMap.get(key);
+					redirectReqParams += "&" + key + "=" + value;
+				}
+				wxThirdRedirectUri += redirectReqParams; 
+			}
+			
 			String wxThirdAccessTokenUrl = messageSource.getMessage("WX.third.accessTokenUrl", null, null);
 			String wxThirdPreAuthCodeUrl = messageSource.getMessage("WX.third.preAuthCodeUrl", null, null);
 			

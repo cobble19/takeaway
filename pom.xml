@@ -43,8 +43,15 @@
         <json.verson>20140107</json.verson>
         <commons.codec.version>1.10</commons.codec.version>
         <poi.version>3.14</poi.version>
+        <commons.collections.version>4.0</commons.collections.version>
 	</properties>
 	<dependencies>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-collections4</artifactId>
+		    <version>${commons.collections.version}</version>
+		</dependency>
+		
 		<!-- POI -->
 		<dependency>
 		    <groupId>org.apache.poi</groupId>

@@ -2,9 +2,10 @@ package com.cobble.takeaway.controller;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,9 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -819,14 +817,55 @@ public class Oauth2Controller extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/web/wx/oauth2/third/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
-	public ModelAndView thirdAuthCode(@RequestParam(value="auth_code", required=false) String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/web/wx/oauth2/third/forgetPassword"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
+	public ModelAndView forgetPassword(@RequestParam(value="username", required=true) String username
+			, @RequestParam(value="password", required=true) String password
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
 			logger.info("authCode begin...");
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("authCode uri: " + uri + ", qs: " + qs);
+
+			HttpSession session = request.getSession();
+			UserPOJO userPOJO = userService.findUserByName(username);
+			
+			if (userPOJO == null) {
+				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/login.jsp?errorMsg=usernamenotfound");
+				return null;
+			} else {
+				session.setAttribute("userId", userPOJO.getUserId());
+				session.setAttribute("newPassword", password);
+			}
+			
+			Map redirectReqParamMap = new HashMap();
+			redirectReqParamMap.put("commonParam", "forgetPassword");
+			String wxComLoginUrl = WxUtil.getWxComLoginUrl(redirectReqParamMap);
+			myRedirectStrategy.sendRedirect(request, response, wxComLoginUrl);
+			
+		} catch (Exception e) {
+			logger.error("authCode error.", e);
+			throw e;
+		}
+		
+		return null;
+//		return ret;
+	}
+	
+	@RequestMapping(value = "/web/wx/oauth2/third/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
+	public ModelAndView thirdAuthCode(@RequestParam(value="auth_code", required=false) String code
+			, @RequestParam(value="commonParam", required=false) String commonParam
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			logger.info("authCode begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("authCode uri: " + uri + ", qs: " + qs);
+
+			HttpSession session = request.getSession();
+			
 			if (StringUtils.isNotBlank(code)) {
 				// 组建去获取授权者token请求
 				WxAuthorizerAccessTokenReqApiPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerAccessTokenReqApiPOJO();
@@ -875,9 +914,40 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerRefreshTokenPOJO.setExpiresIn(expiresIn);
 				wxAuthorizerRefreshTokenPOJO.setCreateDateTime(new Date());
 				wxAuthorizerRefreshTokenService.insert(wxAuthorizerRefreshTokenPOJO);
+				if (StringUtils.isBlank(commonParam)) {
+					// 显示获取授权者信息
+					myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/third/authorizerInfo"
+							+ "?componentAppId=" + wxThirdClientId + "&authorizerAppId=" + wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId());
+					return null;
+				} else if ("FORGETPASSWORD".equalsIgnoreCase(StringUtils.upperCase(commonParam))) {
+					// 写新密码
+					Long userId = (Long) session.getAttribute("userId");
+					String newPassword = (String) session.getAttribute("newPassword");
+					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+					wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
+					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+					if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+						if (wxAuthorizerInfoPOJOs.size() > 1) {
+							logger.error("同一个authorizerId: {} 不应该获得多个WxAuthorizerInfoPOJO, size: {}", authorizerAppId, wxAuthorizerInfoPOJOs.size());
+						}
+						WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+						if (userId != null && newPassword != null) {
+							if (userId.longValue() == wxAuthorizerInfoPOJO.getUserId()) {
+								// update password
+								UserPOJO userPOJO = new UserPOJO();
+								userPOJO.setUserId(userId);
+								userPOJO.setPassword(newPassword);
+								userService.updatePassword(userPOJO);
+								myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/login.jsp");
+								return null;
+							}
+						}
+					}
+				}
 				// 显示获取授权者信息
 				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/third/authorizerInfo"
 						+ "?componentAppId=" + wxThirdClientId + "&authorizerAppId=" + wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId());
+			
 //				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
 			}
 			
