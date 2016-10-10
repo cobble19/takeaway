@@ -1104,9 +1104,9 @@ public class Oauth2Controller extends BaseController {
 			// for username is autoTest and contains "text" and content is "TESTCOMPONENT_MSG_TYPE_TEXT"
 			if (StringUtils.isNotBlank(result)) {
 				if (result.contains("text")) {
+					WxMsgEventRecvApiPOJO wxMsgEventRecvApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvApiPOJO.class);
 					if (result.contains("TESTCOMPONENT_MSG_TYPE_TEXT")) {
 						logger.info("Text: TESTCOMPONENT_MSG_TYPE_TEXT, autoTest");
-						WxMsgEventRecvApiPOJO wxMsgEventRecvApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvApiPOJO.class);
 						if (wxAutoTestUsername.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
@@ -1120,13 +1120,68 @@ public class Oauth2Controller extends BaseController {
 						}
 					} else if (result.contains("QUERY_AUTH_CODE:")) {
 						logger.info("Text: QUERY_AUTH_CODE:, autoTest");
-						WxMsgEventRecvApiPOJO wxMsgEventRecvApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvApiPOJO.class);
 						if (wxAutoTestUsername.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
 							KfInfoInterfaceThread kfInfoInterfaceThread = new KfInfoInterfaceThread(wxMsgEventRecvApiPOJO);
 							kfInfoInterfaceThread.start();
 							return "success";
 						}
 					}
+					
+
+					// 检测VIEW， 获取from/to，注册其他的公众号的用户
+					// 得味驿站是服务号， 直接发送【注册】2个字
+					// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号
+					if ("注册".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent()) 
+							&& DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
+						// 查询是否有wx_person_user_vice
+						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
+						WxPersonUserViceSearchPOJO wxPersonUserViceSearchPOJO = new WxPersonUserViceSearchPOJO();
+						wxPersonUserViceSearchPOJO.setOpenId(wxMsgEventRecvApiPOJO.getFromUserName());
+						wxPersonUserViceSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvApiPOJO.getToUserName());
+						List<WxPersonUserVicePOJO> wxPersonUserVicePOJOs = wxPersonUserViceService.findFulls(wxPersonUserViceSearchPOJO);
+						if (CollectionUtils.isEmpty(wxPersonUserVicePOJOs)) {
+							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
+							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setMsgType("text");
+							
+							String wxWebLoginUrl = "";
+							String wxThirdPersonUserLoginUrl = "";
+							wxWebLoginUrl = wxThirdWebAuthorizeUrl
+							.replace("COMPONENT_APPID", wxThirdClientId)
+							.replace("APPID", HFJT_AUTHORIZER_APP_ID)
+							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
+									wxThirdWebRedirectUrl + "&openId=" + wxMsgEventRecvApiPOJO.getFromUserName()
+									: wxThirdWebRedirectUrl + "?abc=1" + "&openId=" + wxMsgEventRecvApiPOJO.getFromUserName())
+							.replace("SCOPE", scope)
+							.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+							;
+							
+							wxThirdPersonUserLoginUrl = wxWebLoginUrl;
+							wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+							
+							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO) + "\n<br/>";
+							content += wxThirdPersonUserLoginUrl;
+							wxMsgEventRespTextApiPOJO.setContent(content);
+							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+							return encryptMsg;
+						} else {	// 2. 如果有返回已经注册
+							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
+							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setMsgType("text");
+							String content = "已经注册, " + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO);
+							wxMsgEventRespTextApiPOJO.setContent(content);
+							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+							return encryptMsg;
+						}
+						
+					}
+					
 				} else if (result.contains("event")) {
 					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
 					if (wxAutoTestUsername.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
@@ -1139,58 +1194,6 @@ public class Oauth2Controller extends BaseController {
 						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 						return encryptMsg;
-					}
-					// 检测VIEW， 获取from/to，注册其他的公众号的用户
-					// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号
-					if ("VIEW".equals(wxMsgEventRecvEventApiPOJO.getEvent()) 
-							&& DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
-						// 查询是否有wx_person_user_vice
-						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
-						WxPersonUserViceSearchPOJO wxPersonUserViceSearchPOJO = new WxPersonUserViceSearchPOJO();
-						wxPersonUserViceSearchPOJO.setOpenId(wxMsgEventRecvEventApiPOJO.getFromUserName());
-						wxPersonUserViceSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
-						List<WxPersonUserVicePOJO> wxPersonUserVicePOJOs = wxPersonUserViceService.findFulls(wxPersonUserViceSearchPOJO);
-						if (CollectionUtils.isEmpty(wxPersonUserVicePOJOs)) {
-							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
-							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
-							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
-							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
-							wxMsgEventRespTextApiPOJO.setMsgType("text");
-							
-							String wxWebLoginUrl = "";
-							String wxThirdPersonUserLoginUrl = "";
-							wxWebLoginUrl = wxThirdWebAuthorizeUrl
-							.replace("COMPONENT_APPID", wxThirdClientId)
-							.replace("APPID", HFJT_AUTHORIZER_APP_ID)
-							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
-									wxThirdWebRedirectUrl + "&openId=" + wxMsgEventRecvEventApiPOJO.getFromUserName()
-									: wxThirdWebRedirectUrl + "?abc=1" + "&openId=" + wxMsgEventRecvEventApiPOJO.getFromUserName())
-							.replace("SCOPE", scope)
-							.replace("STATE", RandomStringUtils.randomAlphabetic(6))
-							;
-							
-							wxThirdPersonUserLoginUrl = wxWebLoginUrl;
-							wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
-							
-							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO) + "\n<br/>";
-							content += wxThirdPersonUserLoginUrl;
-							wxMsgEventRespTextApiPOJO.setContent(content);
-							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
-							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
-							return encryptMsg;
-						} else {	// 2. 如果有返回已经注册
-							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
-							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
-							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
-							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
-							wxMsgEventRespTextApiPOJO.setMsgType("text");
-							String content = "已经注册, " + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO);
-							wxMsgEventRespTextApiPOJO.setContent(content);
-							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
-							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
-							return encryptMsg;
-						}
-						
 					}
 					
 				}
