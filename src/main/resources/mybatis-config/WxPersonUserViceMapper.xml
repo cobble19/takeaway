@@ -82,9 +82,9 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
-			a.OPEN_ID_PRIMARY = b.OPEN_ID
-			b.AUTHORIZER_APP_ID = c.authorizer_appid
-			c.user_name = #{wxAuthorizerUserName}
+			and a.OPEN_ID_PRIMARY = b.OPEN_ID
+			and b.AUTHORIZER_APP_ID = c.authorizer_appid
+			and c.user_name = #{wxAuthorizerUserName}
   		</trim>
   	</where>
   	order by a.CREATE_DATE_TIME desc
@@ -98,9 +98,9 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
-			a.OPEN_ID_PRIMARY = b.OPEN_ID
-			b.AUTHORIZER_APP_ID = c.authorizer_appid
-			c.user_name = #{wxAuthorizerUserName}
+			and a.OPEN_ID_PRIMARY = b.OPEN_ID
+			and b.AUTHORIZER_APP_ID = c.authorizer_appid
+			and c.user_name = #{wxAuthorizerUserName}
   		</trim>
   	</where>
   </select>
