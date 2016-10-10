@@ -542,6 +542,8 @@ public class Oauth2Controller extends BaseController {
 					String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoApiPOJO.getNickname()
 							+ "\n" + "Token: \n" + result + "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
 							/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
+					msg += ", openId: " + openId + "\n <br/>";
+					msg += wxPersonUserVicePOJO + "\n <br/>";
 					ret.addObject("msg", msg);
 					
 					session.setAttribute("msg", msg);
