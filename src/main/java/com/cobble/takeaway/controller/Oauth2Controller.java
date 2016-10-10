@@ -1153,7 +1153,7 @@ public class Oauth2Controller extends BaseController {
 							.replace("APPID", HFJT_AUTHORIZER_APP_ID)
 							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
 									wxThirdWebRedirectUrl + "&openId=" + wxMsgEventRecvApiPOJO.getFromUserName()
-									: wxThirdWebRedirectUrl + "?abc=1" + "&openId=" + wxMsgEventRecvApiPOJO.getFromUserName())
+									: wxThirdWebRedirectUrl + "?abc=1" + "%26openId%3D" + wxMsgEventRecvApiPOJO.getFromUserName())
 							.replace("SCOPE", scope)
 							.replace("STATE", RandomStringUtils.randomAlphabetic(6))
 							;
