@@ -60,6 +60,7 @@
 		<mapper resource="mybatis-config/WxAuthorizerRefreshTokenMapper.xml" />
 		
 		<mapper resource="mybatis-config/WxPersonUserMapper.xml" />
+		<mapper resource="mybatis-config/WxPersonUserViceMapper.xml" />
 		<!-- <mapper resource="mybatis-config/RelWxPuOpenMapper.xml" /> -->
 		
 		<mapper resource="mybatis-config/VoteMapper.xml" />

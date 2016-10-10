@@ -46,6 +46,8 @@ import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxPersonUserVicePOJO;
+import com.cobble.takeaway.pojo.weixin.WxPersonUserViceSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthEventRecvAuthorizedApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
@@ -76,6 +78,7 @@ import com.cobble.takeaway.service.WxAuthorizerRefreshTokenService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
+import com.cobble.takeaway.service.WxPersonUserViceService;
 import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.FileUtil;
@@ -92,6 +95,17 @@ public class Oauth2Controller extends BaseController {
 	private final static Logger logger = LoggerFactory.getLogger(Oauth2Controller.class);
 	
 	public final static int WX_SUBSCRIBE = 1;
+
+	// 检测VIEW， 获取from/to，注册其他的公众号的用户
+	// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号
+	// 合肥交通广播
+	public final static String HFJT_USER_NAME = "gh_b7b6c7fa2db9";
+	public final static String HFJT_AUTHORIZER_APP_ID = "wx483bd8288ebe84b4";
+	public final static Long HFJT_USER_ID = 22L;
+	// 得味驿站
+	public final static String DWYZ_USER_NAME = "gh_31205fc6892e";
+	public final static String DWYZ_AUTHORIZER_APP_ID = "wxe0037de41e16f816";
+	public final static Long DWYZ_USER_ID = 16L;
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -108,6 +122,8 @@ public class Oauth2Controller extends BaseController {
 	
 	@Autowired
 	private WxPersonUserService wxPersonUserService;
+	@Autowired
+	private WxPersonUserViceService wxPersonUserViceService;
 	/*@Autowired
 	private RelWxPuOpenService relWxPuOpenService;*/
 	@Autowired
@@ -461,6 +477,7 @@ public class Oauth2Controller extends BaseController {
 	public ModelAndView wxWebAuthCode(@RequestParam(value="code", required=false) String code
 			, @RequestParam(value="state", required=false) String state
 			, @RequestParam(value="appid", required=false) String appid
+			, @RequestParam(value="openId", required=false) String openId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
@@ -515,6 +532,24 @@ public class Oauth2Controller extends BaseController {
 											.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
 				String myUserInfoUid = HttpClientUtil.get(myUserInfoUidUrl);*/
 				
+				// @10102016 如果openId不是空，insert into DB（wx_person_user_vice）
+				if (StringUtils.isNotBlank(openId)) {
+					WxPersonUserVicePOJO wxPersonUserVicePOJO = new WxPersonUserVicePOJO();
+					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserVicePOJO);
+					wxPersonUserVicePOJO.setOpenId(openId);
+					wxPersonUserVicePOJO.setOpenIdPrimary(wxUserInfoApiPOJO.getOpenId());
+					wxPersonUserViceService.insert(wxPersonUserVicePOJO);
+					String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoApiPOJO.getNickname()
+							+ "\n" + "Token: \n" + result + "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
+							/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
+					ret.addObject("msg", msg);
+					
+					session.setAttribute("msg", msg);
+					myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
+					return null;
+				}
+				
+				
 				// insert Wx person user into DB
 				UserPOJO userPOJO1 = userService.findUserByName(wxUserInfoApiPOJO.getOpenId());
 				UserPOJO userPOJO = new UserPOJO();
@@ -562,9 +597,8 @@ public class Oauth2Controller extends BaseController {
 				
 				/*ret.setViewName("/page/person/reg_success");*/
 				
-				String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoApiPOJO.getNickname()
-						+ "\n" + "Token: \n" + result + "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
-						/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
+				/*String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoApiPOJO.getNickname()
+						+ "\n" + "Token: \n" + result + "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n";*/
 				/*ret.addObject("msg", msg);
 				
 				session.setAttribute("msg", msg);*/
@@ -663,8 +697,6 @@ public class Oauth2Controller extends BaseController {
 				
 				wxThirdPersonUserLoginUrl = wxWebLoginUrl;
 				wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
-				
-				
 			}
 			
 			/*ret.addObject("wxWebLoginUrl", wxWebLoginUrl);
@@ -1108,6 +1140,59 @@ public class Oauth2Controller extends BaseController {
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 						return encryptMsg;
 					}
+					// 检测VIEW， 获取from/to，注册其他的公众号的用户
+					// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号
+					if ("VIEW".equals(wxMsgEventRecvEventApiPOJO.getEvent()) 
+							&& DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
+						// 查询是否有wx_person_user_vice
+						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
+						WxPersonUserViceSearchPOJO wxPersonUserViceSearchPOJO = new WxPersonUserViceSearchPOJO();
+						wxPersonUserViceSearchPOJO.setOpenId(wxMsgEventRecvEventApiPOJO.getFromUserName());
+						wxPersonUserViceSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
+						List<WxPersonUserVicePOJO> wxPersonUserVicePOJOs = wxPersonUserViceService.findFulls(wxPersonUserViceSearchPOJO);
+						if (CollectionUtils.isEmpty(wxPersonUserVicePOJOs)) {
+							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
+							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setMsgType("text");
+							
+							String wxWebLoginUrl = "";
+							String wxThirdPersonUserLoginUrl = "";
+							wxWebLoginUrl = wxThirdWebAuthorizeUrl
+							.replace("COMPONENT_APPID", wxThirdClientId)
+							.replace("APPID", HFJT_AUTHORIZER_APP_ID)
+							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
+									wxThirdWebRedirectUrl + "&openId=" + wxMsgEventRecvEventApiPOJO.getFromUserName()
+									: wxThirdWebRedirectUrl + "?abc=1" + "&openId=" + wxMsgEventRecvEventApiPOJO.getFromUserName())
+							.replace("SCOPE", scope)
+							.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+							;
+							
+							wxThirdPersonUserLoginUrl = wxWebLoginUrl;
+							wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+							
+							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO) + "\n<br/>";
+							content += wxThirdPersonUserLoginUrl;
+							wxMsgEventRespTextApiPOJO.setContent(content);
+							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+							return encryptMsg;
+						} else {	// 2. 如果有返回已经注册
+							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
+							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setMsgType("text");
+							String content = "已经注册, " + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO);
+							wxMsgEventRespTextApiPOJO.setContent(content);
+							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+							return encryptMsg;
+						}
+						
+					}
+					
 				}
 			}	// 全网发布监测结束
 			
@@ -1403,7 +1488,7 @@ public class Oauth2Controller extends BaseController {
 				HttpSession session = request.getSession();
 				session.setAttribute("msg", msg);
 				
-				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
+				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth/success");
 			}
 			
 //			ret.setViewName("/page/oauth2_success");

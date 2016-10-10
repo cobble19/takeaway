@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxPersonUserViceMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxPersonUserViceResultMap" type="com.cobble.takeaway.pojo.weixin.WxPersonUserVicePOJO" >
+    <id column="WX_PERSON_USER_VICE_ID" property="wxPersonUserViceId" />
+    <result column="USER_ID" property="userId"/>
+    <result column="OPEN_ID" property="openId" />
+    <result column="OPEN_ID_PRIMARY" property="openIdPrimary" />
+    <result column="AUTHORIZER_APP_ID" property="authorizerAppId" />
+    <result column="NICKNAME" property="nickname" />
+    <result column="SEX" property="sex" />
+    <result column="LANGUAGE" property="language" />
+    <result column="CITY" property="city" />
+    <result column="PROVINCE" property="province" />
+    <result column="COUNTRY" property="country" />
+    <result column="SUBSCRIBE" property="subscribe" />
+    <result column="SUBSCRIBE_TIME" property="subscribeTime" />
+    <result column="PRIVILEGES" property="privileges" />
+    <result column="UNION_ID" property="unionId" />
+    <result column="REMARK" property="remark" />
+    <result column="GROUP_ID" property="groupId" />
+    <result column="TAGID_LIST" property="tagidList" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    
+    <association property="wxPersonUserPOJO" columnPrefix="B_" resultMap="com.cobble.takeaway.dao.WxPersonUserMapper.WxPersonUserResultMap" ></association>
+    <association property="wxAuthorizerInfoPOJO" columnPrefix="C_" resultMap="com.cobble.takeaway.dao.WxAuthorizerInfoMapper.WxAuthorizerInfoResultMap" ></association>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_PERSON_USER_VICE_ID, a.USER_ID, a.OPEN_ID, a.OPEN_ID_PRIMARY, a.AUTHORIZER_APP_ID
+    , a.NICKNAME, a.SEX, a.LANGUAGE
+    , a.CITY, a.PROVINCE, a.COUNTRY, a.HEAD_IMG_URL, a.PRIVILEGES
+    , a.UNION_ID, a.SUBSCRIBE, a.SUBSCRIBE_TIME, a.REMARK, a.GROUP_ID
+    , a.TAGID_LIST, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="nickname != null">
+		and a.NICKNAME like concat("%", concat(#{nickname}, "%"))
+	</if>
+	<if test="unionId != null">
+		and a.UNION_ID = #{unionId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+	<if test="openId != null">
+		and a.OPEN_ID = #{openId}
+	</if>
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
+	</if>
+  </sql>
+  
+  
+  <select id="findFulls" resultMap="WxPersonUserViceResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserViceSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , b.WX_PERSON_USER_ID as B_WX_PERSON_USER_ID, b.USER_ID as B_USER_ID, b.OPEN_ID as B_OPEN_ID, b.AUTHORIZER_APP_ID as B_AUTHORIZER_APP_ID
+    , b.NICKNAME as B_NICKNAME, b.SEX as B_SEX, b.LANGUAGE as B_LANGUAGE
+    , b.CITY as B_CITY, b.PROVINCE as B_PROVINCE, b.COUNTRY as B_COUNTRY, b.HEAD_IMG_URL as B_HEAD_IMG_URL, b.PRIVILEGES as B_PRIVILEGES
+    , b.UNION_ID as B_UNION_ID, b.SUBSCRIBE as B_SUBSCRIBE, b.SUBSCRIBE_TIME as B_SUBSCRIBE_TIME, b.REMARK as B_REMARK, b.GROUP_ID as B_GROUP_ID
+    , b.TAGID_LIST as B_TAGID_LIST, b.CREATE_DATE_TIME as B_CREATE_DATE_TIME
+    
+    , c.WX_AUTHORIZER_INFO_ID as C_WX_AUTHORIZER_INFO_ID, c.USER_ID as C_USER_ID, c.NICK_NAME as C_NICK_NAME, c.HEAD_IMG as C_HEAD_IMG
+    , c.SERVICE_TYPE_INFO as C_SERVICE_TYPE_INFO, c.VERIFY_TYPE_INFO as C_VERIFY_TYPE_INFO, c.USER_NAME as C_USER_NAME
+    , c.ALIAS as C_ALIAS, c.QRCODE_URL as C_QRCODE_URL, c.BUSINESS_INFO as C_BUSINESS_INFO
+    , c.IDC as C_IDC, c.AUTHORIZER_APPID as C_AUTHORIZER_APPID, c.FUNC_INFO as C_FUNC_INFO
+    , c.QRCODE_FILE_PATH as C_QRCODE_FILE_PATH, c.CREATE_DATE_TIME as C_CREATE_DATE_TIME
+    from WX_PERSON_USER_VICE a, WX_PERSON_USER b, wx_authorizer_info c
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			a.OPEN_ID_PRIMARY = b.OPEN_ID
+			b.AUTHORIZER_APP_ID = c.authorizer_appid
+			c.user_name = #{wxAuthorizerUserName}
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getFullCount" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserViceSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_PERSON_USER_VICE a, WX_PERSON_USER b, wx_authorizer_info c
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			a.OPEN_ID_PRIMARY = b.OPEN_ID
+			b.AUTHORIZER_APP_ID = c.authorizer_appid
+			c.user_name = #{wxAuthorizerUserName}
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="finds" resultMap="WxPersonUserViceResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserViceSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WX_PERSON_USER_VICE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserViceSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_PERSON_USER_VICE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxPersonUserViceResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_PERSON_USER_VICE a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_PERSON_USER_VICE_ID = #{wxPersonUserViceId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_PERSON_USER_VICE
+    where WX_PERSON_USER_VICE_ID = #{wxPersonUserViceId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserVicePOJO" useGeneratedKeys="true"
+  	keyProperty="wxPersonUserViceId" keyColumn="WX_PERSON_USER_VICE_ID">
+    insert into WX_PERSON_USER_VICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="openIdPrimary != null" >
+        OPEN_ID_PRIMARY,
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID,
+      </if>
+      <if test="nickname != null" >
+        NICKNAME,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="language != null" >
+        LANGUAGE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="country != null" >
+        COUNTRY,
+      </if>
+      <if test="headImgUrl != null" >
+        HEAD_IMG_URL,
+      </if>
+      <if test="privileges != null" >
+        PRIVILEGES,
+      </if>
+      <if test="unionId != null" >
+        UNION_ID,
+      </if>
+      <if test="subscribe != null" >
+        SUBSCRIBE,
+      </if>
+      <if test="subscribeTime != null" >
+        SUBSCRIBE_TIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID,
+      </if>
+      <if test="tagidList != null" >
+        TAGID_LIST,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="openIdPrimary != null" >
+        #{openIdPrimary},
+      </if>
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="nickname != null" >
+        #{nickname},
+      </if>
+      <if test="sex != null" >
+        #{sex},
+      </if>
+      <if test="language != null" >
+        #{language},
+      </if>
+      <if test="city != null" >
+        #{city},
+      </if>
+      <if test="province != null" >
+        #{province},
+      </if>
+      <if test="country != null" >
+        #{country},
+      </if>
+      <if test="headImgUrl != null" >
+        #{headImgUrl},
+      </if>
+      <if test="privileges != null" >
+        #{privileges},
+      </if>
+      <if test="unionId != null" >
+        #{unionId},
+      </if>
+      <if test="subscribe != null" >
+        #{subscribe},
+      </if>
+      <if test="subscribeTime != null" >
+        #{subscribeTime},
+      </if>
+      <if test="remark != null" >
+        #{remark},
+      </if>
+      <if test="groupId != null" >
+        #{groupId},
+      </if>
+      <if test="tagidList != null" >
+        #{tagidList},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserVicePOJO" >
+    update WX_PERSON_USER_VICE
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="openIdPrimary != null" >
+        OPEN_ID_PRIMARY = #{openIdPrimary},
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID = #{authorizerAppId},
+      </if>
+      <if test="nickname != null" >
+        NICKNAME = #{nickname},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex},
+      </if>
+      <if test="language != null" >
+        LANGUAGE = #{language},
+      </if>
+      <if test="city != null" >
+        CITY = #{city},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province},
+      </if>
+      <if test="country != null" >
+        COUNTRY = #{country},
+      </if>
+      <if test="headImgUrl != null" >
+        HEAD_IMG_URL = #{headImgUrl},
+      </if>
+      <if test="privileges != null" >
+        PRIVILEGES = #{privileges},
+      </if>
+      <if test="unionId != null" >
+        UNION_ID = #{unionId},
+      </if>
+      <if test="subscribe != null" >
+        SUBSCRIBE = #{subscribe},
+      </if>
+      <if test="subscribeTime != null" >
+        SUBSCRIBE_TIME = #{subscribeTime},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark},
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID = #{groupId},
+      </if>
+      <if test="tagidList != null" >
+        TAGID_LIST = #{tagidList},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where WX_PERSON_USER_VICE_ID = #{wxPersonUserViceId}
+  </update>
+  
+</mapper>

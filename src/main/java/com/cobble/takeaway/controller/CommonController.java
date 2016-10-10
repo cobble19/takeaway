@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -18,9 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
-import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.util.HttpClientUtil;
 
 @Controller
@@ -31,6 +32,27 @@ public class CommonController extends BaseController {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+
+	@RequestMapping(value = "/web/testinfo", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ModelAndView success(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			logger.info("login success begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("login success uri: " + uri + ", qs: " + qs);
+			HttpSession session = request.getSession();
+			String msg = (String) session.getAttribute("msg");
+			ret.addObject("msg", msg);
+			ret.setViewName("/page/test_info");
+		} catch (Exception e) {
+			logger.error("list error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 
 	@RequestMapping(value = "/web/common/toHtml", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
