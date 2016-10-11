@@ -43,6 +43,9 @@
 	<if test="userId != null">
 		and a.USER_ID = #{userId}
 	</if>
+	<if test="userName != null">
+		and a.USER_NAME = #{userName}
+	</if>
   </sql>
   
     <select id="findWxAuthorizerInfoByIndexCode" resultMap="WxAuthorizerInfoResultMap" parameterType="String" >

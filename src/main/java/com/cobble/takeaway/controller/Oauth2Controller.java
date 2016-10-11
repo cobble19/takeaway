@@ -477,7 +477,8 @@ public class Oauth2Controller extends BaseController {
 	public ModelAndView wxWebAuthCode(@RequestParam(value="code", required=false) String code
 			, @RequestParam(value="state", required=false) String state
 			, @RequestParam(value="appid", required=false) String appid
-			, @RequestParam(value="openId", required=false) String openId
+			, @RequestParam(value="openIdVice", required=false) String openIdVice
+			, @RequestParam(value="authorizerUserNameVice", required=false) String authorizerUserNameVice
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
@@ -532,26 +533,6 @@ public class Oauth2Controller extends BaseController {
 											.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
 				String myUserInfoUid = HttpClientUtil.get(myUserInfoUidUrl);*/
 				
-				// @10102016 如果openId不是空，insert into DB（wx_person_user_vice）
-				if (StringUtils.isNotBlank(openId)) {
-					WxPersonUserVicePOJO wxPersonUserVicePOJO = new WxPersonUserVicePOJO();
-					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserVicePOJO);
-					wxPersonUserVicePOJO.setOpenId(openId);
-					wxPersonUserVicePOJO.setOpenIdPrimary(wxUserInfoApiPOJO.getOpenId());
-					wxPersonUserViceService.insert(wxPersonUserVicePOJO);
-					String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoApiPOJO.getNickname()
-							+ "\n" + "Token: \n" + result + "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
-							/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
-					msg += ", openId: " + openId + "\n <br/>";
-					msg += wxPersonUserVicePOJO + "\n <br/>";
-					ret.addObject("msg", msg);
-					
-					session.setAttribute("msg", msg);
-					myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
-					return null;
-				}
-				
-				
 				// insert Wx person user into DB
 				UserPOJO userPOJO1 = userService.findUserByName(wxUserInfoApiPOJO.getOpenId());
 				UserPOJO userPOJO = new UserPOJO();
@@ -579,9 +560,43 @@ public class Oauth2Controller extends BaseController {
 					}
 					wxPersonUserPOJO.setTagidList(tagidListStr);*/
 					wxPersonUserPOJO.setUserId(userPOJO.getUserId());
+					wxPersonUserPOJO.setAuthorizerAppId(appid);
 					wxPersonUserService.insert(wxPersonUserPOJO);
 				} else {
 					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+				}
+				
+
+				// @10102016 如果openId不是空，insert into DB（wx_person_user_vice）
+				if (StringUtils.isNotBlank(openIdVice)) {
+					WxPersonUserVicePOJO wxPersonUserVicePOJO = new WxPersonUserVicePOJO();
+					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserVicePOJO);
+					wxPersonUserVicePOJO.setOpenId(openIdVice);
+					wxPersonUserVicePOJO.setOpenIdPrimary(wxUserInfoApiPOJO.getOpenId());
+					
+					String authorizerAppIdVice = "";
+					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+					wxAuthorizerInfoSearchPOJO.setUserName(authorizerUserNameVice);
+					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+					if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+						if (wxAuthorizerInfoPOJOs.size() > 1) {
+							logger.error("存在多个WxAuthorizerInfoPOJO, Authorizer UserName: {}", authorizerUserNameVice);
+						}
+						authorizerAppIdVice = wxAuthorizerInfoPOJOs.get(0).getAuthorizerAppId();
+					}
+					
+					wxPersonUserVicePOJO.setAuthorizerAppId(authorizerAppIdVice);
+					wxPersonUserViceService.insert(wxPersonUserVicePOJO);
+					String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoApiPOJO.getNickname()
+							+ "\n" + "Token: \n" + result + "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
+							/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
+					msg += ", openIdVice: " + openIdVice + "\n <br/>";
+					msg += wxPersonUserVicePOJO + "\n <br/>";
+					ret.addObject("msg", msg);
+					
+					session.setAttribute("msg", msg);
+					myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
+					return null;
 				}
 				
 				/*RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO = new RelWxPuOpenSearchPOJO();
@@ -1150,18 +1165,24 @@ public class Oauth2Controller extends BaseController {
 							
 							String wxWebLoginUrl = "";
 							String wxThirdPersonUserLoginUrl = "";
+							
+							String extraParam = "&openIdVice=" + wxMsgEventRecvApiPOJO.getFromUserName()
+												+ "&authorizerUserName=" + wxMsgEventRecvApiPOJO.getToUserName();
+							
 							wxWebLoginUrl = wxThirdWebAuthorizeUrl
 							.replace("COMPONENT_APPID", wxThirdClientId)
 							.replace("APPID", HFJT_AUTHORIZER_APP_ID)
 							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
-									wxThirdWebRedirectUrl + "&openId=" + wxMsgEventRecvApiPOJO.getFromUserName()
-									: wxThirdWebRedirectUrl + "?abc=1" + "%26openId%3D" + wxMsgEventRecvApiPOJO.getFromUserName())
+									wxThirdWebRedirectUrl + extraParam
+									: wxThirdWebRedirectUrl + "?abc=1" + extraParam)
 							.replace("SCOPE", scope)
 							.replace("STATE", RandomStringUtils.randomAlphabetic(6))
 							;
 							
 							wxThirdPersonUserLoginUrl = wxWebLoginUrl;
 							wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+							wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&openIdVice=", "%26openIdVice%3D")
+														.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
 							
 							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO) + "\n<br/>";
 							content += wxThirdPersonUserLoginUrl;
