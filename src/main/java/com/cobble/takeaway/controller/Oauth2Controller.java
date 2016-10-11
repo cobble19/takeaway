@@ -1167,7 +1167,7 @@ public class Oauth2Controller extends BaseController {
 							String wxThirdPersonUserLoginUrl = "";
 							
 							String extraParam = "&openIdVice=" + wxMsgEventRecvApiPOJO.getFromUserName()
-												+ "&authorizerUserName=" + wxMsgEventRecvApiPOJO.getToUserName();
+												+ "&authorizerUserNameVice=" + wxMsgEventRecvApiPOJO.getToUserName();
 							
 							wxWebLoginUrl = wxThirdWebAuthorizeUrl
 							.replace("COMPONENT_APPID", wxThirdClientId)
