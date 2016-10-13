@@ -1348,7 +1348,7 @@ public class Oauth2Controller extends BaseController {
 							+ "&scope=snsapi_userinfo"
 							+ "&state=kGZUWL"
 							+ "&component_appid=wx2bec8614a6c47443#wechat_redirect"*/;
-					logger.info("EVENT_KEY.indexOf(wxMsgEventRecvEventApiPOJO.getEventKey()): {}", EVENT_KEY.indexOf(wxMsgEventRecvEventApiPOJO.getEventKey()));
+					logger.info("wxMsgEventRecvEventApiPOJO.getEventKey().indexOf(EVENT_KEY): {}", wxMsgEventRecvEventApiPOJO.getEventKey().indexOf(EVENT_KEY));
 					if (CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
 						logger.info("发生事件：{}", EVENT_KEY);
 						
