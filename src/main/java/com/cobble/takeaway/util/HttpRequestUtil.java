@@ -30,6 +30,11 @@ public class HttpRequestUtil {
 		return ret;
 	}
 	
+	public static Boolean isNotWeiXin(HttpServletRequest request) {
+		Boolean ret = !isWeiXin(request);
+		return ret;
+	}
+	
 	public static void saveRequest(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("Save request: {}", request);
 		RequestCache requestCache = new MyHttpSessionRequestCache();

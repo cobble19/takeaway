@@ -19,6 +19,15 @@ import com.cobble.takeaway.spring.security.MyUser;
 public class UserUtil {
 	private static final Logger logger = LoggerFactory.getLogger(UserUtil.class);
 	
+
+	public static boolean isProxyWeiXinAuthorizer(Long userId) {
+		Boolean ret = false;
+		if (CommonConstant.HFJT_USER_ID.longValue() == userId) {
+			ret = true;
+		}
+		return ret;
+	}
+	
 	public static Boolean havePrivilege(String url) {
 		Boolean ret = false;
 		try {

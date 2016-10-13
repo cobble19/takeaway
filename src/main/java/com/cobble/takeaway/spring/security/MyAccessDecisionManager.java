@@ -43,6 +43,7 @@ import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.util.BeanUtil;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.HttpRequestUtil;
+import com.cobble.takeaway.util.UserUtil;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
 	private static final Logger logger = LoggerFactory.getLogger(MyAccessDecisionManager.class);
@@ -238,6 +239,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		VoteService voteService = (VoteService) BeanUtil.get("voteServiceImpl");
 		
 		UserPOJO userPOJO = null;
+		// indexCode、活动发布者， 不是普通个人用户
 		// 1. 根据indexCode,得到user。 2. 根据activityid得到user
 		if (uri.startsWith("/wx/")) {
 			int index = uri.indexOf("/wx/");
@@ -309,21 +311,42 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		
 		logger.info("wxAuthorizerInfoPOJO: {}", wxAuthorizerInfoPOJO);
 		if (wxAuthorizerInfoPOJO != null) {
-			wxWebLoginUrl = wxThirdWebAuthorizeUrl
-			.replace("COMPONENT_APPID", wxThirdClientId)
-			.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())
-			.replace("REDIRECT_URI", wxThirdWebRedirectUrl)
-			.replace("SCOPE", scope)
-			.replace("STATE", RandomStringUtils.randomAlphabetic(6))
-			;
+			if (UserUtil.isProxyWeiXinAuthorizer(userPOJO.getUserId())) {
+				wxWebLoginUrl = wxThirdWebAuthorizeUrl
+						.replace("COMPONENT_APPID", wxThirdClientId)
+						.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())
+						.replace("REDIRECT_URI", wxThirdWebRedirectUrl)
+						.replace("SCOPE", scope)
+						.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+						;
+						
+						session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+						/*wxEncodeUrl = wxWebLoginUrl;
+						wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
+						wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/
+						
+						wxThirdPersonUserLoginUrl = wxWebLoginUrl;
+//						wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+			} else {
+				String extraParam = "&loginVice=loginVice"
+									+ "&authorizerUserNameVice=" + wxAuthorizerInfoPOJO.getUserName();
+				
+				wxWebLoginUrl = wxThirdWebAuthorizeUrl
+				.replace("COMPONENT_APPID", wxThirdClientId)
+				.replace("APPID", CommonConstant.HFJT_AUTHORIZER_APP_ID)
+				.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
+						wxThirdWebRedirectUrl + extraParam
+						: wxThirdWebRedirectUrl + "?abc=1" + extraParam)
+				.replace("SCOPE", scope)
+				.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+				;
+				
+				wxThirdPersonUserLoginUrl = wxWebLoginUrl;
+//				wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+				wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&openIdVice=", "%26openIdVice%3D")
+											.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
+			}
 			
-			session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
-			/*wxEncodeUrl = wxWebLoginUrl;
-			wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
-			wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/
-			
-			wxThirdPersonUserLoginUrl = wxWebLoginUrl;
-//			wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
 		}
 		ret = wxThirdPersonUserLoginUrl;
 		return ret;

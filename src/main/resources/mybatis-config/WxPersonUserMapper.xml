@@ -78,6 +78,9 @@
 			<include refid="Clause_Common"/>
 			and a.AUTHORIZER_APP_ID = c.AUTHORIZER_APPID
 			and c.USER_NAME = #{wxAuthorizerUserName}
+			<if test="proxyOpenId != null">
+				and a.PROXY_OPEN_ID = #{proxyOpenId}
+			</if>
   		</trim>
   	</where>
   	order by a.CREATE_DATE_TIME desc

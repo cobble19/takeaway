@@ -46,8 +46,6 @@ import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
-import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
-import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthEventRecvAuthorizedApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
@@ -78,7 +76,6 @@ import com.cobble.takeaway.service.WxAuthorizerRefreshTokenService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
-import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.FileUtil;
@@ -93,19 +90,6 @@ import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 @Controller
 public class Oauth2Controller extends BaseController {
 	private final static Logger logger = LoggerFactory.getLogger(Oauth2Controller.class);
-	
-	public final static int WX_SUBSCRIBE = 1;
-
-	// 检测VIEW， 获取from/to，注册其他的公众号的用户
-	// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号
-	// 合肥交通广播
-	public final static String HFJT_USER_NAME = "gh_b7b6c7fa2db9";
-	public final static String HFJT_AUTHORIZER_APP_ID = "wx483bd8288ebe84b4";
-	public final static Long HFJT_USER_ID = 22L;
-	// 得味驿站
-	public final static String DWYZ_USER_NAME = "gh_31205fc6892e";
-	public final static String DWYZ_AUTHORIZER_APP_ID = "wxe0037de41e16f816";
-	public final static Long DWYZ_USER_ID = 16L;
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -405,7 +389,7 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
 			}
 			WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken(), wxPersonUserPOJO.getOpenId(), null);
-			if (wxUserInfoApiPOJO != null && wxUserInfoApiPOJO.getSubscribe() == WX_SUBSCRIBE) {
+			if (wxUserInfoApiPOJO != null && wxUserInfoApiPOJO.getSubscribe() == CommonConstant.WX_SUBSCRIBE) {
 				ret.setSuccess(true);
 				ret.setDesc("已经关注：" + wxUserInfoApiPOJO.getOpenId());
 			} else {
@@ -435,7 +419,7 @@ public class Oauth2Controller extends BaseController {
 						.replace("OPENID", openId);
 				userInfo = HttpClientUtil.get(myUserInfoUidUrl);
 				wxUserInfoApiPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
-				if (wxUserInfoApiPOJO.getSubscribe() == WX_SUBSCRIBE) {
+				if (wxUserInfoApiPOJO.getSubscribe() == CommonConstant.WX_SUBSCRIBE) {
 					nickname = wxUserInfoApiPOJO.getNickname();
 					country = wxUserInfoApiPOJO.getCountry();
 					province = wxUserInfoApiPOJO.getProvince();
@@ -450,7 +434,7 @@ public class Oauth2Controller extends BaseController {
 			}
 		}
 		
-		if (wxUserInfoApiPOJO.getSubscribe() != WX_SUBSCRIBE && StringUtils.isNotBlank(thirdWebAccessToken)) {
+		if (wxUserInfoApiPOJO.getSubscribe() != CommonConstant.WX_SUBSCRIBE && StringUtils.isNotBlank(thirdWebAccessToken)) {
 			// get user info without subscribe
 			logger.info("Get user info without subscribe");
 			String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", thirdWebAccessToken)
@@ -477,6 +461,7 @@ public class Oauth2Controller extends BaseController {
 	public ModelAndView wxWebAuthCode(@RequestParam(value="code", required=false) String code
 			, @RequestParam(value="state", required=false) String state
 			, @RequestParam(value="appid", required=false) String appid
+			, @RequestParam(value="loginVice", required=false) String loginVice
 			, @RequestParam(value="openIdVice", required=false) String openIdVice
 			, @RequestParam(value="authorizerUserNameVice", required=false) String authorizerUserNameVice
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -522,10 +507,10 @@ public class Oauth2Controller extends BaseController {
 				WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken(), 
 						wxOauth2TokenPOJO.getOpenId(), wxOauth2TokenPOJO.getAccessToken());
 				// 微信用户信息放入session
-				session.setAttribute(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
+				/*session.setAttribute(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
 				session.setAttribute(CommonConstant.OPEN_ID, wxUserInfoApiPOJO.getOpenId());
 				session.setAttribute(CommonConstant.UNION_ID, wxUserInfoApiPOJO.getUnionId());
-				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, appid);
+				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, appid);*/
 				
 				logger.info("wxUserInfoApiPOJO: {}", wxUserInfoApiPOJO);
 				// get user info unionID
@@ -547,7 +532,8 @@ public class Oauth2Controller extends BaseController {
 				}
 				
 				WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
-				wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
+//				wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
+				wxPersonUserSearchPOJO.setOpenId(wxUserInfoApiPOJO.getOpenId());
 				wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
 				List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
 				WxPersonUserPOJO wxPersonUserPOJO = new WxPersonUserPOJO();
@@ -569,6 +555,18 @@ public class Oauth2Controller extends BaseController {
 
 				// @10102016 如果openIdVice不是空, insert wxPersonUser vice to DB
 				if (StringUtils.isNotBlank(openIdVice)) {
+					if (!wxUserInfoApiPOJO.getOpenId().equalsIgnoreCase((String) session.getAttribute(CommonConstant.PROXY_OPEN_ID))) {
+						logger.error("使用代理注册、登录失败， 因为没有登录的session, session's proxyOpenId: {}, wxUserInfoApiPOJO.getOpenId: {}"
+								, session.getAttribute(CommonConstant.PROXY_OPEN_ID), wxUserInfoApiPOJO.getOpenId());
+						
+						String msg = "Session过期,请重试, openIdVice: " + openIdVice + ", wxUserInfoApiPOJO openId: " + wxUserInfoApiPOJO.getOpenId();
+						ret.addObject("msg", msg);
+						
+						session.setAttribute("msg", msg);
+						myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
+						return null;
+					}
+					
 					userPOJO1 = userService.findUserByName(openIdVice);
 					userPOJO = new UserPOJO();
 					if (userPOJO1 == null) {
@@ -583,10 +581,10 @@ public class Oauth2Controller extends BaseController {
 					
 					wxPersonUserPOJO = new WxPersonUserPOJO();
 					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
-					/*wxPersonUserPOJO.setOpenId(openIdVice);
+					wxPersonUserPOJO.setOpenId(openIdVice);
 					wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
 					wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
-					wxPersonUserPOJO.setUserId(userPOJO.getUserId());*/
+					wxPersonUserPOJO.setUserId(userPOJO.getUserId());
 					
 					String authorizerAppIdVice = "";
 					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
@@ -598,8 +596,6 @@ public class Oauth2Controller extends BaseController {
 						}
 						authorizerAppIdVice = wxAuthorizerInfoPOJOs.get(0).getAuthorizerAppId();
 					}
-					
-					/*wxPersonUserPOJO.setAuthorizerAppId(authorizerAppIdVice);*/
 					
 					wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
 //					wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
@@ -636,6 +632,81 @@ public class Oauth2Controller extends BaseController {
 					session.setAttribute("msg", msg);
 					/*myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
 					return null;*/
+				} // openIdVice end
+				
+				if (StringUtils.isNotBlank(loginVice)) {
+					// 根据authorizerUserNameVice 和 proxyOpenId 获取user
+					wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+					wxPersonUserSearchPOJO.setWxAuthorizerUserName(authorizerUserNameVice);
+					wxPersonUserSearchPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
+					
+					wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
+					if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+						logger.error("根据authorizerUserNameVice: {} 和 proxyOpenId: {} 获取user 失败"
+									, authorizerUserNameVice, wxUserInfoApiPOJO.getOpenId());
+						String msg = "根据authorizerUserNameVice 和 proxyOpenId 获取user, 请先注册" ;
+						ret.addObject("msg", msg);
+						
+						session.setAttribute("msg", msg);
+						myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
+						return null;
+					}
+					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+					openIdVice = wxPersonUserPOJO.getOpenId();
+					userPOJO1 = userService.findUserByName(openIdVice);
+					userPOJO = new UserPOJO();
+					if (userPOJO1 == null) {
+						userPOJO.setUsername(openIdVice);
+						userPOJO.setPassword(openIdVice);
+						userPOJO.setUserType(MyUser.PERSON);
+						userPOJO.setNickname(wxUserInfoApiPOJO.getNickname());
+						userService.insert(userPOJO);
+					} else {
+						BeanUtils.copyProperties(userPOJO1, userPOJO);
+					}
+					
+					wxPersonUserPOJO = new WxPersonUserPOJO();
+					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
+					wxPersonUserPOJO.setOpenId(openIdVice);
+					wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
+					wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
+					wxPersonUserPOJO.setUserId(userPOJO.getUserId());
+					
+					String authorizerAppIdVice = "";
+					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+					wxAuthorizerInfoSearchPOJO.setUserName(authorizerUserNameVice);
+					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+					if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+						if (wxAuthorizerInfoPOJOs.size() > 1) {
+							logger.error("存在多个WxAuthorizerInfoPOJO, Authorizer UserName: {}", authorizerUserNameVice);
+						}
+						authorizerAppIdVice = wxAuthorizerInfoPOJOs.get(0).getAuthorizerAppId();
+					}
+					
+					wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+//					wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
+					wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
+					wxPersonUserSearchPOJO.setOpenId(openIdVice);
+					wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
+					wxPersonUserPOJO = new WxPersonUserPOJO();
+					if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+						BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
+						/*List<String> tagidList = wxUserPOJO.getTagidList();
+						String tagidListStr = "";
+						if (!CollectionUtils.isEmpty(tagidList)) {
+							tagidListStr = CollectionUtilx.nullSafeToString(tagidList);
+						}
+						wxPersonUserPOJO.setTagidList(tagidListStr);*/
+
+						wxPersonUserPOJO.setOpenId(openIdVice);
+						wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
+						wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
+						wxPersonUserPOJO.setUserId(userPOJO.getUserId());
+						wxPersonUserPOJO.setAuthorizerAppId(authorizerAppIdVice);
+						wxPersonUserService.insert(wxPersonUserPOJO);
+					} else {
+						wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+					}
 				}
 				
 				// 微信用户信息放入session
@@ -643,9 +714,11 @@ public class Oauth2Controller extends BaseController {
 				session.setAttribute(CommonConstant.OPEN_ID, wxPersonUserPOJO.getOpenId());
 				session.setAttribute(CommonConstant.UNION_ID, wxPersonUserPOJO.getUnionId());
 				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxPersonUserPOJO.getAuthorizerAppId());
-				
 
 				session.setAttribute(CommonConstant.CURRENT_WX_PERSON_USER, wxPersonUserPOJO);
+				
+				session.setAttribute(CommonConstant.PROXY_OPEN_ID, wxUserInfoApiPOJO.getOpenId());
+				session.setAttribute(CommonConstant.PROXY_AUTHORIZER_APP_ID, appid);
 				
 				/*RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO = new RelWxPuOpenSearchPOJO();
 				relWxPuOpenSearchPOJO.setOpenId(wxUserInfoApiPOJO.getOpenId());
@@ -937,7 +1010,7 @@ public class Oauth2Controller extends BaseController {
 			}
 			
 			Map redirectReqParamMap = new HashMap();
-			redirectReqParamMap.put("commonParam", "forgetPassword");
+			redirectReqParamMap.put("commonParam", CommonConstant.FORGET_PASSWORD);
 			String wxComLoginUrl = WxUtil.getWxComLoginUrl(redirectReqParamMap);
 			myRedirectStrategy.sendRedirect(request, response, wxComLoginUrl);
 			
@@ -1016,7 +1089,7 @@ public class Oauth2Controller extends BaseController {
 					myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/third/authorizerInfo"
 							+ "?componentAppId=" + wxThirdClientId + "&authorizerAppId=" + wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId());
 					return null;
-				} else if ("FORGETPASSWORD".equalsIgnoreCase(StringUtils.upperCase(commonParam))) {
+				} else if (CommonConstant.FORGET_PASSWORD.equalsIgnoreCase(commonParam)) {
 					// 写新密码
 					Long userId = (Long) session.getAttribute("userId");
 					String newPassword = (String) session.getAttribute("newPassword");
@@ -1197,7 +1270,7 @@ public class Oauth2Controller extends BaseController {
 					// 得味驿站是服务号， 直接发送【注册】2个字
 					// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号
 					if ("注册".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent()) 
-							&& DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
+							&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
 						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
@@ -1219,7 +1292,7 @@ public class Oauth2Controller extends BaseController {
 							
 							wxWebLoginUrl = wxThirdWebAuthorizeUrl
 							.replace("COMPONENT_APPID", wxThirdClientId)
-							.replace("APPID", HFJT_AUTHORIZER_APP_ID)
+							.replace("APPID", CommonConstant.HFJT_AUTHORIZER_APP_ID)
 							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
 									wxThirdWebRedirectUrl + extraParam
 									: wxThirdWebRedirectUrl + "?abc=1" + extraParam)
@@ -1252,8 +1325,7 @@ public class Oauth2Controller extends BaseController {
 						}
 						
 					}
-					
-				} else if (result.contains("event")) {
+				} /**text end**/ else if (result.contains("event")) {
 					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
 					if (wxAutoTestUsername.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
 						WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
@@ -1267,7 +1339,72 @@ public class Oauth2Controller extends BaseController {
 						return encryptMsg;
 					}
 					
-				}
+					// to text
+					String EVENT_KEY = "https://open.weixin.qq.com/connect/oauth2/authorize"
+							+ "?appid=wx483bd8288ebe84b4"
+							+ "&redirect_uri=http%3A%2F%2Fwww.deweiyizhan.com%2Fweb%2Fwx%2Foauth2%2Fthird%2Fweb%2FauthCode"
+							+ "&response_type=code"
+							+ "&scope=snsapi_userinfo"
+							+ "&state=kGZUWL"
+							+ "&component_appid=wx2bec8614a6c47443#wechat_redirect";
+					
+					if (EVENT_KEY.indexOf(wxMsgEventRecvEventApiPOJO.getEventKey()) > -1
+							&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
+						// 查询是否有wx_person_user_vice
+						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
+						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+						wxPersonUserSearchPOJO.setOpenId(wxMsgEventRecvEventApiPOJO.getFromUserName());
+						wxPersonUserSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
+						List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
+						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
+							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setMsgType("text");
+							
+							String wxWebLoginUrl = "";
+							String wxThirdPersonUserLoginUrl = "";
+							
+							String extraParam = "&openIdVice=" + wxMsgEventRecvEventApiPOJO.getFromUserName()
+												+ "&authorizerUserNameVice=" + wxMsgEventRecvEventApiPOJO.getToUserName();
+							
+							wxWebLoginUrl = wxThirdWebAuthorizeUrl
+							.replace("COMPONENT_APPID", wxThirdClientId)
+							.replace("APPID", CommonConstant.HFJT_AUTHORIZER_APP_ID)
+							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
+									wxThirdWebRedirectUrl + extraParam
+									: wxThirdWebRedirectUrl + "?abc_event=1" + extraParam)
+							.replace("SCOPE", scope)
+							.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+							;
+							
+							wxThirdPersonUserLoginUrl = wxWebLoginUrl;
+							wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+							wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&openIdVice=", "%26openIdVice%3D")
+														.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
+							
+							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO) + "\n<br/>";
+							content += wxThirdPersonUserLoginUrl;
+							wxMsgEventRespTextApiPOJO.setContent(content);
+							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+							return encryptMsg;
+						} else {	// 2. 如果有返回已经注册
+							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
+							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setMsgType("text");
+							String content = "已经注册, " + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO);
+							wxMsgEventRespTextApiPOJO.setContent(content);
+							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+							return encryptMsg;
+						}
+					}
+					
+				} //event end
 			}	// 全网发布监测结束
 			
 			
