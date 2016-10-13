@@ -28,6 +28,7 @@ public interface CommonConstant {
 	String OPEN_ID = "openId";
 	String WX_USER_INFO_API_POJO = "wxUserInfoApiPOJO";
 	String INDEX_CODE = "indexCode";
+	String CURRENT_WX_PERSON_USER = "currentWxPersonUser";
 	
 	// 权限
 	String NUMBER_GUESS = "3001";

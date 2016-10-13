@@ -16,5 +16,8 @@ public interface WxPersonUserService {
 	
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
+
+	List<WxPersonUserPOJO> findFulls(WxPersonUserSearchPOJO wxPersonUserSearchPOJO) throws Exception;
+	int getFullCount(WxPersonUserSearchPOJO wxPersonUserSearchPOJO) throws Exception;
 	
 }

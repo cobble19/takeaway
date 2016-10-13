@@ -72,4 +72,20 @@ public class WxPersonUserServiceImpl implements WxPersonUserService {
 		return ret;
 	}
 
+	@Override
+	public List<WxPersonUserPOJO> findFulls(
+			WxPersonUserSearchPOJO wxPersonUserSearchPOJO) throws Exception {
+		List<WxPersonUserPOJO> ret = null;
+		ret = wxPersonUserMapper.findFulls(wxPersonUserSearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public int getFullCount(WxPersonUserSearchPOJO wxPersonUserSearchPOJO)
+			throws Exception {
+		int ret = 0;
+		ret = wxPersonUserMapper.getFullCount(wxPersonUserSearchPOJO);
+		return ret;
+	}
+
 }

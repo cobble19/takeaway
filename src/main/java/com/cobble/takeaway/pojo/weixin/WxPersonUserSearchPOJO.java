@@ -6,6 +6,8 @@ import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
 public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
 	private Long wxPersonUserId;
+	// 查询关键字
+	private String wxAuthorizerUserName;
 	private Long userId;
     // 
     private String openId;
@@ -142,6 +144,14 @@ public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
 
 	public void setAuthorizerAppId(String authorizerAppId) {
 		this.authorizerAppId = authorizerAppId;
+	}
+
+	public String getWxAuthorizerUserName() {
+		return wxAuthorizerUserName;
+	}
+
+	public void setWxAuthorizerUserName(String wxAuthorizerUserName) {
+		this.wxAuthorizerUserName = wxAuthorizerUserName;
 	}
 
 }

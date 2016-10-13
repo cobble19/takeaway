@@ -15,6 +15,8 @@
     <result column="USER_ID" property="userId"/>
     <result column="OPEN_ID" property="openId" />
     <result column="AUTHORIZER_APP_ID" property="authorizerAppId" />
+    <result column="PROXY_OPEN_ID" property="proxyOpenId" />
+    <result column="PROXY_AUTHORIZER_APP_ID" property="proxyAuthorizerAppId" />
     <result column="NICKNAME" property="nickname" />
     <result column="SEX" property="sex" />
     <result column="LANGUAGE" property="language" />
@@ -29,10 +31,13 @@
     <result column="GROUP_ID" property="groupId" />
     <result column="TAGID_LIST" property="tagidList" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
+    
+    <association property="wxAuthorizerInfoPOJO" columnPrefix="C_" resultMap="com.cobble.takeaway.dao.WxAuthorizerInfoMapper.WxAuthorizerInfoResultMap" ></association>
   </resultMap>
   
   <sql id="Base_Column_List" >
     a.WX_PERSON_USER_ID, a.USER_ID, a.OPEN_ID, a.AUTHORIZER_APP_ID
+    , a.PROXY_OPEN_ID, a.PROXY_AUTHORIZER_APP_ID
     , a.NICKNAME, a.SEX, a.LANGUAGE
     , a.CITY, a.PROVINCE, a.COUNTRY, a.HEAD_IMG_URL, a.PRIVILEGES
     , a.UNION_ID, a.SUBSCRIBE, a.SUBSCRIBE_TIME, a.REMARK, a.GROUP_ID
@@ -55,6 +60,42 @@
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>
   </sql>
+  
+  <select id="findFulls" resultMap="WxPersonUserResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , c.WX_AUTHORIZER_INFO_ID as C_WX_AUTHORIZER_INFO_ID, c.USER_ID as C_USER_ID, c.NICK_NAME as C_NICK_NAME, c.HEAD_IMG as C_HEAD_IMG
+    , c.SERVICE_TYPE_INFO as C_SERVICE_TYPE_INFO, c.VERIFY_TYPE_INFO as C_VERIFY_TYPE_INFO, c.USER_NAME as C_USER_NAME
+    , c.ALIAS as C_ALIAS, c.QRCODE_URL as C_QRCODE_URL, c.BUSINESS_INFO as C_BUSINESS_INFO
+    , c.IDC as C_IDC, c.AUTHORIZER_APPID as C_AUTHORIZER_APPID, c.FUNC_INFO as C_FUNC_INFO
+    , c.QRCODE_FILE_PATH as C_QRCODE_FILE_PATH, c.CREATE_DATE_TIME as C_CREATE_DATE_TIME
+    from WX_PERSON_USER a, wx_authorizer_info c
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and a.AUTHORIZER_APP_ID = c.AUTHORIZER_APPID
+			and c.USER_NAME = #{wxAuthorizerUserName}
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getFullCount" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_PERSON_USER a, wx_authorizer_info c
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and a.AUTHORIZER_APP_ID = c.AUTHORIZER_APPID
+			and c.USER_NAME = #{wxAuthorizerUserName}
+  		</trim>
+  	</where>
+  </select>
   
   <select id="finds" resultMap="WxPersonUserResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO" >
     select
@@ -110,6 +151,12 @@
       <if test="authorizerAppId != null" >
         AUTHORIZER_APP_ID,
       </if>
+      <if test="proxyOpenId != null" >
+        PROXY_OPEN_ID,
+      </if>
+      <if test="proxyAuthorizerAppId != null" >
+        PROXY_AUTHORIZER_APP_ID,
+      </if>
       <if test="nickname != null" >
         NICKNAME,
       </if>
@@ -163,6 +210,12 @@
       </if>
       <if test="authorizerAppId != null" >
         #{authorizerAppId},
+      </if>
+      <if test="proxyOpenId != null" >
+        #{proxyOpenId},
+      </if>
+      <if test="proxyAuthorizerAppId != null" >
+        #{proxyAuthorizerAppId},
       </if>
       <if test="nickname != null" >
         #{nickname},
@@ -221,6 +274,12 @@
       </if>
       <if test="authorizerAppId != null" >
         AUTHORIZER_APP_ID = #{authorizerAppId},
+      </if>
+      <if test="proxyOpenId != null" >
+        PROXY_OPEN_ID = #{proxyOpenId},
+      </if>
+      <if test="proxyAuthorizerAppId != null" >
+        PROXY_AUTHORIZER_APP_ID = #{proxyAuthorizerAppId},
       </if>
       <if test="nickname != null" >
         NICKNAME = #{nickname},

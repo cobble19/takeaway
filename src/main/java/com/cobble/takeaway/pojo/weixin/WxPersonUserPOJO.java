@@ -7,10 +7,10 @@ import com.cobble.takeaway.pojo.BasePOJO;
 public class WxPersonUserPOJO extends BasePOJO {
 	private Long wxPersonUserId;
 	private Long userId;
-    // 
     private String openId;
-    // 
     private String authorizerAppId;
+    private String proxyOpenId;
+    private String proxyAuthorizerAppId;
     // 用户昵称
     private String nickname;
     // 性别（1是男性，2是女性，0是未知）
@@ -36,6 +36,8 @@ public class WxPersonUserPOJO extends BasePOJO {
     private String tagidList;
     
     private Date createDateTime;
+    // 属于哪个公众号
+    private WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO;
 
     public String getOpenId() {
         return openId;
@@ -187,6 +189,30 @@ public class WxPersonUserPOJO extends BasePOJO {
 
 	public void setAuthorizerAppId(String authorizerAppId) {
 		this.authorizerAppId = authorizerAppId;
+	}
+
+	public String getProxyOpenId() {
+		return proxyOpenId;
+	}
+
+	public void setProxyOpenId(String proxyOpenId) {
+		this.proxyOpenId = proxyOpenId;
+	}
+
+	public String getProxyAuthorizerAppId() {
+		return proxyAuthorizerAppId;
+	}
+
+	public void setProxyAuthorizerAppId(String proxyAuthorizerAppId) {
+		this.proxyAuthorizerAppId = proxyAuthorizerAppId;
+	}
+
+	public WxAuthorizerInfoPOJO getWxAuthorizerInfoPOJO() {
+		return wxAuthorizerInfoPOJO;
+	}
+
+	public void setWxAuthorizerInfoPOJO(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO) {
+		this.wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJO;
 	}
 
 }

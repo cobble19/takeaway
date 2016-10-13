@@ -46,8 +46,8 @@ import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
-import com.cobble.takeaway.pojo.weixin.WxPersonUserVicePOJO;
-import com.cobble.takeaway.pojo.weixin.WxPersonUserViceSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
+import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthEventRecvAuthorizedApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
@@ -78,7 +78,7 @@ import com.cobble.takeaway.service.WxAuthorizerRefreshTokenService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
-import com.cobble.takeaway.service.WxPersonUserViceService;
+import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.FileUtil;
@@ -122,8 +122,8 @@ public class Oauth2Controller extends BaseController {
 	
 	@Autowired
 	private WxPersonUserService wxPersonUserService;
-	@Autowired
-	private WxPersonUserViceService wxPersonUserViceService;
+	/*@Autowired
+	private WxPersonUserService wxPersonUserService;*/
 	/*@Autowired
 	private RelWxPuOpenService relWxPuOpenService;*/
 	@Autowired
@@ -567,12 +567,26 @@ public class Oauth2Controller extends BaseController {
 				}
 				
 
-				// @10102016 如果openId不是空，insert into DB（wx_person_user_vice）
+				// @10102016 如果openIdVice不是空, insert wxPersonUser vice to DB
 				if (StringUtils.isNotBlank(openIdVice)) {
-					WxPersonUserVicePOJO wxPersonUserVicePOJO = new WxPersonUserVicePOJO();
-					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserVicePOJO);
-					wxPersonUserVicePOJO.setOpenId(openIdVice);
-					wxPersonUserVicePOJO.setOpenIdPrimary(wxUserInfoApiPOJO.getOpenId());
+					userPOJO1 = userService.findUserByName(openIdVice);
+					userPOJO = new UserPOJO();
+					if (userPOJO1 == null) {
+						userPOJO.setUsername(openIdVice);
+						userPOJO.setPassword(openIdVice);
+						userPOJO.setUserType(MyUser.PERSON);
+						userPOJO.setNickname(wxUserInfoApiPOJO.getNickname());
+						userService.insert(userPOJO);
+					} else {
+						BeanUtils.copyProperties(userPOJO1, userPOJO);
+					}
+					
+					wxPersonUserPOJO = new WxPersonUserPOJO();
+					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
+					/*wxPersonUserPOJO.setOpenId(openIdVice);
+					wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
+					wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
+					wxPersonUserPOJO.setUserId(userPOJO.getUserId());*/
 					
 					String authorizerAppIdVice = "";
 					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
@@ -585,19 +599,53 @@ public class Oauth2Controller extends BaseController {
 						authorizerAppIdVice = wxAuthorizerInfoPOJOs.get(0).getAuthorizerAppId();
 					}
 					
-					wxPersonUserVicePOJO.setAuthorizerAppId(authorizerAppIdVice);
-					wxPersonUserViceService.insert(wxPersonUserVicePOJO);
+					/*wxPersonUserPOJO.setAuthorizerAppId(authorizerAppIdVice);*/
+					
+					wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+//					wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
+					wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
+					wxPersonUserSearchPOJO.setOpenId(openIdVice);
+					wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
+					wxPersonUserPOJO = new WxPersonUserPOJO();
+					if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+						BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
+						/*List<String> tagidList = wxUserPOJO.getTagidList();
+						String tagidListStr = "";
+						if (!CollectionUtils.isEmpty(tagidList)) {
+							tagidListStr = CollectionUtilx.nullSafeToString(tagidList);
+						}
+						wxPersonUserPOJO.setTagidList(tagidListStr);*/
+
+						wxPersonUserPOJO.setOpenId(openIdVice);
+						wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
+						wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
+						wxPersonUserPOJO.setUserId(userPOJO.getUserId());
+						wxPersonUserPOJO.setAuthorizerAppId(authorizerAppIdVice);
+						wxPersonUserService.insert(wxPersonUserPOJO);
+					} else {
+						wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+					}
+					
 					String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoApiPOJO.getNickname()
 							+ "\n" + "Token: \n" + result + "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
 							/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
 					msg += ", openIdVice: " + openIdVice + "\n <br/>";
-					msg += wxPersonUserVicePOJO + "\n <br/>";
+					msg += wxPersonUserPOJO + "\n <br/>";
 					ret.addObject("msg", msg);
 					
 					session.setAttribute("msg", msg);
-					myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
-					return null;
+					/*myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
+					return null;*/
 				}
+				
+				// 微信用户信息放入session
+				session.setAttribute(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
+				session.setAttribute(CommonConstant.OPEN_ID, wxPersonUserPOJO.getOpenId());
+				session.setAttribute(CommonConstant.UNION_ID, wxPersonUserPOJO.getUnionId());
+				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxPersonUserPOJO.getAuthorizerAppId());
+				
+
+				session.setAttribute(CommonConstant.CURRENT_WX_PERSON_USER, wxPersonUserPOJO);
 				
 				/*RelWxPuOpenSearchPOJO relWxPuOpenSearchPOJO = new RelWxPuOpenSearchPOJO();
 				relWxPuOpenSearchPOJO.setOpenId(wxUserInfoApiPOJO.getOpenId());
@@ -1152,11 +1200,11 @@ public class Oauth2Controller extends BaseController {
 							&& DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
-						WxPersonUserViceSearchPOJO wxPersonUserViceSearchPOJO = new WxPersonUserViceSearchPOJO();
-						wxPersonUserViceSearchPOJO.setOpenId(wxMsgEventRecvApiPOJO.getFromUserName());
-						wxPersonUserViceSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvApiPOJO.getToUserName());
-						List<WxPersonUserVicePOJO> wxPersonUserVicePOJOs = wxPersonUserViceService.findFulls(wxPersonUserViceSearchPOJO);
-						if (CollectionUtils.isEmpty(wxPersonUserVicePOJOs)) {
+						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+						wxPersonUserSearchPOJO.setOpenId(wxMsgEventRecvApiPOJO.getFromUserName());
+						wxPersonUserSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvApiPOJO.getToUserName());
+						List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
+						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
 							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
