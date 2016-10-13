@@ -1341,15 +1341,16 @@ public class Oauth2Controller extends BaseController {
 					
 					// to text
 					String EVENT_KEY = "https://open.weixin.qq.com/connect/oauth2/authorize"
-							+ "?appid=wx483bd8288ebe84b4"
+							/*+ "?appid=wx483bd8288ebe84b4"
 							+ "&redirect_uri=http%3A%2F%2Fwww.deweiyizhan.com%2Fweb%2Fwx%2Foauth2%2Fthird%2Fweb%2FauthCode"
 							+ "&response_type=code"
 							+ "&scope=snsapi_userinfo"
 							+ "&state=kGZUWL"
-							+ "&component_appid=wx2bec8614a6c47443#wechat_redirect";
+							+ "&component_appid=wx2bec8614a6c47443#wechat_redirect"*/;
 					
 					if (EVENT_KEY.indexOf(wxMsgEventRecvEventApiPOJO.getEventKey()) > -1
 							&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
+						logger.info("发生事件：{}", EVENT_KEY);
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
 						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
