@@ -1347,9 +1347,8 @@ public class Oauth2Controller extends BaseController {
 							+ "&scope=snsapi_userinfo"
 							+ "&state=kGZUWL"
 							+ "&component_appid=wx2bec8614a6c47443#wechat_redirect"*/;
-					
-					if (EVENT_KEY.indexOf(wxMsgEventRecvEventApiPOJO.getEventKey()) > -1
-							&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
+					logger.info("EVENT_KEY.indexOf(wxMsgEventRecvEventApiPOJO.getEventKey()): {}", EVENT_KEY.indexOf(wxMsgEventRecvEventApiPOJO.getEventKey()));
+					if (CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
 						logger.info("发生事件：{}", EVENT_KEY);
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
