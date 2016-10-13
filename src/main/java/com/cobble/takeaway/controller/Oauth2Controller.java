@@ -1327,6 +1327,7 @@ public class Oauth2Controller extends BaseController {
 					}
 				} /**text end**/ else if (result.contains("event")) {
 					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
+					logger.info("接收到的事件: {}", wxMsgEventRecvEventApiPOJO);
 					if (wxAutoTestUsername.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
 						WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 						wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
@@ -1350,17 +1351,18 @@ public class Oauth2Controller extends BaseController {
 					logger.info("EVENT_KEY.indexOf(wxMsgEventRecvEventApiPOJO.getEventKey()): {}", EVENT_KEY.indexOf(wxMsgEventRecvEventApiPOJO.getEventKey()));
 					if (CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
 						logger.info("发生事件：{}", EVENT_KEY);
+						
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
 						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
 						wxPersonUserSearchPOJO.setOpenId(wxMsgEventRecvEventApiPOJO.getFromUserName());
 						wxPersonUserSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
-						List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
+						List<WxPersonUserPOJO> wxPersonUserPOJOs = null /*wxPersonUserService.findFulls(wxPersonUserSearchPOJO)*/;
 						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
 							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvEventApiPOJO.getToUserName());
-							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime()/1000 + "");
 							wxMsgEventRespTextApiPOJO.setMsgType("text");
 							
 							String wxWebLoginUrl = "";
@@ -1386,7 +1388,7 @@ public class Oauth2Controller extends BaseController {
 							
 							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO) + "\n<br/>";
 							content += wxThirdPersonUserLoginUrl;
-							wxMsgEventRespTextApiPOJO.setContent(content);
+							wxMsgEventRespTextApiPOJO.setContent("test event response");
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 							return encryptMsg;

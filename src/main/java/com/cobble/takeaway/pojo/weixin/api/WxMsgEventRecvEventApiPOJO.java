@@ -59,6 +59,13 @@ public class WxMsgEventRecvEventApiPOJO extends BasePOJO {
 	public void setEventKey(String eventKey) {
 		this.eventKey = eventKey;
 	}
+	@Override
+	public String toString() {
+		return "WxMsgEventRecvEventApiPOJO [toUserName=" + toUserName
+				+ ", fromUserName=" + fromUserName + ", createTime="
+				+ createTime + ", msgType=" + msgType + ", event=" + event
+				+ ", eventKey=" + eventKey + "]";
+	}
     
 
 }
