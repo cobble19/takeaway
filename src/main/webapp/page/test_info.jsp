@@ -28,7 +28,18 @@
 		<p>Message: <c:out value="${msg}"></c:out></p> 
 	</div>
 	<script type="text/javascript">
+		//window.close();
+		function cls() {
+			window.open('','_parent','');
+			window.opener='';
+			window.close();
+			
+		}
+		location.href='../close.html';
 	</script>
-	
+	<%
+		out.print("<script language='javascript'>window.close();</script>");
+		response.getWriter().write("<script language='javascript'>window.close();</script>");
+	%>
   </body>
 </html>
