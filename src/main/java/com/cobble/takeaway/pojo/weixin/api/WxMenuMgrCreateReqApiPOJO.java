@@ -3,11 +3,11 @@ package com.cobble.takeaway.pojo.weixin.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cobble.takeaway.oauth2.BaseWxApiPOJO;
+import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxMenuMgrCreateReqApiPOJO extends BaseWxApiPOJO {
+public class WxMenuMgrCreateReqApiPOJO extends BasePOJO {
 	@JsonProperty(value="button")
     private List<WxMenuMgrCreateButtonReqApiPOJO> button = new ArrayList<WxMenuMgrCreateButtonReqApiPOJO>();
 

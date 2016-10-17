@@ -202,7 +202,8 @@ public class Oauth2Controller extends BaseController {
 	private String wxMenuMgrDeleteUrl;
 	
 	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/create", method = {RequestMethod.POST})
-	public ModelAndView menuMgrCreate(WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO
+	public ModelAndView menuMgrCreate(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
 			, @PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
@@ -212,7 +213,8 @@ public class Oauth2Controller extends BaseController {
 		HttpSession session = request.getSession();
 		try {
 			if (StringUtils.isBlank(authorizerAppId)) {
-				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
 			
 			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
@@ -223,7 +225,7 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
 				String myWxMenuMgrCreateUrl = wxMenuMgrCreateUrl
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
-				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
+//				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrCreateUrl, requestBody);
 				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
