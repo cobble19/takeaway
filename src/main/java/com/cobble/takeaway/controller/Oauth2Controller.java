@@ -200,6 +200,160 @@ public class Oauth2Controller extends BaseController {
 	private String wxMenuMgrGetUrl;
 	@Value("${WX.menu.mgr.deleteUrl}")
 	private String wxMenuMgrDeleteUrl;
+	@Value("${WX.menu.mgr.menuInfoUrl}")
+	private String wxMenuMgrMenuInfoUrl;
+	
+	// 个性化菜单管理
+	@Value("${WX.menu.mgr.conditional.addUrl}")
+	private String wxMenuMgrConditionalAddUrl;
+	@Value("${WX.menu.mgr.conditional.tryMatchUrl}")
+	private String wxMenuMgrConditionalTryMatchUrl;
+	@Value("${WX.menu.mgr.conditional.deleteUrl}")
+	private String wxMenuMgrConditionalDeleteUrl;
+	
+	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/conditional/delete", method = {RequestMethod.POST})
+	public ModelAndView menuMgrConditionalDelete(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
+			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
+			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+				String myWxMenuMgrConditionalDeleteUrl = wxMenuMgrConditionalDeleteUrl
+						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+//				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
+				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalDeleteUrl, requestBody);
+//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				
+				ret.addObject("msg", result);
+				ret.setViewName("/page/test_info");
+			} else {
+				ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");
+			}
+			
+		} catch (Exception e) {
+			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/conditional/trymatch", method = {RequestMethod.POST})
+	public ModelAndView menuMgrConditionalTryMatch(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
+			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
+			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+				String myWxMenuMgrConditionalTryMatchUrl = wxMenuMgrConditionalTryMatchUrl
+						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+//				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
+				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalTryMatchUrl, requestBody);
+//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				
+				ret.addObject("msg", result);
+				ret.setViewName("/page/test_info");
+			} else {
+				ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");
+			}
+			
+		} catch (Exception e) {
+			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/conditional/add", method = {RequestMethod.POST})
+	public ModelAndView menuMgrConditionalAdd(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
+			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
+			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+				String myWxMenuMgrConditionalAddUrl = wxMenuMgrConditionalAddUrl
+						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+//				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
+				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalAddUrl, requestBody);
+//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				
+				ret.addObject("msg", result);
+				ret.setViewName("/page/test_info");
+			} else {
+				ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");
+			}
+			
+		} catch (Exception e) {
+			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/create", method = {RequestMethod.POST})
 	public ModelAndView menuMgrCreate(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
@@ -230,7 +384,7 @@ public class Oauth2Controller extends BaseController {
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
 //				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrCreateUrl, requestBody);
-				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
 				ret.addObject("msg", result);
 				ret.setViewName("/page/test_info");
@@ -240,7 +394,7 @@ public class Oauth2Controller extends BaseController {
 			}
 			
 		} catch (Exception e) {
-			ret.addObject("msg", uri + "?" + qs);
+			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
 			ret.setViewName("/page/test_info");
 			logger.error("insert error.", e);
 			//throw e;
@@ -259,7 +413,14 @@ public class Oauth2Controller extends BaseController {
 		HttpSession session = request.getSession();
 		try {
 			if (StringUtils.isBlank(authorizerAppId)) {
-				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}
 			
 			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
@@ -271,7 +432,7 @@ public class Oauth2Controller extends BaseController {
 				String myWxMenuMgrDeleteUrl = wxMenuMgrDeleteUrl
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
 				String result = HttpClientUtil.get(myWxMenuMgrDeleteUrl);
-				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
 				ret.addObject("msg", result);
 				ret.setViewName("/page/test_info");
@@ -312,7 +473,7 @@ public class Oauth2Controller extends BaseController {
 				String myWxMenuMgrGetUrl = wxMenuMgrGetUrl
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
 				String result = HttpClientUtil.get(myWxMenuMgrGetUrl);
-				WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuRespApiPOJO.class);
+//				WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuRespApiPOJO.class);
 				
 				ret.addObject("msg", result);
 				ret.setViewName("/page/test_info");
@@ -323,6 +484,47 @@ public class Oauth2Controller extends BaseController {
 			
 		} catch (Exception e) {
 			ret.addObject("msg", uri + "?" + qs);
+			ret.setViewName("/page/test_info");
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/menuinfo", method = {RequestMethod.GET})
+	public ModelAndView menuMgrMenuInfo(@PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			
+			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
+			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
+			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+				String myWxMenuMgrMenuInfoUrl = wxMenuMgrMenuInfoUrl
+						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+				String result = HttpClientUtil.get(myWxMenuMgrMenuInfoUrl);
+//				WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuRespApiPOJO.class);
+				
+				ret.addObject("msg", result);
+				ret.setViewName("/page/test_info");
+			} else {
+				ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");
+			}
+			
+		} catch (Exception e) {
+			ret.addObject("msg", uri + "?" + qs + "<br/> " + e);
 			ret.setViewName("/page/test_info");
 			logger.error("insert error.", e);
 			//throw e;
