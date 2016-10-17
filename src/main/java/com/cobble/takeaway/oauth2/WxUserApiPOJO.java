@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
 * 描述: 通过网页授权获取的用户信息 </br>
  */
-public class WxUserApiPOJO extends WxBaseApiPOJO {
+public class WxUserApiPOJO extends BaseWxApiPOJO {
     // 用户标识
 	@JsonProperty(value="openid")
     private String openId;

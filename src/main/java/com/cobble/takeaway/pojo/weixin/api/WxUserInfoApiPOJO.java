@@ -2,10 +2,10 @@ package com.cobble.takeaway.pojo.weixin.api;
 
 import java.util.List;
 
-import com.cobble.takeaway.oauth2.WxBaseApiPOJO;
+import com.cobble.takeaway.oauth2.BaseWxApiPOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class WxUserInfoApiPOJO extends WxBaseApiPOJO {
+public class WxUserInfoApiPOJO extends BaseWxApiPOJO {
     // 用户标识
 	@JsonProperty(value="openid")
     private String openId;
