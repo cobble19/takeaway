@@ -241,6 +241,7 @@ public class Oauth2Controller extends BaseController {
 //				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalDeleteUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
 //				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
 				ret.addObject("msg", result);
@@ -290,6 +291,7 @@ public class Oauth2Controller extends BaseController {
 //				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalTryMatchUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
 //				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
 				ret.addObject("msg", result);
@@ -339,6 +341,7 @@ public class Oauth2Controller extends BaseController {
 //				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalAddUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
 //				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
 				ret.addObject("msg", result);
@@ -388,6 +391,7 @@ public class Oauth2Controller extends BaseController {
 //				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrCreateUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
 //				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
 				ret.addObject("msg", result);
@@ -437,6 +441,7 @@ public class Oauth2Controller extends BaseController {
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
 				String result = HttpClientUtil.get(myWxMenuMgrDeleteUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
 //				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
 				ret.addObject("msg", result);
@@ -479,6 +484,7 @@ public class Oauth2Controller extends BaseController {
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
 				String result = HttpClientUtil.get(myWxMenuMgrGetUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
 //				WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuRespApiPOJO.class);
 				
 				ret.addObject("msg", result);
@@ -521,6 +527,7 @@ public class Oauth2Controller extends BaseController {
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
 				String result = HttpClientUtil.get(myWxMenuMgrMenuInfoUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
 //				WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuRespApiPOJO.class);
 				
 				ret.addObject("msg", result);
