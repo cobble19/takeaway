@@ -249,7 +249,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
 				userPOJO = userService.findUserByIndexCode(indexCode);
 			}
-		} else if (uri.startsWith("/page/enterprise/activity_detail.jsp")) {	// /page/enterprise/activity_detail.jsp?activityId=31
+		} else if (uri.contains("/activity_detail.jsp")) {	// /page/enterprise(unified)/activity_detail.jsp?activityId=31
 			Pattern p = Pattern.compile("(activityId=)(\\d+)");
 			Matcher m = p.matcher(qs);
 			if (m.find() && m.groupCount() == 2) {
@@ -266,8 +266,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 					}
 				}
 			}
-		} else if (uri.startsWith("/web/media/vote/query/")) {	// /page/enterprise/activity_detail.jsp?activityId=31
-			Pattern p = Pattern.compile("(/web/media/vote/query/)(\\d+)");
+		} else if (uri.contains("/vote/query/")) {	// /page/enterprise/activity_detail.jsp?activityId=31
+			Pattern p = Pattern.compile("(/vote/query/)(\\d+)");
 			Matcher m = p.matcher(uri);
 			if (m.find() && m.groupCount() == 2) {
 				String s = m.group(2);
