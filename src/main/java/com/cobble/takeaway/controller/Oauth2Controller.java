@@ -216,6 +216,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
 			
 			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
 			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
