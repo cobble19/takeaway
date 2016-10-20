@@ -54,5 +54,12 @@ public class WxMenuMgrMenuCondMatchRuleRespApiPOJO extends BaseWxApiPOJO {
 	public void setClient_platform_type(Integer client_platform_type) {
 		this.client_platform_type = client_platform_type;
 	}
+	@Override
+	public String toString() {
+		return "WxMenuMgrMenuCondMatchRuleRespApiPOJO [groupId=" + groupId
+				+ ", sex=" + sex + ", country=" + country + ", province="
+				+ province + ", city=" + city + ", client_platform_type="
+				+ client_platform_type + "]";
+	}
 	
 }

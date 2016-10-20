@@ -16,4 +16,10 @@ public class WxMenuMgrMenuCondRespApiPOJO extends WxMenuMgrMenuRespApiPOJO {
 		this.wxMenuMgrMenuCondMatchRuleRespApiPOJO = wxMenuMgrMenuCondMatchRuleRespApiPOJO;
 	}
 
+	@Override
+	public String toString() {
+		return "WxMenuMgrMenuCondRespApiPOJO [wxMenuMgrMenuCondMatchRuleRespApiPOJO="
+				+ wxMenuMgrMenuCondMatchRuleRespApiPOJO + "]";
+	}
+
 }

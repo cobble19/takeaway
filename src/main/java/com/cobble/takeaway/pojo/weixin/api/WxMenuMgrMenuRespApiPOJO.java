@@ -28,5 +28,11 @@ public class WxMenuMgrMenuRespApiPOJO extends BaseWxApiPOJO {
 	public void setMenuId(String menuId) {
 		this.menuId = menuId;
 	}
+
+	@Override
+	public String toString() {
+		return "WxMenuMgrMenuRespApiPOJO [button=" + button + ", menuId="
+				+ menuId + "]";
+	}
 	
 }

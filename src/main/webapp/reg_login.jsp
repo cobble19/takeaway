@@ -7,6 +7,23 @@
             z-index: 1050;
 		}
 	</style>
+
+<script type="text/javascript">
+	$(function() {
+		var url = location.href;
+		console.log('url: ' + url);
+		// remove nav class=active
+		$('ul.nav.nav-pills li').removeClass('active');
+		$('ul.nav.nav-pills li a').each(function(index, elm) {
+			var href = $(this).attr('href');
+			if (url.indexOf(href) > -1) {
+				$(this).parent('li').addClass('active');
+			}
+		});
+		
+	})
+</script>
+
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="row" style="height:100px;">
@@ -14,12 +31,12 @@
       <div class="col-xs-6 logo visible-xs"></div>
       <div class="col-md-8 hidden-xs" style="height:100px;">
         <ul class="nav nav-pills" style="float:right; margin-top:25px; font-weight:bold; font-family:'新宋体';">
-          <li role="presentation" class="active"><a href="http://www.deweiyizhan.com">首页</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="#">公告</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="#">功能</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="#">资费</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="#">帮助</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="#">关于</a></li>
+          <li role="presentation" class="active"><a href="index">首页</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="gonggao.jsp">公告</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="functions.jsp">功能</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="fee.jsp">资费</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="help.jsp">帮助</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="about.jsp">关于</a></li>
         </ul>
       </div>
       <div class="col-md-3 col-xs-6" style="height:100px;">

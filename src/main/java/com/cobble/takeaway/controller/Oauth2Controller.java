@@ -470,8 +470,13 @@ public class Oauth2Controller extends BaseController {
 		String qs = request.getQueryString();
 		HttpSession session = request.getSession();
 		try {
-			if (StringUtils.isBlank(authorizerAppId)) {
+			/*if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}*/
+			
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
 			
 			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
@@ -513,8 +518,14 @@ public class Oauth2Controller extends BaseController {
 		String qs = request.getQueryString();
 		HttpSession session = request.getSession();
 		try {
-			if (StringUtils.isBlank(authorizerAppId)) {
+			/*if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}*/
+			
+
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
 			
 			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();

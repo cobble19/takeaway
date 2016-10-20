@@ -56,5 +56,11 @@ public class WxMenuMgrCreateButtonReqApiPOJO extends BasePOJO {
 	public void setSubButton(List<WxMenuMgrCreateButtonReqApiPOJO> subButton) {
 		this.subButton = subButton;
 	}
+	@Override
+	public String toString() {
+		return "WxMenuMgrCreateButtonReqApiPOJO [type=" + type + ", name="
+				+ name + ", key=" + key + ", url=" + url + ", media_id="
+				+ media_id + ", subButton=" + subButton + "]";
+	}
 	
 }

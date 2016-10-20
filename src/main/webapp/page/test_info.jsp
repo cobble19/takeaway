@@ -22,7 +22,7 @@
   <body>
   	<div>
   		<security:authentication property="principal.username" var="username"/>
-  		<h1>恭喜您:<c:out value="${username}"></c:out>,用户 !</h1>
+  		<h1>恭喜您:<c:out value="${username}"></c:out> 用户 !</h1>
   		<br/>
 		
 		<p>Message: <c:out value="${msg}"></c:out></p> 

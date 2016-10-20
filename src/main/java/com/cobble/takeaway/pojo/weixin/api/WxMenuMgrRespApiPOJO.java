@@ -30,5 +30,11 @@ public class WxMenuMgrRespApiPOJO extends BaseWxApiPOJO {
 		this.menu = menu;
 	}
 
+	@Override
+	public String toString() {
+		return "WxMenuMgrRespApiPOJO [menu=" + menu + ", conditionalMenu="
+				+ conditionalMenu + "]";
+	}
+
 	
 }
