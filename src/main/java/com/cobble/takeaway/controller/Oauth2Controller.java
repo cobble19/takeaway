@@ -66,6 +66,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqTextApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrButtonsRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuInfoRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrTryMatchReqApiPOJO;
@@ -557,9 +558,9 @@ public class Oauth2Controller extends BaseController {
 				String result = HttpClientUtil.get(myWxMenuMgrMenuInfoUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-				WxMenuMgrRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrRespApiPOJO.class);
+				WxMenuMgrMenuInfoRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuInfoRespApiPOJO.class);
 				
-				ret.addObject("msg", result);
+				ret.addObject("msg", result + "\n" + wxMenuMgrMenuRespApiPOJO);
 				ret.setViewName("/page/test_info");
 			} else {
 				ret.addObject("msg", "没有找到 authorizer access token");
