@@ -4,30 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cobble.takeaway.oauth2.BaseWxApiPOJO;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class WxMenuMgrRespApiPOJO extends BaseWxApiPOJO {
 	@JsonProperty(value="menu")
-    private WxMenuMgrMenuRespApiPOJO menu = new WxMenuMgrMenuRespApiPOJO();
+    private WxMenuMgrButtonsRespApiPOJO menu = new WxMenuMgrButtonsRespApiPOJO();
 	@JsonProperty(value="conditionalmenu")
-    private List<WxMenuMgrMenuCondRespApiPOJO> conditionalMenu = new ArrayList<WxMenuMgrMenuCondRespApiPOJO>();
+	@JsonInclude(Include.NON_EMPTY)
+    private List<WxMenuMgrButtonsRespApiPOJO> conditionalMenu = new ArrayList<WxMenuMgrButtonsRespApiPOJO>();
 
-	public List<WxMenuMgrMenuCondRespApiPOJO> getConditionalMenu() {
-		return conditionalMenu;
-	}
-
-	public void setConditionalMenu(
-			List<WxMenuMgrMenuCondRespApiPOJO> conditionalMenu) {
-		this.conditionalMenu = conditionalMenu;
-	}
-
-	public WxMenuMgrMenuRespApiPOJO getMenu() {
+	public WxMenuMgrButtonsRespApiPOJO getMenu() {
 		return menu;
 	}
 
-	public void setMenu(WxMenuMgrMenuRespApiPOJO menu) {
+	public void setMenu(WxMenuMgrButtonsRespApiPOJO menu) {
 		this.menu = menu;
+	}
+
+	public List<WxMenuMgrButtonsRespApiPOJO> getConditionalMenu() {
+		return conditionalMenu;
+	}
+
+	public void setConditionalMenu(List<WxMenuMgrButtonsRespApiPOJO> conditionalMenu) {
+		this.conditionalMenu = conditionalMenu;
 	}
 
 	@Override
@@ -35,6 +37,5 @@ public class WxMenuMgrRespApiPOJO extends BaseWxApiPOJO {
 		return "WxMenuMgrRespApiPOJO [menu=" + menu + ", conditionalMenu="
 				+ conditionalMenu + "]";
 	}
-
 	
 }

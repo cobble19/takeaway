@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.cobble.takeaway.dao.WxAuthorizerRefreshTokenMapper;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
@@ -77,6 +78,33 @@ public class WxAuthorizerRefreshTokenServiceImpl implements WxAuthorizerRefreshT
 			for (Long id : ids) {
 				ret += wxAuthorizerRefreshTokenMapper.deleteById(id);
 			}
+		}
+		return ret;
+	}
+
+	@Override
+	public WxAuthorizerRefreshTokenPOJO findByAuthorizerAppId(String authorizerAppId)
+			throws Exception {
+		WxAuthorizerRefreshTokenPOJO ret = null;
+		List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = null;
+		WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+		wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
+		wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenMapper.finds(wxAuthorizerRefreshTokenSearchPOJO);
+		if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+			ret = wxAuthorizerRefreshTokenPOJOs.get(0);
+		}
+		return ret;
+	}
+
+	@Override
+	public String findTokenByAuthorizerAppId(String authorizerAppId) throws Exception {
+		String ret = null;
+		List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = null;
+		WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+		wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
+		wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenMapper.finds(wxAuthorizerRefreshTokenSearchPOJO);
+		if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+			ret = wxAuthorizerRefreshTokenPOJOs.get(0).getAuthorizerAccessToken();
 		}
 		return ret;
 	}

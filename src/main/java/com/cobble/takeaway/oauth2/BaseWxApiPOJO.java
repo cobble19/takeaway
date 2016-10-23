@@ -18,4 +18,8 @@ public class BaseWxApiPOJO extends BasePOJO {
 	public void setErrmsg(String errmsg) {
 		this.errmsg = errmsg;
 	}
+	@Override
+	public String toString() {
+		return "BaseWxApiPOJO [errcode=" + errcode + ", errmsg=" + errmsg + "]";
+	}
 }

@@ -63,8 +63,12 @@ import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqTextApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrButtonsRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrTryMatchReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvEventApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRespTextApiPOJO;
@@ -212,7 +216,7 @@ public class Oauth2Controller extends BaseController {
 	private String wxMenuMgrConditionalDeleteUrl;
 	
 	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/conditional/delete", method = {RequestMethod.POST})
-	public ModelAndView menuMgrConditionalDelete(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+	public ModelAndView menuMgrConditionalDelete(/*WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO*/
 			@RequestBody String requestBody
 			, @PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -238,13 +242,16 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
 				String myWxMenuMgrConditionalDeleteUrl = wxMenuMgrConditionalDeleteUrl
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
-//				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
+				// test request POJO<->requestBody
+				WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxMenuMgrReqApiPOJO);
+				
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalDeleteUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
-				ret.addObject("msg", result);
+				ret.addObject("msg", result + "\n" + baseWxApiPOJO);
 				ret.setViewName("/page/test_info");
 			} else {
 				ret.addObject("msg", "没有找到 authorizer access token");
@@ -288,13 +295,16 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
 				String myWxMenuMgrConditionalTryMatchUrl = wxMenuMgrConditionalTryMatchUrl
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
-//				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
+				// test request POJO<->requestBody
+				WxMenuMgrTryMatchReqApiPOJO wxMenuMgrTryMatchReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrTryMatchReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxMenuMgrTryMatchReqApiPOJO);
+				
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalTryMatchUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				WxMenuMgrButtonsRespApiPOJO wxMenuMgrButtonsRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrButtonsRespApiPOJO.class);
 				
-				ret.addObject("msg", result);
+				ret.addObject("msg", result + "\n" + wxMenuMgrButtonsRespApiPOJO);
 				ret.setViewName("/page/test_info");
 			} else {
 				ret.addObject("msg", "没有找到 authorizer access token");
@@ -338,13 +348,17 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
 				String myWxMenuMgrConditionalAddUrl = wxMenuMgrConditionalAddUrl
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
-//				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
+				
+				// test request POJO<->requestBody
+				WxMenuMgrMenuCondReqApiPOJO wxMenuMgrMenuCondReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrMenuCondReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxMenuMgrMenuCondReqApiPOJO);
+				
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalAddUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				WxMenuMgrMenuCondRespApiPOJO wxMenuMgrMenuCondRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuCondRespApiPOJO.class);
 				
-				ret.addObject("msg", result);
+				ret.addObject("msg", result + "\n" + wxMenuMgrMenuCondRespApiPOJO);
 				ret.setViewName("/page/test_info");
 			} else {
 				ret.addObject("msg", "没有找到 authorizer access token");
@@ -388,13 +402,17 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
 				String myWxMenuMgrCreateUrl = wxMenuMgrCreateUrl
 						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
-//				String requestBody = JsonUtils.convertToJson(wxMenuMgrCreateReqApiPOJO);
+
+				// test request POJO<->requestBody
+				WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxMenuMgrReqApiPOJO);
+				
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrCreateUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
-				ret.addObject("msg", result);
+				ret.addObject("msg", result + "\n" + baseWxApiPOJO);
 				ret.setViewName("/page/test_info");
 			} else {
 				ret.addObject("msg", "没有找到 authorizer access token");
@@ -442,9 +460,9 @@ public class Oauth2Controller extends BaseController {
 				String result = HttpClientUtil.get(myWxMenuMgrDeleteUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
-				ret.addObject("msg", result);
+				ret.addObject("msg", result + "\n" + baseWxApiPOJO);
 				ret.setViewName("/page/test_info");
 			} else {
 				ret.addObject("msg", "没有找到 authorizer access token");
@@ -490,9 +508,9 @@ public class Oauth2Controller extends BaseController {
 				String result = HttpClientUtil.get(myWxMenuMgrGetUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-//				WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuRespApiPOJO.class);
+				WxMenuMgrRespApiPOJO wxMenuMgrRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrRespApiPOJO.class);
 				
-				ret.addObject("msg", result);
+				ret.addObject("msg", result + "\n" + wxMenuMgrRespApiPOJO);
 				ret.setViewName("/page/test_info");
 			} else {
 				ret.addObject("msg", "没有找到 authorizer access token");
@@ -539,7 +557,7 @@ public class Oauth2Controller extends BaseController {
 				String result = HttpClientUtil.get(myWxMenuMgrMenuInfoUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-				WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuRespApiPOJO.class);
+				WxMenuMgrRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrRespApiPOJO.class);
 				
 				ret.addObject("msg", result);
 				ret.setViewName("/page/test_info");

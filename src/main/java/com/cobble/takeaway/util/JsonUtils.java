@@ -6,8 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuInfoRespApiPOJO;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -71,7 +70,7 @@ public class JsonUtils {
 		logger.info("str: {}", str);
 		logger.info("str: {}", str.replaceAll("\"\\w+\":null,*|\"\\w+\":\\[\\],*", "").replaceAll(",}", "}"));*/
 		
-		str = "{\"menu\":{\"button\":[{\"type\":\"click\",\"name\":\"今日歌曲\",\"key\":\"V1001_TODAY_MUSIC\""
+		/*str = "{\"menu\":{\"button\":[{\"type\":\"click\",\"name\":\"今日歌曲\",\"key\":\"V1001_TODAY_MUSIC\""
 				+ ",\"sub_button\":[]}],\"menuid\":208396938},\"conditionalmenu\":"
 				+ "[{\"button\":[{\"type\":\"click\",\"name\":\"今日歌曲\",\"key\":\"V1001_TODAY_MUSIC\""
 				+ ",\"sub_button\":[]},{\"name\":\"菜单\",\"sub_button\":[{\"type\":\"view\",\"name\":\"搜索\""
@@ -81,32 +80,42 @@ public class JsonUtils {
 				+ ",\"country\":\"中国\",\"province\":\"广东\",\"city\":\"广州\",\"client_platform_type\":2}"
 				+ ",\"menuid\":208396993}]}";
 		
-		WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(str, WxMenuMgrMenuRespApiPOJO.class);
+		WxMenuMgrRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(str, WxMenuMgrRespApiPOJO.class);
 		logger.info("wxMenuMgrMenuRespApiPOJO: {}", wxMenuMgrMenuRespApiPOJO);
 		str = JsonUtils.convertToJson(wxMenuMgrMenuRespApiPOJO);
 		logger.info("str: {}", str);
 		logger.info("str: {}", str.replaceAll("\"\\w+\":null,*|\"\\w+\":\\[\\],*", "").replaceAll(",}", "}"));
 		
-		wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(str, WxMenuMgrMenuRespApiPOJO.class);
+		wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(str, WxMenuMgrRespApiPOJO.class);
 		logger.info("wxMenuMgrMenuRespApiPOJO: {}", wxMenuMgrMenuRespApiPOJO);
 		str = JsonUtils.convertToJson(wxMenuMgrMenuRespApiPOJO);
 		logger.info("str: {}", str);
-		logger.info("str: {}", str.replaceAll("\"\\w+\":null,*|\"\\w+\":\\[\\],*", "").replaceAll(",}", "}"));
+		logger.info("str: {}", str.replaceAll("\"\\w+\":null,*|\"\\w+\":\\[\\],*", "").replaceAll(",}", "}"));*/
 		
-		/*str = "{\"is_menu_open\":1,\"selfmenu_info\":{\"button\":[{\"type\":\"view\",\"name\":\"加入会员\""
-				+ ",\"url\":\"https:\\/\\/open.weixin.qq.com\\/connect\\/oauth2\\/authorize?appid=wx483bd8288ebe84b4"
-				+ "&redirect_uri=http%3A%2F%2Fwww.deweiyizhan.com%2Fweb%2Fwx%2Foauth2%2Fthird%2Fweb%2FauthCode"
-				+ "&response_type=code&scope=snsapi_userinfo&state=kGZUWL&component_appid=wx2bec8614a6c47443#wechat_redirect\"}"
-				+ ",{\"type\":\"news\",\"name\":\"图文\",\"value\":\"WQnZQIcVKS-5L9S9WBAnI4Zvi0xgN-rVTnDXb5tFTVo\""
-				+ ",\"news_info\":{\"list\":["
-				+ "{\"title\":\"测试\",\"author\":\"测试\",\"digest\":\"测试测试测试测试测试测试测试测试测试测试测试测试测试测试\",\"show_cover\":0"
-				+ ",\"cover_url\":\"http:\\/\\/mmbiz.qpic.cn\\/mmbiz_jpg\\/6A93MryJWuIJ5RtZRpAPsvQhflV2Frz3swwPAGJeDuzf9A81iaE6PibZsEsFIxN57TtAOCUzKrDQCfmXT3SRLT7Q\\/0?wx_fmt=jpeg\",\"content_url\":\"http:\\/\\/mp.weixin.qq.com\\/s?__biz=MzA5NzU2ODk1OQ==&mid=100000002&idx=1&sn=e86d1e1f9de7d204de93271ec8e7cb48&chksm=109f90d227e819c4a533b92b096e830d926beb065fd84abfd57f39c23c16c5b2ff10596af0a3#rd\",\"source_url\":\"\"},{\"title\":\"测试\",\"author\":\"测试\",\"digest\":\"测试测试测试测试测试测试测试测试\",\"show_cover\":0,\"cover_url\":\"http:\\/\\/mmbiz.qpic.cn\\/mmbiz_jpg\\/6A93MryJWuIJ5RtZRpAPsvQhflV2Frz3ee6ykdOg0awozgNnBJfnZooYdXU4G5ERNGG6uGfKwydKMicZpmJhqXw\\/0?wx_fmt=jpeg\",\"content_url\":\"http:\\/\\/mp.weixin.qq.com\\/s?__biz=MzA5NzU2ODk1OQ==&mid=100000002&idx=2&sn=8e0e4481c378d4ec577edf424e704f72&chksm=109f90d227e819c43dd191a69483ae76a72b2c85af21db554d18dde1112073468199ac30abf7#rd\",\"source_url\":\"\"}]}}]}}";
+		str = "{\"is_menu_open\":1,\"selfmenu_info\":{\"button\":[{\"name\":\"button\""
+				+ ",\"sub_button\":{\"list\":[{\"type\":\"view\",\"name\":\"view_url\",\"url\":\"http://www.qq.com\"}"
+				+ ",{\"type\":\"news\",\"name\":\"news\",\"value\":\"KQb_w_Tiz-nSdVLoTV35Psmty8hGBulGhEdbb9SKs-o\""
+				+ ",\"news_info\":{\"list\":[{\"title\":\"MULTI_NEWS\",\"author\":\"JIMZHENG\",\"digest\":\"text\""
+				+ ",\"show_cover\":0,\"cover_url\":\"http://mmbiz.qpic.cn/mmbiz/GE7et87vE9vicuCibqXsX9GPPLuE"
+				+ "tBfXfK0HKuBIa1A1cypS0uY1wickv70iaY1gf3I1DTszuJoS3lAVLvhTcm9sDA/0\",\"content_url\":"
+				+ "\"http://mp.weixin.qq.com/s?__biz=MjM5ODUwNTM3Ng==&mid=204013432&idx=1&sn=80ce6d9abcb832237bf86c87e50fda15#rd\""
+				+ ",\"source_url\":\"\"},{\"title\":\"MULTI_NEWS1\",\"author\":\"JIMZHENG\",\"digest\":\"MULTI_NEWS1\""
+				+ ",\"show_cover\":1,\"cover_url\":\"http://mmbiz.qpic.cn/mmbiz/GE7et87vE9vicuCibqXsX9GPPLuEtBfXfKnmnpX"
+				+ "YgWmQD5gXUrEApIYBCgvh2yHsu3ic3anDUGtUCHwjiaEC5bicd7A/0\",\"content_url\":"
+				+ "\"http://mp.weixin.qq.com/s?__biz=MjM5ODUwNTM3Ng==&mid=204013432&idx=2&sn=82"
+				+ "26843afb14ecdecb08d9ce46bc1d37#rd\",\"source_url\":\"\"}]}}"
+				+ ",{\"type\":\"video\",\"name\":\"video\",\"value\":\"http://61.182.130.30/vweixinp.tc.qq.com/1007_114b"
+				+ "cede9a2244eeb5ab7f76d951df5f.f10.mp4?vkey=77A42D0C2015FBB0A3653D29C571B5F4BBF1D243FBEF17F09C24FF1F2"
+				+ "F22E30881BD350E360BC53F&sha=0&save=1\"},{\"type\":\"voice\",\"name\":\"voice\",\"value\":\"nTXe3ag"
+				+ "hlQ4XYHa0AQPWiQQbFW9RVtaYTLPC1PCQx11qc9UB6CiUPFjdkeEtJicn\"}]}},{\"type\":\"text\",\"name\":\"text\""
+				+ ",\"value\":\"This is text!\"},{\"type\":\"img\",\"name\":\"photo\",\"value\":\"ax5Whs5dsoomJLEpp"
+				+ "AvftBUuH7CgXCZGFbFJifmbUjnQk_ierMHY99Y5d2Cv14RD\"}]}}";
 		
 		WxMenuMgrMenuInfoRespApiPOJO wxMenuMgrMenuInfoRespApiPOJO = JsonUtils.convertToJavaBean(str, WxMenuMgrMenuInfoRespApiPOJO.class);
 		logger.info("wxMenuMgrMenuInfoRespApiPOJO: {}", wxMenuMgrMenuInfoRespApiPOJO);
 		str = JsonUtils.convertToJson(wxMenuMgrMenuInfoRespApiPOJO);
 		logger.info("str: {}", str);
-		logger.info("str: {}", str.replaceAll("\"\\w+\":null,*|\"\\w+\":\\[\\],*", "").replaceAll(",}", "}"));*/
+		logger.info("str: {}", str.replaceAll("\"\\w+\":null,*|\"\\w+\":\\[\\],*", "").replaceAll(",}", "}"));
 		
 		/*int index = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx483bd8288ebe84b4&redirect_uri=http%3A%2F%2Fwww.deweiyizhan.com%2Fweb%2Fwx%2Foauth2%2Fthird%2Fweb%2FauthCode&response_type=code&scope=snsapi_userinfo&state=kGZUWL&component_appid=wx2bec8614a6c47443#wechat_redirect".indexOf("authorize");
 		logger.info("index： {}", index);*/

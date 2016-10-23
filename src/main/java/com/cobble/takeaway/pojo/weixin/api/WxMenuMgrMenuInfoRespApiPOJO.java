@@ -8,24 +8,25 @@ public class WxMenuMgrMenuInfoRespApiPOJO extends BaseWxApiPOJO {
 	@JsonProperty(value="is_menu_open")
 	private Integer isMenuOpen;
 	@JsonProperty(value="selfmenu_info")
-	private WxMenuMgrButtonsRespApiPOJO selfMenuInfo;
+	private WxMenuMgrSelfMenuInfoRespApiPOJO selfMenuInfo;
+	
 	public Integer getIsMenuOpen() {
 		return isMenuOpen;
 	}
 	public void setIsMenuOpen(Integer isMenuOpen) {
 		this.isMenuOpen = isMenuOpen;
 	}
-	public WxMenuMgrButtonsRespApiPOJO getSelfMenuInfo() {
+	
+	public WxMenuMgrSelfMenuInfoRespApiPOJO getSelfMenuInfo() {
 		return selfMenuInfo;
 	}
-	public void setSelfMenuInfo(WxMenuMgrButtonsRespApiPOJO selfMenuInfo) {
+	public void setSelfMenuInfo(WxMenuMgrSelfMenuInfoRespApiPOJO selfMenuInfo) {
 		this.selfMenuInfo = selfMenuInfo;
 	}
+
 	@Override
 	public String toString() {
 		return "WxMenuMgrMenuInfoRespApiPOJO [isMenuOpen=" + isMenuOpen
 				+ ", selfMenuInfo=" + selfMenuInfo + "]";
 	}
-
-	
 }

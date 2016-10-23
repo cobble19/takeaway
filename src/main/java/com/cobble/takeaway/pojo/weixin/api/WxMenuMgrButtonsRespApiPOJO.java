@@ -23,10 +23,6 @@ public class WxMenuMgrButtonsRespApiPOJO extends BaseWxApiPOJO {
 	public void setButton(List<WxMenuMgrButtonRespApiPOJO> button) {
 		this.button = button;
 	}
-	@Override
-	public String toString() {
-		return "WxMenuMgrSelfMenuInfoRespApiPOJO [button=" + button + "]";
-	}
 	public String getMenuId() {
 		return menuId;
 	}
@@ -40,5 +36,10 @@ public class WxMenuMgrButtonsRespApiPOJO extends BaseWxApiPOJO {
 			WxMenuMgrMenuCondMatchRuleRespApiPOJO wxMenuMgrMenuCondMatchRuleRespApiPOJO) {
 		this.wxMenuMgrMenuCondMatchRuleRespApiPOJO = wxMenuMgrMenuCondMatchRuleRespApiPOJO;
 	}
-
+	@Override
+	public String toString() {
+		return "WxMenuMgrButtonsRespApiPOJO [button=" + button + ", menuId="
+				+ menuId + ", wxMenuMgrMenuCondMatchRuleRespApiPOJO="
+				+ wxMenuMgrMenuCondMatchRuleRespApiPOJO + "]";
+	}
 }

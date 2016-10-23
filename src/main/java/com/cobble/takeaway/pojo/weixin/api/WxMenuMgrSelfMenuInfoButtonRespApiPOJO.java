@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxMenuMgrButtonRespApiPOJO extends BasePOJO {
+public class WxMenuMgrSelfMenuInfoButtonRespApiPOJO extends BasePOJO {
 	@JsonProperty(value="type")
 	@JsonInclude(Include.NON_EMPTY)
     private String type;
@@ -33,10 +33,10 @@ public class WxMenuMgrButtonRespApiPOJO extends BasePOJO {
     private WxMenuMgrNewsInfoRespApiPOJO newsInfo;
 	@JsonProperty(value="sub_button")
 	@JsonInclude(Include.NON_EMPTY)
-    private List<WxMenuMgrButtonRespApiPOJO> subButton = new ArrayList<WxMenuMgrButtonRespApiPOJO>();
+    private WxMenuMgrSelfMenuInfoButtonRespApiPOJO subButton;
 	@JsonProperty(value="list")
 	@JsonInclude(Include.NON_EMPTY)
-    private List<WxMenuMgrButtonRespApiPOJO> list = new ArrayList<WxMenuMgrButtonRespApiPOJO>();
+    private List<WxMenuMgrSelfMenuInfoButtonRespApiPOJO> list = new ArrayList<WxMenuMgrSelfMenuInfoButtonRespApiPOJO>();
 	public String getType() {
 		return type;
 	}
@@ -61,12 +61,6 @@ public class WxMenuMgrButtonRespApiPOJO extends BasePOJO {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public List<WxMenuMgrButtonRespApiPOJO> getSubButton() {
-		return subButton;
-	}
-	public void setSubButton(List<WxMenuMgrButtonRespApiPOJO> subButton) {
-		this.subButton = subButton;
-	}
 	public String getMediaId() {
 		return mediaId;
 	}
@@ -85,12 +79,19 @@ public class WxMenuMgrButtonRespApiPOJO extends BasePOJO {
 	public void setNewsInfo(WxMenuMgrNewsInfoRespApiPOJO newsInfo) {
 		this.newsInfo = newsInfo;
 	}
-	public List<WxMenuMgrButtonRespApiPOJO> getList() {
+	public List<WxMenuMgrSelfMenuInfoButtonRespApiPOJO> getList() {
 		return list;
 	}
-	public void setList(List<WxMenuMgrButtonRespApiPOJO> list) {
+	public void setList(List<WxMenuMgrSelfMenuInfoButtonRespApiPOJO> list) {
 		this.list = list;
 	}
+	public WxMenuMgrSelfMenuInfoButtonRespApiPOJO getSubButton() {
+		return subButton;
+	}
+	public void setSubButton(WxMenuMgrSelfMenuInfoButtonRespApiPOJO subButton) {
+		this.subButton = subButton;
+	}
+
 	@Override
 	public String toString() {
 		return "WxMenuMgrButtonRespApiPOJO [type=" + type + ", name=" + name
@@ -98,5 +99,4 @@ public class WxMenuMgrButtonRespApiPOJO extends BasePOJO {
 				+ ", value=" + value + ", newsInfo=" + newsInfo
 				+ ", subButton=" + subButton + ", list=" + list + "]";
 	}
-	
 }

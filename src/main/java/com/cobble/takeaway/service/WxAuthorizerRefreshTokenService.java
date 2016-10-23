@@ -17,5 +17,8 @@ public interface WxAuthorizerRefreshTokenService {
 	
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
+
+	WxAuthorizerRefreshTokenPOJO findByAuthorizerAppId(String authorizerAppId) throws Exception;
+	String findTokenByAuthorizerAppId(String authorizerAppId) throws Exception;
 	
 }
