@@ -63,7 +63,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqTextApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrCreateReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvEventApiPOJO;
@@ -539,7 +539,7 @@ public class Oauth2Controller extends BaseController {
 				String result = HttpClientUtil.get(myWxMenuMgrMenuInfoUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-//				WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuRespApiPOJO.class);
+				WxMenuMgrMenuRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuRespApiPOJO.class);
 				
 				ret.addObject("msg", result);
 				ret.setViewName("/page/test_info");

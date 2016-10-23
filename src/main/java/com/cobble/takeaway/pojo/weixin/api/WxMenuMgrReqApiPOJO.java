@@ -7,15 +7,15 @@ import com.cobble.takeaway.pojo.BasePOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxMenuMgrCreateReqApiPOJO extends BasePOJO {
+public class WxMenuMgrReqApiPOJO extends BasePOJO {
 	@JsonProperty(value="button")
-    private List<WxMenuMgrCreateButtonReqApiPOJO> button = new ArrayList<WxMenuMgrCreateButtonReqApiPOJO>();
+    private List<WxMenuMgrButtonReqApiPOJO> button = new ArrayList<WxMenuMgrButtonReqApiPOJO>();
 
-	public List<WxMenuMgrCreateButtonReqApiPOJO> getButton() {
+	public List<WxMenuMgrButtonReqApiPOJO> getButton() {
 		return button;
 	}
 
-	public void setButton(List<WxMenuMgrCreateButtonReqApiPOJO> button) {
+	public void setButton(List<WxMenuMgrButtonReqApiPOJO> button) {
 		this.button = button;
 	}
 

@@ -15,8 +15,8 @@ public class WxMenuMgrMenuCondMatchRuleRespApiPOJO extends BaseWxApiPOJO {
 	private String province;
 	@JsonProperty(value="city")
 	private String city;
-	@JsonProperty(value="clientPlatformType")
-	private Integer client_platform_type;
+	@JsonProperty(value="client_platform_type")
+	private Integer clientPlatformType;
 	
 	public Integer getGroupId() {
 		return groupId;
@@ -48,18 +48,18 @@ public class WxMenuMgrMenuCondMatchRuleRespApiPOJO extends BaseWxApiPOJO {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public Integer getClient_platform_type() {
-		return client_platform_type;
+	public Integer getClientPlatformType() {
+		return clientPlatformType;
 	}
-	public void setClient_platform_type(Integer client_platform_type) {
-		this.client_platform_type = client_platform_type;
+	public void setClientPlatformType(Integer clientPlatformType) {
+		this.clientPlatformType = clientPlatformType;
 	}
 	@Override
 	public String toString() {
 		return "WxMenuMgrMenuCondMatchRuleRespApiPOJO [groupId=" + groupId
 				+ ", sex=" + sex + ", country=" + country + ", province="
-				+ province + ", city=" + city + ", client_platform_type="
-				+ client_platform_type + "]";
+				+ province + ", city=" + city + ", clientPlatformType="
+				+ clientPlatformType + "]";
 	}
 	
 }

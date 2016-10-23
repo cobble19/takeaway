@@ -1,38 +1,19 @@
 package com.cobble.takeaway.pojo.weixin.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.cobble.takeaway.oauth2.BaseWxApiPOJO;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class WxMenuMgrMenuRespApiPOJO extends BaseWxApiPOJO {
-	@JsonProperty(value="button")
-    private List<WxMenuMgrCreateButtonReqApiPOJO> button = new ArrayList<WxMenuMgrCreateButtonReqApiPOJO>();
-	@JsonProperty(value="menuid")
-	private String menuId;
+	@JsonProperty(value="menu")
+	private WxMenuMgrButtonsRespApiPOJO menu;
+	@JsonProperty(value="conditionalmenu")
+	@JsonInclude(Include.NON_EMPTY)
+	private List<WxMenuMgrButtonsRespApiPOJO> conditionalMenu;
 
-	public List<WxMenuMgrCreateButtonReqApiPOJO> getButton() {
-		return button;
-	}
-
-	public void setButton(List<WxMenuMgrCreateButtonReqApiPOJO> button) {
-		this.button = button;
-	}
-
-	public String getMenuId() {
-		return menuId;
-	}
-
-	public void setMenuId(String menuId) {
-		this.menuId = menuId;
-	}
-
-	@Override
-	public String toString() {
-		return "WxMenuMgrMenuRespApiPOJO [button=" + button + ", menuId="
-				+ menuId + "]";
-	}
 	
 }

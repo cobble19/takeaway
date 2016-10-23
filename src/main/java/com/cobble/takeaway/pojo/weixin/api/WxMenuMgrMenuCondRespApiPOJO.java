@@ -1,25 +1,20 @@
 package com.cobble.takeaway.pojo.weixin.api;
 
+import com.cobble.takeaway.oauth2.BaseWxApiPOJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxMenuMgrMenuCondRespApiPOJO extends WxMenuMgrMenuRespApiPOJO {
-	@JsonProperty(value="matchrule")
-    private WxMenuMgrMenuCondMatchRuleRespApiPOJO wxMenuMgrMenuCondMatchRuleRespApiPOJO;
+public class WxMenuMgrMenuCondRespApiPOJO extends BaseWxApiPOJO {
+	@JsonProperty(value="menuid")
+    private String menuId;
 
-	public WxMenuMgrMenuCondMatchRuleRespApiPOJO getWxMenuMgrMenuCondMatchRuleRespApiPOJO() {
-		return wxMenuMgrMenuCondMatchRuleRespApiPOJO;
+	public String getMenuId() {
+		return menuId;
 	}
 
-	public void setWxMenuMgrMenuCondMatchRuleRespApiPOJO(
-			WxMenuMgrMenuCondMatchRuleRespApiPOJO wxMenuMgrMenuCondMatchRuleRespApiPOJO) {
-		this.wxMenuMgrMenuCondMatchRuleRespApiPOJO = wxMenuMgrMenuCondMatchRuleRespApiPOJO;
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
 	}
 
-	@Override
-	public String toString() {
-		return "WxMenuMgrMenuCondRespApiPOJO [wxMenuMgrMenuCondMatchRuleRespApiPOJO="
-				+ wxMenuMgrMenuCondMatchRuleRespApiPOJO + "]";
-	}
 
 }

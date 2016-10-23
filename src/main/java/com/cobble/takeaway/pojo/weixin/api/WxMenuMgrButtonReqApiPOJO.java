@@ -4,22 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cobble.takeaway.pojo.BasePOJO;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class WxMenuMgrCreateButtonReqApiPOJO extends BasePOJO {
+public class WxMenuMgrButtonReqApiPOJO extends BasePOJO {
 	@JsonProperty(value="type")
+	@JsonInclude(Include.NON_EMPTY)
     private String type;
 	@JsonProperty(value="name")
+	@JsonInclude(Include.NON_EMPTY)
     private String name;
 	@JsonProperty(value="key")
+	@JsonInclude(Include.NON_EMPTY)
     private String key;
 	@JsonProperty(value="url")
+	@JsonInclude(Include.NON_EMPTY)
     private String url;
 	@JsonProperty(value="media_id")
-    private String media_id;
+	@JsonInclude(Include.NON_EMPTY)
+    private String mediaId;
 	@JsonProperty(value="sub_button")
-    private List<WxMenuMgrCreateButtonReqApiPOJO> subButton = new ArrayList<WxMenuMgrCreateButtonReqApiPOJO>();
+	@JsonInclude(Include.NON_EMPTY)
+    private List<WxMenuMgrButtonReqApiPOJO> subButton = new ArrayList<WxMenuMgrButtonReqApiPOJO>();
 	public String getType() {
 		return type;
 	}
@@ -44,23 +52,23 @@ public class WxMenuMgrCreateButtonReqApiPOJO extends BasePOJO {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public String getMedia_id() {
-		return media_id;
-	}
-	public void setMedia_id(String media_id) {
-		this.media_id = media_id;
-	}
-	public List<WxMenuMgrCreateButtonReqApiPOJO> getSubButton() {
+	public List<WxMenuMgrButtonReqApiPOJO> getSubButton() {
 		return subButton;
 	}
-	public void setSubButton(List<WxMenuMgrCreateButtonReqApiPOJO> subButton) {
+	public void setSubButton(List<WxMenuMgrButtonReqApiPOJO> subButton) {
 		this.subButton = subButton;
+	}
+	public String getMediaId() {
+		return mediaId;
+	}
+	public void setMediaId(String mediaId) {
+		this.mediaId = mediaId;
 	}
 	@Override
 	public String toString() {
 		return "WxMenuMgrCreateButtonReqApiPOJO [type=" + type + ", name="
 				+ name + ", key=" + key + ", url=" + url + ", media_id="
-				+ media_id + ", subButton=" + subButton + "]";
+				+ mediaId + ", subButton=" + subButton + "]";
 	}
 	
 }
