@@ -303,9 +303,9 @@ public class Oauth2Controller extends BaseController {
 				String result = HttpClientUtil.postHttpsJson(myWxMenuMgrConditionalTryMatchUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-				WxMenuMgrButtonsRespApiPOJO wxMenuMgrButtonsRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrButtonsRespApiPOJO.class);
+				WxMenuMgrRespApiPOJO wxMenuMgrRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrRespApiPOJO.class);
 				
-				ret.addObject("msg", result + "\n" + wxMenuMgrButtonsRespApiPOJO);
+				ret.addObject("msg", result + "\n" + wxMenuMgrRespApiPOJO);
 				ret.setViewName("/page/test_info");
 			} else {
 				ret.addObject("msg", "没有找到 authorizer access token");
