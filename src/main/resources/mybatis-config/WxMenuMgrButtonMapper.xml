@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxMenuMgrButtonMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxMenuMgrButtonResultMap" type="com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonPOJO" >
+    <id column="WX_MENU_MGR_BUTTON_ID" property="wxMenuMgrButtonId" />
+    <result column="PARENT_BUTTON_ID" property="parentButtonId"/>
+    <result column="AUTHORIZER_APP_ID" property="authorizerAppId"/>
+    <result column="WX_MENU_MGR_CATEGORY_ID" property="wxMenuMgrCategoryId"/>
+    <result column="MENU_ID" property="menuId"/>
+    <result column="TYPE" property="type" />
+    <result column="NAME" property="name" />
+    <result column="KEY" property="key" />
+    <result column="URL" property="url" />
+    <result column="MEDIA_ID" property="mediaId" />
+    <result column="VALUE" property="value" />
+    <result column="NEWS_INFO" property="newsInfo" />
+    <result column="LEVEL" property="level" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_MENU_MGR_BUTTON_ID, a.PARENT_BUTTON_ID, a.AUTHORIZER_APP_ID
+    , a.WX_MENU_MGR_CATEGORY_ID
+    , a.MENU_ID, a.TYPE, a.NAME
+    , a.KEY, a.URL, a.MEDIA_ID
+    , a.VALUE, a.NEWS_INFO, a.LEVEL
+    , a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
+	</if>
+	<if test="menuId != null">
+		and a.MENU_ID = #{menuId}
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="WxMenuMgrButtonResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WX_MENU_MGR_BUTTON a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_MENU_MGR_BUTTON a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxMenuMgrButtonResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_MENU_MGR_BUTTON a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_MENU_MGR_BUTTON_ID = #{wxMenuMgrButtonId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_MENU_MGR_BUTTON
+    where WX_MENU_MGR_BUTTON_ID = #{wxMenuMgrButtonId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonPOJO" useGeneratedKeys="true"
+  	keyProperty="wxMenuMgrButtonId" keyColumn="WX_MENU_MGR_BUTTON_ID">
+    insert into WX_MENU_MGR_BUTTON
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parentButtonId != null" >
+        PARENT_BUTTON_ID,
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID,
+      </if>
+      <if test="wxMenuMgrCategoryId != null" >
+        WX_MENU_MGR_CATEGORY_ID,
+      </if>
+      <if test="menuId != null" >
+        MENU_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="key != null" >
+        KEY,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="mediaId != null" >
+        MEDIA_ID,
+      </if>
+      <if test="value != null" >
+        VALUE,
+      </if>
+      <if test="newsInfo != null" >
+        NEWS_INFO,
+      </if>
+      <if test="level != null" >
+        LEVEL,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parentButtonId != null" >
+        #{parentButtonId},
+      </if>
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="wxMenuMgrCategoryId != null" >
+        #{wxMenuMgrCategoryId},
+      </if>
+      <if test="menuId != null" >
+        #{menuId},
+      </if>
+      <if test="type != null" >
+        #{type},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="key != null" >
+        #{key},
+      </if>
+      <if test="url != null" >
+        #{url},
+      </if>
+      <if test="mediaId != null" >
+        #{mediaId},
+      </if>
+      <if test="value != null" >
+        #{value},
+      </if>
+      <if test="newsInfo != null" >
+        #{newsInfo},
+      </if>
+      <if test="level != null" >
+        #{level},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonPOJO" >
+    update WX_MENU_MGR_BUTTON
+    <set >
+      <if test="parentButtonId != null" >
+        PARENT_BUTTON_ID = #{parentButtonId},
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID = #{authorizerAppId},
+      </if>
+      <if test="wxMenuMgrCategoryId != null" >
+        WX_MENU_MGR_CATEGORY_ID = #{wxMenuMgrCategoryId},
+      </if>
+      <if test="menuId != null" >
+        MENU_ID = #{menuId},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type},
+      </if>
+      <if test="name != null" >
+        NAME = #{name},
+      </if>
+      <if test="key != null" >
+        KEY = #{key},
+      </if>
+      <if test="url != null" >
+        URL = #{url},
+      </if>
+      <if test="mediaId != null" >
+        MEDIA_ID = #{mediaId},
+      </if>
+      <if test="value != null" >
+        VALUE = #{value},
+      </if>
+      <if test="newsInfo != null" >
+        NEWS_INFO = #{newsInfo},
+      </if>
+      <if test="level != null" >
+        LEVEL = #{level},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where WX_MENU_MGR_BUTTON_ID = #{wxMenuMgrButtonId}
+  </update>
+  
+</mapper>

@@ -216,12 +216,14 @@ public class Oauth2Controller extends BaseController {
 	@Value("${WX.menu.mgr.conditional.deleteUrl}")
 	private String wxMenuMgrConditionalDeleteUrl;
 	
-	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/conditional/delete", method = {RequestMethod.POST})
-	public ModelAndView menuMgrConditionalDelete(/*WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO*/
+	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/menu/conditional/delete", method = {RequestMethod.POST})
+	@ResponseBody
+	public BaseWxApiPOJO menuMgrConditionalDelete(/*WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO*/
 			@RequestBody String requestBody
 			, @PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
+//		ModelAndView ret = new ModelAndView();
+		BaseWxApiPOJO ret = null;
 
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
@@ -235,14 +237,10 @@ public class Oauth2Controller extends BaseController {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}
 			
-			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
-			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
-			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
-			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxMenuMgrConditionalDeleteUrl = wxMenuMgrConditionalDeleteUrl
-						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
 				// test request POJO<->requestBody
 				WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrReqApiPOJO.class);
 				requestBody = JsonUtils.convertToJson(wxMenuMgrReqApiPOJO);
@@ -251,17 +249,17 @@ public class Oauth2Controller extends BaseController {
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
 				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
-				
-				ret.addObject("msg", result + "\n" + baseWxApiPOJO);
-				ret.setViewName("/page/test_info");
+				ret = baseWxApiPOJO;
+//				ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+//				ret.setViewName("/page/test_info");
 			} else {
-				ret.addObject("msg", "没有找到 authorizer access token");
-				ret.setViewName("/page/test_info");
+//				ret.addObject("msg", "没有找到 authorizer access token");
+//				ret.setViewName("/page/test_info");
 			}
 			
 		} catch (Exception e) {
-			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
-			ret.setViewName("/page/test_info");
+//			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+//			ret.setViewName("/page/test_info");
 			logger.error("insert error.", e);
 			//throw e;
 		}
@@ -288,14 +286,10 @@ public class Oauth2Controller extends BaseController {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}
 			
-			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
-			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
-			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
-			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxMenuMgrConditionalTryMatchUrl = wxMenuMgrConditionalTryMatchUrl
-						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
 				// test request POJO<->requestBody
 				WxMenuMgrTryMatchReqApiPOJO wxMenuMgrTryMatchReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrTryMatchReqApiPOJO.class);
 				requestBody = JsonUtils.convertToJson(wxMenuMgrTryMatchReqApiPOJO);
@@ -341,14 +335,10 @@ public class Oauth2Controller extends BaseController {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}
 			
-			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
-			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
-			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
-			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxMenuMgrConditionalAddUrl = wxMenuMgrConditionalAddUrl
-						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
 				
 				// test request POJO<->requestBody
 				WxMenuMgrMenuCondReqApiPOJO wxMenuMgrMenuCondReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrMenuCondReqApiPOJO.class);
@@ -395,14 +385,10 @@ public class Oauth2Controller extends BaseController {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}
 			
-			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
-			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
-			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
-			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxMenuMgrCreateUrl = wxMenuMgrCreateUrl
-						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
 
 				// test request POJO<->requestBody
 				WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrReqApiPOJO.class);
@@ -450,14 +436,10 @@ public class Oauth2Controller extends BaseController {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}
 			
-			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
-			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
-			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
-			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxMenuMgrDeleteUrl = wxMenuMgrDeleteUrl
-						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
 				String result = HttpClientUtil.get(myWxMenuMgrDeleteUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
@@ -498,14 +480,10 @@ public class Oauth2Controller extends BaseController {
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
 			
-			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
-			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
-			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
-			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxMenuMgrGetUrl = wxMenuMgrGetUrl
-						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
 				String result = HttpClientUtil.get(myWxMenuMgrGetUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
@@ -547,14 +525,10 @@ public class Oauth2Controller extends BaseController {
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
 			
-			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
-			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
-			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
-			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxMenuMgrMenuInfoUrl = wxMenuMgrMenuInfoUrl
-						.replace("ACCESS_TOKEN", wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken());
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
 				String result = HttpClientUtil.get(myWxMenuMgrMenuInfoUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);

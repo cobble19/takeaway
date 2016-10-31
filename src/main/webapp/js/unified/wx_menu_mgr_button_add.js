@@ -1,15 +1,11 @@
-/*var ue;*/
-$(document).ready(function() {
-	/*if (!ue) {
-		ue = UE.getEditor('editor', {
-			initialFrameHeight: 400
-		});
-		ue.ready(function() {
-			showDetail();
-		});
-	}*/
+/*ue = UE.getEditor('editor', {
+	initialFrameHeight: 400
+});
+ue.ready(function() {
 	
+});*/
 
+$(document).ready(function() {
 	/*$('#startDateTime').datetimepicker({
 		lang:'ch',
 		timepicker:true,
@@ -21,19 +17,18 @@ $(document).ready(function() {
 		timepicker:true,
 		format: 'Y-m-d H:i'
 		value: '2015-02-20 21:22:23'
-	});*/
+	});
 	
-	/*$('#startDateTime, #endDateTime').change(function() {
+	$('#startDateTime, #endDateTime').change(function() {
 		var startDateTime = $('#startDateTime').val();
 		var endDateTime = $('#endDateTime').val();
 		if (startDateTime >= endDateTime) {
-//			alert('结束时间不能小于开始时间');
+			alert('结束时间不能小于开始时间');
 		}
 	})*/
-//	showDetail();
 	
 	$('#voteForm').validate();
-
+	
 //	$('#voteForm').find('#uploadBtn').click(function(e) {
 //		var form1 = $(this).parents('form');
 //		var formData;
@@ -61,9 +56,7 @@ $(document).ready(function() {
 //	    
 //	});	// upload pic to picture files
 	
-	$('#addBtn').click(function(e) {
-		e.preventDefault();
-
+	$('#addBtn').click(function() {
 		/*var startDateTime = $('#startDateTime').val();
 		var endDateTime = $('#endDateTime').val();
 		if (startDateTime >= endDateTime) {
@@ -74,41 +67,5 @@ $(document).ready(function() {
 			$('#voteForm').submit();
 		}
 		return ;
-	})
-	
-	/*getPrizeProvider();*/
-})
-
-var showDetail = function() {
-	var voteId = getParam('voteId');
-	$.ajax({
-		"url" : "../../api/media/vote/" + voteId,
-		"type" : "GET",
-		"headers" : {
-			"Content-Type" : "application/json"
-		},
-		/*"dataType" : 'json',*/
-		/*"data": JSON.stringify({
-            title: $("#title").val()
-        }),*/
-        success: function(data, textStatus, jqXHR ) {
-        	$('#title').val(data.title);
-        	$('#content').val(data.content);
-    		$('#voteType').val(data.voteType);
-    		$('#publishType').val(data.publishType);
-    		
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-        	console.log('Load Error!');
-        },
-        complete: function(jqXHR, textStatus) {
-        	console.log('Ajax complete.');
-        }
 	});
-}
-
-
-
-
-
-
+})

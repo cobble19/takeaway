@@ -32,11 +32,11 @@
       <div class="col-md-8 hidden-xs" style="height:100px;">
         <ul class="nav nav-pills" style="float:right; margin-top:25px; font-weight:bold; font-family:'新宋体';">
           <li role="presentation" class="active"><a href="index">首页</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="gonggao.jsp">公告</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="functions.jsp">功能</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="fee.jsp">资费</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="help.jsp">帮助</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="about.jsp">关于</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/gonggao.jsp">公告</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/functions.jsp">功能</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/fee.jsp">资费</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/help.jsp">帮助</a></li>
+          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/about.jsp">关于</a></li>
         </ul>
       </div>
       <div class="col-md-3 col-xs-6" style="height:100px;">

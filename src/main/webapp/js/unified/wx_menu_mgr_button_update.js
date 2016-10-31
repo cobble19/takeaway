@@ -30,7 +30,7 @@ $(document).ready(function() {
 //			alert('结束时间不能小于开始时间');
 		}
 	})*/
-//	showDetail();
+	showDetail();
 	
 	$('#voteForm').validate();
 

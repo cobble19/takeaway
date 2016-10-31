@@ -48,6 +48,7 @@
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;帐号中心</h5></li>
                       <li role="presentation" class="active"><a href="#profile"><h6>基本资料</h6></a></li>
                       <li role="presentation"><a href="#update_password"><h6>修改密码</h6></a></li>
+                      <li role="presentation"><a href="#wx_menu_mgr_button"><h6>菜单</h6></a></li>
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;信息发布</h5></li>
@@ -82,6 +83,8 @@
 	     			<%@include file="profile_inc.jsp" %>
 	     			<!-- create_activity -->
 	     			<%@include file="activity_inc.jsp" %>
+	     			<!-- create_activity -->
+	     			<%@include file="wx_menu_mgr_button_inc.jsp" %>
 	     			<!-- create_interactive -->
 	     			<%@include file="interactive_inc.jsp" %>
 	     			<!-- create_wxTemplate -->

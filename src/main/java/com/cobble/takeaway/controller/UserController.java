@@ -196,8 +196,12 @@ public class UserController extends BaseController {
     	myUser = new MyUser(myUser);
     	
     	String wxComLoginUrl = WxUtil.getWxComLoginUrl();
-    	
-    	WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
+    	WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+    	try {
+        	wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
+    	} catch (Exception e) {
+    		logger.error("Can't get Authorizer: {}", e);
+    	}
     	
     	ret.addObject("myUser", myUser);
     	ret.addObject("wxComLoginUrl", wxComLoginUrl);

@@ -130,7 +130,7 @@ public class VoteController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/api/media/vote/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
+	/*@RequestMapping(value = "/api/media/vote/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public StatusPOJO add4WebAPI(VotePOJO votePOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -159,7 +159,7 @@ public class VoteController extends BaseController {
 		}
 		
 		return ret;
-	}
+	}*/
 	
 	@RequestMapping(value = "/web/media/vote/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	//@ResponseBody
