@@ -10,6 +10,8 @@ public interface WxMenuMgrCategoryService {
 	int update(WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO) throws Exception;
 	List<WxMenuMgrCategoryPOJO> finds(WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO) throws Exception;
 	
+	List<WxMenuMgrCategoryPOJO> findFull(WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO) throws Exception;
+	
 	int getCount(WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO) throws Exception;
 	WxMenuMgrCategoryPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;

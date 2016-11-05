@@ -94,6 +94,7 @@ public class WxMenuMgrButtonController extends BaseController {
 		}
 		
 		String url = "/web/unified/wxMenuMgrButtonDetail?wxMenuMgrButtonId=" + wxMenuMgrButtonPOJO.getWxMenuMgrButtonId();
+		url = "/web/unified/usercenter";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;

@@ -23,6 +23,9 @@
     , a.DESCRIPTION, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
+	<if test="wxMenuMgrCategoryId != null">
+		and a.WX_MENU_MGR_CATEGORY_ID = #{wxMenuMgrCategoryId}
+	</if>
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>

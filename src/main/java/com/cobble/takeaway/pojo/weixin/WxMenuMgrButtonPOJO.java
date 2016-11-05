@@ -9,16 +9,16 @@ public class WxMenuMgrButtonPOJO extends BasePOJO {
 	private Long wxMenuMgrButtonId;
 	private Long parentButtonId;
     private String authorizerAppId;
-    private String categoryId;
+    private Long wxMenuMgrCategoryId;
     private String menuId;
     private String type;
     private String name;
-    private String key;
+    private String btnKey;
     private String url;
     private String mediaId;
     private String value;
 	private String newsInfo;
-    private String level;
+    private Integer level;
     private Date createDateTime;
     
     private List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs;
@@ -59,12 +59,6 @@ public class WxMenuMgrButtonPOJO extends BasePOJO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getKey() {
-		return key;
-	}
-	public void setKey(String key) {
-		this.key = key;
-	}
 	public String getUrl() {
 		return url;
 	}
@@ -89,10 +83,10 @@ public class WxMenuMgrButtonPOJO extends BasePOJO {
 	public void setNewsInfo(String newsInfo) {
 		this.newsInfo = newsInfo;
 	}
-	public String getLevel() {
+	public Integer getLevel() {
 		return level;
 	}
-	public void setLevel(String level) {
+	public void setLevel(Integer level) {
 		this.level = level;
 	}
 	public Date getCreateDateTime() {
@@ -101,18 +95,24 @@ public class WxMenuMgrButtonPOJO extends BasePOJO {
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
 	}
-	public String getCategoryId() {
-		return categoryId;
-	}
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
 	public List<WxMenuMgrButtonPOJO> getWxMenuMgrButtonPOJOs() {
 		return wxMenuMgrButtonPOJOs;
 	}
 	public void setWxMenuMgrButtonPOJOs(
 			List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs) {
 		this.wxMenuMgrButtonPOJOs = wxMenuMgrButtonPOJOs;
+	}
+	public Long getWxMenuMgrCategoryId() {
+		return wxMenuMgrCategoryId;
+	}
+	public void setWxMenuMgrCategoryId(Long wxMenuMgrCategoryId) {
+		this.wxMenuMgrCategoryId = wxMenuMgrCategoryId;
+	}
+	public String getBtnKey() {
+		return btnKey;
+	}
+	public void setBtnKey(String btnKey) {
+		this.btnKey = btnKey;
 	}
     
 }

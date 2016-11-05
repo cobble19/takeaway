@@ -54,4 +54,10 @@ public interface CommonConstant {
 	public final static String DWYZ_AUTHORIZER_APP_ID = "wxe0037de41e16f816";
 	public final static Long DWYZ_USER_ID = 16L;
 	
+	// 微信菜单button level
+	public final static int WX_MENU_LEVEL_1 = 1;
+	public final static int WX_MENU_LEVEL_2 = 2;
+	
+	
+	
 }

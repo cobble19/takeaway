@@ -18,7 +18,7 @@
     <result column="MENU_ID" property="menuId"/>
     <result column="TYPE" property="type" />
     <result column="NAME" property="name" />
-    <result column="KEY" property="key" />
+    <result column="BTN_KEY" property="btnKey" />
     <result column="URL" property="url" />
     <result column="MEDIA_ID" property="mediaId" />
     <result column="VALUE" property="value" />
@@ -31,11 +31,14 @@
     a.WX_MENU_MGR_BUTTON_ID, a.PARENT_BUTTON_ID, a.AUTHORIZER_APP_ID
     , a.WX_MENU_MGR_CATEGORY_ID
     , a.MENU_ID, a.TYPE, a.NAME
-    , a.KEY, a.URL, a.MEDIA_ID
+    , a.BTN_KEY, a.URL, a.MEDIA_ID
     , a.VALUE, a.NEWS_INFO, a.LEVEL
     , a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
+	<if test="wxMenuMgrCategoryId != null">
+		and a.WX_MENU_MGR_CATEGORY_ID = #{wxMenuMgrCategoryId}
+	</if>
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>
@@ -107,8 +110,8 @@
       <if test="name != null" >
         NAME,
       </if>
-      <if test="key != null" >
-        KEY,
+      <if test="btnKey != null" >
+        BTN_KEY,
       </if>
       <if test="url != null" >
         URL,
@@ -146,8 +149,8 @@
       <if test="name != null" >
         #{name},
       </if>
-      <if test="key != null" >
-        #{key},
+      <if test="btnKey != null" >
+        #{btnKey},
       </if>
       <if test="url != null" >
         #{url},
@@ -189,8 +192,8 @@
       <if test="name != null" >
         NAME = #{name},
       </if>
-      <if test="key != null" >
-        KEY = #{key},
+      <if test="btnKey != null" >
+        BTN_KEY = #{btnKey},
       </if>
       <if test="url != null" >
         URL = #{url},

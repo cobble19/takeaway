@@ -13,7 +13,7 @@
   <body>
   	<div class="container">
   		<div class="row">
-  			<h2 class="">修改微信菜单</h2>
+  			<h2 class="">修改微信菜单button</h2>
   		</div>
   		<form id="wxMenuMgrButtonForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/wxMenuMgrButton/add' method="post">
 	  		<input type="hidden" id="wxMenuMgrButtonId" name="wxMenuMgrButtonId" value="<%=request.getParameter("wxMenuMgrButtonId") %>"/>
@@ -54,9 +54,9 @@
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="key">关键字:</label>
+ 				<label class="control-label" for="btnKey">关键字:</label>
  				<div class="">
- 					<input class="form-control" id="key" name="key" value="${wxMenuMgrButtonPOJO.key}" placeholder="请输入关键字">
+ 					<input class="form-control" id="btnKey" name="btnKey" value="${wxMenuMgrButtonPOJO.btnKey}" placeholder="请输入关键字">
  				</div>
  			</div>
  			<div class="form-group">

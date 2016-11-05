@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
         			
 	     			<div id="wx_menu_mgr_button">
-	     				<h3>微信菜单管理</h3>
+	     				<h3>微信菜单button管理</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_menu_mgr_button_add.jsp'>添加</a>
 	     					

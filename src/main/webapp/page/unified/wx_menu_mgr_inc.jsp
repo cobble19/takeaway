@@ -1,21 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="../common/taglib.jsp" %>
+    
+	<%@include file="../common/taglib.jsp" %>
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <%@include file="../common/head.jsp" %>
-    
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/wx_menu_mgr_button_add.js"></script>
-    
-  </head>
-  <body>
-  	<div class="container">
-  		<div class="row">
-  			<h2 class="">添加微信菜单button</h2>
-  		</div>
-  		<form id="wxMenuMgrButtonForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/wxMenuMgrButton/add' method="post">
+<div id="wx_menu_mgr">
+	<h3>微信菜单管理</h3>
+	<div style="height: 50px; line-height: 50px;">
+		<a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_menu_mgr_add.jsp'>添加</a> 
+		<input id="searchBtn4WxMenuMgr" type="button" class="btn btn-default btn-xs" value="查询"> 
+		<input id="deleteBtn4WxMenuMgr" type="button" class="btn btn-default btn-xs" value="删除">
+
+	</div>
+	<div id="wx_menu_mgr_content">
+		<%-- <c:forEach items="${wxMenuMgrCagetoryPOJOs}" var="wxMenuMgrCategoryPOJO" varStatus="st">
+			<c:out value="${wxMenuMgrCategoryPOJO.name}"></c:out>
+			<c:forEach items="${wxMenuMgrCategoryPOJO.wxMenuMgrButtonPOJOs}" var="wxMenuMgrButtonPOJO" varStatus="st2">
+				<c:out value="${wxMenuMgrButtonPOJO.type}"></c:out>
+				<c:out value="${wxMenuMgrButtonPOJO.url}"></c:out>
+				<c:out value="${wxMenuMgrButtonPOJO.key}"></c:out>
+			</c:forEach>
+		</c:forEach> --%>
+	</div>
+	
+	<!-- dialog -->
+	<div id="wxMenuMgrButtonDiv_1" style="display: none;">
+		<form id="wxMenuMgrButtonForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/wxMenuMgrButton/add' method="post">
  			<div class="form-group">
  				<label class="control-label" for="parentButtonId">上级标识:</label>
  				<div class="">
@@ -25,13 +34,13 @@
  			<div class="form-group">
  				<label class="control-label" for="authorizerAppId">公众号APPID:</label>
  				<div class="">
- 					<input class="form-control" id="authorizerAppId" name="authorizerAppId" required="required" placeholder="请输入公众号APPID">
+ 					<input class="form-control" id="authorizerAppIdX" name="authorizerAppId" required="required" placeholder="请输入公众号APPID">
  				</div>
  			</div>
  			<div class="form-group">
  				<label class="control-label" for="wxMenuMgrCategoryId">类别:</label>
  				<div class="">
- 					<input class="form-control" id="wxMenuMgrCategoryId" name="wxMenuMgrCategoryId" placeholder="请输入类别">
+ 					<input class="form-control" id="wxMenuMgrCategoryId" name="wxMenuMgrCategoryId" placeholder="请输入类别ID">
  				</div>
  			</div>
  			<div class="form-group">
@@ -76,51 +85,26 @@
  					<input class="form-control" id="value" name="value" placeholder="请输入值">
  				</div>
  			</div>
- 			<div class="form-group">
+ 			<!-- <div class="form-group">
  				<label class="control-label" for="newsInfo">新闻信息:</label>
  				<div class="">
  					<input class="form-control" id="newsInfo" name="newsInfo" placeholder="请输入新闻信息">
  				</div>
- 			</div>
+ 			</div> -->
  			<div class="form-group">
  				<label class="control-label" for="level">等级:</label>
  				<div class="">
  					<input class="form-control" id="level" name="level" placeholder="请输入等级">
  				</div>
  			</div>
- 			<!-- <div class="form-group">
- 				<label class="control-label" for="content">介绍:</label>
- 				<div style="" class="">
- 					<textarea rows="5" cols="" id="content" name="content" placeholder="请输入内容" class="form-control"></textarea>
- 				</div>
- 			</div>
- 			<div class="form-group">
- 				<label class="control-label" for="wxMenuMgrButtonType">投票类型:</label>
- 				<div class="">
- 				</div>
- 				<select id="wxMenuMgrButtonType" name="wxMenuMgrButtonType" autofocus="autofocus" class="form-control">
- 						<option value="0">文字</option>
- 						<option value="1">图片</option>
- 						<option value="2" selected="selected">文字+图片</option>
- 					</select>
- 			</div>
- 			<div class="form-group">
- 				<label class="control-label" for="publishType">发布类型:</label>
- 				<div class="">
- 				</div>
- 				<select id="publishType" name="publishType" autofocus="autofocus" class="form-control">
- 						<option value="0" selected>未发布</option>
- 						<option value="1">发布</option>
- 					</select>
- 			</div> -->
  			<div class="form-group">
 	 			<div class="">
-	  				<button type="button" class="btn btn-default" id="addBtn">创建</button>
+	  				<button type="submit" class="btn btn-default" id="addBtn">创建</button>
 	 			</div>
  			</div>
   		</form>
-  		
-		<footer><hr><p>&copy; 版权所有</p></footer>
 	</div>
-  </body>
-</html>
+	
+</div>
+<!-- wx_menu_mgr end -->
+<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/wx_menu_mgr_inc.js"></script>

@@ -8,10 +8,11 @@ public class WxMenuMgrButtonSearchPOJO extends BaseSearchPOJO {
 	private Long wxMenuMgrButtonId;
 	private Long parentButtonId;
     private String authorizerAppId;
+    private Long wxMenuMgrCategoryId;
     private String menuId;
     private Integer type;
     private Integer name;
-    private String key;
+    private String btnKey;
     private String url;
     private String mediaId;
     private String value;
@@ -55,12 +56,6 @@ public class WxMenuMgrButtonSearchPOJO extends BaseSearchPOJO {
 	public void setName(Integer name) {
 		this.name = name;
 	}
-	public String getKey() {
-		return key;
-	}
-	public void setKey(String key) {
-		this.key = key;
-	}
 	public String getUrl() {
 		return url;
 	}
@@ -96,6 +91,18 @@ public class WxMenuMgrButtonSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+	public Long getWxMenuMgrCategoryId() {
+		return wxMenuMgrCategoryId;
+	}
+	public void setWxMenuMgrCategoryId(Long wxMenuMgrCategoryId) {
+		this.wxMenuMgrCategoryId = wxMenuMgrCategoryId;
+	}
+	public String getBtnKey() {
+		return btnKey;
+	}
+	public void setBtnKey(String btnKey) {
+		this.btnKey = btnKey;
 	}
     
 }

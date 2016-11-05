@@ -1,7 +1,7 @@
-var table4WxMenuMgrButton;
+var table4WxMenuMgrCategory;
 
 $(document).ready(function() {
-    table4WxMenuMgrButton = $('#dbTable4WxMenuMgrButton').DataTable( {
+    table4WxMenuMgrCategory = $('#dbTable4WxMenuMgrCategory').DataTable( {
     	"processing": true,
 		"initComplete": function () {
             var api = this.api();
@@ -38,7 +38,7 @@ $(document).ready(function() {
 			"targets" : 0,
 			"render" : function(data, type, full, meta) {
 				var checkBox = '<input type="checkbox" name="chkBox" value="'
-					+ full.wxMenuMgrButtonId
+					+ full.wxMenuMgrCategoryId
 					+ '">';
 				return checkBox;
 				;
@@ -50,16 +50,16 @@ $(document).ready(function() {
 			}
 		}, {
 			"targets" : [2],
-			"visible": false
+			"visible": true
 		}, {
-			"targets" : [16],
+			"targets" : [7],
 			"render" : function(data, type, full, meta) {
-				var hrefEdit = $('#basePath').val() + '/page/unified/wx_menu_mgr_button_update.jsp?wxMenuMgrButtonId='  + full.wxMenuMgrButtonId;
+				var hrefEdit = $('#basePath').val() + '/page/unified/wx_menu_mgr_category_update.jsp?wxMenuMgrCategoryId='  + full.wxMenuMgrCategoryId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
 				
-				var hrefVIAdd = $('#basePath').val() + '/web/media/wxMenuMgrButtonDetail?wxMenuMgrButtonId='  + full.wxMenuMgrButtonId;
+				var hrefVIAdd = $('#basePath').val() + '/web/media/wxMenuMgrCategoryDetail?wxMenuMgrCategoryId='  + full.wxMenuMgrCategoryId;
 				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
 								+ '">'
 								+ '详细信息' + '</a>';
@@ -94,19 +94,10 @@ $(document).ready(function() {
                 "data":           null,
                 "defaultContent": ''
             },
-            { "data": "wxMenuMgrButtonId" },
-            { "data": "parentButtonId" },
-            { "data": "authorizerAppId" },
             { "data": "wxMenuMgrCategoryId" },
-            { "data": "menuId" },
-            { "data": "type" },
+            { "data": "authorizerAppId" },
             { "data": "name" },
-            { "data": "btnKey" },
-            { "data": "url" },
-            { "data": "mediaId" },
-            { "data": "value" },
-            { "data": "newsInfo" },
-            { "data": "level" },
+            { "data": "description" },
             { "data": "createDateTime" },
             {
                 /*"className":      'details-control',*/
@@ -118,19 +109,19 @@ $(document).ready(function() {
         "order": [[1, 'asc']]
     } );
     
-    table4WxMenuMgrButton.on( 'order.dt search.dt', function () {
-    	table4WxMenuMgrButton.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    table4WxMenuMgrCategory.on( 'order.dt search.dt', function () {
+    	table4WxMenuMgrCategory.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
     } ).draw();
 
-    wxMenuMgrButtonSearch(table4WxMenuMgrButton);
-    $('#searchBtn4WxMenuMgrButton').click(function() {
+    wxMenuMgrCategorySearch(table4WxMenuMgrCategory);
+    $('#searchBtn4WxMenuMgrCategory').click(function() {
     	console.log('search click...');
-    	wxMenuMgrButtonSearch(table4WxMenuMgrButton);
+    	wxMenuMgrCategorySearch(table4WxMenuMgrCategory);
     })
     
-    $('#chkBoxAll4WxMenuMgrButton').click(function() {
+    $('#chkBoxAll4WxMenuMgrCategory').click(function() {
     	var chkBoxAll = $(this).attr('checked');
     	if (chkBoxAll) {
     		$(this).find('input[name=chkBox]').attr('checked', true);
@@ -140,9 +131,9 @@ $(document).ready(function() {
     })
     
 
-    $('#deleteBtn4WxMenuMgrButton').click(function() {
+    $('#deleteBtn4WxMenuMgrCategory').click(function() {
     	var ids = [];
-    	var chkBox = $('#dbTable4WxMenuMgrButton').find('input[name=chkBox]');
+    	var chkBox = $('#dbTable4WxMenuMgrCategory').find('input[name=chkBox]');
     	chkBox.each(function(index, ele) {
     		if ($(this).attr('checked')) {
     			ids.push($(this).val());
@@ -159,7 +150,7 @@ $(document).ready(function() {
     		return;
     	}
     	$.ajax({
-    		"url" : "../../mgr/wxMenuMgrButton/delete",
+    		"url" : "../../mgr/wxMenuMgrCategory/delete",
     		"type" : "GET",
     		"headers" : {
     			"Content-Type" : "application/json"
@@ -171,7 +162,7 @@ $(document).ready(function() {
             },
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
-            	wxMenuMgrButtonSearch(table4WxMenuMgrButton);
+            	wxMenuMgrCategorySearch(table4WxMenuMgrCategory);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Load Error!');
@@ -185,7 +176,7 @@ $(document).ready(function() {
     
 } );
 
-var changePublish = function(wxMenuMgrButtonId, publishType) {
+var changePublish = function(wxMenuMgrCategoryId, publishType) {
 	// 取反
 	if (publishType == null || publishType == 0) {
 		publishType = 1;
@@ -195,7 +186,7 @@ var changePublish = function(wxMenuMgrButtonId, publishType) {
 	
 	$('#progress').dialog('open');
 	$.ajax({
-		"url" : $('#basePath').val() + "/api/media/wxMenuMgrButton/publishType",
+		"url" : $('#basePath').val() + "/api/media/wxMenuMgrCategory/publishType",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
@@ -205,14 +196,14 @@ var changePublish = function(wxMenuMgrButtonId, publishType) {
 			wxTemplateId: wxTemplateId
         }),*/
 		"data": {
-			wxMenuMgrButtonId: wxMenuMgrButtonId,
+			wxMenuMgrCategoryId: wxMenuMgrCategoryId,
 			publishType: publishType
         },
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');
         	
-        	alert('更新成功' + wxMenuMgrButtonId);
-        	wxMenuMgrButtonSearch(table4WxMenuMgrButton);
+        	alert('更新成功' + wxMenuMgrCategoryId);
+        	wxMenuMgrCategorySearch(table4WxMenuMgrCategory);
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -224,10 +215,10 @@ var changePublish = function(wxMenuMgrButtonId, publishType) {
 	});
 }
 
-var wxMenuMgrButtonSearch = function(table) {
+var wxMenuMgrCategorySearch = function(table) {
 	$('#progress').dialog('open');
 	$.ajax({
-		"url" : "../../api/unified/wxMenuMgrButton/wxMenuMgrButtonByUserId",
+		"url" : "../../api/unified/wxMenuMgrCategory/wxMenuMgrCategoryByUserId",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"

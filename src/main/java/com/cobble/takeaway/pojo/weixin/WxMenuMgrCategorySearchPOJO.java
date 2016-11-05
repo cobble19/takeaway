@@ -7,6 +7,7 @@ import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
 public class WxMenuMgrCategorySearchPOJO extends BaseSearchPOJO {
 	private Long wxMenuMgrCategoryId;
+    private String authorizerAppId;
     private String name;
     private String description;
     private List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJO;
@@ -41,6 +42,12 @@ public class WxMenuMgrCategorySearchPOJO extends BaseSearchPOJO {
 	}
 	public void setWxMenuMgrCategoryId(Long wxMenuMgrCategoryId) {
 		this.wxMenuMgrCategoryId = wxMenuMgrCategoryId;
+	}
+	public String getAuthorizerAppId() {
+		return authorizerAppId;
+	}
+	public void setAuthorizerAppId(String authorizerAppId) {
+		this.authorizerAppId = authorizerAppId;
 	}
     
     
