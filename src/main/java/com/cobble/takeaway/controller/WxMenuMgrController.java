@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +21,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonPOJO;
-import com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategoryPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategorySearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrButtonReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuInfoRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrSelfMenuInfoButtonRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrSelfMenuInfoRespApiPOJO;
 import com.cobble.takeaway.service.WxMenuMgrButtonService;
 import com.cobble.takeaway.service.WxMenuMgrCategoryService;
 import com.cobble.takeaway.util.CommonConstant;
+import com.cobble.takeaway.util.HttpClientUtil;
+import com.cobble.takeaway.util.HttpRequestUtil;
+import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -39,6 +45,123 @@ public class WxMenuMgrController extends BaseController {
 	@Autowired
 	private WxMenuMgrCategoryService wxMenuMgrCategoryService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+	@RequestMapping(value = "/api/unified/wxMenuMgr/memuinfo")
+	@ResponseBody
+	public ModelAndView memuinfo4Api(WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			/*if (wxMenuMgrButtonPOJO == null) {
+				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
+			}*/
+			
+			String authorizerAppId = wxMenuMgrCategorySearchPOJO.getAuthorizerAppId();
+			
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new Exception("authorizerAppId can't is NULL.");
+			}
+			
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			/*if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+
+			String url = HttpRequestUtil.getBase(request) + "/web/wx/third/" + authorizerAppId + "/menu/menuinfo";
+			String resp = HttpClientUtil.get(url);
+			
+			DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> temp = new DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO>();
+			DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> dataTablesPOJO = JsonUtils.convertToJavaBean(resp, temp.getClass());
+			if (dataTablesPOJO == null) {
+				ret.addObject("success", false);
+				return ret;
+			}
+			List<WxMenuMgrMenuInfoRespApiPOJO> wxMenuMgrMenuInfoRespApiPOJOs = dataTablesPOJO.getData();
+			if (CollectionUtils.isEmpty(wxMenuMgrMenuInfoRespApiPOJOs)) {
+				ret.addObject("success", false);
+				return ret;
+			}
+			// only ONE
+			WxMenuMgrMenuInfoRespApiPOJO wxMenuMgrMenuInfoRespApiPOJO = wxMenuMgrMenuInfoRespApiPOJOs.get(0);
+			if (wxMenuMgrMenuInfoRespApiPOJO == null) {
+				ret.addObject("success", false);
+				return ret;
+			}
+			
+			WxMenuMgrSelfMenuInfoRespApiPOJO wxMenuMgrSelfMenuInfoRespApiPOJO = wxMenuMgrMenuInfoRespApiPOJO.getSelfMenuInfo();
+			List<WxMenuMgrSelfMenuInfoButtonRespApiPOJO> buttonList = wxMenuMgrSelfMenuInfoRespApiPOJO.getButton();
+			if (CollectionUtils.isNotEmpty(buttonList)) {
+				// add category
+				WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO = new WxMenuMgrCategoryPOJO();
+				wxMenuMgrCategoryPOJO.setAuthorizerAppId(authorizerAppId);
+				wxMenuMgrCategoryPOJO.setName("API获取");
+				wxMenuMgrCategoryPOJO.setDescription("API获取");
+				wxMenuMgrCategoryService.insert(wxMenuMgrCategoryPOJO);
+				Long wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId();
+				
+				
+				for (int i = 0; i < buttonList.size(); i++) {
+					WxMenuMgrSelfMenuInfoButtonRespApiPOJO wxMenuMgrSelfMenuInfoButtonRespApiPOJO1 = buttonList.get(i);
+					WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO = new WxMenuMgrButtonPOJO();
+					wxMenuMgrButtonPOJO.setBtnKey(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getKey());
+					wxMenuMgrButtonPOJO.setLevel(CommonConstant.WX_MENU_LEVEL_1);
+					wxMenuMgrButtonPOJO.setMediaId(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getMediaId());
+					wxMenuMgrButtonPOJO.setMenuId("");
+					wxMenuMgrButtonPOJO.setName(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getName());
+					wxMenuMgrButtonPOJO.setParentButtonId(-9999L);
+					wxMenuMgrButtonPOJO.setType(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getType());
+					wxMenuMgrButtonPOJO.setUrl(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getUrl());
+					wxMenuMgrButtonPOJO.setValue(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getValue());
+					
+					wxMenuMgrButtonPOJO.setAuthorizerAppId(authorizerAppId);
+					wxMenuMgrButtonPOJO.setWxMenuMgrCategoryId(wxMenuMgrCategoryId);
+					wxMenuMgrButtonService.insert(wxMenuMgrButtonPOJO);
+					
+					Long wxMenuMgrButtonId = wxMenuMgrButtonPOJO.getWxMenuMgrButtonId();
+					
+					WxMenuMgrSelfMenuInfoButtonRespApiPOJO wxMenuMgrSelfMenuInfoButtonRespApiPOJO2 = wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getSubButton();
+					
+					if (wxMenuMgrSelfMenuInfoButtonRespApiPOJO2 == null) {
+						continue;
+					}
+					List<WxMenuMgrSelfMenuInfoButtonRespApiPOJO> subButtonList = wxMenuMgrSelfMenuInfoButtonRespApiPOJO2.getList();
+					if (CollectionUtils.isEmpty(subButtonList)) {
+						continue;
+					}
+					
+					for (int j = 0; j < subButtonList.size(); j++) {
+						WxMenuMgrSelfMenuInfoButtonRespApiPOJO wxMenuMgrSelfMenuInfoButtonRespApiPOJOLevel2 = subButtonList.get(j);
+						WxMenuMgrButtonPOJO wxMenuMgrButtonPOJOLevel2 = new WxMenuMgrButtonPOJO();
+						wxMenuMgrButtonPOJOLevel2.setBtnKey(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getKey());
+						wxMenuMgrButtonPOJOLevel2.setLevel(CommonConstant.WX_MENU_LEVEL_2);
+						wxMenuMgrButtonPOJOLevel2.setMediaId(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getMediaId());
+						wxMenuMgrButtonPOJOLevel2.setMenuId("");
+						wxMenuMgrButtonPOJOLevel2.setName(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getName());
+						wxMenuMgrButtonPOJOLevel2.setParentButtonId(wxMenuMgrButtonId);
+						wxMenuMgrButtonPOJOLevel2.setType(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getType());
+						wxMenuMgrButtonPOJOLevel2.setUrl(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getUrl());
+						wxMenuMgrButtonPOJOLevel2.setValue(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getValue());
+						
+						wxMenuMgrButtonPOJOLevel2.setAuthorizerAppId(authorizerAppId);
+						wxMenuMgrButtonPOJOLevel2.setWxMenuMgrCategoryId(wxMenuMgrCategoryId);
+						wxMenuMgrButtonService.insert(wxMenuMgrButtonPOJOLevel2);
+					}
+					
+				}
+			}
+			
+			ret.addObject("success", true);
+			ret.addObject("description", resp);
+			ret.addObject("dataTablesPOJO", dataTablesPOJO);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.addObject("success", false);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/api/unified/wxMenuMgr/publish")
 	@ResponseBody
@@ -55,80 +178,63 @@ public class WxMenuMgrController extends BaseController {
 				throw new Exception("userId can't is NULL.");
 			}*/
 //			wxMenuMgrCategorySearchPOJO = new WxMenuMgrCategorySearchPOJO();
-			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.finds(wxMenuMgrCategorySearchPOJO);
+			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.findFull(wxMenuMgrCategorySearchPOJO);
 			
-			WxMenuMgrButtonSearchPOJO wxMenuMgrButtonSearchPOJO = new WxMenuMgrButtonSearchPOJO();
-			List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs = wxMenuMgrButtonService.finds(wxMenuMgrButtonSearchPOJO);
-			
-			if (CollectionUtils.isNotEmpty(wxMenuMgrCategoryPOJOs) && CollectionUtils.isNotEmpty(wxMenuMgrButtonPOJOs)) {
-				// level = 1
-				for (WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO2 : wxMenuMgrCategoryPOJOs) {
-					for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 : wxMenuMgrButtonPOJOs) {
-						String authorizerAppIdCate = wxMenuMgrCategoryPOJO2.getAuthorizerAppId();
-						String authorizerAppIdBtn = wxMenuMgrButtonPOJO2.getAuthorizerAppId();
-						
-						Long wxMenuMgrCategoryId0 = wxMenuMgrCategoryPOJO2.getWxMenuMgrCategoryId();
-						Long wxMenuMgrCategoryId1 = wxMenuMgrButtonPOJO2.getWxMenuMgrCategoryId();
-						
-						int level = wxMenuMgrButtonPOJO2.getLevel();
-						Long parentButtonId = wxMenuMgrButtonPOJO2.getParentButtonId();
-						
-						if (StringUtils.isBlank(authorizerAppIdCate)) {
-							continue;
-						}
-						
-						if (wxMenuMgrCategoryId0 == null) {
-							continue;
-						}
-						
-						if (authorizerAppIdCate.equalsIgnoreCase(authorizerAppIdBtn)
-								&& wxMenuMgrCategoryId0.longValue() == wxMenuMgrCategoryId1) {
-							if (CommonConstant.WX_MENU_LEVEL_1 == level) {
-								List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrCategoryPOJO2.getWxMenuMgrButtonPOJOs();
-								if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
-									wxMenuMgrCategoryPOJO2.setWxMenuMgrButtonPOJOs(new ArrayList<WxMenuMgrButtonPOJO>());
-								}
-								wxMenuMgrCategoryPOJO2.getWxMenuMgrButtonPOJOs().add(wxMenuMgrButtonPOJO2);
-							}
-						}
-						
-					}
-				}	// end level = 1
-				// level = 2
-				for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO1 : wxMenuMgrButtonPOJOs) {
-					for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 : wxMenuMgrButtonPOJOs) {
-						String authorizerAppIdBtn1 = wxMenuMgrButtonPOJO1.getAuthorizerAppId();
-						String authorizerAppIdBtn2 = wxMenuMgrButtonPOJO2.getAuthorizerAppId();
+			if (CollectionUtils.isEmpty(wxMenuMgrCategoryPOJOs)) {
+				ret.addObject("success", false);
+				ret.addObject("description", "Not Found WxMenuMgrCategoryPOJOs");
+			}
 
-						Long wxMenuMgrCategoryId0 = wxMenuMgrButtonPOJO1.getWxMenuMgrCategoryId();
-						Long wxMenuMgrCategoryId1 = wxMenuMgrButtonPOJO2.getWxMenuMgrCategoryId();
-						
-						int level = wxMenuMgrButtonPOJO1.getLevel();
-						Long buttonId = wxMenuMgrButtonPOJO1.getWxMenuMgrButtonId();
-						Long parentButtonId = wxMenuMgrButtonPOJO2.getParentButtonId();
-						
-						if (StringUtils.isBlank(authorizerAppIdBtn1)) {
-							continue;
-						}
-						if (wxMenuMgrCategoryId0 == null) {
-							continue;
-						}
-						
-						if (authorizerAppIdBtn1.equalsIgnoreCase(authorizerAppIdBtn2)
-								&& buttonId.longValue() == parentButtonId && CommonConstant.WX_MENU_LEVEL_1 == level
-								&& wxMenuMgrCategoryId0.longValue() == wxMenuMgrCategoryId1) {
-							List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrButtonPOJO1.getWxMenuMgrButtonPOJOs();
-							if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
-								wxMenuMgrButtonPOJO1.setWxMenuMgrButtonPOJOs(new ArrayList<WxMenuMgrButtonPOJO>());
-							}
-							wxMenuMgrButtonPOJO1.getWxMenuMgrButtonPOJOs().add(wxMenuMgrButtonPOJO2);
-						}
-						
-					}
-				}	// end level = 2
+			WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO = new WxMenuMgrReqApiPOJO();
+			
+			List<WxMenuMgrButtonReqApiPOJO> button = new ArrayList<WxMenuMgrButtonReqApiPOJO>();
+			
+			// only ONE
+			WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO = wxMenuMgrCategoryPOJOs.get(0);
+			List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs = wxMenuMgrCategoryPOJO.getWxMenuMgrButtonPOJOs();
+			if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs)) {
+				ret.addObject("success", false);
+				ret.addObject("description", "Not Found wxMenuMgrButtonPOJOs");
 			}
 			
+			for (int i = 0; i < wxMenuMgrButtonPOJOs.size(); i++) {
+				WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO = wxMenuMgrButtonPOJOs.get(i);
+				WxMenuMgrButtonReqApiPOJO wxMenuMgrButtonReqApiPOJO = new WxMenuMgrButtonReqApiPOJO();
+				
+				wxMenuMgrButtonReqApiPOJO.setType(wxMenuMgrButtonPOJO.getType());
+				wxMenuMgrButtonReqApiPOJO.setUrl(wxMenuMgrButtonPOJO.getUrl());
+				wxMenuMgrButtonReqApiPOJO.setKey(wxMenuMgrButtonPOJO.getBtnKey());
+				wxMenuMgrButtonReqApiPOJO.setMediaId(wxMenuMgrButtonPOJO.getMediaId());
+				wxMenuMgrButtonReqApiPOJO.setName(wxMenuMgrButtonPOJO.getName());
+				List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrButtonPOJO.getWxMenuMgrButtonPOJOs();
+				if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
+					continue;
+				}
+
+				List<WxMenuMgrButtonReqApiPOJO> subButton = new ArrayList<WxMenuMgrButtonReqApiPOJO>();
+				
+				for (int j = 0; j < wxMenuMgrButtonPOJOs2.size(); j++) {
+					WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 = wxMenuMgrButtonPOJOs2.get(i);
+					WxMenuMgrButtonReqApiPOJO wxMenuMgrButtonReqApiPOJO2 = new WxMenuMgrButtonReqApiPOJO();
+					
+					wxMenuMgrButtonReqApiPOJO2.setType(wxMenuMgrButtonPOJO2.getType());
+					wxMenuMgrButtonReqApiPOJO2.setUrl(wxMenuMgrButtonPOJO2.getUrl());
+					wxMenuMgrButtonReqApiPOJO2.setKey(wxMenuMgrButtonPOJO2.getBtnKey());
+					wxMenuMgrButtonReqApiPOJO2.setMediaId(wxMenuMgrButtonPOJO2.getMediaId());
+					wxMenuMgrButtonReqApiPOJO2.setName(wxMenuMgrButtonPOJO2.getName());
+					subButton.add(wxMenuMgrButtonReqApiPOJO2);
+				}
+				
+				wxMenuMgrButtonReqApiPOJO.setSubButton(subButton);
+				button.add(wxMenuMgrButtonReqApiPOJO);
+			}
+			wxMenuMgrReqApiPOJO.setButton(button);
+			
+			String url = HttpRequestUtil.getBase(request) + "/web/wx/third/" + wxMenuMgrCategorySearchPOJO.getAuthorizerAppId() + "/menu/create";
+			String resp = HttpClientUtil.post(url, JsonUtils.convertToJson(wxMenuMgrReqApiPOJO));
+			
 			ret.addObject("success", true);
+			ret.addObject("description", resp);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 			ret.addObject("success", false);
@@ -154,77 +260,6 @@ public class WxMenuMgrController extends BaseController {
 			}*/
 			WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO = new WxMenuMgrCategorySearchPOJO();
 			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.findFull(wxMenuMgrCategorySearchPOJO);
-			
-			/*WxMenuMgrButtonSearchPOJO wxMenuMgrButtonSearchPOJO = new WxMenuMgrButtonSearchPOJO();
-			List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs = wxMenuMgrButtonService.finds(wxMenuMgrButtonSearchPOJO);
-			
-			if (CollectionUtils.isNotEmpty(wxMenuMgrCategoryPOJOs) && CollectionUtils.isNotEmpty(wxMenuMgrButtonPOJOs)) {
-				// level = 1
-				for (WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO2 : wxMenuMgrCategoryPOJOs) {
-					for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 : wxMenuMgrButtonPOJOs) {
-						String authorizerAppIdCate = wxMenuMgrCategoryPOJO2.getAuthorizerAppId();
-						String authorizerAppIdBtn = wxMenuMgrButtonPOJO2.getAuthorizerAppId();
-						
-						Long wxMenuMgrCategoryId0 = wxMenuMgrCategoryPOJO2.getWxMenuMgrCategoryId();
-						Long wxMenuMgrCategoryId1 = wxMenuMgrButtonPOJO2.getWxMenuMgrCategoryId();
-						
-						int level = wxMenuMgrButtonPOJO2.getLevel();
-						Long parentButtonId = wxMenuMgrButtonPOJO2.getParentButtonId();
-						
-						if (StringUtils.isBlank(authorizerAppIdCate)) {
-							continue;
-						}
-						
-						if (wxMenuMgrCategoryId0 == null) {
-							continue;
-						}
-						
-						if (authorizerAppIdCate.equalsIgnoreCase(authorizerAppIdBtn)
-								&& wxMenuMgrCategoryId0.longValue() == wxMenuMgrCategoryId1) {
-							if (CommonConstant.WX_MENU_LEVEL_1 == level) {
-								List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrCategoryPOJO2.getWxMenuMgrButtonPOJOs();
-								if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
-									wxMenuMgrCategoryPOJO2.setWxMenuMgrButtonPOJOs(new ArrayList<WxMenuMgrButtonPOJO>());
-								}
-								wxMenuMgrCategoryPOJO2.getWxMenuMgrButtonPOJOs().add(wxMenuMgrButtonPOJO2);
-							}
-						}
-						
-					}
-				}	// end level = 1
-				// level = 2
-				for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO1 : wxMenuMgrButtonPOJOs) {
-					for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 : wxMenuMgrButtonPOJOs) {
-						String authorizerAppIdBtn1 = wxMenuMgrButtonPOJO1.getAuthorizerAppId();
-						String authorizerAppIdBtn2 = wxMenuMgrButtonPOJO2.getAuthorizerAppId();
-
-						Long wxMenuMgrCategoryId0 = wxMenuMgrButtonPOJO1.getWxMenuMgrCategoryId();
-						Long wxMenuMgrCategoryId1 = wxMenuMgrButtonPOJO2.getWxMenuMgrCategoryId();
-						
-						int level = wxMenuMgrButtonPOJO1.getLevel();
-						Long buttonId = wxMenuMgrButtonPOJO1.getWxMenuMgrButtonId();
-						Long parentButtonId = wxMenuMgrButtonPOJO2.getParentButtonId();
-						
-						if (StringUtils.isBlank(authorizerAppIdBtn1)) {
-							continue;
-						}
-						if (wxMenuMgrCategoryId0 == null) {
-							continue;
-						}
-						
-						if (authorizerAppIdBtn1.equalsIgnoreCase(authorizerAppIdBtn2)
-								&& buttonId.longValue() == parentButtonId && CommonConstant.WX_MENU_LEVEL_1 == level
-								&& wxMenuMgrCategoryId0.longValue() == wxMenuMgrCategoryId1) {
-							List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrButtonPOJO1.getWxMenuMgrButtonPOJOs();
-							if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
-								wxMenuMgrButtonPOJO1.setWxMenuMgrButtonPOJOs(new ArrayList<WxMenuMgrButtonPOJO>());
-							}
-							wxMenuMgrButtonPOJO1.getWxMenuMgrButtonPOJOs().add(wxMenuMgrButtonPOJO2);
-						}
-						
-					}
-				}	// end level = 2
-			}*/
 			
 			ret.setData(wxMenuMgrCategoryPOJOs);
 			int size = CollectionUtils.isEmpty(wxMenuMgrCategoryPOJOs) ? 0 : wxMenuMgrCategoryPOJOs.size();
@@ -252,60 +287,7 @@ public class WxMenuMgrController extends BaseController {
 				throw new Exception("userId can't is NULL.");
 			}*/
 			WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO = new WxMenuMgrCategorySearchPOJO();
-			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.finds(wxMenuMgrCategorySearchPOJO);
-			
-			WxMenuMgrButtonSearchPOJO wxMenuMgrButtonSearchPOJO = new WxMenuMgrButtonSearchPOJO();
-			List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs = wxMenuMgrButtonService.finds(wxMenuMgrButtonSearchPOJO);
-			
-			if (CollectionUtils.isNotEmpty(wxMenuMgrCategoryPOJOs) && CollectionUtils.isNotEmpty(wxMenuMgrButtonPOJOs)) {
-				// level = 1
-				for (WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO2 : wxMenuMgrCategoryPOJOs) {
-					for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 : wxMenuMgrButtonPOJOs) {
-						String authorizerAppIdCate = wxMenuMgrCategoryPOJO2.getAuthorizerAppId();
-						String authorizerAppIdBtn = wxMenuMgrButtonPOJO2.getAuthorizerAppId();
-						int level = wxMenuMgrButtonPOJO2.getLevel();
-						Long parentButtonId = wxMenuMgrButtonPOJO2.getParentButtonId();
-						
-						if (StringUtils.isBlank(authorizerAppIdCate)) {
-							continue;
-						}
-						
-						if (authorizerAppIdCate.equalsIgnoreCase(authorizerAppIdBtn)) {
-							if (CommonConstant.WX_MENU_LEVEL_1 == level) {
-								List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrCategoryPOJO2.getWxMenuMgrButtonPOJOs();
-								if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
-									wxMenuMgrCategoryPOJO2.setWxMenuMgrButtonPOJOs(new ArrayList<WxMenuMgrButtonPOJO>());
-								}
-								wxMenuMgrCategoryPOJO2.getWxMenuMgrButtonPOJOs().add(wxMenuMgrButtonPOJO2);
-							}
-						}
-						
-					}
-				}	// end level = 1
-				// level = 2
-				for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO1 : wxMenuMgrButtonPOJOs) {
-					for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 : wxMenuMgrButtonPOJOs) {
-						String authorizerAppIdBtn1 = wxMenuMgrButtonPOJO1.getAuthorizerAppId();
-						String authorizerAppIdBtn2 = wxMenuMgrButtonPOJO2.getAuthorizerAppId();
-						int level = wxMenuMgrButtonPOJO1.getLevel();
-						Long buttonId = wxMenuMgrButtonPOJO1.getWxMenuMgrButtonId();
-						Long parentButtonId = wxMenuMgrButtonPOJO2.getParentButtonId();
-						
-						if (StringUtils.isBlank(authorizerAppIdBtn1)) {
-							continue;
-						}
-						if (authorizerAppIdBtn1.equalsIgnoreCase(authorizerAppIdBtn2)
-								&& buttonId.longValue() == parentButtonId && CommonConstant.WX_MENU_LEVEL_1 == level) {
-							List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrButtonPOJO1.getWxMenuMgrButtonPOJOs();
-							if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
-								wxMenuMgrButtonPOJO1.setWxMenuMgrButtonPOJOs(new ArrayList<WxMenuMgrButtonPOJO>());
-							}
-							wxMenuMgrButtonPOJO1.getWxMenuMgrButtonPOJOs().add(wxMenuMgrButtonPOJO2);
-						}
-						
-					}
-				}	// end level = 2
-			}
+			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.findFull(wxMenuMgrCategorySearchPOJO);
 			
 			ret.addObject("wxMenuMgrCategoryPOJOs", wxMenuMgrCategoryPOJOs);
 			ret.setViewName("/page/unified/wx_menu_mgr_inc_do");

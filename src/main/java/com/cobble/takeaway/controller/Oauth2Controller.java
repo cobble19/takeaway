@@ -38,6 +38,7 @@ import com.cobble.takeaway.oauth2.WxOauth2TokenApiPOJO;
 import com.cobble.takeaway.oauth2.WxUserApiPOJO;
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
@@ -85,6 +86,7 @@ import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.FileUtil;
 import com.cobble.takeaway.util.HttpClientUtil;
@@ -268,11 +270,14 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/conditional/trymatch", method = {RequestMethod.POST})
-	public ModelAndView menuMgrConditionalTryMatch(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+	@ResponseBody
+	public WxMenuMgrRespApiPOJO menuMgrConditionalTryMatch(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
 			@RequestBody String requestBody
 			, @PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
+//		ModelAndView ret = new ModelAndView();
+		
+		WxMenuMgrRespApiPOJO ret = null;
 
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
@@ -299,16 +304,17 @@ public class Oauth2Controller extends BaseController {
 				logger.debug("result: " + result);
 				WxMenuMgrRespApiPOJO wxMenuMgrRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrRespApiPOJO.class);
 				
-				ret.addObject("msg", result + "\n" + wxMenuMgrRespApiPOJO);
-				ret.setViewName("/page/test_info");
+				ret = wxMenuMgrRespApiPOJO;
+//				ret.addObject("msg", result + "\n" + wxMenuMgrRespApiPOJO);
+//				ret.setViewName("/page/test_info");
 			} else {
-				ret.addObject("msg", "没有找到 authorizer access token");
-				ret.setViewName("/page/test_info");
+//				ret.addObject("msg", "没有找到 authorizer access token");
+//				ret.setViewName("/page/test_info");
 			}
 			
 		} catch (Exception e) {
-			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
-			ret.setViewName("/page/test_info");
+//			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+//			ret.setViewName("/page/test_info");
 			logger.error("insert error.", e);
 			//throw e;
 		}
@@ -317,11 +323,14 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/conditional/add", method = {RequestMethod.POST})
-	public ModelAndView menuMgrConditionalAdd(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+	@ResponseBody
+	public WxMenuMgrMenuCondRespApiPOJO menuMgrConditionalAdd(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
 			@RequestBody String requestBody
 			, @PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
+//		ModelAndView ret = new ModelAndView();
+		
+		WxMenuMgrMenuCondRespApiPOJO ret = null;
 
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
@@ -348,17 +357,17 @@ public class Oauth2Controller extends BaseController {
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
 				WxMenuMgrMenuCondRespApiPOJO wxMenuMgrMenuCondRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuCondRespApiPOJO.class);
-				
-				ret.addObject("msg", result + "\n" + wxMenuMgrMenuCondRespApiPOJO);
-				ret.setViewName("/page/test_info");
+				ret = wxMenuMgrMenuCondRespApiPOJO;
+				/*ret.addObject("msg", result + "\n" + wxMenuMgrMenuCondRespApiPOJO);
+				ret.setViewName("/page/test_info");*/
 			} else {
-				ret.addObject("msg", "没有找到 authorizer access token");
-				ret.setViewName("/page/test_info");
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
 			}
 			
 		} catch (Exception e) {
-			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
-			ret.setViewName("/page/test_info");
+			/*ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");*/
 			logger.error("insert error.", e);
 			//throw e;
 		}
@@ -367,11 +376,14 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/create", method = {RequestMethod.POST})
-	public ModelAndView menuMgrCreate(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+	@ResponseBody
+	public BaseWxApiPOJO menuMgrCreate(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
 			@RequestBody String requestBody
 			, @PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		BaseWxApiPOJO ret = null;
 
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
@@ -398,17 +410,17 @@ public class Oauth2Controller extends BaseController {
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
 				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
-				
-				ret.addObject("msg", result + "\n" + baseWxApiPOJO);
-				ret.setViewName("/page/test_info");
+				ret = baseWxApiPOJO;
+				/*ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+				ret.setViewName("/page/test_info");*/
 			} else {
-				ret.addObject("msg", "没有找到 authorizer access token");
-				ret.setViewName("/page/test_info");
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
 			}
 			
 		} catch (Exception e) {
-			ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
-			ret.setViewName("/page/test_info");
+			/*ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");*/
 			logger.error("insert error.", e);
 			//throw e;
 		}
@@ -417,10 +429,13 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/delete", method = {RequestMethod.GET})
-	public ModelAndView menuMgrDelete(@PathVariable(value="authorizerAppId") String authorizerAppId
+	@ResponseBody
+	public BaseWxApiPOJO menuMgrDelete(@PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
+//		ModelAndView ret = new ModelAndView();
 
+		BaseWxApiPOJO ret = null;
+		
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
 		HttpSession session = request.getSession();
@@ -445,16 +460,17 @@ public class Oauth2Controller extends BaseController {
 				logger.debug("result: " + result);
 				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
 				
-				ret.addObject("msg", result + "\n" + baseWxApiPOJO);
-				ret.setViewName("/page/test_info");
+				ret = baseWxApiPOJO;
+				/*ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+				ret.setViewName("/page/test_info");*/
 			} else {
-				ret.addObject("msg", "没有找到 authorizer access token");
-				ret.setViewName("/page/test_info");
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
 			}
 			
 		} catch (Exception e) {
-			ret.addObject("msg", uri + "?" + qs);
-			ret.setViewName("/page/test_info");
+			/*ret.addObject("msg", uri + "?" + qs);
+			ret.setViewName("/page/test_info");*/
 			logger.error("insert error.", e);
 			//throw e;
 		}
@@ -463,9 +479,11 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/get", method = {RequestMethod.GET})
-	public ModelAndView menuMgrGet(@PathVariable(value="authorizerAppId") String authorizerAppId
+	@ResponseBody
+	public WxMenuMgrRespApiPOJO menuMgrGet(@PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
+		/*ModelAndView ret = new ModelAndView();*/
+		WxMenuMgrRespApiPOJO ret = null;
 
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
@@ -489,16 +507,18 @@ public class Oauth2Controller extends BaseController {
 				logger.debug("result: " + result);
 				WxMenuMgrRespApiPOJO wxMenuMgrRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrRespApiPOJO.class);
 				
-				ret.addObject("msg", result + "\n" + wxMenuMgrRespApiPOJO);
-				ret.setViewName("/page/test_info");
+				ret = wxMenuMgrRespApiPOJO;
+				
+				/*ret.addObject("msg", result + "\n" + wxMenuMgrRespApiPOJO);
+				ret.setViewName("/page/test_info");*/
 			} else {
-				ret.addObject("msg", "没有找到 authorizer access token");
-				ret.setViewName("/page/test_info");
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
 			}
 			
 		} catch (Exception e) {
-			ret.addObject("msg", uri + "?" + qs);
-			ret.setViewName("/page/test_info");
+			/*ret.addObject("msg", uri + "?" + qs);
+			ret.setViewName("/page/test_info");*/
 			logger.error("insert error.", e);
 			//throw e;
 		}
@@ -507,9 +527,10 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/menuinfo", method = {RequestMethod.GET})
-	public ModelAndView menuMgrMenuInfo(@PathVariable(value="authorizerAppId") String authorizerAppId
+	@ResponseBody
+	public DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> menuMgrMenuInfo(@PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
+		DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> ret = new DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO>();
 
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
@@ -534,16 +555,26 @@ public class Oauth2Controller extends BaseController {
 				logger.debug("result: " + result);
 				WxMenuMgrMenuInfoRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuInfoRespApiPOJO.class);
 				
-				ret.addObject("msg", result + "\n" + wxMenuMgrMenuRespApiPOJO);
-				ret.setViewName("/page/test_info");
+				ret.setSuccess(true);
+				List<WxMenuMgrMenuInfoRespApiPOJO> data = new ArrayList<WxMenuMgrMenuInfoRespApiPOJO>();
+				data.add(wxMenuMgrMenuRespApiPOJO);
+				ret.setData(data);
+				ret.setRecordsTotal(data.size());
+				
+//				ret.addObject("success", true);
+//				ret.addObject("description", "SUCCESS");
+//				ret.addObject("data", wxMenuMgrMenuRespApiPOJO);
+//				
+////				ret.addObject("msg", result + "\n" + wxMenuMgrMenuRespApiPOJO);
+//				ret.setViewName("/page/test_info");
 			} else {
-				ret.addObject("msg", "没有找到 authorizer access token");
-				ret.setViewName("/page/test_info");
+//				ret.addObject("msg", "没有找到 authorizer access token");
+//				ret.setViewName("/page/test_info");
 			}
 			
 		} catch (Exception e) {
-			ret.addObject("msg", uri + "?" + qs + "<br/> " + e);
-			ret.setViewName("/page/test_info");
+//			ret.addObject("msg", uri + "?" + qs + "<br/> " + e);
+//			ret.setViewName("/page/test_info");
 			logger.error("insert error.", e);
 			//throw e;
 		}

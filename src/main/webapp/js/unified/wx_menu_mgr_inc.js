@@ -122,7 +122,7 @@ var deleteMenuMgrButton = function(wxMenuMgrButtonId) {
 	});
 }
 
-var deleteMenuMgrButton = function(wxMenuMgrCategoryId, authorizerAppId) {
+var publishMenuMgrCategory = function(wxMenuMgrCategoryId, authorizerAppId) {
 	console.log('wxMenuMgrCategoryId: ' + wxMenuMgrCategoryId + ", authorizerAppId: " + authorizerAppId);
 	if (wxMenuMgrCategoryId == null || authorizerAppId == null) {
 		alert('wxMenuMgrCategoryId: ' + wxMenuMgrCategoryId + ", authorizerAppId: " + authorizerAppId + ", 参数不正确");
@@ -161,6 +161,44 @@ var deleteMenuMgrButton = function(wxMenuMgrCategoryId, authorizerAppId) {
 	});
 }
 
+var getMenuMgrMenuInfo = function(authorizerAppId) {
+	console.log("authorizerAppId: " + authorizerAppId);
+	if (authorizerAppId == null) {
+		alert("authorizerAppId: " + authorizerAppId + ", 参数不正确");
+		return;
+	}
+
+	var confirm = window.confirm('获取menuinfo');
+	if (!confirm) {
+		return;
+	}
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr/menuinfo",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		traditional :true, 
+		"data": {
+            "authorizerAppId": authorizerAppId
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	if (data.success) {
+        		alert('获取成功');
+        	}
+        	wxMenuMgrSearch();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+
 var wxMenuMgrSearch = function() {
 	$('#progress').dialog('open');
 	var basePath = $('#basePath').val();
@@ -171,9 +209,9 @@ var wxMenuMgrSearch = function() {
 			"Content-Type" : "application/json"
 		},
 		"dataType" : 'json',
-		/*"data": JSON.stringify({
-            title: $("#title").val()
-        }),*/
+		"data": {
+            "authorizerAppId": $("#authorizerAppId").val()
+        },
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');
         	var content = "";
@@ -201,6 +239,19 @@ var wxMenuMgrSearch = function() {
             					+ " class='btn btn-info'"
             					+ ">"
             					+ "";
+            			
+            			var onclickPublishStr = ' onclick=publishMenuMgrCategory(' + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId
+											+ ',' + "'" + wxMenuMgrCategoryPOJO.authorizerAppId + "'"
+					    					+ ')';
+						content += "&nbsp;&nbsp;<input type='button' " +
+								"id='publishButton1_" + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + "'"
+								+ " name='publishButton1'" 
+								+ " value=PublishButton1"
+								+ onclickPublishStr
+								+ " class='btn btn-info'"
+								+ ">"
+								+ "";
+            			
             			wxMenuMgrButtonPOJOs = wxMenuMgrCategoryPOJO.wxMenuMgrButtonPOJOs;
             			
             			
