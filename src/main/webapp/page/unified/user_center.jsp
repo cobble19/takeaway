@@ -64,9 +64,10 @@
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;o2o互动</h5></li>
-                      <cmn:privilege havePrivilege="<%= com.cobble.takeaway.util.CommonConstant.NUMBER_GUESS%>">
+                      <li role="presentation"><a href="#create_interactive"><h6>数字竞猜</h6></a></li>
+                      <%-- <cmn:privilege havePrivilege="<%= com.cobble.takeaway.util.CommonConstant.NUMBER_GUESS%>">
                       	<li role="presentation"><a href="#create_interactive"><h6>数字竞猜</h6></a></li>
-                      </cmn:privilege>
+                      </cmn:privilege> --%>
                   </ul> 
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;模版管理</h5></li>

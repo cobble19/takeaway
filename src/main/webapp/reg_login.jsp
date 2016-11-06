@@ -31,7 +31,7 @@
       <div class="col-xs-6 logo visible-xs"></div>
       <div class="col-md-8 hidden-xs" style="height:100px;">
         <ul class="nav nav-pills" style="float:right; margin-top:25px; font-weight:bold; font-family:'新宋体';">
-          <li role="presentation" class="active"><a href="index">首页</a></li>
+          <li role="presentation" class="active"><a href="<cmn:base/>/index">首页</a></li>
           <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/gonggao.jsp">公告</a></li>
           <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/functions.jsp">功能</a></li>
           <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/fee.jsp">资费</a></li>
