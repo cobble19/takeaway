@@ -51,6 +51,9 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
+			<if test="awardNameNot != null && awardNameNot != ''">
+				and c.NAME != #{awardNameNot}
+			</if>
   		</trim>
   	</where>
   	order by a.CREATE_DATE_TIME desc

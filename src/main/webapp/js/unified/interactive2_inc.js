@@ -127,7 +127,12 @@ $(document).ready(function() {
 								+ '">'
 								+ '修改' + '</a>';
 				
-				return linkEdit;
+				var hrefAddAward = $('#basePath').val() + '/page/unified/award_add.jsp?interactiveId='  + full.interactiveId;
+				var linkAddAward = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefAddAward
+								+ '">'
+								+ '添加奖品' + '</a>';
+				
+				return linkEdit + " " + linkAddAward;
 			}
 		}/*, {
 			"targets" : 0,

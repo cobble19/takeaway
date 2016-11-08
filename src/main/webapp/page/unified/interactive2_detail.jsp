@@ -151,7 +151,7 @@
 			  			
 							<div class="row col-md-12" style="margin-top: 50px;">
 							
-									<span id="errorMsg" style="color: red;">badd</span>
+									<span id="errorMsg" style="color: red;"></span>
 						</div>
 	  				</div>
 	  				<div class="col-md-3 col-xs-12">
@@ -175,8 +175,8 @@
 					</div>
 	  			</div>
 	  		</div><!-- for show -->
-		</div> <!-- container -->
-	<%@include file="../../../bottom.jsp" %>  		
+		<%@include file="../../../bottom.jsp" %>
+		</div> <!-- container -->  		
 	
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/lottery/lottery.js"></script>
   </body>

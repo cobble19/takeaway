@@ -15,8 +15,11 @@ public class BaseSearchPOJO implements Serializable {
 	private Integer start = START;
 	private Integer limit = LIMIT;
 	
+	private Boolean paginationFlage = true;
+	
 	// User 
 	private Long userId;
+	
 	
 	// all data
 	
@@ -53,5 +56,17 @@ public class BaseSearchPOJO implements Serializable {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public Boolean getPaginationFlage() {
+		if (paginationFlage != null && !paginationFlage) {
+			start = -1;
+			limit = 0;
+		}
+		return paginationFlage;
+	}
+
+	public void setPaginationFlage(Boolean paginationFlage) {
+		this.paginationFlage = paginationFlage;
 	}
 }

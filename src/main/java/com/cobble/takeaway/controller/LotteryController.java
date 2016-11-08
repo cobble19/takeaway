@@ -45,90 +45,94 @@ public class LotteryController extends BaseController {
 	private AwardRecordService awardRecordService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
+	private final static String UN_AWARD = "未获奖";
+	
 	@RequestMapping(value = "/api/unified/lottery/{interactiveId}/happy", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map add4WebAPI(@PathVariable(value="interactiveId") Long interactiveId, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map ret = new HashMap();
 		try {
-			InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
-			AwardSearchPOJO awardSearchPOJO = new AwardSearchPOJO();
-			awardSearchPOJO.setBalanceGt0Flag(true);
-			awardSearchPOJO.setInteractiveId(interactiveId);
-			List<AwardPOJO> awardPOJOs = awardService.finds(awardSearchPOJO);
+			synchronized (this) {
 
-			Long userId = UserUtil.getCurrentUserId();
-			
-			if (CollectionUtils.isEmpty(awardPOJOs) || userId == null) {
-				ret.put("success", true);
-				ret.put("isHappy", false);
-				ret.put("result", "没有奖品");
-				return ret;
-			}
-			
-			AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
-			awardRecordSearchPOJO.setInteractiveId(interactiveId);
-			awardRecordSearchPOJO.setUserId(userId);
-//			List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
-			int count = awardRecordService.getCount(awardRecordSearchPOJO);
-			
-			if (count > 0) {
-				logger.info("userId: {}, count: {}", userId, count);
-				/*ret.put("success", true);
-				ret.put("isHappy", false);
-				ret.put("result", "已获得活动奖品");
-				return ret;*/
-			}
-			
-			final Map<Long, Integer> awardAmountMap = new ConcurrentHashMap<Long, Integer>(); // 奖品 <--> 奖品总量
-			final Map<Long, Integer> awardBalanceMap = new ConcurrentHashMap<Long, Integer>(); // 奖品 <--> 奖品库存
-			final Map<Long, Integer> awardWeightMap = new ConcurrentHashMap<Long, Integer>(); // 奖品 <--> 奖品权重
-			
-			int totalWeight = 0;
-			
-			for (int i = 0; i < awardPOJOs.size(); i++) {
-				AwardPOJO awardPOJO = awardPOJOs.get(i);
-				awardAmountMap.put(awardPOJO.getAwardId(), awardPOJO.getAmount());
-				awardBalanceMap.put(awardPOJO.getAwardId(), awardPOJO.getBalance());
-				awardWeightMap.put(awardPOJO.getAwardId(), awardPOJO.getWeight());
-				totalWeight += awardPOJO.getWeight();
-			}
-			
-			int random = new Random().nextInt(totalWeight);
-			
-			int prev = 0;
-			for (int i = 0; i < awardPOJOs.size(); i++) {
-				AwardPOJO awardPOJO = awardPOJOs.get(i);
-				int weight = awardPOJO.getWeight();
+				InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+				AwardSearchPOJO awardSearchPOJO = new AwardSearchPOJO();
+				awardSearchPOJO.setBalanceGt0Flag(true);
+				awardSearchPOJO.setInteractiveId(interactiveId);
+				List<AwardPOJO> awardPOJOs = awardService.finds(awardSearchPOJO);
+
+				Long userId = UserUtil.getCurrentUserId();
 				
-				if (random >= prev && random < prev + weight) {
-					// 恭喜, happy, you get an award
+				if (CollectionUtils.isEmpty(awardPOJOs) || userId == null) {
 					ret.put("success", true);
-					ret.put("awardPOJO", awardPOJO);
-					if ("未中奖".equalsIgnoreCase(awardPOJO.getName()) || 0 >= awardPOJO.getBalance()) {
-						ret.put("isHappy", false);
-						ret.put("result", "无奖品");
-					} else {
-						ret.put("isHappy", true);
-						ret.put("result", "恭喜获得奖品");
-					}
-					// decrease award.balance, and insert awardrecord
-					awardService.decreaseBalance(awardPOJO);
-					AwardRecordPOJO awardRecordPOJO = new AwardRecordPOJO();
-					awardRecordPOJO.setAwardId(awardPOJO.getAwardId());
-					awardRecordPOJO.setHitDateTime(new Date());
-					awardRecordPOJO.setInteractiveId(interactiveId);
-					awardRecordPOJO.setUserId(userId);
-					awardRecordService.insert(awardRecordPOJO);
-					break;
+					ret.put("isHappy", false);
+					ret.put("result", UN_AWARD);
+					return ret;
 				}
-				prev += weight;
+				
+				AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+				awardRecordSearchPOJO.setInteractiveId(interactiveId);
+				awardRecordSearchPOJO.setUserId(userId);
+//				List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
+				int count = awardRecordService.getCount(awardRecordSearchPOJO);
+				
+				if (count > 0) {
+					logger.info("userId: {}, count: {}", userId, count);
+					/*ret.put("success", true);
+					ret.put("isHappy", false);
+					ret.put("result", "已获得活动奖品");
+					return ret;*/
+				}
+				
+				final Map<Long, Integer> awardAmountMap = new ConcurrentHashMap<Long, Integer>(); // 奖品 <--> 奖品总量
+				final Map<Long, Integer> awardBalanceMap = new ConcurrentHashMap<Long, Integer>(); // 奖品 <--> 奖品库存
+				final Map<Long, Integer> awardWeightMap = new ConcurrentHashMap<Long, Integer>(); // 奖品 <--> 奖品权重
+				
+				int totalWeight = 0;
+				
+				for (int i = 0; i < awardPOJOs.size(); i++) {
+					AwardPOJO awardPOJO = awardPOJOs.get(i);
+					awardAmountMap.put(awardPOJO.getAwardId(), awardPOJO.getAmount());
+					awardBalanceMap.put(awardPOJO.getAwardId(), awardPOJO.getBalance());
+					awardWeightMap.put(awardPOJO.getAwardId(), awardPOJO.getWeight());
+					totalWeight += awardPOJO.getWeight();
+				}
+				
+				int random = new Random().nextInt(totalWeight);
+				
+				int prev = 0;
+				for (int i = 0; i < awardPOJOs.size(); i++) {
+					AwardPOJO awardPOJO = awardPOJOs.get(i);
+					int weight = awardPOJO.getWeight();
+					
+					if (random >= prev && random < prev + weight) {
+						// 恭喜, happy, you get an award
+						ret.put("success", true);
+						ret.put("awardPOJO", awardPOJO);
+						if ("未中奖".equalsIgnoreCase(awardPOJO.getName()) || 0 >= awardPOJO.getBalance()) {
+							ret.put("isHappy", false);
+							ret.put("result", UN_AWARD);
+						} else {
+							ret.put("isHappy", true);
+							ret.put("result", "恭喜获得奖品");
+						}
+						// decrease award.balance, and insert awardrecord
+						awardService.decreaseBalance(awardPOJO);
+						AwardRecordPOJO awardRecordPOJO = new AwardRecordPOJO();
+						awardRecordPOJO.setAwardId(awardPOJO.getAwardId());
+						awardRecordPOJO.setHitDateTime(new Date());
+						awardRecordPOJO.setInteractiveId(interactiveId);
+						awardRecordPOJO.setUserId(userId);
+						awardRecordService.insert(awardRecordPOJO);
+						break;
+					}
+					prev += weight;
+				}
 			}
-			
 		} catch (Exception e) {
 			ret.put("success", false);
 			ret.put("isHappy", false);
-			ret.put("result", "无奖品1");
+			ret.put("result", UN_AWARD);
 			logger.error("insert error.", e);
 			//throw e;
 		}

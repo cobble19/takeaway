@@ -10,6 +10,8 @@ public class AwardRecordSearchPOJO extends BaseSearchPOJO {
 	private Date hitDateTime;
 	private Date createDateTime;
 	
+	private String awardNameNot;
+	
 	public Long getAwardRecordId() {
 		return awardRecordId;
 	}
@@ -45,6 +47,12 @@ public class AwardRecordSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+	public String getAwardNameNot() {
+		return awardNameNot;
+	}
+	public void setAwardNameNot(String awardNameNot) {
+		this.awardNameNot = awardNameNot;
 	}
 	
 }

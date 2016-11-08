@@ -19,7 +19,7 @@
  			<div class="form-group">
  				<label class="control-label" for="interactiveId">互动ID:</label>
  				<div class="">
- 					<input class="form-control" id="interactiveId" name="interactiveId" required="required" placeholder="请输入互动ID">
+ 					<input class="form-control" id="interactiveId" name="interactiveId" value="<%=request.getParameter("interactiveId") %>" required="required" placeholder="请输入互动ID">
  				</div>
  			</div>
  			<div class="form-group">

@@ -102,6 +102,7 @@ public class InteractiveController extends BaseController {
 		
 		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
 		AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+		awardRecordSearchPOJO.setPaginationFlage(false);
 		awardRecordSearchPOJO.setInteractiveId(interactiveId);
 		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
 		
