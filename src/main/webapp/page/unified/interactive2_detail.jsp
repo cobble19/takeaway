@@ -58,7 +58,7 @@
 		 				</div> --%>
 			  			<!-- <hr/> -->
 			  			<div class="row">
-			  				<div id="lottery" class="col-md-12 col-xs-12 col-sm-12">
+			  				<%-- <div id="lottery" class="col-md-12 col-xs-12 col-sm-12">
 			  					<div class="row">
 			  						<div class="col-md-3 col-xs-3 col-sm-3 lottery-unit lottery-unit-0">
 			  							<img src="<cmn:base/>/images/lottery/1.png">
@@ -89,7 +89,7 @@
 			  						<div class="col-md-6 col-xs-6 col-sm-6">
 			  							<div class="row">
 			  								<div class="col-md-12">
-			  								 	<a href="#"></a>
+			  								 	<a href="#">choujiang</a>
 			  								 </div>
 			  							</div>
 			  						</div>
@@ -121,8 +121,8 @@
 			  							<img src="<cmn:base/>/images/lottery/7.png">
 			  						</div>
 			  					</div>
-			  				</div>
-			  				<%-- <div id="lottery">
+			  				</div> --%>
+			  				<div id="lottery">
 								<table border="0" cellpadding="0" cellspacing="0">
 									<tr>
 										<td class="lottery-unit lottery-unit-0"><img src="<cmn:base/>/images/lottery/1.png"></td>
@@ -132,7 +132,7 @@
 									</tr>
 									<tr>
 										<td class="lottery-unit lottery-unit-11"><img src="<cmn:base/>/images/lottery/7.png"></td>
-										<td colspan="2" rowspan="2"><a href="#"></a></td>
+										<td style="background-color:#cc0" colspan="2" rowspan="2"><a href="#">抽奖</a></td>
 										<td class="lottery-unit lottery-unit-4"><img src="<cmn:base/>/images/lottery/5.png"></td>
 									</tr>
 									<tr>
@@ -146,12 +146,12 @@
 							            <td class="lottery-unit lottery-unit-6"><img src="<cmn:base/>/images/lottery/7.png"></td>
 									</tr>
 								</table>
-							</div> --%>
+							</div>
 			  			</div>
 			  			
 							<div class="row col-md-12" style="margin-top: 50px;">
 							
-									<span id="errorMsg" style="color: red;"></span>
+									<span id="errorMsg" style="color: red;">badd</span>
 						</div>
 	  				</div>
 	  				<div class="col-md-3 col-xs-12">

@@ -43,6 +43,8 @@ function roll(){
 	lottery.roll();
 	if (lottery.times > lottery.cycle+10 && result == null) {
 		lottery.result = 'not found award';
+		$('#errorMsg').show();
+		$('#errorMsg').text(lottery.result);
 		clearTimeout(lottery.timer);
 		lottery.prize=-1;
 		lottery.times=0;
@@ -50,6 +52,8 @@ function roll(){
 	}
 	if (lottery.times > lottery.cycle+10 && lottery.prize==lottery.index) {
 		clearTimeout(lottery.timer);
+		$('#errorMsg').show();
+		$('#errorMsg').text(lottery.result);
 		lottery.prize=-1;
 		lottery.times=0;
 		clickable=true;
@@ -64,6 +68,7 @@ function roll(){
 					lottery.prize = result.awardPOJO.orderNo;
 					lottery.result = result.result;
 				} else {
+					lottery.prize = result.awardPOJO.orderNo;
 					lottery.result = result.result;
 				}
 			} else {
@@ -83,7 +88,8 @@ function roll(){
 		lottery.timer = setTimeout(roll,lottery.speed);
 	}
 	if (lottery.prize > -1) {
-		$('#errMsg').val(lottery.result);
+		$('#errorMsg').show();
+		$('#errorMsg').val(lottery.result);
 	}
 	console.log(lottery.times+'^^^^^^'+lottery.speed+'^^^^^^^'+lottery.prize);
 	return false;
