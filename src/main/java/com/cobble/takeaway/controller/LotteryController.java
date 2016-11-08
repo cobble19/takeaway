@@ -80,9 +80,9 @@ public class LotteryController extends BaseController {
 				return ret;*/
 			}
 			
-			final Map<Long, Integer> awardAmountMap = new ConcurrentHashMap<>(); // 奖品 <--> 奖品总量
-			final Map<Long, Integer> awardBalanceMap = new ConcurrentHashMap<>(); // 奖品 <--> 奖品库存
-			final Map<Long, Integer> awardWeightMap = new ConcurrentHashMap<>(); // 奖品 <--> 奖品权重
+			final Map<Long, Integer> awardAmountMap = new ConcurrentHashMap<Long, Integer>(); // 奖品 <--> 奖品总量
+			final Map<Long, Integer> awardBalanceMap = new ConcurrentHashMap<Long, Integer>(); // 奖品 <--> 奖品库存
+			final Map<Long, Integer> awardWeightMap = new ConcurrentHashMap<Long, Integer>(); // 奖品 <--> 奖品权重
 			
 			int totalWeight = 0;
 			
