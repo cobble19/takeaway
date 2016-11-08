@@ -51,7 +51,7 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
-			<if test="awardNameNot != null && awardNameNot != ''">
+			<if test="awardNameNot != null and awardNameNot != ''">
 				and c.NAME != #{awardNameNot}
 			</if>
   		</trim>
