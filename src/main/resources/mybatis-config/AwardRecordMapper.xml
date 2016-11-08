@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.AwardRecordMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="AwardRecordResultMap" type="com.cobble.takeaway.pojo.AwardRecordPOJO" >
+    <id column="AWARD_RECORD_ID" property="awardRecordId" />
+    <result column="INTERACTIVE_ID" property="interactiveId" />
+    <result column="AWARD_ID" property="awardId" />
+    <result column="USER_ID" property="userId"/>
+    <result column="HIT_DATE_TIME" property="hitDateTime"/>
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap" columnPrefix="B_"></association>
+    <association property="awardPOJO" resultMap="com.cobble.takeaway.dao.AwardMapper.AwardResultMap" columnPrefix="C_"></association>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.AWARD_RECORD_ID, a.INTERACTIVE_ID, a.AWARD_ID, a.USER_ID, a.HIT_DATE_TIME
+    , a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="interactiveId != null">
+		and a.INTERACTIVE_ID = #{interactiveId}
+	</if>
+	<if test="awardId != null">
+		and a.AWARD_ID = #{awardId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="AwardRecordResultMap" parameterType="com.cobble.takeaway.pojo.AwardRecordSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , b.USER_ID as B_USER_ID, b.USERNAME as B_USERNAME, b.email as B_email, b.NICKNAME as B_NICKNAME
+    , c.NAME as C_NAME
+    from E_AWARD_RECORD a
+    join b_user b on b.user_id = a.user_id
+    join e_award c on c.award_id = a.award_id
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.AwardRecordSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from E_AWARD_RECORD a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="AwardRecordResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from E_AWARD_RECORD a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.AWARD_RECORD_ID = #{awardRecordId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from E_AWARD_RECORD
+    where AWARD_RECORD_ID = #{awardRecordId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.AwardRecordPOJO" useGeneratedKeys="true"
+  	keyProperty="awardRecordId" keyColumn="AWARD_RECORD_ID">
+    insert into E_AWARD_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="interactiveId != null" >
+        INTERACTIVE_ID,
+      </if>
+      <if test="awardId != null" >
+        AWARD_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="hitDateTime != null" >
+        HIT_DATE_TIME,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="interactiveId != null" >
+        #{interactiveId},
+      </if>
+      <if test="awardId != null" >
+        #{awardId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="hitDateTime != null" >
+        #{hitDateTime},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.AwardRecordPOJO" >
+    update E_AWARD_RECORD
+    <set >
+      <if test="interactiveId != null" >
+        INTERACTIVE_ID = #{interactiveId},
+      </if>
+      <if test="awardId != null" >
+        AWARD_ID = #{awardId},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="hitDateTime != null" >
+        HIT_DATE_TIME = #{hitDateTime},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where AWARD_RECORD_ID = #{awardRecordId}
+  </update>
+  
+</mapper>

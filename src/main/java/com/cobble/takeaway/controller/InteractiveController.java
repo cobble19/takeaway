@@ -15,22 +15,23 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cobble.takeaway.pojo.InteractivePOJO;
-import com.cobble.takeaway.pojo.InteractiveSearchPOJO;
+import com.cobble.takeaway.pojo.AwardRecordPOJO;
+import com.cobble.takeaway.pojo.AwardRecordSearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
+import com.cobble.takeaway.pojo.InteractivePOJO;
+import com.cobble.takeaway.pojo.InteractiveSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
+import com.cobble.takeaway.service.AwardRecordService;
 import com.cobble.takeaway.service.InteractiveService;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.spring.security.MyUser;
@@ -44,7 +45,74 @@ public class InteractiveController extends BaseController {
 	private InteractiveService interactiveService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AwardRecordService awardRecordService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+	@RequestMapping(value = "/api/unified/interactive", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public DataTablesPOJO<InteractivePOJO> query4ApiList(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
+		DataTablesPOJO<InteractivePOJO> ret = new DataTablesPOJO<InteractivePOJO>();
+		try {
+			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
+			ret.setData(interactivePOJOs);
+		} catch (Exception e) {
+			logger.error("list error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/web/unified/interactive2/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	//@ResponseBody
+	public StatusPOJO add4WebUnified(InteractivePOJO interactivePOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			if (interactivePOJO == null) {
+				throw new Exception("interactivePOJO can't is NULL.");
+			}
+			int result = -1;
+			if (interactivePOJO.getInteractiveId() != null && interactivePOJO.getInteractiveId() > 0l) {
+				result = interactiveService.update(interactivePOJO);
+			} else {
+				interactivePOJO.setStatus(-1);
+				result = interactiveService.insert(interactivePOJO, UserUtil.getCurrentUser().getUserId());
+			}
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		String url = "/web/unified/interactive2Detail?interactiveId=" + interactivePOJO.getInteractiveId();
+		redirectStrategy.sendRedirect(request, response, url);;
+		
+//		return ret;
+		return null;
+	}
+	
+	@RequestMapping(value = "/web/unified/interactive2Detail", method = {RequestMethod.GET})
+	public ModelAndView interactiveDetail(@RequestParam(value="interactiveId") Long interactiveId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		
+		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+		AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+		awardRecordSearchPOJO.setInteractiveId(interactiveId);
+		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
+		
+		if (interactivePOJO != null) {
+			interactivePOJO.setAwardRecordPOJOs(awardRecordPOJOs);
+		}
+		
+		ret.addObject("interactivePOJO", interactivePOJO);
+		ret.setViewName("page/unified/interactive2_detail");
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/enterprise/interactive/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	//@ResponseBody

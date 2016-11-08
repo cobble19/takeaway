@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.AwardMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="AwardResultMap" type="com.cobble.takeaway.pojo.AwardPOJO" >
+    <id column="AWARD_ID" property="awardId" />
+    <result column="INTERACTIVE_ID" property="interactiveId" />
+    <result column="NAME" property="name"/>
+    <result column="DESCRIPTION" property="description"/>
+    <result column="AMOUNT" property="amount" />
+    <result column="BALANCE" property="balance" />
+    <result column="WEIGHT" property="weight" />
+    <result column="ORDER_NO" property="orderNo" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.AWARD_ID, a.INTERACTIVE_ID, a.NAME, a.DESCRIPTION, a.AMOUNT
+    , a.BALANCE, a.WEIGHT, a.ORDER_NO, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="name != null">
+		and a.NAME = #{name}
+	</if>
+	<if test="interactiveId != null">
+		and a.INTERACTIVE_ID = #{interactiveId}
+	</if>
+	<if test="balanceGt0Flag">
+		and a.BALANCE > 0
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="AwardResultMap" parameterType="com.cobble.takeaway.pojo.AwardSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from E_AWARD a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.AwardSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from E_AWARD a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="AwardResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from E_AWARD a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.AWARD_ID = #{awardId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from E_AWARD
+    where AWARD_ID = #{awardId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.AwardPOJO" useGeneratedKeys="true"
+  	keyProperty="awardId" keyColumn="AWARD_ID">
+    insert into E_AWARD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="interactiveId != null" >
+        INTERACTIVE_ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="interactiveId != null" >
+        #{interactiveId},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="description != null" >
+        #{description},
+      </if>
+      <if test="amount != null" >
+        #{amount},
+      </if>
+      <if test="balance != null" >
+        #{balance},
+      </if>
+      <if test="weight != null" >
+        #{weight},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.AwardPOJO" >
+    update E_AWARD
+    <set >
+      <if test="interactiveId != null" >
+        INTERACTIVE_ID = #{interactiveId},
+      </if>
+      <if test="name != null" >
+        NAME = #{name},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight},
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where AWARD_ID = #{awardId}
+  </update>
+  
+  
+  <update id="decreaseBalance" parameterType="com.cobble.takeaway.pojo.AwardPOJO" >
+    update E_AWARD
+    <set >
+      <!-- <if test="balance != null" > -->
+        BALANCE = BALANCE -1,
+      <!-- </if> -->
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where AWARD_ID = #{awardId}
+  </update>
+</mapper>

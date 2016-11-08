@@ -7,7 +7,7 @@
   <head>
     <%@include file="../common/head.jsp" %>
     
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/wx_menu_mgr_category_update.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/wx_menu_mgr_category_update.js"></script>
     
   </head>
   <body>

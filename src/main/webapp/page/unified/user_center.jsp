@@ -48,6 +48,7 @@
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;帐号中心</h5></li>
                       <li role="presentation" class="active"><a href="#profile"><h6>基本资料</h6></a></li>
                       <li role="presentation"><a href="#update_password"><h6>修改密码</h6></a></li>
+                      
                       <c:if test="${sessionScope.userType eq 'MEDIA'}">
 	                      <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_category"><h6>菜单category</h6></a></li>
@@ -60,7 +61,11 @@
                       <cmn:privilege havePrivilege="<%= com.cobble.takeaway.util.CommonConstant.NUMBER_GUESS%>">
                       	<li role="presentation"><a href="#create_vote"><h6>网络投票</h6></a></li>
                       </cmn:privilege>
-                      
+                      <c:if test="${sessionScope.userType eq 'MEDIA'}">
+                      	  <li role="presentation"><a href="#create_interactive2"><h6>抽奖活动</h6></a></li>
+	                      <li role="presentation"><a href="#award"><h6>奖品</h6></a></li>
+	                      <li role="presentation"><a href="#award_record"><h6>奖品记录</h6></a></li>
+                      </c:if>
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;o2o互动</h5></li>
@@ -84,23 +89,28 @@
 	     	</div>
 	     	<div class="col-md-9 col-xs-8" style="min-height:500px; border-left:1px solid #e7e7eb;">
 	     		<div id="uc_content" style="padding-top:40px; padding-left:20px; margin-right:-30px;">
-	     			<!-- create_interactive -->
+	     			<!-- profile -->
 	     			<%@include file="profile_inc.jsp" %>
 	     			<!-- create_activity -->
 	     			<%@include file="activity_inc.jsp" %>
-	     			<!-- create_activity -->
+	     			<!-- award -->
+	     			<%@include file="award_inc.jsp" %>
+	     			<!-- award_record -->
+	     			<%@include file="award_record_inc.jsp" %>
+	     			<!-- wx_menu_mgr -->
 	     			<%@include file="wx_menu_mgr_inc.jsp" %>
-	     			<!-- category -->
+	     			<!-- wx_menu_mgr_category -->
 	     			<%@include file="wx_menu_mgr_category_inc.jsp" %>
-	     			<!-- create_activity -->
+	     			<!-- wx_menu_mgr_button -->
 	     			<%@include file="wx_menu_mgr_button_inc.jsp" %>
 	     			<!-- create_interactive -->
 	     			<%@include file="interactive_inc.jsp" %>
+	     			<%@include file="interactive2_inc.jsp" %>
 	     			<!-- create_wxTemplate -->
 	     			<%@include file="wx_template_inc.jsp" %>
 	     			<!-- create_vote -->
 	     			<%@include file="vote_inc.jsp" %>
-	     			<!-- update_password -->
+	     			<!-- #update_password -->
 					<%@include file="update_password_inc.jsp" %>
 						
 	     		</div>

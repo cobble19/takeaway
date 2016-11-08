@@ -1,6 +1,8 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class InteractivePOJO extends BasePOJO {
@@ -20,6 +22,8 @@ public class InteractivePOJO extends BasePOJO {
     private Integer status;
     
     private UserPOJO userPOJO;
+    
+    private List<AwardRecordPOJO> awardRecordPOJOs = new ArrayList<AwardRecordPOJO>();
     
 	public Long getInteractiveId() {
 		return interactiveId;
@@ -98,6 +102,12 @@ public class InteractivePOJO extends BasePOJO {
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public List<AwardRecordPOJO> getAwardRecordPOJOs() {
+		return awardRecordPOJOs;
+	}
+	public void setAwardRecordPOJOs(List<AwardRecordPOJO> awardRecordPOJOs) {
+		this.awardRecordPOJOs = awardRecordPOJOs;
 	}
     
 }

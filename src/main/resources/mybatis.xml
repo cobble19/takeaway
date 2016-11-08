@@ -42,6 +42,8 @@
 		<mapper resource="mybatis-config/ApplyMapper.xml" />
 		<mapper resource="mybatis-config/InteractiveMapper.xml" />
 		<mapper resource="mybatis-config/InteractiveApplyMapper.xml" />
+		<mapper resource="mybatis-config/AwardMapper.xml" />
+		<mapper resource="mybatis-config/AwardRecordMapper.xml" />
 		
 		<mapper resource="mybatis-config/WxLinkMapper.xml" />
 		<mapper resource="mybatis-config/WxTemplateMapper.xml" />

@@ -272,7 +272,7 @@
         USER_ID = #{userId},
       </if>
       <if test="prizeEndDateTime != null" >
-        PRIZE_ENT_DATE_TIME = #{prizeEndDateTime},
+        PRIZE_END_DATE_TIME = #{prizeEndDateTime},
       </if>
       <if test="status != null" >
         STATUS = #{status},
