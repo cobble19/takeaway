@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../common/taglib.jsp" %>
 
@@ -101,13 +101,13 @@
 	  						<!-- <div id="interactiveApplyContent"> -->
 	  						<ul>
 	  							<c:forEach items="${interactivePOJO.awardRecordPOJOs}" var="awardRecordPOJO" varStatus="st">
-	  								<li><h5>
+	  								<li><p class="h5">
 	  									<c:out value="${st.count}"></c:out>.
 	  									恭喜<span class="text-info h5"><c:out value="${awardRecordPOJO.userPOJO.nickname}"></c:out></span>
 	  									获得奖品
 	  									<span class="text-danger h5"><c:out value="${awardRecordPOJO.awardPOJO.name}"></c:out></span>
 	  									<br/><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${awardRecordPOJO.hitDateTime}" />
-	  								</h5>
+	  								</p>
                                     </li>
 	  							</c:forEach>
 	  						</ul>
