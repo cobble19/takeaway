@@ -16,7 +16,7 @@
   			<h2 class="">修改奖品</h2>
   		</div>
   		<form id="awardForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/award/add' method="post">
-	  		<input type="hidden" id="awardId" name="awardId" value="<%=request.getParameter("awardId") %>"/>
+	  		<input type="hidden" id="awardId" name="awardId" value="${awardPOJO.interactiveId}"/>
  			<div class="form-group">
  				<label class="control-label" for="interactiveId">互动ID:</label>
  				<div class="">

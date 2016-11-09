@@ -52,16 +52,16 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": true
 		}, {
-			"targets" : [9],
+			"targets" : [10],
 			"render" : function(data, type, full, meta) {
 				var date = new Date();
 				date.setTime(data);
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets" : [10],
+			"targets" : [11],
 			"render" : function(data, type, full, meta) {
-				var hrefEdit = $('#basePath').val() + '/page/unified/award_update.jsp?awardId='  + full.awardId;
+				var hrefEdit = $('#basePath').val() + '/web/unified/award/showupdate?awardId='  + full.awardId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
@@ -108,6 +108,7 @@ $(document).ready(function() {
             { "data": "amount" },
             { "data": "balance" },
             { "data": "weight" },
+            { "data": "orderNo" },
             { "data": "createDateTime" },
             {
                 /*"className":      'details-control',*/

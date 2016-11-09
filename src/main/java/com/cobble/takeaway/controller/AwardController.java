@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import ch.qos.logback.core.status.WarnStatus;
 
 import com.cobble.takeaway.pojo.AwardPOJO;
 import com.cobble.takeaway.pojo.AwardSearchPOJO;
@@ -66,6 +69,23 @@ public class AwardController extends BaseController {
 		return null;
 	}
 
+
+	@RequestMapping(value = "/web/unified/award/showupdate", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ModelAndView update(@RequestParam(value="awardId") Long awardId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			AwardPOJO awardPOJO = awardService.findById(awardId);
+			
+			ret.addObject("awardPOJO", awardPOJO);
+			ret.setViewName("/page/unified/award_update");
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 
 	
 	@RequestMapping(value = "/api/unified/award/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
