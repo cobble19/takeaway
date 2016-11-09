@@ -1,10 +1,9 @@
 #lottery {
 	/* width: 574px;
 	height: 584px; */
-	margin: 20px auto 0;
-	background-color: #ccc;
-	/* background: url(../../images/lottery/bg.jpg) no-repeat; */
-	padding: 50px 55px;
+	/*margin: 20px auto 0;
+	background: url(../../images/lottery/bg.jpg) no-repeat; 
+	padding: 50px 55px;*/
 }
 
 #lottery table td {
@@ -15,7 +14,7 @@
 	font-size: 24px;
 	color: #333;
 	z-index: -999;
-	border: solid 1px red;
+	border: solid 1px #ccc;
 }
 
 #lottery table td a {
