@@ -125,4 +125,3 @@
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/lottery/lottery.js"></script>
   </body>
 </html>
-
