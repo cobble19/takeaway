@@ -164,10 +164,10 @@
       <if test="rule != null" >
         RULE,
       </if>
-      <if test="content != null" >
+      <if test="prize != null" >
         PRIZE,
       </if>
-      <if test="content != null" >
+      <if test="answer != null" >
         ANSWER,
       </if>
       <if test="numOfWinner != null" >
