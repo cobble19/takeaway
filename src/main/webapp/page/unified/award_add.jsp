@@ -53,6 +53,12 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="orderNo">序号:</label>
+ 				<div class="">
+ 					<input class="form-control" id="orderNo" name="orderNo" placeholder="请输入序号">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
 	 			<div class="">
 	  				<button type="button" class="btn btn-default" id="addBtn">创建</button>
 	 			</div>

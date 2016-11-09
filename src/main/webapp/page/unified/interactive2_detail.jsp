@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../common/taglib.jsp" %>
 
@@ -78,19 +78,19 @@
 			  				<div id="lottery" style="border:#FFF solid 12px;">
 								<table border="0" cellpadding="0" cellspacing="0" style="border:#fe735e solid 10px;">
 									<tr>
-										<td class="lottery-unit lottery-unit-0"><img src="<cmn:base/>/images/lottery/3.png"></td>
-										<td class="lottery-unit lottery-unit-1"><img src="<cmn:base/>/images/lottery/1.png"></td>
-										<td class="lottery-unit lottery-unit-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
+										<td class="lottery-unit lottery-unit-0 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
+										<td class="lottery-unit lottery-unit-1 lottery-orderno-0"><img src="<cmn:base/>/images/lottery/1.png"></td>
+										<td class="lottery-unit lottery-unit-2 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
 									</tr>
 									<tr>
-										<td class="lottery-unit lottery-unit-7"><img src="<cmn:base/>/images/lottery/2.png"></td>
+										<td class="lottery-unit lottery-unit-7 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
 										<td style="background:#ff745b;" colspan="1" rowspan="1"><a href="#"><img src="<cmn:base/>/images/lottery/cjstart.jpg"></a></td>
-										<td class="lottery-unit lottery-unit-3"><img src="<cmn:base/>/images/lottery/2.png"></td>
+										<td class="lottery-unit lottery-unit-3 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
 									</tr>
 							        <tr>
-										<td class="lottery-unit lottery-unit-6"><img src="<cmn:base/>/images/lottery/3.png"></td>
-										<td class="lottery-unit lottery-unit-5"><img src="<cmn:base/>/images/lottery/2.png"></td>
-										<td class="lottery-unit lottery-unit-4"><img src="<cmn:base/>/images/lottery/3.png"></td>
+										<td class="lottery-unit lottery-unit-6 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
+										<td class="lottery-unit lottery-unit-5 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
+										<td class="lottery-unit lottery-unit-4 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
 									</tr>
 								</table>
 							</div>
@@ -101,19 +101,22 @@
 	  						<!-- <div id="interactiveApplyContent"> -->
 	  						<ul>
 	  							<c:forEach items="${interactivePOJO.awardRecordPOJOs}" var="awardRecordPOJO" varStatus="st">
-	  								<li><h5>
+	  								<li><p class="h5">
 	  									<c:out value="${st.count}"></c:out>.
 	  									恭喜<span class="text-info h5"><c:out value="${awardRecordPOJO.userPOJO.nickname}"></c:out></span>
 	  									获得奖品
 	  									<span class="text-danger h5"><c:out value="${awardRecordPOJO.awardPOJO.name}"></c:out></span>
 	  									<br/><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${awardRecordPOJO.hitDateTime}" />
-	  								</h5>
+	  								</p>
                                     </li>
 	  							</c:forEach>
 	  						</ul>
 	  					</div>
                     <div class="col-md-12" style="margin-top: 50px;">		
 					    <span id="errorMsg" style="color: red;"></span>
+					    <c:if test="${not empty awardRecordPOJO}">
+					    	你已经抽过奖了，结果是：<c:out value="${awardRecordPOJO.awardPOJO.name}"></c:out>
+					    </c:if>
 					</div>
 					</div>
 		<%@include file="../../../bottom.jsp" %>

@@ -52,15 +52,29 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": true
 		}, {
-			"targets" : [8],
+			"targets" : [9],
+			"render" : function(data, type, full, meta) {
+				var date = new Date();
+				date.setTime(data);
+				return date.format('Y-m-d H:i:s');
+			}
+		}, {
+			"targets" : [10],
+			"render" : function(data, type, full, meta) {
+				var date = new Date();
+				date.setTime(data);
+				return date.format('Y-m-d H:i:s');
+			}
+		}, {
+			"targets" : [11],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/page/unified/award_record_update.jsp?awardRecordId='  + full.awardRecordId;
-				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
+				var linkEdit = '<a target="_blank" class="" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
 				
 				var hrefVIAdd = $('#basePath').val() + '/web/unified/awardRecordDetail?awardRecordId='  + full.awardRecordId;
-				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
+				var linkVIAdd = '<a target="_blank" class="" style="margin-bottom:5px;" href="' + hrefVIAdd
 								+ '">'
 								+ '详细信息' + '</a>';
 				
@@ -98,6 +112,9 @@ $(document).ready(function() {
             { "data": "interactiveId" },
             { "data": "awardId" },
             { "data": "userId" },
+            { "data": "interactivePOJO.name" },
+            { "data": "awardPOJO.name" },
+            { "data": "userPOJO.nickname" },
             { "data": "hitDateTime" },
             { "data": "createDateTime" },
             {

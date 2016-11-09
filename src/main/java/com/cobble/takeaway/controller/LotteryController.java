@@ -45,7 +45,7 @@ public class LotteryController extends BaseController {
 	private AwardRecordService awardRecordService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
-	private final static String UN_AWARD = "未获奖";
+	private final static String UN_AWARD = "未中奖";
 	
 	@RequestMapping(value = "/api/unified/lottery/{interactiveId}/happy", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
@@ -109,7 +109,7 @@ public class LotteryController extends BaseController {
 						// 恭喜, happy, you get an award
 						ret.put("success", true);
 						ret.put("awardPOJO", awardPOJO);
-						if ("未中奖".equalsIgnoreCase(awardPOJO.getName()) || 0 >= awardPOJO.getBalance()) {
+						if (UN_AWARD.equalsIgnoreCase(awardPOJO.getName()) || 0 >= awardPOJO.getBalance()) {
 							ret.put("isHappy", false);
 							ret.put("result", UN_AWARD);
 						} else {
@@ -117,7 +117,10 @@ public class LotteryController extends BaseController {
 							ret.put("result", "恭喜获得奖品");
 						}
 						// decrease award.balance, and insert awardrecord
-						awardService.decreaseBalance(awardPOJO);
+						if (!UN_AWARD.equalsIgnoreCase(awardPOJO.getName())) {
+							awardService.decreaseBalance(awardPOJO);
+						}
+						
 						AwardRecordPOJO awardRecordPOJO = new AwardRecordPOJO();
 						awardRecordPOJO.setAwardId(awardPOJO.getAwardId());
 						awardRecordPOJO.setHitDateTime(new Date());

@@ -2,6 +2,8 @@ package com.cobble.takeaway.pojo;
 
 import java.util.Date;
 
+import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
+
 public class AwardRecordPOJO extends BasePOJO {
 	private Long awardRecordId;
 	private Long interactiveId;
@@ -9,9 +11,11 @@ public class AwardRecordPOJO extends BasePOJO {
 	private Long userId;
 	private Date hitDateTime;
 	private Date createDateTime;
-	
+
+	private InteractivePOJO interactivePOJO;
 	private UserPOJO userPOJO;
 	private AwardPOJO awardPOJO;
+	private WxPersonUserPOJO wxPersonUserPOJO;
 	
 	public Long getAwardRecordId() {
 		return awardRecordId;
@@ -60,6 +64,18 @@ public class AwardRecordPOJO extends BasePOJO {
 	}
 	public void setAwardPOJO(AwardPOJO awardPOJO) {
 		this.awardPOJO = awardPOJO;
+	}
+	public WxPersonUserPOJO getWxPersonUserPOJO() {
+		return wxPersonUserPOJO;
+	}
+	public void setWxPersonUserPOJO(WxPersonUserPOJO wxPersonUserPOJO) {
+		this.wxPersonUserPOJO = wxPersonUserPOJO;
+	}
+	public InteractivePOJO getInteractivePOJO() {
+		return interactivePOJO;
+	}
+	public void setInteractivePOJO(InteractivePOJO interactivePOJO) {
+		this.interactivePOJO = interactivePOJO;
 	}
 	
 }

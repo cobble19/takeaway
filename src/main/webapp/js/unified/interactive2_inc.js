@@ -123,12 +123,12 @@ $(document).ready(function() {
 								+ '验证获奖人' + '</a>';*/
 
 				var hrefEdit = $('#basePath').val() + '/page/unified/interactive2_update.jsp?interactiveId='  + full.interactiveId;
-				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
+				var linkEdit = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
 				
 				var hrefAddAward = $('#basePath').val() + '/page/unified/award_add.jsp?interactiveId='  + full.interactiveId;
-				var linkAddAward = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefAddAward
+				var linkAddAward = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefAddAward
 								+ '">'
 								+ '添加奖品' + '</a>';
 				

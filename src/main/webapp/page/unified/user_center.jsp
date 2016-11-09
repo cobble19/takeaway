@@ -17,23 +17,28 @@
     <script>
     	$(document).ready(function() {
     		
-    	$('#sidebar a').click(function() {
-			 $('#sidebar a').each(function() {
-				$(this).parent('li').removeClass('active');
-			}) 
-			$this = $(this);
-			$this.parent('li').addClass('active'); 
-			var contentId = $this.attr('href').substring(1);
-			console.log('contentId: ' + contentId);
-			$('#uc_content > div').each(function(i, e) {
-				$(this).hide();
-			})
-			$('#' + contentId).show();
-		});
-		
-		$('#sidebar a[href=#profile]').trigger('click');
+	    	$('#sidebar a').click(function() {
+				 $('#sidebar a').each(function() {
+					$(this).parent('li').removeClass('active');
+				}) 
+				$this = $(this);
+				$this.parent('li').addClass('active'); 
+				var contentId = $this.attr('href').substring(1);
+				console.log('contentId: ' + contentId);
+				$('#uc_content > div').each(function(i, e) {
+					$(this).hide();
+				})
+				$('#' + contentId).show();
+			});
+			
+	
+			var hash; 
+			hash=(!window.location.hash)?"#profile":window.location.hash; 
+			window.location.hash=hash; 
+			console.log('hash: ' + hash);
+			$('#sidebar a[href=' + hash + ']').trigger('click');
     		
-    	})
+    	})	// end ready
     </script>
 
   </head>

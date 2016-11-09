@@ -19,6 +19,8 @@
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap" columnPrefix="B_"></association>
     <association property="awardPOJO" resultMap="com.cobble.takeaway.dao.AwardMapper.AwardResultMap" columnPrefix="C_"></association>
+    <association property="wxPersonUserPOJO" resultMap="com.cobble.takeaway.dao.WxPersonUserMapper.WxPersonUserResultMap" columnPrefix="D_"></association>
+    <association property="interactivePOJO" resultMap="com.cobble.takeaway.dao.InteractiveMapper.InteractiveResultMap" columnPrefix="E_"></association>
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -43,11 +45,25 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    , b.USER_ID as B_USER_ID, b.USERNAME as B_USERNAME, b.email as B_email, b.NICKNAME as B_NICKNAME
-    , c.NAME as C_NAME
+    , b.USER_ID as B_USER_ID, b.USERNAME as B_USERNAME, b.email as B_email
+    , b.NICKNAME as B_NICKNAME, b.USER_TYPE as B_USER_TYPE
+    , c.AWARD_ID as C_AWARD_ID, c.INTERACTIVE_ID as C_INTERACTIVE_ID, c.NAME as C_NAME, c.DESCRIPTION as C_DESCRIPTION, c.AMOUNT as C_AMOUNT
+    , c.BALANCE as C_BALANCE, c.WEIGHT as C_WEIGHT, c.ORDER_NO as C_ORDER_NO, c.CREATE_DATE_TIME as C_CREATE_DATE_TIME
+    , d.WX_PERSON_USER_ID as D_WX_PERSON_USER_ID, d.USER_ID as D_USER_ID, d.OPEN_ID as D_OPEN_ID, d.AUTHORIZER_APP_ID as D_AUTHORIZER_APP_ID
+    , d.PROXY_OPEN_ID as D_PROXY_OPEN_ID, d.PROXY_AUTHORIZER_APP_ID as D_PROXY_AUTHORIZER_APP_ID
+    , d.NICKNAME as D_NICKNAME, d.SEX as D_SEX, d.LANGUAGE as D_LANGUAGE
+    , d.CITY as D_CITY, d.PROVINCE as D_PROVINCE, d.COUNTRY as D_COUNTRY, d.HEAD_IMG_URL as D_HEAD_IMG_URL, d.PRIVILEGES as D_PRIVILEGES
+    , d.UNION_ID as D_UNION_ID, d.SUBSCRIBE as D_SUBSCRIBE, d.SUBSCRIBE_TIME as D_SUBSCRIBE_TIME, d.REMARK as D_REMARK, d.GROUP_ID as D_GROUP_ID
+    , e.INTERACTIVE_ID as E_INTERACTIVE_ID, e.NAME as E_NAME, e.START_DATE_TIME as E_START_DATE_TIME
+    , e.END_DATE_TIME as E_END_DATE_TIME, e.CONTENT as E_CONTENT, e.RULE as E_RULE
+    , e.PRIZE as E_PRIZE, e.ANSWER as E_ANSWER, e.NUM_OF_WINNER as E_NUM_OF_WINNER, e.STATUS as E_STATUS
+    , e.PRIZE_END_DATE_TIME as E_PRIZE_END_DATE_TIME
+    , d.TAGID_LIST as D_TAGID_LIST, d.CREATE_DATE_TIME as D_CREATE_DATE_TIME
     from E_AWARD_RECORD a
+    join e_interactive e on e.interactive_id = a.interactive_id
     join b_user b on b.user_id = a.user_id
     join e_award c on c.award_id = a.award_id
+    left join wx_person_user d on d.user_id = b.user_id
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>

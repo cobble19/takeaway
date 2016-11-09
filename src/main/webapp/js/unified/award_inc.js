@@ -52,6 +52,13 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": true
 		}, {
+			"targets" : [9],
+			"render" : function(data, type, full, meta) {
+				var date = new Date();
+				date.setTime(data);
+				return date.format('Y-m-d H:i:s');
+			}
+		}, {
 			"targets" : [10],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/page/unified/award_update.jsp?awardId='  + full.awardId;

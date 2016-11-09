@@ -19,6 +19,9 @@
 				  						<th>互动ID</th>
 				  						<th>奖品ID</th>
 				  						<th>用户ID</th>
+				  						<th>活动</th>
+				  						<th>奖品</th>
+				  						<th>用户</th>
 				  						<th>获奖时间</th>
 				  						<th>创建时间</th>
 				  						<th>操作</th>

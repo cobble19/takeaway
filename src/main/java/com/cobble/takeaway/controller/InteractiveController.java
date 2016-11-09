@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -100,8 +101,23 @@ public class InteractiveController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		
-		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+		AwardRecordPOJO awardRecordPOJO = null;
+		Long userId = UserUtil.getCurrentUserId();
+
 		AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+		awardRecordSearchPOJO.setPaginationFlage(false);
+		awardRecordSearchPOJO.setInteractiveId(interactiveId);
+		awardRecordSearchPOJO.setUserId(userId);
+		List<AwardRecordPOJO> myAwardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
+		if (CollectionUtils.isNotEmpty(myAwardRecordPOJOs)) {
+			logger.info("myAwardRecordPOJOs size: {}, should be is 1", myAwardRecordPOJOs.size());
+			awardRecordPOJO = myAwardRecordPOJOs.get(0);
+		}
+		ret.addObject("awardRecordPOJO", awardRecordPOJO);
+		
+		
+		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+		awardRecordSearchPOJO = new AwardRecordSearchPOJO();
 		awardRecordSearchPOJO.setPaginationFlage(false);
 		awardRecordSearchPOJO.setInteractiveId(interactiveId);
 		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
