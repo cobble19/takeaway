@@ -13,7 +13,7 @@
     
     <link href="<cmn:base/>/css/lottery/lottery.css" rel="stylesheet">
     <script type="text/javascript">
-		function init()
+		function randomcolor()
 		{
 				var tds = document.getElementsByTagName("td");
 				for(i=0;i<tds.length; i++){
@@ -31,7 +31,7 @@
 		}
 	</script>
   </head>
-  <body onload="init()">
+  <body onLoad="randomcolor()">
   
 	<div class="container-fluid">
 		<div class="hidden-xs">
