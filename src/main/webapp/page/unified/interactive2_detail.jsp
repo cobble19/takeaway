@@ -120,6 +120,9 @@
 					    </c:if>
 					</div>
 					</div>
+					<div id="award_tips">
+					
+					</div>
 		<%@include file="../../../bottom.jsp" %>
 		</div> <!-- container -->  		
 	

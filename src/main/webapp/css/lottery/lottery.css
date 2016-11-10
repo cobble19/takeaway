@@ -26,5 +26,5 @@
 }
 
 #lottery table td.active {
-	background-color: #ea0000;
+	background-color: #ea0000 !important;
 }

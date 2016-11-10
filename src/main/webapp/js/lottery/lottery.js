@@ -1,3 +1,27 @@
+$(document).ready(function() {
+			randomcolor();
+			
+			$('#award_tips').dialog({
+		    	autoOpen: false,
+		    	modal: true
+		    });
+			
+			function randomcolor() {
+				var tds = $('#lottery table tr td');
+				for (i = 0; i < tds.length; i++) {
+					td = tds[i];
+					$(td).css('background-color', getRandomColor());
+				}
+			}
+
+			function getRandomColor() {
+				return '#' + (function(color) {
+							return (color += '0123456789abcdef'[Math.floor(Math.random() * 16)])
+									&& (color.length == 6) ? color : arguments.callee(color);
+						})('');
+			}
+})
+
 var lottery={
 	index:-1,	//当前转动到哪个位置，起点位置
 	count:0,	//总共有多少个位置
@@ -7,6 +31,8 @@ var lottery={
 	cycle:50,	//转动基本次数：即至少需要转动多少次再进入抽奖环节
 	prize:-1,	//中奖位置
 	result:'',
+	msgTitle: '',
+	msgDescription: '',
 	init:function(id){
 		if ($("#"+id).find(".lottery-unit").length>0) {
 			$lottery = $("#"+id);
@@ -81,7 +107,7 @@ function roll(){
 	lottery.times += 1;
 	lottery.roll();
 	if (lottery.times > lottery.cycle+15 && (result == null || lottery.prize == -1) ) {
-		lottery.result = '未发现奖品1';
+//		lottery.result = '未发现奖品1';
 		$('#errorMsg').show();
 		$('#errorMsg').text(lottery.result);
 		clearTimeout(lottery.timer);
@@ -89,7 +115,10 @@ function roll(){
 		lottery.prize=-1;
 		lottery.times=0;
 		clickable=true;
-		alert(lottery.result);
+		$('#award_tips').dialog("option", "title", lottery.msgTitle);
+		$('#award_tips').text(lottery.msgDescription);
+		$('#award_tips').dialog('open');
+//		alert(lottery.result);
 		return;
 	}
 	if (lottery.times > lottery.cycle+10 && (lottery.prize==lottery.index || lottery.prize != -1)) {
@@ -100,7 +129,10 @@ function roll(){
 		lottery.prize=-1;
 		lottery.times=0;
 		clickable=true;
-		alert(lottery.result);
+		$('#award_tips').dialog("option", "title", lottery.msgTitle);
+		$('#award_tips').text(lottery.msgDescription);
+		$('#award_tips').dialog('open');
+//		alert(lottery.result);
 		return;
 	}else{
 		if (lottery.times<lottery.cycle) {
@@ -111,7 +143,9 @@ function roll(){
 			if (result != null) {
 				if (result.success) {
 					lottery.prize = lottery.calcPrize(result.awardPOJO.orderNo);
-					lottery.result = result.result;
+					lottery.result = result.awardPOJO.name;
+					lottery.msgTitle = result.awardPOJO.name;
+					lottery.msgDescription = result.awardPOJO.description;
 				} else {
 					lottery.prize = -1;
 					lottery.result = result.result;
@@ -213,14 +247,20 @@ window.onload=function(){
 		var result = checkValid();
 		
 		if (!result.valid) {
-			alert(result.description);
+			$('#award_tips').dialog("option", "title", result.description);
+			$('#award_tips').val(result.description)
+			$('#award_tips').dialog('open');
+//			alert(result.description);
 			return false;
 		}
 		
 		if (!clickable) {
-			alert('您已经抽过奖了');
+			$('#award_tips').dialog("option", "title", '您已经抽过奖了');
+			$('#award_tips').dialog('open');
+//			alert('您已经抽过奖了');
 			return false;
 		} else {
+			$(this).parent("td").css("background-color", "#ccc");
 			result = null;
 			lotteryHappy();
 			lottery.speed=100;
