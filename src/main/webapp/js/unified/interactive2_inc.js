@@ -107,7 +107,7 @@ $(document).ready(function() {
 				return link;
 			}
 		}, {
-			"targets" : 11,
+			"targets" : 12,
 			"render" : function(data, type, full, meta) {
 				/*var href = $('#basePath').val() + '/page/unified/apply_in_interactive.jsp?interactiveId='  + full.interactiveId
 				+ '&name=' + ((full.name));
@@ -191,6 +191,7 @@ $(document).ready(function() {
             { "data": "prize" },
             { "data": "answer" },
             { "data": "content" },
+            { "data": "awardNumberPer" },
             {
                 /*"className":      'details-control',*/
                 "orderable":      false,
@@ -216,9 +217,9 @@ $(document).ready(function() {
     $('#chkBoxAll4Interactive2').click(function() {
     	var chkBoxAll = $(this).attr('checked');
     	if (chkBoxAll) {
-    		$(this).find('input[name=chkBox]').attr('checked', true);
+    		$('#dbTable4Interactive2').find('input[name=chkBox]').attr('checked', true);
     	} else {
-    		$(this).find('input[name=chkBox]').attr('checked', false);
+    		$('#dbTable4Interactive2').find('input[name=chkBox]').attr('checked', false);
     	}
     })
     

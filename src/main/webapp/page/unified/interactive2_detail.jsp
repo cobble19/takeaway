@@ -13,11 +13,12 @@
     
     <link href="<cmn:base/>/css/lottery/lottery.css" rel="stylesheet">
     <script type="text/javascript">
-		function init()
+		function randomcolor()
 		{
-				var tds = document.getElementsByTagName("td");
+				var tds = $('#lottery table tr td');
 				for(i=0;i<tds.length; i++){
-				  tds[i].style.backgroundColor = getRandomColor();
+					td = tds[i];
+					$(td).css('background-color', getRandomColor());
 				}
 
 		}
@@ -31,7 +32,7 @@
 		}
 	</script>
   </head>
-  <body onload="init()">
+  <body onLoad="randomcolor()">
   
 	<div class="container-fluid">
 		<div class="hidden-xs">

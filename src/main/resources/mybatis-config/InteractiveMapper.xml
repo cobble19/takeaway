@@ -23,11 +23,12 @@
     <result column="USER_ID_ENTERPRISE" property="userId" />
     <result column="PRIZE_END_DATE_TIME" property="prizeEndDateTime" />
     <result column="STATUS" property="status" />
+    <result column="AWARD_NUMBER_PER" property="awardNumberPer" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     a.INTERACTIVE_ID, a.NAME, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, a.RULE, a.PRIZE, a.ANSWER, a.NUM_OF_WINNER, a.STATUS
-    , a.PRIZE_END_DATE_TIME, a.USER_ID AS USER_ID_ENTERPRISE
+    , a.PRIZE_END_DATE_TIME, a.AWARD_NUMBER_PER, a.USER_ID AS USER_ID_ENTERPRISE
   </sql>
   <sql id="Clause_Common">
 	<if test="name != null">
@@ -182,6 +183,9 @@
       <if test="status != null" >
         STATUS,
       </if>
+      <if test="awardNumberPer != null" >
+        AWARD_NUMBER_PER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="name != null" >
@@ -216,6 +220,9 @@
       </if>
       <if test="status != null" >
         #{status},
+      </if>
+      <if test="awardNumberPer != null" >
+        #{awardNumberPer},
       </if>
     </trim>
   </insert>
@@ -276,6 +283,9 @@
       </if>
       <if test="status != null" >
         STATUS = #{status},
+      </if>
+      <if test="awardNumberPer != null" >
+        AWARD_NUMBER_PER = #{awardNumberPer},
       </if>
     </set>
     where INTERACTIVE_ID = #{interactiveId}

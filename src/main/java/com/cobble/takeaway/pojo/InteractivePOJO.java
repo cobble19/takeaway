@@ -20,6 +20,7 @@ public class InteractivePOJO extends BasePOJO {
     private Date prizeEndDateTime;
     
     private Integer status;
+    private Integer awardNumberPer;
     
     private UserPOJO userPOJO;
     
@@ -108,6 +109,12 @@ public class InteractivePOJO extends BasePOJO {
 	}
 	public void setAwardRecordPOJOs(List<AwardRecordPOJO> awardRecordPOJOs) {
 		this.awardRecordPOJOs = awardRecordPOJOs;
+	}
+	public Integer getAwardNumberPer() {
+		return awardNumberPer;
+	}
+	public void setAwardNumberPer(Integer awardNumberPer) {
+		this.awardNumberPer = awardNumberPer;
 	}
     
 }

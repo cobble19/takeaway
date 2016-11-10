@@ -59,14 +59,14 @@ public class BaseSearchPOJO implements Serializable {
 	}
 
 	public Boolean getPaginationFlage() {
-		if (paginationFlage != null && !paginationFlage) {
-			start = -1;
-			limit = 0;
-		}
 		return paginationFlage;
 	}
 
 	public void setPaginationFlage(Boolean paginationFlage) {
+		if (paginationFlage != null && !paginationFlage) {
+			start = -1;
+			limit = 0;
+		}
 		this.paginationFlage = paginationFlage;
 	}
 }

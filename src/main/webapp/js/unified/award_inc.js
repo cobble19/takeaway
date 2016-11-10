@@ -135,9 +135,9 @@ $(document).ready(function() {
     $('#chkBoxAll4Award').click(function() {
     	var chkBoxAll = $(this).attr('checked');
     	if (chkBoxAll) {
-    		$(this).find('input[name=chkBox]').attr('checked', true);
+    		$('#dbTable4Award').find('input[name=chkBox]').attr('checked', true);
     	} else {
-    		$(this).find('input[name=chkBox]').attr('checked', false);
+    		$('#dbTable4Award').find('input[name=chkBox]').attr('checked', false);
     	}
     })
     

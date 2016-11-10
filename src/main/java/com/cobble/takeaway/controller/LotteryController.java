@@ -56,15 +56,41 @@ public class LotteryController extends BaseController {
 			synchronized (this) {
 
 				InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+				
+
+				Date currDate = new Date();
+				if (currDate.after(interactivePOJO.getStartDateTime()) && currDate.before(interactivePOJO.getEndDateTime())) {
+//					valid = true;
+				} else {
+					AwardPOJO awardPOJO = new AwardPOJO();
+					awardPOJO.setOrderNo(-1);
+					ret.put("success", true);
+					ret.put("awardPOJO", awardPOJO);
+					ret.put("isHappy", false);
+					ret.put("result", "活动未开始");
+				}
+				
 				AwardSearchPOJO awardSearchPOJO = new AwardSearchPOJO();
 				awardSearchPOJO.setBalanceGt0Flag(true);
 				awardSearchPOJO.setInteractiveId(interactiveId);
 				List<AwardPOJO> awardPOJOs = awardService.finds(awardSearchPOJO);
 
 				Long userId = UserUtil.getCurrentUserId();
+				if (userId == null) {
+					AwardPOJO awardPOJO = new AwardPOJO();
+					awardPOJO.setOrderNo(-1);
+					ret.put("success", true);
+					ret.put("awardPOJO", awardPOJO);
+					ret.put("isHappy", false);
+					ret.put("result", "请登录，才能抽奖");
+					return ret;
+				}
 				
 				if (CollectionUtils.isEmpty(awardPOJOs) || userId == null) {
+					AwardPOJO awardPOJO = new AwardPOJO();
+					awardPOJO.setOrderNo(-1);
 					ret.put("success", true);
+					ret.put("awardPOJO", awardPOJO);
 					ret.put("isHappy", false);
 					ret.put("result", UN_AWARD);
 					return ret;
@@ -75,6 +101,21 @@ public class LotteryController extends BaseController {
 				awardRecordSearchPOJO.setUserId(userId);
 //				List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
 				int count = awardRecordService.getCount(awardRecordSearchPOJO);
+				
+				Integer awardNumberPer = interactivePOJO.getAwardNumberPer();
+				if (awardNumberPer == null) {
+					awardNumberPer = 1;
+				}
+				
+				if (count - awardNumberPer >= 0) {
+					AwardPOJO awardPOJO = new AwardPOJO();
+					awardPOJO.setOrderNo(-1);
+					ret.put("success", true);
+					ret.put("awardPOJO", awardPOJO);
+					ret.put("isHappy", false);
+					ret.put("result", "抽奖次数已达上限");
+					return ret;
+				}
 				
 				if (count > 0) {
 					logger.info("userId: {}, count: {}", userId, count);
@@ -110,7 +151,7 @@ public class LotteryController extends BaseController {
 						ret.put("success", true);
 						ret.put("awardPOJO", awardPOJO);
 						if (UN_AWARD.equalsIgnoreCase(awardPOJO.getName()) || 0 >= awardPOJO.getBalance()) {
-							ret.put("isHappy", false);
+							ret.put("isHappy", true);
 							ret.put("result", UN_AWARD);
 						} else {
 							ret.put("isHappy", true);

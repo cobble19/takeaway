@@ -232,4 +232,12 @@ public class UserServiceImpl implements UserService {
 		return ret;
 	}
 
+	@Override
+	public UserPOJO findUserByInteractiveId(Long interactiveId)
+			throws Exception {
+		UserPOJO ret = null;
+		ret = userMapper.findUserByInteractiveId(interactiveId);
+		return ret;
+	}
+
 }

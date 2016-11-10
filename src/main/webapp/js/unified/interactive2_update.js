@@ -84,6 +84,7 @@ var showDetail = function() {
     		$('#prizeEndDateTime').val(new Date(data.prizeEndDateTime).format('Y/m/d H:i'));
         	$('#numOfWinner').val(data.numOfWinner);
         	$('#answer').val(data.answer);
+        	$('#awardNumberPer').val(data.awardNumberPer);
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');

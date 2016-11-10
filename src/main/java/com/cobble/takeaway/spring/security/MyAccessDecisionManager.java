@@ -266,6 +266,23 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 					}
 				}
 			}
+		} else if (uri.contains("interactive2Detail")) {	// /page/enterprise(unified)/activity_detail.jsp?activityId=31
+			Pattern p = Pattern.compile("(interactiveId=)(\\d+)");
+			Matcher m = p.matcher(qs);
+			if (m.find() && m.groupCount() == 2) {
+				String s = m.group(2);
+				logger.info("activityId: {}", s);
+				Long interactiveId = Long.parseLong(s);
+				userPOJO = userService.findUserByInteractiveId(interactiveId);
+				
+				if (userPOJO != null && userPOJO.getUserId() != null) {
+					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+					if (user4IndexCode != null) {
+						String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+					}
+				}
+			}
 		} else if (uri.contains("/vote/query/")) {	// /page/enterprise/activity_detail.jsp?activityId=31
 			Pattern p = Pattern.compile("(/vote/query/)(\\d+)");
 			Matcher m = p.matcher(uri);

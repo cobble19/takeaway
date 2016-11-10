@@ -1,7 +1,10 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +26,10 @@ import com.cobble.takeaway.pojo.AwardRecordPOJO;
 import com.cobble.takeaway.pojo.AwardRecordSearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
+import com.cobble.takeaway.pojo.InteractivePOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.AwardRecordService;
+import com.cobble.takeaway.service.InteractiveService;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -33,9 +38,59 @@ public class AwardRecordController extends BaseController {
 	
 	@Autowired
 	private AwardRecordService awardRecordService;
+	@Autowired
+	private InteractiveService interactiveService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 
+	@RequestMapping(value = "/api/unified/awardRecord/checkValid", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public Map checkValid(@RequestParam(value="interactiveId") Long interactiveId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map ret = new HashMap();
+		try {
+			InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+			Integer awardNumberPer = interactivePOJO.getAwardNumberPer();
+			if (awardNumberPer == null) {
+				awardNumberPer = 1;
+			}
+			
+			Date currDate = new Date();
+			Boolean valid = true;
+			String description = "可以抽奖";
+			if (currDate.after(interactivePOJO.getStartDateTime()) && currDate.before(interactivePOJO.getEndDateTime())) {
+//				valid = true;
+			} else {
+				valid = false;
+				description = "活动还没有开始";
+			}
+			
+			Long userId = UserUtil.getCurrentUserId();
+
+			AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+			awardRecordSearchPOJO.setInteractiveId(interactiveId);
+			awardRecordSearchPOJO.setUserId(userId);
+			int count = awardRecordService.getCount(awardRecordSearchPOJO);
+			
+			if (count - awardNumberPer >= 0) {
+				valid = false;
+				description = "抽奖次数已打上限:" + awardNumberPer;
+			}
+			
+			ret.put("success", true);
+			ret.put("valid", valid);
+			ret.put("description", description);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.put("success", false);
+			ret.put("valid", false);
+			ret.put("description", "不能抽奖了");
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/unified/awardRecord/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	//@ResponseBody
 	public StatusPOJO add4WebUnified(AwardRecordPOJO awardRecordPOJO, Model model, 
@@ -45,12 +100,6 @@ public class AwardRecordController extends BaseController {
 			if (awardRecordPOJO == null) {
 				throw new Exception("awardRecordPOJO can't is NULL.");
 			}
-			int result = -1;
-			if (awardRecordPOJO.getAwardRecordId() != null && awardRecordPOJO.getAwardRecordId() > 0l) {
-				result = awardRecordService.update(awardRecordPOJO);
-			} else {
-				result = awardRecordService.insert(awardRecordPOJO);
-			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
@@ -58,12 +107,8 @@ public class AwardRecordController extends BaseController {
 			throw e;
 		}
 		
-		String url = "/page/unified/awardRecord_detail.jsp?awardRecordId=" + awardRecordPOJO.getAwardRecordId();
-		url = "/web/unified/usercenter";
-		redirectStrategy.sendRedirect(request, response, url);
 		
-//		return ret;
-		return null;
+		return ret;
 	}
 
 	
@@ -127,8 +172,9 @@ public class AwardRecordController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<AwardRecordPOJO> queryByUserId(AwardRecordSearchPOJO awardRecordSearchPOJO) throws Exception {
 		DataTablesPOJO<AwardRecordPOJO> ret = new DataTablesPOJO<AwardRecordPOJO>();
-		awardRecordSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
 		try {
+			awardRecordSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+			awardRecordSearchPOJO.setPaginationFlage(false);
 			List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
 			ret.setData(awardRecordPOJOs);
 		} catch (Exception e) {

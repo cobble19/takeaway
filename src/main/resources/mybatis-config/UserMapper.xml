@@ -56,6 +56,17 @@
     and c.activity_id = #{activityId}
   </select>
   
+  <select id="findUserByInteractiveId" resultMap="UserResultMap" parameterType="java.lang.Long" >
+    select
+      distinct
+    <include refid="Base_Column_List" />
+    from b_user u, rel_interactive_user b, e_interactive c
+    where 
+    u.user_id = b.user_id
+    and b.interactive_id = c.interactive_id
+    and c.interactive_id = #{interactiveId}
+  </select>
+  
   <select id="findUserByIndexCode" resultMap="UserResultMap" parameterType="String" >
     select
       distinct

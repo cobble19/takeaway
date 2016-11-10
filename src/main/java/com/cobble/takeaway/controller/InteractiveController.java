@@ -56,6 +56,7 @@ public class InteractiveController extends BaseController {
 		DataTablesPOJO<InteractivePOJO> ret = new DataTablesPOJO<InteractivePOJO>();
 		try {
 			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+			interactiveSearchPOJO.setPaginationFlage(false);
 			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {

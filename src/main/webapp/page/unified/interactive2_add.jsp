@@ -74,15 +74,21 @@
  				</div>
  			</div>
  			<div class="form-group" style="display: none;">
- 				<label class="control-label" for="title">获奖人数:</label>
+ 				<label class="control-label" for="numOfWinner">获奖人数:</label>
  				<div class="">
  					<input type="number" class="form-control" id="numOfWinner" name="numOfWinner" placeholder="请输入本次互动活动获奖人数">
  				</div>
  			</div>
  			<div class="form-group" style="display: none;">
- 				<label class="control-label" for="title">答案:</label>
+ 				<label class="control-label" for="answer">答案:</label>
  				<div class="">
  					<input class="form-control" id="answer" name="answer" placeholder="请输入本次互动答案">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="awardNumberPer">每个人获奖次数:</label>
+ 				<div class="">
+ 					<input class="form-control" id="awardNumberPer" name="awardNumberPer" placeholder="请输入本次获奖次数">
  				</div>
  			</div>
  			<div class="form-group">
