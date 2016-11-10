@@ -4,7 +4,7 @@ var lottery={
 	timer:0,	//setTimeout的ID，用clearTimeout清除
 	speed:20,	//初始转动速度
 	times:0,	//转动次数
-	cycle:1,	//转动基本次数：即至少需要转动多少次再进入抽奖环节
+	cycle:50,	//转动基本次数：即至少需要转动多少次再进入抽奖环节
 	prize:-1,	//中奖位置
 	result:'',
 	init:function(id){
