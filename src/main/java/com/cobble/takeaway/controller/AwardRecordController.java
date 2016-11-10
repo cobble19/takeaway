@@ -74,7 +74,7 @@ public class AwardRecordController extends BaseController {
 			
 			if (count - awardNumberPer >= 0) {
 				valid = false;
-				description = "抽奖次数已打上限:" + awardNumberPer;
+				description = "抽奖次数已达上限:" + awardNumberPer;
 			}
 			
 			ret.put("success", true);
