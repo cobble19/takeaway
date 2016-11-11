@@ -4,9 +4,12 @@ $(document).ready(function() {
 		var result = checkValid();
 		
 		if (!result.valid) {
-			$('#award_tips').dialog("option", "title", result.description);
+			$.alert(result.description, result.description, function() {
+				  window.location.reload();
+			});
+			/*$('#award_tips').dialog("option", "title", result.description);
 			$('#award_tips').text(result.description);
-			$('#award_tips').dialog('open');
+			$('#award_tips').dialog('open');*/
 //			alert(result.description);
 			return false;
 		}
@@ -177,9 +180,12 @@ function roll(){
 		clickable=true;
 
 		$("#lottery a").removeClass("disabled");
-		$('#award_tips').dialog("option", "title", lottery.msgTitle);
+		$.alert(lottery.msgDescription, lottery.msgTitle, function() {
+			  window.location.reload();
+		});
+		/*$('#award_tips').dialog("option", "title", lottery.msgTitle);
 		$('#award_tips').text(lottery.msgDescription);
-		$('#award_tips').dialog('open');
+		$('#award_tips').dialog('open');*/
 //		alert(lottery.result);
 		return;
 	}
@@ -193,9 +199,12 @@ function roll(){
 		clickable=true;
 		
 		$("#lottery a").removeClass("disabled");
-		$('#award_tips').dialog("option", "title", lottery.msgTitle);
+		$.alert(lottery.msgDescription, lottery.msgTitle, function() {
+			  window.location.reload();
+		});
+		/*$('#award_tips').dialog("option", "title", lottery.msgTitle);
 		$('#award_tips').text(lottery.msgDescription);
-		$('#award_tips').dialog('open');
+		$('#award_tips').dialog('open');*/
 //		alert(lottery.result);
 		return;
 	}else{
