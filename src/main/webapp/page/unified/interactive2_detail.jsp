@@ -66,7 +66,7 @@
 									</tr>
 									<tr>
 										<td class="lottery-unit lottery-unit-7 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
-										<td class="kscj" colspan="1" rowspan="1"><a class="btn btn-warning" href=""><img src="<cmn:base/>/images/lottery/cjstart.jpg"></a></td>
+										<td class="kscj" colspan="1" rowspan="1"><a class="btn" href=""><img src="<cmn:base/>/images/lottery/cjstart.jpg"></a></td>
 										<td class="lottery-unit lottery-unit-3 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
 									</tr>
 							        <tr>

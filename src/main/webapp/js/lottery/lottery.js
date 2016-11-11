@@ -45,7 +45,20 @@ $(document).ready(function() {
     	modal: true,
     	close: function( event, ui ) {
     		window.location.reload();
-    	}
+    	},
+    	buttons : [ {
+			text : "确定",
+			icons : {
+				primary : "ui-icon-heart"
+			},
+			click : function() {
+				$(this).dialog("close");
+			}
+
+		// Uncommenting the following line would hide the text,
+		// resulting in the label being used as a tooltip
+		// showText: false
+		} ]
     });
 	
 	
