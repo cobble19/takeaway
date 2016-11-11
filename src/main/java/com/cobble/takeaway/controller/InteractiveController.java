@@ -7,10 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -48,6 +50,9 @@ public class InteractiveController extends BaseController {
 	private UserService userService;
 	@Autowired
 	private AwardRecordService awardRecordService;
+	@Autowired
+	private MessageSource messageSource;
+	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@RequestMapping(value = "/api/unified/interactive", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -102,7 +107,7 @@ public class InteractiveController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		
-		AwardRecordPOJO awardRecordPOJO = null;
+		/*AwardRecordPOJO awardRecordPOJO = null;*/
 		Long userId = UserUtil.getCurrentUserId();
 
 		AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
@@ -110,17 +115,32 @@ public class InteractiveController extends BaseController {
 		awardRecordSearchPOJO.setInteractiveId(interactiveId);
 		awardRecordSearchPOJO.setUserId(userId);
 		List<AwardRecordPOJO> myAwardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
-		if (CollectionUtils.isNotEmpty(myAwardRecordPOJOs)) {
+		/*if (CollectionUtils.isNotEmpty(myAwardRecordPOJOs)) {
 			logger.info("myAwardRecordPOJOs size: {}, should be is 1", myAwardRecordPOJOs.size());
 			awardRecordPOJO = myAwardRecordPOJOs.get(0);
-		}
-		ret.addObject("awardRecordPOJO", awardRecordPOJO);
+		}*/
+		ret.addObject("myAwardRecordPOJOs", myAwardRecordPOJOs);
 		
 		
 		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
 		awardRecordSearchPOJO = new AwardRecordSearchPOJO();
 		awardRecordSearchPOJO.setPaginationFlage(false);
 		awardRecordSearchPOJO.setInteractiveId(interactiveId);
+		List<String> awardNamesNot = new ArrayList<String>();
+		String notName = messageSource.getMessage("lottery.award.notname", null, null);
+		if (StringUtils.isNotBlank(notName)) {
+			String[] notNames = StringUtils.split(notName, ",");
+			if (null != notNames) {
+				for (int i = 0; i < notNames.length; i++) {
+					awardNamesNot.add(notNames[i]);
+				}
+			} else {
+				awardNamesNot.add("未中奖");
+			}
+		} else {
+			awardNamesNot.add("未中奖");
+		}
+		awardRecordSearchPOJO.setAwardNamesNot(awardNamesNot);
 		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
 		
 		if (interactivePOJO != null) {

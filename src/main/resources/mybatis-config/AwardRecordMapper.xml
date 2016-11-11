@@ -67,8 +67,11 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
-			<if test="awardNameNot != null and awardNameNot != ''">
-				and c.NAME != #{awardNameNot}
+			<if test="awardNamesNot != null">
+				and c.NAME not in
+				<foreach collection="awardNamesNot" index="index" item="awardNameNot" open="(" close=")" separator=",">
+					#{awardNameNot}
+				</foreach>
 			</if>
   		</trim>
   	</where>

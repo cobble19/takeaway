@@ -85,7 +85,7 @@
 									</tr>
 									<tr>
 										<td class="lottery-unit lottery-unit-7 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
-										<td class="kscj" colspan="1" rowspan="1"><a href="#"><img src="<cmn:base/>/images/lottery/cjstart.jpg"></a></td>
+										<td class="kscj" colspan="1" rowspan="1"><a href=""><img src="<cmn:base/>/images/lottery/cjstart.jpg"></a></td>
 										<td class="lottery-unit lottery-unit-3 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
 									</tr>
 							        <tr>
@@ -115,8 +115,12 @@
 	  					</div>
                     <div class="col-md-12" style="margin-top: 50px;">		
 					    <span id="errorMsg" style="color: red;"></span>
-					    <c:if test="${not empty awardRecordPOJO}">
-					    	你已经抽过奖了，结果是：<c:out value="${awardRecordPOJO.awardPOJO.name}"></c:out>
+					    <c:if test="${not empty myAwardRecordPOJOs}">
+					    	你已经抽过奖了，结果是：
+					    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
+					    		<c:out value="${st.count}"></c:out>.
+					    		<c:out value="${myAwardRecordPOJO.awardPOJO.name}"></c:out>
+					    	</c:forEach>
 					    </c:if>
 					</div>
 					</div>

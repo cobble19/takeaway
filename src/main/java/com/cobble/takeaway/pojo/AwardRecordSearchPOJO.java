@@ -1,6 +1,7 @@
 package com.cobble.takeaway.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class AwardRecordSearchPOJO extends BaseSearchPOJO {
 	private Long awardRecordId;
@@ -10,7 +11,7 @@ public class AwardRecordSearchPOJO extends BaseSearchPOJO {
 	private Date hitDateTime;
 	private Date createDateTime;
 	
-	private String awardNameNot;
+	private List<String> awardNamesNot;
 	
 	public Long getAwardRecordId() {
 		return awardRecordId;
@@ -48,11 +49,11 @@ public class AwardRecordSearchPOJO extends BaseSearchPOJO {
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
 	}
-	public String getAwardNameNot() {
-		return awardNameNot;
+	public List<String> getAwardNamesNot() {
+		return awardNamesNot;
 	}
-	public void setAwardNameNot(String awardNameNot) {
-		this.awardNameNot = awardNameNot;
+	public void setAwardNamesNot(List<String> awardNamesNot) {
+		this.awardNamesNot = awardNamesNot;
 	}
 	
 }

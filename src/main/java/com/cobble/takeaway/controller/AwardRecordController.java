@@ -173,7 +173,7 @@ public class AwardRecordController extends BaseController {
 	public DataTablesPOJO<AwardRecordPOJO> queryByUserId(AwardRecordSearchPOJO awardRecordSearchPOJO) throws Exception {
 		DataTablesPOJO<AwardRecordPOJO> ret = new DataTablesPOJO<AwardRecordPOJO>();
 		try {
-			awardRecordSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+//			awardRecordSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
 			awardRecordSearchPOJO.setPaginationFlage(false);
 			List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
 			ret.setData(awardRecordPOJOs);

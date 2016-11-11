@@ -3,7 +3,10 @@ $(document).ready(function() {
 			
 			$('#award_tips').dialog({
 		    	autoOpen: false,
-		    	modal: true
+		    	modal: true,
+		    	close: function( event, ui ) {
+		    		window.location.reload();
+		    	}
 		    });
 			
 			function randomcolor() {
@@ -121,7 +124,7 @@ function roll(){
 //		alert(lottery.result);
 		return;
 	}
-	if (lottery.times > lottery.cycle+10 && (lottery.prize==lottery.index || lottery.prize != -1)) {
+	if (lottery.times > lottery.cycle+10 && (lottery.prize==lottery.index && lottery.prize != -1)) {
 		clearTimeout(lottery.timer);
 //		lottery.draw(lottery.prize);
 		$('#errorMsg').show();
@@ -248,7 +251,7 @@ window.onload=function(){
 		
 		if (!result.valid) {
 			$('#award_tips').dialog("option", "title", result.description);
-			$('#award_tips').text(result.description)
+			$('#award_tips').text(result.description);
 			$('#award_tips').dialog('open');
 //			alert(result.description);
 			return false;
@@ -256,7 +259,7 @@ window.onload=function(){
 		
 		if (!clickable) {
 			$('#award_tips').dialog("option", "title", '您已经抽过奖了');
-			$('#award_tips').text(result.description)
+			$('#award_tips').text(result.description);
 			$('#award_tips').dialog('open');
 //			alert('您已经抽过奖了');
 			return false;
@@ -269,5 +272,6 @@ window.onload=function(){
 			clickable=false;
 			return false;
 		}
+		return false;
 	});
 };
