@@ -38,7 +38,7 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	randomcolor();
+	/*randomcolor();*/
 	
 	$('#award_tips').dialog({
     	autoOpen: false,
