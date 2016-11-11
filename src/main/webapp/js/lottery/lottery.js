@@ -248,7 +248,7 @@ window.onload=function(){
 		
 		if (!result.valid) {
 			$('#award_tips').dialog("option", "title", result.description);
-			$('#award_tips').text、(result.description)
+			$('#award_tips').text(result.description)
 			$('#award_tips').dialog('open');
 //			alert(result.description);
 			return false;
