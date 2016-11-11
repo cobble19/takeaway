@@ -12,35 +12,16 @@
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/interactive2_detail.js"></script>
     
     <link href="<cmn:base/>/css/lottery/lottery.css" rel="stylesheet">
-    <script type="text/javascript">
-		function randomcolor()
-		{
-				var tds = $('#lottery table tr td');
-				for(i=0;i<tds.length; i++){
-					td = tds[i];
-					$(td).css('background-color', getRandomColor());
-				}
-
-		}
-
-		function getRandomColor(){
-		  return  '#' +
-			(function(color){
-			return (color +=  '0123456789abcdef'[Math.floor(Math.random()*16)])
-			  && (color.length == 6) ?  color : arguments.callee(color);
-		  })('');
-		}
-	</script>
   </head>
-  <body onLoad="randomcolor()">
+  <body>
   
 	<div class="container-fluid">
-		<div class="hidden-xs">
+		<div class="hidden-xs" style="margin-bottom:40px;">
 			<%@include file="../../../reg_login_full.jsp" %>
 		</div>
 			<div class="row">
 				<div class="col-md-12 col-xs-12" >
-	            	<span style=" margin-top:50px; margin-bottom:50px; display:block;"><h3 id="title"></h3></span>
+	            	<span style=" margin-top:10px; margin-bottom:10px; display:block;"><h3 id="title"><c:out value="${interactivePOJO.name}"></c:out></h3></span>
 	            	<input type="hidden" id="interactiveId" name="interactiveId" value="<%=request.getParameter("interactiveId") %>"/>
 				</div>
 			</div>
@@ -96,8 +77,19 @@
 								</table>
 							</div>
 			  			</div>
+                        <div class="col-md-4 col-xs-12">
+                        <div class="col-md-12 col-xs-12" style="margin-top: 5px;">		
+					    <span id="errorMsg" style="color: red;"></span>
+					    <p class="h5"><c:if test="${not empty myAwardRecordPOJOs}">
+					    	您的抽奖结果：
+					    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
+					    		<c:out value="${st.count}"></c:out>.
+					    		<c:out value="${myAwardRecordPOJO.awardPOJO.name}"></c:out>
+					    	</c:forEach>
+					    </c:if></p>
+					</div>
                         <div class="col-md-4 col-xs-12 visible-xs" style=" border-bottom:2px solid #ccc; height:30px;"></div>
-	  				<div id="interactiveApplySortor" class="col-md-4 col-xs-12" style="margin-top:10px;">
+	  				<div id="interactiveApplySortor" class="col-md-12 col-xs-12" style="margin-top:10px;">
 	  						<strong class="text-danger">获奖名单</strong>
 	  						<!-- <div id="interactiveApplyContent"> -->
 	  						<ul>
@@ -113,16 +105,7 @@
 	  							</c:forEach>
 	  						</ul>
 	  					</div>
-                    <div class="col-md-12" style="margin-top: 50px;">		
-					    <span id="errorMsg" style="color: red;"></span>
-					    <c:if test="${not empty myAwardRecordPOJOs}">
-					    	你已经抽过奖了，结果是：
-					    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
-					    		<c:out value="${st.count}"></c:out>.
-					    		<c:out value="${myAwardRecordPOJO.awardPOJO.name}"></c:out>
-					    	</c:forEach>
-					    </c:if>
-					</div>
+                        </div>
 					</div>
 					<div id="award_tips">
 					
