@@ -113,7 +113,7 @@ public class LotteryController extends BaseController {
 					ret.put("success", true);
 					ret.put("awardPOJO", awardPOJO);
 					ret.put("isHappy", false);
-					ret.put("result", "抽奖次数已达上限");
+					ret.put("result", "您的抽奖次数已用完");
 					return ret;
 				}
 				

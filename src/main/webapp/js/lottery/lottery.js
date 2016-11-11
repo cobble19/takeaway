@@ -1,29 +1,73 @@
 $(document).ready(function() {
-			randomcolor();
-			
-			$('#award_tips').dialog({
-		    	autoOpen: false,
-		    	modal: true,
-		    	close: function( event, ui ) {
-		    		window.location.reload();
-		    	}
-		    });
-			
-			function randomcolor() {
-				var tds = $('#lottery table tr td');
-				for (i = 0; i < tds.length; i++) {
-					td = tds[i];
-					$(td).css('background-color', getRandomColor());
-				}
-			}
-
-			function getRandomColor() {
-				return '#' + (function(color) {
-							return (color += '0123456789abcdef'[Math.floor(Math.random() * 16)])
-									&& (color.length == 6) ? color : arguments.callee(color);
-						})('');
-			}
+	lottery.init('lottery');
+	$("#lottery a").click(function(){
+		var result = checkValid();
+		
+		if (!result.valid) {
+			$('#award_tips').dialog("option", "title", result.description);
+			$('#award_tips').text(result.description);
+			$('#award_tips').dialog('open');
+//			alert(result.description);
+			return false;
+		}
+		
+//		$(this).parent("td").css("background-color", "#ccc");
+		result = null;
+		lotteryHappy();
+		lottery.speed=100;
+		roll();
+		clickable=false;
+		$("#lottery a").addClass("disabled");
+		return false;
+		
+		/*if (!clickable) {
+			$('#award_tips').dialog("option", "title", '您已经抽过奖了');
+			$('#award_tips').text(result.description);
+			$('#award_tips').dialog('open');
+//			alert('您已经抽过奖了');
+			return false;
+		} else {
+			$(this).parent("td").css("background-color", "#ccc");
+			result = null;
+			lotteryHappy();
+			lottery.speed=100;
+			roll();
+			clickable=false;
+			return false;
+		}*/
+		return false;
+	});
+	
+	randomcolor();
+	
+	$('#award_tips').dialog({
+    	autoOpen: false,
+    	modal: true,
+    	close: function( event, ui ) {
+    		window.location.reload();
+    	}
+    });
+	
+	
 })
+
+function randomcolor() {
+	var tds = $('#lottery table tr td');
+	for (i = 0; i < tds.length; i++) {
+		td = tds[i];
+		$(td).css('background-color', getRandomColor());
+	}
+}
+
+function getRandomColor() {
+	return '#'
+			+ (function(color) {
+				return (color += '0123456789abcdef'[Math
+						.floor(Math.random() * 16)])
+						&& (color.length == 6) ? color : arguments
+						.callee(color);
+			})('');
+}
 
 var lottery={
 	index:-1,	//当前转动到哪个位置，起点位置
@@ -118,6 +162,8 @@ function roll(){
 		lottery.prize=-1;
 		lottery.times=0;
 		clickable=true;
+
+		$("#lottery a").removeClass("disabled");
 		$('#award_tips').dialog("option", "title", lottery.msgTitle);
 		$('#award_tips').text(lottery.msgDescription);
 		$('#award_tips').dialog('open');
@@ -132,6 +178,8 @@ function roll(){
 		lottery.prize=-1;
 		lottery.times=0;
 		clickable=true;
+		
+		$("#lottery a").removeClass("disabled");
 		$('#award_tips').dialog("option", "title", lottery.msgTitle);
 		$('#award_tips').text(lottery.msgDescription);
 		$('#award_tips').dialog('open');
@@ -245,33 +293,5 @@ var checkValid = function() {
 var clickable=true;
 
 window.onload=function(){
-	lottery.init('lottery');
-	$("#lottery a").click(function(){
-		var result = checkValid();
-		
-		if (!result.valid) {
-			$('#award_tips').dialog("option", "title", result.description);
-			$('#award_tips').text(result.description);
-			$('#award_tips').dialog('open');
-//			alert(result.description);
-			return false;
-		}
-		
-		if (!clickable) {
-			$('#award_tips').dialog("option", "title", '您已经抽过奖了');
-			$('#award_tips').text(result.description);
-			$('#award_tips').dialog('open');
-//			alert('您已经抽过奖了');
-			return false;
-		} else {
-			$(this).parent("td").css("background-color", "#ccc");
-			result = null;
-			lotteryHappy();
-			lottery.speed=100;
-			roll();
-			clickable=false;
-			return false;
-		}
-		return false;
-	});
+	
 };
