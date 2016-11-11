@@ -122,7 +122,7 @@ public class AwardRecordController extends BaseController {
 				throw new Exception("awardRecordPOJO can't is NULL.");
 			}
 			int result = -1;
-			if (awardRecordPOJO.getAwardRecordId() != null && awardRecordPOJO.getAwardRecordId() > 0l) {
+			if (awardRecordPOJO.getAwardRecordId() != null) {
 				result = awardRecordService.update(awardRecordPOJO);
 			} else {
 				result = awardRecordService.insert(awardRecordPOJO);

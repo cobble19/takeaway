@@ -49,7 +49,7 @@ public class AwardController extends BaseController {
 				throw new Exception("awardPOJO can't is NULL.");
 			}
 			int result = -1;
-			if (awardPOJO.getAwardId() != null && awardPOJO.getAwardId() > 0l) {
+			if (awardPOJO.getAwardId() != null) {
 				result = awardService.update(awardPOJO);
 			} else {
 				result = awardService.insert(awardPOJO);
@@ -62,7 +62,7 @@ public class AwardController extends BaseController {
 		}
 		
 		String url = "/page/unified/award_detail.jsp?awardId=" + awardPOJO.getAwardId();
-		url = "/web/unified/usercenter";
+		url = "/web/unified/usercenter#award";
 		redirectStrategy.sendRedirect(request, response, url);
 		
 //		return ret;
@@ -98,7 +98,7 @@ public class AwardController extends BaseController {
 				throw new Exception("awardPOJO can't is NULL.");
 			}
 			int result = -1;
-			if (awardPOJO.getAwardId() != null && awardPOJO.getAwardId() > 0l) {
+			if (awardPOJO.getAwardId() != null) {
 				result = awardService.update(awardPOJO);
 			} else {
 				result = awardService.insert(awardPOJO);

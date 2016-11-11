@@ -82,7 +82,7 @@ public class InteractiveController extends BaseController {
 				throw new Exception("interactivePOJO can't is NULL.");
 			}
 			int result = -1;
-			if (interactivePOJO.getInteractiveId() != null && interactivePOJO.getInteractiveId() > 0l) {
+			if (interactivePOJO.getInteractiveId() != null) {
 				result = interactiveService.update(interactivePOJO);
 			} else {
 				interactivePOJO.setStatus(-1);
@@ -162,7 +162,7 @@ public class InteractiveController extends BaseController {
 				throw new Exception("interactivePOJO can't is NULL.");
 			}
 			int result = -1;
-			if (interactivePOJO.getInteractiveId() != null && interactivePOJO.getInteractiveId() > 0l) {
+			if (interactivePOJO.getInteractiveId() != null) {
 				result = interactiveService.update(interactivePOJO);
 			} else {
 				interactivePOJO.setStatus(-1);
