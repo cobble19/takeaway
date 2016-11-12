@@ -4,7 +4,7 @@ $(document).ready(function() {
 		var result = checkValid();
 		
 		if (!result.valid) {
-			$.alert(result.description, result.description, function() {
+			$.alert(result.description, result.title, function() {
 				  window.location.reload();
 			});
 			/*$('#award_tips').dialog("option", "title", result.description);
@@ -131,8 +131,8 @@ var lottery={
 			var random = randomInt(length);
 			var award = awards.get(random);
 			$(award).addClass("active");
-			$('#errorMsg').show();
-			$('#errorMsg').val(lottery.result);
+			/*$('#errorMsg').show();
+			$('#errorMsg').val(lottery.result);*/
 		}
 	},
 	calcPrize: function(orderNo) {
@@ -171,8 +171,8 @@ function roll(){
 	lottery.roll();
 	if (lottery.times > lottery.cycle+15 && (result == null || lottery.prize == -1) ) {
 //		lottery.result = '未发现奖品1';
-		$('#errorMsg').show();
-		$('#errorMsg').text(lottery.result);
+		/*$('#errorMsg').show();
+		$('#errorMsg').text(lottery.result);*/
 		clearTimeout(lottery.timer);
 		/*lottery.draw(lottery.prize);*/
 		lottery.prize=-1;
@@ -192,8 +192,8 @@ function roll(){
 	if (lottery.times > lottery.cycle+10 && (lottery.prize==lottery.index && lottery.prize != -1)) {
 		clearTimeout(lottery.timer);
 //		lottery.draw(lottery.prize);
-		$('#errorMsg').show();
-		$('#errorMsg').text(lottery.result);
+		/*$('#errorMsg').show();
+		$('#errorMsg').text(lottery.result);*/
 		lottery.prize=-1;
 		lottery.times=0;
 		clickable=true;
@@ -244,7 +244,7 @@ function roll(){
 		$('#errorMsg').show();
 		$('#errorMsg').val(lottery.result);
 	}*/
-	console.log(lottery.times+'^^^^^^'+lottery.speed+'^^^^^^^'+lottery.prize);
+//	console.log(lottery.times+'^^^^^^'+lottery.speed+'^^^^^^^'+lottery.prize);
 	return false;
 }
 
@@ -278,6 +278,7 @@ function lotteryHappy() {
 var checkValid = function() {
 	var ret = {
 			"valid": false,
+			"title": '',
 			"description": ''
 	};
 	var interactiveId = $("#interactiveId").val();
@@ -296,9 +297,11 @@ var checkValid = function() {
         success: function(data, textStatus, jqXHR ) {
         	if (data.success) {
         		ret.valid = data.valid;
+        		ret.title = data.title;
         		ret.description = data.description;
         	} else {
         		ret.valid = false;
+        		ret.title = data.title;
         		ret.description = data.description;
         	}
         },

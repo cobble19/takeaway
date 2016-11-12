@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	
+	var content = $('#content').text()
+	$('#content').html(content);
+	
 	/*showDetail();*/
 	
 	/*$('#applyForm').validate();*/

@@ -90,10 +90,17 @@
 					    <span id="errorMsg" style="color: red;"></span>
 					    <p class="h5"><c:if test="${not empty myAwardRecordPOJOs}">
 					    	您的抽奖结果：
-					    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
-					    		<c:out value="${st.count}"></c:out>.
-					    		<c:out value="${myAwardRecordPOJO.awardPOJO.name}"></c:out>
-					    	</c:forEach>
+					    	<c:if test="${fn:length(myAwardRecordPOJOs) > 1}">
+						    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
+						    		<c:out value="${st.count}"></c:out>.
+						    		<c:out value="${myAwardRecordPOJO.awardPOJO.name}"></c:out>
+						    	</c:forEach>
+					    	</c:if>
+					    	<c:if test="${fn:length(myAwardRecordPOJOs) == 1}">
+						    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
+						    		<c:out value="${myAwardRecordPOJO.awardPOJO.name}"></c:out>
+						    	</c:forEach>
+					    	</c:if>
 					    </c:if></p>
 					</div>
                         <div class="col-md-4 col-xs-12 visible-xs" style=" border-bottom:2px solid #ccc; height:30px;"></div>

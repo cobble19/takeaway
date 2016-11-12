@@ -57,12 +57,36 @@ public class AwardRecordController extends BaseController {
 			
 			Date currDate = new Date();
 			Boolean valid = true;
+			String title = "提示";
 			String description = "可以抽奖";
-			if (currDate.after(interactivePOJO.getStartDateTime()) && currDate.before(interactivePOJO.getEndDateTime())) {
+			/*if (currDate.after(interactivePOJO.getStartDateTime()) && currDate.before(interactivePOJO.getEndDateTime())) {
 //				valid = true;
 			} else {
 				valid = false;
 				description = "活动还没有开始";
+				ret.put("success", true);
+				ret.put("valid", valid);
+				ret.put("description", description);
+			}*/
+			
+			if (currDate.before(interactivePOJO.getStartDateTime())) {
+				valid = false;
+				description = "活动还没有开始";
+				ret.put("success", true);
+				ret.put("valid", valid);
+				ret.put("title", title);
+				ret.put("description", description);
+				return ret;
+			}
+			
+			if (currDate.after(interactivePOJO.getEndDateTime())) {
+				valid = false;
+				description = "活动已经结束";
+				ret.put("success", true);
+				ret.put("valid", valid);
+				ret.put("title", title);
+				ret.put("description", description);
+				return ret;
 			}
 			
 			Long userId = UserUtil.getCurrentUserId();
@@ -74,7 +98,12 @@ public class AwardRecordController extends BaseController {
 			
 			if (count - awardNumberPer >= 0) {
 				valid = false;
-				description = "您的抽奖次数已用完:" + awardNumberPer;
+				description = "您的抽奖次数已用完";
+				ret.put("success", true);
+				ret.put("valid", valid);
+				ret.put("title", title);
+				ret.put("description", description);
+				return ret;
 			}
 			
 			ret.put("success", true);
