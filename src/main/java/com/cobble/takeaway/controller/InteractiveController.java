@@ -145,6 +145,8 @@ public class InteractiveController extends BaseController {
 		
 		if (interactivePOJO != null) {
 			interactivePOJO.setAwardRecordPOJOs(awardRecordPOJOs);
+
+			ret.addObject("documentTitle", interactivePOJO.getName());
 		}
 		
 		ret.addObject("interactivePOJO", interactivePOJO);
