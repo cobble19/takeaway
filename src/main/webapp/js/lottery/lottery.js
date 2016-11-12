@@ -10,10 +10,10 @@ $(document).ready(function() {
 			if (confirm) {
 				showQrcode();
 			} else {
-				return;
+				return false;
 			}
 			
-			return;
+			return false;
 		}
 		
 		var result = checkValid();
