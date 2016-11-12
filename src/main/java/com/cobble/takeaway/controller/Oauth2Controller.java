@@ -751,15 +751,19 @@ public class Oauth2Controller extends BaseController {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			// 根据unionId and authorizerAppId, 获取是否存在openId
-			String unionId = wxPersonUserSearchPOJO.getUnionId();
+//			String unionId = wxPersonUserSearchPOJO.getUnionId();
 			String authorizerAppId = wxPersonUserSearchPOJO.getAuthorizerAppId();
+			String openId = wxPersonUserSearchPOJO.getOpenId();
 
 			HttpSession session = request.getSession();
-			if (StringUtils.isBlank(unionId)) {
+			/*if (StringUtils.isBlank(unionId)) {
 				unionId = (String) session.getAttribute(CommonConstant.UNION_ID);
-			}
+			}*/
 			if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (StringUtils.isBlank(openId)) {
+				openId = (String) session.getAttribute(CommonConstant.OPEN_ID);
 			}
 			
 			
@@ -768,7 +772,7 @@ public class Oauth2Controller extends BaseController {
 			
 			if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 				ret.setSuccess(false);
-				ret.setDesc("没有关注：");
+				ret.setDesc("没有关注");
 				return ret;
 			}
 			WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);	//获取第一个 微信个人用户信息
@@ -786,7 +790,7 @@ public class Oauth2Controller extends BaseController {
 				ret.setDesc("已经关注：" + wxUserInfoApiPOJO.getOpenId());
 			} else {
 				ret.setSuccess(false);
-				ret.setDesc("没有关注：");
+				ret.setDesc("没有关注");
 			}
 		} catch (Exception e) {
 			logger.error("insert error.", e);

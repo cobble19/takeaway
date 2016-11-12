@@ -1,6 +1,21 @@
 $(document).ready(function() {
 	lottery.init('lottery');
 	$("#lottery a").click(function(){
+		
+		var subscribe = isSubscribe();
+		if (!subscribe) {
+//			alert('请关注该活动发布方微信公众号');
+			/// 跳出微信qrcode进行关注
+			confirm = window.confirm('提交信息，需要关注公众号， 是否关注？');
+			if (confirm) {
+				showQrcode();
+			} else {
+				return;
+			}
+			
+			return;
+		}
+		
 		var result = checkValid();
 		
 		if (!result.valid) {

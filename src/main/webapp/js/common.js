@@ -23,6 +23,73 @@ $(document).ready(function() {
 	});
 })
 
+
+showQrcode = function() {
+		
+	    var authorizerAppId = $('#authorizerAppId').val();
+	    
+	    /*if (authorizerAppId == null || authorizerAppId == "") {
+	    	alert('微信公众号的ID为空， 请重新登录');
+	    }*/
+	    
+	    
+	    window.location.href = $('#basePath').val() + "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
+    	
+    	return ;
+}
+
+isSubscribe = function() {
+		var exist = false;
+		
+	    var unionId = $('#unionId').val();
+	    var authorizerAppId = $('#authorizerAppId').val();
+	    var openId = $('#openId').val();
+	    
+	    /*if (unionId == null || authorizerAppId == "") {
+	    	alert("微信用户的联合ID为空， 请重新登录");
+	    	return;
+	    }
+	    if (authorizerAppId == null || authorizerAppId == "") {
+	    	alert("微信公众号ID为空， 请重新登录");
+	    	return;
+	    }*/
+    	
+	    var params = {
+	    		
+	    };
+
+    	params.unionId = unionId;
+    	params.authorizerAppId = authorizerAppId;
+    	params.openId = openId;
+    	
+    	$.ajax({
+    		"url" : $('#basePath').val() + "/api/wx/oauth2/third/web/subscribe",
+    		"type" : "POST",
+    		"async": false,
+    		/*"headers" : {
+    			"Content-Type" : "application/json"
+    		},*/
+//    		"timeout": 300000,
+    		"dataType" : 'json',
+    		"data": params,
+            success: function(data, textStatus, jqXHR ) {
+            	if (data.success) {
+            		exist = true;
+            	} else {
+            		exist = false;
+            	}
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Ajax error');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});	// ajax
+    	return exist;
+}
+
+
 isWeiXin = function() {
 	var ua = navigator.userAgent.toLowerCase();
     return /micromessenger/i.test(ua) || typeof navigator.wxuserAgent !== 'undefined';
