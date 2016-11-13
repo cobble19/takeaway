@@ -166,10 +166,6 @@ var publishMenuMgrCategory = function(wxMenuMgrCategoryId, authorizerAppId) {
 
 var getMenuMgrMenuInfo = function() {
 	var authorizerAppId = $('#authorizerAppId').val();
-	getMenuMgrMenuInfo(authorizerAppId);
-}
-
-var getMenuMgrMenuInfo = function(authorizerAppId) {
 	console.log("authorizerAppId: " + authorizerAppId);
 	if (authorizerAppId == null) {
 		alert("authorizerAppId: " + authorizerAppId + ", 参数不正确");
