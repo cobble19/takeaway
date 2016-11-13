@@ -65,13 +65,13 @@ var getWxMenuMgrButtonDispDiv = function(wxMenuMgrButtonPOJO) {
 		return ret;
 	}
 	if (wxMenuMgrButtonPOJO.type == 'view') {
-		ret = 'type: view, url: ' + wxMenuMgrButtonPOJO.url;
+		ret = 'type: view, name: ' + wxMenuMgrButtonPOJO.name + ', url: ' + wxMenuMgrButtonPOJO.url;
 	} else if (wxMenuMgrButtonPOJO.type == 'click') {
-		ret = 'type: click, key: ' + wxMenuMgrButtonPOJO.btnKey;
+		ret = 'type: click, name: ' + wxMenuMgrButtonPOJO.name + ', key: ' + wxMenuMgrButtonPOJO.btnKey;
 	} else if (wxMenuMgrButtonPOJO.type == 'media_id') {
-		ret = 'type: media_id, value: ' + wxMenuMgrButtonPOJO.value;
+		ret = 'type: media_id, name: ' + wxMenuMgrButtonPOJO.name + ', value: ' + wxMenuMgrButtonPOJO.value;
 	} else {
-		ret = 'type: ' + wxMenuMgrButtonPOJO.type + ', value: ' + wxMenuMgrButtonPOJO.value;
+		ret = 'type: ' + wxMenuMgrButtonPOJO.type + ', name: ' + wxMenuMgrButtonPOJO.name + ', value: ' + wxMenuMgrButtonPOJO.value;
 	}
 	
 	return ret;
@@ -172,7 +172,7 @@ var getMenuMgrMenuInfo = function() {
 		return;
 	}
 
-	var confirm = window.confirm('获取menuinfo');
+	var confirm = window.confirm('确定获取当前menuinfo吗？');
 	if (!confirm) {
 		return;
 	}

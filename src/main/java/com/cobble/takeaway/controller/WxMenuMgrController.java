@@ -134,15 +134,15 @@ public class WxMenuMgrController extends BaseController {
 					for (int j = 0; j < subButtonList.size(); j++) {
 						WxMenuMgrSelfMenuInfoButtonRespApiPOJO wxMenuMgrSelfMenuInfoButtonRespApiPOJOLevel2 = subButtonList.get(j);
 						WxMenuMgrButtonPOJO wxMenuMgrButtonPOJOLevel2 = new WxMenuMgrButtonPOJO();
-						wxMenuMgrButtonPOJOLevel2.setBtnKey(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getKey());
+						wxMenuMgrButtonPOJOLevel2.setBtnKey(wxMenuMgrSelfMenuInfoButtonRespApiPOJOLevel2.getKey());
 						wxMenuMgrButtonPOJOLevel2.setLevel(CommonConstant.WX_MENU_LEVEL_2);
-						wxMenuMgrButtonPOJOLevel2.setMediaId(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getMediaId());
+						wxMenuMgrButtonPOJOLevel2.setMediaId(wxMenuMgrSelfMenuInfoButtonRespApiPOJOLevel2.getMediaId());
 						wxMenuMgrButtonPOJOLevel2.setMenuId("");
-						wxMenuMgrButtonPOJOLevel2.setName(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getName());
+						wxMenuMgrButtonPOJOLevel2.setName(wxMenuMgrSelfMenuInfoButtonRespApiPOJOLevel2.getName());
 						wxMenuMgrButtonPOJOLevel2.setParentButtonId(wxMenuMgrButtonId);
-						wxMenuMgrButtonPOJOLevel2.setType(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getType());
-						wxMenuMgrButtonPOJOLevel2.setUrl(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getUrl());
-						wxMenuMgrButtonPOJOLevel2.setValue(wxMenuMgrSelfMenuInfoButtonRespApiPOJO1.getValue());
+						wxMenuMgrButtonPOJOLevel2.setType(wxMenuMgrSelfMenuInfoButtonRespApiPOJOLevel2.getType());
+						wxMenuMgrButtonPOJOLevel2.setUrl(wxMenuMgrSelfMenuInfoButtonRespApiPOJOLevel2.getUrl());
+						wxMenuMgrButtonPOJOLevel2.setValue(wxMenuMgrSelfMenuInfoButtonRespApiPOJOLevel2.getValue());
 						
 						wxMenuMgrButtonPOJOLevel2.setAuthorizerAppId(authorizerAppId);
 						wxMenuMgrButtonPOJOLevel2.setWxMenuMgrCategoryId(wxMenuMgrCategoryId);
