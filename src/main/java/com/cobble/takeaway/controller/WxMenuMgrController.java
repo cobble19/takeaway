@@ -71,8 +71,7 @@ public class WxMenuMgrController extends BaseController {
 			String url = HttpRequestUtil.getBase(request) + "/web/wx/third/" + authorizerAppId + "/menu/menuinfo";
 			String resp = HttpClientUtil.get(url);
 			
-			DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> temp = new DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO>();
-			DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> dataTablesPOJO = JsonUtils.convertToJavaBean(resp, temp.getClass());
+			DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> dataTablesPOJO = JsonUtils.convertToJavaBeanDT(resp, WxMenuMgrMenuInfoRespApiPOJO.class);
 			if (dataTablesPOJO == null) {
 				ret.addObject("success", false);
 				return ret;

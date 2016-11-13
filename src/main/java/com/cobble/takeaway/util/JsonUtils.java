@@ -1,11 +1,14 @@
 package com.cobble.takeaway.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuInfoRespApiPOJO;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -36,6 +39,32 @@ public class JsonUtils {
 			objectMapper = new ObjectMapper();
 		}
 		return (T) objectMapper.readValue(json, valueType);
+	}
+	
+	/**
+	 * deal DataTablesPOJO.java
+	 * @param <ItemT>
+	 * @param json
+	 * @param valueType
+	 * @param itemClass
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	public static <T, ItemT> DataTablesPOJO<ItemT> convertToJavaBeanDT(String json, Class<ItemT> itemClass) throws JsonParseException, JsonMappingException, IOException {
+		DataTablesPOJO dataTablesPOJO = JsonUtils.convertToJavaBean(json, DataTablesPOJO.class);
+		List<ItemT> list = new ArrayList<ItemT>();
+		if (dataTablesPOJO != null && dataTablesPOJO.getData() != null) {
+			List data = dataTablesPOJO.getData();
+			Map d = (Map) data.get(0);
+			String s = JsonUtils.convertToJson(d);
+			ItemT wx = JsonUtils.convertToJavaBean(s, itemClass);
+			list.add(wx);
+//			logger.info("data: {}\n, d: {}\n, wx: {}", data, d, wx);
+		}
+		dataTablesPOJO.setData(list);
+		return dataTablesPOJO;
 	}
 
 	public static String convertToJson(Object object) throws JsonGenerationException, JsonMappingException, IOException {
@@ -92,7 +121,7 @@ public class JsonUtils {
 		logger.info("str: {}", str);
 		logger.info("str: {}", str.replaceAll("\"\\w+\":null,*|\"\\w+\":\\[\\],*", "").replaceAll(",}", "}"));*/
 		
-		str = "{\"is_menu_open\":1,\"selfmenu_info\":{\"button\":[{\"name\":\"button\""
+		/*str = "{\"is_menu_open\":1,\"selfmenu_info\":{\"button\":[{\"name\":\"button\""
 				+ ",\"sub_button\":{\"list\":[{\"type\":\"view\",\"name\":\"view_url\",\"url\":\"http://www.qq.com\"}"
 				+ ",{\"type\":\"news\",\"name\":\"news\",\"value\":\"KQb_w_Tiz-nSdVLoTV35Psmty8hGBulGhEdbb9SKs-o\""
 				+ ",\"news_info\":{\"list\":[{\"title\":\"MULTI_NEWS\",\"author\":\"JIMZHENG\",\"digest\":\"text\""
@@ -114,6 +143,32 @@ public class JsonUtils {
 		WxMenuMgrMenuInfoRespApiPOJO wxMenuMgrMenuInfoRespApiPOJO = JsonUtils.convertToJavaBean(str, WxMenuMgrMenuInfoRespApiPOJO.class);
 		logger.info("wxMenuMgrMenuInfoRespApiPOJO: {}", wxMenuMgrMenuInfoRespApiPOJO);
 		str = JsonUtils.convertToJson(wxMenuMgrMenuInfoRespApiPOJO);
+		logger.info("str: {}", str);
+		logger.info("str: {}", str.replaceAll("\"\\w+\":null,*|\"\\w+\":\\[\\],*", "").replaceAll(",}", "}"));*/
+		
+		str = "{\"draw\":null,\"recordsTotal\":1,\"recordsFiltered\":null,\"data\":"
+				+ "[{\"errcode\":null,\"errmsg\":null,\"is_menu_open\":1,\"selfmenu_info\":"
+				+ "{\"errcode\":null,\"errmsg\":null,\"button\":[{\"type\":\"media_id\",\"name\":\"media_id\""
+				+ ",\"media_id\":\"WQnZQIcVKS-5L9S9WBAnI4Zvi0xgN-rVTnDXb5tFTVo\"},{\"type\":\"click\",\"name\":\"今日歌曲\""
+				+ ",\"key\":\"V1001_TODAY_MUSIC\"},{\"name\":\"菜单\",\"sub_button\":{\"list\":[{\"type\":\"view\""
+				+ ",\"name\":\"加入会员\",\"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid="
+				+ "wx483bd8288ebe84b4&redirect_uri=http%3A%2F%2Fwww.deweiyizhan.com%2Fweb%2Fwx%2Foauth2%2Fthird%2Fwe"
+				+ "b%2FauthCode&response_type=code&scope=snsapi_userinfo&state=kGZUWL&component_appid=wx2bec8614a6c47"
+				+ "443#wechat_redirect\"},{\"type\":\"view\",\"name\":\"视频\",\"url\":\"http://v.qq.com/\"},{\"type\":\"click\""
+				+ ",\"name\":\"赞一下我们\",\"key\":\"V1001_GOOD\"}]}}]}}],\"error\":null,\"success\":true,\"dt_RowClass\":null"
+				+ ",\"dt_RowData\":null,\"dt_RowAttr\":null,\"dt_RowId\":null}";
+		DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> temp = new DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO>();
+		DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> dataTablesPOJO = JsonUtils.convertToJavaBeanDT(str, WxMenuMgrMenuInfoRespApiPOJO.class);
+		if (dataTablesPOJO != null && dataTablesPOJO.getData() != null) {
+			List<WxMenuMgrMenuInfoRespApiPOJO> data = dataTablesPOJO.getData();
+			/*Map d = (Map) data.get(0);
+			String s = JsonUtils.convertToJson(d);
+			WxMenuMgrMenuInfoRespApiPOJO wx = JsonUtils.convertToJavaBean(s, WxMenuMgrMenuInfoRespApiPOJO.class);
+			data.add(wx);
+			logger.info("data: {}\n, d: {}\n, wx: {}", data, d, wx);*/
+		}
+		logger.info("wxMenuMgrMenuInfoRespApiPOJO: {}", dataTablesPOJO);
+		str = JsonUtils.convertToJson(dataTablesPOJO);
 		logger.info("str: {}", str);
 		logger.info("str: {}", str.replaceAll("\"\\w+\":null,*|\"\\w+\":\\[\\],*", "").replaceAll(",}", "}"));
 		

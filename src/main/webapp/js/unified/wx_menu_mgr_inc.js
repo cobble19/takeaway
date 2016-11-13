@@ -5,6 +5,9 @@ $(document).ready(function() {
 	$('#searchBtn4WxMenuMgr').click(function() {
 		wxMenuMgrSearch();
 	});
+	$('#searchCurrentBtn4WxMenuMgr').click(function() {
+		getMenuMgrMenuInfo();
+	});
 	
     $('#deleteBtn4WxMenuMgr').click(function() {
     	var ids = [];
@@ -159,6 +162,11 @@ var publishMenuMgrCategory = function(wxMenuMgrCategoryId, authorizerAppId) {
         	console.log('Ajax complete.');
         }
 	});
+}
+
+var getMenuMgrMenuInfo = function() {
+	var authorizerAppId = $('#authorizerAppId').val();
+	getMenuMgrMenuInfo(authorizerAppId);
 }
 
 var getMenuMgrMenuInfo = function(authorizerAppId) {

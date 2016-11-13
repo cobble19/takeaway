@@ -9,6 +9,7 @@
 		<a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_menu_mgr_add.jsp'>添加</a> 
 		<input id="searchBtn4WxMenuMgr" type="button" class="btn btn-default btn-xs" value="查询"> 
 		<input id="deleteBtn4WxMenuMgr" type="button" class="btn btn-default btn-xs" value="删除">
+		<input id="searchCurrentBtn4WxMenuMgr" type="button" class="btn btn-default btn-xs" value="获取当前的菜单">
 
 	</div>
 	<div id="wx_menu_mgr_content">

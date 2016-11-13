@@ -1,12 +1,13 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataTablesPOJO<T> extends BasePOJO {
 	private Integer draw;
 	private Integer recordsTotal;
 	private Integer recordsFiltered;
-	private List<T> data;
+	private List<T> data = new ArrayList<T>();
 	private String error;
 	
 	// options
