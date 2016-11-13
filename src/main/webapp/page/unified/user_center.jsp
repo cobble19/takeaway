@@ -54,7 +54,7 @@
                       <li role="presentation" class="active"><a href="#profile"><h6>基本资料</h6></a></li>
                       <li role="presentation"><a href="#update_password"><h6>修改密码</h6></a></li>
                       
-                      <c:if test="${sessionScope.userType eq 'MEDIA'}">
+                      <c:if test="${sessionScope.userType eq 'MEDIA' or sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
 	                      <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_category"><h6>菜单category</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_button"><h6>菜单按钮</h6></a></li>
@@ -66,7 +66,7 @@
                       <cmn:privilege havePrivilege="<%= com.cobble.takeaway.util.CommonConstant.NUMBER_GUESS%>">
                       	<li role="presentation"><a href="#create_vote"><h6>网络投票</h6></a></li>
                       </cmn:privilege>
-                      <c:if test="${sessionScope.userType eq 'MEDIA'}">
+                      <c:if test="${sessionScope.userType eq 'MEDIA' or sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
                       	  <li role="presentation"><a href="#create_interactive2"><h6>抽奖活动</h6></a></li>
 	                      <li role="presentation"><a href="#award"><h6>奖品</h6></a></li>
 	                      <li role="presentation"><a href="#award_record"><h6>奖品记录</h6></a></li>
