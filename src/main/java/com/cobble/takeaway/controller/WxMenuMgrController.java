@@ -1,7 +1,9 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,11 +48,11 @@ public class WxMenuMgrController extends BaseController {
 	private WxMenuMgrCategoryService wxMenuMgrCategoryService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
-	@RequestMapping(value = "/api/unified/wxMenuMgr/memuinfo")
+	@RequestMapping(value = "/api/unified/wxMenuMgr/menuinfo")
 	@ResponseBody
-	public ModelAndView memuinfo4Api(WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO, Model model, 
+	public Map memuinfo4Api(WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
+		Map ret = new HashMap();
 		try {
 			/*if (wxMenuMgrButtonPOJO == null) {
 				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
@@ -73,18 +75,18 @@ public class WxMenuMgrController extends BaseController {
 			
 			DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> dataTablesPOJO = JsonUtils.convertToJavaBeanDT(resp, WxMenuMgrMenuInfoRespApiPOJO.class);
 			if (dataTablesPOJO == null) {
-				ret.addObject("success", false);
+				ret.put("success", false);
 				return ret;
 			}
 			List<WxMenuMgrMenuInfoRespApiPOJO> wxMenuMgrMenuInfoRespApiPOJOs = dataTablesPOJO.getData();
 			if (CollectionUtils.isEmpty(wxMenuMgrMenuInfoRespApiPOJOs)) {
-				ret.addObject("success", false);
+				ret.put("success", false);
 				return ret;
 			}
 			// only ONE
 			WxMenuMgrMenuInfoRespApiPOJO wxMenuMgrMenuInfoRespApiPOJO = wxMenuMgrMenuInfoRespApiPOJOs.get(0);
 			if (wxMenuMgrMenuInfoRespApiPOJO == null) {
-				ret.addObject("success", false);
+				ret.put("success", false);
 				return ret;
 			}
 			
@@ -150,12 +152,12 @@ public class WxMenuMgrController extends BaseController {
 				}
 			}
 			
-			ret.addObject("success", true);
-			ret.addObject("description", resp);
-			ret.addObject("dataTablesPOJO", dataTablesPOJO);
+			ret.put("success", true);
+			ret.put("description", resp);
+			ret.put("dataTablesPOJO", dataTablesPOJO);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
-			ret.addObject("success", false);
+			ret.put("success", false);
 			throw e;
 		}
 		
