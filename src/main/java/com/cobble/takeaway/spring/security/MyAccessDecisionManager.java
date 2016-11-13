@@ -81,6 +81,15 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			if (StringUtils.isNotBlank(unionId)) {
 				myUser.setUnionId(unionId);
 			}
+
+			WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+			try {
+				wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
+				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+			} catch (Exception e) {
+				logger.error("get wxAuthorizerInfo Exception: {}", e);
+			}
 		}
 		
 		logger.info("Login success: {}", principal);
