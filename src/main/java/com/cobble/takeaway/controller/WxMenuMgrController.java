@@ -209,10 +209,10 @@ public class WxMenuMgrController extends BaseController {
 				wxMenuMgrButtonReqApiPOJO.setMediaId(wxMenuMgrButtonPOJO.getMediaId());
 				wxMenuMgrButtonReqApiPOJO.setName(wxMenuMgrButtonPOJO.getName());
 				
-				button.add(wxMenuMgrButtonReqApiPOJO);
-				
 				List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrButtonPOJO.getWxMenuMgrButtonPOJOs();
 				if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
+					// add button withnot level 2 button
+					button.add(wxMenuMgrButtonReqApiPOJO);
 					continue;
 				}
 
@@ -231,6 +231,7 @@ public class WxMenuMgrController extends BaseController {
 				}
 				
 				wxMenuMgrButtonReqApiPOJO.setSubButton(subButton);
+				// add button contains level 2 button
 				button.add(wxMenuMgrButtonReqApiPOJO);
 			}
 			wxMenuMgrReqApiPOJO.setButton(button);
