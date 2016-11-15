@@ -208,6 +208,9 @@ public class WxMenuMgrController extends BaseController {
 				wxMenuMgrButtonReqApiPOJO.setKey(wxMenuMgrButtonPOJO.getBtnKey());
 				wxMenuMgrButtonReqApiPOJO.setMediaId(wxMenuMgrButtonPOJO.getMediaId());
 				wxMenuMgrButtonReqApiPOJO.setName(wxMenuMgrButtonPOJO.getName());
+				
+				button.add(wxMenuMgrButtonReqApiPOJO);
+				
 				List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrButtonPOJO.getWxMenuMgrButtonPOJOs();
 				if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
 					continue;
@@ -216,7 +219,7 @@ public class WxMenuMgrController extends BaseController {
 				List<WxMenuMgrButtonReqApiPOJO> subButton = new ArrayList<WxMenuMgrButtonReqApiPOJO>();
 				
 				for (int j = 0; j < wxMenuMgrButtonPOJOs2.size(); j++) {
-					WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 = wxMenuMgrButtonPOJOs2.get(i);
+					WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 = wxMenuMgrButtonPOJOs2.get(j);
 					WxMenuMgrButtonReqApiPOJO wxMenuMgrButtonReqApiPOJO2 = new WxMenuMgrButtonReqApiPOJO();
 					
 					wxMenuMgrButtonReqApiPOJO2.setType(wxMenuMgrButtonPOJO2.getType());
