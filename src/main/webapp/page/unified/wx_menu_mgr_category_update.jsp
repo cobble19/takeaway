@@ -13,7 +13,7 @@
   <body>
   	<div class="container">
   		<div class="row">
-  			<h2 class="">修改微信菜单button</h2>
+  			<h2 class="">修改微信菜单类别</h2>
   		</div>
   		<form id="wxMenuMgrCategoryForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/wxMenuMgrCategory/add' method="post">
 	  		<input type="hidden" id="wxMenuMgrCategoryId" name="wxMenuMgrCategoryId" value="<%=request.getParameter("wxMenuMgrCategoryId") %>"/>

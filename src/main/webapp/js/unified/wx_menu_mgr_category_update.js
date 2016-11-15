@@ -30,7 +30,7 @@ $(document).ready(function() {
 //			alert('结束时间不能小于开始时间');
 		}
 	})*/
-	showDetail();
+	/*showDetail();*/
 	
 	$('#wxMenuMgrCategoryForm').validate();
 
@@ -82,7 +82,7 @@ $(document).ready(function() {
 var showDetail = function() {
 	var wxMenuMgrCategoryId = getParam('wxMenuMgrCategoryId');
 	$.ajax({
-		"url" : "../../api/media/wxMenuMgrCategory/" + wxMenuMgrCategoryId,
+		"url" : "../../api/unified/wxMenuMgrCategory/" + wxMenuMgrCategoryId,
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"

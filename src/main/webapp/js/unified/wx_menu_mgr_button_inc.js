@@ -52,6 +52,12 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": false
 		}, {
+			"targets": [15],
+			"render" : function(data, type, full, meta) {
+				var date = new Date(data);
+				return date.format('Y-m-d H:i:s');
+			}
+		}, {
 			"targets" : [16],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/page/unified/wx_menu_mgr_button_update.jsp?wxMenuMgrButtonId='  + full.wxMenuMgrButtonId;

@@ -52,9 +52,15 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": true
 		}, {
+			"targets": [6],
+			"render" : function(data, type, full, meta) {
+				var date = new Date(data);
+				return date.format('Y-m-d H:i:s');
+			}
+		}, {
 			"targets" : [7],
 			"render" : function(data, type, full, meta) {
-				var hrefEdit = $('#basePath').val() + '/page/unified/wx_menu_mgr_category_update.jsp?wxMenuMgrCategoryId='  + full.wxMenuMgrCategoryId;
+				var hrefEdit = $('#basePath').val() + '/web/unified/wxMenuMgrCategory/showupdate?wxMenuMgrCategoryId='  + full.wxMenuMgrCategoryId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
@@ -93,10 +94,38 @@ public class WxMenuMgrCategoryController extends BaseController {
 		}
 		
 		String url = "/web/unified/wxMenuMgrCategoryDetail?wxMenuMgrCategoryId=" + wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId();
+
+		url = "/web/unified/usercenter#wx_menu_mgr_category";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;
 		return null;
+	}
+	
+	@RequestMapping(value = "/web/unified/wxMenuMgrCategory/showupdate", produces = {MediaType.APPLICATION_JSON_VALUE})
+	//@ResponseBody
+	public ModelAndView showupdate4Web(WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			if (wxMenuMgrCategoryPOJO == null) {
+				throw new Exception("wxMenuMgrCategoryPOJO can't is NULL.");
+			}
+			Long userId = UserUtil.getCurrentUserId();
+			if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}
+			
+			WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO2 = wxMenuMgrCategoryService.findById(wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId());
+			ret.addObject("wxMenuMgrCategoryPOJO", wxMenuMgrCategoryPOJO2);
+			ret.setViewName("/page/unified/wx_menu_mgr_category_update");
+			
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			throw e;
+		}
+		
+		return ret;
 	}
 	
 	@RequestMapping(value = "/api/unified/wxMenuMgrCategory/{wxMenuMgrCategoryId}", produces = {MediaType.APPLICATION_JSON_VALUE})
