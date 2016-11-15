@@ -232,7 +232,7 @@ public class WxMenuMgrController extends BaseController {
 			}
 			wxMenuMgrReqApiPOJO.setButton(button);
 			
-			String url = HttpRequestUtil.getBase(request) + "/web/wx/third/" + wxMenuMgrCategorySearchPOJO.getAuthorizerAppId() + "/menu/create";
+			String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1" + "/web/wx/third/" + wxMenuMgrCategorySearchPOJO.getAuthorizerAppId() + "/menu/create";
 			String resp = HttpClientUtil.postJson(url, JsonUtils.convertToJson(wxMenuMgrReqApiPOJO));
 			
 			ret.put("success", true);
