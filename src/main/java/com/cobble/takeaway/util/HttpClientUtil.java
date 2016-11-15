@@ -93,6 +93,36 @@ public class HttpClientUtil {
 		return ret;
 	}
 	
+	public static String postJson(String url, String requestBody) throws Exception {
+		String ret = "";
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		try {
+			HttpPost httppost = new HttpPost(url);
+			logger.info("Executing request " + httppost.getRequestLine());
+
+			StringEntity reqEntity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
+			reqEntity.setChunked(true);
+
+			httppost.setEntity(reqEntity);
+
+			System.out.println("Executing request: "
+					+ httppost.getRequestLine());
+			CloseableHttpResponse response = httpclient.execute(httppost);
+			try {
+	            logger.info("----------------------------------------");
+	            logger.info("Response Status: {}", response.getStatusLine());
+				String responseBody = EntityUtils.toString(response.getEntity());
+				ret = responseBody;
+				logger.info("Response Body: {}", responseBody);
+			} finally {
+				response.close();
+			}
+		} finally {
+			httpclient.close();
+		}
+		return ret;
+	}
+	
 	public static String post(String url, String requestBody) throws Exception {
 		String ret = "";
 		CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -100,7 +130,38 @@ public class HttpClientUtil {
 			HttpPost httppost = new HttpPost(url);
 			logger.info("Executing request " + httppost.getRequestLine());
 
-			StringEntity reqEntity = new StringEntity(requestBody);
+			ContentType ct = null;
+			StringEntity reqEntity = new StringEntity(requestBody, ct);
+			reqEntity.setChunked(true);
+
+			httppost.setEntity(reqEntity);
+
+			System.out.println("Executing request: "
+					+ httppost.getRequestLine());
+			CloseableHttpResponse response = httpclient.execute(httppost);
+			try {
+	            logger.info("----------------------------------------");
+	            logger.info("Response Status: {}", response.getStatusLine());
+				String responseBody = EntityUtils.toString(response.getEntity());
+				ret = responseBody;
+				logger.info("Response Body: {}", responseBody);
+			} finally {
+				response.close();
+			}
+		} finally {
+			httpclient.close();
+		}
+		return ret;
+	}
+	
+	public static String post(String url, String requestBody, ContentType contentType) throws Exception {
+		String ret = "";
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		try {
+			HttpPost httppost = new HttpPost(url);
+			logger.info("Executing request " + httppost.getRequestLine());
+
+			StringEntity reqEntity = new StringEntity(requestBody, contentType);
 			reqEntity.setChunked(true);
 
 			httppost.setEntity(reqEntity);

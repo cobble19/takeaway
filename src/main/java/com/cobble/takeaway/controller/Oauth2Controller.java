@@ -397,6 +397,8 @@ public class Oauth2Controller extends BaseController {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}
 			
+			logger.info("requestBody: {}", requestBody);
+			
 			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxMenuMgrCreateUrl = wxMenuMgrCreateUrl

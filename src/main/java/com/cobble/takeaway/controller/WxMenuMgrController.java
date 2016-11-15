@@ -18,6 +18,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -164,11 +165,11 @@ public class WxMenuMgrController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/api/unified/wxMenuMgr/publish")
+	@RequestMapping(value = "/api/unified/wxMenuMgr/publish", method = {RequestMethod.GET})
 	@ResponseBody
-	public ModelAndView publish4Api(WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO, Model model, 
+	public Map publish4Api(WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView ret = new ModelAndView();
+		Map ret = new HashMap();
 		try {
 			/*if (wxMenuMgrButtonPOJO == null) {
 				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
@@ -182,8 +183,8 @@ public class WxMenuMgrController extends BaseController {
 			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.findFull(wxMenuMgrCategorySearchPOJO);
 			
 			if (CollectionUtils.isEmpty(wxMenuMgrCategoryPOJOs)) {
-				ret.addObject("success", false);
-				ret.addObject("description", "Not Found WxMenuMgrCategoryPOJOs");
+				ret.put("success", false);
+				ret.put("description", "Not Found WxMenuMgrCategoryPOJOs");
 			}
 
 			WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO = new WxMenuMgrReqApiPOJO();
@@ -194,8 +195,8 @@ public class WxMenuMgrController extends BaseController {
 			WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO = wxMenuMgrCategoryPOJOs.get(0);
 			List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs = wxMenuMgrCategoryPOJO.getWxMenuMgrButtonPOJOs();
 			if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs)) {
-				ret.addObject("success", false);
-				ret.addObject("description", "Not Found wxMenuMgrButtonPOJOs");
+				ret.put("success", false);
+				ret.put("description", "Not Found wxMenuMgrButtonPOJOs");
 			}
 			
 			for (int i = 0; i < wxMenuMgrButtonPOJOs.size(); i++) {
@@ -232,13 +233,13 @@ public class WxMenuMgrController extends BaseController {
 			wxMenuMgrReqApiPOJO.setButton(button);
 			
 			String url = HttpRequestUtil.getBase(request) + "/web/wx/third/" + wxMenuMgrCategorySearchPOJO.getAuthorizerAppId() + "/menu/create";
-			String resp = HttpClientUtil.post(url, JsonUtils.convertToJson(wxMenuMgrReqApiPOJO));
+			String resp = HttpClientUtil.postJson(url, JsonUtils.convertToJson(wxMenuMgrReqApiPOJO));
 			
-			ret.addObject("success", true);
-			ret.addObject("description", resp);
+			ret.put("success", true);
+			ret.put("description", resp);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
-			ret.addObject("success", false);
+			ret.put("success", false);
 			throw e;
 		}
 		
