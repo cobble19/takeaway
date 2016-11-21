@@ -18,7 +18,7 @@ public class WxMenuMgrMenuCondMatchRuleRespApiPOJO extends BaseWxApiPOJO {
 	@JsonProperty(value="client_platform_type")
 	private Integer clientPlatformType;
 	@JsonProperty(value="language")
-	private Integer language;
+	private String language;
 	
 	public Integer getGroupId() {
 		return groupId;
@@ -63,10 +63,10 @@ public class WxMenuMgrMenuCondMatchRuleRespApiPOJO extends BaseWxApiPOJO {
 				+ province + ", city=" + city + ", clientPlatformType="
 				+ clientPlatformType + "]";
 	}
-	public Integer getLanguage() {
+	public String getLanguage() {
 		return language;
 	}
-	public void setLanguage(Integer language) {
+	public void setLanguage(String language) {
 		this.language = language;
 	}
 	
