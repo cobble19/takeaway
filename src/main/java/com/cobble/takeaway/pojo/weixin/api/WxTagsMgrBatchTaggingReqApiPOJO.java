@@ -11,8 +11,19 @@ public class WxTagsMgrBatchTaggingReqApiPOJO extends BasePOJO {
     private List<String> openIdList;
 	@JsonProperty(value="tagid")
     private Integer tagId;
-
 	
+	public List<String> getOpenIdList() {
+		return openIdList;
+	}
+	public void setOpenIdList(List<String> openIdList) {
+		this.openIdList = openIdList;
+	}
+	public Integer getTagId() {
+		return tagId;
+	}
+	public void setTagId(Integer tagId) {
+		this.tagId = tagId;
+	}
 
 	
 }

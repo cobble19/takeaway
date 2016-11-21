@@ -64,7 +64,6 @@ import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqTextApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrButtonsRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuInfoRespApiPOJO;
@@ -77,10 +76,11 @@ import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRespTextApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrBatchTaggingReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrGetIdListReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrGetIdListRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrGetIdListReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrTagDeleteReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrTagsRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrUpateReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrUserReqApiPOJO;
@@ -95,7 +95,6 @@ import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.spring.security.MyUser;
-import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.FileUtil;
 import com.cobble.takeaway.util.HttpClientUtil;
@@ -496,8 +495,8 @@ public class Oauth2Controller extends BaseController {
 						.replace("ACCESS_TOKEN", authorizerAccessToken);
 
 				// test request POJO<->requestBody
-				WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrReqApiPOJO.class);
-				requestBody = JsonUtils.convertToJson(wxMenuMgrReqApiPOJO);
+				WxTagsMgrTagDeleteReqApiPOJO wxTagsMgrTagDeleteReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxTagsMgrTagDeleteReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxTagsMgrTagDeleteReqApiPOJO);
 				
 				String result = HttpClientUtil.postHttpsJson(myWxTagsMgrDeleteUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
