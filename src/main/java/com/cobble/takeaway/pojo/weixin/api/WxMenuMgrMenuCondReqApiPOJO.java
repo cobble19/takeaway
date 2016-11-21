@@ -21,9 +21,20 @@ public class WxMenuMgrMenuCondReqApiPOJO extends BasePOJO {
 		this.button = button;
 	}
 
+	public WxMenuMgrMenuCondMatchRuleReqApiPOJO getWxMenuMgrMenuCondMatchRuleReqApiPOJO() {
+		return wxMenuMgrMenuCondMatchRuleReqApiPOJO;
+	}
+
+	public void setWxMenuMgrMenuCondMatchRuleReqApiPOJO(
+			WxMenuMgrMenuCondMatchRuleReqApiPOJO wxMenuMgrMenuCondMatchRuleReqApiPOJO) {
+		this.wxMenuMgrMenuCondMatchRuleReqApiPOJO = wxMenuMgrMenuCondMatchRuleReqApiPOJO;
+	}
+
 	@Override
 	public String toString() {
-		return "WxMenuMgrCreateReqApiPOJO [button=" + button + "]";
+		return "WxMenuMgrMenuCondReqApiPOJO [button=" + button
+				+ ", wxMenuMgrMenuCondMatchRuleReqApiPOJO="
+				+ wxMenuMgrMenuCondMatchRuleReqApiPOJO + "]";
 	}
 	
 }

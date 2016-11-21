@@ -76,6 +76,15 @@ import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvEventApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRespTextApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrBatchTaggingReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrGetIdListRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrGetIdListReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrTagsRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrUpateReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrUserReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrUserRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
 import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.UserService;
@@ -218,6 +227,458 @@ public class Oauth2Controller extends BaseController {
 	@Value("${WX.menu.mgr.conditional.deleteUrl}")
 	private String wxMenuMgrConditionalDeleteUrl;
 	
+	// 标签管理
+	@Value("${WX.tags.mgr.createUrl}")
+	private String wxTagsMgrCreateUrl;
+	@Value("${WX.tags.mgr.getUrl}")
+	private String wxTagsMgrGetUrl;
+	@Value("${WX.tags.mgr.updateUrl}")
+	private String wxTagsMgrUpdateUrl;
+	@Value("${WX.tags.mgr.deleteUrl}")
+	private String wxTagsMgrDeleteUrl;
+	@Value("${WX.tags.mgr.getUsersUrl}")
+	private String wxTagsMgrGetUsersUrl;
+	@Value("${WX.tags.mgr.batchTaggingUrl}")
+	private String wxTagsMgrBatchTaggingUrl;
+	@Value("${WX.tags.mgr.batchUntaggingUrl}")
+	private String wxTagsMgrBatchUntaggingUrl;
+	@Value("${WX.tags.mgr.getIdListUrl}")
+	private String wxTagsMgrGetIdListUrl;
+	
+
+	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/tags/getidlist", method = {RequestMethod.POST})
+	@ResponseBody
+	public WxTagsMgrGetIdListRespApiPOJO tagsMgrGetIdList(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		WxTagsMgrGetIdListRespApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			logger.info("requestBody: {}", requestBody);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxTagsMgrGetIdListUrl = wxTagsMgrGetIdListUrl
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
+
+				// test request POJO<->requestBody
+				WxTagsMgrGetIdListReqApiPOJO wxTagsMgrGetIdListReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxTagsMgrGetIdListReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxTagsMgrGetIdListReqApiPOJO);
+				
+				String result = HttpClientUtil.postHttpsJson(myWxTagsMgrGetIdListUrl, requestBody);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				WxTagsMgrGetIdListRespApiPOJO wxTagsMgrGetIdListRespApiPOJO = JsonUtils.convertToJavaBean(result, WxTagsMgrGetIdListRespApiPOJO.class);
+				ret = wxTagsMgrGetIdListRespApiPOJO;
+				/*ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+				ret.setViewName("/page/test_info");*/
+			} else {
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
+			}
+			
+		} catch (Exception e) {
+			/*ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");*/
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/tags/batchuntagging", method = {RequestMethod.POST})
+	@ResponseBody
+	public BaseWxApiPOJO tagsMgrBatchUnTagging(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		BaseWxApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			logger.info("requestBody: {}", requestBody);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxTagsMgrBatchUntaggingUrl = wxTagsMgrBatchUntaggingUrl
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
+
+				// test request POJO<->requestBody
+				WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxTagsMgrBatchTaggingReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxTagsMgrBatchTaggingReqApiPOJO);
+				
+				String result = HttpClientUtil.postHttpsJson(myWxTagsMgrBatchUntaggingUrl, requestBody);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				ret = baseWxApiPOJO;
+				/*ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+				ret.setViewName("/page/test_info");*/
+			} else {
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
+			}
+			
+		} catch (Exception e) {
+			/*ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");*/
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/tags/batchtagging", method = {RequestMethod.POST})
+	@ResponseBody
+	public BaseWxApiPOJO tagsMgrBatchTagging(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		BaseWxApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			logger.info("requestBody: {}", requestBody);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxTagsMgrBatchTaggingUrl = wxTagsMgrBatchTaggingUrl
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
+
+				// test request POJO<->requestBody
+				WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxTagsMgrBatchTaggingReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxTagsMgrBatchTaggingReqApiPOJO);
+				
+				String result = HttpClientUtil.postHttpsJson(myWxTagsMgrBatchTaggingUrl, requestBody);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				ret = baseWxApiPOJO;
+				/*ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+				ret.setViewName("/page/test_info");*/
+			} else {
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
+			}
+			
+		} catch (Exception e) {
+			/*ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");*/
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/tags/getUsers", method = {RequestMethod.POST})
+	@ResponseBody
+	public WxTagsMgrUserRespApiPOJO tagsMgrGetUsers(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		WxTagsMgrUserRespApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			logger.info("requestBody: {}", requestBody);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxTagsMgrGetUsersUrl = wxTagsMgrGetUsersUrl
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
+
+				// test request POJO<->requestBody
+				WxTagsMgrUserReqApiPOJO wxTagsMgrUserReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxTagsMgrUserReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxTagsMgrUserReqApiPOJO);
+				
+				String result = HttpClientUtil.postHttpsJson(myWxTagsMgrGetUsersUrl, requestBody);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				WxTagsMgrUserRespApiPOJO wxTagsMgrUserRespApiPOJO = JsonUtils.convertToJavaBean(result, WxTagsMgrUserRespApiPOJO.class);
+				ret = wxTagsMgrUserRespApiPOJO;
+				/*ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+				ret.setViewName("/page/test_info");*/
+			} else {
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
+			}
+			
+		} catch (Exception e) {
+			/*ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");*/
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/tags/delete", method = {RequestMethod.POST})
+	@ResponseBody
+	public BaseWxApiPOJO tagsMgrDelete(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		BaseWxApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			logger.info("requestBody: {}", requestBody);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxTagsMgrDeleteUrl = wxTagsMgrDeleteUrl
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
+
+				// test request POJO<->requestBody
+				WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxMenuMgrReqApiPOJO);
+				
+				String result = HttpClientUtil.postHttpsJson(myWxTagsMgrDeleteUrl, requestBody);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				ret = baseWxApiPOJO;
+				/*ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+				ret.setViewName("/page/test_info");*/
+			} else {
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
+			}
+			
+		} catch (Exception e) {
+			/*ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");*/
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/tags/update", method = {RequestMethod.POST})
+	@ResponseBody
+	public BaseWxApiPOJO tagsMgrUpdate(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		BaseWxApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			logger.info("requestBody: {}", requestBody);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxTagsMgrUpdateUrl = wxTagsMgrUpdateUrl
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
+
+				// test request POJO<->requestBody
+				WxTagsMgrUpateReqApiPOJO wxTagsMgrUpateReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxTagsMgrUpateReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxTagsMgrUpateReqApiPOJO);
+				
+				String result = HttpClientUtil.postHttpsJson(myWxTagsMgrUpdateUrl, requestBody);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+				ret = baseWxApiPOJO;
+				/*ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+				ret.setViewName("/page/test_info");*/
+			} else {
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
+			}
+			
+		} catch (Exception e) {
+			/*ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");*/
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/tags/get", method = {RequestMethod.GET})
+	@ResponseBody
+	public WxTagsMgrTagsRespApiPOJO tagsMgrGet(@PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		WxTagsMgrTagsRespApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			/*if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}*/
+			
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxTagsMgrGetUrl = wxTagsMgrGetUrl
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
+				String result = HttpClientUtil.get(myWxTagsMgrGetUrl);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				WxTagsMgrTagsRespApiPOJO wxTagsMgrTagsRespApiPOJO = JsonUtils.convertToJavaBean(result, WxTagsMgrTagsRespApiPOJO.class);
+				
+				ret = wxTagsMgrTagsRespApiPOJO;
+				
+				/*ret.addObject("msg", result + "\n" + wxMenuMgrRespApiPOJO);
+				ret.setViewName("/page/test_info");*/
+			} else {
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
+			}
+			
+		} catch (Exception e) {
+			/*ret.addObject("msg", uri + "?" + qs);
+			ret.setViewName("/page/test_info");*/
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/tags/create", method = {RequestMethod.POST})
+	@ResponseBody
+	public WxTagsMgrRespApiPOJO tagsMgrCreate(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		WxTagsMgrRespApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}
+			
+			logger.info("requestBody: {}", requestBody);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxTagsMgrCreateUrl = wxTagsMgrCreateUrl
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
+
+				// test request POJO<->requestBody
+				WxTagsMgrReqApiPOJO wxTagsMgrReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxTagsMgrReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxTagsMgrReqApiPOJO);
+				
+				String result = HttpClientUtil.postHttpsJson(myWxTagsMgrCreateUrl, requestBody);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				WxTagsMgrRespApiPOJO wxTagsMgrRespApiPOJO = JsonUtils.convertToJavaBean(result, WxTagsMgrRespApiPOJO.class);
+				ret = wxTagsMgrRespApiPOJO;
+				/*ret.addObject("msg", result + "\n" + baseWxApiPOJO);
+				ret.setViewName("/page/test_info");*/
+			} else {
+				/*ret.addObject("msg", "没有找到 authorizer access token");
+				ret.setViewName("/page/test_info");*/
+			}
+			
+		} catch (Exception e) {
+			/*ret.addObject("msg", uri + "?" + qs + "<br/>" + e);
+			ret.setViewName("/page/test_info");*/
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/menu/conditional/delete", method = {RequestMethod.POST})
 	@ResponseBody
 	public BaseWxApiPOJO menuMgrConditionalDelete(/*WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO*/
@@ -343,6 +804,8 @@ public class Oauth2Controller extends BaseController {
 			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}
+			
+			logger.info("requestBody: {}", requestBody);
 			
 			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 			if (StringUtils.isNotBlank(authorizerAccessToken)) {
