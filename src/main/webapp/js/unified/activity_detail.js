@@ -435,7 +435,7 @@ var showDetail = function() {
         	$('#organiser').text(data.usernameEnterprise);
         	var createDateTime = data.createDateTime;
         	if (createDateTime != null) {
-            	$('#createDateTime').text(new Date(createDateTime).format('Y/m/d H:i:s'));
+            	$('#createDateTime').text(new Date(createDateTime).format('Y-m-d'));
         	}
         	/*$('#organiser_1').text(data.usernameEnterprise);*/
         	if ('1' == hidContent) {
