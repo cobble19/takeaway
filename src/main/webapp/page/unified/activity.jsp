@@ -15,7 +15,7 @@
   		<div class="row">
   			<h2 class="">信息发布</h2>
   		</div>
-  		<form id="activityForm" class="form-horizontal" role="form" action='<cmn:base/>/web/enterprise/activity/add' method="post">
+  		<form id="activityForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/activity/add' method="post">
   			<div class="form-group">
  				<label class="control-label" for="typeCode">新增信息类型:</label>
  				<div class="">

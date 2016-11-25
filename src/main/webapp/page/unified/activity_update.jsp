@@ -16,7 +16,7 @@
   
 	<div class="container">
 		<div id="editDiv">
-			<form class="form-horizontal" id="activityForm" role="form" action='<cmn:base/>/web/enterprise/activity/add' method="post">
+			<form class="form-horizontal" id="activityForm" role="form" action='<cmn:base/>/web/unified/activity/add' method="post">
 	  			<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
 	  			<div class="form-group">
 	 				<label class="control-label" for="typeCode">新增信息类型:</label>
