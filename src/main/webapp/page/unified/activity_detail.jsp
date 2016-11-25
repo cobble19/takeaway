@@ -13,7 +13,7 @@
   </head>
   <body>
   
-	<div class="container">
+	<div class="container-fluid">
 		<div class="hidden-xs">
 			<%@include file="../../../reg_login_full.jsp" %>
 		</div>
@@ -33,25 +33,23 @@
 		<div id="showDiv">
 			<div class="row">
 			  <div class="col-md-12 col-xs-12" >
-	            	<span class=" hidden-xs" style=" margin-top:50px; margin-bottom:50px; display:block;"><h3 id="title"></h3></span>
-	            	<span class="visible-xs" style="margin-left:5px; margin-right:5px; margin-top:10px; margin-bottom:10px; display:block; text-align:center;"><h4 id="title_1"></h4></span>                    
+	            	<span style=" margin-top:10px; margin-bottom:10px; display:block;"><h3 id="title"></h3></span>                    
 	            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
 	            	<!-- <input type="hidden" id="authorizerAppId" name="authorizerAppId"/> -->
 			  </div>
             </div>
-            <div class="row visible-xs">
+            <!--<div class="row visible-xs">
                 <div class="col-xs-12">
                    <img src="" alt="" id="logoImg">
                 </div>
-            </div>
-			<div class="row hidden-xs">
+            </div>-->
+			<div class="row">
 				<div class="col-md-12">
-            	  <h5 style=" margin-bottom:10px; display:block; float: left;margin-right: 20px;">发布者:<span class="h5" id="publisher"></span></h5>
-	            	<h5 style="margin-bottom:10px; display:block;">组织者:<span class="h5" id="organiser"></span></h5>
+            	  <h5 style=" margin-bottom:10px; display:block; float:left;"><span class="h5" id="publisher"></span></h5>
+	            	<!--<h5 style="margin-bottom:10px; display:block;">组织者:<span class="h5" id="organiser"></span></h5>-->
 				</div>
 	        </div>
-			<div class="row" style=" margin-top:10px; margin-left:5px; margin-right:5px;">
-  			  <div class="row">
+			<div class="row" style="margin-top:10px;">
   			  	<% 
   			  		String hidContent = request.getParameter("hidContent");
   			  		if (!"1".equalsIgnoreCase(hidContent)) {
@@ -59,7 +57,7 @@
 	  				<div class="col-md-12 col-xs-12">
 	  					<!-- <h4 class="" style="text-align: bottom;"><span id="title"></span></h4>
 	  					<hr/> -->
-			  			<p style=" margin:10px;" id="content"></p>
+			  			<p id="content"></p>
 			  			<!-- for update -->
 			  			<div style="" class="">
 		 					<!-- <textarea rows="5" cols="20" id="content" name="content" placeholder="请输入本次活动内容"></textarea>
@@ -133,7 +131,6 @@
 					</div>
 					
 					
-	  			</div>
 	  		</div>
 		</div><!-- for show -->
 	<%@include file="../../../bottom.jsp" %>  		

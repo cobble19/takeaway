@@ -25,27 +25,26 @@
 </script>
 
 <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
+  <div class="container-fluid hidden-xs">
     <div class="row" style="height:100px;">
-      <div class="col-md-1 logo hidden-xs" style="height:100px; margin-left:10px;"></div>
-      <div class="col-xs-6 logo visible-xs"></div>
-      <div class="col-md-8 hidden-xs" style="height:100px;">
-        <ul class="nav nav-pills" style="float:right; margin-top:25px; font-weight:bold; font-family:'新宋体';">
+      <div class="col-md-1 logo" style="height:100px; margin-left:10px;"></div>
+      <div class="col-md-8" style="height:100px;">
+        <ul class="nav nav-pills nav-justified" style=" margin-left:50px; margin-top:25px; font-weight:bold; font-family:'新宋体';">
           <li role="presentation" class="active"><a href="<cmn:base/>/index">首页</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/gonggao.jsp">公告</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/functions.jsp">功能</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/fee.jsp">资费</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/help.jsp">帮助</a></li>
-          <li role="presentation" style="margin-left:35px;"><a href="<cmn:base/>/about.jsp">关于</a></li>
+          <li role="presentation"><a href="<cmn:base/>/gonggao.jsp">公告</a></li>
+          <li role="presentation"><a href="<cmn:base/>/functions.jsp">功能</a></li>
+          <li role="presentation"><a href="<cmn:base/>/fee.jsp">资费</a></li>
+          <li role="presentation"><a href="<cmn:base/>/help.jsp">帮助</a></li>
+          <li role="presentation"><a href="<cmn:base/>/about.jsp">关于</a></li>
         </ul>
       </div>
-      <div class="col-md-3 col-xs-6" style="height:100px;">
+      <div class="col-md-3" style="height:100px;">
         <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
           <button style="float:right; margin-top:30px;" type="button" class="btn btn-success" disabled="disabled" data-toggle="modal" data-target="#myModal">&nbsp;注册&nbsp;</button>
           <button style="float:right; margin-top:30px; margin-right:10px;" type="button" class="btn btn-warning" data-toggle="modal" data-target="#loginModal">&nbsp;登陆&nbsp;</button>
         </c:if>
         <c:if test="${not empty username and (username ne 'anonymousUser')}"> 
-          <div class="sy-dl-wz" style="margin-top:30px; width:250px; text-align:right;">欢迎:
+          <div class="sy-dl-wz col-md-12" style="margin-top:30px; text-align:right;">欢迎:
             <%-- <c:out value="${username}"></c:out> --%>
             <%-- <c:out value="${sessionScope.myUser.nickname}"></c:out> --%>
             <c:if test="${sessionScope.myUser.nickname != null}">
@@ -55,8 +54,8 @@
               <c:out value="${username}"></c:out>
             </c:if>
           </div>
-        <div class="sy-dl-wz">          
-        <a class="sy-dl-wz" href='<cmn:base/>/j_spring_security_logout'>退出</a>
+        <div class="col-md-12" style=" text-align:right;">          
+        <a class="sy-dl-wz" style="float:right;" href='<cmn:base/>/j_spring_security_logout'>退出</a>
           <c:choose>
             <c:when test="${sessionScope.userType eq 'PERSON'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a> </c:when>
             <c:when test="${sessionScope.userType eq 'ENTERPRISE'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/unified/usercenter">管理中心</a> </c:when>

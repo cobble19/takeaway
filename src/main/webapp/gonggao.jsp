@@ -19,10 +19,9 @@
 <%@include file="reg_login.jsp"%>
 <div class="container-fluid">
   <div class="row">
-  	<div class="col-md-12">
-  		公告公告公告公告公告公告公告公告
-  		公告公告公告公告公告公告公告公告
-  	</div>
+  	<div class="col-md-12" style="height:15px; border-bottom:1px solid #c7cdd6; background-color:#e4e6eb;"></div>
+    <div class="col-md-12" style="height:60px; border-bottom:1px solid #d7dde6; background-color:#f5f6f7;"><h2 style="margin-left:50px; font-weight:bolder; font-size:18px; color:#666666;">公告</h2></div>
+    <div class="col-md-12" style=" min-height:1000px;"></div>
   </div>
   <%@include file="bottom.jsp"%>
 </div>

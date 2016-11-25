@@ -377,7 +377,7 @@ var showDetail = function() {
 //        	$("#authorizerAppId").html(data.wxAuthorizerInfoPOJO.authorizerAppId);
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);
-			$("#title_1").html(data.title);
+			/*$("#title_1").html(data.title);*/
 			/*$("#title_2").html(data.title);*/
         	$("#content").html(data.content);
 			/*$("#content_1").html(data.content);*/
