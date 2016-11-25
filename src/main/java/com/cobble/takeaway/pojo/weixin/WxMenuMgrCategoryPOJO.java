@@ -11,8 +11,12 @@ public class WxMenuMgrCategoryPOJO extends BasePOJO {
     private String authorizerAppId;
     private String name;
     private String description;
-    private List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs = new ArrayList<WxMenuMgrButtonPOJO>();
+    
+    private String menuId;
+    private Long wxMenuMgrFullId;
+    private Long wxMenuMgrMatchRuleId;
     private Date createDateTime;
+    private List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs = new ArrayList<WxMenuMgrButtonPOJO>();
     
 	public String getName() {
 		return name;
@@ -49,6 +53,24 @@ public class WxMenuMgrCategoryPOJO extends BasePOJO {
 	}
 	public void setAuthorizerAppId(String authorizerAppId) {
 		this.authorizerAppId = authorizerAppId;
+	}
+	public String getMenuId() {
+		return menuId;
+	}
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
+	}
+	public Long getWxMenuMgrFullId() {
+		return wxMenuMgrFullId;
+	}
+	public void setWxMenuMgrFullId(Long wxMenuMgrFullId) {
+		this.wxMenuMgrFullId = wxMenuMgrFullId;
+	}
+	public Long getWxMenuMgrMatchRuleId() {
+		return wxMenuMgrMatchRuleId;
+	}
+	public void setWxMenuMgrMatchRuleId(Long wxMenuMgrMatchRuleId) {
+		this.wxMenuMgrMatchRuleId = wxMenuMgrMatchRuleId;
 	}
     
     

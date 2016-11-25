@@ -1017,11 +1017,11 @@ public class Oauth2Controller extends BaseController {
 				String result = HttpClientUtil.get(myWxMenuMgrMenuInfoUrl);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 				logger.debug("result: " + result);
-				WxMenuMgrMenuInfoRespApiPOJO wxMenuMgrMenuRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuInfoRespApiPOJO.class);
+				WxMenuMgrMenuInfoRespApiPOJO wxMenuMgrMenuInfoRespApiPOJO = JsonUtils.convertToJavaBean(result, WxMenuMgrMenuInfoRespApiPOJO.class);
 				
 				ret.setSuccess(true);
 				List<WxMenuMgrMenuInfoRespApiPOJO> data = new ArrayList<WxMenuMgrMenuInfoRespApiPOJO>();
-				data.add(wxMenuMgrMenuRespApiPOJO);
+				data.add(wxMenuMgrMenuInfoRespApiPOJO);
 				ret.setData(data);
 				ret.setRecordsTotal(data.size());
 				

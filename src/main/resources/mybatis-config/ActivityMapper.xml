@@ -20,6 +20,8 @@
     <result column="CONTENT" property="content" />
     <result column="EXPIRED" property="expired" />
     <result column="USER_ID_ENTERPRISE" property="userIdEnterprise" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="NEED_SUBSCRIBE" property="needSubscribe" />
     <result column="USERNAME_ENTERPRISE" property="usernameEnterprise" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
     <association property="wxAuthorizerInfoPOJO" resultMap="com.cobble.takeaway.dao.WxAuthorizerInfoMapper.WxAuthorizerInfoResultMap" columnPrefix="B_"></association>
@@ -35,6 +37,8 @@
     <result column="CONTENT" property="content" />
     <result column="EXPIRED" property="expired" />
     <result column="USER_ID_ENTERPRISE" property="userIdEnterprise" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="NEED_SUBSCRIBE" property="needSubscribe" />
     <result column="USERNAME_ENTERPRISE" property="usernameEnterprise" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
     <collection property="apply2POJOs" column="ACTIVITY_ID" ofType="com.cobble.takeaway.pojo.Apply2POJO"
@@ -42,7 +46,9 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.ACTIVITY_ID, a.TYPE_CODE, a.TITLE, a.LOGO_IMG, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
+    a.ACTIVITY_ID, a.TYPE_CODE, a.TITLE, a.LOGO_IMG, a.START_DATE_TIME
+    , a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
+    , a.CREATE_DATE_TIME, a.NEED_SUBSCRIBE
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -301,6 +307,10 @@
       <if test="content != null" >
         CONTENT,
       </if>
+      <if test="needSubscribe != null" >
+        NEED_SUBSCRIBE,
+      </if>
+        CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="typeCode != null" >
@@ -324,6 +334,10 @@
       <if test="content != null" >
         #{content},
       </if>
+      <if test="needSubscribe != null" >
+        #{needSubscribe},
+      </if>
+      sysdate(),
     </trim>
   </insert>
   
@@ -350,7 +364,7 @@
   
   <update id="update" parameterType="com.cobble.takeaway.pojo.ActivityPOJO" >
     update e_activity
-    <set >
+    <set>
       <if test="typeCode != null" >
         TYPE_CODE = #{typeCode},
       </if>
@@ -372,6 +386,10 @@
       <if test="userIdEnterprise != null" >
         USER_ID_ENTERPRISE = #{userIdEnterprise},
       </if>
+      <if test="needSubscribe != null" >
+        NEED_SUBSCRIBE = #{needSubscribe},
+      </if>
+      CREATE_DATE_TIME = sysdate(),
     </set>
     where ACTIVITY_ID = #{activityId}
   </update>

@@ -68,6 +68,12 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="needSubscribe">是否需要关注:</label>
+ 				<div class="">
+ 					<input class="form-control" id="needSubscribe" name="needSubscribe" placeholder="请输入是否需要关注(0-不需要,1-需要)">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
  				<label class="control-label" for="content">活动介绍:</label>
  				<div style="" class="">
  					<!-- <textarea rows="5" cols="20" id="content" name="content" placeholder="请输入本次活动内容"></textarea>

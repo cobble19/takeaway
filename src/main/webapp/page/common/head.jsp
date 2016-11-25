@@ -8,7 +8,7 @@
     	<title>${documentTitle}</title>
     </c:if>
     <c:if test="${empty documentTitle}">
-    	<title>得味驿站</title>
+    	<title></title>
     </c:if>
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

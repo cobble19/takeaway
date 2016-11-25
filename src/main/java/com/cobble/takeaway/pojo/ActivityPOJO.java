@@ -15,6 +15,8 @@ public class ActivityPOJO extends BasePOJO {
     private Date startDateTime;
     private Date endDateTime;
     private String content;
+    private Date createDateTime;
+    private Integer needSubscribe;
 
     // check whether expired
     private Boolean expired;
@@ -105,5 +107,17 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setWxAuthorizerInfoPOJO(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO) {
 		this.wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJO;
+	}
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+	public Integer getNeedSubscribe() {
+		return needSubscribe;
+	}
+	public void setNeedSubscribe(Integer needSubscribe) {
+		this.needSubscribe = needSubscribe;
 	}
 }

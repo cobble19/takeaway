@@ -100,6 +100,7 @@ var showDetail = function() {
     		$('#startDateTime').val(new Date(data.startDateTime).format('Y/m/d H:i'));
     		$('#endDateTime').val(new Date(data.endDateTime).format('Y/m/d H:i'));
     		$('#logoImg').val(data.logoImg);
+        	$('#needSubscribe').val(data.needSubscribe);
     		
         },
         error: function(jqXHR, textStatus, errorThrown) {

@@ -21,8 +21,8 @@ public class WxMenuMgrMenuCondMatchRuleReqApiPOJO extends BaseWxApiPOJO {
 	/**
 	 * 客户端版本，当前只具体到系统型号：IOS(1), Android(2),Others(3)，不填则不做匹配
 	 */
-	@JsonProperty(value="clientPlatformType")
-	private String client_platform_type;
+	@JsonProperty(value="client_platform_type")
+	private String clientPlatformType;
 	/**
 	 * 语言信息，是用户在微信中设置的语言，具体请参考语言表：
 		1、简体中文 "zh_CN" 2、繁体中文TW "zh_TW" 3、繁体中文HK "zh_HK" 4、英文 "en" 5、印尼 "id" 
@@ -63,16 +63,16 @@ public class WxMenuMgrMenuCondMatchRuleReqApiPOJO extends BaseWxApiPOJO {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getClient_platform_type() {
-		return client_platform_type;
-	}
-	public void setClient_platform_type(String client_platform_type) {
-		this.client_platform_type = client_platform_type;
-	}
 	public String getLanguage() {
 		return language;
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+	public String getClientPlatformType() {
+		return clientPlatformType;
+	}
+	public void setClientPlatformType(String clientPlatformType) {
+		this.clientPlatformType = clientPlatformType;
 	}
 }

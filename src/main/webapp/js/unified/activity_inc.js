@@ -79,7 +79,7 @@ $(document).ready(function() {
 			"render" : function(data, type, full, meta) {
 				var content = (data != null) ? data.substring(0, 10): '';
 				content += '...>>';
-				var link = '<a href="' + $('#basePath').val() + '/page/unified/activity_detail.jsp?activityId=' + full.activityId + '">' +
+				var link = '<a target="_blank" href="' + $('#basePath').val() + '/page/unified/activity_detail.jsp?activityId=' + full.activityId + '">' +
 						content + '</a>';
 				return link;
 			}
@@ -107,22 +107,22 @@ $(document).ready(function() {
 
 				var href2 = $('#basePath').val() + '/page/unified/apply2_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + ((full.title));
-				var linkApply2 = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
+				var linkApply2 = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
 				+ '">' +
 				'表单汇总' + '</a>';
 				
 				var hrefEdit = $('#basePath').val() + '/page/unified/activity_update.jsp?activityId='  + full.activityId;
-				var linkEdit = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
+				var linkEdit = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
 								+ '修改内容' + '</a>';
 
 				var url = $('#basePath').val() + '/page/unified/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1&a=1";
-				var urlCopy = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
+				var urlCopy = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
 				+ '相关链接' + '</a>';
-				var picBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this)">'
+				var picBtn = '<a target="_blank" class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this)">'
 				+ '活动简图' + '</a>';
 				
-				var apply2AttrModelBtn = '<a class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this)">'
+				var apply2AttrModelBtn = '<a target="_blank" class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this)">'
 					+ '创建表单' + '</a>';
 				
 				return /*linkApply + " " + */linkApply2 + " " + linkEdit + " " + urlCopy + " " + picBtn + " " + apply2AttrModelBtn;

@@ -6,9 +6,9 @@
 <div id="wx_menu_mgr">
 	<h3>微信菜单管理</h3>
 	<div style="height: 50px; line-height: 50px;">
-		<a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_menu_mgr_add.jsp'>添加</a> 
+		<%-- <a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_menu_mgr_add.jsp'>添加</a> --%> 
 		<input id="searchBtn4WxMenuMgr" type="button" class="btn btn-default btn-xs" value="查询"> 
-		<input id="deleteBtn4WxMenuMgr" type="button" class="btn btn-default btn-xs" value="删除">
+		<!-- <input id="deleteBtn4WxMenuMgr" type="button" class="btn btn-default btn-xs" value="删除"> -->
 		<input id="searchCurrentBtn4WxMenuMgr" type="button" class="btn btn-default btn-xs" value="获取当前的菜单">
 
 	</div>

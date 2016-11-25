@@ -45,8 +45,9 @@
             </div>-->
 			<div class="row">
 				<div class="col-md-12">
-            	  <h5 style=" margin-bottom:10px; display:block; float:left;"><span class="h5" id="publisher"></span></h5>
-	            	<!--<h5 style="margin-bottom:10px; display:block;">组织者:<span class="h5" id="organiser"></span></h5>-->
+            	  	<h5 style=" margin-bottom:10px; display:block; float: left;margin-right: 20px;">发布者:<span class="h5" id="publisher"></span></h5>
+	            	<h5 style="margin-bottom:10px; display:block;float: left;margin-right: 20px;">发布日期:<span class="h5" id="createDateTime"></span></h5>
+	            	<h5 style="margin-bottom:10px; display:block;">组织者:<span class="h5" id="organiser"></span></h5>
 				</div>
 	        </div>
 			<div class="row" style="margin-top:10px;">
@@ -69,7 +70,7 @@
 	  				<%
   			  		}
 	  				%>
-                    <div class="col-md-12 col-xs-12" style="margin-top:30px;border-bottom:5px ridge #ccc;"></div>
+                    <div id="lineSplit" class="col-md-12 col-xs-12" style="margin-top:30px;border-bottom:5px ridge #ccc;"></div>
 	  				<div id="apply2Div" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
 		  				<div class="row col-md-12 col-xs-12">
 			  				<fieldset>
@@ -129,12 +130,9 @@
 							</fieldset>	
 	  					</div>
 					</div>
-					
-					
-	  		</div>
+	  			</div>
 		</div><!-- for show -->
 	<%@include file="../../../bottom.jsp" %>  		
 	</div> <!-- container -->
   </body>
 </html>
-

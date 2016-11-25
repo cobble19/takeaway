@@ -38,6 +38,40 @@ showQrcode = function() {
     	return ;
 }
 
+
+/*needSubscribe = function() {
+	var needSubscribeFlag = false;
+	var activityId = getParam('activityId');
+	var hidContent = getParam('hidContent');
+	$.ajax({
+		"url" : $('#basePath').val() + "/web/enterprise/activity/" + activityId,
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"async": false,
+		"timeout": 300000,
+		"dataType" : 'json',
+		"data": JSON.stringify({
+            title: $("#title").val()
+        }),
+        success: function(data, textStatus, jqXHR ) {
+        	console.log("data = " + data);
+        	needSubscribeFlag = !!data.needSubscribe;
+        	
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+	
+	return needSubscribeFlag;
+}*/
+
+
 isSubscribe = function() {
 		var exist = false;
 		

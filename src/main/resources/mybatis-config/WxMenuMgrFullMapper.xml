@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxMenuMgrFullMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxMenuMgrFullResultMap" type="com.cobble.takeaway.pojo.weixin.WxMenuMgrFullPOJO" >
+    <id column="WX_MENU_MGR_FULL_ID" property="wxMenuMgrFullId" />
+    <result column="AUTHORIZER_APP_ID" property="authorizerAppId"/>
+    <result column="NAME" property="name"/>
+    <result column="DESCRIPTION" property="description"/>
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_MENU_MGR_FULL_ID, a.AUTHORIZER_APP_ID, a.NAME
+    , a.DESCRIPTION, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="wxMenuMgrFullId != null">
+		and a.WX_MENU_MGR_FULL_ID = #{wxMenuMgrFullId}
+	</if>
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
+	</if>
+	<if test="name != null">
+		and a.NAME like concat("%", concat(#{name}, "%"))
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="WxMenuMgrFullResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxMenuMgrFullSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WX_MENU_MGR_FULL a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.WxMenuMgrFullSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_MENU_MGR_FULL a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxMenuMgrFullResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_MENU_MGR_FULL a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_MENU_MGR_FULL_ID = #{wxMenuMgrFullId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_MENU_MGR_FULL
+    where WX_MENU_MGR_FULL_ID = #{wxMenuMgrFullId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxMenuMgrFullPOJO" useGeneratedKeys="true"
+  	keyProperty="wxMenuMgrFullId" keyColumn="WX_MENU_MGR_FULL_ID">
+    insert into WX_MENU_MGR_FULL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="description != null" >
+        #{description},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxMenuMgrFullPOJO" >
+    update WX_MENU_MGR_FULL
+    <set >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID = #{authorizerAppId},
+      </if>
+      <if test="name != null" >
+        NAME = #{name},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where WX_MENU_MGR_FULL_ID = #{wxMenuMgrFullId}
+  </update>
+  
+</mapper>

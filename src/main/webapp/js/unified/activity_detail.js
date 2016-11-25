@@ -38,6 +38,38 @@ var showQrcode = function() {
     	return ;
 }
 
+var needSubscribe = function() {
+	var needSubscribeFlag = false;
+	var activityId = getParam('activityId');
+	var hidContent = getParam('hidContent');
+	$.ajax({
+		"url" : $('#basePath').val() + "/web/enterprise/activity/" + activityId,
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"async": false,
+		"timeout": 300000,
+		/*"dataType" : 'json',*/
+		/*"data": JSON.stringify({
+            title: $("#title").val()
+        }),*/
+        success: function(data, textStatus, jqXHR ) {
+        	console.log("data = " + data);
+        	needSubscribeFlag = !!data.needSubscribe;
+        	
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+	
+	return needSubscribeFlag;
+}
+
 var isSubscribe = function() {
 		var exist = false;
 		
@@ -77,6 +109,12 @@ var isSubscribe = function() {
             		exist = true;
             	} else {
             		exist = false;
+            	}
+            	
+            	var needSubscribeFlag = needSubscribe();
+            	
+            	if (!needSubscribeFlag) {
+            		exist = true;
             	}
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -236,23 +274,30 @@ var showApply2 = function() {
         	console.log("data = " + data);
         	
         	var apply2AttrModels = data.data;
-        	$.each(apply2AttrModels, function(i, e) {
-        		var inputText = '<div class="form-group ">'
-        						+ '<div class="col-sm-8">'
-        						+ '<label class="control-label" for="' + 'attr' + i + '">' + (i + 1) + ". " + '<span>' + e.apply2AttrModelName + '</span>' + ':' + '</label>'
-        						+ '<br>'
-        						+ '<span style="font-size:10px;">' + e.apply2AttrModelRemark + '</span>'
-        						+  '<textarea class="form-control" required="required" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'
-        						+ '</textarea>'
-        						+ '</div>'
-//        						+ '<div class="col-sm-8">'
-//        						+  '<input type="text" class="form-control" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'
-//        						+ '</div>'
-        						+'</div>'
-        			;
-        		$('#apply2Form div.form-group:nth-last-child(1)').before(inputText);
-        		var form = $('#apply2Form'); // trigger
-        	});
+        	
+        	if (apply2AttrModels == undefined || apply2AttrModels == null || apply2AttrModels.length == 0) {
+        		$('#apply2Div').hide();
+        		$('#lineSplit').hide();
+        	} else {
+            	$.each(apply2AttrModels, function(i, e) {
+            		var inputText = '<div class="form-group ">'
+            						+ '<div class="col-sm-8">'
+            						+ '<label class="control-label" for="' + 'attr' + i + '">' + (i + 1) + ". " + '<span>' + e.apply2AttrModelName + '</span>' + ':' + '</label>'
+            						+ '<br>'
+            						+ '<span style="font-size:10px;">' + e.apply2AttrModelRemark + '</span>'
+            						+  '<textarea class="form-control" required="required" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'
+            						+ '</textarea>'
+            						+ '</div>'
+//            						+ '<div class="col-sm-8">'
+//            						+  '<input type="text" class="form-control" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'
+//            						+ '</div>'
+            						+'</div>'
+            			;
+            		$('#apply2Form div.form-group:nth-last-child(1)').before(inputText);
+            		var form = $('#apply2Form'); // trigger
+            	});
+        	}
+        	
         	
         	window.setTimeout(function() {
             	var subscribe = isSubscribe();
@@ -381,12 +426,14 @@ var showDetail = function() {
 			/*$("#title_2").html(data.title);*/
         	$("#content").html(data.content);
 			/*$("#content_1").html(data.content);*/
-        	var publisher = data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username;
+        	var publisher = "";
         	if (!!data.userPOJO) {
+            	publisher = data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username;
             	$('#publisher').text(publisher);
             	/*$('#publisher_1').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);*/
         	}
         	$('#organiser').text(data.usernameEnterprise);
+        	$('#createDateTime').text(data.createDateTime);
         	/*$('#organiser_1').text(data.usernameEnterprise);*/
         	if ('1' == hidContent) {
         		$("#logoImg").show();
