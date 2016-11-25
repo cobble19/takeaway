@@ -433,7 +433,10 @@ var showDetail = function() {
             	/*$('#publisher_1').text(data.userPOJO.nickname != null ? data.userPOJO.nickname : data.userPOJO.username);*/
         	}
         	$('#organiser').text(data.usernameEnterprise);
-        	$('#createDateTime').text(data.createDateTime);
+        	var createDateTime = data.createDateTime;
+        	if (createDateTime != null) {
+            	$('#createDateTime').text(new Date(createDateTime).format('Y/m/d H:i:s'));
+        	}
         	/*$('#organiser_1').text(data.usernameEnterprise);*/
         	if ('1' == hidContent) {
         		$("#logoImg").show();
