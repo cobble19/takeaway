@@ -15,10 +15,10 @@
   
 	<div class="container-fluid">
 		<div class="hidden-xs">
-			<%@include file="../../../reg_login_full.jsp" %>
+			<%@include file="../../../reg_login.jsp" %>
 		</div>
 		
-		
+		<div class="row hidden-xs" style="height:150px;"></div>
 			<!-- 隐藏 -->
  			<div id="qrcodeDiv" class="col-md-12 col-xs-12" style="border:1px solid #CCC; display:none; margin: auto;">
  				<div class="thumbnail">
@@ -33,7 +33,7 @@
 		<div id="showDiv">
 			<div class="row">
 			  <div class="col-md-12 col-xs-12" >
-	            	<span style=" margin-top:10px; margin-bottom:10px; display:block;"><h3 id="title"></h3></span>                    
+	            	<span style=" margin-top:20px; margin-bottom:20px; display:block;"><h3 id="title"></h3></span>                    
 	            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
 	            	<!-- <input type="hidden" id="authorizerAppId" name="authorizerAppId"/> -->
 			  </div>
@@ -45,9 +45,9 @@
             </div>-->
 			<div class="row">
 				<div class="col-md-12">
-            	  	<h5 style=" margin-bottom:10px; display:block; float: left;margin-right: 20px;">发布者:<span class="h5" id="publisher"></span></h5>
-	            	<h5 style="margin-bottom:10px; display:block;float: left;margin-right: 20px;">发布日期:<span class="h5" id="createDateTime"></span></h5>
-	            	<h5 style="margin-bottom:10px; display:block;">组织者:<span class="h5" id="organiser"></span></h5>
+	            	<h5 style="margin-bottom:20px; display:block;float: left;margin-right:10px; color:#898989;"><span class="h5" id="createDateTime"></span></h5>
+            	  	<h5 style=" margin-bottom:20px; display:block; float: left; color:#88a8c1;"><span class="h5" id="publisher"></span></h5>
+	            	<!--<h5 style="margin-bottom:10px; display:block;">组织者:<span class="h5" id="organiser"></span></h5>-->
 				</div>
 	        </div>
 			<div class="row" style="margin-top:10px;">
@@ -70,7 +70,9 @@
 	  				<%
   			  		}
 	  				%>
-                    <div id="lineSplit" class="col-md-12 col-xs-12" style="margin-top:30px;border-bottom:5px ridge #ccc;"></div>
+                    </div>
+                    <div class="row" style="margin-left:2px; margin-right:2px;">
+                    <div id="lineSplit" class="col-md-12 col-xs-12" style="margin-top:30px; border-bottom:5px ridge #ccc;"></div>
 	  				<div id="apply2Div" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
 		  				<div class="row col-md-12 col-xs-12">
 			  				<fieldset>
