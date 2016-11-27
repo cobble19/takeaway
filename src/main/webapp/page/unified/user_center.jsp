@@ -58,6 +58,8 @@
 	                      <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_category"><h6>菜单category</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_button"><h6>菜单按钮</h6></a></li>
+	                      <li role="presentation"><a href="#wx_menu_mgr_full"><h6>菜单full</h6></a></li>
+	                      <li role="presentation"><a href="#wx_menu_mgr_match_rule"><h6>菜单match rule</h6></a></li>
                       </c:if>
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
@@ -108,6 +110,10 @@
 	     			<%@include file="wx_menu_mgr_category_inc.jsp" %>
 	     			<!-- wx_menu_mgr_button -->
 	     			<%@include file="wx_menu_mgr_button_inc.jsp" %>
+	     			<!-- wx_menu_mgr_category -->
+	     			<%@include file="wx_menu_mgr_full_inc.jsp" %>
+	     			<!-- wx_menu_mgr_category -->
+	     			<%@include file="wx_menu_mgr_match_rule_inc.jsp" %>
 	     			<!-- create_interactive -->
 	     			<%@include file="interactive_inc.jsp" %>
 	     			<%@include file="interactive2_inc.jsp" %>

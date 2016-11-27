@@ -18,19 +18,20 @@
     <result column="PROVINCE" property="province"/>
     <result column="CITY" property="city"/>
     <result column="CLIENT_PLATFORM_TYPE" property="clientPlatformType"/>
+    <result column="LANGUAGE" property="language"/>
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     a.WX_MENU_MGR_MATCH_RULE_ID, a.GROUP_ID, a.SEX
     , a.COUNTRY, a.PROVINCE, a.CITY
-    , a.CLIENT_PLATFORM_TYPE, a.CREATE_DATE_TIME
+    , a.CLIENT_PLATFORM_TYPE, a.LANGUAGE, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="wxMenuMgrMatchRuleId != null">
 		and a.WX_MENU_MGR_MATCH_RULE_ID = #{wxMenuMgrMatchRuleId}
 	</if>
-	<if test="authorizerAppId != null">
+	<if test="groupId != null">
 		and a.GROUP_ID = #{groupId}
 	</if>
   </sql>
@@ -98,6 +99,9 @@
       <if test="clientPlatformType != null" >
         CLIENT_PLATFORM_TYPE,
       </if>
+      <if test="language != null" >
+        LANGUAGE,
+      </if>
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -118,6 +122,9 @@
       </if>
       <if test="clientPlatformType != null" >
         #{clientPlatformType},
+      </if>
+      <if test="language != null" >
+        #{language},
       </if>
         sysdate(),
     </trim>
@@ -143,6 +150,9 @@
       </if>
       <if test="clientPlatformType != null" >
         CLIENT_PLATFORM_TYPE = #{clientPlatformType},
+      </if>
+      <if test="language != null" >
+        LANGUAGE = #{language},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>

@@ -66,6 +66,8 @@
 		<!-- <mapper resource="mybatis-config/RelWxPuOpenMapper.xml" /> -->
 		<mapper resource="mybatis-config/WxMenuMgrButtonMapper.xml" />
 		<mapper resource="mybatis-config/WxMenuMgrCategoryMapper.xml" />
+		<mapper resource="mybatis-config/WxMenuMgrFullMapper.xml" />
+		<mapper resource="mybatis-config/WxMenuMgrMatchRuleMapper.xml" />
 		
 		<mapper resource="mybatis-config/VoteMapper.xml" />
 		<mapper resource="mybatis-config/VoteItemMapper.xml" />

@@ -12,6 +12,7 @@ public class WxMenuMgrMatchRulePOJO extends BasePOJO {
     private String province;
     private String city;
     private Integer clientPlatformType;
+    private String language;
     private Date createDateTime;
     
 	public Long getWxMenuMgrMatchRuleId() {
@@ -61,6 +62,12 @@ public class WxMenuMgrMatchRulePOJO extends BasePOJO {
 	}
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
 	}
     
 }
