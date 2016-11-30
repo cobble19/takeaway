@@ -176,7 +176,7 @@ var getMenuMgrMenu = function() {
 		return;
 	}
 
-	var confirm = window.confirm('确定获取当前menuinfo吗？');
+	var confirm = window.confirm('确定获取当前所有menu吗？');
 	if (!confirm) {
 		return;
 	}

@@ -115,7 +115,7 @@ public class WxMenuMgrController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/api/unified/wxMenuMgr/getmenu")
+	@RequestMapping(value = "/api/unified/wxMenuMgr/menu/get")
 	@ResponseBody
 	public Map memuGet4Api(WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
