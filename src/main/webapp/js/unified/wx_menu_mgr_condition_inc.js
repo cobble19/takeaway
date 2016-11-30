@@ -51,15 +51,6 @@ $(document).ready(function() {
     	});
     });
     
-    $('#wxMenuMgrButtonDiv_2').dialog({
-    	autoOpen: false,
-    	modal: true
-    });
-    $('#wxMenuMgrMatchRuleDiv_2').dialog({
-    	autoOpen: false,
-    	modal: true
-    });
-    
     
 } );
 
@@ -82,13 +73,24 @@ var getWxMenuMgrButtonDispDiv2 = function(wxMenuMgrButtonPOJO) {
 }
 
 var addMenuMgrButton2 = function(wxMenuMgrCategoryId, parentButtonId, level, authorizerAppId) {
-	$('#wxMenuMgrCategoryId').val(wxMenuMgrCategoryId);
-	$('#parentButtonId').val(parentButtonId);
-	$('#level').val(level);
-	$('#authorizerAppIdX').val(authorizerAppId);
+	console.log('addMenuMgrButton2');
+	$('#wxMenuMgrButtonDiv_2 #wxMenuMgrCategoryId').val(wxMenuMgrCategoryId);
+	$('#wxMenuMgrButtonDiv_2 #parentButtonId').val(parentButtonId);
+	$('#wxMenuMgrButtonDiv_2 #level').val(level);
+	$('#wxMenuMgrButtonDiv_2 #authorizerAppIdX').val(authorizerAppId);
 	
 //	$('#wxMenuMgrButtonDiv').dialog('open');
 	$('#wxMenuMgrButtonDiv_2').show();
+	
+}
+
+var addMenuMgrMatchRuleButton2 = function() {
+	console.log('addMenuMgrMatchRuleButton2');
+	/*$('#wxMenuMgrCategoryId').val(wxMenuMgrCategoryId);
+	$('#authorizerAppIdX').val(authorizerAppId);*/
+	
+//	$('#wxMenuMgrButtonDiv').dialog('open');
+	$('#wxMenuMgrMatchRuleDiv_2').show();
 	
 }
 
@@ -229,7 +231,7 @@ var wxMenuMgrConditionSearch = function() {
         			for (var m = 0; m < wxMenuMgrFullPOJOs.length; m++) {
         				wxMenuMgrFullPOJO = wxMenuMgrFullPOJOs[m];
         				content += "<hr/>";
-        				content += "Full: " + wxMenuMgrFullPOJO.name + "<br/>";
+        				content += "<b>Full: " + wxMenuMgrFullPOJO.name + "</b><br/>";
         				wxMenuMgrCategoryPOJOs = wxMenuMgrFullPOJO.wxMenuMgrCategoryPOJOs;
                 		if (wxMenuMgrCategoryPOJOs != null) {
                 			for (var i = 0; i < wxMenuMgrCategoryPOJOs.length; i++) {
@@ -252,6 +254,16 @@ var wxMenuMgrConditionSearch = function() {
                     					+ " class='btn btn-info'"
                     					+ ">"
                     					+ "";
+                    			
+                    			var onclickStr = ' onclick=addMenuMgrMatchRuleButton2(' + ')';
+								content += "&nbsp;&nbsp;<input type='button' " +
+										"id='addButtonMR2_" + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + "'"
+										+ " name='addButtonMR1'" 
+										+ " value=AddButtonMR1"
+										+ onclickStr
+										+ " class='btn btn-info'"
+										+ ">"
+										+ "";
                     			
                     			var onclickPublishStr = ' onclick=publishMenuMgrCategory(' + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId
         											+ ',' + "'" + wxMenuMgrCategoryPOJO.authorizerAppId + "'"
