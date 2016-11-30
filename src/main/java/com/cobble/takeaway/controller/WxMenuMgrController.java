@@ -1,6 +1,7 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,8 +46,8 @@ import com.cobble.takeaway.service.WxMenuMgrButtonService;
 import com.cobble.takeaway.service.WxMenuMgrCategoryService;
 import com.cobble.takeaway.service.WxMenuMgrFullService;
 import com.cobble.takeaway.service.WxMenuMgrMatchRuleService;
-import com.cobble.takeaway.util.BeanUtil;
 import com.cobble.takeaway.util.CommonConstant;
+import com.cobble.takeaway.util.DateUtil;
 import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
@@ -155,10 +156,12 @@ public class WxMenuMgrController extends BaseController {
 				return ret;
 			}
 			
+			String nameRandom = DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HHmm");
+			
 			// insert full
 			WxMenuMgrFullPOJO wxMenuMgrFullPOJO = new WxMenuMgrFullPOJO();
 			wxMenuMgrFullPOJO.setAuthorizerAppId(authorizerAppId);
-			wxMenuMgrFullPOJO.setName("From API Full");
+			wxMenuMgrFullPOJO.setName("From API Full" + nameRandom);
 			wxMenuMgrFullPOJO.setDescription("From API Full");
 			wxMenuMgrFullService.insert(wxMenuMgrFullPOJO);
 			
@@ -169,7 +172,7 @@ public class WxMenuMgrController extends BaseController {
 				// add category
 				WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO = new WxMenuMgrCategoryPOJO();
 				wxMenuMgrCategoryPOJO.setAuthorizerAppId(authorizerAppId);
-				wxMenuMgrCategoryPOJO.setName("API获取");
+				wxMenuMgrCategoryPOJO.setName("API获取" + nameRandom);
 				wxMenuMgrCategoryPOJO.setDescription("API获取");
 				wxMenuMgrCategoryPOJO.setMenuId(menuId);
 				wxMenuMgrCategoryPOJO.setWxMenuMgrFullId(wxMenuMgrFullPOJO.getWxMenuMgrFullId());
@@ -244,7 +247,7 @@ public class WxMenuMgrController extends BaseController {
 						// add category
 						WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO = new WxMenuMgrCategoryPOJO();
 						wxMenuMgrCategoryPOJO.setAuthorizerAppId(authorizerAppId);
-						wxMenuMgrCategoryPOJO.setName("API获取");
+						wxMenuMgrCategoryPOJO.setName("API获取" + nameRandom);
 						wxMenuMgrCategoryPOJO.setDescription("API获取");
 						wxMenuMgrCategoryPOJO.setMenuId(menuId);
 						wxMenuMgrCategoryPOJO.setWxMenuMgrFullId(wxMenuMgrFullPOJO.getWxMenuMgrFullId());

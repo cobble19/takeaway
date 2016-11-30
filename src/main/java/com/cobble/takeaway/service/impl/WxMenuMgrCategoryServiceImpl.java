@@ -95,6 +95,7 @@ public class WxMenuMgrCategoryServiceImpl implements WxMenuMgrCategoryService {
 			wxMenuMgrButtonSearchPOJO.setAuthorizerAppId(wxMenuMgrCategorySearchPOJO.getAuthorizerAppId());
 			wxMenuMgrButtonSearchPOJO.setWxMenuMgrCategoryId(wxMenuMgrCategorySearchPOJO.getWxMenuMgrCategoryId());
 		}
+		wxMenuMgrButtonSearchPOJO.setPaginationFlage(false);
 		List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs = wxMenuMgrButtonMapper.finds(wxMenuMgrButtonSearchPOJO);
 		
 		if (CollectionUtils.isNotEmpty(wxMenuMgrCategoryPOJOs) && CollectionUtils.isNotEmpty(wxMenuMgrButtonPOJOs)) {
