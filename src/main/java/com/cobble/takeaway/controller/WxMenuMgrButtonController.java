@@ -52,7 +52,7 @@ public class WxMenuMgrButtonController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
-			if (wxMenuMgrButtonPOJO.getWxMenuMgrButtonId() != null && wxMenuMgrButtonPOJO.getWxMenuMgrButtonId() > 0l) {
+			if (wxMenuMgrButtonPOJO.getWxMenuMgrButtonId() != null) {
 				result = wxMenuMgrButtonService.update(wxMenuMgrButtonPOJO);
 			} else {
 				result = wxMenuMgrButtonService.insert(wxMenuMgrButtonPOJO);
@@ -81,7 +81,7 @@ public class WxMenuMgrButtonController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
-			if (wxMenuMgrButtonPOJO.getWxMenuMgrButtonId() != null && wxMenuMgrButtonPOJO.getWxMenuMgrButtonId() > 0l) {
+			if (wxMenuMgrButtonPOJO.getWxMenuMgrButtonId() != null) {
 				result = wxMenuMgrButtonService.update(wxMenuMgrButtonPOJO);
 			} else {
 				result = wxMenuMgrButtonService.insert(wxMenuMgrButtonPOJO);

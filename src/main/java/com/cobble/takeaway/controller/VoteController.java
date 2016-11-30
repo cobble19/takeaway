@@ -146,7 +146,7 @@ public class VoteController extends BaseController {
 				throw new Exception("userId can't is NULL.");
 			}
 			votePOJO.setUserId(userId);
-			if (votePOJO.getVoteId() != null && votePOJO.getVoteId() > 0l) {
+			if (votePOJO.getVoteId() != null) {
 				result = voteService.update(votePOJO);
 			} else {
 				result = voteService.insert(votePOJO);
@@ -176,7 +176,7 @@ public class VoteController extends BaseController {
 				throw new Exception("userId can't is NULL.");
 			}
 			votePOJO.setUserId(userId);
-			if (votePOJO.getVoteId() != null && votePOJO.getVoteId() > 0l) {
+			if (votePOJO.getVoteId() != null) {
 				result = voteService.update(votePOJO);
 			} else {
 				result = voteService.insert(votePOJO);

@@ -52,7 +52,7 @@ public class WxMenuMgrMatchRuleController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
-			if (wxMenuMgrMatchRulePOJO.getWxMenuMgrMatchRuleId() != null && wxMenuMgrMatchRulePOJO.getWxMenuMgrMatchRuleId() > 0l) {
+			if (wxMenuMgrMatchRulePOJO.getWxMenuMgrMatchRuleId() != null) {
 				result = wxMenuMgrMatchRuleService.update(wxMenuMgrMatchRulePOJO);
 			} else {
 				result = wxMenuMgrMatchRuleService.insert(wxMenuMgrMatchRulePOJO);
@@ -81,7 +81,7 @@ public class WxMenuMgrMatchRuleController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
-			if (wxMenuMgrMatchRulePOJO.getWxMenuMgrMatchRuleId() != null && wxMenuMgrMatchRulePOJO.getWxMenuMgrMatchRuleId() > 0l) {
+			if (wxMenuMgrMatchRulePOJO.getWxMenuMgrMatchRuleId() != null) {
 				result = wxMenuMgrMatchRuleService.update(wxMenuMgrMatchRulePOJO);
 			} else {
 				result = wxMenuMgrMatchRuleService.insert(wxMenuMgrMatchRulePOJO);

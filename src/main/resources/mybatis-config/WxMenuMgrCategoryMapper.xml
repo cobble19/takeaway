@@ -14,12 +14,16 @@
     <id column="WX_MENU_MGR_CATEGORY_ID" property="wxMenuMgrCategoryId" />
     <result column="AUTHORIZER_APP_ID" property="authorizerAppId"/>
     <result column="NAME" property="name"/>
+    <result column="MENU_ID" property="menuId"/>
+    <result column="WX_MENU_MGR_FULL_ID" property="wxMenuMgrFullId"/>
+    <result column="WX_MENU_MGR_MATCH_RULE_ID" property="wxMenuMgrMatchRuleId"/>
     <result column="DESCRIPTION" property="description"/>
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     a.WX_MENU_MGR_CATEGORY_ID, a.AUTHORIZER_APP_ID, a.NAME
+    , a.MENU_ID, a.WX_MENU_MGR_FULL_ID, a.WX_MENU_MGR_MATCH_RULE_ID
     , a.DESCRIPTION, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
@@ -28,6 +32,12 @@
 	</if>
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
+	</if>
+	<if test="wxMenuMgrFullId != null">
+		and a.WX_MENU_MGR_FULL_ID = #{wxMenuMgrFullId}
+	</if>
+	<if test="menuId != null">
+		and a.MENU_ID = #{menuId}
 	</if>
 	<if test="name != null">
 		and a.NAME like concat("%", concat(#{name}, "%"))
@@ -85,6 +95,15 @@
       <if test="name != null" >
         NAME,
       </if>
+      <if test="menuId != null" >
+        MENU_ID,
+      </if>
+      <if test="wxMenuMgrFullId != null" >
+        WX_MENU_MGR_FULL_ID,
+      </if>
+      <if test="wxMenuMgrMatchRuleId != null" >
+        WX_MENU_MGR_MATCH_RULE_ID,
+      </if>
       <if test="description != null" >
         DESCRIPTION,
       </if>
@@ -96,6 +115,15 @@
       </if>
       <if test="name != null" >
         #{name},
+      </if>
+      <if test="menuId != null" >
+        #{menuId},
+      </if>
+      <if test="wxMenuMgrFullId != null" >
+        #{wxMenuMgrFullId},
+      </if>
+      <if test="wxMenuMgrMatchRuleId != null" >
+        #{wxMenuMgrMatchRuleId},
       </if>
       <if test="description != null" >
         #{description},
@@ -112,6 +140,15 @@
       </if>
       <if test="name != null" >
         NAME = #{name},
+      </if>
+      <if test="menuId != null" >
+        MENU_ID = #{menuId},
+      </if>
+      <if test="wxMenuMgrFullId != null" >
+        WX_MENU_MGR_FULL_ID = #{wxMenuMgrFullId},
+      </if>
+      <if test="wxMenuMgrMatchRuleId != null" >
+        WX_MENU_MGR_MATCH_RULE_ID = #{wxMenuMgrMatchRuleId},
       </if>
       <if test="description != null" >
         DESCRIPTION = #{description},

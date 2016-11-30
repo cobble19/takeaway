@@ -1,6 +1,8 @@
 package com.cobble.takeaway.pojo.weixin;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.cobble.takeaway.pojo.BasePOJO;
 
@@ -10,6 +12,8 @@ public class WxMenuMgrFullPOJO extends BasePOJO {
     private String name;
     private String description;
     private Date createDateTime;
+    
+    private List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = new ArrayList<WxMenuMgrCategoryPOJO>();
     
 	public Long getWxMenuMgrFullId() {
 		return wxMenuMgrFullId;
@@ -40,6 +44,13 @@ public class WxMenuMgrFullPOJO extends BasePOJO {
 	}
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+	public List<WxMenuMgrCategoryPOJO> getWxMenuMgrCategoryPOJOs() {
+		return wxMenuMgrCategoryPOJOs;
+	}
+	public void setWxMenuMgrCategoryPOJOs(
+			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs) {
+		this.wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryPOJOs;
 	}
     
 }

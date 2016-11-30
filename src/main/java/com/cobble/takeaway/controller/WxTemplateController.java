@@ -225,7 +225,7 @@ public class WxTemplateController extends BaseController {
 				throw new Exception("wxTemplatePOJO can't is NULL.");
 			}
 			int result = -1;
-			if (wxTemplatePOJO.getWxTemplateId() != null && wxTemplatePOJO.getWxTemplateId() > 0L) {
+			if (wxTemplatePOJO.getWxTemplateId() != null) {
 				result = wxTemplateService.update(wxTemplatePOJO);
 			} else {
 				result = wxTemplateService.insert(wxTemplatePOJO);

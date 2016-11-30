@@ -52,13 +52,13 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": true
 		}, {
-			"targets": [6],
+			"targets": [9],
 			"render" : function(data, type, full, meta) {
 				var date = new Date(data);
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets" : [7],
+			"targets" : [10],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/web/unified/wxMenuMgrCategory/showupdate?wxMenuMgrCategoryId='  + full.wxMenuMgrCategoryId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
@@ -103,6 +103,9 @@ $(document).ready(function() {
             { "data": "wxMenuMgrCategoryId" },
             { "data": "authorizerAppId" },
             { "data": "name" },
+            { "data": "menuId" },
+            { "data": "wxMenuMgrFullId" },
+            { "data": "wxMenuMgrMatchRuleId" },
             { "data": "description" },
             { "data": "createDateTime" },
             {

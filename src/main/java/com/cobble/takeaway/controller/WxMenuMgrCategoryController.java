@@ -52,7 +52,7 @@ public class WxMenuMgrCategoryController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
-			if (wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId() != null && wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId() > 0l) {
+			if (wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId() != null) {
 				result = wxMenuMgrCategoryService.update(wxMenuMgrCategoryPOJO);
 			} else {
 				result = wxMenuMgrCategoryService.insert(wxMenuMgrCategoryPOJO);
@@ -81,7 +81,7 @@ public class WxMenuMgrCategoryController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
-			if (wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId() != null && wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId() > 0l) {
+			if (wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId() != null) {
 				result = wxMenuMgrCategoryService.update(wxMenuMgrCategoryPOJO);
 			} else {
 				result = wxMenuMgrCategoryService.insert(wxMenuMgrCategoryPOJO);

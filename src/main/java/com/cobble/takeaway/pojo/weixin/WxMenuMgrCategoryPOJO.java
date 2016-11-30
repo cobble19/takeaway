@@ -18,6 +18,9 @@ public class WxMenuMgrCategoryPOJO extends BasePOJO {
     private Date createDateTime;
     private List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs = new ArrayList<WxMenuMgrButtonPOJO>();
     
+    private WxMenuMgrFullPOJO wxMenuMgrFullPOJO;
+    private WxMenuMgrMatchRulePOJO wxMenuMgrMatchRulePOJO;
+    
 	public String getName() {
 		return name;
 	}
@@ -71,6 +74,19 @@ public class WxMenuMgrCategoryPOJO extends BasePOJO {
 	}
 	public void setWxMenuMgrMatchRuleId(Long wxMenuMgrMatchRuleId) {
 		this.wxMenuMgrMatchRuleId = wxMenuMgrMatchRuleId;
+	}
+	public WxMenuMgrFullPOJO getWxMenuMgrFullPOJO() {
+		return wxMenuMgrFullPOJO;
+	}
+	public void setWxMenuMgrFullPOJO(WxMenuMgrFullPOJO wxMenuMgrFullPOJO) {
+		this.wxMenuMgrFullPOJO = wxMenuMgrFullPOJO;
+	}
+	public WxMenuMgrMatchRulePOJO getWxMenuMgrMatchRulePOJO() {
+		return wxMenuMgrMatchRulePOJO;
+	}
+	public void setWxMenuMgrMatchRulePOJO(
+			WxMenuMgrMatchRulePOJO wxMenuMgrMatchRulePOJO) {
+		this.wxMenuMgrMatchRulePOJO = wxMenuMgrMatchRulePOJO;
 	}
     
     

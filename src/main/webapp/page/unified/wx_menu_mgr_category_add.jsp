@@ -29,6 +29,18 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="wxMenuMgrFullId">FULL ID:</label>
+ 				<div class="">
+ 					<input class="form-control" id="wxMenuMgrFullId" name="wxMenuMgrFullId" placeholder="请输入菜单FULLID">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="wxMenuMgrMatchRuleId">匹配规则ID:</label>
+ 				<div class="">
+ 					<input class="form-control" id="wxMenuMgrMatchRuleId" name="wxMenuMgrMatchRuleId" placeholder="请输入匹配规则ID">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
  				<label class="control-label" for="description">描述:</label>
  				<div class="">
  					<input class="form-control" id="description" name="description" placeholder="请输入描述">

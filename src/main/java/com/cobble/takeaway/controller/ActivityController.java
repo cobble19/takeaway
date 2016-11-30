@@ -63,7 +63,7 @@ public class ActivityController extends BaseController {
 				throw new Exception("activityPOJO can't is NULL.");
 			}
 			int result = -1;
-			if (activityPOJO.getActivityId() != null && activityPOJO.getActivityId() > 0l) {
+			if (activityPOJO.getActivityId() != null) {
 				result = activityService.update(activityPOJO);
 			} else {
 				result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
@@ -241,7 +241,7 @@ public class ActivityController extends BaseController {
 				throw new Exception("activityPOJO can't is NULL.");
 			}
 			int result = -1;
-			if (activityPOJO.getActivityId() != null && activityPOJO.getActivityId() > 0l) {
+			if (activityPOJO.getActivityId() != null) {
 				result = activityService.update(activityPOJO);
 			} else {
 				result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
@@ -266,7 +266,7 @@ public class ActivityController extends BaseController {
 				throw new Exception("activityPOJO can't is NULL.");
 			}
 			int result = -1;
-			if (activityPOJO.getActivityId() != null && activityPOJO.getActivityId() > 0l) {
+			if (activityPOJO.getActivityId() != null) {
 				result = activityService.update(activityPOJO);
 			} else {
 				result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());

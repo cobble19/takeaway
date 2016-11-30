@@ -129,7 +129,7 @@ public class VoteItemController extends BaseController {
 				throw new Exception("voteItemPOJO can't is NULL.");
 			}
 			int result = -1;
-			if (voteItemPOJO.getVoteItemId() != null && voteItemPOJO.getVoteItemId() > 0l) {
+			if (voteItemPOJO.getVoteItemId() != null) {
 				result = voteItemService.update(voteItemPOJO);
 			} else {
 				result = voteItemService.insert(voteItemPOJO, UserUtil.getCurrentUser().getUserId());
@@ -154,7 +154,7 @@ public class VoteItemController extends BaseController {
 				throw new Exception("voteItemPOJO can't is NULL.");
 			}
 			int result = -1;
-			if (voteItemPOJO.getVoteItemId() != null && voteItemPOJO.getVoteItemId() > 0l) {
+			if (voteItemPOJO.getVoteItemId() != null) {
 				result = voteItemService.update(voteItemPOJO);
 			} else {
 				result = voteItemService.insert(voteItemPOJO, UserUtil.getCurrentUser().getUserId());

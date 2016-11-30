@@ -52,7 +52,7 @@ public class WxMenuMgrFullController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
-			if (wxMenuMgrFullPOJO.getWxMenuMgrFullId() != null && wxMenuMgrFullPOJO.getWxMenuMgrFullId() > 0l) {
+			if (wxMenuMgrFullPOJO.getWxMenuMgrFullId() != null) {
 				result = wxMenuMgrFullService.update(wxMenuMgrFullPOJO);
 			} else {
 				result = wxMenuMgrFullService.insert(wxMenuMgrFullPOJO);
@@ -81,7 +81,7 @@ public class WxMenuMgrFullController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
-			if (wxMenuMgrFullPOJO.getWxMenuMgrFullId() != null && wxMenuMgrFullPOJO.getWxMenuMgrFullId() > 0l) {
+			if (wxMenuMgrFullPOJO.getWxMenuMgrFullId() != null) {
 				result = wxMenuMgrFullService.update(wxMenuMgrFullPOJO);
 			} else {
 				result = wxMenuMgrFullService.insert(wxMenuMgrFullPOJO);

@@ -56,6 +56,7 @@
                       
                       <c:if test="${sessionScope.userType eq 'MEDIA' or sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
 	                      <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
+	                      <li role="presentation"><a href="#wx_menu_mgr_condition"><h6>定制菜单</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_category"><h6>菜单category</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_button"><h6>菜单按钮</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_full"><h6>菜单full</h6></a></li>
@@ -106,6 +107,8 @@
 	     			<%@include file="award_record_inc.jsp" %>
 	     			<!-- wx_menu_mgr -->
 	     			<%@include file="wx_menu_mgr_inc.jsp" %>
+	     			<!-- wx_menu_mgr_condition -->
+	     			<%@include file="wx_menu_mgr_condition_inc.jsp" %>
 	     			<!-- wx_menu_mgr_category -->
 	     			<%@include file="wx_menu_mgr_category_inc.jsp" %>
 	     			<!-- wx_menu_mgr_button -->

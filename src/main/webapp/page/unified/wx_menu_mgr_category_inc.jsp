@@ -18,6 +18,9 @@
 				  						<th>标识</th>
 				  						<th>公众号APPID</th>
 				  						<th>名称</th>
+				  						<th>菜单ID</th>
+				  						<th>菜单FULL ID</th>
+				  						<th>菜单匹配规则ID</th>
 				  						<th>描述</th>
 				  						<th>创建时间</th>
 				  						<th>操作</th>
