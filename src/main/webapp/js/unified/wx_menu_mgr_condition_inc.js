@@ -143,7 +143,7 @@ var deleteMenu2 = function(authorizerAppId) {
 		return;
 	}
 	$.ajax({
-		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr" + authorizerAppId + "/menu/delete",
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr/" + authorizerAppId + "/menu/delete",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
