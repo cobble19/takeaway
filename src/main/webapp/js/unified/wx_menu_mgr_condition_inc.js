@@ -182,7 +182,7 @@ var deleteConditionalMenu2 = function(authorizerAppId, menuId) {
 		return;
 	}
 	$.ajax({
-		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr" + authorizerAppId + "/menu/conditional/delete",
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr/" + authorizerAppId + "/menu/conditional/delete",
 		"type" : "POST",
 		"headers" : {
 			"Content-Type" : "application/json"
@@ -361,6 +361,7 @@ var wxMenuMgrConditionSearch = function() {
 								// delete conditional menu
 								var onclickStr = ' onclick=deleteConditionalMenu2('
 												+ "'" + wxMenuMgrCategoryPOJO.authorizerAppId + "'"
+												+ ','
 												+ "'" + wxMenuMgrCategoryPOJO.menuId + "'"
 												+ ')';
 								content += "&nbsp;&nbsp;<input type='button' " +
