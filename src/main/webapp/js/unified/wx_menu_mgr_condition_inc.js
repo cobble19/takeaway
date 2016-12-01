@@ -131,6 +131,83 @@ var deleteMenuMgrButton2 = function(wxMenuMgrButtonId) {
 	});
 }
 
+var deleteMenu2 = function(authorizerAppId) {
+	console.log("authorizerAppId: " + authorizerAppId);
+	if (authorizerAppId == null) {
+		alert("authorizerAppId: " + authorizerAppId + ", 参数不正确");
+		return;
+	}
+
+	var confirm = window.confirm('删除公众号的所有菜单?!');
+	if (!confirm) {
+		return;
+	}
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr" + authorizerAppId + "/menu/delete",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		traditional :true, 
+		/*"data": {
+            "authorizerAppId": authorizerAppId
+        },*/
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	if (data.success) {
+        		alert('删除成功');
+        	}
+        	wxMenuMgrConditionSearch();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+
+
+var deleteConditionalMenu2 = function(menuId) {
+	console.log("menuId: " + menuId);
+	if (menuId == null) {
+		alert("menuId: " + menuId + ", 参数不正确");
+		return;
+	}
+
+	var confirm = window.confirm('删除公众号的定制菜单?!menuId: ' + menuId);
+	if (!confirm) {
+		return;
+	}
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr" + authorizerAppId + "/menu/conditional/delete",
+		"type" : "POST",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		traditional :true, 
+		"data": {
+            "menuId": menuId
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	if (data.success) {
+        		alert('删除成功');
+        	}
+        	wxMenuMgrConditionSearch();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+
 var publishMenuMgrCategory = function(wxMenuMgrCategoryId, authorizerAppId) {
 	console.log('wxMenuMgrCategoryId: ' + wxMenuMgrCategoryId + ", authorizerAppId: " + authorizerAppId);
 	if (wxMenuMgrCategoryId == null || authorizerAppId == null) {
@@ -243,6 +320,8 @@ var wxMenuMgrConditionSearch = function() {
                     					" value='" + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + "'"
                     					+ " />"
                     					+ wxMenuMgrCategoryPOJO.name;
+                    			
+                    			// add level 1 menu
                     			var onclickStr = ' onclick=addMenuMgrButton2(' + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId
                     								+ ',0' + ',1' + ',' + "'" + wxMenuMgrCategoryPOJO.authorizerAppId + "'"
         					    					+ ')';
@@ -255,11 +334,38 @@ var wxMenuMgrConditionSearch = function() {
                     					+ ">"
                     					+ "";
                     			
+                    			// add match rule 
                     			var onclickStr = ' onclick=addMenuMgrMatchRuleButton2(' + ')';
 								content += "&nbsp;&nbsp;<input type='button' " +
 										"id='addButtonMR2_" + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + "'"
 										+ " name='addButtonMR1'" 
 										+ " value=AddButtonMR1"
+										+ onclickStr
+										+ " class='btn btn-info'"
+										+ ">"
+										+ "";
+								
+								// delete full menu
+								var onclickStr = ' onclick=deleteMenu2('
+												+ "'" + wxMenuMgrCategoryPOJO.authorizerAppId + "'"
+												+ ')';
+								content += "&nbsp;&nbsp;<input type='button' " +
+										"id='deleteMenu2_" + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + "'"
+										+ " name='deleteMenu'" 
+										+ " value=DeleteMenu"
+										+ onclickStr
+										+ " class='btn btn-info'"
+										+ ">"
+										+ "";
+								
+								// delete conditional menu
+								var onclickStr = ' onclick=deleteConditionalMenu2('
+												+ "'" + wxMenuMgrCategoryPOJO.menuId + "'"
+												+ ')';
+								content += "&nbsp;&nbsp;<input type='button' " +
+										"id='deleteMenu2_" + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + "'"
+										+ " name='deleteConditionalMenu'" 
+										+ " value=DeleteConditionalMenu"
 										+ onclickStr
 										+ " class='btn btn-info'"
 										+ ">"

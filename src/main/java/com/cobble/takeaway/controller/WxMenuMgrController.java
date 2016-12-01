@@ -19,11 +19,14 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cobble.takeaway.oauth2.BaseWxApiPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategoryPOJO;
@@ -34,6 +37,7 @@ import com.cobble.takeaway.pojo.weixin.WxMenuMgrMatchRulePOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrButtonReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrButtonRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrButtonsRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondDeleteReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondMatchRuleReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondMatchRuleRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondReqApiPOJO;
@@ -66,6 +70,101 @@ public class WxMenuMgrController extends BaseController {
 	@Autowired
 	private WxMenuMgrMatchRuleService wxMenuMgrMatchRuleService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+
+	@RequestMapping(value = "/api/unified/wxMenuMgr/{authorizerAppId}/menu/conditional/delete", method = {RequestMethod.POST})
+	@ResponseBody
+	public Map menuMgrConditionalDelete(/*WxMenuMgrMenuCondDeleteReqApiPOJO wxMenuMgrMenuCondDeleteReqApiPOJO,*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map ret = new HashMap();
+		try {
+			/*if (wxMenuMgrButtonPOJO == null) {
+				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
+			}*/
+			
+			
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new Exception("authorizerAppId can't is NULL.");
+			}
+			
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			/*if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+
+			String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
+					+ "/web/wx/third/" + authorizerAppId + "/menu/conditional/delete";
+			
+			// test request POJO<->requestBody
+			WxMenuMgrMenuCondDeleteReqApiPOJO wxMenuMgrMenuCondDeleteReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrMenuCondDeleteReqApiPOJO.class);
+			requestBody = JsonUtils.convertToJson(wxMenuMgrMenuCondDeleteReqApiPOJO);
+			
+			String resp = HttpClientUtil.postHttpsJson(url, requestBody);
+			logger.debug("result: " + result);
+			
+			BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(resp, BaseWxApiPOJO.class);
+			if (baseWxApiPOJO == null) {
+				ret.put("success", false);
+				return ret;
+			}
+			
+			ret.put("success", true);
+			ret.put("description", resp);
+			//ret.put("dataTablesPOJO", dataTablesPOJO);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.put("success", false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/api/unified/wxMenuMgr/{authorizerAppId}/menu/delete")
+	@ResponseBody
+	public Map memuDelete4Api(@PathVariable(value="authorizerAppId") String authorizerAppId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map ret = new HashMap();
+		try {
+			/*if (wxMenuMgrButtonPOJO == null) {
+				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
+			}*/
+			
+			
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new Exception("authorizerAppId can't is NULL.");
+			}
+			
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			/*if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+
+			String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
+					+ "/web/wx/third/" + authorizerAppId + "/menu/delete";
+			String resp = HttpClientUtil.get(url);
+			
+			BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(resp, BaseWxApiPOJO.class);
+			if (baseWxApiPOJO == null) {
+				ret.put("success", false);
+				return ret;
+			}
+			
+			ret.put("success", true);
+			ret.put("description", resp);
+			//ret.put("dataTablesPOJO", dataTablesPOJO);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.put("success", false);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/api/unified/wxMenuMgr/listFull")
 	@ResponseBody
