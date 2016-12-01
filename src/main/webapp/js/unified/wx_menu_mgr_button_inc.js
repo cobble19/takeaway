@@ -60,7 +60,7 @@ $(document).ready(function() {
 		}, {
 			"targets" : [16],
 			"render" : function(data, type, full, meta) {
-				var hrefEdit = $('#basePath').val() + '/page/unified/wx_menu_mgr_button_update.jsp?wxMenuMgrButtonId='  + full.wxMenuMgrButtonId;
+				var hrefEdit = $('#basePath').val() + '/web/unified/wxMenuMgrButton/showupdate?wxMenuMgrButtonId='  + full.wxMenuMgrButtonId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';

@@ -25,6 +25,7 @@ import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategoryPOJO;
 import com.cobble.takeaway.service.WxMenuMgrButtonService;
 import com.cobble.takeaway.util.UserUtil;
 
@@ -99,6 +100,32 @@ public class WxMenuMgrButtonController extends BaseController {
 		
 //		return ret;
 		return null;
+	}
+	
+	@RequestMapping(value = "/web/unified/wxMenuMgrButton/showupdate", produces = {MediaType.APPLICATION_JSON_VALUE})
+	//@ResponseBody
+	public ModelAndView showupdate4Web(WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			if (wxMenuMgrButtonPOJO == null) {
+				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
+			}
+			Long userId = UserUtil.getCurrentUserId();
+			if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}
+			
+			WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 = wxMenuMgrButtonService.findById(wxMenuMgrButtonPOJO.getWxMenuMgrButtonId());
+			ret.addObject("wxMenuMgrButtonPOJO", wxMenuMgrButtonPOJO2);
+			ret.setViewName("/page/unified/wx_menu_mgr_button_update");
+			
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			throw e;
+		}
+		
+		return ret;
 	}
 	
 	@RequestMapping(value = "/api/unified/wxMenuMgrButton/{wxMenuMgrButtonId}", produces = {MediaType.APPLICATION_JSON_VALUE})
