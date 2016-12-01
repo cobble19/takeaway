@@ -170,10 +170,10 @@ var deleteMenu2 = function(authorizerAppId) {
 }
 
 
-var deleteConditionalMenu2 = function(menuId) {
-	console.log("menuId: " + menuId);
-	if (menuId == null) {
-		alert("menuId: " + menuId + ", 参数不正确");
+var deleteConditionalMenu2 = function(authorizerAppId, menuId) {
+	console.log("authorizerAppId: " + authorizerAppId + ", menuId: " + menuId);
+	if (authorizerAppId == null || menuId == null) {
+		alert("authorizerAppId: " + authorizerAppId + ", menuId: " + menuId + ", 参数不正确");
 		return;
 	}
 
@@ -188,7 +188,7 @@ var deleteConditionalMenu2 = function(menuId) {
 			"Content-Type" : "application/json"
 		},
 		"dataType" : 'json',
-		traditional :true, 
+//		traditional :true, 
 		"data": {
             "menuId": menuId
         },
