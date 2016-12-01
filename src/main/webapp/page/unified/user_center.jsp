@@ -50,10 +50,12 @@
   		<div class="row" style="min-height:500px; border:1px solid #CCC;">
   			<div class="col-md-3 col-xs-4" style="margin-top:30px; margin-left:-15px; margin-right:-15px; text-align:center;" id="sidebar">
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
-                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;帐号中心</h5></li>
-                      <li role="presentation" class="active"><a href="#profile"><h6>基本资料</h6></a></li>
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;用户中心</h5></li>
+                      <li role="presentation" class="active"><a href="#profile"><h6>基本信息</h6></a></li>
                       <li role="presentation"><a href="#update_password"><h6>修改密码</h6></a></li>
-                      
+                   </ul>
+                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;基础功能</h5></li>
                       <c:if test="${sessionScope.userType eq 'MEDIA' or sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
 	                      <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_condition"><h6>定制菜单</h6></a></li>
