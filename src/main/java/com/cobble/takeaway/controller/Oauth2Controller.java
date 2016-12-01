@@ -679,7 +679,7 @@ public class Oauth2Controller extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/menu/conditional/delete", method = {RequestMethod.POST})
+	@RequestMapping(value = "/web/wx/third/{authorizerAppId}/menu/conditional/delete", method = {RequestMethod.POST})
 	@ResponseBody
 	public BaseWxApiPOJO menuMgrConditionalDelete(/*WxMenuMgrReqApiPOJO wxMenuMgrReqApiPOJO*/
 			@RequestBody String requestBody
