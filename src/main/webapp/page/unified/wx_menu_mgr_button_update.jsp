@@ -91,7 +91,7 @@
  			</div>
  			<div class="form-group">
 	 			<div class="">
-	  				<button type="button" class="btn btn-default" id="addBtn">创建</button>
+	  				<button type="submit" class="btn btn-default" id="addBtn">创建</button>
 	 			</div>
  			</div>
   		</form>
