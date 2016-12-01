@@ -32,7 +32,7 @@
  			<div class="form-group">
  				<label class="control-label" for="categoryId">类别:</label>
  				<div class="">
- 					<input class="form-control" id="categoryId" name="categoryId" value="${wxMenuMgrButtonPOJO.categoryId}" placeholder="请输入类别">
+ 					<input class="form-control" id="categoryId" name="categoryId" value="${wxMenuMgrButtonPOJO.wxMenuMgrCategoryId}" placeholder="请输入类别">
  				</div>
  			</div>
  			<div class="form-group">
