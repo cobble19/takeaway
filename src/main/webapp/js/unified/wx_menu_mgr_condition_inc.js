@@ -181,6 +181,10 @@ var deleteConditionalMenu2 = function(authorizerAppId, menuId) {
 	if (!confirm) {
 		return;
 	}
+	
+	var params = {};
+	params.menuid = menuId;
+	
 	$.ajax({
 		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr/" + authorizerAppId + "/menu/conditional/delete",
 		"type" : "POST",
@@ -189,9 +193,7 @@ var deleteConditionalMenu2 = function(authorizerAppId, menuId) {
 		},
 		"dataType" : 'json',
 //		traditional :true, 
-		"data": {
-            "menuId": menuId
-        },
+		"data": JSON.stringify(params),
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');
         	if (data.success) {
