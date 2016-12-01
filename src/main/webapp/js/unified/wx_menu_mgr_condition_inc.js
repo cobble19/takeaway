@@ -360,6 +360,7 @@ var wxMenuMgrConditionSearch = function() {
 								
 								// delete conditional menu
 								var onclickStr = ' onclick=deleteConditionalMenu2('
+												+ "'" + wxMenuMgrCategoryPOJO.authorizerAppId + "'"
 												+ "'" + wxMenuMgrCategoryPOJO.menuId + "'"
 												+ ')';
 								content += "&nbsp;&nbsp;<input type='button' " +
