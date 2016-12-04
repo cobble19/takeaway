@@ -1569,6 +1569,23 @@ public class Oauth2Controller extends BaseController {
 					} else {
 						wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 					}
+					
+					// 去除个人用户的标签
+					
+					String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
+							+ "/web/wx/third/" + authorizerAppIdVice + "/tags/batchuntagging";
+					// test request POJO<->requestBody
+					WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = new WxTagsMgrBatchTaggingReqApiPOJO();
+					final int TAG_ID = 101;
+					List<String> openIdList = new ArrayList<String>();
+					openIdList.add(openIdVice);
+					wxTagsMgrBatchTaggingReqApiPOJO.setTagId(TAG_ID);
+					wxTagsMgrBatchTaggingReqApiPOJO.setOpenIdList(openIdList);
+					String requestBody = JsonUtils.convertToJson(wxTagsMgrBatchTaggingReqApiPOJO);
+					String resp = HttpClientUtil.postHttpsJson(url, requestBody);
+					BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(resp, BaseWxApiPOJO.class);
+					logger.info("batchuntagging, openId: {}, baseWxApiPOJO: {}", openIdVice, baseWxApiPOJO);
+					
 				}
 				
 				// 微信用户信息放入session
