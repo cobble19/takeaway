@@ -1578,7 +1578,7 @@ public class Oauth2Controller extends BaseController {
 						&& wxPersonUserPOJO != null) {
 					// 去除个人用户的标签
 					String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
-							+ "/web/wx/third/" + wxPersonUserPOJO.getAuthorizerAppId() + "/tags/batchuntagging";
+							+ "/api/wx/third/" + wxPersonUserPOJO.getAuthorizerAppId() + "/tags/batchuntagging";
 					// test request POJO<->requestBody
 					WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = new WxTagsMgrBatchTaggingReqApiPOJO();
 					final int TAG_ID = 101;
@@ -2203,7 +2203,7 @@ public class Oauth2Controller extends BaseController {
 							// 去除个人用户的标签
 							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 							String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
-									+ "/web/wx/third/" + wxPersonUserPOJO.getAuthorizerAppId() + "/tags/batchuntagging";
+									+ "/api/wx/third/" + wxPersonUserPOJO.getAuthorizerAppId() + "/tags/batchuntagging";
 							// test request POJO<->requestBody
 							WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = new WxTagsMgrBatchTaggingReqApiPOJO();
 							final int TAG_ID = 101;
