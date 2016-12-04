@@ -1417,7 +1417,7 @@ public class Oauth2Controller extends BaseController {
 
 				// @10102016 如果openIdVice不是空, insert wxPersonUser vice to DB
 				if (StringUtils.isNotBlank(openIdVice)) {
-					if (!wxUserInfoApiPOJO.getOpenId().equalsIgnoreCase((String) session.getAttribute(CommonConstant.PROXY_OPEN_ID))) {
+					/*if (!wxUserInfoApiPOJO.getOpenId().equalsIgnoreCase((String) session.getAttribute(CommonConstant.PROXY_OPEN_ID))) {
 						logger.error("使用代理注册、登录失败， 因为没有登录的session, session's proxyOpenId: {}, wxUserInfoApiPOJO.getOpenId: {}"
 								, session.getAttribute(CommonConstant.PROXY_OPEN_ID), wxUserInfoApiPOJO.getOpenId());
 						
@@ -1427,7 +1427,7 @@ public class Oauth2Controller extends BaseController {
 						session.setAttribute("msg", msg);
 						myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
 						return null;
-					}
+					}*/
 					
 					userPOJO1 = userService.findUserByName(openIdVice);
 					userPOJO = new UserPOJO();
@@ -1441,12 +1441,12 @@ public class Oauth2Controller extends BaseController {
 						BeanUtils.copyProperties(userPOJO1, userPOJO);
 					}
 					
-					wxPersonUserPOJO = new WxPersonUserPOJO();
+					/*wxPersonUserPOJO = new WxPersonUserPOJO();
 					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
 					wxPersonUserPOJO.setOpenId(openIdVice);
 					wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
 					wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
-					wxPersonUserPOJO.setUserId(userPOJO.getUserId());
+					wxPersonUserPOJO.setUserId(userPOJO.getUserId());*/
 					
 					String authorizerAppIdVice = "";
 					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
