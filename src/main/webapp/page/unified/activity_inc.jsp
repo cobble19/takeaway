@@ -3,7 +3,7 @@
         			
 	     			
 	     			<div id="create_activity">
-	     				<strong>表单类信息</strong>
+	     				<h4 style="font-weight:bold;">表单类信息</h4>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-success btn-xs" href='<cmn:base/>/page/unified/activity.jsp'>添加</a>
 	     					

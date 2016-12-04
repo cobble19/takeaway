@@ -29,7 +29,7 @@
     <div class="row" style="height:100px;">
       <div class="col-md-1 logo" style="height:100px; margin-left:10px;"></div>
       <div class="col-md-8" style="height:100px;">
-        <ul class="nav nav-pills nav-justified" style=" margin-left:50px; margin-top:25px; font-weight:bold; font-family:'新宋体';">
+        <ul class="nav nav-pills nav-justified h4" style=" margin-left:50px; margin-top:25px; font-weight:bold; font-family:'新宋体';">
           <li role="presentation" class="active"><a href="<cmn:base/>/index">首页</a></li>
           <li role="presentation"><a href="<cmn:base/>/gonggao.jsp">公告</a></li>
           <li role="presentation"><a href="<cmn:base/>/functions.jsp">功能</a></li>

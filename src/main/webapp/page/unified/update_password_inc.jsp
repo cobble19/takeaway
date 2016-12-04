@@ -6,7 +6,7 @@
 					  			<input type="hidden" id="userId" name="userId" value="${myUser.userId}"/>
                         <div class="panel panel-success">
   <!-- Default panel contents -->
-  <div class="panel-heading">密码修改</div>
+  <div class="panel-heading"><p class="h5" style="font-weight:bold;">密码修改</p></div>
 
   <!-- List group -->
     <ul class="list-group">                        

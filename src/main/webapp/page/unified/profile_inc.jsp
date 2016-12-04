@@ -7,7 +7,7 @@
 		     			<div class="col-md-12">
                         <div class="panel panel-success">
   <!-- Default panel contents -->
-  <div class="panel-heading">用户信息</div>
+  <div class="panel-heading"><p class="h5" style="font-weight:bold;">用户信息</p></div>
   <!-- List group -->
   <ul class="list-group">
     <li class="list-group-item"><label class="h5" for="username">帐号：<c:out value="${myUser.username }"></c:out></label></li>
@@ -41,7 +41,7 @@
 	     				<c:if test="${sessionScope.userType eq 'MEDIA'}">
   <div class="panel panel-success">
   <!-- Default panel contents -->
-  <div class="panel-heading">微信公众号信息</div>
+  <div class="panel-heading"><p class="h5" style="font-weight:bold;">微信公众号信息</p></div>
   <div class="panel-body">
     <p class="h5"><c:if test="${not empty wxAuthorizerInfoPOJO}">
 		     							已经授权给微信开发第三方【得味驿站】，您还可以 <a class="h5" target="_blank" href="${wxComLoginUrl}">重新授权</a>
