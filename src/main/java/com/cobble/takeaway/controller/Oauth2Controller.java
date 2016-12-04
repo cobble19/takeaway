@@ -1318,6 +1318,7 @@ public class Oauth2Controller extends BaseController {
 		return wxUserInfoApiPOJO;
 	}
 	
+	// 微信用户web页面登录的redirect url, 获取用户的信息(OPEN_ID)
 	@RequestMapping(value = "/web/wx/oauth2/third/web/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
 	public ModelAndView wxWebAuthCode(@RequestParam(value="code", required=false) String code
 			, @RequestParam(value="state", required=false) String state
@@ -1884,6 +1885,7 @@ public class Oauth2Controller extends BaseController {
 //		return ret;
 	}
 	
+	// 公众号授权给第三方平台时的redirect url, 获取授权公众号的token, 用来为下一步获取授权公众号的信息
 	@RequestMapping(value = "/web/wx/oauth2/third/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
 	public ModelAndView thirdAuthCode(@RequestParam(value="auth_code", required=false) String code
 			, @RequestParam(value="commonParam", required=false) String commonParam
@@ -2130,7 +2132,10 @@ public class Oauth2Controller extends BaseController {
 					// 检测VIEW， 获取from/to，注册其他的公众号的用户
 					// 得味驿站是服务号， 直接发送【注册】2个字
 					// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号
-					if ("注册".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent()) 
+					if (
+							("注册".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent()) 
+									|| "001".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent())
+							) 
 							&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
@@ -2166,7 +2171,8 @@ public class Oauth2Controller extends BaseController {
 							wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&openIdVice=", "%26openIdVice%3D")
 														.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
 							
-							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO) + "\n<br/>";
+							String content = "" /*"获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO) + "\n<br/>"*/;
+							content += "点击加入会员";
 							content += wxThirdPersonUserLoginUrl;
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
@@ -2178,7 +2184,7 @@ public class Oauth2Controller extends BaseController {
 							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
 							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
 							wxMsgEventRespTextApiPOJO.setMsgType("text");
-							String content = "已经注册, " + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO);
+							String content = "已经是会员, " + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO);
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
@@ -2211,7 +2217,7 @@ public class Oauth2Controller extends BaseController {
 							+ "&component_appid=wx2bec8614a6c47443#wechat_redirect"*/;
 					logger.info("wxMsgEventRecvEventApiPOJO.getEventKey().indexOf(EVENT_KEY): {}", wxMsgEventRecvEventApiPOJO.getEventKey().indexOf(EVENT_KEY));
 					if (CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
-						logger.info("发生事件：{}", EVENT_KEY);
+						logger.info("发生事件：{}", wxMsgEventRecvEventApiPOJO.getEventKey());
 						
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
@@ -2249,7 +2255,11 @@ public class Oauth2Controller extends BaseController {
 							
 							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO) + "\n<br/>";
 							content += wxThirdPersonUserLoginUrl;
-							wxMsgEventRespTextApiPOJO.setContent("test event response");
+							content = "test event response";
+							if ("CLICK".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())) {
+								content = wxMsgEventRecvEventApiPOJO.getEventKey();
+							}
+							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 							return encryptMsg;
