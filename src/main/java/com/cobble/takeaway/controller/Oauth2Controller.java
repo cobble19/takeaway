@@ -1570,22 +1570,26 @@ public class Oauth2Controller extends BaseController {
 						wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 					}
 					
-					// 去除个人用户的标签
 					
+				}
+				
+				if (StringUtils.isNotBlank(authorizerUserNameVice)
+						&& (StringUtils.isNotBlank(loginVice) || StringUtils.isNotBlank(openIdVice))
+						&& wxPersonUserPOJO != null) {
+					// 去除个人用户的标签
 					String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
-							+ "/web/wx/third/" + authorizerAppIdVice + "/tags/batchuntagging";
+							+ "/web/wx/third/" + wxPersonUserPOJO.getAuthorizerAppId() + "/tags/batchuntagging";
 					// test request POJO<->requestBody
 					WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = new WxTagsMgrBatchTaggingReqApiPOJO();
 					final int TAG_ID = 101;
 					List<String> openIdList = new ArrayList<String>();
-					openIdList.add(openIdVice);
+					openIdList.add(wxPersonUserPOJO.getOpenId());
 					wxTagsMgrBatchTaggingReqApiPOJO.setTagId(TAG_ID);
 					wxTagsMgrBatchTaggingReqApiPOJO.setOpenIdList(openIdList);
 					String requestBody = JsonUtils.convertToJson(wxTagsMgrBatchTaggingReqApiPOJO);
 					String resp = HttpClientUtil.postHttpsJson(url, requestBody);
 					BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(resp, BaseWxApiPOJO.class);
 					logger.info("batchuntagging, openId: {}, baseWxApiPOJO: {}", openIdVice, baseWxApiPOJO);
-					
 				}
 				
 				// 微信用户信息放入session
@@ -2196,6 +2200,23 @@ public class Oauth2Controller extends BaseController {
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 							return encryptMsg;
 						} else {	// 2. 如果有返回已经注册
+							// 去除个人用户的标签
+							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+							String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
+									+ "/web/wx/third/" + wxPersonUserPOJO.getAuthorizerAppId() + "/tags/batchuntagging";
+							// test request POJO<->requestBody
+							WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = new WxTagsMgrBatchTaggingReqApiPOJO();
+							final int TAG_ID = 101;
+							List<String> openIdList = new ArrayList<String>();
+							openIdList.add(wxPersonUserPOJO.getOpenId());
+							wxTagsMgrBatchTaggingReqApiPOJO.setTagId(TAG_ID);
+							wxTagsMgrBatchTaggingReqApiPOJO.setOpenIdList(openIdList);
+							requestBody = JsonUtils.convertToJson(wxTagsMgrBatchTaggingReqApiPOJO);
+							String resp = HttpClientUtil.postHttpsJson(url, requestBody);
+							BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(resp, BaseWxApiPOJO.class);
+							logger.info("batchuntagging, openId: {}, baseWxApiPOJO: {}", wxPersonUserPOJO.getOpenId(), baseWxApiPOJO);
+							
+							
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
 							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
