@@ -99,6 +99,7 @@ import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.FileUtil;
 import com.cobble.takeaway.util.HttpClientUtil;
@@ -1562,12 +1563,14 @@ public class Oauth2Controller extends BaseController {
 				WxPersonUserPOJO wxPersonUserPOJO = new WxPersonUserPOJO();
 				if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
-					/*List<String> tagidList = wxUserPOJO.getTagidList();
+					
+					List<String> tagidList = wxUserInfoApiPOJO.getTagidList();
 					String tagidListStr = "";
 					if (!CollectionUtils.isEmpty(tagidList)) {
 						tagidListStr = CollectionUtilx.nullSafeToString(tagidList);
 					}
-					wxPersonUserPOJO.setTagidList(tagidListStr);*/
+					wxPersonUserPOJO.setTagidList(tagidListStr);
+					
 					wxPersonUserPOJO.setUserId(userPOJO.getUserId());
 					wxPersonUserPOJO.setAuthorizerAppId(appid);
 					wxPersonUserService.insert(wxPersonUserPOJO);
@@ -1628,12 +1631,13 @@ public class Oauth2Controller extends BaseController {
 					wxPersonUserPOJO = new WxPersonUserPOJO();
 					if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 						BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
-						/*List<String> tagidList = wxUserPOJO.getTagidList();
+						
+						List<String> tagidList = wxUserInfoApiPOJO.getTagidList();
 						String tagidListStr = "";
 						if (!CollectionUtils.isEmpty(tagidList)) {
 							tagidListStr = CollectionUtilx.nullSafeToString(tagidList);
 						}
-						wxPersonUserPOJO.setTagidList(tagidListStr);*/
+						wxPersonUserPOJO.setTagidList(tagidListStr);
 
 						wxPersonUserPOJO.setOpenId(openIdVice);
 						wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
@@ -1714,12 +1718,13 @@ public class Oauth2Controller extends BaseController {
 					wxPersonUserPOJO = new WxPersonUserPOJO();
 					if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 						BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
-						/*List<String> tagidList = wxUserPOJO.getTagidList();
+						
+						List<String> tagidList = wxUserInfoApiPOJO.getTagidList();
 						String tagidListStr = "";
 						if (!CollectionUtils.isEmpty(tagidList)) {
 							tagidListStr = CollectionUtilx.nullSafeToString(tagidList);
 						}
-						wxPersonUserPOJO.setTagidList(tagidListStr);*/
+						wxPersonUserPOJO.setTagidList(tagidListStr);
 
 						wxPersonUserPOJO.setOpenId(openIdVice);
 						wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
