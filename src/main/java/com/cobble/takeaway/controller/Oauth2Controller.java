@@ -1481,6 +1481,8 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	// 微信用户web页面登录的redirect url, 获取用户的信息(OPEN_ID)
+	// 1. 如果是代理, 则authorizerUserNameVice必存在, 
+	// 2. loginVice和openIdVice只会存在一个
 	@RequestMapping(value = "/web/wx/oauth2/third/web/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
 	public ModelAndView wxWebAuthCode(@RequestParam(value="code", required=false) String code
 			, @RequestParam(value="state", required=false) String state
@@ -1511,24 +1513,25 @@ public class Oauth2Controller extends BaseController {
 					componentAccessToken = wxComAccessTokenPOJOs.get(0).getComponentAccessToken();
 				}
 				
-				String myAccessTokenUrl = wxThirdWebAccessTokenUrl
+				String myWxThirdWebAccessTokenUrl = wxThirdWebAccessTokenUrl
 						.replace("COMPONENT_APPID", wxThirdClientId)
 						.replace("APPID", appid)
 						.replace("CODE", code)
 						.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken);
-				String result = HttpClientUtil.get(myAccessTokenUrl);
+				String result = HttpClientUtil.get(myWxThirdWebAccessTokenUrl);
 				WxOauth2TokenApiPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenApiPOJO.class);
 				// get user info with subscribe
 				logger.info("Get user info with subscribe");
-				WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+				/*WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
 				wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(appid);
 				List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
 				WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
 				if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
 					wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
-				}
+				}*/
+				String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(appid);
 				
-				WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken(), 
+				WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(authorizerAccessToken, 
 						wxOauth2TokenPOJO.getOpenId(), wxOauth2TokenPOJO.getAccessToken());
 				// 微信用户信息放入session
 				/*session.setAttribute(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
@@ -1647,10 +1650,17 @@ public class Oauth2Controller extends BaseController {
 						wxPersonUserService.insert(wxPersonUserPOJO);
 					} else {
 						wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+						// 可能存在proxy openId/authorizerAppId 为空, 如果为空, 则更新
+						if (StringUtils.isBlank(wxPersonUserPOJO.getProxyOpenId())
+								|| StringUtils.isBlank(wxPersonUserPOJO.getProxyAuthorizerAppId())) {
+							wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
+							wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
+							wxPersonUserService.update(wxPersonUserPOJO);
+						}
 					}
 					
 					String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoApiPOJO.getNickname()
-							+ "\n" + "Token: \n" + result + "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
+							+ "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
 							/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
 					msg += ", openIdVice: " + openIdVice + "\n <br/>";
 					msg += wxPersonUserPOJO + "\n <br/>";
@@ -1692,12 +1702,12 @@ public class Oauth2Controller extends BaseController {
 						BeanUtils.copyProperties(userPOJO1, userPOJO);
 					}
 					
-					wxPersonUserPOJO = new WxPersonUserPOJO();
+					/*wxPersonUserPOJO = new WxPersonUserPOJO();
 					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
 					wxPersonUserPOJO.setOpenId(openIdVice);
 					wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
 					wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
-					wxPersonUserPOJO.setUserId(userPOJO.getUserId());
+					wxPersonUserPOJO.setUserId(userPOJO.getUserId());*/
 					
 					String authorizerAppIdVice = "";
 					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
@@ -1734,6 +1744,13 @@ public class Oauth2Controller extends BaseController {
 						wxPersonUserService.insert(wxPersonUserPOJO);
 					} else {
 						wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+						// 可能存在proxy openId/authorizerAppId 为空, 如果为空, 则更新
+						if (StringUtils.isBlank(wxPersonUserPOJO.getProxyOpenId())
+								|| StringUtils.isBlank(wxPersonUserPOJO.getProxyAuthorizerAppId())) {
+							wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
+							wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
+							wxPersonUserService.update(wxPersonUserPOJO);
+						}
 					}
 					
 					
