@@ -116,9 +116,9 @@ $(document).ready(function() {
     $('#chkBoxAll4WxTemplate').click(function() {
     	var chkBoxAll = $(this).attr('checked');
     	if (chkBoxAll) {
-    		$(this).find('input[name=chkBox]').attr('checked', true);
+    		$('#dbTable4WxTemplate').find('input[name=chkBox]').attr('checked', true);
     	} else {
-    		$(this).find('input[name=chkBox]').attr('checked', false);
+    		$('#dbTable4WxTemplate').find('input[name=chkBox]').attr('checked', false);
     	}
     })
     

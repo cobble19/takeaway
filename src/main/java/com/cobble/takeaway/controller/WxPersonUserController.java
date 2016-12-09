@@ -1,12 +1,17 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,8 +32,16 @@ import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxUserGetDataRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxUserGetRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxUserInfoBatchGetReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetRespApiPOJO;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.util.CommonConstant;
+import com.cobble.takeaway.util.HttpClientUtil;
+import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -38,6 +52,136 @@ public class WxPersonUserController extends BaseController {
 	private WxPersonUserService wxPersonUserService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+	@RequestMapping(value = "/api/unified/wxPersonUser/{authorizerAppId}/user/adduserinfos", method = {RequestMethod.GET})
+	@ResponseBody
+	public Map userAddUserInfos(/*WxMenuMgrMenuCondDeleteReqApiPOJO wxMenuMgrMenuCondDeleteReqApiPOJO,*/
+			/*@RequestBody String requestBody
+			, */@PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map ret = new HashMap();
+		try {
+			/*if (wxMenuMgrButtonPOJO == null) {
+				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
+			}*/
+			
+			
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new Exception("authorizerAppId can't is NULL.");
+			}
+			
+			Long userId = UserUtil.getCurrentUserId();
+			/*if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+
+			// all userinfos
+			WxUserInfoListBatchGetRespApiPOJO wxUserInfoListBatchGetRespApiPOJOTotal = new WxUserInfoListBatchGetRespApiPOJO();
+			
+			// 获取所有的OPEN IDs
+			WxUserGetRespApiPOJO wxUserGetRespApiPOJOTotal = new WxUserGetRespApiPOJO();
+			Integer count = 0;
+			String nextOpenId = "";
+			do {
+				String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
+						+ "/api/wx/third/" + authorizerAppId + "/user/get"
+						+ "?nextOpenId=" + nextOpenId;;
+				
+				/*// test request POJO<->requestBody
+				WxMenuMgrMenuCondDeleteReqApiPOJO wxMenuMgrMenuCondDeleteReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxMenuMgrMenuCondDeleteReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxMenuMgrMenuCondDeleteReqApiPOJO);*/
+				
+				String resp = HttpClientUtil.get(url);
+				
+				WxUserGetRespApiPOJO wxUserGetRespApiPOJO = JsonUtils.convertToJavaBean(resp, WxUserGetRespApiPOJO.class);
+				int total = wxUserGetRespApiPOJO.getTotal();
+				count = wxUserGetRespApiPOJO.getCount();
+				nextOpenId = wxUserGetRespApiPOJO.getNextOpenId();
+				
+				if (count > 0) {
+					WxUserGetDataRespApiPOJO data = wxUserGetRespApiPOJOTotal.getData();
+					if (data == null) {
+						data = new WxUserGetDataRespApiPOJO();
+						wxUserGetRespApiPOJOTotal.setData(data);
+					}
+					List<String> openIds = data.getOpenIds();
+					if (wxUserGetRespApiPOJO.getData() != null && CollectionUtils.isNotEmpty(wxUserGetRespApiPOJO.getData().getOpenIds())) {
+						openIds.addAll(wxUserGetRespApiPOJO.getData().getOpenIds());
+						wxUserGetRespApiPOJOTotal.setTotal(total);
+						wxUserGetRespApiPOJOTotal.setCount(wxUserGetRespApiPOJOTotal.getCount() + count);
+					}
+				}
+				
+			} while (count > 0 && StringUtils.isNotBlank(nextOpenId));
+			
+			if (wxUserGetRespApiPOJOTotal != null && wxUserGetRespApiPOJOTotal.getData() != null 
+					&& CollectionUtils.isNotEmpty(wxUserGetRespApiPOJOTotal.getData().getOpenIds())) {
+				List<String> openIds = wxUserGetRespApiPOJOTotal.getData().getOpenIds();
+				
+				int size = openIds.size();
+				final int STEP = 100;
+				int beginIndex = 0;
+				int endIndex = beginIndex + STEP;
+				
+				do {
+					if (endIndex >= size) {
+						endIndex = size - 1;
+					}
+					
+					String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
+							+ "/api/wx/third/" + authorizerAppId + "/user/info/batchget"
+							;
+					// test request POJO<->requestBody
+					WxUserInfoListBatchGetReqApiPOJO wxUserInfoListBatchGetReqApiPOJO = new WxUserInfoListBatchGetReqApiPOJO();
+					List<WxUserInfoBatchGetReqApiPOJO> userList = new ArrayList<WxUserInfoBatchGetReqApiPOJO>();
+					for (int i = beginIndex; i <= endIndex; i++) {
+						WxUserInfoBatchGetReqApiPOJO wxUserInfoBatchGetReqApiPOJO = new WxUserInfoBatchGetReqApiPOJO();
+						wxUserInfoBatchGetReqApiPOJO.setOpenId(openIds.get(i));
+						wxUserInfoBatchGetReqApiPOJO.setLang("zh_CN");
+						
+						userList.add(wxUserInfoBatchGetReqApiPOJO);
+					}
+					wxUserInfoListBatchGetReqApiPOJO.setUserList(userList);
+					//WxUserInfoListBatchGetReqApiPOJO wxUserInfoListBatchGetReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxUserInfoListBatchGetReqApiPOJO.class);
+					String requestBody = JsonUtils.convertToJson(wxUserInfoListBatchGetReqApiPOJO);
+					
+					String result = HttpClientUtil.postHttpsJson(url, requestBody);
+					result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+					logger.debug("result: " + result);
+					WxUserInfoListBatchGetRespApiPOJO wxUserInfoListBatchGetRespApiPOJO = JsonUtils.convertToJavaBean(result, WxUserInfoListBatchGetRespApiPOJO.class);
+					
+					List<WxUserInfoApiPOJO> userInfoList = wxUserInfoListBatchGetRespApiPOJOTotal.getUserInfoList();
+					if (CollectionUtils.isEmpty(userInfoList)) {
+						userInfoList = new ArrayList<WxUserInfoApiPOJO>();
+						wxUserInfoListBatchGetRespApiPOJOTotal.setUserInfoList(userInfoList);
+					}
+					if (wxUserInfoListBatchGetRespApiPOJO != null && CollectionUtils.isNotEmpty(wxUserInfoListBatchGetRespApiPOJO.getUserInfoList())) {
+						userInfoList.addAll(wxUserInfoListBatchGetRespApiPOJO.getUserInfoList());
+					}
+					
+					beginIndex = endIndex + 1;
+					endIndex = beginIndex + STEP;
+				} while (beginIndex < size);
+				
+				
+			}
+			
+			
+			if (wxUserInfoListBatchGetRespApiPOJOTotal.getUserInfoList() == null) {
+				ret.put("success", false);
+				return ret;
+			}
+			
+			ret.put("success", true);
+			ret.put("description", wxUserInfoListBatchGetRespApiPOJOTotal.getUserInfoList() == null ? "size: 0" : "size: " + wxUserInfoListBatchGetRespApiPOJOTotal.getUserInfoList().size());
+			ret.put("wxUserInfoListBatchGetRespApiPOJOTotal", wxUserInfoListBatchGetRespApiPOJOTotal);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.put("success", false);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/api/unified/wxPersonUser/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
