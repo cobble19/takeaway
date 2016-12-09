@@ -104,10 +104,16 @@ public class WxPersonUserController extends BaseController {
 						wxUserGetRespApiPOJOTotal.setData(data);
 					}
 					List<String> openIds = data.getOpenIds();
-					if (wxUserGetRespApiPOJO.getData() != null && CollectionUtils.isNotEmpty(wxUserGetRespApiPOJO.getData().getOpenIds())) {
+					if (CollectionUtils.isEmpty(openIds)) {
+						openIds = new ArrayList<String>();
+						data.setOpenIds(openIds);
+					}
+					
+					if (wxUserGetRespApiPOJO != null && wxUserGetRespApiPOJO.getData() != null 
+							&& CollectionUtils.isNotEmpty(wxUserGetRespApiPOJO.getData().getOpenIds())) {
 						openIds.addAll(wxUserGetRespApiPOJO.getData().getOpenIds());
 						wxUserGetRespApiPOJOTotal.setTotal(total);
-						wxUserGetRespApiPOJOTotal.setCount(wxUserGetRespApiPOJOTotal.getCount() + count);
+						wxUserGetRespApiPOJOTotal.setCount(wxUserGetRespApiPOJOTotal.getCount() == null ? 0 : wxUserGetRespApiPOJOTotal.getCount() + count);
 					}
 				}
 				
