@@ -14,6 +14,7 @@ import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -30,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
+import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserGetDataRespApiPOJO;
@@ -38,7 +40,10 @@ import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoBatchGetReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetRespApiPOJO;
+import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxPersonUserService;
+import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.JsonUtils;
@@ -50,6 +55,8 @@ public class WxPersonUserController extends BaseController {
 	
 	@Autowired
 	private WxPersonUserService wxPersonUserService;
+	@Autowired
+	private UserService userService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	@RequestMapping(value = "/api/unified/wxPersonUser/{authorizerAppId}/user/adduserinfos", method = {RequestMethod.GET})
@@ -119,6 +126,7 @@ public class WxPersonUserController extends BaseController {
 				
 			} while (count > 0 && StringUtils.isNotBlank(nextOpenId));
 			
+			// 获得user infos
 			if (wxUserGetRespApiPOJOTotal != null && wxUserGetRespApiPOJOTotal.getData() != null 
 					&& CollectionUtils.isNotEmpty(wxUserGetRespApiPOJOTotal.getData().getOpenIds())) {
 				List<String> openIds = wxUserGetRespApiPOJOTotal.getData().getOpenIds();
@@ -161,7 +169,49 @@ public class WxPersonUserController extends BaseController {
 						wxUserInfoListBatchGetRespApiPOJOTotal.setUserInfoList(userInfoList);
 					}
 					if (wxUserInfoListBatchGetRespApiPOJO != null && CollectionUtils.isNotEmpty(wxUserInfoListBatchGetRespApiPOJO.getUserInfoList())) {
-						userInfoList.addAll(wxUserInfoListBatchGetRespApiPOJO.getUserInfoList());
+						List<WxUserInfoApiPOJO> currentUserInfos = wxUserInfoListBatchGetRespApiPOJO.getUserInfoList();
+						userInfoList.addAll(currentUserInfos);
+						
+						for (WxUserInfoApiPOJO wxUserInfoApiPOJO : currentUserInfos) {
+
+							// insert into DB
+							// insert Wx person user into DB
+							UserPOJO userPOJO1 = userService.findUserByName(wxUserInfoApiPOJO.getOpenId());
+							UserPOJO userPOJO = new UserPOJO();
+							if (userPOJO1 == null) {
+								userPOJO.setUsername(wxUserInfoApiPOJO.getOpenId());
+								userPOJO.setPassword(wxUserInfoApiPOJO.getOpenId());
+								userPOJO.setUserType(MyUser.PERSON);
+								userPOJO.setNickname(wxUserInfoApiPOJO.getNickname());
+								userService.insert(userPOJO);
+							} else {
+								BeanUtils.copyProperties(userPOJO1, userPOJO);
+							}
+							
+							WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+//							wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
+							wxPersonUserSearchPOJO.setOpenId(wxUserInfoApiPOJO.getOpenId());
+							wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
+							List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
+							WxPersonUserPOJO wxPersonUserPOJO = new WxPersonUserPOJO();
+							if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+								BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
+								
+								List<String> tagidList = wxUserInfoApiPOJO.getTagidList();
+								String tagidListStr = "";
+								if (!CollectionUtils.isEmpty(tagidList)) {
+									tagidListStr = CollectionUtilx.nullSafeToString(tagidList);
+								}
+								wxPersonUserPOJO.setTagidList(tagidListStr);
+								
+								wxPersonUserPOJO.setUserId(userPOJO.getUserId());
+								wxPersonUserPOJO.setAuthorizerAppId(authorizerAppId);
+								wxPersonUserService.insert(wxPersonUserPOJO);
+							} else {
+								wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+							}
+							logger.debug("Get wxPersonUserPOJO: {}", wxPersonUserPOJO);
+						}
 					}
 					
 					beginIndex = endIndex + 1;
@@ -170,7 +220,6 @@ public class WxPersonUserController extends BaseController {
 				
 				
 			}
-			
 			
 			if (wxUserInfoListBatchGetRespApiPOJOTotal.getUserInfoList() == null) {
 				ret.put("success", false);

@@ -215,4 +215,21 @@ public class WxPersonUserPOJO extends BasePOJO {
 		this.wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJO;
 	}
 
+	@Override
+	public String toString() {
+		return "WxPersonUserPOJO [wxPersonUserId=" + wxPersonUserId
+				+ ", userId=" + userId + ", openId=" + openId
+				+ ", authorizerAppId=" + authorizerAppId + ", proxyOpenId="
+				+ proxyOpenId + ", proxyAuthorizerAppId="
+				+ proxyAuthorizerAppId + ", nickname=" + nickname + ", sex="
+				+ sex + ", language=" + language + ", country=" + country
+				+ ", province=" + province + ", city=" + city + ", headImgUrl="
+				+ headImgUrl + ", privileges=" + privileges + ", unionId="
+				+ unionId + ", subscribe=" + subscribe + ", subscribeTime="
+				+ subscribeTime + ", remark=" + remark + ", groupId=" + groupId
+				+ ", tagidList=" + tagidList + ", createDateTime="
+				+ createDateTime + ", wxAuthorizerInfoPOJO="
+				+ wxAuthorizerInfoPOJO + "]";
+	}
+
 }
