@@ -170,6 +170,8 @@ $(document).ready(function() {
     	if (!confirm) {
     		return;
     	}
+
+    	$('#progress').dialog('open');
     	$.ajax({
     		"url" : "../../mgr/wxPersonUser/delete",
     		"type" : "GET",
@@ -253,6 +255,8 @@ $(document).ready(function() {
     		alert('请选择一条记录');
     		return;
     	}
+
+    	$('#progress').dialog('open');
     	
     	var authorizerAppId = $('#authorizerAppId').val();
     	var tagId = $('#tagId').val();
@@ -275,7 +279,10 @@ $(document).ready(function() {
             }),
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
-//            	wxPersonUserSearch(table4WxPersonUser);
+            	if (data.success == true) {
+            		alert('打标签成功');
+            	}
+            	wxPersonUserSearch(table4WxPersonUser);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Load Error!');
