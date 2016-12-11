@@ -66,7 +66,7 @@ public class WxPersonUserController extends BaseController {
 
 	@RequestMapping(value = "/api/unified/wxPersonUser/{authorizerAppId}/user/addtag", method = {RequestMethod.POST})
 	@ResponseBody
-	public Map menuMgrConditionalDelete(/*WxMenuMgrMenuCondDeleteReqApiPOJO wxMenuMgrMenuCondDeleteReqApiPOJO,*/
+	public Map userAddTag(/*WxMenuMgrMenuCondDeleteReqApiPOJO wxMenuMgrMenuCondDeleteReqApiPOJO,*/
 			@RequestBody String requestBody
 			, @PathVariable(value="authorizerAppId") String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -87,7 +87,7 @@ public class WxPersonUserController extends BaseController {
 			}*/
 
 			String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
-					+ "/web/wx/third/" + authorizerAppId + "/tags/batchtagging";
+					+ "/api/wx/third/" + authorizerAppId + "/tags/batchtagging";
 			
 			// test request POJO<->requestBody
 			WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxTagsMgrBatchTaggingReqApiPOJO.class);
