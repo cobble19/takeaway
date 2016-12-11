@@ -102,11 +102,11 @@ $(document).ready(function() {
             },
             { "data": "wxPersonUserId" },
             { "data": "userId" },
+            { "data": "nickname" },
             { "data": "openId" },
             { "data": "authorizerAppId" },
             { "data": "proxyOpenId" },
             { "data": "proxyAuthorizerAppId" },
-            { "data": "nickname" },
             { "data": "sex" },
             { "data": "language" },
             { "data": "city" },
@@ -184,6 +184,98 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
             	wxPersonUserSearch(table4WxPersonUser);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Load Error!');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});
+    })
+    
+    $('#addUserInfosBtn4WxPersonUser').click(function() {
+    	var authorizerAppId = $('#authorizerAppId').val();
+    	console.log('authorizerAppId: ' + authorizerAppId);
+    	if (authorizerAppId == null) {
+    		alert('authorizerAppId:' + authorizerAppId);
+    		return;
+    	}
+
+    	var confirm = window.confirm('确定创建所有粉丝');
+    	if (!confirm) {
+    		return;
+    	}
+
+    	$('#progress').dialog('open');
+    	$.ajax({
+    		"url" : $('#basePath').val() + "/api/unified/wxPersonUser/" + authorizerAppId + "/user/adduserinfos",
+    		"type" : "GET",
+    		"headers" : {
+    			"Content-Type" : "application/json"
+    		},
+    		"dataType" : 'json',
+    		traditional :true, 
+    		/*"data": {
+                "authorizerAppId": authorizerAppId
+            },*/
+            success: function(data, textStatus, jqXHR ) {
+            	$('#progress').dialog('close');
+            	wxPersonUserSearch(table4WxPersonUser);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Load Error!');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});
+    })
+    
+    
+    $('#addTagBtn4WxPersonUser').click(function() {
+    	var ids = [];
+    	var openIdList = [];
+    	var chkBox = $('#dbTable4WxPersonUser').find('input[name=chkBox]');
+    	chkBox.each(function(index, ele) {
+    		if ($(this).attr('checked')) {
+    			ids.push($(this).val());
+    			var tr = $(this).closest('tr');
+    			var row = table4WxPersonUser.row(tr);
+    			var data = row.data();
+    			console.log("row: " + row);
+    			console.log("row data: " + row.data());
+    			openIdList.push(data.openId);
+    		}
+    	})
+    	console.log('ids: ' + ids);
+    	if (ids == null || ids.length <= 0) {
+    		alert('请选择一条记录');
+    		return;
+    	}
+    	
+    	var authorizerAppId = $('#authorizerAppId').val();
+    	var tagId = $('#tagId').val();
+
+    	var confirm = window.confirm('确定打标签');
+    	if (!confirm) {
+    		return;
+    	}
+    	$.ajax({
+    		"url" : $('#basePath').val() + "/api/unified/wxPersonUser/" + authorizerAppId + "/user/addtag",
+    		"type" : "POST",
+    		"headers" : {
+    			"Content-Type" : "application/json"
+    		},
+    		"dataType" : 'json',
+    		traditional :true, 
+    		"data": JSON.stringify({
+                "openid_list": openIdList,
+                "tagid": tagId
+            }),
+            success: function(data, textStatus, jqXHR ) {
+            	$('#progress').dialog('close');
+//            	wxPersonUserSearch(table4WxPersonUser);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Load Error!');

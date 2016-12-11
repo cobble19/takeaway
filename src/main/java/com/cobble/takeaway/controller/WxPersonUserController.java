@@ -22,18 +22,22 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cobble.takeaway.oauth2.BaseWxApiPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondDeleteReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrBatchTaggingReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserGetDataRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserGetRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
@@ -59,6 +63,58 @@ public class WxPersonUserController extends BaseController {
 	private UserService userService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+
+	@RequestMapping(value = "/api/unified/wxPersonUser/{authorizerAppId}/user/addtag", method = {RequestMethod.POST})
+	@ResponseBody
+	public Map menuMgrConditionalDelete(/*WxMenuMgrMenuCondDeleteReqApiPOJO wxMenuMgrMenuCondDeleteReqApiPOJO,*/
+			@RequestBody String requestBody
+			, @PathVariable(value="authorizerAppId") String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map ret = new HashMap();
+		try {
+			/*if (wxMenuMgrButtonPOJO == null) {
+				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
+			}*/
+			
+			
+			if (StringUtils.isBlank(authorizerAppId)) {
+				throw new Exception("authorizerAppId can't is NULL.");
+			}
+			
+			Long userId = UserUtil.getCurrentUserId();
+			/*if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+
+			String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
+					+ "/web/wx/third/" + authorizerAppId + "/tags/batchtagging";
+			
+			// test request POJO<->requestBody
+			WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxTagsMgrBatchTaggingReqApiPOJO.class);
+			requestBody = JsonUtils.convertToJson(wxTagsMgrBatchTaggingReqApiPOJO);
+			
+			String result = "";
+			result = HttpClientUtil.postHttpsJson(url, requestBody);
+			BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(result, BaseWxApiPOJO.class);
+			logger.debug("result: " + result);
+			
+			if (baseWxApiPOJO == null) {
+				ret.put("success", false);
+				return ret;
+			}
+			
+			ret.put("success", true);
+			ret.put("description", result);
+			//ret.put("dataTablesPOJO", dataTablesPOJO);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.put("success", false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	@RequestMapping(value = "/api/unified/wxPersonUser/{authorizerAppId}/user/adduserinfos", method = {RequestMethod.GET})
 	@ResponseBody
 	public Map userAddUserInfos(/*WxMenuMgrMenuCondDeleteReqApiPOJO wxMenuMgrMenuCondDeleteReqApiPOJO,*/
@@ -159,7 +215,7 @@ public class WxPersonUserController extends BaseController {
 					String requestBody = JsonUtils.convertToJson(wxUserInfoListBatchGetReqApiPOJO);
 					
 					String result = HttpClientUtil.postHttpsJson(url, requestBody);
-					result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+					//result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 					logger.debug("result: " + result);
 					WxUserInfoListBatchGetRespApiPOJO wxUserInfoListBatchGetRespApiPOJO = JsonUtils.convertToJavaBean(result, WxUserInfoListBatchGetRespApiPOJO.class);
 					

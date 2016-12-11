@@ -8,6 +8,9 @@
 	     					
 	     					<input id="searchBtn4WxPersonUser" type="button" class="btn btn-default btn-xs" value="查询">
 	     					<input id="deleteBtn4WxPersonUser" type="button" class="btn btn-default btn-xs" value="删除">
+	     					<input id="addUserInfosBtn4WxPersonUser" type="button" class="btn btn-default btn-xs" value="创建所有的粉丝">
+	     					<input id="addTagBtn4WxPersonUser" type="button" class="btn btn-default btn-xs" value="打标签">
+	     					<label for="tagId">Tag Id: </label><input style="border: solid 1px #ccc;" class="input-sm" type="text" id="tagId" value="101"/>
 	     					
 	     				</div>
 				  		<table id="dbTable4WxPersonUser" class="display table table-striped table-bordered" cellspacing="0" width="100%">
@@ -17,11 +20,11 @@
 				  						<th>序号</th>
 				  						<th>标识</th>
 				  						<th>USER ID</th>
+				  						<th>昵称</th>
 				  						<th>OPEN ID</th>
 				  						<th>授权者APP ID</th>
 				  						<th>代理OPEN ID</th>
 				  						<th>代理授权者APP ID</th>
-				  						<th>昵称</th>
 				  						<th>性别</th>
 				  						<th>语言</th>
 				  						<th>城市</th>
