@@ -40,7 +40,7 @@
       </div>
       <div class="col-md-3" style="height:100px;">
         <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-          <button style="float:right; margin-top:30px;" type="button" class="btn btn-success" disabled="disabled" data-toggle="modal" data-target="#myModal">&nbsp;注册&nbsp;</button>
+          <button style="float:right; margin-top:30px;" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">&nbsp;注册&nbsp;</button>
           <button style="float:right; margin-top:30px; margin-right:10px;" type="button" class="btn btn-warning" data-toggle="modal" data-target="#loginModal">&nbsp;登陆&nbsp;</button>
         </c:if>
         <c:if test="${not empty username and (username ne 'anonymousUser')}"> 
@@ -80,11 +80,11 @@
             <div class="modal-body">
               <div role="tabpanel">
                 <ul class="nav nav-tabs nav-justified" role="tablist" id="myTab">
-                  <li role="presentation" class="active"> <a href="#person" aria-controls="person" role="tab" data-toggle="tab" id="personReg">注册个人账户</a> </li>
-                  <li role="presentation" class=""> <a href="#enterprise" aria-controls="enterprise" role="tab" data-toggle="tab" id="enterpriseReg">注册商家账户</a> </li>
+                  <!--<li role="presentation" class=""> <a href="#person" aria-controls="person" role="tab" data-toggle="tab" id="personReg">注册个人账户</a> </li>-->
+                  <li role="presentation" class="active"> <a href="#enterprise" aria-controls="enterprise" role="tab" data-toggle="tab" id="enterpriseReg">注册</a> </li>
                 </ul>
                 <div class="tab-content">
-                  <div role="tabpanel" class="tab-pane active" id="person">
+                  <!--<div role="tabpanel" class="tab-pane" id="person">
                     <div class="row">
                       <h3 style="margin-top:5px; margin-bottom:5px;" class="col-sm-offset-1 col-xs-offset-1 col-md-offset-1">个人用户注册</h3>
                     </div>
@@ -119,11 +119,11 @@
                         </div>
                       </div>
                     </form>
-                  </div>
-                  <div role="tabpanel" class="tab-pane" id="enterprise">
-                    <div class="row">
+                  </div>-->
+                  <div role="tabpanel" class="tab-pane active" id="enterprise">
+                    <!--<div class="row">
                       <h3 style="margin-top:5px; margin-bottom:5px;" class="col-sm-offset-1 col-xs-offset-1 col-md-offset-1">商家用户注册</h3>
-                    </div>
+                    </div>-->
                     <form id="regForm" class="form-horizontal" role="form" action='<cmn:base/>/web/user/enterprise/reg' method="post">
                       <div class="form-group">
                         <label class="control-label col-sm-3 col-md-2" for="username">用户名:</label>
