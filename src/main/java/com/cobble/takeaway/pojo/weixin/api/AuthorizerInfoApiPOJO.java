@@ -22,6 +22,8 @@ public class AuthorizerInfoApiPOJO extends BasePOJO {
     private BusinessInfoApiPOJO businessInfoPOJO;
 	@JsonProperty(value="idc")
 	private Integer idc;
+	@JsonProperty(value="principal_name")
+	private String principalName;
 	
 	public String getNickName() {
 		return nickName;

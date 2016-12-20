@@ -1984,12 +1984,16 @@ public class Oauth2Controller extends BaseController {
 			}
 			String wxThirdAuthorizerInfo = HttpClientUtil.postHttpsJson(wxThirdAuthorizerInfoUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken), 
 							JsonUtils.convertToJson(wxAuthorizerAccessTokenReqPOJO));
+			wxThirdAuthorizerInfo = new String(wxThirdAuthorizerInfo.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+
+			logger.debug("wxThirdAuthorizerInfo: " + wxThirdAuthorizerInfo);
+			
 			WxAuthorizerInfoApiPOJO wxAuthorizerInfoPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerInfo, WxAuthorizerInfoApiPOJO.class);
 			
 			// 保存授权者信息到数据库
 			com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO2 = new com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO();
 			String nickName = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getNickName();
-			wxAuthorizerInfoPOJO2.setNickName(new String(nickName.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+//			wxAuthorizerInfoPOJO2.setNickName(new String(nickName.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 			String headImg = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getHeadImg();
 			wxAuthorizerInfoPOJO2.setHeadImg(headImg);
 			Integer serviceTypeInfo = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getServiceTypeInfoPOJO().getId();
