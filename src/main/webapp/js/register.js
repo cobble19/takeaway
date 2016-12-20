@@ -10,7 +10,7 @@ $(document).ready(function() {
     jQuery.validator.addMethod("duplicateUsername", function(value, element) {    //用jquery ajax的方法验证电话是不是已存在
         var exist = true;
         $.ajax({
-    		"url" : "web/user/exist",
+    		"url" : $('#basePath').val() + "/web/user/exist",
     		"type" : "GET",
             async:false,                                             //同步方法，如果用异步的话，flag永远为1
     		"dataType" : 'json',
@@ -43,7 +43,7 @@ $(document).ready(function() {
     jQuery.validator.addMethod("duplicateNickname", function(value, element) {    //用jquery ajax的方法验证电话是不是已存在
         var exist = true;
         $.ajax({
-    		"url" : "web/user/nickname/exist",
+    		"url" : $('#basePath').val() + "/web/user/nickname/exist",
     		"type" : "GET",
             async:false,                                             //同步方法，如果用异步的话，flag永远为1
     		"dataType" : 'json',
@@ -83,7 +83,7 @@ $(document).ready(function() {
     	var password = form.find('input[name=password]').val();
     	var email = form.find('input[name=email]').val();
     	$.ajax({
-    		"url" : "web/user/person/reg",
+    		"url" : $('#basePath').val() + "/web/user/person/reg",
     		"type" : "POST",
             async:true,                                             
     		"dataType" : 'json',
@@ -112,7 +112,7 @@ $(document).ready(function() {
     
     $('#enterprise form').find('#registerBtn').click(function(e) {
     	e.preventDefault();
-    	console.log('person form');
+    	console.log('enterprise form');
     	
     	var form = $('#enterprise form');
     	var username = form.find('input[name=username]').val();
@@ -120,7 +120,7 @@ $(document).ready(function() {
     	var password = form.find('input[name=password]').val();
     	var email = form.find('input[name=email]').val();
     	$.ajax({
-    		"url" : "web/user/enterprise/reg",
+    		"url" : $('#basePath').val() + "/web/user/enterprise/reg",
     		"type" : "POST",
             async:true,                                             
     		"dataType" : 'json',

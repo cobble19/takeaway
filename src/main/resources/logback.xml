@@ -34,7 +34,7 @@
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${app.root}/logs/takeaway.%d{yyyy-MM-dd}.log</fileNamePattern>   
-      		<maxHistory>7</maxHistory>
+      		<maxHistory>21</maxHistory>
 		</rollingPolicy>
 	</appender>
 	

@@ -51,7 +51,8 @@ public class WxUtil {
 				while (it.hasNext()) {
 					Object key = it.next();
 					Object value = redirectReqParamMap.get(key);
-					redirectReqParams += "%26" + key + "%3D" + value;
+					redirectReqParams += "&" + key + "=" + value;
+					redirectReqParams = redirectReqParams.replace("&" + key + "=", "%26" + key + "%3D");
 				}
 				wxThirdRedirectUri += redirectReqParams; 
 			}
