@@ -54,6 +54,7 @@ $(document).ready(function() {
     
 } );
 
+// 加2是避免与别的页面出现重复id
 var getWxMenuMgrButtonDispDiv2 = function(wxMenuMgrButtonPOJO) {
 	var ret = "";
 	if (wxMenuMgrButtonPOJO == null) {
@@ -64,7 +65,7 @@ var getWxMenuMgrButtonDispDiv2 = function(wxMenuMgrButtonPOJO) {
 	} else if (wxMenuMgrButtonPOJO.type == 'click') {
 		ret = 'type: click, name: ' + wxMenuMgrButtonPOJO.name + ', key: ' + wxMenuMgrButtonPOJO.btnKey;
 	} else if (wxMenuMgrButtonPOJO.type == 'media_id') {
-		ret = 'type: media_id, name: ' + wxMenuMgrButtonPOJO.name + ', value: ' + wxMenuMgrButtonPOJO.value;
+		ret = 'type: media_id, name: ' + wxMenuMgrButtonPOJO.name + ', media_id: ' + wxMenuMgrButtonPOJO.mediaId;
 	} else {
 		ret = 'type: ' + wxMenuMgrButtonPOJO.type + ', name: ' + wxMenuMgrButtonPOJO.name + ', value: ' + wxMenuMgrButtonPOJO.value;
 	}
@@ -72,6 +73,25 @@ var getWxMenuMgrButtonDispDiv2 = function(wxMenuMgrButtonPOJO) {
 	return ret;
 }
 
+//加2是避免与别的页面出现重复id
+var addMenuMgrButtonByObj2 = function(wxMenuMgrButtonObj) {
+	console.log('addMenuMgrButtonByObj2');
+	$('#wxMenuMgrButtonDiv_2 #wxMenuMgrCategoryId').val(wxMenuMgrButtonObj.wxMenuMgrCategoryId);
+	$('#wxMenuMgrButtonDiv_2 #parentButtonId').val(wxMenuMgrButtonObj.parentButtonId);
+	$('#wxMenuMgrButtonDiv_2 #level').val(wxMenuMgrButtonObj.level);
+	$('#wxMenuMgrButtonDiv_2 #authorizerAppIdX').val(wxMenuMgrButtonObj.authorizerAppId);
+	
+	$('#wxMenuMgrButtonDiv_2 #name').val(wxMenuMgrButtonObj.name);
+	$('#wxMenuMgrButtonDiv_2 #type').val(wxMenuMgrButtonObj.type);
+	$('#wxMenuMgrButtonDiv_2 #btnKey').val(wxMenuMgrButtonObj.btnKey);
+	
+//	$('#wxMenuMgrButtonDiv').dialog('open');
+	//$('#wxMenuMgrButtonDiv_2').show();
+	$('#wxMenuMgrButtonDiv_2').toggle();
+	
+}
+
+//加2是避免与别的页面出现重复id
 var addMenuMgrButton2 = function(wxMenuMgrCategoryId, parentButtonId, level, authorizerAppId) {
 	console.log('addMenuMgrButton2');
 	$('#wxMenuMgrButtonDiv_2 #wxMenuMgrCategoryId').val(wxMenuMgrCategoryId);
@@ -80,20 +100,26 @@ var addMenuMgrButton2 = function(wxMenuMgrCategoryId, parentButtonId, level, aut
 	$('#wxMenuMgrButtonDiv_2 #authorizerAppIdX').val(authorizerAppId);
 	
 //	$('#wxMenuMgrButtonDiv').dialog('open');
-	$('#wxMenuMgrButtonDiv_2').show();
+//	$('#wxMenuMgrButtonDiv_2').show();
+	$('#wxMenuMgrButtonDiv_2').toggle();
 	
 }
 
-var addMenuMgrMatchRuleButton2 = function() {
+//加2是避免与别的页面出现重复id
+var addMenuMgrMatchRuleButton2 = function(wxMenuMgrCategoryId) {
 	console.log('addMenuMgrMatchRuleButton2');
+
+	$('#wxMenuMgrMatchRuleDiv_2 #wxMenuMgrCategoryId').val(wxMenuMgrCategoryId);
 	/*$('#wxMenuMgrCategoryId').val(wxMenuMgrCategoryId);
 	$('#authorizerAppIdX').val(authorizerAppId);*/
 	
 //	$('#wxMenuMgrButtonDiv').dialog('open');
-	$('#wxMenuMgrMatchRuleDiv_2').show();
+//	$('#wxMenuMgrMatchRuleDiv_2').show();
+	$('#wxMenuMgrMatchRuleDiv_2').toggle();
 	
 }
 
+//加2是避免与别的页面出现重复id
 var deleteMenuMgrButton2 = function(wxMenuMgrButtonId) {
 	var ids = [];
 	ids.push(wxMenuMgrButtonId);
@@ -131,6 +157,7 @@ var deleteMenuMgrButton2 = function(wxMenuMgrButtonId) {
 	});
 }
 
+//加2是避免与别的页面出现重复id
 var deleteMenu2 = function(authorizerAppId) {
 	console.log("authorizerAppId: " + authorizerAppId);
 	if (authorizerAppId == null) {
@@ -169,7 +196,7 @@ var deleteMenu2 = function(authorizerAppId) {
 	});
 }
 
-
+//加2是避免与别的页面出现重复id
 var deleteConditionalMenu2 = function(authorizerAppId, menuId) {
 	console.log("authorizerAppId: " + authorizerAppId + ", menuId: " + menuId);
 	if (authorizerAppId == null || menuId == null) {
@@ -210,6 +237,7 @@ var deleteConditionalMenu2 = function(authorizerAppId, menuId) {
 	});
 }
 
+//加2是避免与别的页面出现重复id
 var publishMenuMgrCategory = function(wxMenuMgrCategoryId, authorizerAppId) {
 	console.log('wxMenuMgrCategoryId: ' + wxMenuMgrCategoryId + ", authorizerAppId: " + authorizerAppId);
 	if (wxMenuMgrCategoryId == null || authorizerAppId == null) {
@@ -337,7 +365,7 @@ var wxMenuMgrConditionSearch = function() {
                     					+ "";
                     			
                     			// add match rule 
-                    			var onclickStr = ' onclick=addMenuMgrMatchRuleButton2(' + ')';
+                    			var onclickStr = ' onclick=addMenuMgrMatchRuleButton2(' + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + ')';
 								content += "&nbsp;&nbsp;<input type='button' " +
 										"id='addButtonMR2_" + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + "'"
 										+ " name='addButtonMR1'" 
@@ -346,6 +374,28 @@ var wxMenuMgrConditionSearch = function() {
 										+ " class='btn btn-info'"
 										+ ">"
 										+ "";
+								
+								// add 加入会员  一级菜单
+								var wxMenuMgrButtonObj = {};
+								wxMenuMgrButtonObj.wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
+								wxMenuMgrButtonObj.parentButtonId = 0;
+								wxMenuMgrButtonObj.level = 1;
+								wxMenuMgrButtonObj.authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+								
+								wxMenuMgrButtonObj.name = '加入会员';
+								wxMenuMgrButtonObj.type = 'click';
+								wxMenuMgrButtonObj.btnKey = '欢迎您，GUEST&nbsp;&nbsp;1.加入会员请回复001&nbsp;&nbsp;2.重新加入请回复002&nbsp;&nbsp;3.退出会员请回复003';
+								
+                    			var onclickStr = ' onclick=addMenuMgrButtonByObj2(eval(' + JSON.stringify(wxMenuMgrButtonObj) + ')'
+        					    					+ ')';
+                    			content += "&nbsp;&nbsp;<input type='button' " +
+                    					"id='addButtonByObj1_" + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + "'"
+                    					+ " name='addButtonByObj1'" 
+                    					+ " value=AddButtonByObj1"
+                    					+ onclickStr
+                    					+ " class='btn btn-info'"
+                    					+ ">"
+                    					+ "";
 								
 								// delete full menu
 								var onclickStr = ' onclick=deleteMenu2('
@@ -411,6 +461,30 @@ var wxMenuMgrConditionSearch = function() {
                             			+ " class='btn btn-warning'"
                     					+ "/>"
                     					+ "";
+                            			
+
+        								// add 加入会员 二级菜单
+        								var wxMenuMgrButtonObj = {};
+        								wxMenuMgrButtonObj.wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
+        								wxMenuMgrButtonObj.parentButtonId = 0;
+        								wxMenuMgrButtonObj.level = 2;
+        								wxMenuMgrButtonObj.authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+        								
+        								wxMenuMgrButtonObj.name = '加入会员';
+        								wxMenuMgrButtonObj.type = 'click';
+        								wxMenuMgrButtonObj.btnKey = '欢迎您，GUEST&nbsp;&nbsp;1.加入会员请回复001&nbsp;&nbsp;2.重新加入请回复002&nbsp;&nbsp;3.退出会员请回复003';
+        								
+                            			var onclickStr = ' onclick=addMenuMgrButtonByObj2(eval(' + JSON.stringify(wxMenuMgrButtonObj) + ')'
+                					    					+ ')';
+                            			content += "&nbsp;&nbsp;<input type='button' " +
+                            					"id='addButtonByObj1_" + wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId + "'"
+                            					+ " name='addButtonByObj2'" 
+                            					+ " value=AddButtonByObj2"
+                            					+ onclickStr
+                            					+ " class='btn btn-info'"
+                            					+ ">"
+                            					+ "";
+                            			
                             			
                             			content += "&nbsp;&nbsp;<input type='button' " +
                     					"id='deleteMenuMgrBtn_" + wxMenuMgrButtonPOJO.wxMenuMgrButtonId + "'"

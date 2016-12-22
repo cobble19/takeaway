@@ -6,6 +6,7 @@ import com.cobble.takeaway.pojo.BasePOJO;
 
 public class WxMenuMgrMatchRulePOJO extends BasePOJO {
 	private Long wxMenuMgrMatchRuleId;
+	private Long wxMenuMgrCategoryId;
     private Integer groupId;
     private Integer sex;
     private String country;
@@ -68,6 +69,12 @@ public class WxMenuMgrMatchRulePOJO extends BasePOJO {
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+	public Long getWxMenuMgrCategoryId() {
+		return wxMenuMgrCategoryId;
+	}
+	public void setWxMenuMgrCategoryId(Long wxMenuMgrCategoryId) {
+		this.wxMenuMgrCategoryId = wxMenuMgrCategoryId;
 	}
     
 }

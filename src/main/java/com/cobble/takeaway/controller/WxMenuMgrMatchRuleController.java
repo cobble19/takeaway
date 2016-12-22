@@ -23,8 +23,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
+import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategoryPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrMatchRulePOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrMatchRuleSearchPOJO;
+import com.cobble.takeaway.service.WxMenuMgrCategoryService;
 import com.cobble.takeaway.service.WxMenuMgrMatchRuleService;
 import com.cobble.takeaway.util.UserUtil;
 
@@ -34,6 +36,8 @@ public class WxMenuMgrMatchRuleController extends BaseController {
 	
 	@Autowired
 	private WxMenuMgrMatchRuleService wxMenuMgrMatchRuleService;
+	@Autowired
+	private WxMenuMgrCategoryService wxMenuMgrCategoryService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	
@@ -86,6 +90,8 @@ public class WxMenuMgrMatchRuleController extends BaseController {
 			} else {
 				result = wxMenuMgrMatchRuleService.insert(wxMenuMgrMatchRulePOJO);
 			}
+			WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO = new WxMenuMgrCategoryPOJO();
+			wxMenuMgrCategoryService.update(wxMenuMgrCategoryPOJO);
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);

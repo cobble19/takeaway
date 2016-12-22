@@ -110,6 +110,12 @@
 	<div id="wxMenuMgrMatchRuleDiv_2" style="display: none;">
 		<form id="wxMenuMgrMatchRuleForm2" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/wxMenuMgrMatchRule/add' method="post">
  			<div class="form-group">
+ 				<label class="control-label" for="wxMenuMgrCategoryId">类别:</label>
+ 				<div class="">
+ 					<input class="form-control" id="wxMenuMgrCategoryId" name="wxMenuMgrCategoryId" placeholder="请输入类别ID">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
  				<label class="control-label" for="groupId">标签ID:</label>
  				<div class="">
  					<input class="form-control" id="groupId" name="groupId" required="required" placeholder="请输入标签ID">
