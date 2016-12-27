@@ -38,37 +38,39 @@
 	     				<%-- <label>昵称： </label><c:out value="${myUser.nickname }"></c:out> --%><!-- <br/>
 	     				<label>密码： </label><button id="pwdChg4OpenDialog" class="btn btn-default">修改密码</button> -->
 	     				
-	     				<c:if test="${sessionScope.userType eq 'MEDIA'}">
-  <div class="panel panel-success">
-  <!-- Default panel contents -->
-  <div class="panel-heading"><p class="h5" style="font-weight:bold;">微信公众号信息</p></div>
-  <div class="panel-body">
-    <p class="h5"><c:if test="${not empty wxAuthorizerInfoPOJO}">
+	     				<%-- <c:if test="${sessionScope.userType eq 'MEDIA'}"> --%>
+						  <div class="panel panel-success">
+						  <!-- Default panel contents -->
+						  <div class="panel-heading"><p class="h5" style="font-weight:bold;">微信公众号信息</p></div>
+						  <div class="panel-body">
+						    <p class="h5">
+						    <c:if test="${not empty wxAuthorizerInfoPOJO}">
 		     							已经授权给微信开发第三方【得味驿站】，您还可以 <a class="h5" target="_blank" href="${wxComLoginUrl}">重新授权</a>
 		     						</c:if>
 		     						<c:if test="${empty wxAuthorizerInfoPOJO}">
 		     							您没有授权对应的公众号给微信开发第三方【得味驿站】, 需要<a class="h5" target="_blank" href="${wxComLoginUrl}">点击去授权</a>
-		     						</c:if></p>
-  </div>
+		     						</c:if>
+		     				</p>
+  							</div>
 
-  <!-- List group -->
-  <c:if test="${not empty wxAuthorizerInfoPOJO}">
-  <ul class="list-group">
-    <li class="list-group-item"><p class="h5">1.公众号名称:<c:out value="${wxAuthorizerInfoPOJO.nickName}"></c:out></p></li>
-    <li class="list-group-item"><p class="h5">2.微信号:<c:out value="${wxAuthorizerInfoPOJO.alias}"></c:out></p></li>
-    <li class="list-group-item"><p class="h5">3.公众号类型:<c:out value="${wxAuthorizerInfoPOJO.serviceTypeInfo}"></c:out></p></li>
-    <li class="list-group-item"><p class="h5">4.认证情况:<c:out value="${wxAuthorizerInfoPOJO.verifyTypeInfo}"></c:out></p></li>
-    <li class="list-group-item"><p class="h5">5.原始ID:<c:out value="${wxAuthorizerInfoPOJO.userName}"></c:out></p></li>
-    <li class="list-group-item"><p class="h5">6.appid:</label><c:out value="${wxAuthorizerInfoPOJO.authorizerAppId}"></c:out></p></li>
-    <li class="list-group-item"><p class="h5">7.公众号头像:
+									  <!-- List group -->
+									  <c:if test="${not empty wxAuthorizerInfoPOJO}">
+									  <ul class="list-group">
+									    <li class="list-group-item"><p class="h5">1.公众号名称:<c:out value="${wxAuthorizerInfoPOJO.nickName}"></c:out></p></li>
+									    <li class="list-group-item"><p class="h5">2.微信号:<c:out value="${wxAuthorizerInfoPOJO.alias}"></c:out></p></li>
+									    <li class="list-group-item"><p class="h5">3.公众号类型:<c:out value="${wxAuthorizerInfoPOJO.serviceTypeInfo}"></c:out></p></li>
+									    <li class="list-group-item"><p class="h5">4.认证情况:<c:out value="${wxAuthorizerInfoPOJO.verifyTypeInfo}"></c:out></p></li>
+									    <li class="list-group-item"><p class="h5">5.原始ID:<c:out value="${wxAuthorizerInfoPOJO.userName}"></c:out></p></li>
+									    <li class="list-group-item"><p class="h5">6.appid:</label><c:out value="${wxAuthorizerInfoPOJO.authorizerAppId}"></c:out></p></li>
+									    <li class="list-group-item"><p class="h5">7.公众号头像:
 	     								<img alt="公众号头像" src="${wxAuthorizerInfoPOJO.headImg}" height="40" width="40"></p></li>
-    <li class="list-group-item"><p class="h5">8.二维码图片:<c:out value="${wxAuthorizerInfoPOJO.qrcodeFilePath}"></c:out>
+    									<li class="list-group-item"><p class="h5">8.二维码图片:<c:out value="${wxAuthorizerInfoPOJO.qrcodeFilePath}"></c:out>
 	     								<img alt="二维码图片" src='<cmn:base/>${wxAuthorizerInfoPOJO.qrcodeFilePath}' height="40" width="40"></p></li>
-  </ul>
-  </c:if>
-</div>
-</c:if>
-</div>		     						
+								  </ul>
+								  </c:if>
+							</div>
+							<%-- </c:if> --%>
+					</div>		     						
                                     <!--<label>微信公众号信息：
 		     						<h5><c:if test="${not empty wxAuthorizerInfoPOJO}">
 		     							已经授权给微信开发第三方【得味驿站】，您还可以 <a class="h5" target="_blank" href="${wxComLoginUrl}">重新授权</a>
