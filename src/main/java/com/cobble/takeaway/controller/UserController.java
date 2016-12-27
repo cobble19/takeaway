@@ -2,7 +2,9 @@ package com.cobble.takeaway.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -418,6 +420,62 @@ public class UserController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/web/user/enterprise/reg", method = {RequestMethod.POST})
+	public ModelAndView regEnterprise(UserPOJO userPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			userPOJO.setUserType(MyUser.ENTERPRISE);
+			int result = userService.insert(userPOJO);
+			ret.addObject("success", true);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("regUserPOJO", userPOJO);
+			// create MyUser
+			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
+			// add wxComLoginUrl
+
+	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl();
+	    	
+	    	ret.addObject("wxComLoginUrl", wxComLoginUrl);
+	    	redirectStrategy.sendRedirect(request, response, wxComLoginUrl);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.addObject("success", false);
+			ret.addObject("desc", e.getMessage());
+		}
+
+		return null;
+	}
+	
+	@RequestMapping(value = "/api/user/enterprise/reg", method = {RequestMethod.POST})
+	@ResponseBody
+	public Map regEnterprise4API(UserPOJO userPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map ret = new HashMap();
+		try {
+			userPOJO.setUserType(MyUser.ENTERPRISE);
+			int result = userService.insert(userPOJO);
+			ret.put("success", true);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("regUserPOJO", userPOJO);
+			// create MyUser
+			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
+			// add wxComLoginUrl
+
+	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl();
+	    	
+	    	ret.put("wxComLoginUrl", wxComLoginUrl);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.put("success", false);
+			ret.put("desc", e.getMessage());
+		}
+
+		return ret;
+	}
+	
+	/*@RequestMapping(value = "/web/user/enterprise/reg", method = {RequestMethod.POST})
 	@ResponseBody
 	public ModelAndView regEnterprise(UserPOJO userPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -425,7 +483,6 @@ public class UserController extends BaseController {
 		try {
 			userPOJO.setUserType(MyUser.ENTERPRISE);
 			int result = userService.insert(userPOJO);
-			/*ret.setSuccess(true);*/
 			ret.addObject("success", true);
 			
 			HttpSession session = request.getSession();
@@ -441,12 +498,10 @@ public class UserController extends BaseController {
 			logger.error("insert error.", e);
 			ret.addObject("success", false);
 			ret.addObject("desc", e.getMessage());
-			/*ret.setSuccess(false);
-			ret.setDesc(e.getMessage());*/
 		}
 
 		return ret;
-	}
+	}*/
 	
 	@SuppressWarnings("unused")
 	@RequestMapping(value = "/web/user/enterprise/reg/success", method = {RequestMethod.GET})

@@ -120,7 +120,7 @@ $(document).ready(function() {
     	var password = form.find('input[name=password]').val();
     	var email = form.find('input[name=email]').val();
     	$.ajax({
-    		"url" : $('#basePath').val() + "/web/user/enterprise/reg",
+    		"url" : $('#basePath').val() + "/api/user/enterprise/reg",
     		"type" : "POST",
             async:true,                                             
     		"dataType" : 'json',

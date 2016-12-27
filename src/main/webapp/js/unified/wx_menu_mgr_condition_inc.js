@@ -466,7 +466,7 @@ var wxMenuMgrConditionSearch = function() {
         								// add 加入会员 二级菜单
         								var wxMenuMgrButtonObj = {};
         								wxMenuMgrButtonObj.wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
-        								wxMenuMgrButtonObj.parentButtonId = 0;
+        								wxMenuMgrButtonObj.parentButtonId = wxMenuMgrButtonPOJO.wxMenuMgrButtonId;
         								wxMenuMgrButtonObj.level = 2;
         								wxMenuMgrButtonObj.authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
         								
