@@ -132,7 +132,7 @@
     	</div>
     </div> -->
   <div class="row" style="border-top:10px solid #CCC; background:#f4faf6;"> <img src="<cmn:base/>/images/index_3.jpg" class="img-responsive center-block" alt=""> </div>
-  <%@include file="bottom.jsp"%>
 </div>
+<%@include file="bottom.jsp"%>
 </body>
 </html>

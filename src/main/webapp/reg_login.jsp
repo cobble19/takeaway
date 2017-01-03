@@ -3,8 +3,8 @@
 <security:authentication property="principal.username" var="username"/>
 <script src="<cmn:base/>/js/reg_login.js"></script>
     <style type="text/css">
-		.navbar-fixed-top {
-            z-index: 1050;
+		.navbar {
+			min-height:30px;
 		}
 	</style>
 
@@ -40,8 +40,8 @@
       </div>
       <div class="col-md-3" style="height:100px;">
         <c:if test="${(empty username) or (not empty username and username eq 'anonymousUser')}">
-          <button style="float:right; margin-top:30px;" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">&nbsp;注册&nbsp;</button>
-          <button style="float:right; margin-top:30px; margin-right:10px;" type="button" class="btn btn-warning" data-toggle="modal" data-target="#loginModal">&nbsp;登陆&nbsp;</button>
+          <a href="<cmn:base/>/register.jsp" style="float:right; margin-top:30px;" class="btn btn-success active" role="button">&nbsp;注册&nbsp;</a>
+          <a href="<cmn:base/>/login.jsp" style="float:right; margin-top:30px; margin-right:10px;" class="btn btn-warning active" role="button">&nbsp;登陆&nbsp;</a>
         </c:if>
         <c:if test="${not empty username and (username ne 'anonymousUser')}"> 
           <div class="sy-dl-wz col-md-12" style="margin-top:30px; text-align:right;">欢迎:

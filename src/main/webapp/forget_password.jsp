@@ -14,20 +14,10 @@
 
 <body>
 	<security:authentication property="principal.username" var="username"/>
-	
+	<%@include file="reg_login.jsp"%>
 	<div class="login-container container">
     <div class="row">
-    <div class="col-md-7">
-        <div class="col-md-2 logo hidden-xs"></div>
-        <div class="col-md-8">
-			<div class="row" style="margin-top:40%;">
-				<div class="qima col-md-2 hidden-xs"></div>
-				<div class="sywz1 col-md-4 hidden-xs"></div>
-				<div class="sywz2 col-md-4 hidden-xs"></div>
-			</div>        
-        </div>
-    </div>
-    <div class="col-md-5">
+    <div class="col-md-6 col-md-offset-3">
     <div class="row">
     <div class="col-md-12 hidden-xs" style="margin-top:40%;"></div>
 	<%-- <form action="<%=request.getContextPath() %>/login!execute" id="loginForm" method="post"> --%>

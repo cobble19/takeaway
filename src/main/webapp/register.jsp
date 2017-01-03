@@ -24,12 +24,9 @@ $(function() {
 <script src="<cmn:base/>/js/register.js"></script>
 </head>
 
-<body>
-	<div class="container">
-        <div class="row" style="border-bottom:#afe2a5 1px solid; padding-bottom:25px;">
-            <div class="col-md-2 logo hidden-xs"></div>
-            <div class="col-md-4 hidden-xs" style="height:72px;"><p style="font-size:24px; line-height:72px;">用户注册</p></div>
-        </div>
+<body style="padding-top: 100px;">
+<%@include file="reg_login.jsp"%>
+	<div class="container-fluid">
         <div class="row" style="background:#fbfbfb; border:#d9e6d9 1px solid; margin-top:1px;">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -41,7 +38,7 @@ $(function() {
 	    							<a href="#person" aria-controls="person" role="tab" data-toggle="tab" id="personReg">注册个人账户</a>
 	    						</li> -->
 	    						<li role="presentation" class="active">
-	    							<a href="#enterprise" aria-controls="enterprise" role="tab" data-toggle="tab" id="enterpriseReg">注册商家账户</a>
+	    							<a class="h3" href="#enterprise" aria-controls="enterprise" role="tab" data-toggle="tab" id="enterpriseReg">注册账户</a>
 	    						</li>
 	    					</ul>
 	    					
@@ -86,9 +83,9 @@ $(function() {
 								</div> --%>
 								
 	    						<div role="tabpanel" class="tab-pane active" id="enterprise">
-									<div class="row">
+									<!--<div class="row">
 							  			<h2 class="col-xs-offset-2 col-md-offset-1" style="margin-bottom:15px;"><small style="font-weight:bold;">商家用户注册</small></h2>
-							  		</div>
+							  		</div>-->
 							  		<form id="regForm" class="form-horizontal" role="form" action='<cmn:base/>/web/user/enterprise/reg' method="post">
 							 			<div class="form-group">
 							 				<label class="control-label col-sm-3 col-md-3" for="username">用户名:</label>
@@ -206,9 +203,9 @@ $(function() {
 		 			</div>
 		  		</form>
 			</div>
-		</div>-->	
-        		
+		</div>-->	       		
 </div>
+   <%@include file="bottom.jsp"%>
 </body>
 </html>
 
