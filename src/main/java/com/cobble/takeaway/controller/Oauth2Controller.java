@@ -1964,14 +1964,18 @@ public class Oauth2Controller extends BaseController {
 	@RequestMapping(value = "/web/wx/oauth2/third/authorizerInfo"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
 	public ModelAndView authorizerInfo(@RequestParam(value="componentAppId", required=false) String componentAppId,
 			@RequestParam(value="authorizerAppId", required=false) String authorizerAppId,
+			@RequestParam(value="userId", required=false) Long userId,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
-			Long userId = UserUtil.getCurrentUserId();
+			//Long userId = UserUtil.getCurrentUserId();
 			logger.info("authorizerInfo begin...");
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("authorizerInfo uri: " + uri + ", qs: " + qs);
+			
+			logger.info("componentAppId: {}, authorizerAppId: {}, userId: {}", componentAppId, authorizerAppId, userId);
+			
 			WxAuthorizerInfoReqApiPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerInfoReqApiPOJO();
 			wxAuthorizerAccessTokenReqPOJO.setAuthorizerAppId(authorizerAppId);
 			wxAuthorizerAccessTokenReqPOJO.setComponentAppId(componentAppId);
@@ -2107,6 +2111,11 @@ public class Oauth2Controller extends BaseController {
 
 			HttpSession session = request.getSession();
 			
+			Long userId = (Long) session.getAttribute("userId");
+			String newPassword = (String) session.getAttribute("newPassword");
+			
+			logger.info("userId: {}", userId);
+			
 			if (StringUtils.isNotBlank(code)) {
 				// 组建去获取授权者token请求
 				WxAuthorizerAccessTokenReqApiPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerAccessTokenReqApiPOJO();
@@ -2158,12 +2167,11 @@ public class Oauth2Controller extends BaseController {
 				if (StringUtils.isBlank(commonParam)) {
 					// 显示获取授权者信息
 					myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/third/authorizerInfo"
-							+ "?componentAppId=" + wxThirdClientId + "&authorizerAppId=" + wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId());
+							+ "?componentAppId=" + wxThirdClientId + "&authorizerAppId=" + wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId()
+							+ "&userId=" + userId);
 					return null;
 				} else if (CommonConstant.FORGET_PASSWORD.equalsIgnoreCase(commonParam)) {
 					// 写新密码
-					Long userId = (Long) session.getAttribute("userId");
-					String newPassword = (String) session.getAttribute("newPassword");
 					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
 					wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
 					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
@@ -2187,7 +2195,8 @@ public class Oauth2Controller extends BaseController {
 				}
 				// 显示获取授权者信息
 				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/third/authorizerInfo"
-						+ "?componentAppId=" + wxThirdClientId + "&authorizerAppId=" + wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId());
+						+ "?componentAppId=" + wxThirdClientId + "&authorizerAppId=" + wxAuthorizerAccessTokenPOJO.getAuthorizationInfoPOJO().getAuthorizerAppId()
+						+ "&userId=" + userId);
 			
 //				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
 			}

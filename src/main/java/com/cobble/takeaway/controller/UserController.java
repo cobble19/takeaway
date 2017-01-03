@@ -432,8 +432,12 @@ public class UserController extends BaseController {
 			session.setAttribute("regUserPOJO", userPOJO);
 			// create MyUser
 			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
+			
+			session.setAttribute("userId", userPOJO.getUserId());
 			// add wxComLoginUrl
 
+//			Map map = new HashMap();
+//			map.put("userId", myUser.getUserId());
 	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl();
 	    	
 	    	ret.addObject("wxComLoginUrl", wxComLoginUrl);
