@@ -104,6 +104,9 @@
   	keyProperty="wxAuthorizerInfoId" keyColumn="WX_AUTHORIZER_INFO_ID">
     insert into WX_AUTHORIZER_INFO
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
       <if test="nickName != null" >
         NICK_NAME,
       </if>
@@ -145,6 +148,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
       <if test="nickName != null" >
         #{nickName},
       </if>
@@ -190,6 +196,9 @@
   <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO" >
     update WX_AUTHORIZER_INFO
     <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
       <if test="nickName != null" >
         NICK_NAME = #{nickName},
       </if>

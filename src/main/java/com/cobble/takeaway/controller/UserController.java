@@ -468,6 +468,7 @@ public class UserController extends BaseController {
 			
 			logger.info("userPOJO userId: {}, myUser userId: {}", userPOJO.getUserId(), myUser.getUserId());
 			
+			// 可以用session
 			session.setAttribute("userId", userPOJO.getUserId());
 			// add wxComLoginUrl
 			

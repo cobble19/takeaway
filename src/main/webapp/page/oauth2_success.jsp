@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-	<%@include file="page/common/head.jsp"%>
+	<%@include file="common/head.jsp"%>
     
 	<%-- <input id="basePath" type="hidden" value=''>
 	<input id="userId" type="hidden" value='${sessionScope.myUser.userId}'>
