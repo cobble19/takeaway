@@ -436,9 +436,9 @@ public class UserController extends BaseController {
 			session.setAttribute("userId", userPOJO.getUserId());
 			// add wxComLoginUrl
 
-//			Map map = new HashMap();
-//			map.put("userId", myUser.getUserId());
-	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl();
+			Map map = new HashMap();
+			map.put("userId", myUser.getUserId());
+	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl(map);
 	    	
 	    	ret.addObject("wxComLoginUrl", wxComLoginUrl);
 	    	redirectStrategy.sendRedirect(request, response, wxComLoginUrl);

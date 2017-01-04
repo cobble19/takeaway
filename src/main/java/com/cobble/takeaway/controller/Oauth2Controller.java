@@ -2101,6 +2101,7 @@ public class Oauth2Controller extends BaseController {
 	@RequestMapping(value = "/web/wx/oauth2/third/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
 	public ModelAndView thirdAuthCode(@RequestParam(value="auth_code", required=false) String code
 			, @RequestParam(value="commonParam", required=false) String commonParam
+			, @RequestParam(value="userId", required=false) Long userId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
@@ -2111,10 +2112,14 @@ public class Oauth2Controller extends BaseController {
 
 			HttpSession session = request.getSession();
 			
-			Long userId = (Long) session.getAttribute("userId");
+			logger.info("Param userId: {}", userId);
+			
+			if (userId == null) {
+				userId = (Long) session.getAttribute("userId");
+			}
 			String newPassword = (String) session.getAttribute("newPassword");
 			
-			logger.info("userId: {}", userId);
+			logger.info("session userId: {}, newPassword: {}", userId, newPassword);
 			
 			if (StringUtils.isNotBlank(code)) {
 				// 组建去获取授权者token请求
