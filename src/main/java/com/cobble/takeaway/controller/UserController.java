@@ -435,7 +435,7 @@ public class UserController extends BaseController {
 			
 			session.setAttribute("userId", userPOJO.getUserId());
 			// add wxComLoginUrl
-
+			
 			Map map = new HashMap();
 			map.put("userId", myUser.getUserId());
 	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl(map);
@@ -465,9 +465,16 @@ public class UserController extends BaseController {
 			session.setAttribute("regUserPOJO", userPOJO);
 			// create MyUser
 			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
+			
+			logger.info("userPOJO userId: {}, myUser userId: {}", userPOJO.getUserId(), myUser.getUserId());
+			
+			session.setAttribute("userId", userPOJO.getUserId());
 			// add wxComLoginUrl
-
-	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl();
+			
+			Map map = new HashMap();
+			map.put("userId", myUser.getUserId());
+	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl(map);
+	    	
 	    	
 	    	ret.put("wxComLoginUrl", wxComLoginUrl);
 		} catch (Exception e) {
