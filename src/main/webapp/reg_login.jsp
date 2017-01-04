@@ -68,7 +68,7 @@
         </c:if>
       </div>
     </div>
-    <div class="row">
+    <%-- <div class="row">
       <!-- 注册 -->
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -217,6 +217,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --%>
   </div>
 </nav>
