@@ -92,6 +92,9 @@
     <script src="<cmn:base/>/js/thirdpart/weui/city-picker.js"></script>
     <script src="<cmn:base/>/js/thirdpart/weui/swiper.js"></script>
     <script src="<cmn:base/>/js/thirdpart/weui/zepto.js"></script>--%>
+    
+    <!-- Mustache -->
+    <script src="<cmn:base/>/js/thirdpart/mustache/mustache.js"></script>
 	
     
     <!-- customer -->
