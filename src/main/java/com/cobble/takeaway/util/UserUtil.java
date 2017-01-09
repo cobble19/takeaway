@@ -22,7 +22,7 @@ public class UserUtil {
 
 	public static boolean isProxyWeiXinAuthorizer(Long userId) {
 		Boolean ret = false;
-		if (CommonConstant.HFJT_USER_ID.longValue() == userId) {
+		if (CommonConstant.PROXY_USER_ID_VALUE.longValue() == userId) {
 			ret = true;
 		}
 		return ret;

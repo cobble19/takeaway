@@ -2380,7 +2380,7 @@ public class Oauth2Controller extends BaseController {
 							
 							wxWebLoginUrl = wxThirdWebAuthorizeUrl
 							.replace("COMPONENT_APPID", wxThirdClientId)
-							.replace("APPID", CommonConstant.HFJT_AUTHORIZER_APP_ID)
+							.replace("APPID", CommonConstant.PROXY_AUTHORIZER_APP_ID_VALUE)
 							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
 									wxThirdWebRedirectUrl + extraParam
 									: wxThirdWebRedirectUrl + "?abc=1" + extraParam)

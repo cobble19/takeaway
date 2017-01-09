@@ -56,15 +56,17 @@
                    </ul>
                    <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;基础功能</h5></li>
-                      <c:if test="${sessionScope.userType eq 'MEDIA' or sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
-	                      <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
+                      <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
+                      <c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
+	                      
 	                      <li role="presentation"><a href="#wx_menu_mgr_condition"><h6>定制菜单</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_category"><h6>菜单category</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_button"><h6>菜单按钮</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_full"><h6>菜单full</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_match_rule"><h6>菜单match rule</h6></a></li>
+	                   </c:if>
 	                      <li role="presentation"><a href="#wx_person_user"><h6>微信个人用户</h6></a></li>
-                      </c:if>
+                      
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;信息发布</h5></li>

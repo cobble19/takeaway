@@ -53,6 +53,10 @@ public interface CommonConstant {
 	public final static String DWYZ_USER_NAME = "gh_31205fc6892e";
 	public final static String DWYZ_AUTHORIZER_APP_ID = "wxe0037de41e16f816";
 	public final static Long DWYZ_USER_ID = 16L;
+	// 代理公众号
+	public final static String PROXY_USER_NAME_VALUE = DWYZ_USER_NAME;
+	public final static String PROXY_AUTHORIZER_APP_ID_VALUE = DWYZ_AUTHORIZER_APP_ID;
+	public final static Long PROXY_USER_ID_VALUE = DWYZ_USER_ID;
 	
 	// 微信菜单button level
 	public final static int WX_MENU_LEVEL_1 = 1;
