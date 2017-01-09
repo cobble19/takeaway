@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<div style="height:30px;"></div>    
+<div class="container-fluid">
+<div class="row hidden-xs" style="height:30px;"></div>
+</div>  
 <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
 <div class="container-fluid">    
 <div class="row hidden-xs" style="height:30px; line-height:30px; text-align:center; background:#66b3d0; color:#FFF; font-size:12px;">
