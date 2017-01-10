@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
 
 import com.cobble.takeaway.pojo.UserPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.service.PrivilegeService;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.spring.security.MyUser;
@@ -23,6 +24,29 @@ public class UserUtil {
 	public static boolean isProxyWeiXinAuthorizer(Long userId) {
 		Boolean ret = false;
 		if (CommonConstant.PROXY_USER_ID_VALUE.longValue() == userId) {
+			ret = true;
+		}
+		return ret;
+	}
+	
+	/**
+	 * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1445241432&token=&lang=zh_CN
+	 * 微信网页授权
+	 * service_type_info: 授权方公众号类型，0代表订阅号，1代表由历史老帐号升级后的订阅号，2代表服务号
+	 * verify_type_info: 授权方认证类型，-1代表未认证，0代表微信认证，1代表新浪微博认证，2代表腾讯微博认证，3代表已资质认证通过但还未通过名称认证，
+	 * 4代表已资质认证通过、还未通过名称认证，但通过了新浪微博认证，5代表已资质认证通过、还未通过名称认证，但通过了腾讯微博认证
+	 * @param serviceTypeInfo
+	 * @return
+	 */
+	public static boolean haveWebAuth(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO) {
+		Boolean ret = false;
+		if (wxAuthorizerInfoPOJO == null) {
+			return false;
+		}
+		if (CommonConstant.WX_ACCOUNT_AUTH_WEIXIN == wxAuthorizerInfoPOJO.getVerifyTypeInfo()
+				&& (CommonConstant.WX_ACCOUNT_SUBSCRIBE == wxAuthorizerInfoPOJO.getServiceTypeInfo() 
+						|| CommonConstant.WX_ACCOUNT_SERVICE == wxAuthorizerInfoPOJO.getServiceTypeInfo())
+						) {
 			ret = true;
 		}
 		return ret;

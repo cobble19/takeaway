@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 	<%@include file="../common/taglib.jsp" %>
+	
 
 <div id="wx_menu_mgr_condition">
 	<h3>微信Full菜单管理</h3>
@@ -12,6 +13,13 @@
 		<input id="searchCurrentBtn4WxMenuMgrCondition" type="button" class="btn btn-default btn-xs" value="获取当前的菜单">
 
 	</div>
+	
+	<script id="wxMenuMgrConditionTmpl" type="x-tmpl-mustache">
+	
+	</script>
+	
+	<div id="wxMenuMgrConditionTarget"></div>
+	
 	<div id="wx_menu_mgr_condition_content">
 		<%-- <c:forEach items="${wxMenuMgrCagetoryPOJOs}" var="wxMenuMgrCategoryPOJO" varStatus="st">
 			<c:out value="${wxMenuMgrCategoryPOJO.name}"></c:out>

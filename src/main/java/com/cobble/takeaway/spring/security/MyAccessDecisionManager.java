@@ -337,7 +337,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		
 		logger.info("wxAuthorizerInfoPOJO: {}", wxAuthorizerInfoPOJO);
 		if (wxAuthorizerInfoPOJO != null) {
-			if (UserUtil.isProxyWeiXinAuthorizer(userPOJO.getUserId())) {
+			if (UserUtil.haveWebAuth(wxAuthorizerInfoPOJO)) {
 				wxWebLoginUrl = wxThirdWebAuthorizeUrl
 						.replace("COMPONENT_APPID", wxThirdClientId)
 						.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())

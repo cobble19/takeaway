@@ -552,6 +552,40 @@ var wxMenuMgrConditionSearch = function() {
 	});
 }
 
+var wxMenuMgrConditionSearch2 = function() {
+	$('#progress').dialog('open');
+	var basePath = $('#basePath').val();
+	$.ajax({
+		"url" : basePath + "/api/unified/wxMenuMgr/listFull",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		"data": {
+            "authorizerAppId": $("#authorizerAppId").val()
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	var content = "";
+        	if (data.success) {
+        		wxMenuMgrFullPOJOs = data.data;
+        		var template = $('#wxMenuMgrConditionTmpl').html();
+				Mustache.parse(template);   // optional, speeds up future uses
+				var rendered = Mustache.render(template, wxMenuMgrFullPOJOs);
+				$('#wxMenuMgrConditiontarget').html(rendered);
+        	}
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+
+
 
 
  
