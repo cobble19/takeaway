@@ -12,31 +12,39 @@
 
 
 
-<body>
+<body style="padding-top: 100px;">
 	<security:authentication property="principal.username" var="username"/>
 	<%@include file="reg_login.jsp"%>
-	<div class="login-container container">
+	<div class="container-fluid">
+    <div  class="row" style=" height:4px; background-color:#44b549;"></div>
+        <div  class="row" style=" height:80px; padding-top:20px; border-bottom:1px solid #CCC; margin:0px 10px;">
+            <a class="h2" style="height:40px; width:120px; line-height:40px; display:block; border-bottom:2px solid #F00; color:#44b549;">用户注册</a>
+        </div>
+        <div class="row" style="margin:0px 10px;">
+            <div class="col-md-12">
+               <div class="row" style="margin:20px 0px 50px 0px;">
+                   <strong style="color:#F00;">1. 填写需要重置密码的账户</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                   <strong style="color:#ccc;">2. 重新授权公众号验证身份</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                   <strong style="color:#ccc;">2. 填写账户新密码</strong>
+               </div>
+            </div>
+        </div>
     <div class="row">
     <div class="col-md-6 col-md-offset-3">
     <div class="row">
-    <div class="col-md-12 hidden-xs" style="margin-top:40%;"></div>
-	<%-- <form action="<%=request.getContextPath() %>/login!execute" id="loginForm" method="post"> --%>
+	<!-- <form action="<%=request.getContextPath() %>/login!execute" id="loginForm" method="post"> -->
     <div class="col-md-12">
 	<form action="<cmn:base/>/web/wx/oauth2/third/forgetPassword" id="loginForm" method="post">
 			<table>
-				<tbody>
-                    <tr style="border-bottom:#2f69c9 solid 1px; ">
-                        <td style="font-weight:bold; padding-bottom:10px; margin-bottom:10px;"><small >忘记密码</small>
-                        </td>
-                    </tr>
+				<tbody> 
 					<tr>
-						<td class="login-label form-lable hidden-xs">用户名:</td>
+						<td class="login-label form-lable">用户名:</td>
 						<td>
 							<input class="login-input form-control" id="username" name="username" type="text" placeholder="登陆账号"/>
 						</td>
-					</tr>
+					</tr>      
 					<tr>
-						<td class="login-label form-lable hidden-xs">新密码:</td>
+						<td class="login-label form-lable">新密码:</td>
 						<td>
 							<input class="login-input form-control" id="password" name="password" type="password" placeholder="新密码"/>
 						</td>
@@ -66,6 +74,7 @@
     </div>
     </div>
 	</div>
+<%@include file="bottom.jsp"%>
 </body>
 
 </html>

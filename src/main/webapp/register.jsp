@@ -27,22 +27,30 @@ $(function() {
 <body style="padding-top: 100px;">
 <%@include file="reg_login.jsp"%>
 	<div class="container-fluid">
-        <div class="row" style="background:#fbfbfb; border:#d9e6d9 1px solid; margin-top:1px;">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
+        <div  class="row" style=" height:4px; background-color:#44b549;"></div>
+        <div  class="row" style=" height:80px; padding-top:20px; border-bottom:1px solid #CCC; margin:0px 10px;">
+            <a class="h2" style="height:40px; width:120px; line-height:40px; display:block; border-bottom:2px solid #F00; color:#44b549;">用户注册</a>
+        </div>
+        <div class="row" style="margin:0px 10px;">
+            <div class="col-md-12">
+               <div class="row" style="margin:20px 0px 50px 0px;">
+                   <strong style="color:#F00;">1. 填写用户注册信息</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                   <strong style="color:#ccc;">2. 授权公众号信息</strong>
+               </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
                 <!-- -->
-                <div class="modal-body">
-	    				<div role="tabpanel">
-	    					<ul class="nav nav-tabs nav-justified" role="tablist" id="myTab">
-	    						<!-- <li style="display: none;" role="presentation" class="">
+	    					<!--<ul class="nav nav-tabs nav-justified" role="tablist" id="myTab">
+	    						 <li style="display: none;" role="presentation" class="">
 	    							<a href="#person" aria-controls="person" role="tab" data-toggle="tab" id="personReg">注册个人账户</a>
-	    						</li> -->
+	    						</li> 
 	    						<li role="presentation" class="active">
 	    							<a class="h3" href="#enterprise" aria-controls="enterprise" role="tab" data-toggle="tab" id="enterpriseReg">注册账户</a>
 	    						</li>
-	    					</ul>
+	    					</ul>-->
 	    					
-	    					<div class="tab-content" style="border-left:#e8e8e8 solid 1px; border-right:#e8e8e8 solid 1px; border-bottom:#e8e8e8 solid 1px;">
 	    						<%-- <div role="tabpanel" class="tab-pane active" id="person">
 									<div class="row">
 							  			<h2 class="col-xs-offset-2 col-md-offset-1" style="margin-bottom:15px;"><small style="font-weight:bold;">个人用户注册</small></h2>
@@ -82,7 +90,7 @@ $(function() {
 							  		</form>
 								</div> --%>
 								
-	    						<div role="tabpanel" class="tab-pane active" id="enterprise">
+	    						<div id="enterprise">
 									<!--<div class="row">
 							  			<h2 class="col-xs-offset-2 col-md-offset-1" style="margin-bottom:15px;"><small style="font-weight:bold;">商家用户注册</small></h2>
 							  		</div>-->
@@ -114,18 +122,14 @@ $(function() {
 							 			</div>
 							 			<div class="form-group">
 								 			<div class="col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-7">
-								  				<button type="button" class="btn btn-default" id="registerBtn">注册</button>
-                                                <span style="height:24px; line-height:24px; text-align:right;"><a href="login.jsp"><p class="smaller">已有帐号，点击登陆</p></a></span>
+								  				<button type="button" class="btn btn-danger btn-block" id="registerBtn">下一步</button>
+                                                <!--<span style="height:24px; line-height:24px; text-align:right;"><a href="login.jsp"><p class="smaller">已有帐号，点击登陆</p></a></span>-->
 								 			</div>
 							 			</div>
 							  		</form>
 								</div>
-							</div>
-	    				</div>
-	    			</div>
                 <!-- -->
             </div>
-            <div class="col-md-3"></div>
         </div>
 		<!--<div class="row">
 			<div class="col-md-6">
