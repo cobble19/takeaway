@@ -17,7 +17,70 @@
 	<script id="wxMenuMgrConditionTmpl" type="x-tmpl-mustache">
 	
 	</script>
-	
+	<div id="wx_menu_mgr_condition_content">
+		{{#data}}
+			<hr>
+			<b>Full: {{name}}</b><br>
+			{{#wxMenuMgrCategoryPOJOs}}
+				<input type="radio" name="wxMenuMgrCategory" id="wxMenuMgrCategory_{{wxMenuMgrCategoryId}}" value="{{wxMenuMgrCategoryId}}">{{name}}&nbsp;&nbsp;
+				<input type="button" id="addButton1_{{wxMenuMgrCategoryId}}" name="addButton1" value="AddButton1" onclick="addMenuMgrButton2({{wxMenuMgrCategoryId}},0,1,'{{authorizerAppId}}')" class="btn btn-info">&nbsp;&nbsp;
+				<input type="button" id="addButtonMR2_{{wxMenuMgrCategoryId}}" name="addButtonMR1" value="AddButtonMR1" onclick="addMenuMgrMatchRuleButton2({{wxMenuMgrCategoryId}})" class="btn btn-info">&nbsp;&nbsp;
+				<input
+					type="button" id="addButtonByObj1_1" name="addButtonByObj1"
+					value="AddButtonByObj1"
+					onclick="addMenuMgrButtonByObj2(eval({&quot;wxMenuMgrCategoryId&quot;:1,&quot;parentButtonId&quot;:0,&quot;level&quot;:1,&quot;authorizerAppId&quot;:&quot;wxe0037de41e16f816&quot;,&quot;name&quot;:&quot;加入会员&quot;,&quot;type&quot;:&quot;click&quot;,&quot;btnKey&quot;:&quot;欢迎您，GUEST&nbsp;&nbsp;1.加入会员请回复001&nbsp;&nbsp;2.重新加入请回复002&nbsp;&nbsp;3.退出会员请回复003&quot;}))"
+					class="btn btn-info">&nbsp;&nbsp;
+				<input type="button" id="deleteMenu2_{{wxMenuMgrCategoryId}}" name="deleteMenu" value="DeleteMenu" onclick="deleteMenu2('{{authorizerAppId}}')" class="btn btn-info">&nbsp;&nbsp;
+				<input type="button" id="deleteMenu2_{{wxMenuMgrCategoryId}}" name="deleteConditionalMenu" value="DeleteConditionalMenu" onclick="deleteConditionalMenu2('{{authorizerAppId}}','{{menuId}}')" class="btn btn-info">&nbsp;&nbsp;
+				<input type="button" id="publishButton1_{{wxMenuMgrCategoryId}}" name="publishButton1" value="PublishButton1" onclick="publishMenuMgrCategory({{wxMenuMgrCategoryId}},'{{authorizerAppId}}')" class="btn btn-info"><br>&nbsp;&nbsp;
+				{{#wxMenuMgrButtonPOJOs}}
+					
+				{{/wxMenuMgrButtonPOJOs}}
+			{{/wxMenuMgrCategoryPOJOs}}
+		{{/data}}
+		
+		
+		<input
+					type="checkbox" name="wxMenuMgrButton" id="wxMenuMgrButton_4"
+					value="4">type: click, name: , key: testkey004&nbsp;&nbsp;
+		<input
+					type="button" id="addButton2_1" name="addButton2" value="AddButton2"
+					onclick="addMenuMgrButton2(1,4,2,'wxe0037de41e16f816')"
+					class="btn btn-warning">&nbsp;&nbsp;
+		<input type="button"
+					id="addButtonByObj1_1" name="addButtonByObj2" value="AddButtonByObj2"
+					onclick="addMenuMgrButtonByObj2(eval({&quot;wxMenuMgrCategoryId&quot;:1,&quot;parentButtonId&quot;:4,&quot;level&quot;:2,&quot;authorizerAppId&quot;:&quot;wxe0037de41e16f816&quot;,&quot;name&quot;:&quot;加入会员&quot;,&quot;type&quot;:&quot;click&quot;,&quot;btnKey&quot;:&quot;欢迎您，GUEST&nbsp;&nbsp;1.加入会员请回复001&nbsp;&nbsp;2.重新加入请回复002&nbsp;&nbsp;3.退出会员请回复003&quot;}))"
+					class="btn btn-info">&nbsp;&nbsp;
+		<input type="button"
+					id="deleteMenuMgrBtn_4" name="deleteMenuMgrBtn" value="删除此菜单"
+					onclick="deleteMenuMgrButton2(4)" class="btn btn-warning"><br>&nbsp;&nbsp;&nbsp;&nbsp;
+		<input
+					type="checkbox" name="wxMenuMgrButton" id="wxMenuMgrButton_5"
+					value="5">type: view, name: , url: baidu&nbsp;&nbsp;
+		<input
+					type="button" id="deleteMenuMgrBtn_5" name="deleteMenuMgrBtn"
+					value="删除此菜单" onclick="deleteMenuMgrButton2(5)"
+					class="btn btn-warning"><br>&nbsp;&nbsp;
+		<input
+					type="checkbox" name="wxMenuMgrButton" id="wxMenuMgrButton_1"
+					value="1">type: click, name: , key: null&nbsp;&nbsp;
+		<input
+					type="button" id="addButton2_1" name="addButton2" value="AddButton2"
+					onclick="addMenuMgrButton2(1,1,2,'wxe0037de41e16f816')"
+					class="btn btn-warning">&nbsp;&nbsp;
+		<input type="button"
+					id="addButtonByObj1_1" name="addButtonByObj2" value="AddButtonByObj2"
+					onclick="addMenuMgrButtonByObj2(eval({&quot;wxMenuMgrCategoryId&quot;:1,&quot;parentButtonId&quot;:1,&quot;level&quot;:2,&quot;authorizerAppId&quot;:&quot;wxe0037de41e16f816&quot;,&quot;name&quot;:&quot;加入会员&quot;,&quot;type&quot;:&quot;click&quot;,&quot;btnKey&quot;:&quot;欢迎您，GUEST&nbsp;&nbsp;1.加入会员请回复001&nbsp;&nbsp;2.重新加入请回复002&nbsp;&nbsp;3.退出会员请回复003&quot;}))"
+					class="btn btn-info">&nbsp;&nbsp;
+		<input type="button"
+					id="deleteMenuMgrBtn_1" name="deleteMenuMgrBtn" value="删除此菜单"
+					onclick="deleteMenuMgrButton2(1)" class="btn btn-warning"><br>
+			Match
+		Rule: 123,
+		{"wxMenuMgrMatchRuleId":1,"wxMenuMgrCategoryId":null,"groupId":123,"sex":1,"country":"中国","province":"安徽","city":"合肥","clientPlatformType":2,"language":"zh_CN","createDateTime":1480251228000}<br>
+		<br>
+		<br>
+	</div>
 	<div id="wxMenuMgrConditionTarget"></div>
 	
 	<div id="wx_menu_mgr_condition_content">

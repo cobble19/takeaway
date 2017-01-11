@@ -1321,6 +1321,7 @@ public class Oauth2Controller extends BaseController {
 	
 	@RequestMapping(value = "/web/wx/oauth2/third/authorizer/qrcode", method = {RequestMethod.GET})
 	public ModelAndView wxQrcode(@RequestParam(value="authorizerAppId", required=false) String authorizerAppId
+			, @RequestParam(value="errorCode", required=false) String errorCode
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
@@ -1354,7 +1355,7 @@ public class Oauth2Controller extends BaseController {
 				ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
 				String documentTitle = wxAuthorizerInfoPOJO.getNickName();
 				ret.addObject("documentTitle", documentTitle);
-				ret.setViewName("/page/weixin/authorizer_qrcode");
+				ret.setViewName("/page/weixin/authorizer_qrcode?errorCode=" + errorCode);
 				
 			}
 			
@@ -1581,7 +1582,19 @@ public class Oauth2Controller extends BaseController {
 					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 				}
 				
-
+				String authorizerAppIdVice = "";
+				if (StringUtils.isNotBlank(authorizerUserNameVice)) {
+					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+					wxAuthorizerInfoSearchPOJO.setUserName(authorizerUserNameVice);
+					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+					if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+						if (wxAuthorizerInfoPOJOs.size() > 1) {
+							logger.error("存在多个WxAuthorizerInfoPOJO, Authorizer UserName: {}", authorizerUserNameVice);
+						}
+						authorizerAppIdVice = wxAuthorizerInfoPOJOs.get(0).getAuthorizerAppId();
+					}
+				}
+				
 				// @10102016 如果openIdVice不是空, insert wxPersonUser vice to DB
 				if (StringUtils.isNotBlank(openIdVice)) {
 					/*if (!wxUserInfoApiPOJO.getOpenId().equalsIgnoreCase((String) session.getAttribute(CommonConstant.PROXY_OPEN_ID))) {
@@ -1614,17 +1627,6 @@ public class Oauth2Controller extends BaseController {
 					wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
 					wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
 					wxPersonUserPOJO.setUserId(userPOJO.getUserId());*/
-					
-					String authorizerAppIdVice = "";
-					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
-					wxAuthorizerInfoSearchPOJO.setUserName(authorizerUserNameVice);
-					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
-					if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
-						if (wxAuthorizerInfoPOJOs.size() > 1) {
-							logger.error("存在多个WxAuthorizerInfoPOJO, Authorizer UserName: {}", authorizerUserNameVice);
-						}
-						authorizerAppIdVice = wxAuthorizerInfoPOJOs.get(0).getAuthorizerAppId();
-					}
 					
 					wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
 //					wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
@@ -1681,11 +1683,13 @@ public class Oauth2Controller extends BaseController {
 					if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 						logger.error("根据authorizerUserNameVice: {} 和 proxyOpenId: {} 获取user 失败"
 									, authorizerUserNameVice, wxUserInfoApiPOJO.getOpenId());
-						String msg = "根据authorizerUserNameVice 和 proxyOpenId 获取user, 请先注册" ;
+						String msg = "您还不是该公众号的会员，请关注该公众号并加入会员" ;
 						ret.addObject("msg", msg);
 						
 						session.setAttribute("msg", msg);
-						myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
+						myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) 
+								+ "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppIdVice
+								+ "&errorCode=" + "NOTVIP");
 						return null;
 					}
 					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
@@ -1708,17 +1712,6 @@ public class Oauth2Controller extends BaseController {
 					wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
 					wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
 					wxPersonUserPOJO.setUserId(userPOJO.getUserId());*/
-					
-					String authorizerAppIdVice = "";
-					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
-					wxAuthorizerInfoSearchPOJO.setUserName(authorizerUserNameVice);
-					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
-					if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
-						if (wxAuthorizerInfoPOJOs.size() > 1) {
-							logger.error("存在多个WxAuthorizerInfoPOJO, Authorizer UserName: {}", authorizerUserNameVice);
-						}
-						authorizerAppIdVice = wxAuthorizerInfoPOJOs.get(0).getAuthorizerAppId();
-					}
 					
 					wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
 //					wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
