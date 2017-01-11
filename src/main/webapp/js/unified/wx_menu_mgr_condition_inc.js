@@ -2,8 +2,12 @@
 $(document).ready(function() {
 	wxMenuMgrConditionSearch();
 	
+	wxMenuMgrConditionSearch2();
+	
 	$('#searchBtn4WxMenuMgrCondition').click(function() {
 		wxMenuMgrConditionSearch();
+		
+		wxMenuMgrConditionSearch2();
 	});
 	$('#searchCurrentBtn4WxMenuMgrCondition').click(function() {
 		getMenuMgrMenu();
@@ -335,7 +339,8 @@ var wxMenuMgrConditionSearch = function() {
         	if (data.success) {
         		wxMenuMgrFullPOJOs = data.data;
         		if (wxMenuMgrFullPOJOs != null) {
-        			for (var m = 0; m < wxMenuMgrFullPOJOs.length; m++) {
+//        			for (var m = 0; m < wxMenuMgrFullPOJOs.length; m++) {
+        			for (var m = 0; m < 1; m++) {
         				wxMenuMgrFullPOJO = wxMenuMgrFullPOJOs[m];
         				content += "<hr/>";
         				content += "<b>Full: " + wxMenuMgrFullPOJO.name + "</b><br/>";
@@ -569,11 +574,12 @@ var wxMenuMgrConditionSearch2 = function() {
         	$('#progress').dialog('close');
         	var content = "";
         	if (data.success) {
-        		wxMenuMgrFullPOJOs = data.data;
+//        		wxMenuMgrFullPOJOs = data.data;
+				data.data[0].display = true;
         		var template = $('#wxMenuMgrConditionTmpl').html();
 				Mustache.parse(template);   // optional, speeds up future uses
-				var rendered = Mustache.render(template, wxMenuMgrFullPOJOs);
-				$('#wxMenuMgrConditiontarget').html(rendered);
+				var rendered = Mustache.render(template, data);
+				$('#wxMenuMgrConditionTarget').html(rendered);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
