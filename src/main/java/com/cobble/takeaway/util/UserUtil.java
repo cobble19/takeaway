@@ -43,9 +43,11 @@ public class UserUtil {
 		if (wxAuthorizerInfoPOJO == null) {
 			return false;
 		}
-		if (CommonConstant.WX_ACCOUNT_AUTH_WEIXIN == wxAuthorizerInfoPOJO.getVerifyTypeInfo()
-				&& (CommonConstant.WX_ACCOUNT_SUBSCRIBE == wxAuthorizerInfoPOJO.getServiceTypeInfo() 
-						|| CommonConstant.WX_ACCOUNT_SERVICE == wxAuthorizerInfoPOJO.getServiceTypeInfo())
+		if (CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
+			return false;
+		} else if (CommonConstant.WX_VERIFY_TYPE_WEIXIN == wxAuthorizerInfoPOJO.getVerifyTypeInfo()
+				&& (CommonConstant.WX_SERVICE_TYPE_SUBSCRIBE == wxAuthorizerInfoPOJO.getServiceTypeInfo() 
+						|| CommonConstant.WX_SERVICE_TYPE_SERVICE == wxAuthorizerInfoPOJO.getServiceTypeInfo())
 						) {
 			ret = true;
 		}

@@ -64,18 +64,18 @@ public interface CommonConstant {
 	
 	// 微信网页授权
 	//service_type_info: 授权方公众号类型，0代表订阅号，1代表由历史老帐号升级后的订阅号，2代表服务号
-	public final static int WX_ACCOUNT_SUBSCRIBE = 0;
-	public final static int WX_ACCOUNT_SUBSCRIBE_UPGRADE = 1;
-	public final static int WX_ACCOUNT_SERVICE = 2;
+	public final static int WX_SERVICE_TYPE_SUBSCRIBE = 0;
+	public final static int WX_SERVICE_TYPE_SUBSCRIBE_UPGRADE = 1;
+	public final static int WX_SERVICE_TYPE_SERVICE = 2;
 	// verify_type_info: 授权方认证类型，-1代表未认证，0代表微信认证，1代表新浪微博认证，2代表腾讯微博认证，3代表已资质认证通过但还未通过名称认证，
 	// 4代表已资质认证通过、还未通过名称认证，但通过了新浪微博认证，5代表已资质认证通过、还未通过名称认证，但通过了腾讯微博认证
-	public final static int WX_ACCOUNT_AUTH_NOT = -1;
-	public final static int WX_ACCOUNT_AUTH_WEIXIN = 0;
-	public final static int WX_ACCOUNT_AUTH_WEIBO = 1;
-	public final static int WX_ACCOUNT_AUTH_TENCENTWEIBO = 2;
-	public final static int WX_ACCOUNT_AUTH_NOTNAME = 3;
-	public final static int WX_ACCOUNT_AUTH_NOTNAME_WEIBO = 4;
-	public final static int WX_ACCOUNT_AUTH_NOTNAME_TENCENTWEIBO = 5;
+	public final static int WX_VERIFY_TYPE_NOT = -1;
+	public final static int WX_VERIFY_TYPE_WEIXIN = 0;
+	public final static int WX_VERIFY_TYPE_WEIBO = 1;
+	public final static int WX_VERIFY_TYPE_TENCENTWEIBO = 2;
+	public final static int WX_VERIFY_TYPE_NOTNAME = 3;
+	public final static int WX_VERIFY_TYPE_NOTNAME_WEIBO = 4;
+	public final static int WX_VERIFY_TYPE_NOTNAME_TENCENTWEIBO = 5;
 	
 	
 	
