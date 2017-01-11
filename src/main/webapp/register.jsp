@@ -34,8 +34,8 @@ $(function() {
         <div class="row" style="margin:0px 10px;">
             <div class="col-md-12">
                <div class="row" style="margin:20px 0px 50px 0px;">
-                   <strong style="color:#F00;">1. 填写用户注册信息</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                   <strong style="color:#ccc;">2. 授权公众号信息</strong>
+                   <strong id="step1" style="color:#F00;">1. 填写用户注册信息</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                   <strong id="step2" style="color:#ccc;">2. 授权公众号信息</strong>
                </div>
             </div>
         </div>
@@ -128,12 +128,15 @@ $(function() {
 							 			</div>
 							  		</form>
 								</div>
-								<div id="wxComLoginDiv">
-									<iframe src="wxComLoginSrc" id="wxComLoginIframe" width="100%" height="500"></iframe>
-								</div>
                 <!-- -->
             </div>
+            <div class="col-md-12">
+				<div id="wxComLoginDiv">
+					<iframe src="" id="wxComLoginIframe" width="100%" height="800"></iframe>
+				</div>
+            </div>
         </div>
+        
 		<!--<div class="row">
 			<div class="col-md-6">
 	    		

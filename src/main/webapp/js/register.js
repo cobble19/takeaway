@@ -137,6 +137,9 @@ $(document).ready(function() {
         			//@09/27/2016, redirect to wxComLogin
 //        			window.location.href = data.wxComLoginUrl;
         			$('#wxComLoginIframe').attr('src', data.wxComLoginUrl);
+        			$('#enterprise').hide();
+        			$('#step1').css('color', '#ccc');
+        			$('#step2').css('color', '#f00');
         		} else {
         			alert(data.desc);
         		}
