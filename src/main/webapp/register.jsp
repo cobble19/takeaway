@@ -128,6 +128,9 @@ $(function() {
 							 			</div>
 							  		</form>
 								</div>
+								<div id="wxComLoginDiv">
+									<iframe src="wxComLoginSrc" id="wxComLoginIframe" width="100%" height="500"></iframe>
+								</div>
                 <!-- -->
             </div>
         </div>

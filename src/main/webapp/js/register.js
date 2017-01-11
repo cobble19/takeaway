@@ -135,7 +135,8 @@ $(document).ready(function() {
         		if (data.success) {
         			//window.location.href = $('#basePath').val() + '/web/regSuccess';
         			//@09/27/2016, redirect to wxComLogin
-        			window.location.href = data.wxComLoginUrl;
+//        			window.location.href = data.wxComLoginUrl;
+        			$('#wxComLoginIframe').attr('src', data.wxComLoginUrl);
         		} else {
         			alert(data.desc);
         		}

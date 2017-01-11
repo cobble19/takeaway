@@ -1961,6 +1961,10 @@ public class Oauth2Controller extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
+			
+			String msg = "";
+			Boolean success = true;
+			
 			//Long userId = UserUtil.getCurrentUserId();
 			logger.info("authorizerInfo begin...");
 			String uri = request.getRequestURI();
@@ -2025,6 +2029,8 @@ public class Oauth2Controller extends BaseController {
 			wxAuthorizerInfoPOJO2.setCreateDateTime(new Date());
 			wxAuthorizerInfoPOJO2.setUserId(userId);
 			
+			msg = wxThirdAuthorizerInfo + "";
+			
 			// if exist authorizerAppId, then update
 			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
 			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
@@ -2036,13 +2042,16 @@ public class Oauth2Controller extends BaseController {
 					logger.error("存在多个相同的公众号， 请检查数据库和代码。wxAuthorizerInfoPOJOs size: {}", wxAuthorizerInfoPOJOs.size());
 				}
 				
-				WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO3 = wxAuthorizerInfoPOJOs.get(0);
+				// 01/11/2017, 如果此公众号已经被使用, 则不能进行再次绑定
+				msg = "此公众号已经被使用, 您不能进行二次绑定.";
+				success = false;
+				/*WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO3 = wxAuthorizerInfoPOJOs.get(0);
 				wxAuthorizerInfoPOJO2.setWxAuthorizerInfoId(wxAuthorizerInfoPOJO3.getWxAuthorizerInfoId());
-				wxAuthorizerInfoService.update(wxAuthorizerInfoPOJO2);
+				wxAuthorizerInfoService.update(wxAuthorizerInfoPOJO2);*/
 			}
 			
-			
-			ret.addObject("msg", wxThirdAuthorizerInfo);
+			ret.addObject("success", success);
+			ret.addObject("msg", msg);
 			ret.setViewName("/page/oauth2_success");
 			/*ret.setViewName("/web/unified/usercenter");*/
 		} catch (Exception e) {
