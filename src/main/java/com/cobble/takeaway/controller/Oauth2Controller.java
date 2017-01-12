@@ -2400,7 +2400,7 @@ public class Oauth2Controller extends BaseController {
 							content += "您好，现在开始加入会员，请点击";
 							content += "<a href=\"" + wxThirdPersonUserLoginUrl
 									+ "\">加入会员</a>";
-							content += "<br/>注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
+							content += "<br>\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
@@ -2512,7 +2512,11 @@ public class Oauth2Controller extends BaseController {
 							
 							String content = "" /*"获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO) + "\n<br/>"*/;
 							content += "您好," + wxPersonUserPOJO.getNickname()
-									+ ", 点击重新加入会员 ";
+									+ ", 现在开始重新加入会员，请点击";
+							content += "<a href=\"" + wxThirdPersonUserLoginUrl
+									+ "\">重新加入</a>.";
+							content += "<br>t\ne<p>st</p>注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
+							
 							content += wxThirdPersonUserLoginUrl;
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
