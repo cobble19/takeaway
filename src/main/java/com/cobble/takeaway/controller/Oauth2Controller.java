@@ -1846,7 +1846,7 @@ public class Oauth2Controller extends BaseController {
 					}
 				}
 				
-				myRedirectStrategy.sendRedirect(request, response, url);
+//				myRedirectStrategy.sendRedirect(request, response, url);
 				//////
 				
 //				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
@@ -1854,8 +1854,9 @@ public class Oauth2Controller extends BaseController {
 				logger.info("code isnot null");
 				throw new NullPointerException("code isnot null");
 			}
-			
-//			ret.setViewName("/page/oauth2_success");
+			ret.addObject("addVip", "ADD_VIP");
+			ret.addObject("msg", "加入会员成功");
+			ret.setViewName("/page/oauth2_success");
 		} catch (Exception e) {
 			logger.error("list error.", e);
 			throw e;

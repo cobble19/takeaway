@@ -19,6 +19,11 @@
   		<c:if test="${success == false}">
   			<h1>错误信息:<c:out value="${msg}"></c:out></h1>
   		</c:if>
+  		
+  		<c:if test="${addVip eq 'ADD_VIP'}">
+  			<h1>信息:<c:out value="${msg}"></c:out></h1>
+  		</c:if>
+  		
   		<br/>
   		<a id="toIndex" class="btn btn-link" href="<cmn:base/>/web/unified/usercenter">如果5秒不自动跳转，请点击链接，手动跳转到管理中心</a>
 		
