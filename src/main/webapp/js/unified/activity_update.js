@@ -135,9 +135,16 @@ var getPrizeProvider = function() {
         	for (i = 0; i < data.length; i++) {
         		var userPOJO = data[i];
         		console.log('userPOJO: ' + userPOJO);
-            	$("#userIdEnterpriseX").append("<option value='" + userPOJO.userId +
+        		
+        		if (userPOJO.userId == $('#userId').val()) {
+            		$("#userIdEnterpriseX").append("<option value='" + userPOJO.userId +
+            			"'  selected>"  + userPOJO.nickname + 
+            			"</option>");
+        		} else {
+            		$("#userIdEnterpriseX").append("<option value='" + userPOJO.userId +
             			"'>"  + userPOJO.nickname + 
             			"</option>");
+        		}
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {

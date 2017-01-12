@@ -1355,7 +1355,7 @@ public class Oauth2Controller extends BaseController {
 				ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
 				String documentTitle = wxAuthorizerInfoPOJO.getNickName();
 				ret.addObject("documentTitle", documentTitle);
-				ret.addObject("errorCode", "errorCode");
+				ret.addObject("errorCode", errorCode);
 				ret.setViewName("/page/weixin/authorizer_qrcode");
 				
 			}
@@ -2397,8 +2397,10 @@ public class Oauth2Controller extends BaseController {
 														.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
 							
 							String content = "" /*"获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO) + "\n<br/>"*/;
-							content += "点击加入会员";
-							content += wxThirdPersonUserLoginUrl;
+							content += "您好，现在开始加入会员，请点击";
+							content += "<a href=\"" + wxThirdPersonUserLoginUrl
+									+ "\">加入会员</a>";
+							content += "<br/>注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
@@ -2426,7 +2428,8 @@ public class Oauth2Controller extends BaseController {
 							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
 							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
 							wxMsgEventRespTextApiPOJO.setMsgType("text");
-							String content = "已经是会员, " + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO);
+							String content = "您好, " + wxPersonUserPOJO.getNickname()
+									+ ", 已经是会员，不需要再次加入";
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
@@ -2479,6 +2482,7 @@ public class Oauth2Controller extends BaseController {
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 							return encryptMsg;
 						} else {	// 2. 如果有返回已经注册
+							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
 							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
@@ -2507,7 +2511,8 @@ public class Oauth2Controller extends BaseController {
 														.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
 							
 							String content = "" /*"获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvApiPOJO) + "\n<br/>"*/;
-							content += "点击重新加入会员 ";
+							content += "您好," + wxPersonUserPOJO.getNickname()
+									+ ", 点击重新加入会员 ";
 							content += wxThirdPersonUserLoginUrl;
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);

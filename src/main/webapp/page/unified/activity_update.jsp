@@ -49,8 +49,8 @@
 	 					<!-- <input class="form-control" id="userId" name="userId" minlength="2" required="required" placeholder="请选择本次奖品提供者"> -->
 	 					
 	 				</div>
-	 				<select id="userIdEnterpriseX" name="userIdEnterprise" autofocus="autofocus" class="form-control">
-	 						<option value="-1" selected>--选择组织活动的商家--</option>
+	 				<select id="userIdEnterpriseX" name="userIdEnterprise" style="display: none;" autofocus="autofocus" class="form-control">
+	 						<option value="-1">--选择组织活动的商家--</option>
 	 					</select>
 	 					<!-- <select class="form-control">
 	 						<option selected="selected" value="1">abc</option>
