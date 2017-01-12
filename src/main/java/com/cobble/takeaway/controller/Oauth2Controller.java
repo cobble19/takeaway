@@ -1355,7 +1355,8 @@ public class Oauth2Controller extends BaseController {
 				ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
 				String documentTitle = wxAuthorizerInfoPOJO.getNickName();
 				ret.addObject("documentTitle", documentTitle);
-				ret.setViewName("/page/weixin/authorizer_qrcode?errorCode=" + errorCode);
+				ret.addObject("errorCode", "errorCode");
+				ret.setViewName("/page/weixin/authorizer_qrcode");
 				
 			}
 			
