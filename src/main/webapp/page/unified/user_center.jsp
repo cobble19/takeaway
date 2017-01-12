@@ -50,12 +50,12 @@
   		<div class="row" style="min-height:500px; border:1px solid #CCC;">
   			<div class="col-md-3 col-xs-4" style="margin-top:30px; margin-left:-15px; margin-right:-15px; text-align:center;" id="sidebar">
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
-                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;用户中心</h5></li>
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;用户中心</h5></li>
                       <li role="presentation" class="active"><a href="#profile"><h6>基本信息</h6></a></li>
                       <li role="presentation"><a href="#update_password"><h6>修改密码</h6></a></li>
                    </ul>
                    <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
-                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;基础功能</h5></li>
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;基础功能</h5></li>
                       <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
                       <c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
 	                      
@@ -69,7 +69,7 @@
                       
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
-                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;信息发布</h5></li>
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;信息发布</h5></li>
                       <li role="presentation"><a href="#create_activity"><h6>报名征集</h6></a></li>
                       <cmn:privilege havePrivilege="<%= com.cobble.takeaway.util.CommonConstant.NUMBER_GUESS%>">
                       	<li role="presentation"><a href="#create_vote"><h6>网络投票</h6></a></li>
@@ -81,14 +81,14 @@
                       </c:if>
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
-                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;o2o互动</h5></li>
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;o2o互动</h5></li>
                       <li role="presentation"><a href="#create_interactive"><h6>数字竞猜</h6></a></li>
                       <%-- <cmn:privilege havePrivilege="<%= com.cobble.takeaway.util.CommonConstant.NUMBER_GUESS%>">
                       	<li role="presentation"><a href="#create_interactive"><h6>数字竞猜</h6></a></li>
                       </cmn:privilege> --%>
                   </ul> 
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
-                      <li style="margin-left:-20px; margin-bottom:20px;"><h5><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;模版管理</h5></li>
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;模版管理</h5></li>
                       <c:if test="${sessionScope.userType eq 'MEDIA'}">
                       	<li role="presentation"><a href="#create_wxTemplate"><h6>微官网首页</h6></a></li>
                       </c:if>

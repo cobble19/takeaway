@@ -69,9 +69,9 @@
 	 				</div>
 	 			</div>
 	 			<div class="form-group">
-	 				<label class="control-label" for="needSubscribe">是否需要关注:</label>
+	 				<label class="control-label" for="needSubscribe">是否开启关注检测（如果是订阅号，则需要粉丝加入会员才能检测粉丝是否关注，请在公众号菜单里添加“加入会员”的按钮）:</label>
 	 				<div class="">
-	 					<input class="form-control" id="needSubscribe" name="needSubscribe" placeholder="请输入是否需要关注(0-不需要,1-需要)">
+	 					<input class="form-control" id="needSubscribe" name="needSubscribe" placeholder="请输入是否开启关注检测(0-不开启,1-开启)">
 	 				</div>
 	 			</div>
 	 			<div class="form-group">
