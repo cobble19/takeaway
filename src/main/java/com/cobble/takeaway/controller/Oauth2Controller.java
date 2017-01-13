@@ -2401,7 +2401,7 @@ public class Oauth2Controller extends BaseController {
 							content += "您好，现在开始加入会员，请点击";
 							content += "<a href=\"" + wxThirdPersonUserLoginUrl
 									+ "\">加入会员</a>";
-							content += "<br></br>\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
+							content += "\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
@@ -2498,7 +2498,7 @@ public class Oauth2Controller extends BaseController {
 							
 							wxWebLoginUrl = wxThirdWebAuthorizeUrl
 							.replace("COMPONENT_APPID", wxThirdClientId)
-							.replace("APPID", CommonConstant.HFJT_AUTHORIZER_APP_ID)
+							.replace("APPID", CommonConstant.PROXY_AUTHORIZER_APP_ID_VALUE)
 							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
 									wxThirdWebRedirectUrl + extraParam
 									: wxThirdWebRedirectUrl + "?abc=1" + extraParam)
@@ -2516,7 +2516,7 @@ public class Oauth2Controller extends BaseController {
 									+ ", 现在开始重新加入会员，请点击";
 							content += "<a href=\"" + wxThirdPersonUserLoginUrl
 									+ "\">重新加入</a>.";
-							content += "<br></br>\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
+							content += "\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
 							
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
