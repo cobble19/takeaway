@@ -602,10 +602,11 @@ public class WxMenuMgrController extends BaseController {
 				for (int j = 0; j < wxMenuMgrButtonPOJOs2.size(); j++) {
 					WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 = wxMenuMgrButtonPOJOs2.get(j);
 					WxMenuMgrButtonReqApiPOJO wxMenuMgrButtonReqApiPOJO2 = new WxMenuMgrButtonReqApiPOJO();
-					
-					wxMenuMgrButtonReqApiPOJO2.setType(wxMenuMgrButtonPOJO2.getType());
+					String type = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO2.getType()) ? "click" : wxMenuMgrButtonPOJO2.getType();
+					String key = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO2.getType()) ? wxMenuMgrButtonPOJO2.getValue() : wxMenuMgrButtonPOJO2.getBtnKey();
+					wxMenuMgrButtonReqApiPOJO2.setType(type);
 					wxMenuMgrButtonReqApiPOJO2.setUrl(wxMenuMgrButtonPOJO2.getUrl());
-					wxMenuMgrButtonReqApiPOJO2.setKey(wxMenuMgrButtonPOJO2.getBtnKey());
+					wxMenuMgrButtonReqApiPOJO2.setKey(key);
 					wxMenuMgrButtonReqApiPOJO2.setMediaId(wxMenuMgrButtonPOJO2.getMediaId());
 					wxMenuMgrButtonReqApiPOJO2.setName(wxMenuMgrButtonPOJO2.getName());
 					subButton.add(wxMenuMgrButtonReqApiPOJO2);
