@@ -202,7 +202,14 @@ var onClickApply2Summit = function() {
 			if (!subscribe) {
 //				alert('请关注该活动发布方微信公众号');
 				/// 跳出微信qrcode进行关注
-				confirm = window.confirm('提交信息，需要关注公众号， 是否关注？');
+				
+				var authorizerAppId = $('#authorizerAppId').val();
+			    if ('wx483bd8288ebe84b4' != authorizerAppId) {
+			    	confirm = window.confirm('您还不是该公众号的会员，请关注该公众号并加入会员');
+			    } else {
+			    	confirm = window.confirm('提交信息，需要关注公众号， 是否关注');
+			    }
+			    
 				if (confirm) {
 					showQrcode();
 				} else {
@@ -309,7 +316,14 @@ var showApply2 = function() {
             	if (!subscribe) {
 //            		alert('请关注该活动发布方微信公众号');
             		/// 跳出微信qrcode进行关注
-            		confirm = window.confirm('参加活动，需要关注， 是否关注？');
+            		
+					var authorizerAppId = $('#authorizerAppId').val();
+				    if ('wx483bd8288ebe84b4' != authorizerAppId) {
+				    	confirm = window.confirm('您还不是该公众号的会员，请关注该公众号并加入会员');
+				    } else {
+				    	confirm = window.confirm('提交信息，需要关注公众号， 是否关注');
+				    }
+			    
             		if (confirm) {
             			showQrcode();
             		} else {
