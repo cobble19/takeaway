@@ -34,7 +34,7 @@
 				&nbsp;&nbsp;<input type="button" id="publishButton1_{{wxMenuMgrCategoryId}}" name="publishButton1" value="发布此菜单" onclick="publishMenuMgrCategory({{wxMenuMgrCategoryId}},'{{authorizerAppId}}')" class="btn btn-info">
 				<br>
 				{{#wxMenuMgrButtonPOJOs}}
-					&nbsp;&nbsp;<input type="checkbox" name="wxMenuMgrButton" id="wxMenuMgrButton_{{wxMenuMgrButtonId}}" value="{{wxMenuMgrButtonId}}">type: {{type}}, name: {{name}}, key: {{btnKey}}
+					&nbsp;&nbsp;<input type="checkbox" name="wxMenuMgrButton" id="wxMenuMgrButton_{{wxMenuMgrButtonId}}" value="{{wxMenuMgrButtonId}}">type: {{type}}, name: {{name}}, key: {{btnKey}}, url: {{url}}, media_id: {{mediaId}}
 					&nbsp;&nbsp;<input type="button" id="addButton2_{{wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId}}" name="addButton2" value="添加下级菜单" 
 						onclick="addMenuMgrButton2({{wxMenuMgrCategoryId}},{{wxMenuMgrButtonId}},2,'{{authorizerAppId}}')"
 						class="btn btn-warning">
@@ -47,7 +47,7 @@
 						{{#wxMenuMgrButtonPOJOs}}
 							&nbsp;&nbsp;&nbsp;&nbsp;<input
 							type="checkbox" name="wxMenuMgrButton" id="wxMenuMgrButton_{{wxMenuMgrButtonId}}"
-							value="{{wxMenuMgrButtonId}}">type: {{type}}, name: {{name}}, url: {{url}}&nbsp;&nbsp;
+							value="{{wxMenuMgrButtonId}}">type: {{type}}, name: {{name}}, key: {{btnKey}}, url: {{url}}, media_id: {{mediaId}}&nbsp;&nbsp;
 							<input
 							type="button" id="deleteMenuMgrBtn_{{wxMenuMgrButtonId}}" name="deleteMenuMgrBtn"
 							value="删除此菜单" onclick="deleteMenuMgrButton2({{wxMenuMgrButtonId}})"
