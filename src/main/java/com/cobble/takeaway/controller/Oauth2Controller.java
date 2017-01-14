@@ -133,6 +133,7 @@ public class Oauth2Controller extends BaseController {
 	private WxPersonUserService wxPersonUserService;*/
 	/*@Autowired
 	private RelWxPuOpenService relWxPuOpenService;*/
+	
 	@Autowired
 	private UserService userService;
 	
