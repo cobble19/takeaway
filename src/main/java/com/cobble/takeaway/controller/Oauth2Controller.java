@@ -1670,6 +1670,14 @@ public class Oauth2Controller extends BaseController {
 					ret.addObject("msg", msg);
 					
 					session.setAttribute("msg", msg);
+
+					ret.addObject("addVip", "ADD_VIP");
+					ret.addObject("msg", "加入会员成功");
+					
+					ret.setViewName("/page/oauth2_success");
+					
+					return ret;
+					
 					/*myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
 					return null;*/
 				} // openIdVice end
@@ -1846,7 +1854,7 @@ public class Oauth2Controller extends BaseController {
 					}
 				}
 				
-//				myRedirectStrategy.sendRedirect(request, response, url);
+				myRedirectStrategy.sendRedirect(request, response, url);
 				//////
 				
 //				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
@@ -1854,8 +1862,6 @@ public class Oauth2Controller extends BaseController {
 				logger.info("code isnot null");
 				throw new NullPointerException("code isnot null");
 			}
-			ret.addObject("addVip", "ADD_VIP");
-			ret.addObject("msg", "加入会员成功");
 			ret.setViewName("/page/oauth2_success");
 		} catch (Exception e) {
 			logger.error("list error.", e);
