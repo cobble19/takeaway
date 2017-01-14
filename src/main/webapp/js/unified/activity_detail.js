@@ -32,8 +32,13 @@ var showQrcode = function() {
 	    	alert('微信公众号的ID为空， 请重新登录');
 	    }*/
 	    
+	    var url = $('#basePath').val() + "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId
 	    
-	    window.location.href = $('#basePath').val() + "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
+	    if ('wx483bd8288ebe84b4' != authorizerAppId) {
+	    	url += '&' + 'errorCode=NOTVIP'
+	    }
+	    
+	    window.location.href = url;
     	
     	return ;
 }

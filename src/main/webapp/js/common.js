@@ -33,7 +33,13 @@ showQrcode = function() {
 	    }*/
 	    
 	    
-	    window.location.href = $('#basePath').val() + "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
+	    var url = $('#basePath').val() + "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId
+	    
+	    if ('wx483bd8288ebe84b4' != authorizerAppId) {
+	    	url += '&' + 'errorCode=NOTVIP'
+	    }
+	    
+	    window.location.href = url;
     	
     	return ;
 }

@@ -89,10 +89,13 @@
                       	<li role="presentation"><a href="#create_interactive"><h6>数字竞猜</h6></a></li>
                       </cmn:privilege> --%>
                   </ul> 
-                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
-                      <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;模版管理</h5></li>
-                      	<li role="presentation"><a href="#create_wxTemplate"><h6>微官网首页</h6></a></li>
-                  </ul>                    
+                  
+                  <c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 22 or sessionScope.myUser.userId eq 8}">
+	                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
+	                      <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;模版管理</h5></li>
+	                      	<li role="presentation"><a href="#create_wxTemplate"><h6>微官网首页</h6></a></li>
+	                  </ul> 
+                  </c:if>                   
 		          
 		            <!-- <li class="list-group-item active col-md-12 col-xs-6"><a href="#profile">媒体资料</a></li>
 		            <li class="list-group-item col-md-12 col-xs-6"><a href="#update_password">修改密码</a></li>
