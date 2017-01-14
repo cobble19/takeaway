@@ -1,4 +1,4 @@
-package com.cobble.takeaway.controller;
+﻿package com.cobble.takeaway.controller;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -2515,7 +2515,7 @@ public class Oauth2Controller extends BaseController {
 							content += "您好," + wxPersonUserPOJO.getNickname()
 									+ ", 现在开始重新加入会员，请点击";
 							content += "<a href=\"" + wxThirdPersonUserLoginUrl
-									+ "\">重新加入</a>.";
+									+ "\">重新加入</a>";
 							content += "\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
 							
 							wxMsgEventRespTextApiPOJO.setContent(content);
