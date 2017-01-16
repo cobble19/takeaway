@@ -272,9 +272,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -427,9 +427,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -482,9 +482,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -537,9 +537,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -592,9 +592,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -647,9 +647,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -702,9 +702,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -805,9 +805,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -859,9 +859,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 			if (StringUtils.isNotBlank(authorizerAccessToken)) {
@@ -911,9 +911,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 			if (StringUtils.isNotBlank(authorizerAccessToken)) {
@@ -964,9 +964,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -1019,9 +1019,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			logger.info("requestBody: {}", requestBody);
 			
@@ -1075,9 +1075,9 @@ public class Oauth2Controller extends BaseController {
 				throw new NullPointerException("authorizerAppId must not be null");
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}
+			}*/
 			
 			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 			if (StringUtils.isNotBlank(authorizerAccessToken)) {
@@ -2369,7 +2369,7 @@ public class Oauth2Controller extends BaseController {
 							("注册".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent()) 
 									|| "001".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent())
 							) 
-							&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
+							/*&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())*/) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
 						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
@@ -2447,7 +2447,7 @@ public class Oauth2Controller extends BaseController {
 					}	// end 注册/001
 					
 					if ("002".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent())
-							&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
+							/*&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())*/) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
 						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
@@ -2534,7 +2534,7 @@ public class Oauth2Controller extends BaseController {
 					}	// end 002
 					
 					if ("003".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent()) 
-							&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())) {
+							/*&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())*/) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
 						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
@@ -2616,7 +2616,7 @@ public class Oauth2Controller extends BaseController {
 							+ "&state=kGZUWL"
 							+ "&component_appid=wx2bec8614a6c47443#wechat_redirect"*/;
 					logger.info("wxMsgEventRecvEventApiPOJO.getEventKey().indexOf(EVENT_KEY): {}", wxMsgEventRecvEventApiPOJO.getEventKey().indexOf(EVENT_KEY));
-					if (CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
+					if (true/*CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())*/) {
 						logger.info("发生事件：{}", wxMsgEventRecvEventApiPOJO.getEventKey());
 						
 						// 查询是否有wx_person_user_vice
@@ -2640,7 +2640,7 @@ public class Oauth2Controller extends BaseController {
 							
 							wxWebLoginUrl = wxThirdWebAuthorizeUrl
 							.replace("COMPONENT_APPID", wxThirdClientId)
-							.replace("APPID", CommonConstant.HFJT_AUTHORIZER_APP_ID)
+							.replace("APPID", CommonConstant.PROXY_AUTHORIZER_APP_ID_VALUE)
 							.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
 									wxThirdWebRedirectUrl + extraParam
 									: wxThirdWebRedirectUrl + "?abc_event=1" + extraParam)
@@ -2658,11 +2658,14 @@ public class Oauth2Controller extends BaseController {
 							content = "test event response";
 							if ("CLICK".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())) {
 								content = wxMsgEventRecvEventApiPOJO.getEventKey();
+								
+								wxMsgEventRespTextApiPOJO.setContent(content);
+								String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+								String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+								return encryptMsg;
+							} else {
+								logger.info("其他的event先不做处理");
 							}
-							wxMsgEventRespTextApiPOJO.setContent(content);
-							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
-							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
-							return encryptMsg;
 						} else {	// 2. 如果有返回已经注册
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvEventApiPOJO.getFromUserName());
