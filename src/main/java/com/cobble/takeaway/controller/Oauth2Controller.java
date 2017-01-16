@@ -2334,6 +2334,11 @@ public class Oauth2Controller extends BaseController {
 			String result = pc.decryptMsg(msgSignature, timestamp, nonce, requestBody);
 			logger.info("Paintext: {}", result);
 			
+			
+			if (result.contains(CommonConstant.HFJT_USER_NAME)) {
+				return "success";
+			}
+			
 			// 全网发布监测开始
 			// for username is autoTest and contains "text" and content is "TESTCOMPONENT_MSG_TYPE_TEXT"
 			if (StringUtils.isNotBlank(result)) {
