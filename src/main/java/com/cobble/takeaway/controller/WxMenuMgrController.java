@@ -586,9 +586,17 @@ public class WxMenuMgrController extends BaseController {
 				WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO = wxMenuMgrButtonPOJOs.get(i);
 				WxMenuMgrButtonReqApiPOJO wxMenuMgrButtonReqApiPOJO = new WxMenuMgrButtonReqApiPOJO();
 				
-				wxMenuMgrButtonReqApiPOJO.setType(wxMenuMgrButtonPOJO.getType());
+				/*wxMenuMgrButtonReqApiPOJO.setType(wxMenuMgrButtonPOJO.getType());
 				wxMenuMgrButtonReqApiPOJO.setUrl(wxMenuMgrButtonPOJO.getUrl());
-				wxMenuMgrButtonReqApiPOJO.setKey(wxMenuMgrButtonPOJO.getBtnKey());
+				wxMenuMgrButtonReqApiPOJO.setKey(wxMenuMgrButtonPOJO.getBtnKey());*/
+
+				String type = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO.getType()) ? "click" : wxMenuMgrButtonPOJO.getType();
+				String key = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO.getType()) ? wxMenuMgrButtonPOJO.getValue() : wxMenuMgrButtonPOJO.getBtnKey();
+				
+				wxMenuMgrButtonReqApiPOJO.setType(type);
+				wxMenuMgrButtonReqApiPOJO.setUrl(wxMenuMgrButtonPOJO.getUrl());
+				wxMenuMgrButtonReqApiPOJO.setKey(key);
+				
 				wxMenuMgrButtonReqApiPOJO.setMediaId(wxMenuMgrButtonPOJO.getMediaId());
 				wxMenuMgrButtonReqApiPOJO.setName(wxMenuMgrButtonPOJO.getName());
 				
@@ -604,8 +612,8 @@ public class WxMenuMgrController extends BaseController {
 				for (int j = 0; j < wxMenuMgrButtonPOJOs2.size(); j++) {
 					WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 = wxMenuMgrButtonPOJOs2.get(j);
 					WxMenuMgrButtonReqApiPOJO wxMenuMgrButtonReqApiPOJO2 = new WxMenuMgrButtonReqApiPOJO();
-					String type = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO2.getType()) ? "click" : wxMenuMgrButtonPOJO2.getType();
-					String key = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO2.getType()) ? wxMenuMgrButtonPOJO2.getValue() : wxMenuMgrButtonPOJO2.getBtnKey();
+					type = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO2.getType()) ? "click" : wxMenuMgrButtonPOJO2.getType();
+					key = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO2.getType()) ? wxMenuMgrButtonPOJO2.getValue() : wxMenuMgrButtonPOJO2.getBtnKey();
 					wxMenuMgrButtonReqApiPOJO2.setType(type);
 					wxMenuMgrButtonReqApiPOJO2.setUrl(wxMenuMgrButtonPOJO2.getUrl());
 					wxMenuMgrButtonReqApiPOJO2.setKey(key);
