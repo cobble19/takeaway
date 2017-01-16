@@ -117,12 +117,12 @@ $(document).ready(function() {
 								+ '修改内容' + '</a>';
 
 				var url = $('#basePath').val() + '/page/unified/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1&a=1";
-				var urlCopy = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\')">'
+				var urlCopy = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\'); return false;">'
 				+ '相关链接' + '</a>';
-				var picBtn = '<a target="_blank" class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this)">'
+				var picBtn = '<a target="_blank" class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this); return false;">'
 				+ '活动简图' + '</a>';
 				
-				var apply2AttrModelBtn = '<a target="_blank" class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this)">'
+				var apply2AttrModelBtn = '<a target="_blank" class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this); return false;">'
 					+ '创建表单' + '</a>';
 				
 				return /*linkApply + " " + */linkApply2 + " " + linkEdit + " " + urlCopy + " " + picBtn + " " + apply2AttrModelBtn;
