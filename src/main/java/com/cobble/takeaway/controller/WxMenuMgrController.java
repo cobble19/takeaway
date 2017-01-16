@@ -237,7 +237,8 @@ public class WxMenuMgrController extends BaseController {
 				throw new Exception("userId can't is NULL.");
 			}*/
 
-			String url = HttpRequestUtil.getBase(request) + "/web/wx/third/" + authorizerAppId + "/menu/get";
+			String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
+						+ "/web/wx/third/" + authorizerAppId + "/menu/get";
 			String resp = HttpClientUtil.get(url);
 			
 			WxMenuMgrRespApiPOJO wxMenuMgrRespApiPOJO = JsonUtils.convertToJavaBean(resp, WxMenuMgrRespApiPOJO.class);
@@ -434,7 +435,8 @@ public class WxMenuMgrController extends BaseController {
 				throw new Exception("userId can't is NULL.");
 			}*/
 
-			String url = HttpRequestUtil.getBase(request) + "/web/wx/third/" + authorizerAppId + "/menu/menuinfo";
+			String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
+						+ "/web/wx/third/" + authorizerAppId + "/menu/menuinfo";
 			String resp = HttpClientUtil.get(url);
 			
 			DataTablesPOJO<WxMenuMgrMenuInfoRespApiPOJO> dataTablesPOJO = JsonUtils.convertToJavaBeanDT(resp, WxMenuMgrMenuInfoRespApiPOJO.class);
