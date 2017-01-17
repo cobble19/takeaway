@@ -17,7 +17,7 @@ public class MyHttpRequestWrapper extends HttpServletRequestWrapper {
 	@Override
 	public String getQueryString() {
 		String ret = super.getQueryString();
-		logger.debug("Original QueryString: {}", ret);
+//		logger.debug("Original QueryString: {}", ret);
 		if (StringUtils.isNotBlank(ret)) {
 			if (ret.contains("?10000skip=true")) {
 				ret = ret.replace("?10000skip=true", "");
@@ -26,14 +26,14 @@ public class MyHttpRequestWrapper extends HttpServletRequestWrapper {
 				ret = ret.replace("10000skip=true", "");
 			}
 		}
-		logger.debug("Finally QueryString: {}", ret);
+//		logger.debug("Finally QueryString: {}", ret);
 		return ret;
 	}
 
 	@Override
 	public String getRequestURI() {
 		String ret = super.getRequestURI();
-		logger.debug("Original RequestURI: {}", ret);
+//		logger.debug("Original RequestURI: {}", ret);
 		if (StringUtils.isNotBlank(ret)) {
 			if (ret.contains("?10000skip=true")) {
 				ret = ret.replace("?10000skip=true", "");
@@ -42,7 +42,7 @@ public class MyHttpRequestWrapper extends HttpServletRequestWrapper {
 				ret = ret.replace("10000skip=true", "");
 			}
 		}
-		logger.debug("Finally RequestURI: {}", ret);
+//		logger.debug("Finally RequestURI: {}", ret);
 		return ret;
 	}
 
@@ -51,7 +51,7 @@ public class MyHttpRequestWrapper extends HttpServletRequestWrapper {
 		StringBuffer sb = super.getRequestURL();
 		if (sb != null) {
 			String ret = sb.toString();
-			logger.debug("Original RequestURL: {}", ret);
+//			logger.debug("Original RequestURL: {}", ret);
 			if (StringUtils.isNotBlank(ret)) {
 				if (ret.contains("?10000skip=true")) {
 					ret = ret.replace("?10000skip=true", "");
@@ -60,7 +60,7 @@ public class MyHttpRequestWrapper extends HttpServletRequestWrapper {
 					ret = ret.replace("10000skip=true", "");
 				}
 			}
-			logger.debug("Finally RequestURL: {}", ret);
+//			logger.debug("Finally RequestURL: {}", ret);
 			sb = new StringBuffer(ret);
 		}
 		return sb;
@@ -69,7 +69,7 @@ public class MyHttpRequestWrapper extends HttpServletRequestWrapper {
 	@Override
 	public String getPathInfo() {
 		String ret = super.getPathInfo();
-		logger.debug("Original PathInfo: {}", ret);
+//		logger.debug("Original PathInfo: {}", ret);
 		if (StringUtils.isNotBlank(ret)) {
 			if (ret.contains("?10000skip=true")) {
 				ret = ret.replace("?10000skip=true", "");
@@ -78,7 +78,7 @@ public class MyHttpRequestWrapper extends HttpServletRequestWrapper {
 				ret = ret.replace("10000skip=true", "");
 			}
 		}
-		logger.debug("Finally PathInfo: {}", ret);
+//		logger.debug("Finally PathInfo: {}", ret);
 		return ret;
 	}
 	

@@ -20,9 +20,11 @@ import java.security.cert.X509Certificate;
 
 
 
+
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -50,7 +52,17 @@ public class HttpClientUtil {
 	private static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
 	
 	public static String get(String url) throws Exception {
+		if (StringUtils.isNotBlank(url)) {
+			if (url.contains("?10000skip=true")) {
+				url = url.replace("?10000skip=true", "");
+			}
+			if (url.contains("10000skip=true")) {
+				url = url.replace("10000skip=true", "");
+			}
+		}
+		
 		String ret = "";
+		
 		CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
             HttpGet httpget = new HttpGet(url);
@@ -94,6 +106,15 @@ public class HttpClientUtil {
 	}
 	
 	public static String postJson(String url, String requestBody) throws Exception {
+		if (StringUtils.isNotBlank(url)) {
+			if (url.contains("?10000skip=true")) {
+				url = url.replace("?10000skip=true", "");
+			}
+			if (url.contains("10000skip=true")) {
+				url = url.replace("10000skip=true", "");
+			}
+		}
+		
 		String ret = "";
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
@@ -124,6 +145,15 @@ public class HttpClientUtil {
 	}
 	
 	public static String post(String url, String requestBody) throws Exception {
+		if (StringUtils.isNotBlank(url)) {
+			if (url.contains("?10000skip=true")) {
+				url = url.replace("?10000skip=true", "");
+			}
+			if (url.contains("10000skip=true")) {
+				url = url.replace("10000skip=true", "");
+			}
+		}
+		
 		String ret = "";
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
@@ -155,6 +185,15 @@ public class HttpClientUtil {
 	}
 	
 	public static String post(String url, String requestBody, ContentType contentType) throws Exception {
+		if (StringUtils.isNotBlank(url)) {
+			if (url.contains("?10000skip=true")) {
+				url = url.replace("?10000skip=true", "");
+			}
+			if (url.contains("10000skip=true")) {
+				url = url.replace("10000skip=true", "");
+			}
+		}
+		
 		String ret = "";
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
@@ -185,12 +224,30 @@ public class HttpClientUtil {
 	}
 	
 	public static String postHttpsJson(String url, String requestBody) throws Exception {
+		if (StringUtils.isNotBlank(url)) {
+			if (url.contains("?10000skip=true")) {
+				url = url.replace("?10000skip=true", "");
+			}
+			if (url.contains("10000skip=true")) {
+				url = url.replace("10000skip=true", "");
+			}
+		}
+		
 		String ret = "";
 		ret = postHttps(url, requestBody, ContentType.APPLICATION_JSON);
 		return ret;
 	}
 	
 	public static String postHttps(String url, String requestBody, ContentType contentType) throws Exception {
+		if (StringUtils.isNotBlank(url)) {
+			if (url.contains("?10000skip=true")) {
+				url = url.replace("?10000skip=true", "");
+			}
+			if (url.contains("10000skip=true")) {
+				url = url.replace("10000skip=true", "");
+			}
+		}
+		
 		String ret = "";
 		logger.info("Params, Url: {}, RequestBody: {}, ContentType: {}", url, requestBody, contentType);
 		CloseableHttpClient httpclient = getHttpsClient();
