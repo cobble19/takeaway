@@ -96,6 +96,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		
 		String url = ((FilterInvocation) object).getRequestUrl();
 		logger.debug("URL = {}", url);
+		
 //		if (url.startsWith("/wx/hfjt") 
 //				&& ("anonymousUser".equals(myUser.getUsername()) || !checkSessionUrls(url, session))) {
 //			throw new AccessDeniedException("需要登录系统" + ", session is null, user = " + authentication.getName()

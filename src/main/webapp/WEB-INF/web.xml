@@ -45,6 +45,17 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener> -->
 	
+	
+	<filter>
+		<filter-name>myHttpRequestFilter</filter-name>
+		<filter-class>com.cobble.takeaway.filter.MyHttpRequestFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>myHttpRequestFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- Declare a Spring MVC DispatcherServlet as usual -->
 	<servlet>
 		<servlet-name>SpringMVC</servlet-name>
