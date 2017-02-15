@@ -1423,7 +1423,7 @@ public class Oauth2Controller extends BaseController {
 				ret.setDesc("没有关注");
 			}
 		} catch (Exception e) {
-			logger.error("insert error.", e);
+			logger.error("insert error: {}", e);
 			ret.setSuccess(false);
 			ret.setDesc(e.getMessage());
 			throw e;
@@ -1440,24 +1440,33 @@ public class Oauth2Controller extends BaseController {
 		String province = "";
 		String city = "";
 		if (StringUtils.isNotBlank(authorizerAccessToken)) {
-			try {
-				String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", authorizerAccessToken)
-						.replace("OPENID", openId);
-				userInfo = HttpClientUtil.get(myUserInfoUidUrl);
-				wxUserInfoApiPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
-				if (wxUserInfoApiPOJO.getSubscribe() == CommonConstant.WX_SUBSCRIBE) {
-					nickname = wxUserInfoApiPOJO.getNickname();
-					country = wxUserInfoApiPOJO.getCountry();
-					province = wxUserInfoApiPOJO.getProvince();
-					city = wxUserInfoApiPOJO.getCity();
-					wxUserInfoApiPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					wxUserInfoApiPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					wxUserInfoApiPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					wxUserInfoApiPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+			int count = 0;
+			do {
+				try {
+					String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", authorizerAccessToken)
+							.replace("OPENID", openId);
+					userInfo = HttpClientUtil.get(myUserInfoUidUrl);
+					wxUserInfoApiPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
+					if (wxUserInfoApiPOJO.getSubscribe() == CommonConstant.WX_SUBSCRIBE) {
+						nickname = wxUserInfoApiPOJO.getNickname();
+						country = wxUserInfoApiPOJO.getCountry();
+						province = wxUserInfoApiPOJO.getProvince();
+						city = wxUserInfoApiPOJO.getCity();
+						wxUserInfoApiPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						wxUserInfoApiPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						wxUserInfoApiPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						wxUserInfoApiPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+					}
+				} catch (Exception e) {
+					logger.error("myUserInfoUidUrl exception: {}", e);
+				} finally {
+					count++;
+					if (wxUserInfoApiPOJO == null) {
+						Thread.sleep(1000);
+					}
 				}
-			} catch (Exception e) {
-				logger.error("myUserInfoUidUrl exception: {}", e);
-			}
+			} while (wxUserInfoApiPOJO == null && count < 2);
+			
 		}
 		
 		if (wxUserInfoApiPOJO.getSubscribe() != CommonConstant.WX_SUBSCRIBE && StringUtils.isNotBlank(thirdWebAccessToken)) {
