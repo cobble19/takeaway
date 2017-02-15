@@ -1856,13 +1856,18 @@ public class Oauth2Controller extends BaseController {
 					}
 				}
 				
+				if (StringUtils.isNotBlank(openIdVice)) {
+					ret.setViewName("/page/oauth2_success");
+					return ret;
+				}
+				
 				myRedirectStrategy.sendRedirect(request, response, url);
 				//////
 				
 //				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
 			} else {
-				logger.info("code isnot null");
-				throw new NullPointerException("code isnot null");
+				logger.info("code must not null");
+				throw new NullPointerException("code must not null");
 			}
 			ret.setViewName("/page/oauth2_success");
 		} catch (Exception e) {
