@@ -86,7 +86,9 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
 			try {
 				wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
-				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+				if (wxAuthorizerInfoPOJO != null) {
+					session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+				}
 			} catch (Exception e) {
 				logger.error("get wxAuthorizerInfo Exception: {}", e);
 			}
