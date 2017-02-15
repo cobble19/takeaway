@@ -1677,7 +1677,8 @@ public class Oauth2Controller extends BaseController {
 					
 					ret.setViewName("/page/oauth2_success");
 					
-					return ret;
+					// @20170215 保存session
+					/*return ret;*/
 					
 					/*myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/testinfo");
 					return null;*/

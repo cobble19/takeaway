@@ -215,12 +215,12 @@ public class EmailUtil {
 	
 	public static void main(String[] argv) {
 //		EmailUtil eu = new EmailUtil();
-		EmailUtil.sendEailAsync("bange@cisco.com", "abc123@cisco.com;bange@cisco.com", "bange@cisco.com", "bange@cisco.com", "Async email", "<a href='www.baidu.com'>baidu</a>", "text/html", null);
+		EmailUtil.sendEailAsync("cobble19@sina.com", "abc123@sina.com;cobble19@sina.com", "cobble19@sina.com", "cobble19@sina.com", "Async email", "<a href='www.baidu.com'>baidu</a>", "text/html", null);
 		
-//		EmailUtil.sendEmail("bange@cisco.com", "abc123@cisco.com;bange@cisco.com", "bange@cisco.com", "bange@cisco.com", "Sync email", "abc", "text/html", null);
+//		EmailUtil.sendEmail("cobble19@sina.com", "abc123@sina.com;cobble19@sina.com", "cobble19@sina.com", "cobble19@sina.com", "Sync email", "abc", "text/html", null);
 
 		/*try {
-			InternetAddress[] addrs = InternetAddress.parse("ba@cisco.com,a1@cisco.com,b1@cisco.com");
+			InternetAddress[] addrs = InternetAddress.parse("ba@sina.com,a1@sina.com,b1@sina.com");
 			logger.info(addrs + "");
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
