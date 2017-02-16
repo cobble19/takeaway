@@ -26,12 +26,12 @@ public class MyHttpRequestFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain filterChain) throws IOException, ServletException {
 		try {
-			logger.debug("MyHttpRequestFilter Start: {}", filterChain);
+//			logger.debug("MyHttpRequestFilter Start: {}", filterChain);
 			
 			HttpServletRequest request = (HttpServletRequest) req;
 			filterChain.doFilter(new MyHttpRequestWrapper(request), resp);
 			
-			logger.debug("MyHttpRequestFilter End: {}", filterChain);
+//			logger.debug("MyHttpRequestFilter End: {}", filterChain);
 		} catch (Exception e) {
 			logger.error("MyHttpRequestFilter Filter: {}", e);
 			// 如果报错, 则继续下面的filter

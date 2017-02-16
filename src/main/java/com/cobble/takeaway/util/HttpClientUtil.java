@@ -87,99 +87,40 @@ public class HttpClientUtil {
             };
             String responseBody = httpclient.execute(httpget, responseHandler);
             ret = responseBody;
-            logger.debug("----------------------------------------");
-            logger.debug(responseBody);
+            logger.debug("url: {}, responseBody: {}", url, responseBody);
         } catch (ClientProtocolException e) {
-        	logger.error("ClientProtocolException: {}", e);
+        	logger.error("url: {}, ClientProtocolException: {}", url, e);
 //        	throw e;
 		} catch (IOException e) {
-        	logger.error("IOException: {}", e);
+        	logger.error("url: {}, IOException: {}", url, e);
 //        	throw e;
 		} finally {
             try {
 				httpclient.close();
 			} catch (IOException e) {
-	        	logger.error("httpclient.close IOException: {}", e.getMessage());
+	        	logger.error("url: {}, httpclient.close IOException: {}", url, e.getMessage());
 			}
         }
 		return ret;
 	}
 	
 	public static String postJson(String url, String requestBody) throws Exception {
-		if (StringUtils.isNotBlank(url)) {
-			if (url.contains("?10000skip=true")) {
-				url = url.replace("?10000skip=true", "");
-			}
-			if (url.contains("10000skip=true")) {
-				url = url.replace("10000skip=true", "");
-			}
-		}
-		
 		String ret = "";
-		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
-			HttpPost httppost = new HttpPost(url);
-			logger.info("Executing request " + httppost.getRequestLine());
-
-			StringEntity reqEntity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
-			reqEntity.setChunked(true);
-
-			httppost.setEntity(reqEntity);
-
-			System.out.println("Executing request: "
-					+ httppost.getRequestLine());
-			CloseableHttpResponse response = httpclient.execute(httppost);
-			try {
-	            logger.info("----------------------------------------");
-	            logger.info("Response Status: {}", response.getStatusLine());
-				String responseBody = EntityUtils.toString(response.getEntity());
-				ret = responseBody;
-				logger.info("Response Body: {}", responseBody);
-			} finally {
-				response.close();
-			}
-		} finally {
-			httpclient.close();
+			ret = post(url, requestBody, ContentType.APPLICATION_JSON);
+		} catch (Exception e) {
+			logger.error("url: {}, postJson: {}", url, e);
 		}
 		return ret;
 	}
 	
 	public static String post(String url, String requestBody) throws Exception {
-		if (StringUtils.isNotBlank(url)) {
-			if (url.contains("?10000skip=true")) {
-				url = url.replace("?10000skip=true", "");
-			}
-			if (url.contains("10000skip=true")) {
-				url = url.replace("10000skip=true", "");
-			}
-		}
 		
 		String ret = "";
-		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
-			HttpPost httppost = new HttpPost(url);
-			logger.info("Executing request " + httppost.getRequestLine());
-
-			ContentType ct = null;
-			StringEntity reqEntity = new StringEntity(requestBody, ct);
-			reqEntity.setChunked(true);
-
-			httppost.setEntity(reqEntity);
-
-			System.out.println("Executing request: "
-					+ httppost.getRequestLine());
-			CloseableHttpResponse response = httpclient.execute(httppost);
-			try {
-	            logger.info("----------------------------------------");
-	            logger.info("Response Status: {}", response.getStatusLine());
-				String responseBody = EntityUtils.toString(response.getEntity());
-				ret = responseBody;
-				logger.info("Response Body: {}", responseBody);
-			} finally {
-				response.close();
-			}
-		} finally {
-			httpclient.close();
+			ret = post(url, requestBody, null);
+		} catch (Exception e) {
+			logger.error("post url exception: {}", e);
 		}
 		return ret;
 	}
@@ -195,6 +136,7 @@ public class HttpClientUtil {
 		}
 		
 		String ret = "";
+		logger.info("Params, Url: {}, RequestBody: {}, ContentType: {}", url, requestBody, contentType);
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
 			HttpPost httppost = new HttpPost(url);
@@ -209,11 +151,10 @@ public class HttpClientUtil {
 					+ httppost.getRequestLine());
 			CloseableHttpResponse response = httpclient.execute(httppost);
 			try {
-	            logger.info("----------------------------------------");
-	            logger.info("Response Status: {}", response.getStatusLine());
+	            logger.info("url: {}, Response Status: {}", url, response.getStatusLine());
 				String responseBody = EntityUtils.toString(response.getEntity());
 				ret = responseBody;
-				logger.info("Response Body: {}", responseBody);
+				logger.info("url: {}, Response Body: {}", url, responseBody);
 			} finally {
 				response.close();
 			}
@@ -224,15 +165,6 @@ public class HttpClientUtil {
 	}
 	
 	public static String postHttpsJson(String url, String requestBody) throws Exception {
-		if (StringUtils.isNotBlank(url)) {
-			if (url.contains("?10000skip=true")) {
-				url = url.replace("?10000skip=true", "");
-			}
-			if (url.contains("10000skip=true")) {
-				url = url.replace("10000skip=true", "");
-			}
-		}
-		
 		String ret = "";
 		ret = postHttps(url, requestBody, ContentType.APPLICATION_JSON);
 		return ret;
@@ -251,6 +183,7 @@ public class HttpClientUtil {
 		String ret = "";
 		logger.info("Params, Url: {}, RequestBody: {}, ContentType: {}", url, requestBody, contentType);
 		CloseableHttpClient httpclient = getHttpsClient();
+		CloseableHttpResponse response = null;
 		try {
 			HttpPost httppost = new HttpPost(url);
 			logger.info("Executing request: " + httppost.getRequestLine());
@@ -262,25 +195,25 @@ public class HttpClientUtil {
 
 			System.out.println("Executing request: "
 					+ httppost.getRequestLine());
-			CloseableHttpResponse response = httpclient.execute(httppost);
-			try {
-	            logger.info("----------------------------------------");
-	            logger.info("Response Status: {}", response.getStatusLine());
-	            Header[] headers = response.getAllHeaders();
-	            if (ArrayUtils.isNotEmpty(headers)) {
-	            	for (Header header : headers) {
-	            		logger.info("Header: {} = {}", header.getName(), header.getValue());
-	            	}
-	            }
-	            
-				String responseBody = EntityUtils.toString(response.getEntity());
-				ret = responseBody;
-				logger.info("Response Body: {}", responseBody);
-			} finally {
-				response.close();
-			}
+			response = httpclient.execute(httppost);
+            logger.info("url: {}, Response Status: {}", url, response.getStatusLine());
+            Header[] headers = response.getAllHeaders();
+            if (ArrayUtils.isNotEmpty(headers)) {
+            	for (Header header : headers) {
+            		logger.info("url: {}, Header: {} = {}", url, header.getName(), header.getValue());
+            	}
+            }
+            
+			String responseBody = EntityUtils.toString(response.getEntity());
+			ret = responseBody;
+			logger.info("url: {}, Response Body: {}", url, responseBody);
 		} finally {
-			httpclient.close();
+			try {
+				response.close();
+				httpclient.close();
+			} catch (Exception e) {
+				logger.error("close response/client: {}", e);
+			}
 		}
 		return ret;
 	}

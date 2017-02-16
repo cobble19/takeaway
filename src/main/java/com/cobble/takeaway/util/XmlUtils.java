@@ -27,6 +27,47 @@ public class XmlUtils {
 	private static Logger logger = LoggerFactory.getLogger(XmlUtils.class);
 	// get xml text/attribute/element
 	
+
+	public static NodeList getNodeList(String xmlStr, String xpathStr) throws Exception {
+		Object result = getElement(xmlStr, xpathStr, XPathConstants.NODESET);
+		NodeList nodeList = (NodeList) result;
+		
+		return nodeList;
+	}
+	public static Node getNode(String xmlStr, String xpathStr) throws Exception {
+		Object result = getElement(xmlStr, xpathStr, XPathConstants.NODE);
+		Node ret = (Node) result;
+		
+		return ret;
+	}
+	public static String getNodeString(String xmlStr, String xpathStr) throws Exception {
+		Object result = getElement(xmlStr, xpathStr, XPathConstants.STRING);
+		String ret = (String) result;
+		
+		return ret;
+	}
+	public static Double getNodeNumber(String xmlStr, String xpathStr) throws Exception {
+		Object result = getElement(xmlStr, xpathStr, XPathConstants.NUMBER);
+		Double ret = (Double) result;
+		
+		return ret;
+	}
+	public static Boolean getNodeBoolean(String xmlStr, String xpathStr) throws Exception {
+		Object result = getElement(xmlStr, xpathStr, XPathConstants.BOOLEAN);
+		Boolean ret = (Boolean) result;
+		
+		return ret;
+	}
+
+	public static Object getElement(String xmlStr, String xpathStr, QName qname) throws Exception {
+		Document doc = getDoc(xmlStr);
+		XPathFactory fac = XPathFactory.newInstance();
+		XPath xpath = fac.newXPath();
+		XPathExpression expression = xpath.compile(xpathStr);
+		Object result = expression.evaluate(doc, qname);
+		return result;
+	}
+	
 	public static Document getDoc(String xmlStr) throws Exception {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -129,8 +170,11 @@ public class XmlUtils {
 		String result = XmlUtils.convertToXml(wxComVerifyTicketPOJO, true);
 		logger.info(result);
 		
-		Document doc = XmlUtils.getDoc(result);
+		/*Document doc = XmlUtils.getDoc(result);
 		String text = XmlUtils.getNodeString(doc, "//xml/AppId");
-		logger.info(text);
+		logger.info(text);*/
+		
+		Object text = XmlUtils.getNodeNumber("<xml><AppId id=\"id1\" show=\"12.56123\">appid123456</AppId></xml>", "/xml/AppId/@show");
+		logger.info(text + "");
 	}
 }

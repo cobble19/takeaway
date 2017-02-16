@@ -1875,8 +1875,8 @@ public class Oauth2Controller extends BaseController {
 				
 //				myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/web/wx/oauth2/success");
 			} else {
-				logger.info("code must not null");
-				throw new NullPointerException("code must not null");
+				logger.info("code must not be null");
+				throw new NullPointerException("code must not be null");
 			}
 			ret.setViewName("/page/oauth2_success");
 		} catch (Exception e) {
@@ -2357,7 +2357,8 @@ public class Oauth2Controller extends BaseController {
 			// 全网发布监测开始
 			// for username is autoTest and contains "text" and content is "TESTCOMPONENT_MSG_TYPE_TEXT"
 			if (StringUtils.isNotBlank(result)) {
-				if (result.contains("text")) {
+				String msgType = XmlUtils.getNodeString(result, "/xml/MsgType");
+				if ("text".equalsIgnoreCase(msgType)) {
 					WxMsgEventRecvApiPOJO wxMsgEventRecvApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvApiPOJO.class);
 					if (result.contains("TESTCOMPONENT_MSG_TYPE_TEXT")) {
 						logger.info("Text: TESTCOMPONENT_MSG_TYPE_TEXT, autoTest");
@@ -2612,7 +2613,7 @@ public class Oauth2Controller extends BaseController {
 						
 					}	// end 003
 					
-				} /**text end**/ else if (result.contains("event")) {
+				} /**text end**/ else if ("event".equalsIgnoreCase(msgType)) {
 					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
 					logger.info("接收到的事件: {}", wxMsgEventRecvEventApiPOJO);
 					if (wxAutoTestUsername.equals(wxMsgEventRecvEventApiPOJO.getToUserName())) {
@@ -2628,14 +2629,6 @@ public class Oauth2Controller extends BaseController {
 					}
 					
 					// to text
-					String EVENT_KEY = "https://open.weixin.qq.com/connect/oauth2/authorize"
-							/*+ "?appid=wx483bd8288ebe84b4"
-							+ "&redirect_uri=http%3A%2F%2Fwww.deweiyizhan.com%2Fweb%2Fwx%2Foauth2%2Fthird%2Fweb%2FauthCode"
-							+ "&response_type=code"
-							+ "&scope=snsapi_userinfo"
-							+ "&state=kGZUWL"
-							+ "&component_appid=wx2bec8614a6c47443#wechat_redirect"*/;
-					logger.info("wxMsgEventRecvEventApiPOJO.getEventKey().indexOf(EVENT_KEY): {}", wxMsgEventRecvEventApiPOJO.getEventKey().indexOf(EVENT_KEY));
 					if (true/*CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvEventApiPOJO.getToUserName())*/) {
 						logger.info("发生事件：{}", wxMsgEventRecvEventApiPOJO.getEventKey());
 						
