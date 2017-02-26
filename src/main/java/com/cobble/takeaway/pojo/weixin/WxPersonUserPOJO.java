@@ -34,6 +34,7 @@ public class WxPersonUserPOJO extends BasePOJO {
     private String remark;
     private Integer groupId;
     private String tagidList;
+    private Integer memberFlag;
     
     private Date createDateTime;
     // 属于哪个公众号
@@ -230,6 +231,14 @@ public class WxPersonUserPOJO extends BasePOJO {
 				+ ", tagidList=" + tagidList + ", createDateTime="
 				+ createDateTime + ", wxAuthorizerInfoPOJO="
 				+ wxAuthorizerInfoPOJO + "]";
+	}
+
+	public Integer getMemberFlag() {
+		return memberFlag;
+	}
+
+	public void setMemberFlag(Integer memberFlag) {
+		this.memberFlag = memberFlag;
 	}
 
 }

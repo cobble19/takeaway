@@ -1660,6 +1660,7 @@ public class Oauth2Controller extends BaseController {
 						wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
 						wxPersonUserPOJO.setUserId(userPOJO.getUserId());
 						wxPersonUserPOJO.setAuthorizerAppId(authorizerAppIdVice);
+						wxPersonUserPOJO.setMemberFlag(CommonConstant.MEMBER_FLAG);
 						wxPersonUserService.insert(wxPersonUserPOJO);
 					} else {
 						wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
@@ -1669,6 +1670,13 @@ public class Oauth2Controller extends BaseController {
 							wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
 							wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
 							wxPersonUserService.update(wxPersonUserPOJO);
+						}
+						
+						if (CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
+							WxPersonUserPOJO temp = new WxPersonUserPOJO();
+							temp.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
+							temp.setMemberFlag(CommonConstant.MEMBER_FLAG);
+							wxPersonUserService.update(temp);
 						}
 					}
 					
@@ -2391,13 +2399,27 @@ public class Oauth2Controller extends BaseController {
 									|| "001".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent())
 							) 
 							/*&& CommonConstant.DWYZ_USER_NAME.equals(wxMsgEventRecvApiPOJO.getToUserName())*/) {
+						// 001-注册会员, 002-重新加入会员, 003-退出会员
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
 						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
 						wxPersonUserSearchPOJO.setOpenId(wxMsgEventRecvApiPOJO.getFromUserName());
 						wxPersonUserSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvApiPOJO.getToUserName());
 						List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
+						
+						Boolean needRegisterMember = false;
 						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+							needRegisterMember = true;
+						} else {
+							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+							if (CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
+								needRegisterMember = true;
+							} else {
+								needRegisterMember = false;
+							}
+						}
+						
+						if (needRegisterMember) {
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
 							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
@@ -2475,7 +2497,20 @@ public class Oauth2Controller extends BaseController {
 						wxPersonUserSearchPOJO.setOpenId(wxMsgEventRecvApiPOJO.getFromUserName());
 						wxPersonUserSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvApiPOJO.getToUserName());
 						List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
+						
+						Boolean isMember = false;
 						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+							isMember = false;
+						} else {
+							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+							if (CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
+								isMember = false;
+							} else {
+								isMember = true;
+							}
+						}
+						
+						if (!isMember) {
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
 							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
@@ -2562,7 +2597,20 @@ public class Oauth2Controller extends BaseController {
 						wxPersonUserSearchPOJO.setOpenId(wxMsgEventRecvApiPOJO.getFromUserName());
 						wxPersonUserSearchPOJO.setWxAuthorizerUserName(wxMsgEventRecvApiPOJO.getToUserName());
 						List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
+
+						Boolean isMember = false;
 						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+							isMember = false;
+						} else {
+							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+							if (CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
+								isMember = false;
+							} else {
+								isMember = true;
+							}
+						}
+						
+						if (!isMember) {
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(wxMsgEventRecvApiPOJO.getFromUserName());
 							wxMsgEventRespTextApiPOJO.setFromUserName(wxMsgEventRecvApiPOJO.getToUserName());
@@ -2578,7 +2626,12 @@ public class Oauth2Controller extends BaseController {
 						} else {	// 2. 如果有返回已经注册
 							for (WxPersonUserPOJO wxPersonUserPOJO : wxPersonUserPOJOs) {
 								Long id = wxPersonUserPOJO.getWxPersonUserId();
-								int retDel = wxPersonUserService.delete(id);
+								
+								WxPersonUserPOJO temp = new WxPersonUserPOJO();
+								temp.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
+								temp.setMemberFlag(CommonConstant.MEMBER_FLAG_NOT);
+								
+								int retUpd = wxPersonUserService.update(temp);
 							}
 							
 							// 去除个人用户的标签

@@ -30,6 +30,7 @@
     <result column="REMARK" property="remark" />
     <result column="GROUP_ID" property="groupId" />
     <result column="TAGID_LIST" property="tagidList" />
+    <result column="MEMBER_FLAG" property="memberFlag" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     
     <association property="wxAuthorizerInfoPOJO" columnPrefix="C_" resultMap="com.cobble.takeaway.dao.WxAuthorizerInfoMapper.WxAuthorizerInfoResultMap" ></association>
@@ -41,7 +42,7 @@
     , a.NICKNAME, a.SEX, a.LANGUAGE
     , a.CITY, a.PROVINCE, a.COUNTRY, a.HEAD_IMG_URL, a.PRIVILEGES
     , a.UNION_ID, a.SUBSCRIBE, a.SUBSCRIBE_TIME, a.REMARK, a.GROUP_ID
-    , a.TAGID_LIST, a.CREATE_DATE_TIME
+    , a.TAGID_LIST, a.MEMBER_FLAG, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="nickname != null">
@@ -58,6 +59,9 @@
 	</if>
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
+	</if>
+	<if test="memberFlag != null">
+		and a.MEMBER_FLAG = #{memberFlag}
 	</if>
   </sql>
   
@@ -202,6 +206,9 @@
       <if test="tagidList != null" >
         TAGID_LIST,
       </if>
+      <if test="memberFlag != null" >
+        MEMBER_FLAG,
+      </if>
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -261,6 +268,9 @@
       </if>
       <if test="tagidList != null" >
         #{tagidList},
+      </if>
+      <if test="memberFlag != null" >
+        #{memberFlag},
       </if>
         sysdate(),
     </trim>
@@ -325,6 +335,9 @@
       </if>
       <if test="tagidList != null" >
         TAGID_LIST = #{tagidList},
+      </if>
+      <if test="memberFlag != null" >
+        MEMBER_FLAG = #{memberFlag},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>

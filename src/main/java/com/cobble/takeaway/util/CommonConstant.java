@@ -77,6 +77,9 @@ public interface CommonConstant {
 	public final static int WX_VERIFY_TYPE_NOTNAME_WEIBO = 4;
 	public final static int WX_VERIFY_TYPE_NOTNAME_TENCENTWEIBO = 5;
 	
+	// 会员标志
+	public final static int MEMBER_FLAG = 1;
+	public final static int MEMBER_FLAG_NOT = 0;
 	
 	
 }

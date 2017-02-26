@@ -32,6 +32,7 @@ public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
     private String privileges;
     
     private String unionId;
+    private Integer memberFlag;
     
     private Date createDateTime;
 
@@ -161,6 +162,14 @@ public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
 
 	public void setProxyOpenId(String proxyOpenId) {
 		this.proxyOpenId = proxyOpenId;
+	}
+
+	public Integer getMemberFlag() {
+		return memberFlag;
+	}
+
+	public void setMemberFlag(Integer memberFlag) {
+		this.memberFlag = memberFlag;
 	}
 
 }
