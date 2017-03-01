@@ -23,6 +23,8 @@ public class WxAuthorizerInfoPOJO extends BasePOJO {
     
     private Date createDateTime;
     
+    private String controlCode;
+    
 	public Long getWxAuthorizerInfoId() {
 		return wxAuthorizerInfoId;
 	}
@@ -125,6 +127,12 @@ public class WxAuthorizerInfoPOJO extends BasePOJO {
 				+ ", idc=" + idc + ", authorizerAppId=" + authorizerAppId
 				+ ", funcInfo=" + funcInfo + ", qrcodeFilePath="
 				+ qrcodeFilePath + ", createDateTime=" + createDateTime + "]";
+	}
+	public String getControlCode() {
+		return controlCode;
+	}
+	public void setControlCode(String controlCode) {
+		this.controlCode = controlCode;
 	}
     
 	

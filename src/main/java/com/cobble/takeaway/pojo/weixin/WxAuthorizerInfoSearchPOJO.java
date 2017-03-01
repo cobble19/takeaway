@@ -17,6 +17,8 @@ public class WxAuthorizerInfoSearchPOJO extends BaseSearchPOJO {
     private String authorizerAppId;
     private String funcInfo;
     
+    private String controlCode;
+    
 	public Long getWxAuthorizerInfoId() {
 		return wxAuthorizerInfoId;
 	}
@@ -94,6 +96,12 @@ public class WxAuthorizerInfoSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public String getControlCode() {
+		return controlCode;
+	}
+	public void setControlCode(String controlCode) {
+		this.controlCode = controlCode;
 	}
     
 	

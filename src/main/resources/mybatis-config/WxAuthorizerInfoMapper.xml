@@ -25,6 +25,7 @@
     <result column="AUTHORIZER_APPID" property="authorizerAppId" />
     <result column="FUNC_INFO" property="funcInfo" />
     <result column="QRCODE_FILE_PATH" property="qrcodeFilePath" />
+    <result column="CONTROL_CODE" property="controlCode" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
@@ -33,7 +34,7 @@
     , a.SERVICE_TYPE_INFO, a.VERIFY_TYPE_INFO, a.USER_NAME
     , a.ALIAS, a.QRCODE_URL, a.BUSINESS_INFO
     , a.IDC, a.AUTHORIZER_APPID, a.FUNC_INFO
-    , a.QRCODE_FILE_PATH
+    , a.QRCODE_FILE_PATH, a.CONTROL_CODE
     , a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
@@ -143,6 +144,9 @@
       <if test="qrcodeFilePath != null" >
         QRCODE_FILE_PATH,
       </if>
+      <if test="controlCode != null" >
+        CONTROL_CODE,
+      </if>
       <if test="createDateTime != null" >
         CREATE_DATE_TIME,
       </if>
@@ -186,6 +190,9 @@
       </if>
       <if test="qrcodeFilePath != null" >
         #{qrcodeFilePath},
+      </if>
+      <if test="controlCode != null" >
+        #{controlCode},
       </if>
       <if test="createDateTime != null" >
         #{createDateTime},
@@ -234,6 +241,9 @@
       </if>
       <if test="qrcodeFilePath != null" >
         QRCODE_FILE_PATH = #{qrcodeFilePath},
+      </if>
+      <if test="controlCode != null" >
+        CONTROL_CODE = #{controlCode},
       </if>
       <if test="createDateTime != null" >
         CREATE_DATE_TIME = #{createDateTime},
