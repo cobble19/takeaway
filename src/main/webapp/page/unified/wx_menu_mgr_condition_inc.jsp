@@ -5,7 +5,7 @@
 	
 
 <div id="wx_menu_mgr_condition">
-	<h3>微信Full菜单管理</h3>
+	<h3>微信当前拥有菜单管理</h3>
 	<div style="height: 50px; line-height: 50px;">
 		<%-- <a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_menu_mgr_add.jsp'>添加</a> --%> 
 		<input id="searchBtn4WxMenuMgrCondition" type="button" class="btn btn-default btn-xs" value="查询"> 
@@ -19,7 +19,7 @@
 		{{#data}}
 			{{#display}}
 			<hr>
-			<b>Full: {{name}}</b><br>
+			<b>拥有的菜单: {{name}}</b><br>
 			{{#wxMenuMgrCategoryPOJOs}}
 				<input type="radio" name="wxMenuMgrCategory" id="wxMenuMgrCategory_{{wxMenuMgrCategoryId}}" value="{{wxMenuMgrCategoryId}}">{{name}}
 				&nbsp;&nbsp;<input type="button" id="addButton1_{{wxMenuMgrCategoryId}}" name="addButton1" value="添加菜单" onclick="addMenuMgrButton2({{wxMenuMgrCategoryId}},0,1,'{{authorizerAppId}}')" class="btn btn-info">

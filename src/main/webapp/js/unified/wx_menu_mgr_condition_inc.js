@@ -1,11 +1,11 @@
 
 $(document).ready(function() {
-	wxMenuMgrConditionSearch();
+//	wxMenuMgrConditionSearch();
 	
 	wxMenuMgrConditionSearch2();
 	
 	$('#searchBtn4WxMenuMgrCondition').click(function() {
-		wxMenuMgrConditionSearch();
+//		wxMenuMgrConditionSearch();
 		
 		wxMenuMgrConditionSearch2();
 	});
@@ -150,7 +150,7 @@ var deleteMenuMgrButton2 = function(wxMenuMgrButtonId) {
         },
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');
-        	wxMenuMgrConditionSearch();
+        	wxMenuMgrConditionSearch2();
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');
@@ -189,7 +189,7 @@ var deleteMenu2 = function(authorizerAppId) {
         	if (data.success) {
         		alert('删除成功');
         	}
-        	wxMenuMgrConditionSearch();
+        	wxMenuMgrConditionSearch2();
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');
@@ -230,7 +230,7 @@ var deleteConditionalMenu2 = function(authorizerAppId, menuId) {
         	if (data.success) {
         		alert('删除成功');
         	}
-        	wxMenuMgrConditionSearch();
+        	wxMenuMgrConditionSearch2();
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');
@@ -270,7 +270,7 @@ var publishMenuMgrCategory = function(wxMenuMgrCategoryId, authorizerAppId) {
         	if (data.success) {
         		alert('发布成功');
         	}
-        	wxMenuMgrConditionSearch();
+        	wxMenuMgrConditionSearch2();
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');
@@ -309,7 +309,7 @@ var getMenuMgrMenu = function() {
         	if (data.success) {
         		alert('获取成功');
         	}
-        	wxMenuMgrConditionSearch();
+        	wxMenuMgrConditionSearch2();
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');
