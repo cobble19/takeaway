@@ -182,6 +182,8 @@ public class WxMenuMgrController extends BaseController {
 			}*/
 			// Full
 			WxMenuMgrFullSearchPOJO wxMenuMgrFullSearchPOJO = new WxMenuMgrFullSearchPOJO();
+			wxMenuMgrFullSearchPOJO.setUserId(userId);
+			
 			List<WxMenuMgrFullPOJO> wxMenuMgrFullPOJOs = wxMenuMgrFullService.finds(wxMenuMgrFullSearchPOJO);
 			if (CollectionUtils.isNotEmpty(wxMenuMgrFullPOJOs)) {
 				for (int i = 0; i < wxMenuMgrFullPOJOs.size(); i++) {

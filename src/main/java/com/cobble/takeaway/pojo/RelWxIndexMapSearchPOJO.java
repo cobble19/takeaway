@@ -1,14 +1,11 @@
 package com.cobble.takeaway.pojo;
 
-import java.util.Date;
-
-public class RelWxIndexMapPOJO extends BasePOJO {
+public class RelWxIndexMapSearchPOJO extends BaseSearchPOJO {
 	private Long relWxIndexMapId;
     private Long userId;
     private Long wxTemplateId;
     private String wxStaticPage;
     private String wxIndexCode;
-    private Date createDateTime;
     
 	public Long getRelWxIndexMapId() {
 		return relWxIndexMapId;
@@ -39,12 +36,6 @@ public class RelWxIndexMapPOJO extends BasePOJO {
 	}
 	public void setWxStaticPage(String wxStaticPage) {
 		this.wxStaticPage = wxStaticPage;
-	}
-	public Date getCreateDateTime() {
-		return createDateTime;
-	}
-	public void setCreateDateTime(Date createDateTime) {
-		this.createDateTime = createDateTime;
 	}
     
 }

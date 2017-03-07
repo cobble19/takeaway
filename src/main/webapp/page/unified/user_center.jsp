@@ -52,6 +52,7 @@
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;用户中心</h5></li>
                       <li role="presentation" class="active"><a href="#profile"><h6>基本信息</h6></a></li>
+                      <li role="presentation"><a href="#rel_wx_index_map"><h6>微官网修改</h6></a></li>
                       <li role="presentation"><a href="#update_password"><h6>修改密码</h6></a></li>
                    </ul>
                    <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
@@ -107,6 +108,8 @@
 	     		<div id="uc_content" style="padding-top:40px; padding-left:20px; margin-right:-30px;">
 	     			<!-- profile -->
 	     			<%@include file="profile_inc.jsp" %>
+	     			<!-- rel_wx_index_map -->
+	     			<%@include file="rel_wx_index_map_inc.jsp" %>
 	     			<!-- create_activity -->
 	     			<%@include file="activity_inc.jsp" %>
 	     			<!-- award -->

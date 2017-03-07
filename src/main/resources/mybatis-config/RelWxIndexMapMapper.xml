@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.RelWxIndexMapMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="RelWxIndexMapResultMap" type="com.cobble.takeaway.pojo.RelWxIndexMapPOJO" >
+    <id column="REL_WX_INDEX_MAP_ID" property="relWxIndexMapId" />
+    <result column="USER_ID" property="userId" />
+    <result column="WX_INDEX_CODE" property="wxIndexCode" />
+    <result column="WX_TEMPLATE_ID" property="wxTemplateId" />
+    <result column="WX_STATIC_PAGE" property="wxStaticPage" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    a.REL_WX_INDEX_MAP_ID, a.USER_ID, a.WX_INDEX_CODE, a.WX_TEMPLATE_ID, a.WX_STATIC_PAGE, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="userId != null">
+		and USER_ID = #{userId}
+	</if>
+	<if test="wxIndexCode != null">
+		and WX_INDEX_CODE = #{wxIndexCode}
+	</if>
+	<if test="wxTemplateId != null">
+		and WX_TEMPLATE_ID = #{wxTemplateId}
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="RelWxIndexMapResultMap" parameterType="com.cobble.takeaway.pojo.RelWxIndexMapSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rel_wx_index_map a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.RelWxIndexMapSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from rel_wx_index_map
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="RelWxIndexMapResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from rel_wx_index_map a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.REL_WX_INDEX_MAP_ID = #{relWxIndexMapId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from rel_wx_index_map
+    where REL_WX_INDEX_MAP_ID = #{relWxIndexMapId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.RelWxIndexMapPOJO" useGeneratedKeys="true"
+  	keyProperty="relWxIndexMapId" keyColumn="VOTE_ID">
+    insert into rel_wx_index_map
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="wxIndexCode != null" >
+        WX_INDEX_CODE,
+      </if>
+      <if test="wxTemplateId != null" >
+        WX_TEMPLATE_ID,
+      </if>
+      <if test="wxStaticPage != null" >
+        WX_STATIC_PAGE,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="wxIndexCode != null" >
+        #{wxIndexCode},
+      </if>
+      <if test="wxTemplateId != null" >
+        #{wxTemplateId},
+      </if>
+      <if test="wxStaticPage != null" >
+        #{wxStaticPage},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.RelWxIndexMapPOJO" >
+    update rel_wx_index_map
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="wxIndexCode != null" >
+        WX_INDEX_CODE = #{wxIndexCode},
+      </if>
+      <if test="wxTemplateId != null" >
+        WX_TEMPLATE_ID = #{wxTemplateId},
+      </if>
+      <if test="wxStaticPage != null" >
+        WX_STATIC_PAGE = #{wxStaticPage},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where REL_WX_INDEX_MAP_ID = #{relWxIndexMapId}
+  </update>
+</mapper>
