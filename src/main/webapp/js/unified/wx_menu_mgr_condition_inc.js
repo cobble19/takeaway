@@ -575,7 +575,7 @@ var wxMenuMgrConditionSearch2 = function() {
         	var content = "";
         	if (data.success) {
 //        		wxMenuMgrFullPOJOs = data.data;
-				data.data[0].display = true;
+				data.data[0].display = true;	// 只显示第一条FULL
         		var template = $('#wxMenuMgrConditionTmpl').html();
 				Mustache.parse(template);   // optional, speeds up future uses
 				var rendered = Mustache.render(template, data);

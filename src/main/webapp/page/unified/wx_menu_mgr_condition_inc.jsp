@@ -14,6 +14,14 @@
 
 	</div>
 	
+	<!-- &nbsp;&nbsp;<input type="button" id="deleteMenu2_{{wxMenuMgrCategoryId}}" name="deleteConditionalMenu" value="删除定制菜单" onclick="deleteConditionalMenu2('{{authorizerAppId}}','{{menuId}}')" class="btn btn-info"> -->
+	<!-- &nbsp;&nbsp;<input type="button" id="addButtonMR2_{{wxMenuMgrCategoryId}}" name="addButtonMR1" value="添加匹配规则" onclick="addMenuMgrMatchRuleButton2({{wxMenuMgrCategoryId}})" class="btn btn-info"> -->
+	<!-- {{#wxMenuMgrMatchRulePOJO}}
+	匹配规则: {{wxMenuMgrMatchRulePOJO.groupId}}, 
+	{"wxMenuMgrMatchRuleId":{{wxMenuMgrMatchRuleId}},"wxMenuMgrCategoryId":{{wxMenuMgrCategoryId}}
+		,"groupId":{{groupId}},"sex":{{sex}},"country":"{{country}}","province":"{{province}}","city":"{{city}}"
+	,"clientPlatformType":{{clientPlatformType}},"language":"{{language}}","createDateTime":{{createDateTime}}}
+	{{/wxMenuMgrMatchRulePOJO}} -->
 	<script id="wxMenuMgrConditionTmpl" type="x-tmpl-mustache">
 		<div id="wx_menu_mgr_condition">
 		{{#data}}
@@ -21,16 +29,17 @@
 			<hr>
 			<b>拥有的菜单: {{name}}</b><br>
 			{{#wxMenuMgrCategoryPOJOs}}
+				{{^wxMenuMgrMatchRulePOJO}}	{{!如果包含match rule 不显示}}
 				<input type="radio" name="wxMenuMgrCategory" id="wxMenuMgrCategory_{{wxMenuMgrCategoryId}}" value="{{wxMenuMgrCategoryId}}">{{name}}
 				&nbsp;&nbsp;<input type="button" id="addButton1_{{wxMenuMgrCategoryId}}" name="addButton1" value="添加菜单" onclick="addMenuMgrButton2({{wxMenuMgrCategoryId}},0,1,'{{authorizerAppId}}')" class="btn btn-info">
-				&nbsp;&nbsp;<input type="button" id="addButtonMR2_{{wxMenuMgrCategoryId}}" name="addButtonMR1" value="添加匹配规则" onclick="addMenuMgrMatchRuleButton2({{wxMenuMgrCategoryId}})" class="btn btn-info">
+				
 				&nbsp;&nbsp;<input
 					type="button" id="addButtonByObj1_1" name="addButtonByObj1"
 					value="添加加入会员"
 					onclick="addMenuMgrButtonByObj2(eval({&quot;wxMenuMgrCategoryId&quot;:{{wxMenuMgrCategoryId}},&quot;parentButtonId&quot;:0,&quot;level&quot;:1,&quot;authorizerAppId&quot;:&quot;{{authorizerAppId}}&quot;,&quot;name&quot;:&quot;加入会员&quot;,&quot;type&quot;:&quot;click&quot;,&quot;btnKey&quot;:&quot;欢迎您，GUEST&nbsp;&nbsp;1.加入会员请回复001&nbsp;&nbsp;2.重新加入请回复002&nbsp;&nbsp;3.退出会员请回复003&quot;}))"
 					class="btn btn-info">
 				&nbsp;&nbsp;<input type="button" id="deleteMenu2_{{wxMenuMgrCategoryId}}" name="deleteMenu" value="删除菜单" onclick="deleteMenu2('{{authorizerAppId}}')" class="btn btn-info">
-				&nbsp;&nbsp;<input type="button" id="deleteMenu2_{{wxMenuMgrCategoryId}}" name="deleteConditionalMenu" value="删除定制菜单" onclick="deleteConditionalMenu2('{{authorizerAppId}}','{{menuId}}')" class="btn btn-info">
+				
 				&nbsp;&nbsp;<input type="button" id="publishButton1_{{wxMenuMgrCategoryId}}" name="publishButton1" value="发布此菜单" onclick="publishMenuMgrCategory({{wxMenuMgrCategoryId}},'{{authorizerAppId}}')" class="btn btn-info">
 				<br>
 				{{#wxMenuMgrButtonPOJOs}}
@@ -56,11 +65,6 @@
 						{{/wxMenuMgrButtonPOJOs}}
 				{{/wxMenuMgrButtonPOJOs}}
 				
-				{{#wxMenuMgrMatchRulePOJO}}
-				匹配规则: {{wxMenuMgrMatchRulePOJO.groupId}}, 
-				{"wxMenuMgrMatchRuleId":{{wxMenuMgrMatchRuleId}},"wxMenuMgrCategoryId":{{wxMenuMgrCategoryId}}
-					,"groupId":{{groupId}},"sex":{{sex}},"country":"{{country}}","province":"{{province}}","city":"{{city}}"
-				,"clientPlatformType":{{clientPlatformType}},"language":"{{language}}","createDateTime":{{createDateTime}}}
 				{{/wxMenuMgrMatchRulePOJO}}
 						
 				<br>
