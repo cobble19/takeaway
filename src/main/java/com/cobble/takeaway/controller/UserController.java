@@ -432,6 +432,8 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/web/user/enterprise/reg", method = {RequestMethod.POST})
 	public ModelAndView regEnterprise(UserPOJO userPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/// 请同时修改 /api/user/enterprise/reg
+		///
 		ModelAndView ret = new ModelAndView();
 		try {
 			userPOJO.setUserType(MyUser.ENTERPRISE);
@@ -453,14 +455,15 @@ public class UserController extends BaseController {
 				relWxIndexMapService.insert(relWxIndexMapPOJO);
 				
 				// 创建文件夹, 用于保存文件/图片/等等
-				String fileDirPath = messageSource.getMessage("files.directory", null, null);
+				// 上传文件的代码才需要, 这儿是多余的代码
+				/*String fileDirPath = messageSource.getMessage("files.directory", null, null);
 				File fileDir = new File(fileDirPath);
 				FileUtils.forceMkdir(fileDir);
 				if (!fileDirPath.endsWith(File.separator)) {
 					fileDirPath += File.separator;
 				}
 				fileDir = new File(fileDirPath + relWxIndexMapPOJO.getWxIndexCode());
-				FileUtils.forceMkdir(fileDir);
+				FileUtils.forceMkdir(fileDir);*/
 			} catch (Exception e) {
 				logger.error("创建微信首页链接/文件夹失败, userId: {}, wxIndexCode: {}, Exception: {}"
 						, userPOJO.getUserId(), userPOJO.getWxIndexCode(), e);
@@ -487,6 +490,8 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public Map regEnterprise4API(UserPOJO userPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/// 请同时修改 /web/user/enterprise/reg
+		///
 		Map ret = new HashMap();
 		try {
 			userPOJO.setUserType(MyUser.ENTERPRISE);
@@ -502,6 +507,29 @@ public class UserController extends BaseController {
 			
 			// 可以用session
 			session.setAttribute("userId", userPOJO.getUserId());
+			
+			try {
+				// 创建微信首页超链接
+				RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();
+				relWxIndexMapPOJO.setUserId(userPOJO.getUserId());
+				relWxIndexMapPOJO.setWxIndexCode(userPOJO.getWxIndexCode());
+				relWxIndexMapService.insert(relWxIndexMapPOJO);
+				
+				// 创建文件夹, 用于保存文件/图片/等等
+				// 上传文件的代码才需要, 这儿是多余的代码
+				/*String fileDirPath = messageSource.getMessage("files.directory", null, null);
+				File fileDir = new File(fileDirPath);
+				FileUtils.forceMkdir(fileDir);
+				if (!fileDirPath.endsWith(File.separator)) {
+					fileDirPath += File.separator;
+				}
+				fileDir = new File(fileDirPath + relWxIndexMapPOJO.getWxIndexCode());
+				FileUtils.forceMkdir(fileDir);*/
+			} catch (Exception e) {
+				logger.error("创建微信首页链接/文件夹失败, userId: {}, wxIndexCode: {}, Exception: {}"
+						, userPOJO.getUserId(), userPOJO.getWxIndexCode(), e);
+			}
+			
 			// add wxComLoginUrl
 			
 			Map map = new HashMap();

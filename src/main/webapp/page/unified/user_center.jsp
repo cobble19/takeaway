@@ -52,7 +52,10 @@
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;用户中心</h5></li>
                       <li role="presentation" class="active"><a href="#profile"><h6>基本信息</h6></a></li>
-                      <li role="presentation"><a href="#rel_wx_index_map"><h6>微官网修改</h6></a></li>
+                      
+                      <c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
+                      	<li role="presentation"><a href="#rel_wx_index_map"><h6>微官网修改</h6></a></li>
+                      </c:if>
                       <li role="presentation"><a href="#update_password"><h6>修改密码</h6></a></li>
                    </ul>
                    <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">

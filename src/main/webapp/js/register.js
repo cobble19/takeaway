@@ -119,6 +119,7 @@ $(document).ready(function() {
     	var nickname = form.find('input[name=nickname]').val();
     	var password = form.find('input[name=password]').val();
     	var email = form.find('input[name=email]').val();
+    	var wxIndexCode = form.find('input[name=wxIndexCode]').val();
     	$.ajax({
     		"url" : $('#basePath').val() + "/api/user/enterprise/reg",
     		"type" : "POST",
@@ -128,7 +129,8 @@ $(document).ready(function() {
     			username: username,
     			nickname: nickname,
     			password: password,
-    			email: email
+    			email: email,
+    			wxIndexCode: wxIndexCode
             }),
             success: function(data, textStatus, jqXHR ) {
         		console.log(data);
