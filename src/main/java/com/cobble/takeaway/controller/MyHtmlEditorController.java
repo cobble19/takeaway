@@ -3,8 +3,10 @@ package com.cobble.takeaway.controller;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -22,7 +24,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cobble.takeaway.pojo.FileUploadPOJO;
+import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
+import com.cobble.takeaway.pojo.RelWxIndexMapSearchPOJO;
+import com.cobble.takeaway.service.RelWxIndexMapService;
 import com.cobble.takeaway.util.DateUtil;
+import com.cobble.takeaway.util.FileUtil;
 
 @Controller
 public class MyHtmlEditorController extends BaseController {
@@ -30,6 +36,8 @@ public class MyHtmlEditorController extends BaseController {
 	
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private RelWxIndexMapService relWxIndexMapService;
 	
 	
 	@RequestMapping(value = "/htmleditor/pic/add", produces = {MediaType.APPLICATION_JSON_VALUE}, method=RequestMethod.POST)
@@ -58,11 +66,21 @@ public class MyHtmlEditorController extends BaseController {
 							+ "." + ext;
 				}
 				
+				String wxIndexCode = "notfounduser";
+				if (userId != null) {
+					RelWxIndexMapSearchPOJO relWxIndexMapSearchPOJO = new RelWxIndexMapSearchPOJO();
+					relWxIndexMapSearchPOJO.setUserId(userId);
+					List<RelWxIndexMapPOJO> relWxIndexMapPOJOs = relWxIndexMapService.finds(relWxIndexMapSearchPOJO);
+					if (CollectionUtils.isNotEmpty(relWxIndexMapPOJOs)) {
+						wxIndexCode = relWxIndexMapPOJOs.get(0).getWxIndexCode();
+					}
+				}
+				
 				String dir = messageSource.getMessage("files.directory", null, null);
-				File dest = new File(dir + File.separator + "images" + File.separator + fileName);
+				File dest = FileUtil.createFile(dir + File.separator + "images" + File.separator + wxIndexCode + File.separator + fileName);
 				file.transferTo(dest);
 				logger.info("Upload Success Html Editor file: " + dest.getName());
-				ret.put("file_url", "files/images" + "/" + fileName);
+				ret.put("file_url", "files/images" + "/" + wxIndexCode + "/" + fileName);
 			}
 			
 			ret.put("success", true);

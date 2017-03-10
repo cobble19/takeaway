@@ -1,5 +1,6 @@
 package com.cobble.takeaway.controller;
 
+import java.io.File;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,10 +32,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.ExtjsPOJO;
+import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
+import com.cobble.takeaway.service.RelWxIndexMapService;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.spring.security.MyUser;
@@ -51,10 +56,15 @@ public class UserController extends BaseController {
 	public final static String URL_LOGIN_PC = "/login.jsp";
 	public final static String URL_LOGIN_WEIXIN = "/web/wx/oauth2/third/personUser/login";
 	
+
+	@Autowired
+	private MessageSource messageSource;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private WxAuthorizerInfoService wxAuthorizerInfoService;
+	@Autowired
+	private RelWxIndexMapService relWxIndexMapService;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     
@@ -434,6 +444,28 @@ public class UserController extends BaseController {
 			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
 			
 			session.setAttribute("userId", userPOJO.getUserId());
+			
+			try {
+				// 创建微信首页超链接
+				RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();
+				relWxIndexMapPOJO.setUserId(userPOJO.getUserId());
+				relWxIndexMapPOJO.setWxIndexCode(userPOJO.getWxIndexCode());
+				relWxIndexMapService.insert(relWxIndexMapPOJO);
+				
+				// 创建文件夹, 用于保存文件/图片/等等
+				String fileDirPath = messageSource.getMessage("files.directory", null, null);
+				File fileDir = new File(fileDirPath);
+				FileUtils.forceMkdir(fileDir);
+				if (!fileDirPath.endsWith(File.separator)) {
+					fileDirPath += File.separator;
+				}
+				fileDir = new File(fileDirPath + relWxIndexMapPOJO.getWxIndexCode());
+				FileUtils.forceMkdir(fileDir);
+			} catch (Exception e) {
+				logger.error("创建微信首页链接/文件夹失败, userId: {}, wxIndexCode: {}, Exception: {}"
+						, userPOJO.getUserId(), userPOJO.getWxIndexCode(), e);
+			}
+			
 			// add wxComLoginUrl
 			
 			Map map = new HashMap();

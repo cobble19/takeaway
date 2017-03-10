@@ -12,6 +12,9 @@ public class UserPOJO extends BasePOJO {
 	private String passwordOld;
 	
 	private String email;
+	
+	private String wxIndexCode;
+	
     private Boolean enable = true;
 	private String userType;
 
@@ -93,6 +96,12 @@ public class UserPOJO extends BasePOJO {
 	}
 	public void setRelWxIndexMapPOJO(RelWxIndexMapPOJO relWxIndexMapPOJO) {
 		this.relWxIndexMapPOJO = relWxIndexMapPOJO;
+	}
+	public String getWxIndexCode() {
+		return wxIndexCode;
+	}
+	public void setWxIndexCode(String wxIndexCode) {
+		this.wxIndexCode = wxIndexCode;
 	}
     
 }
