@@ -2027,6 +2027,7 @@ public class Oauth2Controller extends BaseController {
 			com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO2 = new com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO();
 			String nickName = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getNickName();
 //			wxAuthorizerInfoPOJO2.setNickName(new String(nickName.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+			wxAuthorizerInfoPOJO2.setNickName(nickName);
 			String headImg = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getHeadImg();
 			wxAuthorizerInfoPOJO2.setHeadImg(headImg);
 			Integer serviceTypeInfo = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getServiceTypeInfoPOJO().getId();

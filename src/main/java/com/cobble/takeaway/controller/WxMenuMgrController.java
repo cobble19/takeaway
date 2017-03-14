@@ -31,6 +31,7 @@ import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategoryPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategorySearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxMenuMgrEntryPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrFullPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrFullSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrMatchRulePOJO;
@@ -160,6 +161,127 @@ public class WxMenuMgrController extends BaseController {
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 			ret.put("success", false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
+
+	@RequestMapping(value = "/api/unified/wxMenuMgr/entry/list")
+	@ResponseBody
+	public DataTablesPOJO<WxMenuMgrEntryPOJO> entryList4Api(WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		DataTablesPOJO<WxMenuMgrEntryPOJO> ret = new DataTablesPOJO<WxMenuMgrEntryPOJO>();
+		try {
+			/*if (wxMenuMgrButtonPOJO == null) {
+				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
+			}*/
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			/*if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+			// Full
+			WxMenuMgrFullSearchPOJO wxMenuMgrFullSearchPOJO = new WxMenuMgrFullSearchPOJO();
+			wxMenuMgrFullSearchPOJO.setUserId(userId);
+			
+			List<WxMenuMgrFullPOJO> wxMenuMgrFullPOJOs = wxMenuMgrFullService.finds(wxMenuMgrFullSearchPOJO);
+			if (CollectionUtils.isNotEmpty(wxMenuMgrFullPOJOs)) {
+				for (int i = 0; i < wxMenuMgrFullPOJOs.size(); i++) {
+					WxMenuMgrFullPOJO wxMenuMgrFullPOJO = wxMenuMgrFullPOJOs.get(i);
+					Long wxMenuMgrFullId = wxMenuMgrFullPOJO.getWxMenuMgrFullId();
+
+					// Category
+					WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO = new WxMenuMgrCategorySearchPOJO();
+					wxMenuMgrCategorySearchPOJO.setWxMenuMgrFullId(wxMenuMgrFullId);
+					List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.findFull(wxMenuMgrCategorySearchPOJO);
+					wxMenuMgrFullPOJO.setWxMenuMgrCategoryPOJOs(wxMenuMgrCategoryPOJOs);
+					if (CollectionUtils.isNotEmpty(wxMenuMgrCategoryPOJOs)) {
+						for (WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO : wxMenuMgrCategoryPOJOs) {
+							Long wxMenuMgrMatchRuleId = wxMenuMgrCategoryPOJO.getWxMenuMgrMatchRuleId();
+							WxMenuMgrMatchRulePOJO wxMenuMgrMatchRulePOJO = wxMenuMgrMatchRuleService.findById(wxMenuMgrMatchRuleId);
+							wxMenuMgrCategoryPOJO.setWxMenuMgrMatchRulePOJO(wxMenuMgrMatchRulePOJO);
+						}
+					}
+				}
+			}
+			
+			List<WxMenuMgrEntryPOJO> wxMenuMgrEntryPOJOs = new ArrayList<WxMenuMgrEntryPOJO>();
+			
+			if (CollectionUtils.isNotEmpty(wxMenuMgrFullPOJOs)) {
+				int count = 0;
+				for (int i = 0; i < wxMenuMgrFullPOJOs.size(); i++) {
+					WxMenuMgrFullPOJO wxMenuMgrFullPOJO = wxMenuMgrFullPOJOs.get(i);
+					List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrFullPOJO.getWxMenuMgrCategoryPOJOs();
+					if (CollectionUtils.isNotEmpty(wxMenuMgrCategoryPOJOs)) {
+						for (int j = 0; j < wxMenuMgrCategoryPOJOs.size(); j++) {
+							WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO = wxMenuMgrCategoryPOJOs.get(j);
+							// 本菜单的所有一级菜单
+							List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs1 = wxMenuMgrCategoryPOJO.getWxMenuMgrButtonPOJOs();
+							if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs1)) {
+								continue;
+							}
+							for (int m = 0; m < wxMenuMgrButtonPOJOs1.size(); m++) {
+								// 一个一级菜单
+								WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO1 = wxMenuMgrButtonPOJOs1.get(m);
+								// 本一级菜单的所有二级菜单
+								List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrButtonPOJO1.getWxMenuMgrButtonPOJOs();
+								// 没有二级菜单, 放入一级菜单
+								if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs2)) {
+									WxMenuMgrEntryPOJO wxMenuMgrEntryPOJO = new WxMenuMgrEntryPOJO();
+									wxMenuMgrEntryPOJO.setWxMenuMgrFullPOJO(wxMenuMgrFullPOJO);
+									wxMenuMgrEntryPOJO.setWxMenuMgrCategoryPOJO(wxMenuMgrCategoryPOJO);
+									wxMenuMgrEntryPOJO.setLevel1ButtonPOJO(wxMenuMgrButtonPOJO1);
+									wxMenuMgrEntryPOJOs.add(wxMenuMgrEntryPOJO);
+									continue;
+								}
+								WxMenuMgrEntryPOJO wxMenuMgrEntryPOJO = new WxMenuMgrEntryPOJO();
+								wxMenuMgrEntryPOJO.setWxMenuMgrFullPOJO(wxMenuMgrFullPOJO);
+								wxMenuMgrEntryPOJO.setWxMenuMgrCategoryPOJO(wxMenuMgrCategoryPOJO);
+								wxMenuMgrEntryPOJO.setLevel1ButtonPOJO(wxMenuMgrButtonPOJO1);
+								for (int n = 0; n < wxMenuMgrButtonPOJOs2.size(); n++) {
+									switch (n) {
+										case 0: {
+											wxMenuMgrEntryPOJO.setLevel2Button1POJO(wxMenuMgrButtonPOJOs2.get(0));
+											break;
+										}
+										case 1: {
+											wxMenuMgrEntryPOJO.setLevel2Button2POJO(wxMenuMgrButtonPOJOs2.get(1));
+											break;
+										}
+										case 2: {
+											wxMenuMgrEntryPOJO.setLevel2Button3POJO(wxMenuMgrButtonPOJOs2.get(2));
+											break;
+										}
+										case 3: {
+											wxMenuMgrEntryPOJO.setLevel2Button4POJO(wxMenuMgrButtonPOJOs2.get(3));
+											break;
+										}
+										case 4: {
+											wxMenuMgrEntryPOJO.setLevel2Button5POJO(wxMenuMgrButtonPOJOs2.get(4));
+											break;
+										}
+										default: {
+											logger.error("wxMenuMgrButtonPOJOs2 size: {}", wxMenuMgrButtonPOJOs2.size());
+											break;
+										}
+									}
+								}
+								wxMenuMgrEntryPOJOs.add(wxMenuMgrEntryPOJO);
+								
+							}
+						}
+					}
+				}
+			}
+			
+			ret.setData(wxMenuMgrEntryPOJOs);
+			int size = CollectionUtils.isEmpty(wxMenuMgrEntryPOJOs) ? 0 : wxMenuMgrEntryPOJOs.size();
+			ret.setRecordsTotal(size);
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
 			throw e;
 		}
 		

@@ -29,6 +29,7 @@
 					$(this).hide();
 				})
 				$('#' + contentId).show();
+				$('html,body').animate({scrollTop:0},'slow');
 			});
 			
 	
@@ -61,6 +62,7 @@
                    <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;基础功能</h5></li>
                       
+	                      <li role="presentation"><a href="#wx_menu_mgr_entry"><h6>微信菜单列表管理</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
                       	  <li role="presentation"><a href="#wx_menu_mgr_condition"><h6>定制菜单</h6></a></li>
                       <c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
@@ -119,6 +121,8 @@
 	     			<%@include file="award_inc.jsp" %>
 	     			<!-- award_record -->
 	     			<%@include file="award_record_inc.jsp" %>
+	     			<!-- wx_menu_mgr_entry -->
+	     			<%@include file="wx_menu_mgr_entry_inc.jsp" %>
 	     			<!-- wx_menu_mgr -->
 	     			<%@include file="wx_menu_mgr_inc.jsp" %>
 	     			<!-- wx_menu_mgr_condition -->
