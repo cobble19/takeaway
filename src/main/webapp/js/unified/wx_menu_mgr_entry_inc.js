@@ -3,11 +3,39 @@ var table4WxMenuMgrEntry;
 $(document).ready(function() {
 	$('#wxMenuMgrEntryButtonDiv').dialog({
 		autoOpen: false,
-    	modal: true
+    	modal: true,
+    	width: 800,
+    	height: 600
 	});
+	///
+	$('#addMemberTmplBtn').click(function() {
+		$('#wxMenuMgrEntryButtonDiv #type').val('click');
+		$('#wxMenuMgrEntryButtonDiv #btnKey').val('欢迎您，GUEST  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003');
+		$('#wxMenuMgrEntryButtonDiv #name').val('加入会员');
+	});
+	///
+	$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
+	$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
+	$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
 	
-	
-	
+	$('#wxMenuMgrEntryButtonDiv #type').change(function(){
+		console.log($(this).val());
+		var value = $(this).val();
+		if (value == 'click') {
+			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').show();
+			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
+			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
+		} else if (value == 'view') {
+			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
+			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').show();
+			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
+		} else if (value == 'media_id') {
+			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
+			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
+			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').show();
+		}
+	});
+	///
     table4WxMenuMgrEntry = $('#dbTable4WxMenuMgrEntry').DataTable( {
     	"processing": true,
 		"initComplete": function () {
@@ -62,9 +90,16 @@ $(document).ready(function() {
 			"targets" : [3,4,5,6,7,8],
 			"visible": true,
 			"render" : function(data, type, full, meta) {
-				var ret = data;
-				var plusBtn = '<span style="color: green;" class="glyphicon glyphicon-edit pull-right" aria-hidden="true" onclick="javascript: menuMgrEntryBtnEdit(this);"></span>';
-				return ret + plusBtn;
+				var ret = data == null ? "" : data;
+				var editBtn = '<span style="color: green; margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="修改菜单" class="glyphicon glyphicon-edit pull-right" aria-hidden="true" ' +
+						'onclick="javascript: menuMgrEntryBtnEdit(this' + ',' + meta.row + ',' + meta.col +
+						');"></span>';
+				
+				var deleteBtn = '<span style="color: red; margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="删除菜单" class="glyphicon glyphicon-trash pull-right" aria-hidden="true" ' +
+						'onclick="javascript: menuMgrEntryBtnDelete(this' + ',' + meta.row + ',' + meta.col +
+						');"></span>';
+				
+				return ret + deleteBtn + editBtn;
 			}
 		}/*, {
 			"targets": [9],
@@ -98,8 +133,14 @@ $(document).ready(function() {
 						+ '</ul>'
 					+ '</div>';
 					
+					
+				var publishBtn = '<span style="color: green; margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="发布菜单" class="glyphicon glyphicon-upload" aria-hidden="true" ' +
+						'onclick="javascript: menuMgrEntryBtnPublish(this' + ',' + meta.row + ',' + meta.col +
+						');"></span>';
+				
+					
 			      
-				return oper;
+				return publishBtn;
 			}
 		} ],
         "columns": [
@@ -198,6 +239,8 @@ $(document).ready(function() {
     	});
     })
     
+    ///
+    
     
 } );
 
@@ -241,10 +284,234 @@ var wxMenuMgrEntrySearch = function(table) {
 	});
 }
 
-var menuMgrEntryBtnEdit = function(full) {
-	console.log(this);
-	console.log(table4WxMenuMgrEntry.rows(this).data());
+var menuMgrEntryBtnEdit = function(full,row,col) {
+	console.log(this + row + col);
+	data = table4WxMenuMgrEntry.rows($(full).parent('td').parent('tr')).data();
+	console.log(data[0]);
+	rowData = data[0];
+	
+	wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	parentButtonPOJO = {
+		'wxMenuMgrButtonId': 0
+	};
+	level = 1;
+	switch (col - 3) {
+		case 0: {
+			// 一级菜单
+			buttonPOJO = rowData.level1ButtonPOJO;
+			level = buttonPOJO.level == null ? 1 : buttonPOJO.level;
+			break;
+		}
+		case 1: {
+			// 二级菜单的第一个菜单
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button1POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+		}
+		case 2: {
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button2POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+			
+		}
+		case 3: {
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button3POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+			
+		}
+		case 4: {
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button4POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+			
+		}
+		case 5: {
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button5POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+		}
+		default: {
+			alert('菜单数目不正确');
+		}
+	}
+	console.log('parentButtonPOJO: ' + parentButtonPOJO);
+	console.log('buttonPOJO: ' + buttonPOJO);
+	
+	$('#wxMenuMgrEntryButtonDiv #authorizerAppIdX').val(wxMenuMgrCategoryPOJO.authorizerAppId);
+	$('#wxMenuMgrEntryButtonDiv #wxMenuMgrCategoryId').val(wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId);
+	$('#wxMenuMgrEntryButtonDiv #parentButtonId').val(parentButtonPOJO.wxMenuMgrButtonId);
+	
+	$('#wxMenuMgrEntryButtonDiv #wxMenuMgrButtonId').val(buttonPOJO.wxMenuMgrButtonId);
+	$('#wxMenuMgrEntryButtonDiv #level').val(level);
+	
+	$('#wxMenuMgrEntryButtonDiv #name').val(buttonPOJO.name);
+	$('#wxMenuMgrEntryButtonDiv #type').val(buttonPOJO.type);
+	$('#wxMenuMgrEntryButtonDiv #btnKey').val(buttonPOJO.btnKey)
+	$('#wxMenuMgrEntryButtonDiv #mediaId').val(buttonPOJO.mediaId)
+	$('#wxMenuMgrEntryButtonDiv #menuId').val(buttonPOJO.menuId)
+	$('#wxMenuMgrEntryButtonDiv #newsInfo').val(buttonPOJO.newsInfo)
+	$('#wxMenuMgrEntryButtonDiv #url').val(buttonPOJO.url)
+	$('#wxMenuMgrEntryButtonDiv #value').val(buttonPOJO.value)
+	
+	
+//	var type = $('#wxMenuMgrEntryButtonDiv #type').val();
+//	$('#wxMenuMgrEntryButtonDiv #type').val(type);
+
+	$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
+	$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
+	$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
+	$('#wxMenuMgrEntryButtonDiv #type').change();
+	
 	$('#wxMenuMgrEntryButtonDiv').dialog('open');
+}
+
+var menuMgrEntryBtnDelete = function(full,row,col) {
+	console.log(this);
+	data = table4WxMenuMgrEntry.rows($(full).parent('td').parent('tr')).data();
+	console.log(data[0]);
+	rowData = data[0];
+//	$('#wxMenuMgrEntryButtonDiv form').find('#').val(rowData.)
+	
+	
+	switch (col - 3) {
+		case 0: {
+			// 一级菜单
+			buttonPOJO = rowData.level1ButtonPOJO;
+			level = buttonPOJO.level == null ? 1 : buttonPOJO.level;
+			break;
+		}
+		case 1: {
+			// 二级菜单的第一个菜单
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button1POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+		}
+		case 2: {
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button2POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+			
+		}
+		case 3: {
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button3POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+			
+		}
+		case 4: {
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button4POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+			
+		}
+		case 5: {
+			parentButtonPOJO = rowData.level1ButtonPOJO;
+			buttonPOJO = rowData.level2Button5POJO;
+			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			break;
+		}
+		default: {
+			alert('菜单数目不正确');
+		}
+	}
+	
+	var ids = [];
+	ids.push(buttonPOJO.wxMenuMgrButtonId);
+	console.log('ids: ' + ids);
+	if (ids == null || ids.length <= 0) {
+		alert('请选择一条记录');
+		return;
+	}
+
+	var confirm = window.confirm('确定删除');
+	if (!confirm) {
+		return;
+	}
+	$('#progress').dialog('open');
+	$.ajax({
+		"url" : $('#basePath').val() + "/mgr/wxMenuMgrButton/delete",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		traditional :true, 
+		"data": {
+            "ids": ids
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	wxMenuMgrEntrySearch(table4WxMenuMgrEntry);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+
+
+var menuMgrEntryBtnPublish = function(full,row,col) {
+	console.log(this);
+	data = table4WxMenuMgrEntry.rows($(full).parent('td').parent('tr')).data();
+	console.log(data[0]);
+	rowData = data[0];
+	
+	wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+//	$('#wxMenuMgrEntryButtonDiv form').find('#').val(rowData.)
+	
+	var wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
+	var authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+	
+	console.log('wxMenuMgrCategoryId: ' + wxMenuMgrCategoryId + ", authorizerAppId: " + authorizerAppId);
+	if (wxMenuMgrCategoryId == null || authorizerAppId == null) {
+		alert('wxMenuMgrCategoryId: ' + wxMenuMgrCategoryId + ", authorizerAppId: " + authorizerAppId + ", 参数不正确");
+		return;
+	}
+
+	var confirm = window.confirm('确定修改公众号菜单？！，以前的菜单将被覆盖');
+	if (!confirm) {
+		return;
+	}
+	$('#progress').dialog('open');
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr/publish",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		traditional :true, 
+		"data": {
+            "wxMenuMgrCategoryId": wxMenuMgrCategoryId,
+            "authorizerAppId": authorizerAppId
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	if (data.success) {
+        		alert('发布成功');
+        	}
+        	wxMenuMgrEntrySearch(table4WxMenuMgrEntry);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
 }
 
 

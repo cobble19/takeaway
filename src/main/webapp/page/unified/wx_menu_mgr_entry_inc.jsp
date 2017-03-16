@@ -30,82 +30,94 @@
 	     			<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/wx_menu_mgr_entry_inc.js"></script>
 	     			
 	   <div id="wxMenuMgrEntryButtonDiv" style="display: none;">
-		<form id="wxMenuMgrButtonForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/wxMenuMgrButton/add' method="post">
+		<form id="wxMenuMgrButtonForm" style="width: 600px;" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/wxMenuMgrButton/add' method="post">
  			<div class="form-group">
- 				<label class="control-label" for="parentButtonId">上级标识:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="wxMenuMgrButtonId">标识:</label>
+ 				<div class="col-sm-9">
+ 					<input class="form-control" id="wxMenuMgrButtonId" name="wxMenuMgrButtonId" placeholder="请输入标识">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="col-sm-3 control-label" for="parentButtonId">上级标识:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="parentButtonId" name="parentButtonId" required="required" placeholder="请输入上级标识">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="authorizerAppId">公众号APPID:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="authorizerAppId">公众号APPID:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="authorizerAppIdX" name="authorizerAppId" required="required" placeholder="请输入公众号APPID">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="wxMenuMgrCategoryId">类别:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="wxMenuMgrCategoryId">类别:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="wxMenuMgrCategoryId" name="wxMenuMgrCategoryId" placeholder="请输入类别ID">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="menuId">菜单ID:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="menuId">菜单ID:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="menuId" name="menuId" placeholder="请输入菜单ID">
- 				</div>
- 			</div><!-- 
- 			<div class="form-group">
- 				<label class="control-label" for="type">类型:</label>
- 				<div class="">
- 					<input class="form-control" id="type" name="type" required="required" placeholder="请输入类型">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="name">名称:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="type">类型:</label>
+ 				<div class="col-sm-9">
+ 					<!-- <input class="form-control" id="type" name="type" required="required" placeholder="请输入类型"> -->
+ 					<select class="form-control" id="type" name="type" required="required">
+						<option value="click" selected="selected">click</option>
+						<option value="view">view</option>
+						<option value="media_id">media_id</option>
+					</select>
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="col-sm-3 control-label" for="name">名称:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="name" name="name" placeholder="请输入名称">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="btnKey">关键字:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="btnKey">关键字:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="btnKey" name="btnKey" placeholder="请输入关键字">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="url">URL:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="url">URL:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="url" name="url" placeholder="请输入URL">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="mediaId">媒体ID:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="mediaId">媒体ID:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="mediaId" name="mediaId" placeholder="请输入媒体ID">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="value">值:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="value">值:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="value" name="value" placeholder="请输入值">
  				</div>
- 			</div> -->
+ 			</div>
  			<!-- <div class="form-group">
- 				<label class="control-label" for="newsInfo">新闻信息:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="newsInfo">新闻信息:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="newsInfo" name="newsInfo" placeholder="请输入新闻信息">
  				</div>
  			</div> -->
  			<div class="form-group">
- 				<label class="control-label" for="level">等级:</label>
- 				<div class="">
+ 				<label class="col-sm-3 control-label" for="level">等级:</label>
+ 				<div class="col-sm-9">
  					<input class="form-control" id="level" name="level" placeholder="请输入等级">
  				</div>
  			</div>
  			<div class="form-group">
-	 			<div class="">
+	 			<div class="col-sm-offset-3 col-sm-9">
 	  				<button type="submit" class="btn btn-default" id="addBtn">创建</button>
+	  				<button type="button" class="btn btn-default" id="addMemberTmplBtn">加入会员模板</button>
 	 			</div>
  			</div>
   		</form>
