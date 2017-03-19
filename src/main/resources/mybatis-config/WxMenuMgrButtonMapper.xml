@@ -42,6 +42,12 @@
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>
+	<if test="parentButtonId != null">
+		and a.PARENT_BUTTON_ID = #{parentButtonId}
+	</if>
+	<if test="level != null">
+		and a.LEVEL = #{level}
+	</if>
 	<if test="menuId != null">
 		and a.MENU_ID = #{menuId}
 	</if>

@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategoryPOJO;
+import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxMenuMgrButtonService;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -35,6 +40,9 @@ public class WxMenuMgrButtonController extends BaseController {
 	
 	@Autowired
 	private WxMenuMgrButtonService wxMenuMgrButtonService;
+	@Autowired
+	private WxAuthorizerInfoService wxAuthorizerInfoService;
+	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	
@@ -73,6 +81,9 @@ public class WxMenuMgrButtonController extends BaseController {
 	public StatusPOJO add4Web(WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
+//		ModelAndView ret = new ModelAndView();
+
+		HttpSession session = request.getSession();
 		try {
 			if (wxMenuMgrButtonPOJO == null) {
 				throw new Exception("wxMenuMgrButtonPOJO can't is NULL.");
@@ -82,23 +93,57 @@ public class WxMenuMgrButtonController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
+			/*HttpSession session = request.getSession();
+			String authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			if (StringUtils.isBlank(authorizerAppId)) {
+				WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userId);
+				if (wxAuthorizerInfoPOJO != null) {
+					authorizerAppId = wxAuthorizerInfoPOJO.getAuthorizerAppId();
+				}
+			}*/
+			
 			if (wxMenuMgrButtonPOJO.getWxMenuMgrButtonId() != null) {
 				result = wxMenuMgrButtonService.update(wxMenuMgrButtonPOJO);
 			} else {
+				// if level=1 and count >= 3, can't insert
+				// if level=2 and count >= 5, can't insert
+				WxMenuMgrButtonSearchPOJO wxMenuMgrButtonSearchPOJO = new WxMenuMgrButtonSearchPOJO();
+				wxMenuMgrButtonSearchPOJO.setAuthorizerAppId(wxMenuMgrButtonPOJO.getAuthorizerAppId());
+				wxMenuMgrButtonSearchPOJO.setLevel(wxMenuMgrButtonPOJO.getLevel());
+				if (1 != wxMenuMgrButtonPOJO.getLevel()) {
+					wxMenuMgrButtonSearchPOJO.setParentButtonId(wxMenuMgrButtonPOJO.getParentButtonId());
+				}
+				int count = wxMenuMgrButtonService.getCount(wxMenuMgrButtonSearchPOJO);
+				
+				if (1 == wxMenuMgrButtonPOJO.getLevel() && count >= 3) {
+					throw new Exception("本微信公众号:" + wxMenuMgrButtonPOJO.getAuthorizerAppId()
+							+ ", 已经有三个一级菜单, 不能添加了!");
+				} else if (2 == wxMenuMgrButtonPOJO.getLevel() && count >= 5) {
+					throw new Exception("本微信公众号:" + wxMenuMgrButtonPOJO.getAuthorizerAppId() + "一级菜单:" + wxMenuMgrButtonPOJO.getParentButtonId()
+							+ ", 已经有五个二级级菜单, 不能添加了!");
+				}
+				
 				result = wxMenuMgrButtonService.insert(wxMenuMgrButtonPOJO);
 			}
 			ret.setSuccess(true);
+
+			session.setAttribute("wxMenuMgrEntrySuccess", true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 			ret.setSuccess(false);
-			throw e;
+			session.setAttribute("wxMenuMgrEntrySuccess", false);
+			session.setAttribute("wxMenuMgrEntryMsg", e.getMessage());
+			/*ret.addObject("success", false);
+			ret.addObject("msg", e.getMessage());*/
+			//throw e;
 		}
 		
+		
 		String url = "/web/unified/wxMenuMgrButtonDetail?wxMenuMgrButtonId=" + wxMenuMgrButtonPOJO.getWxMenuMgrButtonId();
-		url = "/web/unified/usercenter#wx_menu_mgr_button";
+		url = "/web/unified/usercenter#wx_menu_mgr_entry";
+
 		redirectStrategy.sendRedirect(request, response, url);;
 		
-//		return ret;
 		return null;
 	}
 	

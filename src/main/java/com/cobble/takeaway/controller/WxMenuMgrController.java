@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.oauth2.BaseWxApiPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrButtonPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategoryPOJO;
 import com.cobble.takeaway.pojo.weixin.WxMenuMgrCategorySearchPOJO;
@@ -47,6 +49,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrSelfMenuInfoButtonRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrSelfMenuInfoRespApiPOJO;
+import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxMenuMgrButtonService;
 import com.cobble.takeaway.service.WxMenuMgrCategoryService;
 import com.cobble.takeaway.service.WxMenuMgrFullService;
@@ -68,6 +71,8 @@ public class WxMenuMgrController extends BaseController {
 	private WxMenuMgrCategoryService wxMenuMgrCategoryService;
 	@Autowired
 	private WxMenuMgrFullService wxMenuMgrFullService;
+	@Autowired
+	private WxAuthorizerInfoService wxAuthorizerInfoService;
 	@Autowired
 	private WxMenuMgrMatchRuleService wxMenuMgrMatchRuleService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -179,12 +184,21 @@ public class WxMenuMgrController extends BaseController {
 			}*/
 			int result = -1;
 			Long userId = UserUtil.getCurrentUserId();
+			HttpSession session = request.getSession();
+			String authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			if (StringUtils.isBlank(authorizerAppId)) {
+				WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userId);
+				if (wxAuthorizerInfoPOJO != null) {
+					authorizerAppId = wxAuthorizerInfoPOJO.getAuthorizerAppId();
+				}
+			}
 			/*if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}*/
 			// Full
 			WxMenuMgrFullSearchPOJO wxMenuMgrFullSearchPOJO = new WxMenuMgrFullSearchPOJO();
-			wxMenuMgrFullSearchPOJO.setUserId(userId);
+//			wxMenuMgrFullSearchPOJO.setUserId(userId);
+			wxMenuMgrFullSearchPOJO.setAuthorizerAppId(authorizerAppId);
 			
 			List<WxMenuMgrFullPOJO> wxMenuMgrFullPOJOs = wxMenuMgrFullService.finds(wxMenuMgrFullSearchPOJO);
 			if (CollectionUtils.isNotEmpty(wxMenuMgrFullPOJOs)) {

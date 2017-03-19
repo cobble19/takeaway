@@ -17,7 +17,7 @@ public class WxMenuMgrButtonSearchPOJO extends BaseSearchPOJO {
     private String mediaId;
     private String value;
 	private Integer newsInfo;
-    private String level;
+    private Integer level;
     private Date createDateTime;
     
 	public Long getWxMenuMgrButtonId() {
@@ -80,10 +80,10 @@ public class WxMenuMgrButtonSearchPOJO extends BaseSearchPOJO {
 	public void setNewsInfo(Integer newsInfo) {
 		this.newsInfo = newsInfo;
 	}
-	public String getLevel() {
+	public Integer getLevel() {
 		return level;
 	}
-	public void setLevel(String level) {
+	public void setLevel(Integer level) {
 		this.level = level;
 	}
 	public Date getCreateDateTime() {

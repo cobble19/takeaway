@@ -8,11 +8,17 @@ $(document).ready(function() {
     	height: 600
 	});
 	///
-	$('#addMemberTmplBtn').click(function() {
-		$('#wxMenuMgrEntryButtonDiv #type').val('click');
-		$('#wxMenuMgrEntryButtonDiv #btnKey').val('欢迎您，GUEST  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003');
-		$('#wxMenuMgrEntryButtonDiv #name').val('加入会员');
+	$('#getMenuBtn4WxMenuMgrEntryFromWx').click(function() {
+		getMenuMgrMenuFromWx();
 	});
+	
+	///
+	$('#wxMenuMgrEntryButtonDiv #level').change(function(){
+		var value = $(this).val();
+		if (value == 1) {
+			$('#wxMenuMgrEntryButtonDiv #parentButtonId').val(0);
+		}
+	})
 	///
 	$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 	$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
@@ -33,6 +39,11 @@ $(document).ready(function() {
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').show();
+		} else if (value == 'addMember') {
+			$('#wxMenuMgrEntryButtonDiv #type').val('click');
+			$('#wxMenuMgrEntryButtonDiv #btnKey').val('欢迎您，GUEST  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003');
+			$('#wxMenuMgrEntryButtonDiv #name').val('加入会员');
+			$('#wxMenuMgrEntryButtonDiv #type').change();
 		}
 	});
 	///
@@ -51,6 +62,9 @@ $(document).ready(function() {
             var info = api.page.info();
             console.log('Currently showing page '+(info.page+1)+' of '+info.pages+' pages.');
             
+           // $('#dbTable4WxMenuMgrEntry_wrapper div.top').hide();
+            
+            
         },
         "language": {
         	"search": "过滤: ",
@@ -67,10 +81,12 @@ $(document).ready(function() {
         	}
         	
         },
-		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
+//		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
+		"dom" : '<"top"<"clear">>rt<"bottom"<"clear">>',	
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
 		"columnDefs" : [ {
 			"targets" : 0,
+			"visible" : false,
 			"render" : function(data, type, full, meta) {
 				var checkBox = '<input type="checkbox" name="chkBox" value="'
 					+ full.wxMenuMgrEntryId
@@ -80,17 +96,18 @@ $(document).ready(function() {
 			}
 		},{
 			"targets" : 1,
+			"visible" : false,
 			"render" : function(data, type, full, meta) {
 				//console.log(data + " " + type + " " + full + " " + meta);
 			}
 		}, {
 			"targets" : [2],
-			"visible": true
+			"visible": false
 		}, {
 			"targets" : [3,4,5,6,7,8],
 			"visible": true,
 			"render" : function(data, type, full, meta) {
-				var ret = data == null ? "" : data;
+				var ret = data == null ? "菜单未设置" : data;
 				var editBtn = '<span style="color: green; margin-left: 5px;" data-toggle="tooltip" data-placement="right" title="修改菜单" class="glyphicon glyphicon-edit pull-right" aria-hidden="true" ' +
 						'onclick="javascript: menuMgrEntryBtnEdit(this' + ',' + meta.row + ',' + meta.col +
 						');"></span>';
@@ -283,7 +300,8 @@ var wxMenuMgrEntrySearch = function(table) {
         }
 	});
 }
-
+///
+///
 var menuMgrEntryBtnEdit = function(full,row,col) {
 	console.log(this + row + col);
 	data = table4WxMenuMgrEntry.rows($(full).parent('td').parent('tr')).data();
@@ -370,10 +388,12 @@ var menuMgrEntryBtnEdit = function(full,row,col) {
 	
 	$('#wxMenuMgrEntryButtonDiv').dialog('open');
 }
+////
 
-var menuMgrEntryBtnDelete = function(full,row,col) {
+////
+var menuMgrEntryBtnDelete = function(spanBtn,row,col) {
 	console.log(this);
-	data = table4WxMenuMgrEntry.rows($(full).parent('td').parent('tr')).data();
+	data = table4WxMenuMgrEntry.rows($(spanBtn).parent('td').parent('tr')).data();
 	console.log(data[0]);
 	rowData = data[0];
 //	$('#wxMenuMgrEntryButtonDiv form').find('#').val(rowData.)
@@ -461,11 +481,12 @@ var menuMgrEntryBtnDelete = function(full,row,col) {
         }
 	});
 }
+///
 
-
-var menuMgrEntryBtnPublish = function(full,row,col) {
+///
+var menuMgrEntryBtnPublish = function(spanBtn,row,col) {
 	console.log(this);
-	data = table4WxMenuMgrEntry.rows($(full).parent('td').parent('tr')).data();
+	data = table4WxMenuMgrEntry.rows($(spanBtn).parent('td').parent('tr')).data();
 	console.log(data[0]);
 	rowData = data[0];
 	
@@ -504,6 +525,55 @@ var menuMgrEntryBtnPublish = function(full,row,col) {
         		alert('发布成功');
         	}
         	wxMenuMgrEntrySearch(table4WxMenuMgrEntry);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+///
+///
+var getMenuMgrMenuFromWx = function() {
+	console.log(this);
+	data = table4WxMenuMgrEntry.row(0).data();
+	console.log(data);
+	rowData = data;
+	
+	wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	
+//	var wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
+	var authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+	
+	console.log("authorizerAppId: " + authorizerAppId);
+	if (authorizerAppId == null) {
+		alert("authorizerAppId: " + authorizerAppId + ", 参数不正确");
+		return;
+	}
+
+	var confirm = window.confirm('确定获取当前所有menu吗？');
+	if (!confirm) {
+		return;
+	}
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr/menu/get",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		traditional :true, 
+		"data": {
+            "authorizerAppId": authorizerAppId
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	if (data.success) {
+        		alert('获取成功');
+        	}
+        	wxMenuMgrConditionSearch2();
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');
