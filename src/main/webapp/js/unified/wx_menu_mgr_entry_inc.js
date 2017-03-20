@@ -12,6 +12,10 @@ $(document).ready(function() {
 		getMenuMgrMenuFromWx();
 	});
 	
+	$('#publishMenuBtn4WxMenuMgrEntryToWx').click(function() {
+		publishMenuMgrMenuToWx();
+	});
+	
 	///
 	$('#wxMenuMgrEntryButtonDiv #level').change(function(){
 		var value = $(this).val();
@@ -126,6 +130,7 @@ $(document).ready(function() {
 			}
 		}*/, {
 			"targets" : [9],
+			"visible" : false,
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/web/unified/wxMenuMgrEntry/showupdate?wxMenuMgrEntryId='  + full.wxMenuMgrEntryId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
@@ -313,11 +318,13 @@ var menuMgrEntryBtnEdit = function(full,row,col) {
 		'wxMenuMgrButtonId': 0
 	};
 	level = 1;
+	orderNo = 0;
 	switch (col - 3) {
 		case 0: {
 			// 一级菜单
 			buttonPOJO = rowData.level1ButtonPOJO;
 			level = buttonPOJO.level == null ? 1 : buttonPOJO.level;
+			orderNo = buttonPOJO.orderNo == null ? (col - 3) : buttonPOJO.orderNo;
 			break;
 		}
 		case 1: {
@@ -325,12 +332,14 @@ var menuMgrEntryBtnEdit = function(full,row,col) {
 			parentButtonPOJO = rowData.level1ButtonPOJO;
 			buttonPOJO = rowData.level2Button1POJO;
 			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			orderNo = buttonPOJO.orderNo == null ? (col - 3) : buttonPOJO.orderNo;
 			break;
 		}
 		case 2: {
 			parentButtonPOJO = rowData.level1ButtonPOJO;
 			buttonPOJO = rowData.level2Button2POJO;
 			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			orderNo = buttonPOJO.orderNo == null ? (col - 3) : buttonPOJO.orderNo;
 			break;
 			
 		}
@@ -338,6 +347,7 @@ var menuMgrEntryBtnEdit = function(full,row,col) {
 			parentButtonPOJO = rowData.level1ButtonPOJO;
 			buttonPOJO = rowData.level2Button3POJO;
 			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			orderNo = buttonPOJO.orderNo == null ? (col - 3) : buttonPOJO.orderNo;
 			break;
 			
 		}
@@ -345,6 +355,7 @@ var menuMgrEntryBtnEdit = function(full,row,col) {
 			parentButtonPOJO = rowData.level1ButtonPOJO;
 			buttonPOJO = rowData.level2Button4POJO;
 			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			orderNo = buttonPOJO.orderNo == null ? (col - 3) : buttonPOJO.orderNo;
 			break;
 			
 		}
@@ -352,6 +363,7 @@ var menuMgrEntryBtnEdit = function(full,row,col) {
 			parentButtonPOJO = rowData.level1ButtonPOJO;
 			buttonPOJO = rowData.level2Button5POJO;
 			level = buttonPOJO.level == null ? 2 : buttonPOJO.level;
+			orderNo = buttonPOJO.orderNo == null ? (col - 3) : buttonPOJO.orderNo;
 			break;
 		}
 		default: {
@@ -377,6 +389,7 @@ var menuMgrEntryBtnEdit = function(full,row,col) {
 	$('#wxMenuMgrEntryButtonDiv #url').val(buttonPOJO.url)
 	$('#wxMenuMgrEntryButtonDiv #value').val(buttonPOJO.value)
 	
+	$('#wxMenuMgrEntryButtonDiv #orderNo').val(orderNo)
 	
 //	var type = $('#wxMenuMgrEntryButtonDiv #type').val();
 //	$('#wxMenuMgrEntryButtonDiv #type').val(type);
@@ -574,6 +587,58 @@ var getMenuMgrMenuFromWx = function() {
         		alert('获取成功');
         	}
         	wxMenuMgrConditionSearch2();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+///
+
+///
+var publishMenuMgrMenuToWx = function() {
+	console.log(this);
+	data = table4WxMenuMgrEntry.row(0).data();
+	console.log(data);
+	rowData = data;
+	
+	wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	
+	var wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
+	var authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+	
+	console.log('wxMenuMgrCategoryId: ' + wxMenuMgrCategoryId + ", authorizerAppId: " + authorizerAppId);
+	if (wxMenuMgrCategoryId == null || authorizerAppId == null) {
+		alert('wxMenuMgrCategoryId: ' + wxMenuMgrCategoryId + ", authorizerAppId: " + authorizerAppId + ", 参数不正确");
+		return;
+	}
+
+	var confirm = window.confirm('确定修改公众号菜单？！，以前的菜单将被覆盖');
+	if (!confirm) {
+		return;
+	}
+	$('#progress').dialog('open');
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr/publish",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		traditional :true, 
+		"data": {
+            "wxMenuMgrCategoryId": wxMenuMgrCategoryId,
+            "authorizerAppId": authorizerAppId
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	if (data.success) {
+        		alert('发布成功');
+        	}
+        	wxMenuMgrEntrySearch(table4WxMenuMgrEntry);
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');

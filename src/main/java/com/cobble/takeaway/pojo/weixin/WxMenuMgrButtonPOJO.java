@@ -19,6 +19,8 @@ public class WxMenuMgrButtonPOJO extends BasePOJO {
     private String value;
 	private String newsInfo;
     private Integer level;
+
+    private Integer orderNo;
     private Date createDateTime;
     
     private List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs;
@@ -113,6 +115,12 @@ public class WxMenuMgrButtonPOJO extends BasePOJO {
 	}
 	public void setBtnKey(String btnKey) {
 		this.btnKey = btnKey;
+	}
+	public Integer getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(Integer orderNo) {
+		this.orderNo = orderNo;
 	}
     
 }

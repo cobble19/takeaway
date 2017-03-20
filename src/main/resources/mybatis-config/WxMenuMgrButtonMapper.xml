@@ -24,6 +24,8 @@
     <result column="VALUE" property="value" />
     <result column="NEWS_INFO" property="newsInfo" />
     <result column="LEVEL" property="level" />
+    <result column="LEVEL" property="level" />
+    <result column="ORDER_NO" property="orderNo" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
@@ -33,7 +35,7 @@
     , a.MENU_ID, a.TYPE, a.NAME
     , a.BTN_KEY, a.URL, a.MEDIA_ID
     , a.VALUE, a.NEWS_INFO, a.LEVEL
-    , a.CREATE_DATE_TIME
+    , a.ORDER_NO, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="wxMenuMgrCategoryId != null">
@@ -65,7 +67,7 @@
 			<include refid="Clause_Common"/>
   		</trim>
   	</where>
-  	order by a.CREATE_DATE_TIME desc
+  	order by a.ORDER_NO asc <!-- a.CREATE_DATE_TIME desc -->
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>
@@ -134,6 +136,9 @@
       <if test="level != null" >
         LEVEL,
       </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -172,6 +177,9 @@
       </if>
       <if test="level != null" >
         #{level},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo},
       </if>
         sysdate(),
     </trim>
@@ -215,6 +223,9 @@
       </if>
       <if test="level != null" >
         LEVEL = #{level},
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>

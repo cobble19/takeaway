@@ -223,6 +223,9 @@ public class WxMenuMgrController extends BaseController {
 			
 			List<WxMenuMgrEntryPOJO> wxMenuMgrEntryPOJOs = new ArrayList<WxMenuMgrEntryPOJO>();
 			
+			WxMenuMgrEntryPOJO temp = null;
+			
+			// 生成1级菜单, 2级菜单
 			if (CollectionUtils.isNotEmpty(wxMenuMgrFullPOJOs)) {
 				int count = 0;
 				for (int i = 0; i < wxMenuMgrFullPOJOs.size(); i++) {
@@ -231,6 +234,12 @@ public class WxMenuMgrController extends BaseController {
 					if (CollectionUtils.isNotEmpty(wxMenuMgrCategoryPOJOs)) {
 						for (int j = 0; j < wxMenuMgrCategoryPOJOs.size(); j++) {
 							WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO = wxMenuMgrCategoryPOJOs.get(j);
+							
+							// 保存category, 来保存如果一级菜单不足3个
+							temp = new WxMenuMgrEntryPOJO();
+							temp.setWxMenuMgrFullPOJO(wxMenuMgrFullPOJO);
+							temp.setWxMenuMgrCategoryPOJO(wxMenuMgrCategoryPOJO);
+							
 							// 本菜单的所有一级菜单
 							List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs1 = wxMenuMgrCategoryPOJO.getWxMenuMgrButtonPOJOs();
 							if (CollectionUtils.isEmpty(wxMenuMgrButtonPOJOs1)) {
@@ -287,6 +296,12 @@ public class WxMenuMgrController extends BaseController {
 							}
 						}
 					}
+				}
+			}
+			
+			if (wxMenuMgrEntryPOJOs.size() < 3) {
+				for (int i = wxMenuMgrEntryPOJOs.size(); i < 3; i++) {
+					wxMenuMgrEntryPOJOs.add(temp);
 				}
 			}
 			
