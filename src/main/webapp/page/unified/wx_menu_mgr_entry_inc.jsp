@@ -11,11 +11,11 @@
 	     					
      						<button id="getMenuBtn4WxMenuMgrEntryFromWx" class="btn btn-default btn-sm" 
      							data-toggle="tooltip" data-placement="top" title="从微信服务器获取菜单">
-     							获取菜单 <span style="color: green;" class="glyphicon glyphicon-download">
+     							<span style="color: green;" class="glyphicon glyphicon-download">
      						</button>
      						<button id="publishMenuBtn4WxMenuMgrEntryToWx" class="btn btn-default btn-sm" 
      							data-toggle="tooltip" data-placement="top" title="发布菜单到微信服务器">
-     							发布菜单 <span style="color: green;" class="glyphicon glyphicon-upload">
+     							<span style="color: green;" class="glyphicon glyphicon-upload">
      						</button>
 	     					<c:if test="${not empty sessionScope.wxMenuMgrEntrySuccess and not sessionScope.wxMenuMgrEntrySuccess}">
 		     					<div style="padding: 0 20px 0 0;; margin: 0" class="alert alert-warning alert-dismissible" role="alert">
@@ -84,7 +84,7 @@
 						<option value="click" selected="selected">文字回复</option>
 						<option value="view">跳转链接</option>
 						<option value="media_id">媒体回复（包括图文、图片、语音）</option>
-						<option value="addMember">一键添加"加入会员"菜单</option>
+						<option value="click">一键添加加入会员</option>
 					</select>
  				</div>
  			</div>

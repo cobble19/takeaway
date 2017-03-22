@@ -29,9 +29,13 @@ $(document).ready(function() {
 	$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
 	
 	$('#wxMenuMgrEntryButtonDiv #type').change(function(){
-		console.log($(this).val());
 		var value = $(this).val();
-		if (value == 'click') {
+		var text = $(this).find('option:selected').text();
+		console.log('value: ' + value + ", text: " + text);
+		
+		$('#wxMenuMgrEntryButtonDiv #btnKey').attr('readonly', false);
+		$('#wxMenuMgrEntryButtonDiv #name').attr('readonly', false);
+		if (value == 'click' && text == '文字回复') {
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').show();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
@@ -43,11 +47,16 @@ $(document).ready(function() {
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').show();
-		} else if (value == 'addMember') {
-			$('#wxMenuMgrEntryButtonDiv #type').val('click');
-			$('#wxMenuMgrEntryButtonDiv #btnKey').val('欢迎您，GUEST  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003');
+		} else if (value == 'click' && text == '一键添加加入会员') {
 			$('#wxMenuMgrEntryButtonDiv #name').val('加入会员');
-			$('#wxMenuMgrEntryButtonDiv #type').change();
+			$('#wxMenuMgrEntryButtonDiv #btnKey').val('欢迎您，GUEST  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003');
+			
+			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').show();
+			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
+			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
+			
+			$('#wxMenuMgrEntryButtonDiv #btnKey').attr('readonly', true);
+			$('#wxMenuMgrEntryButtonDiv #name').attr('readonly', true);
 		}
 	});
 	///
@@ -397,6 +406,7 @@ var menuMgrEntryBtnEdit = function(full,row,col) {
 	$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 	$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 	$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
+	$('#wxMenuMgrEntryButtonDiv #type').val('click');
 	$('#wxMenuMgrEntryButtonDiv #type').change();
 	
 	$('#wxMenuMgrEntryButtonDiv').dialog('open');

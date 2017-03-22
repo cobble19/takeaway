@@ -110,6 +110,7 @@ public class WxMenuMgrButtonController extends BaseController {
 				WxMenuMgrButtonSearchPOJO wxMenuMgrButtonSearchPOJO = new WxMenuMgrButtonSearchPOJO();
 				wxMenuMgrButtonSearchPOJO.setAuthorizerAppId(wxMenuMgrButtonPOJO.getAuthorizerAppId());
 				wxMenuMgrButtonSearchPOJO.setLevel(wxMenuMgrButtonPOJO.getLevel());
+				wxMenuMgrButtonSearchPOJO.setWxMenuMgrCategoryId(wxMenuMgrButtonPOJO.getWxMenuMgrCategoryId());
 				if (1 != wxMenuMgrButtonPOJO.getLevel()) {
 					wxMenuMgrButtonSearchPOJO.setParentButtonId(wxMenuMgrButtonPOJO.getParentButtonId());
 				}
