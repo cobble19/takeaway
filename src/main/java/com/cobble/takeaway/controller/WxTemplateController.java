@@ -200,6 +200,7 @@ public class WxTemplateController extends BaseController {
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userId);
 			if (wxAuthorizerInfoPOJO != null) {
 				session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+				ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
 			}
 			
 			ret.addObject("wxTemplatePOJOs", wxTemplatePOJOs);

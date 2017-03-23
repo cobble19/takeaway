@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
         			
 	     			<div id="wx_menu_mgr_entry">
-	     				<h3>微信菜单列表管理</h3>
+	     				<h3>公众号菜单</h3>
 	     				<div style=" height:100px; line-height:50px;">
 	     					<%-- <a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_menu_mgr_entry_add.jsp'>添加</a>
 	     					
@@ -130,7 +130,7 @@
  					<input class="form-control" id="level" name="level" placeholder="请输入等级">
  				</div>
  			</div>
- 			<div class="form-group">
+ 			<div class="form-group" style="display: none;">
  				<label class="col-sm-3 control-label" for="orderNo">菜单顺序:</label>
  				<div class="col-sm-9">
  					<input class="form-control" id="orderNo" name="orderNo" placeholder="请输入菜单顺序">

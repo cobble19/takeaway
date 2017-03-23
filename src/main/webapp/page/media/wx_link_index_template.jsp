@@ -165,7 +165,12 @@
 			            <%@include file="../../page/media/wx_link_bottom.jsp" %>
                         
                         <div class="row" style="background-color:#333;">
-	                         <p style="text-align:center; margin-bottom:5px; margin-top:5px; font-size:12px; line-height:12px; color:#ffffff;">&copy;2016 合肥交通广播</p>
+	                         <p style="text-align:center; margin-bottom:5px; margin-top:5px; font-size:12px; line-height:12px; color:#ffffff;">
+	                         <c:if test="${not empty wxAuthorizerInfoPOJO}">
+	                         	&copy;<c:out value="${wxAuthorizerInfoPOJO.nickName }"></c:out>
+	                         </c:if>
+
+							</p>
                         </div>   
 			            
 				  		<div id="wxLinkDiv" class="">

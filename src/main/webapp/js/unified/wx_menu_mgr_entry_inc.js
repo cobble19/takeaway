@@ -4,8 +4,8 @@ $(document).ready(function() {
 	$('#wxMenuMgrEntryButtonDiv').dialog({
 		autoOpen: false,
     	modal: true,
-    	width: 800,
-    	height: 600
+    	width: 650,
+    	height: 300
 	});
 	///
 	$('#getMenuBtn4WxMenuMgrEntryFromWx').click(function() {
@@ -564,11 +564,15 @@ var getMenuMgrMenuFromWx = function() {
 	data = table4WxMenuMgrEntry.row(0).data();
 	console.log(data);
 	rowData = data;
-	
-	wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	var authorizerAppId = null;
+	if (!!rowData) {
+		wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	}
+	if (!!wxMenuMgrCategoryPOJO) {
+		authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+	}
 	
 //	var wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
-	var authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
 	if (authorizerAppId == null || authorizerAppId == undefined) {
 		authorizerAppId = $('#authorizerAppId').val();
 	}
