@@ -3,7 +3,7 @@
         			
 	     			<div id="wx_menu_mgr_entry">
 	     				<h3>公众号菜单</h3>
-	     				<div style=" height:100px; line-height:50px;">
+	     				<div style="margin: 10px auto;">
 	     					<%-- <a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_menu_mgr_entry_add.jsp'>添加</a>
 	     					
 	     					<input id="searchBtn4WxMenuMgrEntry" type="button" class="btn btn-default btn-xs" value="查询">
@@ -17,14 +17,20 @@
      							data-toggle="tooltip" data-placement="top" title="发布菜单到微信服务器">
      							发布菜单 <span style="color: green;" class="glyphicon glyphicon-upload">
      						</button>
-	     					<c:if test="${not empty sessionScope.wxMenuMgrEntrySuccess and not sessionScope.wxMenuMgrEntrySuccess}">
-		     					<div style="padding: 0 20px 0 0;; margin: 0" class="alert alert-warning alert-dismissible" role="alert">
-								  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								  <strong>警告!</strong> <c:out value="${sessionScope.wxMenuMgrEntryMsg}"></c:out>
-								</div>	
-							</c:if>
 	     					
 	     				</div>
+	     				
+     					<c:if test="${not empty sessionScope.wxMenuMgrEntrySuccess and not sessionScope.wxMenuMgrEntrySuccess}">
+	     					<div style="" class="alert alert-warning alert-dismissible" role="alert">
+							  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							  <strong>警告!</strong> <c:out value="${sessionScope.wxMenuMgrEntryMsg}"></c:out>
+							</div>	
+						</c:if>
+     				
+						<div style="" class="alert alert-success alert-dismissible" role="alert">
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						  <strong>提示:</strong> 菜单修改后必须发布才能生效!
+						</div>
 				  		<table id="dbTable4WxMenuMgrEntry" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 				  				<thead>
 				  					<tr>
