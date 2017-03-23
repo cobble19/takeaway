@@ -569,6 +569,9 @@ var getMenuMgrMenuFromWx = function() {
 	
 //	var wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
 	var authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+	if (authorizerAppId == null || authorizerAppId == undefined) {
+		authorizerAppId = $('#authorizerAppId').val();
+	}
 	
 	console.log("authorizerAppId: " + authorizerAppId);
 	if (authorizerAppId == null) {
