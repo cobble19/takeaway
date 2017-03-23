@@ -565,6 +565,7 @@ var getMenuMgrMenuFromWx = function() {
 	console.log(data);
 	rowData = data;
 	var authorizerAppId = null;
+	var wxMenuMgrCategoryPOJO = null;
 	if (!!rowData) {
 		wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
 	}
@@ -583,7 +584,7 @@ var getMenuMgrMenuFromWx = function() {
 		return;
 	}
 
-	var confirm = window.confirm('确定获取当前所有menu吗？');
+	var confirm = window.confirm('获取当前菜单');
 	if (!confirm) {
 		return;
 	}
@@ -622,7 +623,20 @@ var publishMenuMgrMenuToWx = function() {
 	console.log(data);
 	rowData = data;
 	
-	wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	var wxMenuMgrCategoryPOJO = null;
+	if (rowData != null && !!rowData) {
+		wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	} else {
+		alert('请先设置菜单');
+		return;
+	}
+	if (wxMenuMgrCategoryPOJO != null && !!wxMenuMgrCategoryPOJO) {
+		authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+	} else {
+		alert('请先设置菜单');
+		return;
+	}
+//	wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
 	
 	var wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
 	var authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;

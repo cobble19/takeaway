@@ -300,6 +300,23 @@ public class WxMenuMgrController extends BaseController {
 			}
 			
 			if (wxMenuMgrEntryPOJOs.size() < 3) {
+				// 添加备份行
+				if (temp == null) {
+					WxMenuMgrFullPOJO wxMenuMgrFullPOJO = new WxMenuMgrFullPOJO();
+					wxMenuMgrFullPOJO.setAuthorizerAppId(authorizerAppId);
+					wxMenuMgrFullPOJO.setName("FullEmptyPlaceHolder");
+					wxMenuMgrFullService.insert(wxMenuMgrFullPOJO);
+					
+					WxMenuMgrCategoryPOJO wxMenuMgrCategoryPOJO = new WxMenuMgrCategoryPOJO();
+					wxMenuMgrCategoryPOJO.setAuthorizerAppId(authorizerAppId);
+					wxMenuMgrCategoryPOJO.setName("CategoryEmptyPlaceHolder");
+					wxMenuMgrCategoryPOJO.setWxMenuMgrFullId(wxMenuMgrFullPOJO.getWxMenuMgrFullId());
+					wxMenuMgrCategoryService.insert(wxMenuMgrCategoryPOJO);
+					
+					temp = new WxMenuMgrEntryPOJO();
+					temp.setWxMenuMgrFullPOJO(wxMenuMgrFullPOJO);
+					temp.setWxMenuMgrCategoryPOJO(wxMenuMgrCategoryPOJO);
+				}
 				for (int i = wxMenuMgrEntryPOJOs.size(); i < 3; i++) {
 					wxMenuMgrEntryPOJOs.add(temp);
 				}
