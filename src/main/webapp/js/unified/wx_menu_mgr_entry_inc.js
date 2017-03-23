@@ -5,8 +5,18 @@ $(document).ready(function() {
 		autoOpen: false,
     	modal: true,
     	width: 650,
-    	height: 300
+    	height: 300,
+    	title: "编辑菜单",
+    	dialogClass: "no-close",
+    	closeText: "hide",
+    	classes: {
+			"ui-dialog": "highlight"
+		}
 	});
+	
+	$('#wxMenuMgrEntryButtonDiv button[id=closeBtn]').click(function(){
+		$('#wxMenuMgrEntryButtonDiv').dialog("close");
+	})
 	///
 	$('#getMenuBtn4WxMenuMgrEntryFromWx').click(function() {
 		getMenuMgrMenuFromWx();

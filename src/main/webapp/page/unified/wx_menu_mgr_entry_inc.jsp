@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
         			
+<style type="text/css">
+<!--
+/* .no-close .ui-dialog-titlebar-close {
+  display: none;
+} */
+-->
+</style>
+        			
 	     			<div id="wx_menu_mgr_entry">
 	     				<h3>公众号菜单</h3>
 	     				<div style="margin: 10px auto;">
@@ -25,6 +33,9 @@
 							  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							  <strong>警告!</strong> <c:out value="${sessionScope.wxMenuMgrEntryMsg}"></c:out>
 							</div>	
+							<%
+								session.setAttribute("wxMenuMgrEntrySuccess", null);
+							%>
 						</c:if>
      				
 						<div style="" class="alert alert-success alert-dismissible" role="alert">
@@ -97,7 +108,7 @@
  			<div class="form-group">
  				<label class="col-sm-3 control-label" for="name">菜单名称:</label>
  				<div class="col-sm-9">
- 					<input class="form-control" id="name" name="name" placeholder="请输入菜单名称">
+ 					<input class="form-control" required="required" id="name" name="name" placeholder="请输入菜单名称">
  				</div>
  			</div>
  			<div class="form-group">
@@ -145,6 +156,7 @@
  			<div class="form-group">
 	 			<div class="col-sm-offset-3 col-sm-9">
 	  				<button type="submit" class="btn btn-default" id="addBtn">创建</button>
+	  				<button type="button" class="btn btn-default" id="closeBtn">关闭</button>
 	  				<!-- <button type="button" class="btn btn-default" id="addMemberTmplBtn">加入会员模板</button> -->
 	 			</div>
  			</div>
