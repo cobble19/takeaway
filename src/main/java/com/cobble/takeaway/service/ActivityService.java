@@ -1,5 +1,6 @@
 package com.cobble.takeaway.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cobble.takeaway.pojo.ActivityPOJO;
@@ -22,6 +23,8 @@ public interface ActivityService {
 	int getCount4Enterprise(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 	
 	ActivityPOJO find2ById(Long id) throws Exception;
+	
+	public ActivityPOJO find2ById(Long id, Date startDateTime, Date endDateTime) throws Exception;
 
 	List<ActivityPOJO> findActivitys4WxPerson(ActivitySearchPOJO activitySearchPOJO) throws Exception;
 	int getActivitys4WxPersonCount(ActivitySearchPOJO activitySearchPOJO) throws Exception;

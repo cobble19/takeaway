@@ -41,8 +41,8 @@
     <result column="NEED_SUBSCRIBE" property="needSubscribe" />
     <result column="USERNAME_ENTERPRISE" property="usernameEnterprise" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
-    <collection property="apply2POJOs" column="ACTIVITY_ID" ofType="com.cobble.takeaway.pojo.Apply2POJO"
-    	 select="com.cobble.takeaway.dao.Apply2Mapper.finds2ByActivityId" ></collection>
+    <!-- <collection property="apply2POJOs" column="ACTIVITY_ID" ofType="com.cobble.takeaway.pojo.Apply2POJO"
+    	 select="com.cobble.takeaway.dao.Apply2Mapper.finds2ByActivityId" ></collection> -->
   </resultMap>
   
   <sql id="Base_Column_List" >

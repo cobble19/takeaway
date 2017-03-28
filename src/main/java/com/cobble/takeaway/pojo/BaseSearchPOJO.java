@@ -1,6 +1,7 @@
 package com.cobble.takeaway.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class BaseSearchPOJO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +20,9 @@ public class BaseSearchPOJO implements Serializable {
 	
 	// User 
 	private Long userId;
+	
+	private Date startDateTime;
+	private Date endDateTime;
 	
 	
 	// all data
@@ -68,5 +72,25 @@ public class BaseSearchPOJO implements Serializable {
 			limit = 0;
 		}
 		this.paginationFlage = paginationFlage;
+	}
+
+	public Date getStartDateTime() {
+		return startDateTime;
+	}
+
+	public void setStartDateTime(Date startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+
+	public Date getEndDateTime() {
+		return endDateTime;
+	}
+
+	public void setEndDateTime(Date endDateTime) {
+		this.endDateTime = endDateTime;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

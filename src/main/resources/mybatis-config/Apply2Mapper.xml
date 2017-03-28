@@ -139,12 +139,19 @@
     where APPLY2_ID = #{apply2Id}
   </select>
   
-  <select id="finds2ByActivityId" resultMap="Apply2Result2Map" parameterType="java.lang.Long" >
+  <select id="finds2ByActivityId" resultMap="Apply2Result2Map" parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
     select 
     <include refid="Base_Column_List" />
     from p_apply2 apply2, rel_activity_apply2 raa2
     where apply2.apply2_id = raa2.apply2_id
     and raa2.ACTIVITY_ID = #{activityId}
+    <if test="startDateTime != null">
+    	and apply2.CREATE_DATE_TIME &gt;= #{startDateTime}
+    </if>
+    <if test="endDateTime != null">
+    	and apply2.CREATE_DATE_TIME &lt;= #{endDateTime}
+    </if>
+    
   	order by apply2.CREATE_DATE_TIME asc
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >

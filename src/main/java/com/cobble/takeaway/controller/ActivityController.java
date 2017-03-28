@@ -2,6 +2,7 @@ package com.cobble.takeaway.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,7 @@ import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.Apply2AttrModelService;
 import com.cobble.takeaway.util.CommonConstant;
+import com.cobble.takeaway.util.DateUtil;
 import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
 
@@ -94,7 +97,10 @@ public class ActivityController extends BaseController {
 
 	// 版本2中的申请人信息
 	@RequestMapping(value = "/api/apply2/v2/export/xls", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-	public Map export4Detail(@RequestParam("activityId") Long activityId, Model model, 
+	public Map export4Detail(@RequestParam("activityId") Long activityId
+			, @RequestParam("startDateTime") Date startDateTime
+			, @RequestParam("endDateTime") Date endDateTime
+			, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		/**
 		 * apply2POJOList: List<Map>
@@ -104,7 +110,7 @@ public class ActivityController extends BaseController {
 		Map ret = new HashMap();
 		ActivityPOJO activityPOJO = new ActivityPOJO();
 		try {
-			activityPOJO = activityService.find2ById(activityId);
+			activityPOJO = activityService.find2ById(activityId, startDateTime, endDateTime);
 			logger.info("activityPOJO convert to Json: " + JsonUtils.convertToJson(activityPOJO));
 			
 			List<Map> maps = new ArrayList<Map>();
@@ -166,7 +172,7 @@ public class ActivityController extends BaseController {
 			HSSFDataFormat df = wb.createDataFormat();
 			HSSFFont font = wb.createFont();
 			font.setFontHeightInPoints((short)12);
-			font.setColor(HSSFColor.RED.index);
+			font.setColor(HSSFColor.BLACK.index);
 			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 			
 			cs.setFont(font);
@@ -186,7 +192,12 @@ public class ActivityController extends BaseController {
 				for (int j = 0; j < columns.size(); j++) {
 					HSSFCell cell = row.createCell(j);
 					Object value = map.get(columns.get(j));
-					cell.setCellValue(value != null ? value.toString() : "");
+					if (value instanceof Date) {
+						String dateStr = DateUtil.toStr((Date) value, "yyyy-MM-dd HH:mm:ss");
+						cell.setCellValue(dateStr);
+					} else {
+						cell.setCellValue(value != null ? value.toString() : "");
+					}
 				}
 			}
 			
@@ -194,7 +205,11 @@ public class ActivityController extends BaseController {
 			wb.write(os);
 			os.close();*/
 			
-			response.setHeader("Content-Disposition", "attachment; filename=apply2.xls");
+			String fileName = WorkbookUtil.createSafeSheetName(activityPOJO.getTitle());
+			fileName = URLEncoder.encode(fileName, "UTF-8");
+			fileName = fileName + ".xls";
+			
+			response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 //			response.setContentType("application/octet-stream");
 			response.setContentType("application/ms-excel");
 			OutputStream out = response.getOutputStream();

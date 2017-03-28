@@ -1,6 +1,36 @@
 $(document).ready(function() {
 	applyInActivitySearch();
 	
+	var activityTitle = getParam('activityTitle');
+	$('#activityTitle').text(activityTitle);
+	
+	$('#startDateTime').datetimepicker({
+		lang:'ch',
+		timepicker:true,
+		/*format: 'Y-m-d H:i'*/
+		value: '2015-02-20 20:20:20'
+	});
+	$('#endDateTime').datetimepicker({
+		lang:'ch',
+		timepicker:true,
+		/*format: 'Y-m-d H:i'*/
+		value: '2015-02-20 21:22:23'
+	});
+//	$('#startDateTime, #endDateTime').change(function() {
+//		var startDateTime = $('#startDateTime').val();
+//		var endDateTime = $('#endDateTime').val();
+//		if (startDateTime >= endDateTime) {
+//		}
+//	})
+	
+	$('#exportBtn').click(function() {
+		var activityId = getParam('activityId');
+		var startDateTime = $('#startDateTime').val();
+		var endDateTime = $('#endDateTime').val();
+		window.location.href = $('#basePath').val() + "/api/apply2/v2/export/xls?activityId=" +
+				activityId + "&startDateTime=" + startDateTime + "&endDateTime=" + endDateTime;
+	});
+	
 	
     /*var table = $('#dbTable').DataTable(  );*/
     
