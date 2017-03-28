@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.WxRespMsgMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxRespMsgResultMap" type="com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO" >
+    <id column="WX_RESP_MSG_ID" property="wxRespMsgId" />
+    <result column="MSG_RECEIVE" property="msgReceive"/>
+    <result column="MSG_SEND" property="msgSend"/>
+    <result column="MSG_TYPE" property="msgType"/>
+    <result column="USER_ID" property="userId"/>
+    <result column="AUTHORIZER_APP_ID" property="authorizerAppId" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_RESP_MSG_ID, a.MSG_RECEIVE, a.MSG_SEND
+    , a.MSG_TYPE
+    <!-- , a.USER_ID, a.AUTHORIZER_APP_ID -->, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="msgReceive != null">
+		and a.MSG_RECEIVE = #{msgReceive}
+	</if>
+	<if test="msgType != null">
+		and a.MSG_TYPE = #{msgType}
+	</if>
+	<!-- <if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
+	</if> -->
+  </sql>
+  
+  <select id="finds" resultMap="WxRespMsgResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , b.USER_ID, b.AUTHORIZER_APP_ID
+    from WX_RESP_MSG a
+    left join REL_WX_RESP_MSG_USER b on b.WX_RESP_MSG_ID = a.WX_RESP_MSG_ID
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="userId != null">
+				and b.USER_ID = #{userId}
+			</if>
+			<if test="authorizerAppId != null">
+				and b.AUTHORIZER_APP_ID = #{authorizerAppId}
+			</if>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_RESP_MSG a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxRespMsgResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    , b.USER_ID, b.AUTHORIZER_APP_ID
+    from WX_RESP_MSG a
+    left join REL_WX_RESP_MSG_USER b on b.WX_RESP_MSG_ID = a.WX_RESP_MSG_ID
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_RESP_MSG_ID = #{wxRespMsgId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_RESP_MSG
+    where WX_RESP_MSG_ID = #{wxRespMsgId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO" useGeneratedKeys="true"
+  	keyProperty="wxRespMsgId" keyColumn="WX_RESP_MSG_ID">
+    insert into WX_RESP_MSG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="msgReceive != null" >
+        MSG_RECEIVE,
+      </if>
+      <if test="msgSend != null" >
+        MSG_SEND,
+      </if>
+      <if test="msgType != null" >
+        MSG_TYPE,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="msgReceive != null" >
+        #{msgReceive},
+      </if>
+      <if test="msgSend != null" >
+        #{msgSend},
+      </if>
+      <if test="msgType != null" >
+        #{msgType},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO" >
+    update WX_RESP_MSG
+    <set >
+      <if test="msgReceive != null" >
+        MSG_RECEIVE = #{msgReceive},
+      </if>
+      <if test="msgSend != null" >
+        MSG_SEND = #{msgSend},
+      </if>
+      <if test="msgType != null" >
+        MSG_TYPE = #{msgType},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where WX_RESP_MSG_ID = #{wxRespMsgId}
+  </update>
+  
+</mapper>

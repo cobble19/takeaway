@@ -48,6 +48,8 @@ import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
+import com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthEventRecvAuthorizedApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
@@ -98,6 +100,7 @@ import com.cobble.takeaway.service.WxAuthorizerRefreshTokenService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
+import com.cobble.takeaway.service.WxRespMsgService;
 import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.CommonConstant;
@@ -133,6 +136,9 @@ public class Oauth2Controller extends BaseController {
 	private WxPersonUserService wxPersonUserService;*/
 	/*@Autowired
 	private RelWxPuOpenService relWxPuOpenService;*/
+	
+	@Autowired
+	private WxRespMsgService wxRespMsgService;
 	
 	@Autowired
 	private UserService userService;
@@ -2687,6 +2693,32 @@ public class Oauth2Controller extends BaseController {
 						}
 						
 					}	// end 003
+					
+					// deal resp msg @03/28/2017
+					String contentRecv = wxMsgEventRecvApiPOJO.getContent();
+					WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
+					wxRespMsgSearchPOJO.setAuthorizerAppId(authorizerAppId);
+					wxRespMsgSearchPOJO.setMsgReceive(contentRecv);
+					List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgService.finds(wxRespMsgSearchPOJO);
+					if (!CollectionUtils.isEmpty(wxRespMsgPOJOs)) {
+						if (wxRespMsgPOJOs.size() > 1) {
+							logger.error("同一个公众号和接收的关键字返回了{}条记录, 请查询代码.", wxRespMsgPOJOs.size());
+						}
+						WxRespMsgPOJO wxRespMsgPOJO = wxRespMsgPOJOs.get(0);
+						
+						WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+						wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
+						wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
+						wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+						wxMsgEventRespTextApiPOJO.setMsgType("text");
+						String content = wxRespMsgPOJO.getMsgSend();
+						wxMsgEventRespTextApiPOJO.setContent(content);
+						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+						return encryptMsg;
+					}
+					
+					// end deal resp msg
 					
 				} /**text end**/ else if ("event".equalsIgnoreCase(msgType)) {
 					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);

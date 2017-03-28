@@ -69,6 +69,8 @@
 	                      <li role="presentation"><a href="#wx_menu_mgr_match_rule"><h6>菜单match rule</h6></a></li>
 	                   </c:if>
 	                      <li role="presentation"><a href="#wx_person_user"><h6>微信个人用户</h6></a></li>
+	                      
+	                      <li role="presentation"><a href="#wx_resp_msg"><h6>关键字回复</h6></a></li>
                       
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
@@ -136,6 +138,8 @@
 	     			<%@include file="wx_menu_mgr_match_rule_inc.jsp" %>
 	     			<!-- wx_person_user -->
 	     			<%@include file="wx_person_user_inc.jsp" %>
+	     			<!-- wx_resp_msg -->
+	     			<%@include file="wx_resp_msg_inc.jsp" %>
 	     			<!-- create_interactive -->
 	     			<%@include file="interactive_inc.jsp" %>
 	     			<%@include file="interactive2_inc.jsp" %>

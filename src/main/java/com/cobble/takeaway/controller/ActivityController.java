@@ -1,5 +1,7 @@
 package com.cobble.takeaway.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,9 +93,9 @@ public class ActivityController extends BaseController {
 	}
 
 	// 版本2中的申请人信息
-	@RequestMapping(value = "/api/apply2/v2/export", produces = {MediaType.APPLICATION_JSON_VALUE})
-	@ResponseBody
-	public Map export4Detail(@PathVariable("activityId") Long activityId) throws Exception {
+	@RequestMapping(value = "/api/apply2/v2/export/xls", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+	public Map export4Detail(@RequestParam("activityId") Long activityId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		/**
 		 * apply2POJOList: List<Map>
 		 * columns: List<String>
@@ -149,13 +159,59 @@ public class ActivityController extends BaseController {
 			
 			// Export excel
 			
+			HSSFWorkbook wb = new HSSFWorkbook();
+			HSSFSheet sheet = wb.createSheet("活动申请人");
+			
+			HSSFCellStyle cs = wb.createCellStyle();
+			HSSFDataFormat df = wb.createDataFormat();
+			HSSFFont font = wb.createFont();
+			font.setFontHeightInPoints((short)12);
+			font.setColor(HSSFColor.RED.index);
+			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+			
+			cs.setFont(font);
+//			cs.setDataFormat(df.getFormat("#,##0.0"));
+			cs.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
+			
+			HSSFRow row = sheet.createRow(0);
+			for (int i = 0; i < trHeaderNames.size(); i++) {
+				HSSFCell cell = row.createCell(i);
+				cell.setCellValue(trHeaderNames.get(i));
+				cell.setCellStyle(cs);
+			}
+			
+			for (int i = 0; i < maps.size(); i++) {
+				Map map = maps.get(i);
+				row = sheet.createRow(i + 1);
+				for (int j = 0; j < columns.size(); j++) {
+					HSSFCell cell = row.createCell(j);
+					Object value = map.get(columns.get(j));
+					cell.setCellValue(value != null ? value.toString() : "");
+				}
+			}
+			
+			/*FileOutputStream os = new FileOutputStream("apply2.xls");
+			wb.write(os);
+			os.close();*/
+			
+			response.setHeader("Content-Disposition", "attachment; filename=apply2.xls");
+//			response.setContentType("application/octet-stream");
+			response.setContentType("application/ms-excel");
+			OutputStream out = response.getOutputStream();
+
+            BufferedOutputStream bos = new BufferedOutputStream(out);   
+			wb.write(bos);
+			bos.flush();
+			bos.close();
+			
 			
 		} catch (Exception e) {
 			logger.error("query error.", e);
 			throw e;
 		}
 		
-		return ret;
+//		return ret;
+		return null;
 	}
 
 	// 版本2中的申请人信息

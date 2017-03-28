@@ -75,5 +75,8 @@
 		
 		<mapper resource="mybatis-config/RelWxIndexMapMapper.xml" />
 		
+		<mapper resource="mybatis-config/WxRespMsgMapper.xml" />
+		<mapper resource="mybatis-config/RelWxRespMsgUserMapper.xml" />
+		
 	</mappers>
 </configuration>

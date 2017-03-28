@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.RelWxRespMsgUserMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="RelWxRespMsgUserResultMap" type="com.cobble.takeaway.pojo.weixin.RelWxRespMsgUserPOJO" >
+    <id column="REL_WX_RESP_MSG_USER_ID" property="relWxRespMsgUserId" />
+    <result column="WX_RESP_MSG_ID" property="wxRespMsgId"/>
+    <result column="AUTHORIZER_APP_ID" property="authorizerAppId"/>
+    <result column="USER_ID" property="userId"/>
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.REL_WX_RESP_MSG_USER_ID, a.WX_RESP_MSG_ID, a.AUTHORIZER_APP_ID
+    , a.USER_ID, a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="wxRespMsgId != null">
+		and a.WX_RESP_MSG_ID = #{wxRespMsgId}
+	</if>
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="RelWxRespMsgUserResultMap" parameterType="com.cobble.takeaway.pojo.weixin.RelWxRespMsgUserSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from REL_WX_RESP_MSG_USER a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by asc a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.RelWxRespMsgUserSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from REL_WX_RESP_MSG_USER a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="RelWxRespMsgUserResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from REL_WX_RESP_MSG_USER a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.REL_WX_RESP_MSG_USER_ID = #{relWxRespMsgUserId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from REL_WX_RESP_MSG_USER
+    where REL_WX_RESP_MSG_USER_ID = #{relWxRespMsgUserId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.RelWxRespMsgUserPOJO" useGeneratedKeys="true"
+  	keyProperty="relWxRespMsgUserId" keyColumn="REL_WX_RESP_MSG_USER_ID">
+    insert into REL_WX_RESP_MSG_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wxRespMsgId != null" >
+        WX_RESP_MSG_ID,
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wxRespMsgId != null" >
+        #{wxRespMsgId},
+      </if>
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.RelWxRespMsgUserPOJO" >
+    update REL_WX_RESP_MSG_USER
+    <set >
+      <if test="wxRespMsgId != null" >
+        WX_RESP_MSG_ID = #{wxRespMsgId},
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID = #{authorizerAppId},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+        CREATE_DATE_TIME = sysdate(),
+    </set>
+    where REL_WX_RESP_MSG_USER_ID = #{relWxRespMsgUserId}
+  </update>
+  
+</mapper>

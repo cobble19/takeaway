@@ -16,6 +16,8 @@
   		<div class="row">
   			<h2 class="">活动[<c:out value="${param.activityTitle }"></c:out>]的申请人</h2>
   			<button class="btn btn-success" id="print" onclick="javascript: window.print();">打印</button>
+  			
+  			<a class="btn btn-success" href='<cmn:base/>/api/apply2/v2/export/xls?activityId=${param.activityId}'>导出</a>
   		<table id="dbTable" class="display table table-striped table-bordered" cellspacing="0" width="100%">
   				<thead>
   					<tr>
