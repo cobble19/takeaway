@@ -56,7 +56,7 @@ var buildTable = function(result) {
 	columnDefs = [];
 	columnDef = {
 			"targets": [columns.length - 1],
-			"visible": false,
+			"visible": true,
 			"render" : function(data, type, full, meta) {
 				var createDateTime = new Date(full.createDateTime);
 				return createDateTime.format('Y-m-d H:i:s');
