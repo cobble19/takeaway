@@ -25,6 +25,10 @@
      							data-toggle="tooltip" data-placement="top" title="发布菜单到微信服务器">
      							发布菜单 <span style="color: green;" class="glyphicon glyphicon-upload">
      						</button>
+     						<button id="deleteMenuBtn4WxMenuMgrEntryFromWx" class="btn btn-default btn-sm" 
+     							data-toggle="tooltip" data-placement="top" title="从微信服务器删除菜单">
+     							删除菜单 <span style="color: green;" class="glyphicon glyphicon-remove">
+     						</button>
 	     					
 	     				</div>
 	     				

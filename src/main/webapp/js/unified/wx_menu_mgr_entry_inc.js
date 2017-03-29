@@ -19,11 +19,16 @@ $(document).ready(function() {
 	})
 	///
 	$('#getMenuBtn4WxMenuMgrEntryFromWx').click(function() {
-		getMenuMgrMenuFromWx();
+//		getMenuMgrMenuFromWx();
+		getMenuMgrMenuInfoFromWx();
 	});
 	
 	$('#publishMenuBtn4WxMenuMgrEntryToWx').click(function() {
 		publishMenuMgrMenuToWx();
+	});
+	
+	$('#deleteMenuBtn4WxMenuMgrEntryFromWx').click(function(){
+		deleteMenuFromWx();
 	});
 	
 	///
@@ -569,6 +574,63 @@ var menuMgrEntryBtnPublish = function(spanBtn,row,col) {
 }
 ///
 ///
+var getMenuMgrMenuInfoFromWx = function() {
+	console.log(this);
+	data = table4WxMenuMgrEntry.row(0).data();
+	console.log(data);
+	rowData = data;
+	var authorizerAppId = null;
+	var wxMenuMgrCategoryPOJO = null;
+	if (!!rowData) {
+		wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	}
+	if (!!wxMenuMgrCategoryPOJO) {
+		authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+	}
+	
+//	var wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
+	if (authorizerAppId == null || authorizerAppId == undefined) {
+		authorizerAppId = $('#authorizerAppId').val();
+	}
+	
+	console.log("authorizerAppId: " + authorizerAppId);
+	if (authorizerAppId == null) {
+		alert("authorizerAppId: " + authorizerAppId + ", 参数不正确");
+		return;
+	}
+	
+	var confirm = window.confirm('确定获取当前菜单');
+	if (!confirm) {
+		return;
+	}
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr/menuinfo",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		traditional :true, 
+		"data": {
+            "authorizerAppId": authorizerAppId
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	if (data.success) {
+        		alert('获取成功');
+        	}
+   			wxMenuMgrEntrySearch(table4WxMenuMgrEntry);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+///
+///
 var getMenuMgrMenuFromWx = function() {
 	console.log(this);
 	data = table4WxMenuMgrEntry.row(0).data();
@@ -614,7 +676,7 @@ var getMenuMgrMenuFromWx = function() {
         	if (data.success) {
         		alert('获取成功');
         	}
-        	wxMenuMgrConditionSearch2();
+    		wxMenuMgrEntrySearch(table4WxMenuMgrEntry);
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');
@@ -689,6 +751,68 @@ var publishMenuMgrMenuToWx = function() {
         }
 	});
 }
+///
+///
+
+var deleteMenuFromWx = function() {
+	console.log(this);
+	data = table4WxMenuMgrEntry.row(0).data();
+	console.log(data);
+	rowData = data;
+	var authorizerAppId = null;
+	var wxMenuMgrCategoryPOJO = null;
+	if (!!rowData) {
+		wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	}
+	if (!!wxMenuMgrCategoryPOJO) {
+		authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+	}
+	
+//	var wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
+	if (authorizerAppId == null || authorizerAppId == undefined) {
+		authorizerAppId = $('#authorizerAppId').val();
+	}
+	
+	console.log("authorizerAppId: " + authorizerAppId);
+	if (authorizerAppId == null) {
+		alert("authorizerAppId: " + authorizerAppId + ", 参数不正确");
+		return;
+	}
+	
+	var confirm = window.confirm('删除API生成公众号菜单?!');
+	if (!confirm) {
+		return;
+	}
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/unified/wxMenuMgr/" + authorizerAppId + "/menu/delete",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		traditional :true, 
+		/*"data": {
+            "authorizerAppId": authorizerAppId
+        },*/
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	if (data.success) {
+        		alert('删除成功');
+        	}
+        	wxMenuMgrEntrySearch(table4WxMenuMgrEntry);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+///
+
+
+
 
 
 
