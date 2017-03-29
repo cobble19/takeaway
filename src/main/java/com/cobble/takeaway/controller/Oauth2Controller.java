@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -1678,7 +1679,7 @@ public class Oauth2Controller extends BaseController {
 							wxPersonUserService.update(wxPersonUserPOJO);
 						}
 						
-						if (CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
+						if (wxPersonUserPOJO.getMemberFlag() == null || CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
 							WxPersonUserPOJO temp = new WxPersonUserPOJO();
 							temp.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
 							temp.setMemberFlag(CommonConstant.MEMBER_FLAG);
@@ -2476,7 +2477,7 @@ public class Oauth2Controller extends BaseController {
 							needRegisterMember = true;
 						} else {
 							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
-							if (CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
+							if (wxPersonUserPOJO.getMemberFlag() == null || CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
 								needRegisterMember = true;
 							} else {
 								needRegisterMember = false;
@@ -2567,7 +2568,7 @@ public class Oauth2Controller extends BaseController {
 							isMember = false;
 						} else {
 							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
-							if (CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
+							if (wxPersonUserPOJO.getMemberFlag() == null || CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
 								isMember = false;
 							} else {
 								isMember = true;
@@ -2667,7 +2668,7 @@ public class Oauth2Controller extends BaseController {
 							isMember = false;
 						} else {
 							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
-							if (CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
+							if (wxPersonUserPOJO.getMemberFlag() == null || CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
 								isMember = false;
 							} else {
 								isMember = true;
