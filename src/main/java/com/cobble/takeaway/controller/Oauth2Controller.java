@@ -2418,13 +2418,49 @@ public class Oauth2Controller extends BaseController {
 						}
 					}
 					
-
+					// deal resp msg @03/28/2017
+					String respMsgType = "";	// 0-客户自定义, 1-系统定义
+					String MSG_TYPE_CUSTOMER = "0";
+					String MSG_TYPE_SYSTEM = "1";
+					
+					String contentRecv = wxMsgEventRecvApiPOJO.getContent();
+					WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
+					wxRespMsgSearchPOJO.setAuthorizerAppId(authorizerAppId);
+					wxRespMsgSearchPOJO.setMsgReceive(contentRecv);
+					List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgService.finds(wxRespMsgSearchPOJO);
+					if (!CollectionUtils.isEmpty(wxRespMsgPOJOs)) {
+						if (wxRespMsgPOJOs.size() > 1) {
+							logger.error("同一个公众号和接收的关键字返回了{}条记录, 请查询代码.", wxRespMsgPOJOs.size());
+						}
+						WxRespMsgPOJO wxRespMsgPOJO = wxRespMsgPOJOs.get(0);
+						
+						respMsgType = wxRespMsgPOJO.getMsgType();
+						
+						if (MSG_TYPE_CUSTOMER.equalsIgnoreCase(respMsgType)) {
+							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+							wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
+							wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setMsgType("text");
+							String content = wxRespMsgPOJO.getMsgSend();
+							wxMsgEventRespTextApiPOJO.setContent(content);
+							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+							return encryptMsg;
+						} else if (MSG_TYPE_SYSTEM.equalsIgnoreCase(respMsgType)) {
+							contentRecv = wxRespMsgPOJO.getMsgSend();
+						}
+						
+					}
+					// end deal resp msg
+					
+					
 					// 检测VIEW， 获取from/to，注册其他的公众号的用户
 					// 得味驿站是服务号， 直接发送【注册】2个字
 					// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号
 					if (
-							("注册".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent()) 
-									|| "001".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent())
+							("注册".equalsIgnoreCase(contentRecv) 
+									|| "001".equalsIgnoreCase(contentRecv)
 							) && controlCodes.contains("001")
 							/*&& CommonConstant.DWYZ_USER_NAME.equals(toUserName)*/) {
 						// 001-注册会员, 002-重新加入会员, 003-退出会员
@@ -2517,7 +2553,7 @@ public class Oauth2Controller extends BaseController {
 						
 					}	// end 注册/001
 					
-					if ("002".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent()) && controlCodes.contains("002")
+					if ("002".equalsIgnoreCase(contentRecv) && controlCodes.contains("002")
 							/*&& CommonConstant.DWYZ_USER_NAME.equals(toUserName)*/) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
@@ -2617,7 +2653,7 @@ public class Oauth2Controller extends BaseController {
 						
 					}	// end 002
 					
-					if ("003".equalsIgnoreCase(wxMsgEventRecvApiPOJO.getContent()) && controlCodes.contains("003") 
+					if ("003".equalsIgnoreCase(contentRecv) && controlCodes.contains("003") 
 							/*&& CommonConstant.DWYZ_USER_NAME.equals(toUserName)*/) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
@@ -2694,31 +2730,6 @@ public class Oauth2Controller extends BaseController {
 						
 					}	// end 003
 					
-					// deal resp msg @03/28/2017
-					String contentRecv = wxMsgEventRecvApiPOJO.getContent();
-					WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
-					wxRespMsgSearchPOJO.setAuthorizerAppId(authorizerAppId);
-					wxRespMsgSearchPOJO.setMsgReceive(contentRecv);
-					List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgService.finds(wxRespMsgSearchPOJO);
-					if (!CollectionUtils.isEmpty(wxRespMsgPOJOs)) {
-						if (wxRespMsgPOJOs.size() > 1) {
-							logger.error("同一个公众号和接收的关键字返回了{}条记录, 请查询代码.", wxRespMsgPOJOs.size());
-						}
-						WxRespMsgPOJO wxRespMsgPOJO = wxRespMsgPOJOs.get(0);
-						
-						WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
-						wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
-						wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
-						wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
-						wxMsgEventRespTextApiPOJO.setMsgType("text");
-						String content = wxRespMsgPOJO.getMsgSend();
-						wxMsgEventRespTextApiPOJO.setContent(content);
-						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
-						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
-						return encryptMsg;
-					}
-					
-					// end deal resp msg
 					
 				} /**text end**/ else if ("event".equalsIgnoreCase(msgType)) {
 					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);

@@ -12,7 +12,7 @@ public class WxRespMsgSearchPOJO extends BaseSearchPOJO {
 
     private Date createDateTime;
     
-	private Long userid;
+	private Long userId;
     private String authorizerAppId;
     
 	public Long getWxRespMsgId() {
@@ -45,17 +45,17 @@ public class WxRespMsgSearchPOJO extends BaseSearchPOJO {
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
 	}
-	public Long getUserid() {
-		return userid;
-	}
-	public void setUserid(Long userid) {
-		this.userid = userid;
-	}
 	public String getAuthorizerAppId() {
 		return authorizerAppId;
 	}
 	public void setAuthorizerAppId(String authorizerAppId) {
 		this.authorizerAppId = authorizerAppId;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
     
     

@@ -23,7 +23,7 @@
   <sql id="Base_Column_List" >
     a.WX_RESP_MSG_ID, a.MSG_RECEIVE, a.MSG_SEND
     , a.MSG_TYPE
-    <!-- , a.USER_ID, a.AUTHORIZER_APP_ID -->, a.CREATE_DATE_TIME
+    , a.USER_ID, a.AUTHORIZER_APP_ID, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="msgReceive != null">
@@ -32,12 +32,12 @@
 	<if test="msgType != null">
 		and a.MSG_TYPE = #{msgType}
 	</if>
-	<!-- <if test="userId != null">
+	<if test="userId != null">
 		and a.USER_ID = #{userId}
 	</if>
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
-	</if> -->
+	</if>
   </sql>
   
   <select id="finds" resultMap="WxRespMsgResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO" >
@@ -46,18 +46,10 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    , b.USER_ID, b.AUTHORIZER_APP_ID
     from WX_RESP_MSG a
-    left join REL_WX_RESP_MSG_USER b on b.WX_RESP_MSG_ID = a.WX_RESP_MSG_ID
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
-			<if test="userId != null">
-				and b.USER_ID = #{userId}
-			</if>
-			<if test="authorizerAppId != null">
-				and b.AUTHORIZER_APP_ID = #{authorizerAppId}
-			</if>
   		</trim>
   	</where>
   	order by a.CREATE_DATE_TIME desc
@@ -78,9 +70,7 @@
   <select id="findById" resultMap="WxRespMsgResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    , b.USER_ID, b.AUTHORIZER_APP_ID
     from WX_RESP_MSG a
-    left join REL_WX_RESP_MSG_USER b on b.WX_RESP_MSG_ID = a.WX_RESP_MSG_ID
     <where>
   		<trim prefixOverrides="and">
 			and a.WX_RESP_MSG_ID = #{wxRespMsgId}
@@ -104,6 +94,12 @@
       <if test="msgType != null" >
         MSG_TYPE,
       </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID,
+      </if>
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -115,6 +111,12 @@
       </if>
       <if test="msgType != null" >
         #{msgType},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
       </if>
         sysdate(),
     </trim>
@@ -131,6 +133,12 @@
       </if>
       <if test="msgType != null" >
         MSG_TYPE = #{msgType},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID = #{authorizerAppId},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>

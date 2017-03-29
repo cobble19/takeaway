@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import com.cobble.takeaway.dao.RelWxRespMsgUserMapper;
 import com.cobble.takeaway.dao.WxRespMsgMapper;
-import com.cobble.takeaway.pojo.weixin.RelWxRespMsgUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
 import com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO;
 import com.cobble.takeaway.service.WxRespMsgService;
@@ -21,21 +19,11 @@ public class WxRespMsgServiceImpl implements WxRespMsgService {
 	private MessageSource messageSource;
 	@Autowired
 	private WxRespMsgMapper wxRespMsgMapper;
-	@Autowired
-	private RelWxRespMsgUserMapper relWxRespMsgUserMapper;
 
 	@Override
 	public int insert(WxRespMsgPOJO wxRespMsgPOJO) throws Exception {
 		int ret = 0;
 		ret = wxRespMsgMapper.insert(wxRespMsgPOJO);
-		
-		RelWxRespMsgUserPOJO relWxRespMsgUserPOJO = new RelWxRespMsgUserPOJO();
-
-		relWxRespMsgUserPOJO.setWxRespMsgId(wxRespMsgPOJO.getWxRespMsgId());
-		relWxRespMsgUserPOJO.setUserId(wxRespMsgPOJO.getUserId());
-		relWxRespMsgUserPOJO.setAuthorizerAppId(wxRespMsgPOJO.getAuthorizerAppId());
-		relWxRespMsgUserMapper.insert(relWxRespMsgUserPOJO);
-		
 		return ret;
 	}
 
