@@ -63,8 +63,16 @@ $(document).ready(function() {
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').show();
 		} else if (value == 'click' && text == '一键添加加入会员') {
+			var wxRespMsgPOJOs = getWxRespMsgPOJOs();
 			$('#wxMenuMgrEntryButtonDiv #name').val('加入会员');
-			$('#wxMenuMgrEntryButtonDiv #btnKey').val('欢迎您，GUEST  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003');
+			var btnKey = '欢迎您，GUEST  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003';
+			if (wxRespMsgPOJOs != null) {
+				for (var i = 0; i < wxRespMsgPOJOs.length; i++) {
+					var wxRespMsgPOJO = wxRespMsgPOJOs[i];
+					btnKey = btnKey.replace(wxRespMsgPOJO.msgSend, wxRespMsgPOJO.msgReceive);
+				}
+			}
+			$('#wxMenuMgrEntryButtonDiv #btnKey').val(btnKey);
 			
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').show();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
@@ -808,6 +816,65 @@ var deleteMenuFromWx = function() {
         	console.log('Ajax complete.');
         }
 	});
+}
+///
+///
+
+var getWxRespMsgPOJOs = function() {
+	console.log(this);
+	data = table4WxMenuMgrEntry.row(0).data();
+	console.log(data);
+	rowData = data;
+	var authorizerAppId = null;
+	var wxMenuMgrCategoryPOJO = null;
+	if (!!rowData) {
+		wxMenuMgrCategoryPOJO = rowData.wxMenuMgrCategoryPOJO;
+	}
+	if (!!wxMenuMgrCategoryPOJO) {
+		authorizerAppId = wxMenuMgrCategoryPOJO.authorizerAppId;
+	}
+	
+//	var wxMenuMgrCategoryId = wxMenuMgrCategoryPOJO.wxMenuMgrCategoryId;
+	if (authorizerAppId == null || authorizerAppId == undefined) {
+		authorizerAppId = $('#authorizerAppId').val();
+	}
+	
+	console.log("authorizerAppId: " + authorizerAppId);
+	if (authorizerAppId == null) {
+		alert("authorizerAppId: " + authorizerAppId + ", 参数不正确");
+		return;
+	}
+	
+	$('#progress').dialog('open');
+	var wxRespMsgPOJOs = [];
+	$.ajax({
+		"url" : "../../api/unified/wxRespMsg/wxRespMsgByUserId",
+		"type" : "GET",
+		async: false,
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		"data": JSON.stringify({
+            authorizerAppId: authorizerAppId,
+            msgType: 0	// 0-客户自定义 1-系统定义
+        }),
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	console.log("data = " + data.data);
+        	if (data.data != null) {
+        		wxRespMsgPOJOs = data.data;
+        	}
+        	
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+	return wxRespMsgPOJOs;
 }
 ///
 

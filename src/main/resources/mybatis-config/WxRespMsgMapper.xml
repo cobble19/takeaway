@@ -29,6 +29,9 @@
 	<if test="msgReceive != null">
 		and a.MSG_RECEIVE = #{msgReceive}
 	</if>
+	<if test="msgSend != null">
+		and a.MSG_SEND = #{msgSend}
+	</if>
 	<if test="msgType != null">
 		and a.MSG_TYPE = #{msgType}
 	</if>

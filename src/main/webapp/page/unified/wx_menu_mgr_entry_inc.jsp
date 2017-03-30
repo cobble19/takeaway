@@ -18,15 +18,15 @@
 	     					<input id="deleteBtn4WxMenuMgrEntry" type="button" class="btn btn-default btn-xs" value="删除"> --%>
 	     					
      						<button id="getMenuBtn4WxMenuMgrEntryFromWx" class="btn btn-default btn-sm" 
-     							data-toggle="tooltip" data-placement="top" title="从微信服务器获取菜单">
+     							data-toggle="tooltip" data-placement="top" title="获取微信公众号当前显示的菜单">
      							获取菜单 <span style="color: green;" class="glyphicon glyphicon-download">
      						</button>
      						<button id="publishMenuBtn4WxMenuMgrEntryToWx" class="btn btn-default btn-sm" 
-     							data-toggle="tooltip" data-placement="top" title="发布菜单到微信服务器">
+     							data-toggle="tooltip" data-placement="top" title="发布最新菜单到微信公众号上">
      							发布菜单 <span style="color: green;" class="glyphicon glyphicon-upload">
      						</button>
      						<button id="deleteMenuBtn4WxMenuMgrEntryFromWx" class="btn btn-default btn-sm" 
-     							data-toggle="tooltip" data-placement="top" title="从微信服务器删除菜单">
+     							data-toggle="tooltip" data-placement="top" title="将微信公众号当前显示的菜单清空">
      							删除菜单 <span style="color: green;" class="glyphicon glyphicon-remove">
      						</button>
 	     					

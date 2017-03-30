@@ -337,6 +337,16 @@ public class WxMenuMgrController extends BaseController {
 				}
 			}
 			
+			/*for (int i = 0; i < wxMenuMgrEntryPOJOs.size(); i++) {
+				WxMenuMgrEntryPOJO wxMenuMgrEntryPOJO = wxMenuMgrEntryPOJOs.get(i);
+				WxMenuMgrButtonPOJO level1ButtonPOJO = wxMenuMgrEntryPOJO.getLevel1ButtonPOJO();
+				if (level1ButtonPOJO != null) {
+					if ("text".equalsIgnoreCase(level1ButtonPOJO.getType())) {
+						
+					}
+				}
+			}*/
+			
 			ret.setData(wxMenuMgrEntryPOJOs);
 			int size = CollectionUtils.isEmpty(wxMenuMgrEntryPOJOs) ? 0 : wxMenuMgrEntryPOJOs.size();
 			

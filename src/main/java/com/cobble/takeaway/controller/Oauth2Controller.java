@@ -2421,8 +2421,6 @@ public class Oauth2Controller extends BaseController {
 					
 					// deal resp msg @03/28/2017
 					String respMsgType = "";	// 0-客户自定义, 1-系统定义
-					String MSG_TYPE_CUSTOMER = "0";
-					String MSG_TYPE_SYSTEM = "1";
 					
 					String contentRecv = wxMsgEventRecvApiPOJO.getContent();
 					WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
@@ -2437,7 +2435,7 @@ public class Oauth2Controller extends BaseController {
 						
 						respMsgType = wxRespMsgPOJO.getMsgType();
 						
-						if (MSG_TYPE_CUSTOMER.equalsIgnoreCase(respMsgType)) {
+						if (CommonConstant.MSG_TYPE_CUSTOMER.equalsIgnoreCase(respMsgType)) {
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
 							wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
@@ -2448,7 +2446,7 @@ public class Oauth2Controller extends BaseController {
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 							return encryptMsg;
-						} else if (MSG_TYPE_SYSTEM.equalsIgnoreCase(respMsgType)) {
+						} else if (CommonConstant.MSG_TYPE_SYSTEM.equalsIgnoreCase(respMsgType)) {
 							contentRecv = wxRespMsgPOJO.getMsgSend();
 						}
 						

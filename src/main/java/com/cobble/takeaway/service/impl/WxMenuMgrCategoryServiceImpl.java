@@ -134,6 +134,13 @@ public class WxMenuMgrCategoryServiceImpl implements WxMenuMgrCategoryService {
 			}	// end level = 1
 			// level = 2
 			for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO1 : wxMenuMgrButtonPOJOs) {
+				if (wxMenuMgrButtonPOJO1 != null) {
+					if ("text".equalsIgnoreCase(wxMenuMgrButtonPOJO1.getType())) {
+						wxMenuMgrButtonPOJO1.setType("click");
+						wxMenuMgrButtonPOJO1.setBtnKey(wxMenuMgrButtonPOJO1.getValue());
+					}
+				}
+				
 				for (WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 : wxMenuMgrButtonPOJOs) {
 					String authorizerAppIdBtn1 = wxMenuMgrButtonPOJO1.getAuthorizerAppId();
 					String authorizerAppIdBtn2 = wxMenuMgrButtonPOJO2.getAuthorizerAppId();

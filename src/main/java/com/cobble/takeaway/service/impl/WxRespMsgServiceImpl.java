@@ -23,7 +23,15 @@ public class WxRespMsgServiceImpl implements WxRespMsgService {
 	@Override
 	public int insert(WxRespMsgPOJO wxRespMsgPOJO) throws Exception {
 		int ret = 0;
-		ret = wxRespMsgMapper.insert(wxRespMsgPOJO);
+		WxRespMsgSearchPOJO temp = new WxRespMsgSearchPOJO();
+		temp.setAuthorizerAppId(wxRespMsgPOJO.getAuthorizerAppId());
+		temp.setMsgReceive(wxRespMsgPOJO.getMsgReceive());
+		
+		int count = wxRespMsgMapper.getCount(temp);
+		if (count == 0) {
+			ret = wxRespMsgMapper.insert(wxRespMsgPOJO);
+		}
+		
 		return ret;
 	}
 
