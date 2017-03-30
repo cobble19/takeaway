@@ -301,6 +301,8 @@ $(document).ready(function() {
 
 var wxMenuMgrEntrySearch = function(table) {
 	$('#progress').dialog('open');
+	var authorizerAppId = $('#authorizerAppId').val();
+	
 	$.ajax({
 		"url" : "../../api/unified/wxMenuMgr/entry/list",
 		"type" : "GET",
@@ -308,9 +310,9 @@ var wxMenuMgrEntrySearch = function(table) {
 			"Content-Type" : "application/json"
 		},
 		"dataType" : 'json',
-		/*"data": JSON.stringify({
-            title: $("#title").val()
-        }),*/
+		"data": ({
+            authorizerAppId: authorizerAppId
+        }),
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');
         	console.log("data = " + data);
@@ -855,9 +857,9 @@ var getWxRespMsgPOJOs = function() {
 			"Content-Type" : "application/json"
 		},
 		"dataType" : 'json',
-		"data": JSON.stringify({
+		"data": ({
             authorizerAppId: authorizerAppId,
-            msgType: 0	// 0-客户自定义 1-系统定义
+            msgType: 0	// 0-系统定义 1-客户自定义
         }),
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');

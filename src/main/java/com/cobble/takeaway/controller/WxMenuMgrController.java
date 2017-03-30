@@ -222,6 +222,7 @@ public class WxMenuMgrController extends BaseController {
 			}*/
 
 			WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO = new WxMenuMgrCategorySearchPOJO();
+			wxMenuMgrCategorySearchPOJO.setAuthorizerAppId(authorizerAppId);
 			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.findFull(wxMenuMgrCategorySearchPOJO);
 //			wxMenuMgrFullPOJO.setWxMenuMgrCategoryPOJOs(wxMenuMgrCategoryPOJOs);
 			if (CollectionUtils.isNotEmpty(wxMenuMgrCategoryPOJOs)) {
