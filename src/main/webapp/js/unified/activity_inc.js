@@ -107,23 +107,41 @@ $(document).ready(function() {
 
 				var href2 = $('#basePath').val() + '/page/unified/apply2_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + (full.title);
-				var linkApply2 = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
-				+ '">' +
-				'表单汇总' + '</a>';
+				var linkApply2 = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="表单汇总"' +
+						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
+				+ '">'
+				+ '<span style="color: green;" class="glyphicon glyphicon-list"></span>'
+				 +
+				/**'表单汇总' +*/
+				 '</a>';
+				 
 				
 				var hrefEdit = $('#basePath').val() + '/page/unified/activity_update.jsp?activityId='  + full.activityId;
-				var linkEdit = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
+				var linkEdit = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="修改内容"' +
+						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
-								+ '修改内容' + '</a>';
+								+ '<span style="color: green;" class="glyphicon glyphicon-edit"></span>'
+								/**+ '修改内容'**/ 
+								+ '</a>';
 
 				var url = $('#basePath').val() + '/page/unified/activity_detail.jsp?activityId=' + full.activityId + "&hidContent=1&a=1";
-				var urlCopy = '<a target="_blank" class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" onClick="openUrlDiv(\'' + url + '\'); return false;">'
-				+ '相关链接' + '</a>';
-				var picBtn = '<a target="_blank" class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this); return false;">'
-				+ '活动简图' + '</a>';
+				var urlCopy = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="相关链接"' +
+						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="#" ' +
+						'onClick="openUrlDiv(\'' + url + '\'); return false;">'
+				+ '<span style="color: green;" class="glyphicon glyphicon-link"></span>'
+				/**+ '相关链接'**/
+				+ '</a>';
+				var picBtn = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="活动简图"' +
+						' class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openPicDiv(this); return false;">'
+				+ '<span style="color: green;" class="glyphicon glyphicon-picture"></span>'
+				/**+ '活动简图'**/ 
+				+ '</a>';
 				
-				var apply2AttrModelBtn = '<a target="_blank" class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this); return false;">'
-					+ '创建表单' + '</a>';
+				var apply2AttrModelBtn = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="创建表单"' +
+						' class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="openApply2AttrModelDiv(this); return false;">'
+					+ '<span style="color: green;" class="glyphicon glyphicon-pencil"></span>'
+					/**+ '创建表单'**/ 
+					+ '</a>';
 				
 				return /*linkApply + " " + */linkApply2 + " " + linkEdit + " " + urlCopy + " " + picBtn + " " + apply2AttrModelBtn;
 			}

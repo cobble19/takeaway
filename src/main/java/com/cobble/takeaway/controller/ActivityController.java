@@ -89,6 +89,8 @@ public class ActivityController extends BaseController {
 		}
 		
 		String url = "/page/unified/activity_detail.jsp?activityId=" + activityPOJO.getActivityId();
+		url = "/web/unified/usercenter#create_activity";
+
 		redirectStrategy.sendRedirect(request, response, url);
 		
 //		return ret;
