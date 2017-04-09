@@ -18,6 +18,7 @@
     <result column="START_DATE_TIME" property="startDateTime" />
     <result column="END_DATE_TIME" property="endDateTime" />
     <result column="CONTENT" property="content" />
+    <result column="PUBLISH_TYPE" property="publishType" />
     <result column="EXPIRED" property="expired" />
     <result column="USER_ID_ENTERPRISE" property="userIdEnterprise" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
@@ -35,6 +36,7 @@
     <result column="START_DATE_TIME" property="startDateTime" />
     <result column="END_DATE_TIME" property="endDateTime" />
     <result column="CONTENT" property="content" />
+    <result column="PUBLISH_TYPE" property="publishType" />
     <result column="EXPIRED" property="expired" />
     <result column="USER_ID_ENTERPRISE" property="userIdEnterprise" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
@@ -47,7 +49,7 @@
   
   <sql id="Base_Column_List" >
     a.ACTIVITY_ID, a.TYPE_CODE, a.TITLE, a.LOGO_IMG, a.START_DATE_TIME
-    , a.END_DATE_TIME, a.CONTENT, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
+    , a.END_DATE_TIME, a.CONTENT, a.PUBLISH_TYPE, (a.END_DATE_TIME - now() &lt;= 0) as EXPIRED, a.USER_ID_ENTERPRISE
     , a.CREATE_DATE_TIME, a.NEED_SUBSCRIBE
   </sql>
   <sql id="Clause_Common">
@@ -56,6 +58,9 @@
 	</if>
 	<if test="typeCode != null">
 		and TYPE_CODE = #{typeCode}
+	</if>
+	<if test="publishType != null">
+		and PUBLISH_TYPE = #{publishType}
 	</if>
   </sql>
   
@@ -307,6 +312,9 @@
       <if test="content != null" >
         CONTENT,
       </if>
+      <if test="publishType != null" >
+        PUBLISH_TYPE,
+      </if>
       <if test="needSubscribe != null" >
         NEED_SUBSCRIBE,
       </if>
@@ -333,6 +341,9 @@
       </if>
       <if test="content != null" >
         #{content},
+      </if>
+      <if test="publishType != null" >
+        #{publishType},
       </if>
       <if test="needSubscribe != null" >
         #{needSubscribe},
@@ -385,6 +396,9 @@
       </if>
       <if test="userIdEnterprise != null" >
         USER_ID_ENTERPRISE = #{userIdEnterprise},
+      </if>
+      <if test="publishType != null" >
+        PUBLISH_TYPE = #{publishType},
       </if>
       <if test="needSubscribe != null" >
         NEED_SUBSCRIBE = #{needSubscribe},

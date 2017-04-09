@@ -16,6 +16,10 @@
   	<div class="container">
   		<div class="row">
   			<h2 class="">活动[<span id="activityTitle"></span>]的申请人</h2>
+  			
+  			<button class="btn btn-success" id="searchBtn4Apply2">
+  				查询  <span style="" class="glyphicon glyphicon-search">
+  				</button>
   			<button class="btn btn-success" id="print" onclick="javascript: window.print();">
   				打印  <span style="" class="glyphicon glyphicon-print">
   				</button>
@@ -29,13 +33,13 @@
 	  		<form class="form-inline">
 				<div id="queryCondition" style="">
 		 			<div class="form-group">
-		 				<label class="control-label" for="startDateTime">活动开始时间:</label>
+		 				<label class="control-label" for="startDateTime">开始时间:</label>
 		 				<div class="">
 		 					<input class="form-control" id="startDateTime" name="startDateTime" placeholder="请输入开始时间">
 		 				</div>
 		 			</div>
 		 			<div class="form-group">
-		 				<label class="control-label" for="endDateTime">活动结束时间:</label>
+		 				<label class="control-label" for="endDateTime">结束时间:</label>
 		 				<div class="">
 		 					<input class="form-control" id="endDateTime" name="endDateTime" placeholder="请输入结束时间">
 		 				</div>

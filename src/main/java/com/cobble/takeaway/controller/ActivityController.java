@@ -27,6 +27,7 @@ import org.apache.poi.ss.util.WorkbookUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -234,7 +235,11 @@ public class ActivityController extends BaseController {
 	// 版本2中的申请人信息
 	@RequestMapping(value = "/api/apply2/v2/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public Map query4Detail(@PathVariable("activityId") Long activityId) throws Exception {
+	public Map query4Detail(@PathVariable("activityId") Long activityId
+			, @RequestParam(value="startDateTime", required=false) Date startDateTime
+			, @RequestParam(value="endDateTime", required=false) Date endDateTime
+			, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		/**
 		 * apply2POJOList: List<Map>
 		 * columns: List<String>
@@ -243,7 +248,8 @@ public class ActivityController extends BaseController {
 		Map ret = new HashMap();
 		ActivityPOJO activityPOJO = new ActivityPOJO();
 		try {
-			activityPOJO = activityService.find2ById(activityId);
+			/*activityPOJO = activityService.find2ById(activityId);*/
+			activityPOJO = activityService.find2ById(activityId, startDateTime, endDateTime);
 			logger.info("activityPOJO convert to Json: " + JsonUtils.convertToJson(activityPOJO));
 			
 			List<Map> maps = new ArrayList<Map>();
@@ -298,6 +304,31 @@ public class ActivityController extends BaseController {
 			
 		} catch (Exception e) {
 			logger.error("query error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/api/unified/activity/publishType", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO publishType(ActivityPOJO activityPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			if (activityPOJO == null) {
+				throw new Exception("activityPOJO can't is NULL.");
+			}
+			if (activityPOJO.getActivityId() == null || activityPOJO.getPublishType() == null) {
+				throw new Exception("activityId/publishType can't is NULL. activityId: " + activityPOJO.getActivityId() + ", publishType: " + activityPOJO.getPublishType());
+			}
+			int result = -1;
+			
+			result = activityService.update(activityPOJO);
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
 			throw e;
 		}
 		

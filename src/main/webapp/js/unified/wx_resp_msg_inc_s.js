@@ -1,7 +1,7 @@
-var table4WxRespMsg;
+var table4WxRespMsgS;
 
 $(document).ready(function() {
-    table4WxRespMsg = $('#dbTable4WxRespMsg').DataTable( {
+    table4WxRespMsgS = $('#dbTable4WxRespMsgS').DataTable( {
     	"processing": true,
 		"initComplete": function () {
             var api = this.api();
@@ -52,6 +52,19 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": false
 		}, {
+			"targets": [5],
+			"render" : function(data, type, full, meta) {
+				var ret = '';
+				if (data == null || data == 0) {
+					ret = '系统关键字';
+				} else if (data == 1) {
+					ret = '客户关键字'
+				} else {
+					ret = '未知关键字';
+				}
+				return ret;
+			}
+		}, {
 			"targets": [8],
 			"render" : function(data, type, full, meta) {
 				var date = new Date(data);
@@ -60,12 +73,14 @@ $(document).ready(function() {
 		}, {
 			"targets" : [9],
 			"render" : function(data, type, full, meta) {
-				var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.wxRespMsgId;
+				var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.wxRespMsgId
+								+ '&msgType=0';
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
 				
-				var hrefVIAdd = $('#basePath').val() + '/web/media/wxRespMsgDetail?wxRespMsgId='  + full.wxRespMsgId;
+				var hrefVIAdd = $('#basePath').val() + '/web/media/wxRespMsgDetail?wxRespMsgId='  + full.wxRespMsgId
+								+ '&msgType=0';
 				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
 								+ '">'
 								+ '详细信息' + '</a>';
@@ -117,31 +132,31 @@ $(document).ready(function() {
         "order": [[1, 'asc']]
     } );
     
-    table4WxRespMsg.on( 'order.dt search.dt', function () {
-    	table4WxRespMsg.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    table4WxRespMsgS.on( 'order.dt search.dt', function () {
+    	table4WxRespMsgS.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
     } ).draw();
 
-    wxRespMsgSearch(table4WxRespMsg);
-    $('#searchBtn4WxRespMsg').click(function() {
+    wxRespMsgSSearch(table4WxRespMsgS);
+    $('#searchBtn4WxRespMsgS').click(function() {
     	console.log('search click...');
-    	wxRespMsgSearch(table4WxRespMsg);
+    	wxRespMsgSSearch(table4WxRespMsgS);
     })
     
-    $('#chkBoxAll4WxRespMsg').click(function() {
+    $('#chkBoxAll4WxRespMsgS').click(function() {
     	var chkBoxAll = $(this).attr('checked');
     	if (chkBoxAll) {
-    		$('#dbTable4WxRespMsg').find('input[name=chkBox]').attr('checked', true);
+    		$('#dbTable4WxRespMsgS').find('input[name=chkBox]').attr('checked', true);
     	} else {
-    		$('#dbTable4WxRespMsg').find('input[name=chkBox]').attr('checked', false);
+    		$('#dbTable4WxRespMsgS').find('input[name=chkBox]').attr('checked', false);
     	}
     })
     
 
-    $('#deleteBtn4WxRespMsg').click(function() {
+    $('#deleteBtn4WxRespMsgS').click(function() {
     	var ids = [];
-    	var chkBox = $('#dbTable4WxRespMsg').find('input[name=chkBox]');
+    	var chkBox = $('#dbTable4WxRespMsgS').find('input[name=chkBox]');
     	chkBox.each(function(index, ele) {
     		if ($(this).attr('checked')) {
     			ids.push($(this).val());
@@ -170,7 +185,7 @@ $(document).ready(function() {
             },
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
-            	wxRespMsgSearch(table4WxRespMsg);
+            	wxRespMsgSSearch(table4WxRespMsgS);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Load Error!');
@@ -184,18 +199,19 @@ $(document).ready(function() {
     
 } );
 
-var wxRespMsgSearch = function(table) {
+var wxRespMsgSSearch = function(table) {
 	$('#progress').dialog('open');
 	$.ajax({
-		"url" : "../../api/unified/wxRespMsg/wxRespMsgByUserId",
+		"url" : $('#basePath').val() + '/api/unified/wxRespMsg/wxRespMsgByUserId',
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
 		},
 		"dataType" : 'json',
-		/*"data": JSON.stringify({
-            title: $("#title").val()
-        }),*/
+		traditional :true, 
+		"data": {
+            'msgType': 0
+        },
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');
         	console.log("data = " + data);

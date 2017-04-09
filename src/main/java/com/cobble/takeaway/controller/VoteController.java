@@ -49,7 +49,7 @@ public class VoteController extends BaseController {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			if (votePOJO.getVoteId() == null || votePOJO.getPublishType() == null) {
-				throw new Exception("voteId/publishType can't is NULL.");
+				throw new Exception("voteId/publishType can't is NULL. voteId: " + votePOJO.getVoteId() + ", publishType: " + votePOJO.getPublishType());
 			}
 
 			int result = -1;

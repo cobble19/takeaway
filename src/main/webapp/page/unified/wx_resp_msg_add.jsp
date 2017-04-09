@@ -24,7 +24,7 @@
  			</div>
  			<div class="form-group">
  				<label class="control-label" for="msgSend">回复关键字:</label>
- 				<div class="">
+ 				<div id="msgSendWrap" class="">
  					<input class="form-control" id="msgSend" name="msgSend" required="required" placeholder="请输入回复关键字">
  				</div>
  			</div>

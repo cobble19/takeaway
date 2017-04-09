@@ -16,6 +16,7 @@ public class ActivityPOJO extends BasePOJO {
     private Date endDateTime;
     private String content;
     private Date createDateTime;
+    private Integer publishType;
     private Integer needSubscribe;
 
     // check whether expired
@@ -119,5 +120,11 @@ public class ActivityPOJO extends BasePOJO {
 	}
 	public void setNeedSubscribe(Integer needSubscribe) {
 		this.needSubscribe = needSubscribe;
+	}
+	public Integer getPublishType() {
+		return publishType;
+	}
+	public void setPublishType(Integer publishType) {
+		this.publishType = publishType;
 	}
 }

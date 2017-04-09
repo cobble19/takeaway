@@ -1,6 +1,7 @@
+var table4Activity;
 $(document).ready(function() {
 
-    var table = $('#dbTable').DataTable( {
+    var table4Activity = $('#dbTable').DataTable( {
     	"processing": true,
 		"initComplete": function () {
             var api = this.api();
@@ -142,8 +143,19 @@ $(document).ready(function() {
 					+ '<span style="color: green;" class="glyphicon glyphicon-pencil"></span>'
 					/**+ '创建表单'**/ 
 					+ '</a>';
+					
 				
-				return /*linkApply + " " + */linkApply2 + " " + linkEdit + " " + urlCopy + " " + picBtn + " " + apply2AttrModelBtn;
+				var publishType = (full.publishType == null || full.publishType == 0) ? '撤销' : '已发布';
+				var publishTypeTitle = (full.publishType == null || full.publishType == 0) ? '发布活动' : '撤销活动';
+				var linkPublish = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="' + publishTypeTitle + '"' +
+						' class="btn btn-success btn-xs" href="#" onclick=changePublish4Activity(' + full.activityId + ',' + full.publishType + ')>' 
+						+ publishType 
+						+ '<span style="color: green;" class="glyphicon glyphicon-asterisk"></span>'
+						+ '</a>';
+				
+				
+				return /*linkApply + " " + */linkApply2 + " " + linkEdit + " " + urlCopy
+					 + " " + picBtn + " " + apply2AttrModelBtn + " " + linkPublish;
 			}
 		}/*, {
 			"targets" : 0,
@@ -200,8 +212,8 @@ $(document).ready(function() {
         "order": [[1, 'asc']]
     } );
     
-    table.on( 'order.dt search.dt', function () {
-    	table.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    table4Activity.on( 'order.dt search.dt', function () {
+    	table4Activity.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
     } ).draw();
@@ -209,7 +221,7 @@ $(document).ready(function() {
     /*$('a.picBtn').click(function(e) {
     	e.preventDefault();
     	console.log($(this));
-    	data = table.row($(this).parent('tr')).data();
+    	data = table4Activity.row($(this).parent('tr')).data();
     	console.log(data);
     });*/
     
@@ -296,7 +308,7 @@ $(document).ready(function() {
     	chkBox.each(function(index, ele) {
 //    		console.log($(this).val() + ele.value);
         	/*var tr = $(this).closest('tr');
-            var row = table.row( tr );*/
+            var row = table4Activity.row( tr );*/
     		if ($(this).attr('checked')) {
 //    			ids.push(row.data().activityId);
     			ids.push($(this).val());
@@ -325,7 +337,7 @@ $(document).ready(function() {
             },
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
-            	activitySearch(table);
+            	activitySearch(table4Activity);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Load Error!');
@@ -397,17 +409,17 @@ $(document).ready(function() {
     	modal: true
     })*/
     
-    activitySearch(table);
+    activitySearch(table4Activity);
     
     $('#searchBtn').click(function() {
     	console.log('search click...');
-    	activitySearch(table);
+    	activitySearch(table4Activity);
     })
      
     // Add event listener for opening and closing details
     $('#activityList tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
-        var row = table.row( tr );
+        var row = table4Activity.row( tr );
  
         if ( row.child.isShown() ) {
             // This row is already open - close it
@@ -743,6 +755,7 @@ var onClickAddAttr = function() {
 	})*/
 }
 
+///onClickAttrSummit
 var onClickAttrSummit = function() {
 		var form = $("form[id=apply2AttrModelForm]");
 		
@@ -856,6 +869,49 @@ var onClickAttrSummit = function() {
 		})
 		
 }
+/// end onClickAttrSummit
+
+/// changePublish4Activity
+var changePublish4Activity = function(activityId, publishType) {
+	// 取反
+	if (publishType == null || publishType == 0) {
+		publishType = 1;
+	} else {
+		publishType = 0;
+	}
+	
+	$('#progress').dialog('open');
+	$.ajax({
+		"url" : $('#basePath').val() + "/api/unified/activity/publishType",
+		"type" : "GET",
+		"headers" : {
+			"Content-Type" : "application/json"
+		},
+		"dataType" : 'json',
+		/*"data": JSON.stringify({
+			wxTemplateId: wxTemplateId
+        }),*/
+		"data": {
+			activityId: activityId,
+			publishType: publishType
+        },
+        success: function(data, textStatus, jqXHR ) {
+        	$('#progress').dialog('close');
+        	
+        	alert('更新成功, activityId: ' + activityId);
+        	activitySearch(table4Activity);
+        	
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        	console.log('Load Error!');
+        },
+        complete: function(jqXHR, textStatus) {
+        	console.log('Ajax complete.');
+        }
+	});
+}
+/// end changePublish4Activity
+
 
 
 

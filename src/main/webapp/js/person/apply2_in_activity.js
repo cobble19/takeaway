@@ -22,6 +22,10 @@ $(document).ready(function() {
 //		if (startDateTime >= endDateTime) {
 //		}
 //	})
+
+	$('#searchBtn4Apply2').click(function() {
+		applyInActivitySearch();
+	});
 	
 	$('#exportBtn').click(function() {
 		var activityId = getParam('activityId');
@@ -47,8 +51,23 @@ $(document).ready(function() {
 
 // query apply by activityId
 var applyInActivitySearch = function() {
+	var params = {};
 	var activityId = getParam('activityId');
 	console.log('title=' + getParam('activityTitle'));
+	
+	var startDateTime = $('#startDateTime').val();
+	var endDateTime = $('#endDateTime').val();
+	if (startDateTime == null || startDateTime == '') {
+//		startDateTime = new Date();
+	} else {
+		params.startDateTime = startDateTime;
+	}
+	if (endDateTime == null || endDateTime == '') {
+//		endDateTime = new Date();
+	} else {
+		params.endDateTime = endDateTime;
+	}
+	
 	$.ajax({
 		"url" : $('#basePath').val() + "/api/apply2/v2/" + activityId,
 		"type" : "GET",
@@ -56,9 +75,7 @@ var applyInActivitySearch = function() {
 			"Content-Type" : "application/json"
 		},*/
 		"dataType" : 'json',
-		/*"data": JSON.stringify({
-            title: $("#title").val()
-        }),*/
+		"data": params,
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
         	buildTable(data);

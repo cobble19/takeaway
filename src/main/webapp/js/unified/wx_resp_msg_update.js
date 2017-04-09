@@ -30,7 +30,7 @@ $(document).ready(function() {
 //			alert('结束时间不能小于开始时间');
 		}
 	})*/
-	showDetail();
+//	showDetail();
 	
 	$('#wxRespMsgForm').validate();
 
@@ -77,8 +77,51 @@ $(document).ready(function() {
 	})
 	
 	/*getPrizeProvider();*/
+	
+	initMsgType();
+	///
+	$('#wxRespMsgForm #msgType').change(function(){
+		var value = $(this).val();
+		var text = $(this).find('option:selected').text();
+		console.log('value: ' + value + ", text: " + text);
+		
+		var msgSend = $('#wxRespMsgForm #msgSend').val();
+		
+		$('#wxRespMsgForm #msgSendWrap').find('#msgSend').remove();
+		
+		if (value == '0') {
+			var input = '<select class="form-control" id="msgSend" name="msgSend" required="required">'
+						+ '	<option value="001"' +
+						('001' == msgSend ? 'selected' : '') +
+								'>加入会员</option>'
+						+ '	<option value="002"' +
+						('002' == msgSend ? 'selected' : '') +
+								'>重新加入会员</option>'
+						+ '	<option value="003"' +
+						('003' == msgSend ? 'selected' : '') +
+								'>退出会员</option>'
+						+ '</select>';
+			$('#wxRespMsgForm #msgSendWrap').append(input);
+		} else if (value == '1') {
+			var input = '<input class="form-control" id="msgSend" name="msgSend" value="' + msgSend + '" ' +
+					'required="required" placeholder="请输入回复关键字"/>';
+			console.log(input);
+			$('#wxRespMsgForm #msgSendWrap').append(input);
+		} 
+	});
+	///
+	
+	$('#wxRespMsgForm #msgType').change();
+	
 })
+///initMsgType
+var initMsgType = function() {
+	var msgType = getParam('msgType');
+	$('#wxRespMsgForm #msgType').val(msgType);
+}
+/// end initMsgType
 
+///
 var showDetail = function() {
 	var wxRespMsgId = getParam('wxRespMsgId');
 	$.ajax({
@@ -106,6 +149,7 @@ var showDetail = function() {
         }
 	});
 }
+///
 
 
 

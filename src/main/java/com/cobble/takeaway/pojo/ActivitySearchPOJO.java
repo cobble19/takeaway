@@ -6,6 +6,7 @@ public class ActivitySearchPOJO extends BaseSearchPOJO {
     private Integer typeCode;
     private String title;
     private String content;
+    private Integer publishType;
     
     private String openId;
     private String unionId;
@@ -52,5 +53,11 @@ public class ActivitySearchPOJO extends BaseSearchPOJO {
 	}
 	public void setWxIndexCode(String wxIndexCode) {
 		this.wxIndexCode = wxIndexCode;
+	}
+	public Integer getPublishType() {
+		return publishType;
+	}
+	public void setPublishType(Integer publishType) {
+		this.publishType = publishType;
 	}
 }
