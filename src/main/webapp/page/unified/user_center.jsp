@@ -76,9 +76,7 @@
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;信息发布</h5></li>
                       <li role="presentation"><a href="#create_activity"><h6>报名征集</h6></a></li>
-                      <cmn:privilege havePrivilege="<%= com.cobble.takeaway.util.CommonConstant.NUMBER_GUESS%>">
                       	<li role="presentation"><a href="#create_vote"><h6>网络投票</h6></a></li>
-                      </cmn:privilege>
                       <c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
                       	  <li role="presentation"><a href="#create_interactive2"><h6>抽奖活动</h6></a></li>
 	                      <li role="presentation"><a href="#award"><h6>奖品</h6></a></li>

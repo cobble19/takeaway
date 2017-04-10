@@ -1,7 +1,7 @@
 var table4Activity;
 $(document).ready(function() {
 
-    var table4Activity = $('#dbTable').DataTable( {
+    table4Activity = $('#dbTable').DataTable( {
     	"processing": true,
 		"initComplete": function () {
             var api = this.api();
@@ -145,12 +145,14 @@ $(document).ready(function() {
 					+ '</a>';
 					
 				
-				var publishType = (full.publishType == null || full.publishType == 0) ? '撤销' : '已发布';
+				var publishType = (full.publishType == null || full.publishType == 0) ? '发布' : '撤销';
 				var publishTypeTitle = (full.publishType == null || full.publishType == 0) ? '发布活动' : '撤销活动';
-				var linkPublish = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="' + publishTypeTitle + '"' +
-						' class="btn btn-success btn-xs" href="#" onclick=changePublish4Activity(' + full.activityId + ',' + full.publishType + ')>' 
-						+ publishType 
-						+ '<span style="color: green;" class="glyphicon glyphicon-asterisk"></span>'
+				var linkPublish = '<a data-toggle="tooltip" data-placement="top" title="' + publishTypeTitle + '"' +
+						' class="btn btn-warning btn-xs picBtn" style="margin-bottom:5px;" href="#" onclick="changePublish4Activity(' + full.activityId + ',' + full.publishType + '); return false;">' 
+//						+ publishType 
+						+ ((full.publishType == null || full.publishType == 0) 
+							? '<span style="color: green;" class="glyphicon glyphicon-ok"></span>'
+							: '<span style="color: green;" class="glyphicon glyphicon-ban-circle"></span>')
 						+ '</a>';
 				
 				
