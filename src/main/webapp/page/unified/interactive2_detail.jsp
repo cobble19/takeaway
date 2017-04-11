@@ -33,7 +33,7 @@
 	            	<input type="hidden" id="interactiveId" name="interactiveId" value="<%=request.getParameter("interactiveId") %>"/>
 				</div>
 			</div>
-            <div class="row hidden-xs">
+            <div class="row">
 				<div class="col-md-12">
 	            	<h5 style=" margin-bottom:10px; display:block;">发布者:<span id="publisher">
 	            		<c:if test="${not empty interactivePOJO.userPOJO}">
@@ -48,7 +48,7 @@
 				</h5>
 				</div>
 	        </div>	
-	  			<div class="row hidden-xs" style="margin-top: 20px; margin-bottom: 20px;">
+	  			<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 	  				<div class="col-md-12 col-xs-12">
 	  					<input type="hidden" id="interactiveId" name="interactiveId" value="${interactivePOJO.interactiveId}">
 	  					<!-- <h4 class="" style="text-align: bottom;"><span id="title"></span></h4>

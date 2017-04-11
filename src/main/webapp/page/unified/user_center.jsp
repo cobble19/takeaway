@@ -49,7 +49,7 @@
         <div  class="row" style=" height:4px; background-color:#44b549;"></div>
         <div  class="row" style=" height:36px; background-color:#e7e8eb;"></div>
   		<div class="row" style="min-height:500px; border:1px solid #CCC;">
-  			<div class="col-md-3 col-xs-4" style="margin-top:30px; margin-left:-15px; margin-right:-15px; text-align:center;" id="sidebar">
+  			<div class="col-md-3 col-xs-4" style="padding:30px 0px 0px 0px; border-right:1px solid #e7e7eb; text-align:center;" id="sidebar">
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;用户中心</h5></li>
                       <li role="presentation" class="active"><a href="#profile"><h6>基本信息</h6></a></li>
@@ -59,18 +59,17 @@
                    <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;基础功能</h5></li>
                       
-	                      <li role="presentation"><a href="#wx_menu_mgr_entry"><h6>公众号菜单</h6></a></li>
+	                      <li role="presentation"><a href="#wx_menu_mgr_entry"><h6>菜单设置</h6></a></li>
                       <c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
 	                      <li role="presentation"><a href="#wx_menu_mgr"><h6>菜单</h6></a></li>
                       	  <li role="presentation"><a href="#wx_menu_mgr_condition"><h6>定制菜单</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_category"><h6>菜单category</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_button"><h6>菜单按钮</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_full"><h6>菜单full</h6></a></li>
-	                      <li role="presentation"><a href="#wx_menu_mgr_match_rule"><h6>菜单match rule</h6></a></li>
-	                   </c:if>
+	                      <li role="presentation"><a href="#wx_menu_mgr_match_rule"><h6>菜单match rule</h6></a></li>	                   
 	                      <li role="presentation"><a href="#wx_person_user"><h6>微信个人用户</h6></a></li>
-	                      
-	                      <li role="presentation"><a href="#wx_resp_msg"><h6>关键字回复</h6></a></li>
+	                      </c:if>
+	                      <li role="presentation"><a href="#wx_resp_msg"><h6>关键字设置</h6></a></li>
                       
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
@@ -111,8 +110,8 @@
 		            <li class="list-group-item col-md-12 col-xs-6"><a href="#create_interactive">线上互动管理</a></li>
 		            <li class="list-group-item col-md-12 col-xs-6"><a href="#create_wxTemplate">模板管理</a></li> -->			
 	     	</div>
-	     	<div class="col-md-9 col-xs-8" style="min-height:500px; border-left:1px solid #e7e7eb;">
-	     		<div id="uc_content" style="padding-top:40px; padding-left:20px; margin-right:-30px;">
+	     	<div class="col-md-9 col-xs-8" style="min-height:500px;">
+	     		<div id="uc_content" style="padding-top:40px;">
 	     			<!-- profile -->
 	     			<%@include file="profile_inc.jsp" %>
 	     			<!-- rel_wx_index_map -->
