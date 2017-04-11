@@ -2,6 +2,7 @@ package com.cobble.takeaway.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -23,15 +24,16 @@ public class WxRespMsgServiceImpl implements WxRespMsgService {
 	@Override
 	public int insert(WxRespMsgPOJO wxRespMsgPOJO) throws Exception {
 		int ret = 0;
-		WxRespMsgSearchPOJO temp = new WxRespMsgSearchPOJO();
+		/*WxRespMsgSearchPOJO temp = new WxRespMsgSearchPOJO();
 		temp.setAuthorizerAppId(wxRespMsgPOJO.getAuthorizerAppId());
 		temp.setMsgReceive(wxRespMsgPOJO.getMsgReceive());
 		
 		int count = wxRespMsgMapper.getCount(temp);
 		if (count == 0) {
 			ret = wxRespMsgMapper.insert(wxRespMsgPOJO);
-		}
+		}*/
 		
+		ret = wxRespMsgMapper.insert(wxRespMsgPOJO);
 		return ret;
 	}
 
@@ -78,6 +80,24 @@ public class WxRespMsgServiceImpl implements WxRespMsgService {
 		if (ArrayUtils.isNotEmpty(ids)) {
 			for (Long id : ids) {
 				ret += wxRespMsgMapper.deleteById(id);
+			}
+		}
+		return ret;
+	}
+
+	@Override
+	public int delete(WxRespMsgPOJO wxRespMsgPOJO) throws Exception {
+		int ret = 0;
+		ret = wxRespMsgMapper.delete(wxRespMsgPOJO);
+		return ret;
+	}
+
+	@Override
+	public int delete(List<WxRespMsgPOJO> wxRespMsgPOJOs) throws Exception {
+		int ret = 0;
+		if (CollectionUtils.isNotEmpty(wxRespMsgPOJOs)) {
+			for (WxRespMsgPOJO wxRespMsgPOJO : wxRespMsgPOJOs) {
+				ret += wxRespMsgMapper.delete(wxRespMsgPOJO);
 			}
 		}
 		return ret;

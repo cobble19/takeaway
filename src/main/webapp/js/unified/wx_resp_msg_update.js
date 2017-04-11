@@ -85,29 +85,37 @@ $(document).ready(function() {
 		var text = $(this).find('option:selected').text();
 		console.log('value: ' + value + ", text: " + text);
 		
-		var msgSend = $('#wxRespMsgForm #msgSend').val();
-		
-		$('#wxRespMsgForm #msgSendWrap').find('#msgSend').remove();
-		
+		//隐藏 04/11/2017
 		if (value == '0') {
-			var input = '<select class="form-control" id="msgSend" name="msgSend" required="required">'
-						+ '	<option value="001"' +
-						('001' == msgSend ? 'selected' : '') +
-								'>加入会员</option>'
-						+ '	<option value="002"' +
-						('002' == msgSend ? 'selected' : '') +
-								'>重新加入会员</option>'
-						+ '	<option value="003"' +
-						('003' == msgSend ? 'selected' : '') +
-								'>退出会员</option>'
-						+ '</select>';
-			$('#wxRespMsgForm #msgSendWrap').append(input);
+			$('#wxRespMsgForm #msgSendWrap').parent().hide();
 		} else if (value == '1') {
-			var input = '<input class="form-control" id="msgSend" name="msgSend" value="' + msgSend + '" ' +
-					'required="required" placeholder="请输入回复关键字"/>';
-			console.log(input);
-			$('#wxRespMsgForm #msgSendWrap').append(input);
-		} 
+			$('#wxRespMsgForm #msgSendWrap').parent().show();
+		}
+		
+		// 04/11/2017 comment, input/select switch
+//		var msgSend = $('#wxRespMsgForm #msgSend').val();
+//		
+//		$('#wxRespMsgForm #msgSendWrap').find('#msgSend').remove();
+//		
+//		if (value == '0') {
+//			var input = '<select class="form-control" id="msgSend" name="msgSend" required="required">'
+//						+ '	<option value="001"' +
+//						('001' == msgSend ? 'selected' : '') +
+//								'>加入会员</option>'
+//						+ '	<option value="002"' +
+//						('002' == msgSend ? 'selected' : '') +
+//								'>重新加入会员</option>'
+//						+ '	<option value="003"' +
+//						('003' == msgSend ? 'selected' : '') +
+//								'>退出会员</option>'
+//						+ '</select>';
+//			$('#wxRespMsgForm #msgSendWrap').append(input);
+//		} else if (value == '1') {
+//			var input = '<input class="form-control" id="msgSend" name="msgSend" value="' + msgSend + '" ' +
+//					'required="required" placeholder="请输入回复关键字"/>';
+//			console.log(input);
+//			$('#wxRespMsgForm #msgSendWrap').append(input);
+//		} 
 	});
 	///
 	

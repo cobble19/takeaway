@@ -81,9 +81,9 @@ public interface CommonConstant {
 	public final static int MEMBER_FLAG = 1;
 	public final static int MEMBER_FLAG_NOT = 0;
 	
-	// 0-客户自定义, 1-系统定义
-	public final static String MSG_TYPE_CUSTOMER = "0";
-	public final static String MSG_TYPE_SYSTEM = "1";
+	// 0-系统定义, 1-客户自定义
+	public final static String MSG_TYPE_SYSTEM = "0";
+	public final static String MSG_TYPE_CUSTOMER = "1";
 	
 	
 }

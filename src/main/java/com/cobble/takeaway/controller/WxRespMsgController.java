@@ -28,6 +28,7 @@ import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
 import com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxRespMsgService;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -41,6 +42,115 @@ public class WxRespMsgController extends BaseController {
 	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+
+	@RequestMapping(value = "/api/unified/wxRespMsg/disable", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO disableWxRespMsgSystem4WebAPI(/*WxRespMsgPOJO wxRespMsgPOJO, */
+			Model model, 
+			HttpServletRequest request, 
+			HttpServletResponse response,
+			HttpSession session) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}
+			
+			String authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			String msgType = CommonConstant.MSG_TYPE_SYSTEM;
+			String msgReceive = null;
+			String msgSend = null;
+			// first delete old/original system keyword
+			WxRespMsgPOJO wxRespMsgPOJO = new WxRespMsgPOJO();
+			wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
+			wxRespMsgPOJO.setMsgType(msgType);
+			/*wxRespMsgPOJO.setMsgReceive(msgReceive);
+			wxRespMsgPOJO.setMsgSend(msgSend);*/
+			wxRespMsgPOJO.setUserId(userId);
+			
+			Integer delRet = wxRespMsgService.delete(wxRespMsgPOJO);
+			logger.debug("wxRespMsgService delete size: {}, wxRespMsgPOJO: {}", delRet, wxRespMsgPOJO);
+			
+			ret.setSuccess(true);
+			ret.setErrorCode("DISABLE_SYSTEM");
+			ret.setErrorMsg("Disable resp msg system");
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
+	@RequestMapping(value = "/api/unified/wxRespMsg/enable", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO enableWxRespMsgSystem4WebAPI(/*WxRespMsgPOJO wxRespMsgPOJO, */
+			Model model, 
+			HttpServletRequest request, 
+			HttpServletResponse response,
+			HttpSession session) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}
+			
+			String authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			String msgType = CommonConstant.MSG_TYPE_SYSTEM;
+			String msgReceive = null;
+			String msgSend = null;
+			// first delete old/original system keyword
+			WxRespMsgPOJO wxRespMsgPOJO = new WxRespMsgPOJO();
+			wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
+			wxRespMsgPOJO.setMsgType(msgType);
+			/*wxRespMsgPOJO.setMsgReceive(msgReceive);
+			wxRespMsgPOJO.setMsgSend(msgSend);*/
+			wxRespMsgPOJO.setUserId(userId);
+			
+			Integer delRet = wxRespMsgService.delete(wxRespMsgPOJO);
+			logger.debug("wxRespMsgService delete size: {}, wxRespMsgPOJO: {}", delRet, wxRespMsgPOJO);
+			
+			// insert three system resp msg
+			final int RESP_MSG_SYSTEM_COUNT = 3;
+			List<String> msgReceives = new ArrayList<String>();
+			msgReceives.add("001");
+			msgReceives.add("002");
+			msgReceives.add("003");
+			
+			List<String> msgSends = new ArrayList<String>();
+			msgSends.add("001");
+			msgSends.add("002");
+			msgSends.add("003");
+			
+			for (int i = 0; i < RESP_MSG_SYSTEM_COUNT; i++) {
+				wxRespMsgPOJO = new WxRespMsgPOJO();
+				msgReceive = msgReceives.get(i);
+				msgSend = msgSends.get(i);
+				
+				wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
+				wxRespMsgPOJO.setMsgType(msgType);
+				wxRespMsgPOJO.setMsgReceive(msgReceive);
+				wxRespMsgPOJO.setMsgSend(msgSend);
+				wxRespMsgPOJO.setUserId(userId);
+
+				result = wxRespMsgService.insert(wxRespMsgPOJO);
+			}
+			
+			ret.setSuccess(true);
+			ret.setErrorCode("ENABLE_SYSTEM");
+			ret.setErrorMsg("Enable resp msg system");
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/api/unified/wxRespMsg/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody

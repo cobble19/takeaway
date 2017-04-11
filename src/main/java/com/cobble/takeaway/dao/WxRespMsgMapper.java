@@ -15,4 +15,6 @@ public interface WxRespMsgMapper {
 	WxRespMsgPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
 	
+	int delete(WxRespMsgPOJO wxRespMsgPOJO) throws Exception;
+	
 }

@@ -49,7 +49,7 @@ $(document).ready(function() {
 				//console.log(data + " " + type + " " + full + " " + meta);
 			}
 		}, {
-			"targets" : [2],
+			"targets" : [2, 5, 6, 7],
 			"visible": false
 		}, {
 			"targets": [5],
@@ -94,7 +94,7 @@ $(document).ready(function() {
 						+ '</button>'
 						+ '<ul class="dropdown-menu dropdown-menu-xs">'
 							+ '<li>' + linkEdit + '</li>'
-							+ '<li>' + linkVIAdd + '</li>'
+//							+ '<li>' + linkVIAdd + '</li>'
 						+ '</ul>'
 					+ '</div>';
 					
@@ -153,7 +153,7 @@ $(document).ready(function() {
     	}
     })
     
-
+///
     $('#deleteBtn4WxRespMsgS').click(function() {
     	var ids = [];
     	var chkBox = $('#dbTable4WxRespMsgS').find('input[name=chkBox]');
@@ -195,6 +195,68 @@ $(document).ready(function() {
             }
     	});
     })
+    ///
+    ///
+    $('#enableBtn4WxRespMsgS').click(function() {
+    	var confirm = window.confirm('启动系统关键字');
+    	if (!confirm) {
+    		return;
+    	}
+    	$.ajax({
+    		"url" : $('#basePath').val() + '/api/unified/wxRespMsg/enable',
+    		"type" : "GET",
+    		"headers" : {
+    			"Content-Type" : "application/json"
+    		},
+    		"dataType" : 'json',
+    		traditional :true, 
+//    		"data": {
+//                "ids": ids
+//            },
+            success: function(data, textStatus, jqXHR ) {
+            	$('#progress').dialog('close');
+            	wxRespMsgSSearch(table4WxRespMsgS);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Load Error!');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});
+    })
+    ///
+    ///
+    $('#disableBtn4WxRespMsgS').click(function() {
+    	var confirm = window.confirm('停用系统关键字');
+    	if (!confirm) {
+    		return;
+    	}
+    	$.ajax({
+    		"url" : $('#basePath').val() + '/api/unified/wxRespMsg/disable',
+    		"type" : "GET",
+    		"headers" : {
+    			"Content-Type" : "application/json"
+    		},
+    		"dataType" : 'json',
+    		traditional :true, 
+//    		"data": {
+//                "ids": ids
+//            },
+            success: function(data, textStatus, jqXHR ) {
+            	$('#progress').dialog('close');
+            	wxRespMsgSSearch(table4WxRespMsgS);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	console.log('Load Error!');
+            },
+            complete: function(jqXHR, textStatus) {
+            	console.log('Ajax complete.');
+            }
+    	});
+    })
+    ///
+    
     
     
 } );

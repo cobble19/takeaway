@@ -15,4 +15,7 @@ public interface WxRespMsgService {
 	int deleteById(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
 	
+	int delete(WxRespMsgPOJO wxRespMsgPOJO) throws Exception;
+	int delete(List<WxRespMsgPOJO> wxRespMsgPOJOs) throws Exception;
+	
 }

@@ -29,7 +29,7 @@
  					<input class="form-control" id="msgSend" name="msgSend" value="${wxRespMsgPOJO.msgSend}" required="required" placeholder="请输入回复关键字">
  				</div>
  			</div>
- 			<div class="form-group">
+ 			<div class="form-group" style="display: none;">
  				<label class="control-label" for="msgType">关键字类型:</label>
  				<div class="">
  					<%-- <input class="form-control" id="msgType" name="msgType" value="${wxRespMsgPOJO.msgType}" placeholder="请输入关键字类型"> --%>
@@ -39,13 +39,13 @@
 					</select>
  				</div>
  			</div>
- 			<div class="form-group">
+ 			<div class="form-group" style="display: none;">
  				<label class="control-label" for="userId">规则所有者ID:</label>
  				<div class="">
  					<input class="form-control" id="userId" name="userId" value="${wxRespMsgPOJO.userId}" placeholder="请输入规则所有者ID">
  				</div>
  			</div>
- 			<div class="form-group">
+ 			<div class="form-group" style="display: none;">
  				<label class="control-label" for="authorizerAppId">公众号APPID:</label>
  				<div class="">
  					<input class="form-control" id="authorizerAppId" name="authorizerAppId" value="${wxRespMsgPOJO.authorizerAppId}" placeholder="请输入公众号APPID">

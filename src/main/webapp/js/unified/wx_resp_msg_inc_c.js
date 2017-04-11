@@ -49,7 +49,7 @@ $(document).ready(function() {
 				//console.log(data + " " + type + " " + full + " " + meta);
 			}
 		}, {
-			"targets" : [2],
+			"targets" : [2, 5, 6, 7],
 			"visible": false
 		}, {
 			"targets": [5],
@@ -94,7 +94,7 @@ $(document).ready(function() {
 						+ '</button>'
 						+ '<ul class="dropdown-menu dropdown-menu-xs">'
 							+ '<li>' + linkEdit + '</li>'
-							+ '<li>' + linkVIAdd + '</li>'
+//							+ '<li>' + linkVIAdd + '</li>'
 						+ '</ul>'
 					+ '</div>';
 					

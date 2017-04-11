@@ -84,6 +84,17 @@
     delete from WX_RESP_MSG
     where WX_RESP_MSG_ID = #{wxRespMsgId}
   </delete>
+  <delete id="delete" parameterType="com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO" >
+    delete a from WX_RESP_MSG a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			<if test="wxRespMsgId != null">
+				and a.WX_RESP_MSG_ID = #{wxRespMsgId}
+			</if>
+  		</trim>
+  	</where>
+  </delete>
   <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO" useGeneratedKeys="true"
   	keyProperty="wxRespMsgId" keyColumn="WX_RESP_MSG_ID">
     insert into WX_RESP_MSG

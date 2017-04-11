@@ -4,10 +4,21 @@
 	     			<div id="wx_resp_msg">
 	     				<h3><span style="color: green;" class="glyphicon glyphicon-globe"></span> 系统关键字回复</h3>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_resp_msg_add.jsp?sgType=0'>添加</a>
+	     					<%-- <a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_resp_msg_add.jsp?msgType=0'>添加</a> --%>
 	     					
-	     					<input id="searchBtn4WxRespMsgS" type="button" class="btn btn-default btn-xs" value="查询">
-	     					<input id="deleteBtn4WxRespMsgS" type="button" class="btn btn-default btn-xs" value="删除">
+	     					<button  id="searchBtn4WxRespMsgS" type="button" class="btn btn-default btn-xs"
+	     						data-toggle="tooltip" data-placement="top" title="查询" value="查询">
+	     						<!-- 开启  --><span class="glyphicon glyphicon-search" ></span>
+	     					</button>
+	     					<!-- <input id="deleteBtn4WxRespMsgS" type="button" class="btn btn-default btn-xs" value="删除"> -->
+	     					<button  id="enableBtn4WxRespMsgS" type="button" class="btn btn-default btn-xs"
+	     						data-toggle="tooltip" data-placement="top" title="开启" value="开启">
+	     						<!-- 开启  --><span class="glyphicon glyphicon-ok" ></span>
+	     					</button>
+	     					<button  id="disableBtn4WxRespMsgS" type="button" class="btn btn-default btn-xs"
+	     						data-toggle="tooltip" data-placement="top" title="停用" value="停用">
+	     						<!-- 停用  --><span class="glyphicon glyphicon-ban-circle" ></span>
+	     					</button>
 	     					
 	     				</div>
 				  		<table id="dbTable4WxRespMsgS" class="display table table-striped table-bordered" cellspacing="0" width="100%">

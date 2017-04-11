@@ -57,6 +57,13 @@ public class WxRespMsgPOJO extends BasePOJO {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+	@Override
+	public String toString() {
+		return "WxRespMsgPOJO [wxRespMsgId=" + wxRespMsgId + ", msgReceive="
+				+ msgReceive + ", msgSend=" + msgSend + ", msgType=" + msgType
+				+ ", createDateTime=" + createDateTime + ", userId=" + userId
+				+ ", authorizerAppId=" + authorizerAppId + "]";
+	}
     
     
 }
