@@ -1,5 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+   <%@page import="java.util.Date" %>
 <%@include file="../common/taglib.jsp" %>
 
 <!DOCTYPE html>
@@ -128,6 +130,6 @@
 		<%@include file="../../../bottom.jsp" %>
 		</div> <!-- container -->  		
 	
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/lottery/lottery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/lottery/lottery.js?v=<%= new Date().getTime() %>"></script>
   </body>
 </html>
