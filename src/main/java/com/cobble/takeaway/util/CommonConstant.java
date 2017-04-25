@@ -81,6 +81,10 @@ public interface CommonConstant {
 	public final static int MEMBER_FLAG = 1;
 	public final static int MEMBER_FLAG_NOT = 0;
 	
+	// 有效标志
+	public final static int ENABLE_FLAG = 1;
+	public final static int DISABLE_FLAG = 0;
+	
 	// 0-系统定义, 1-客户自定义
 	public final static String MSG_TYPE_SYSTEM = "0";
 	public final static String MSG_TYPE_CUSTOMER = "1";

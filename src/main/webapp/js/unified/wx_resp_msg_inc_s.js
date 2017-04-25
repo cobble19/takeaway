@@ -1,6 +1,51 @@
 var table4WxRespMsgS;
+var htmlTable4WxRespMsgS;
 
 $(document).ready(function() {
+	
+    $('#searchBtn4WxRespMsgS').click(function() {
+    	console.log('search click...');
+    	//wxRespMsgSSearch(table4WxRespMsgS);
+    	//buildWxRespMsgS();
+    	window.location.reload();
+    })
+    
+	buildWxRespMsgS();
+	
+    
+} );
+
+var buildWxRespMsgS = function() {
+	try {
+		table4WxRespMsgS.clear();
+		table4WxRespMsgS.destroy();
+		table4WxRespMsgS = null;
+		
+		$('#dbTable4WxRespMsgSDiv').remove();
+	} catch(e) {
+		console.log(e);
+	}
+	
+	htmlTable4WxRespMsgS = '<div id="dbTable4WxRespMsgSDiv">' +
+					'<table id="dbTable4WxRespMsgS" class="display table table-striped table-bordered" cellspacing="0" width="100%">' +
+			  				'<thead>' +
+			  					'<tr>' +
+			  						'<th><input type="checkbox" name="chkBoxAll4WxRespMsgS" id="chkBoxAll4WxRespMsgS">全选</th>' +
+			  						'<th>序号</th>' +
+			  						'<th>标识</th>' +
+			  						'<th>接受关键字</th>' +
+			  						'<th>回复关键字</th>' +
+			  						'<th>信息类别</th>' +
+			  						'<th>用户ID</th>' +
+			  						'<th>公众号APPID</th>' +
+			  						'<th>有效标志</th>' +
+			  						'<th>创建时间</th>' +
+			  						'<th>操作</th>' +
+			  					'</tr>' +
+			  				'</thead>' +
+				  		'</table>' +
+				  	'</div>';
+	$($('#wx_resp_msg > table').get(0)).after($(htmlTable4WxRespMsgS));
     table4WxRespMsgS = $('#dbTable4WxRespMsgS').DataTable( {
     	"processing": true,
 		"initComplete": function () {
@@ -32,7 +77,7 @@ $(document).ready(function() {
         	}
         	
         },
-		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
+		"dom" : '<"top"<"clear">>t<"bottom"<"clear">>',
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
 		"columnDefs" : [ {
 			"targets" : 0,
@@ -65,41 +110,45 @@ $(document).ready(function() {
 				return ret;
 			}
 		}, {
-			"targets": [8],
+			"targets": [9],
 			"render" : function(data, type, full, meta) {
 				var date = new Date(data);
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets" : [9],
+			"targets" : [10],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.wxRespMsgId
 								+ '&msgType=0';
-				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
+				
+				var linkEdit = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="修改内容"' +
+						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
-								+ '修改' + '</a>';
+								+ '<span style="color: green;" class="glyphicon glyphicon-edit"></span>'
+								/**+ '修改内容'**/ 
+								+ '</a>';
 				
-				var hrefVIAdd = $('#basePath').val() + '/web/media/wxRespMsgDetail?wxRespMsgId='  + full.wxRespMsgId
-								+ '&msgType=0';
-				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
-								+ '">'
-								+ '详细信息' + '</a>';
-				
-				
-				var oper =
-					'<div class="btn-group" role="group">'
-						+ '<button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
-							+ '操作选项'
-								+ '<span class="caret"></span>'
-						+ '</button>'
-						+ '<ul class="dropdown-menu dropdown-menu-xs">'
-							+ '<li>' + linkEdit + '</li>'
-//							+ '<li>' + linkVIAdd + '</li>'
-						+ '</ul>'
-					+ '</div>';
+//				var hrefVIAdd = $('#basePath').val() + '/web/media/wxRespMsgDetail?wxRespMsgId='  + full.wxRespMsgId
+//								+ '&msgType=0';
+//				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
+//								+ '">'
+//								+ '详细信息' + '</a>';
+//				
+//				
+//				var oper =
+//					'<div class="btn-group" role="group">'
+//						+ '<button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+//							+ '操作选项'
+//								+ '<span class="caret"></span>'
+//						+ '</button>'
+//						+ '<ul class="dropdown-menu dropdown-menu-xs">'
+//							+ '<li>' + linkEdit + '</li>'
+////							+ '<li>' + linkVIAdd + '</li>'
+//						+ '</ul>'
+//					+ '</div>';
 					
 			      
-				return oper;
+				return linkEdit;
 			}
 		} ],
         "columns": [
@@ -121,6 +170,7 @@ $(document).ready(function() {
             { "data": "msgType" },
             { "data": "userId" },
             { "data": "authorizerAppId" },
+            { "data": "enableFlag" },
             { "data": "createDateTime" },
             {
                 /*"className":      'details-control',*/
@@ -139,10 +189,11 @@ $(document).ready(function() {
     } ).draw();
 
     wxRespMsgSSearch(table4WxRespMsgS);
-    $('#searchBtn4WxRespMsgS').click(function() {
-    	console.log('search click...');
-    	wxRespMsgSSearch(table4WxRespMsgS);
-    })
+//    $('#searchBtn4WxRespMsgS').click(function() {
+//    	console.log('search click...');
+//    	//wxRespMsgSSearch(table4WxRespMsgS);
+//    	buildWxRespMsgS();
+//    })
     
     $('#chkBoxAll4WxRespMsgS').click(function() {
     	var chkBoxAll = $(this).attr('checked');
@@ -215,7 +266,8 @@ $(document).ready(function() {
 //            },
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
-            	wxRespMsgSSearch(table4WxRespMsgS);
+            	window.location.reload();
+//            	wxRespMsgSSearch(table4WxRespMsgS);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Load Error!');
@@ -245,7 +297,8 @@ $(document).ready(function() {
 //            },
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
-            	wxRespMsgSSearch(table4WxRespMsgS);
+            	window.location.reload();
+//            	wxRespMsgSSearch(table4WxRespMsgS);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Load Error!');
@@ -256,10 +309,46 @@ $(document).ready(function() {
     	});
     })
     ///
+//    showTable4WxRespMsgGather();
+    ///
+//    var tempTable = $('#dbTable4WxRespMsgS');
+//     // Add event listener for opening and closing details
+//    $('#dbTable4WxRespMsgGather tbody').on('click', 'td.details-control', function () {
+//    	console.log('tempTable22: ' + tempTable);
+//    	tempTable = $('#dbTable4WxRespMsgS');
+//    	console.log('tempTable22: ' + tempTable);
+//    	if (tempTable.length() <= 0) {
+//    		$('#wx_resp_msg').append(htmlTable4WxRespMsgS);
+//    	}
+//    	
+//        var tr = $(this).closest('tr');
+//        var row = $('#dbTable4WxRespMsgGather').DataTable().row( tr );
+//        if ( row.child.isShown() ) {
+//            // This row is already open - close it
+//            row.child.hide();
+//            tr.removeClass('shown');
+//        }
+//        else {
+//            // Open this row
+//            row.child( table4WxRespMsgS ).show();
+//            tr.addClass('shown');
+//        }
+//    } );
+    ///
     
+     $('#dbTable4WxRespMsgS').on('draw.dt',function() {
+ 		console.log('dbTable4WxRespMsgS draw.dt')
+        showTable4WxRespMsgGather();
+     });
+     
+     
+     $('#dbTable4WxRespMsgS').on('init.dt',function() {
+ 		console.log('init.dt')
+        //onDetailClickEvent();
+     });
+    ///
     
-    
-} );
+}
 
 var wxRespMsgSSearch = function(table) {
 	$('#progress').dialog('open');
@@ -288,6 +377,10 @@ var wxRespMsgSSearch = function(table) {
             .nodes()
             .to$()
             .addClass( 'new' );
+            
+//            showTable4WxRespMsgGather();
+            
+//            $('#dbTable4WxRespMsgGather td.details-control').trigger('click');
         	
         	// add title
 //        	$("td.details-control").attr('title', '申请参加');
@@ -300,6 +393,295 @@ var wxRespMsgSSearch = function(table) {
         }
 	});
 }
+///
+///
+var enableOrDisable = function() {
+	var rowData = table4WxRespMsgS.row(0).data();
+	
+	var enableFlag = rowData.enableFlag;
+	if (enableFlag == 0) {
+		$('#enableBtn4WxRespMsgS').trigger('click');
+	} else {
+		$('#disableBtn4WxRespMsgS').trigger('click');
+	}
+}
+///
+///
+var showTable4WxRespMsgGather = function() {
+	var tableId = 'dbTable4WxRespMsgGather';
+	var result = {};
+	var columns = [
+			{
+			    "className":      'details-control',
+			    "orderable":      false,
+			    "data":           null,
+			    "defaultContent": '',
+			    "width": '10%'
+			},
+            {
+                /*"className":      'details-control',*/
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { "data": "msgType" },
+            { "data": "userId" },
+            { "data": "authorizerAppId" },
+            { "data": "enableFlag" },
+            {
+                /*"className":      'details-control',*/
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            }
+	];
+	result.columns = columns;
+	var columnDefs = [ 
+			{
+				"targets" : 0,
+				"render" : function(data, type, full, meta) {
+//					var checkBox = '<input type="checkbox" name="chkBox" value="'
+//						+ full.userId
+//						+ '">';
+//					return checkBox;
+					;
+				}
+			},{
+				"targets" : 1,
+				"render" : function(data, type, full, meta) {
+					//console.log(data + " " + type + " " + full + " " + meta);
+				}
+			}, {
+				"targets" : [1, 2, 3, 4],
+				"visible": false
+			}, {
+				"targets": [2],
+				"render" : function(data, type, full, meta) {
+					var ret = '';
+					if (data == null || data == 0) {
+						ret = '系统关键字';
+					} else if (data == 1) {
+						ret = '客户关键字'
+					} else {
+						ret = '未知关键字';
+					}
+					return ret;
+				}
+			}, {
+				"targets" : [6],
+				"render" : function(data, type, full, meta) {
+//					var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.userId
+//									+ '&msgType=0';
+//					var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
+//									+ '">'
+//									+ '修改' + '</a>';
+//					
+//					var hrefVIAdd = $('#basePath').val() + '/web/media/wxRespMsgDetail?wxRespMsgId='  + full.userId
+//									+ '&msgType=0';
+//					var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
+//									+ '">'
+//									+ '详细信息' + '</a>';
+
+					var enableFlag = full.enableFlag;
+
+					var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.wxRespMsgId
+									+ '&msgType=0';
+					hrefEdit = '#';
+					
+					var linkEdit = '<button data-toggle="tooltip" data-placement="top" title="OK/BAN"' +
+						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" onclick="javascript: enableOrDisable();">'
+								+ (enableFlag ? '<span style="color: green;" class="glyphicon glyphicon-ok"></span>'
+												: '<span style="color: green;" class="glyphicon glyphicon-ban-circle"></span>')
+								/**+ '修改内容'**/ 
+								+ '</button>';
+					
+					
+				      
+					return linkEdit;
+				}
+			}];
+		result.columnDefs = columnDefs;
+		
+		var rowData = table4WxRespMsgS.row(0).data();
+		var userId = $('#userId').val();
+		var authorizerAppId = $('#authorizerAppId').val();
+		var data = [
+			{
+				"userId": userId,
+				"authorizerAppId": authorizerAppId,
+				"msgType": 1,
+				"enableFlag": rowData.enableFlag == null ? 0 : rowData.enableFlag
+			}];
+		result.data = data;
+		buildTable4WxRespMsgGather(tableId, result);
+		
+//		$('#dbTable4WxRespMsgGather').on('draw.dt',function() {
+//	 		console.log(' dbTable4WxRespMsgGatherdraw.dt')
+//	     	onDetailClickEvent();
+//	     });
+	     onDetailClickEvent();
+	     $('#dbTable4WxRespMsgGather tbody td.details-control').trigger('click');
+		
+		
+    ///
+//    var tempTable = $('#dbTable4WxRespMsgS');
+     // Add event listener for opening and closing details
+//    $('#dbTable4WxRespMsgGather tbody').on('click', 'td.details-control', function () {
+//        var tr = $(this).closest('tr');
+//        var row = $('#dbTable4WxRespMsgGather').DataTable().row( tr );
+//        if ( row.child.isShown() ) {
+//            // This row is already open - close it
+//            row.child.hide();
+//            tr.removeClass('shown');
+//        }
+//        else {
+//            // Open this row
+//            row.child( tempTable ).show();
+//            tr.addClass('shown');
+//        }
+//    } );
+    ///
+}
+///
+///
+var buildTable4WxRespMsgGather = function(tableId, result) {
+	var columns = result.columns || [];
+//	var temp = result.columns;
+//	$.each(temp, function(i, e) {
+//		column = {
+//				/*"data": '\"' + e + '\"'*/
+//				"data": e
+//		};
+//		columns.push(column);
+//	});
+	
+	var columnDefs = result.columnDefs || [];
+//	columnDef = {
+//			"targets": [columns.length - 1],
+//			"visible": true,
+//			"render" : function(data, type, full, meta) {
+//				var createDateTime = new Date(full.createDateTime);
+//				return createDateTime.format('Y-m-d H:i:s');
+//			}
+//		};
+//	columnDefs.push(columnDef);
+	
+//	$.each(result.trHeaderNames, function(i, e){
+//		$('#trHeader').append('<th>' + e + '</th>');
+//	})
+	
+	var settings = {
+		"initComplete": function () {
+            var api = this.api();
+            console.log("page.len = " + api.page.len());
+            var info = api.page.info();
+            console.log('Currently showing page '+(info.page+1)+' of '+info.pages+' pages.');
+            
+        },
+        'bPaginate': true,
+        "pagingType": "full_numbers",
+        "language": {
+        	"search": "过滤: ",
+        	"lengthMenu": "每页显示 _MENU_ 条记录",
+        	"zeroRecords": "没有检索到数据",
+        	"info": "显示 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+        	"infoEmpty": "没有数据",
+        	"infoFiltered": "(从 _MAX_ 条数据中检索)",
+        	"paginate": {
+        		"first": "首页",
+        		"previous": "前一页",
+        		"next": "后一页",
+        		"last": "尾页"
+        	}
+        	
+        },
+		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
+		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+		/*"columnDefs" : [ {
+			"targets" : 4,
+			"render" : function(data, type, full, meta) {
+				if (data == null) {
+					return '';
+				}
+
+				return (data != null && data === 'F') ? '女': '男';
+			}
+		}, {
+			"targets" : 0,
+			"visible" : false
+		}  ],*/
+        "columns": columns/*[
+            { "data": "applyId" },
+            {
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { "data": "username" },
+            { "data": "phone" },
+            { "data": "sex" },
+            { "data": "description" }
+        ]*/,
+        "columnDefs": columnDefs,
+        "order": [[columns.length - 1, 'asc']]
+    }
+	var $table = $('#' + tableId);
+	$table.DataTable().clear();
+	$table.DataTable().destroy();
+	$table.DataTable(settings);
+	
+	var data = result.data;
+
+//	table.recordsTotal = data.recordsTotal;
+	$table.DataTable().rows.add(data).draw()
+    .nodes()
+    .to$()
+    .addClass( 'new' );
+    
+    ///;
+    ///
+    
+	return ;
+}
+///
+var onDetailClickEvent = function() {
+	
+    var temp = $('#dbTable4WxRespMsgSDiv');
+     // Add event listener for opening and closing details
+    $('#dbTable4WxRespMsgGather tbody').on('click', 'td.details-control', function () {
+    	console.log('tempTableWrapper: ' + temp);
+    	temp = $('#dbTable4WxRespMsgSDiv');
+    	console.log('tempTableWrapper: ' + temp);
+    	if (temp.length <= 0) {
+    		$('#wx_resp_msg').append(htmlTable4WxRespMsgS);
+    	}
+    	
+        var tr = $(this).closest('tr');
+        var row = $('#dbTable4WxRespMsgGather').DataTable().row( tr );
+        tr = $(tr);
+        // row.child.isShown()
+        //console.log(tr.next());
+        if ( tr.hasClass('shown') ) {
+            // This row is already open - close it
+//            row.child.hide();
+			tr.next().find('#dbTable4WxRespMsgS').parents('tr').hide();
+            tr.removeClass('shown');
+        }
+        else {
+        	if (tr.next().find('#dbTable4WxRespMsgSDiv').length > 0) {
+				tr.next().find('#dbTable4WxRespMsgS').parents('tr').show();
+				tr.addClass('shown');
+        	} else {
+	            // Open this row
+	//            row.child( tempTableWrapper ).show();
+				row.child( temp ).show();
+	//			$('#dbTable4WxRespMsgS').parents('tr').show();
+	            tr.addClass('shown');
+        	}
+        }
+    } )
+}
+///
 
 
 

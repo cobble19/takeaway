@@ -83,6 +83,7 @@
                       	  <li role="presentation"><a href="#create_interactive2"><h6>抽奖活动</h6></a></li>
 	                      <li role="presentation"><a href="#award"><h6>奖品</h6></a></li>
 	                      <li role="presentation"><a href="#award_record"><h6>奖品记录</h6></a></li>
+	                      <li role="presentation"><a href="#point_record"><h6>积分记录</h6></a></li>
                       </c:if>
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
@@ -122,6 +123,8 @@
 	     			<%@include file="award_inc.jsp" %>
 	     			<!-- award_record -->
 	     			<%@include file="award_record_inc.jsp" %>
+	     			<!-- point_record -->
+	     			<%@include file="point_record_inc.jsp" %>
 	     			<!-- wx_menu_mgr_entry -->
 	     			<%@include file="wx_menu_mgr_entry_inc.jsp" %>
 	     			<!-- wx_menu_mgr -->

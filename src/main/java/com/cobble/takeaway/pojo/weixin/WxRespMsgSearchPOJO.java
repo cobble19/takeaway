@@ -9,6 +9,8 @@ public class WxRespMsgSearchPOJO extends BaseSearchPOJO {
     private String msgReceive;
     private String msgSend;
     private String msgType;
+    
+    private Integer enableFlag;
 
     private Date createDateTime;
     
@@ -56,6 +58,12 @@ public class WxRespMsgSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public Integer getEnableFlag() {
+		return enableFlag;
+	}
+	public void setEnableFlag(Integer enableFlag) {
+		this.enableFlag = enableFlag;
 	}
     
     

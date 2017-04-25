@@ -283,7 +283,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			Matcher m = p.matcher(qs);
 			if (m.find() && m.groupCount() == 2) {
 				String s = m.group(2);
-				logger.info("activityId: {}", s);
+				logger.info("interactiveId: {}", s);
 				Long interactiveId = Long.parseLong(s);
 				userPOJO = userService.findUserByInteractiveId(interactiveId);
 				

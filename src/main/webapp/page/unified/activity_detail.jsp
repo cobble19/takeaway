@@ -73,6 +73,10 @@
                     </div>
                     <div class="row" style="margin-left:2px; margin-right:2px;">
                     <div id="lineSplit" class="col-md-12 col-xs-12" style="margin-top:30px; border-bottom:5px ridge #ccc;"></div>
+                    <div id="errorMsg4Activity" class="col-md-12 col-xs-12" 
+                    	style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px; font-size: xx-large; text-align: center;">
+                    	<span style="color: red; text-align: center;"></span>
+                    </div>
 	  				<div id="apply2Div" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
 		  				<div class="row col-md-12 col-xs-12">
 			  				<fieldset>

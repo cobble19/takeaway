@@ -438,6 +438,15 @@ var showDetail = function() {
         }),*/
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
+        	var publishType = data.publishType;
+        	if (publishType == null || publishType == 0) {
+        		window.location.href = $('#basePath').val() + "/errorPage/404.jsp";
+//        		$('#apply2Div').hide();
+//        		$('nav.navbar').hide();
+//        		$('#errorMsg4Activity').show();
+//        		$('#errorMsg4Activity span').text('访问的页面未发布!');
+        		return;
+        	}
 //        	$("#authorizerAppId").html(data.wxAuthorizerInfoPOJO.authorizerAppId);
         	$("#activityId").html(data.activityId);
         	$("#title").html(data.title);

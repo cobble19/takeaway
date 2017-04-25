@@ -18,13 +18,13 @@
   			<h2 class="">活动[<span id="activityTitle"></span>]的申请人</h2>
   			
   			<button class="btn btn-success" id="searchBtn4Apply2">
-  				查询  <span style="" class="glyphicon glyphicon-search">
+  				查询  <span style="" class="glyphicon glyphicon-search"></span>
   				</button>
   			<button class="btn btn-success" id="print" onclick="javascript: window.print();">
-  				打印  <span style="" class="glyphicon glyphicon-print">
+  				打印  <span style="" class="glyphicon glyphicon-print"></span>
   				</button>
   			<button class="btn btn-success" id="exportBtn">
-  			导出excel <span style="" class="glyphicon glyphicon-export">
+  			导出excel <span style="" class="glyphicon glyphicon-export"></span>
   			</button>
   			<%-- <a class="btn btn-success" href='<cmn:base/>/api/apply2/v2/export/xls?activityId=${param.activityId}'>导出</a> --%>
   		</div>

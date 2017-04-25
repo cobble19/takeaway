@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%@include file="/page//common/head.jsp" %>
+    <%@include file="/page/common/head.jsp" %>
     
     <meta http-equiv="refresh" content="5; URL=<cmn:base/>/login.jsp">
     

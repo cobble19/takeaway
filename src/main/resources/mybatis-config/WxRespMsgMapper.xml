@@ -15,6 +15,7 @@
     <result column="MSG_RECEIVE" property="msgReceive"/>
     <result column="MSG_SEND" property="msgSend"/>
     <result column="MSG_TYPE" property="msgType"/>
+    <result column="ENABLE_FLAG" property="enableFlag"/>
     <result column="USER_ID" property="userId"/>
     <result column="AUTHORIZER_APP_ID" property="authorizerAppId" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
@@ -22,7 +23,7 @@
   
   <sql id="Base_Column_List" >
     a.WX_RESP_MSG_ID, a.MSG_RECEIVE, a.MSG_SEND
-    , a.MSG_TYPE
+    , a.MSG_TYPE, a.ENABLE_FLAG
     , a.USER_ID, a.AUTHORIZER_APP_ID, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
@@ -34,6 +35,9 @@
 	</if>
 	<if test="msgType != null">
 		and a.MSG_TYPE = #{msgType}
+	</if>
+	<if test="enableFlag != null">
+		and a.ENABLE_FLAG = #{enableFlag}
 	</if>
 	<if test="userId != null">
 		and a.USER_ID = #{userId}
@@ -108,6 +112,9 @@
       <if test="msgType != null" >
         MSG_TYPE,
       </if>
+      <if test="enableFlag != null" >
+        ENABLE_FLAG,
+      </if>
       <if test="userId != null" >
         USER_ID,
       </if>
@@ -125,6 +132,9 @@
       </if>
       <if test="msgType != null" >
         #{msgType},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag},
       </if>
       <if test="userId != null" >
         #{userId},
@@ -147,6 +157,9 @@
       </if>
       <if test="msgType != null" >
         MSG_TYPE = #{msgType},
+      </if>
+      <if test="enableFlag != null" >
+        ENABLE_FLAG = #{enableFlag},
       </if>
       <if test="userId != null" >
         USER_ID = #{userId},

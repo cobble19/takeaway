@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,15 +64,29 @@ public class WxRespMsgController extends BaseController {
 			String msgReceive = null;
 			String msgSend = null;
 			// first delete old/original system keyword
-			WxRespMsgPOJO wxRespMsgPOJO = new WxRespMsgPOJO();
+			/*WxRespMsgPOJO wxRespMsgPOJO = new WxRespMsgPOJO();
 			wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
 			wxRespMsgPOJO.setMsgType(msgType);
-			/*wxRespMsgPOJO.setMsgReceive(msgReceive);
-			wxRespMsgPOJO.setMsgSend(msgSend);*/
 			wxRespMsgPOJO.setUserId(userId);
 			
-			Integer delRet = wxRespMsgService.delete(wxRespMsgPOJO);
-			logger.debug("wxRespMsgService delete size: {}, wxRespMsgPOJO: {}", delRet, wxRespMsgPOJO);
+			wxRespMsgPOJO.setEnableFlag(CommonConstant.DISABLE_FLAG);*/
+			
+			WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
+			wxRespMsgSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			wxRespMsgSearchPOJO.setMsgType(msgType);
+			wxRespMsgSearchPOJO.setUserId(userId);
+			List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgService.finds(wxRespMsgSearchPOJO);
+			if (CollectionUtils.isNotEmpty(wxRespMsgPOJOs)) {
+				for (WxRespMsgPOJO temp : wxRespMsgPOJOs) {
+					temp.setEnableFlag(CommonConstant.DISABLE_FLAG);
+
+					Integer updRet = wxRespMsgService.update(temp);
+				}
+			}
+
+			
+//			Integer delRet = wxRespMsgService.delete(wxRespMsgPOJO);
+//			logger.debug("wxRespMsgService delete size: {}, wxRespMsgPOJO: {}", delRet, wxRespMsgPOJO);
 			
 			ret.setSuccess(true);
 			ret.setErrorCode("DISABLE_SYSTEM");
@@ -104,40 +119,60 @@ public class WxRespMsgController extends BaseController {
 			String msgReceive = null;
 			String msgSend = null;
 			// first delete old/original system keyword
-			WxRespMsgPOJO wxRespMsgPOJO = new WxRespMsgPOJO();
+			/*WxRespMsgPOJO wxRespMsgPOJO = new WxRespMsgPOJO();
 			wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
 			wxRespMsgPOJO.setMsgType(msgType);
-			/*wxRespMsgPOJO.setMsgReceive(msgReceive);
-			wxRespMsgPOJO.setMsgSend(msgSend);*/
 			wxRespMsgPOJO.setUserId(userId);
-			
-			Integer delRet = wxRespMsgService.delete(wxRespMsgPOJO);
-			logger.debug("wxRespMsgService delete size: {}, wxRespMsgPOJO: {}", delRet, wxRespMsgPOJO);
-			
-			// insert three system resp msg
-			final int RESP_MSG_SYSTEM_COUNT = 3;
-			List<String> msgReceives = new ArrayList<String>();
-			msgReceives.add("001");
-			msgReceives.add("002");
-			msgReceives.add("003");
-			
-			List<String> msgSends = new ArrayList<String>();
-			msgSends.add("001");
-			msgSends.add("002");
-			msgSends.add("003");
-			
-			for (int i = 0; i < RESP_MSG_SYSTEM_COUNT; i++) {
-				wxRespMsgPOJO = new WxRespMsgPOJO();
-				msgReceive = msgReceives.get(i);
-				msgSend = msgSends.get(i);
-				
-				wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
-				wxRespMsgPOJO.setMsgType(msgType);
-				wxRespMsgPOJO.setMsgReceive(msgReceive);
-				wxRespMsgPOJO.setMsgSend(msgSend);
-				wxRespMsgPOJO.setUserId(userId);
 
-				result = wxRespMsgService.insert(wxRespMsgPOJO);
+			wxRespMsgPOJO.setEnableFlag(CommonConstant.ENABLE_FLAG);*/
+			
+
+			WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
+			wxRespMsgSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			wxRespMsgSearchPOJO.setMsgType(msgType);
+			wxRespMsgSearchPOJO.setUserId(userId);
+			List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgService.finds(wxRespMsgSearchPOJO);
+			if (CollectionUtils.isNotEmpty(wxRespMsgPOJOs)) {
+				for (WxRespMsgPOJO temp : wxRespMsgPOJOs) {
+					temp.setEnableFlag(CommonConstant.ENABLE_FLAG);
+
+					Integer updRet = wxRespMsgService.update(temp);
+				}
+			}
+			
+			/*Integer updRet = wxRespMsgService.update(wxRespMsgPOJO);
+			logger.debug("wxRespMsgService enable size: {}, wxRespMsgPOJO: {}", updRet, wxRespMsgPOJO);*/
+			
+			/*Integer delRet = wxRespMsgService.delete(wxRespMsgPOJO);
+			logger.debug("wxRespMsgService delete size: {}, wxRespMsgPOJO: {}", delRet, wxRespMsgPOJO);*/
+			
+			if (CollectionUtils.isEmpty(wxRespMsgPOJOs)) {
+				// insert three system resp msg
+				final int RESP_MSG_SYSTEM_COUNT = 3;
+				List<String> msgReceives = new ArrayList<String>();
+				msgReceives.add("001");
+				msgReceives.add("002");
+				msgReceives.add("003");
+				
+				List<String> msgSends = new ArrayList<String>();
+				msgSends.add("001");
+				msgSends.add("002");
+				msgSends.add("003");
+				
+				for (int i = 0; i < RESP_MSG_SYSTEM_COUNT; i++) {
+					WxRespMsgPOJO wxRespMsgPOJO = new WxRespMsgPOJO();
+					msgReceive = msgReceives.get(i);
+					msgSend = msgSends.get(i);
+					
+					wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
+					wxRespMsgPOJO.setMsgType(msgType);
+					wxRespMsgPOJO.setMsgReceive(msgReceive);
+					wxRespMsgPOJO.setMsgSend(msgSend);
+					wxRespMsgPOJO.setUserId(userId);
+					wxRespMsgPOJO.setEnableFlag(CommonConstant.ENABLE_FLAG);
+
+					result = wxRespMsgService.insert(wxRespMsgPOJO);
+				}
 			}
 			
 			ret.setSuccess(true);

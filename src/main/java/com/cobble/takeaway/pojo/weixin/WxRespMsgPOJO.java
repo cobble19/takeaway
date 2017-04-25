@@ -9,6 +9,8 @@ public class WxRespMsgPOJO extends BasePOJO {
     private String msgReceive;
     private String msgSend;
     private String msgType;
+    
+    private Integer enableFlag;
 
     private Date createDateTime;
     
@@ -57,6 +59,7 @@ public class WxRespMsgPOJO extends BasePOJO {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+	
 	@Override
 	public String toString() {
 		return "WxRespMsgPOJO [wxRespMsgId=" + wxRespMsgId + ", msgReceive="
@@ -64,6 +67,11 @@ public class WxRespMsgPOJO extends BasePOJO {
 				+ ", createDateTime=" + createDateTime + ", userId=" + userId
 				+ ", authorizerAppId=" + authorizerAppId + "]";
 	}
-    
+	public Integer getEnableFlag() {
+		return enableFlag;
+	}
+	public void setEnableFlag(Integer enableFlag) {
+		this.enableFlag = enableFlag;
+	}
     
 }
