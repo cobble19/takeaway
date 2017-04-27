@@ -194,8 +194,8 @@ var onClickApply2Summit = function() {
 			
 			var exist = existApply2();
 			if (exist) {
-//				alert('请勿重复提交')
-				$.alert('请勿重复提交', '警告');
+				alert('请勿重复提交')
+//				$.alert('请勿重复提交', '警告');
 				return;
 			}
 			
@@ -256,12 +256,12 @@ var onClickApply2Summit = function() {
 		        contentType: "application/json",
 		        success : function(data) {
 		        	if (data.success) {
-//			            alert('信息提交成功');
+			            alert('信息提交成功');
 			            
-						$.alert('信息提交成功', '提示');
+//						$.alert('信息提交成功', '提示');
 		        	} else {
-//			            alert('信息提交失败！！！msg：' + data.desc);
-			            $.alert('信息提交失败！！！msg：' + data.desc, '警告');
+			            alert('信息提交失败！！！msg：' + data.desc);
+//			            $.alert('信息提交失败！！！msg：' + data.desc, '警告');
 		        	}
 
 		    		/*$('#apply2Div').dialog('close');*/
