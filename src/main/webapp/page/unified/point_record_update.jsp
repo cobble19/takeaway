@@ -13,7 +13,7 @@
   <body>
   	<div class="container">
   		<div class="row">
-  			<h2 class="">修改奖品记录</h2>
+  			<h2 class="">修改积分记录</h2>
   		</div>
   		<form id="pointRecordForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/pointRecord/add' method="post">
 	  		<input type="hidden" id="pointRecordId" name="pointRecordId" value="<%=request.getParameter("pointRecordId") %>"/>

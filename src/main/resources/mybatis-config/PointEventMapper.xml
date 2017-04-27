@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cobble.takeaway.dao.PointRecordMapper" >
+<mapper namespace="com.cobble.takeaway.dao.PointEventMapper" >
 	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
 	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
 		<property name="timeToIdleSeconds" value="3600" />
@@ -10,42 +10,39 @@
 		<property name="memoryStoreEvictionPolicy" value="LRU" />
 	</cache> -->
 	
-  <resultMap id="PointRecordResultMap" type="com.cobble.takeaway.pojo.PointRecordPOJO" >
-    <id column="POINT_RECORD_ID" property="pointRecordId" />
+  <resultMap id="PointEventResultMap" type="com.cobble.takeaway.pojo.PointEventPOJO" >
+    <id column="POINT_EVENT_ID" property="pointEventId" />
     <result column="USER_ID" property="userId" />
-    <result column="OPEN_ID" property="openId" />
     <result column="AUTHORIZER_APP_ID" property="authorizerAppId" />
-    <result column="POINT_NUM" property="pointNum" />
-    <result column="POINT_REASON" property="pointReason" />
+    <result column="EVENT_NAME" property="eventName" />
+    <result column="POINT_NUM_PER" property="pointNumPer" />
+    <result column="POINT_RATE" property="pointRate" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.POINT_RECORD_ID, a.USER_ID, a.OPEN_ID, a.AUTHORIZER_APP_ID, a.POINT_NUM
-    , a.POINT_REASON, a.CREATE_DATE_TIME
+    a.POINT_EVENT_ID, a.USER_ID, a.AUTHORIZER_APP_ID, a.EVENT_NAME
+    , a.POINT_NUM_PER, a.POINT_RATE, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
-	<if test="pointReason != null">
-		and a.POINT_REASON like concat("%", concat(#{pointReason}, "%"))
-	</if>
-	<!-- <if test="userId != null">
+	<if test="userId != null">
 		and a.USER_ID = #{userId}
-	</if> -->
-	<if test="openId != null">
-		and a.OPEN_ID = #{openId}
 	</if>
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>
+	<if test="eventName != null">
+		and a.EVENT_NAME = #{eventName}
+	</if>
   </sql>
   
-  <select id="finds" resultMap="PointRecordResultMap" parameterType="com.cobble.takeaway.pojo.PointRecordSearchPOJO" >
+  <select id="finds" resultMap="PointEventResultMap" parameterType="com.cobble.takeaway.pojo.PointEventSearchPOJO" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from c_point_record a
+    from c_point_event a
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -56,8 +53,8 @@
 		limit #{start}, #{limit}
 	</if>
   </select>
-  <select id="getCount" parameterType="com.cobble.takeaway.pojo.PointRecordSearchPOJO" resultType="java.lang.Integer" >
-    select count(1) from c_point_record
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.PointEventSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from c_point_event
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
@@ -65,39 +62,39 @@
   	</where>
   </select>
   
-  <select id="findById" resultMap="PointRecordResultMap" parameterType="java.lang.Long" >
+  <select id="findById" resultMap="PointEventResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from c_point_record a
+    from c_point_event a
     <where>
   		<trim prefixOverrides="and">
-			and a.POINT_RECORD_ID = #{pointRecordId}
+			and a.POINT_EVENT_ID = #{pointEventId}
   		</trim>
   	</where>
   </select>
   
   <delete id="deleteById" parameterType="java.lang.Long" >
-    delete from c_point_record
-    where POINT_RECORD_ID = #{pointRecordId}
+    delete from c_point_event
+    where POINT_EVENT_ID = #{pointEventId}
   </delete>
-  <insert id="insert" parameterType="com.cobble.takeaway.pojo.PointRecordPOJO" useGeneratedKeys="true"
-  	keyProperty="pointRecordId" keyColumn="POINT_RECORD_ID">
-    insert into c_point_record
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.PointEventPOJO" useGeneratedKeys="true"
+  	keyProperty="pointEventId" keyColumn="POINT_EVENT_ID">
+    insert into c_point_event
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         USER_ID,
       </if>
-      <if test="openId != null" >
-        OPEN_ID,
-      </if>
       <if test="authorizerAppId != null" >
         AUTHORIZER_APP_ID,
       </if>
-      <if test="pointNum != null" >
-        POINT_NUM,
+      <if test="eventName != null" >
+        EVENT_NAME,
       </if>
-      <if test="pointReason != null" >
-        POINT_REASON,
+      <if test="pointNumPer != null" >
+        POINT_NUM_PER,
+      </if>
+      <if test="pointRate != null" >
+        POINT_RATE,
       </if>
         CREATE_DATE_TIME,
     </trim>
@@ -105,43 +102,43 @@
       <if test="userId != null" >
         #{userId},
       </if>
-      <if test="openId != null" >
-        #{openId},
-      </if>
       <if test="authorizerAppId != null" >
         #{authorizerAppId},
       </if>
-      <if test="pointNum != null" >
-        #{pointNum},
+      <if test="eventName != null" >
+        #{eventName},
       </if>
-      <if test="pointReason != null" >
-        #{pointReason},
+      <if test="pointNumPer != null" >
+        #{pointNumPer},
+      </if>
+      <if test="pointRate != null" >
+        #{pointRate},
       </if>
         sysdate(),
     </trim>
   </insert>
   
-  <update id="update" parameterType="com.cobble.takeaway.pojo.PointRecordPOJO" >
-    update c_point_record
+  <update id="update" parameterType="com.cobble.takeaway.pojo.PointEventPOJO" >
+    update c_point_event
     <set >
       <if test="userId != null" >
         USER_ID = #{userId},
       </if>
-      <if test="openId != null" >
-        OPEN_ID = #{openId},
-      </if>
       <if test="authorizerAppId != null" >
         AUTHORIZER_APP_ID = #{authorizerAppId},
       </if>
-      <if test="pointNum != null" >
-        POINT_NUM = #{pointNum},
+      <if test="eventName != null" >
+        EVENT_NAME = #{eventName},
       </if>
-      <if test="pointReason != null" >
-        POINT_REASON = #{pointReason},
+      <if test="pointNumPer != null" >
+        POINT_NUM_PER = #{pointNumPer},
+      </if>
+      <if test="pointRate != null" >
+        POINT_RATE = #{pointRate},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>
-    where POINT_RECORD_ID = #{pointRecordId}
+    where POINT_EVENT_ID = #{pointEventId}
   </update>
   
 </mapper>

@@ -1,14 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
         			
-	     			
+				
 	     			<div id="create_activity">
-	     				<h4 style="font-weight:bold;">表单类信息</h4>
+	     				<h4 style="font-weight:bold;">表单类信息
+	     				</h4>
 	     				<div style=" height:50px; line-height:50px;">
-	     					<a class="btn btn-success btn-xs" href='<cmn:base/>/page/unified/activity.jsp'>添加</a>
-	     					
-	     					<input id="searchBtn" type="button" class="btn btn-info btn-xs" value="查询">
-	     					<input id="deleteBtn" type="button" class="btn btn-danger btn-xs" value="删除">
+	     					<a class="btn btn-info btn-xs" target="_blank" data-toggle="tooltip" data-placement="top" 
+	     					title="添加" href='<cmn:base/>/page/unified/activity.jsp'>
+								<span style="color: ;" class="glyphicon glyphicon-plus"></span>
+							</a>
+							
+	     					<button  id="searchBtn" type="button" class="btn btn-info btn-xs"
+	     						data-toggle="tooltip" data-placement="top" title="查询" value="查询">
+	     						<span class="glyphicon glyphicon-search" ></span>
+	     					</button>
+	     					<button  id="showLinkBtn4Activity" type="button" class="btn btn-info btn-xs"
+	     						data-toggle="tooltip" data-placement="top" title="相关链接" value="相关链接">
+	     						<span class="glyphicon glyphicon-link" ></span>
+	     					</button>
+	     					<button  id="deleteBtn" type="button" class="btn btn-danger btn-xs"
+	     						data-toggle="tooltip" data-placement="top" title="删除" value="删除">
+	     						<span class="glyphicon glyphicon-trash" ></span>
+	     					</button>
 	     					
 	     				</div>
 	     				<div id="queryCondition" style="">
@@ -50,13 +64,32 @@
                             </div>
 	     			</div>	<!-- create_activity end -->
 	     			<div id="activityDetailDiv" class="row" style="width: 450px; height: 120px;">
-				  			<input type="text" class="" style="width: 300px;" id="activityDetailUrl"><br/>
+				  			<label>单纯表格页面链接</label>: <input type="text" class="" style="width: 400px;" id="activityDetailUrl">
+				  			<button class="btn btn-info btn-xs" id="copyBtn" data-clipboard-target="#activityDetailUrl">
+							    复制链接
+							</button>
+							<br/>
+							<br/>
+				  			<label>完整内容页面链接</label>: <input type="text" class="" style="width: 400px;" id="activityDetailUrl2">
+				  			<button class="btn btn-info btn-xs" id="copyBtn2" data-clipboard-target="#activityDetailUrl2">
+							    复制链接
+							</button>
+				  			<br/>
 				  			<!-- <a href="#none" id="copyInput">点击复制单中的文本</a> -->
 				  			<!-- <input type="button" id="copyInput" class="btn btn-info" value="复制链接"> -->
 				  			<span id="copyMsg" style="color: red;"></span>
-				  			<button class="btn btn-info" id="copyBtn" data-clipboard-target="#activityDetailUrl">
+				  			
+			  		</div>
+			  		
+	     			<div id="activityActiveListDiv" class="row" style="width: 450px; height: 120px;">
+				  			<label>活动列表页面链接</label>: <input type="text" class="" style="width: 400px;" id="activityActiveListUrl">
+				  			<button class="btn btn-info btn-xs" id="copyBtn4activityActiveList" data-clipboard-target="#activityActiveListUrl">
 							    复制链接
 							</button>
+							<br/>
+							<br/>
+				  			<span id="copyMsg" style="color: red;"></span>
+				  			
 			  		</div>
 			  		<div id="picDiv">
 				  		<form id="picForm" class="form-horizontal" role="form" action='' method="post">

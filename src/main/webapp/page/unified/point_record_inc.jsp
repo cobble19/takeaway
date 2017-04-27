@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
         			
 	     			<div id="point_record">
-	     				<h3>奖品记录管理</h3>
+	     				<h3>积分记录管理</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/point_record_add.jsp'>添加</a>
 	     					

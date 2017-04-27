@@ -350,10 +350,21 @@ $(document).ready(function() {
     	});
     })
     
+    $('#showLinkBtn4Activity').click(function() {
+    	openActivityActiveListDiv();
+    });
+    
     $('#activityDetailDiv').dialog({
     	autoOpen: false,
     	modal: true,
-    	width: 450,
+    	width: 660,
+    	height: 150
+    });
+    
+    $('#activityActiveListDiv').dialog({
+    	autoOpen: false,
+    	modal: true,
+    	width: 660,
     	height: 150
     });
     
@@ -374,7 +385,7 @@ $(document).ready(function() {
     onClickAttrSummit();
     onClickPopAttr();
     deleteAttrModel();
-    
+    /// 1
     var clipboard = new Clipboard('#copyBtn');
 
     clipboard.on('success', function(e) {
@@ -391,6 +402,59 @@ $(document).ready(function() {
     });
 
     clipboard.on('error', function(e) {
+    	try {
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+    	} catch (ex) {
+    		console.log("ex: " + ex);
+    	}
+        alert('复制失败！ 请用【Ctrl+C】， 同时按下Ctrl和C');
+    });
+    
+    ///  2
+    var clipboard2 = new Clipboard('#copyBtn2');
+
+    clipboard2.on('success', function(e) {
+    	try {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+    	} catch (ex) {
+    		console.log("ex: " + ex);
+    	}
+
+//        e.clearSelection();
+        alert('复制成功！');
+    });
+
+    clipboard2.on('error', function(e) {
+    	try {
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+    	} catch (ex) {
+    		console.log("ex: " + ex);
+    	}
+        alert('复制失败！ 请用【Ctrl+C】， 同时按下Ctrl和C');
+    });
+    /// 2
+    
+    ///  3
+    var clipboard3 = new Clipboard('#copyBtn4activityActiveList');
+
+    clipboard3.on('success', function(e) {
+    	try {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+    	} catch (ex) {
+    		console.log("ex: " + ex);
+    	}
+
+//        e.clearSelection();
+        alert('复制成功！');
+    });
+
+    clipboard3.on('error', function(e) {
     	try {
             console.error('Action:', e.action);
             console.error('Trigger:', e.trigger);
@@ -532,6 +596,14 @@ var openUrlDiv = function(url) {
 	$('#activityDetailDiv').dialog('open');
 	
 	$('#activityDetailUrl').val(url);
+	$('#activityDetailUrl2').val(url.replace('hidContent=1', 'hidContent=0'));
+	
+}
+
+var openActivityActiveListDiv = function() {
+	$('#activityActiveListDiv').dialog('open');
+	var url = $('#basePath').val() + '/web/unified/activity/list/active/' + $('#userId').val();
+	$('#activityActiveListUrl').val(url);
 	
 }
 
@@ -900,7 +972,9 @@ var changePublish4Activity = function(activityId, publishType) {
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');
         	
-        	alert('更新成功, activityId: ' + activityId);
+//        	alert('更新成功, activityId: ' + activityId);	
+			var msg = publishType === 0 ? '撤销成功' : '发布成功';
+			alert(msg);
         	activitySearch(table4Activity);
         	
         },

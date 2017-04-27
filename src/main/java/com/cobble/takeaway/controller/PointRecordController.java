@@ -17,12 +17,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.PointRecordPOJO;
 import com.cobble.takeaway.pojo.PointRecordSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
+import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
 import com.cobble.takeaway.service.PointRecordService;
 import com.cobble.takeaway.util.UserUtil;
 
@@ -89,6 +91,33 @@ public class PointRecordController extends BaseController {
 		
 //		return ret;
 		return null;
+	}
+	
+
+	@RequestMapping(value = "/web/unified/pointRecord/showupdate", produces = {MediaType.APPLICATION_JSON_VALUE})
+	//@ResponseBody
+	public ModelAndView showupdate4Web(PointRecordPOJO pointRecordPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			if (pointRecordPOJO == null) {
+				throw new Exception("pointRecordPOJO can't is NULL.");
+			}
+			Long userId = UserUtil.getCurrentUserId();
+			if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}
+			
+			PointRecordPOJO pointRecordPOJO2 = pointRecordService.findById(pointRecordPOJO.getPointRecordId());
+			ret.addObject("pointRecordPOJO", pointRecordPOJO2);
+			ret.setViewName("/page/unified/point_record_update");
+			
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			throw e;
+		}
+		
+		return ret;
 	}
 	
 	@RequestMapping(value = "/api/unified/pointRecord/list", produces = {MediaType.APPLICATION_JSON_VALUE})

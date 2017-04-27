@@ -7,7 +7,7 @@ $(document).ready(function() {
 		
     	//return false;
 	})*/
-	showApply2();
+//	showApply2();
 	onClickApply2Summit();
 	$('#apply2Form').validate();
 	$('#apply2Btn').click(function(e) {
@@ -194,7 +194,8 @@ var onClickApply2Summit = function() {
 			
 			var exist = existApply2();
 			if (exist) {
-				alert('请勿重复提交。')
+//				alert('请勿重复提交')
+				$.alert('请勿重复提交', '警告');
 				return;
 			}
 			
@@ -255,9 +256,12 @@ var onClickApply2Summit = function() {
 		        contentType: "application/json",
 		        success : function(data) {
 		        	if (data.success) {
-			            alert('创建申请人信息成功');
+//			            alert('信息提交成功');
+			            
+						$.alert('信息提交成功', '提示');
 		        	} else {
-			            alert('创建申请人信息失败！！！msg：' + data.desc);
+//			            alert('信息提交失败！！！msg：' + data.desc);
+			            $.alert('信息提交失败！！！msg：' + data.desc, '警告');
 		        	}
 
 		    		/*$('#apply2Div').dialog('close');*/
@@ -474,6 +478,9 @@ var showDetail = function() {
         	}
         	
         	$(document).find("title").text(publisher + "|" + data.title);
+        	
+        	// 
+        	showApply2();
         	
         },
         error: function(jqXHR, textStatus, errorThrown) {

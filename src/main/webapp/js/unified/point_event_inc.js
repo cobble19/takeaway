@@ -1,7 +1,7 @@
-var table4PointRecord;
+var table4PointEvent;
 
 $(document).ready(function() {
-    table4PointRecord = $('#dbTable4PointRecord').DataTable( {
+    table4PointEvent = $('#dbTable4PointEvent').DataTable( {
     	"processing": true,
 		"initComplete": function () {
             var api = this.api();
@@ -38,7 +38,7 @@ $(document).ready(function() {
 			"targets" : 0,
 			"render" : function(data, type, full, meta) {
 				var checkBox = '<input type="checkbox" name="chkBox" value="'
-					+ full.pointRecordId
+					+ full.pointEventId
 					+ '">';
 				return checkBox;
 				;
@@ -61,12 +61,12 @@ $(document).ready(function() {
 		}, {
 			"targets" : [9],
 			"render" : function(data, type, full, meta) {
-//				var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?pointRecordId='  + full.pointRecordId;
+//				var hrefEdit = $('#basePath').val() + '/page/unified/point_record_update.jsp?pointEventId='  + full.pointEventId;
 //				var linkEdit = '<a target="_blank" class="" style="margin-bottom:5px;" href="' + hrefEdit
 //								+ '">'
 //								+ '修改' + '</a>';
 //				
-//				var hrefVIAdd = $('#basePath').val() + '/web/unified/pointRecordDetail?pointRecordId='  + full.pointRecordId;
+//				var hrefVIAdd = $('#basePath').val() + '/web/unified/pointEventDetail?pointEventId='  + full.pointEventId;
 //				var linkVIAdd = '<a target="_blank" class="" style="margin-bottom:5px;" href="' + hrefVIAdd
 //								+ '">'
 //								+ '详细信息' + '</a>';
@@ -83,7 +83,11 @@ $(document).ready(function() {
 //							+ '<li>' + linkVIAdd + '</li>'
 //						+ '</ul>'
 //					+ '</div>';
-				var hrefEdit = $('#basePath').val() + '/web/unified/pointRecord/showupdate?pointRecordId='  + full.pointRecordId
+//					
+//			      
+//				return oper;
+
+				var hrefEdit = $('#basePath').val() + '/web/unified/pointEvent/showupdate?pointEventId='  + full.pointEventId
 								;
 				
 				var linkEdit = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="修改内容"' +
@@ -110,12 +114,12 @@ $(document).ready(function() {
                 "data":           null,
                 "defaultContent": ''
             },
-            { "data": "pointRecordId" },
+            { "data": "pointEventId" },
             { "data": "userId" },
-            { "data": "openId" },
             { "data": "authorizerAppId" },
-            { "data": "pointNum" },
-            { "data": "pointReason" },
+            { "data": "eventName" },
+            { "data": "pointNumPer" },
+            { "data": "pointRate" },
             { "data": "createDateTime" },
             {
                 /*"className":      'details-control',*/
@@ -127,31 +131,31 @@ $(document).ready(function() {
         "order": [[1, 'asc']]
     } );
     
-    table4PointRecord.on( 'order.dt search.dt', function () {
-    	table4PointRecord.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    table4PointEvent.on( 'order.dt search.dt', function () {
+    	table4PointEvent.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
     } ).draw();
 
-    pointRecordSearch(table4PointRecord);
-    $('#searchBtn4PointRecord').click(function() {
+    pointEventSearch(table4PointEvent);
+    $('#searchBtn4PointEvent').click(function() {
     	console.log('search click...');
-    	pointRecordSearch(table4PointRecord);
+    	pointEventSearch(table4PointEvent);
     })
     
-    $('#chkBoxAll4PointRecord').click(function() {
+    $('#chkBoxAll4PointEvent').click(function() {
     	var chkBoxAll = $(this).attr('checked');
     	if (chkBoxAll) {
-    		$('#dbTable4PointRecord').find('input[name=chkBox]').attr('checked', true);
+    		$('#dbTable4PointEvent').find('input[name=chkBox]').attr('checked', true);
     	} else {
-    		$('#dbTable4PointRecord').find('input[name=chkBox]').attr('checked', false);
+    		$('#dbTable4PointEvent').find('input[name=chkBox]').attr('checked', false);
     	}
     })
     
 
-    $('#deleteBtn4PointRecord').click(function() {
+    $('#deleteBtn4PointEvent').click(function() {
     	var ids = [];
-    	var chkBox = $('#dbTable4PointRecord').find('input[name=chkBox]');
+    	var chkBox = $('#dbTable4PointEvent').find('input[name=chkBox]');
     	chkBox.each(function(index, ele) {
     		if ($(this).attr('checked')) {
     			ids.push($(this).val());
@@ -168,7 +172,7 @@ $(document).ready(function() {
     		return;
     	}
     	$.ajax({
-    		"url" : "../../mgr/pointRecord/delete",
+    		"url" : "../../mgr/pointEvent/delete",
     		"type" : "GET",
     		"headers" : {
     			"Content-Type" : "application/json"
@@ -180,7 +184,7 @@ $(document).ready(function() {
             },
             success: function(data, textStatus, jqXHR ) {
             	$('#progress').dialog('close');
-            	pointRecordSearch(table4PointRecord);
+            	pointEventSearch(table4PointEvent);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             	console.log('Load Error!');
@@ -194,10 +198,10 @@ $(document).ready(function() {
     
 } );
 
-var pointRecordSearch = function(table) {
+var pointEventSearch = function(table) {
 	$('#progress').dialog('open');
 	$.ajax({
-		"url" : "../../api/unified/pointRecord/pointRecordByUserId",
+		"url" : "../../api/unified/pointEvent/pointEventByUserId",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
