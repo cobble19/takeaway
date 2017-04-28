@@ -80,6 +80,24 @@ $(document).ready(function() {
 			
 			$('#wxMenuMgrEntryButtonDiv #btnKey').attr('readonly', true);
 			$('#wxMenuMgrEntryButtonDiv #name').attr('readonly', true);
+		} else if (value == 'click' && text == '一键添加签到') {
+//			var wxRespMsgPOJOs = getWxRespMsgPOJOs();
+			$('#wxMenuMgrEntryButtonDiv #name').val('签到');
+			var btnKey = '签到';
+//			if (wxRespMsgPOJOs != null) {
+//				for (var i = 0; i < wxRespMsgPOJOs.length; i++) {
+//					var wxRespMsgPOJO = wxRespMsgPOJOs[i];
+//					btnKey = btnKey.replace(wxRespMsgPOJO.msgSend, wxRespMsgPOJO.msgReceive);
+//				}
+//			}
+			$('#wxMenuMgrEntryButtonDiv #btnKey').val(btnKey);
+			
+			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').show();
+			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
+			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
+			
+			$('#wxMenuMgrEntryButtonDiv #btnKey').attr('readonly', true);
+			$('#wxMenuMgrEntryButtonDiv #name').attr('readonly', true);
 		}
 	});
 	///
