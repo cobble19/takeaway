@@ -8,7 +8,7 @@ public class PointRecordPOJO extends BasePOJO {
     private Long userId;
     private String openId;
     private String authorizerAppId;
-    private String pointNum;
+    private Integer pointNum;
     private String pointReason;
     private Date createDateTime;
     
@@ -36,10 +36,10 @@ public class PointRecordPOJO extends BasePOJO {
 	public void setAuthorizerAppId(String authorizerAppId) {
 		this.authorizerAppId = authorizerAppId;
 	}
-	public String getPointNum() {
+	public Integer getPointNum() {
 		return pointNum;
 	}
-	public void setPointNum(String pointNum) {
+	public void setPointNum(Integer pointNum) {
 		this.pointNum = pointNum;
 	}
 	public String getPointReason() {

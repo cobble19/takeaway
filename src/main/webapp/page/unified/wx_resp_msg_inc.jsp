@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
         			
 	     			<div id="wx_resp_msg">
-	     				<h3><span style="color: green;" class="glyphicon glyphicon-globe"></span> 系统关键字回复</h3>
+	     				<h3><span style="color: green;" class="glyphicon glyphicon-globe"></span> 系统关键字</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<%-- <a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_resp_msg_add.jsp?msgType=0'>添加</a> --%>
 	     					
@@ -31,6 +31,7 @@
 			  						<th>用户ID</th>
 			  						<th>公众号APPID</th>
 			  						<th>有效标志</th>
+			  						<th>关键字组合名称</th>
 			  						<th>操作</th>
 			  					</tr>
 			  				</thead>
@@ -56,7 +57,7 @@
 				  		</table>
 				  		</div> -->
 				  			
-	     				<h3><span style="color: green;" class="glyphicon glyphicon-wrench"></span> 定制关键字回复</h3>
+	     				<h3><span style="color: green;" class="glyphicon glyphicon-wrench"></span> 定制关键字</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_resp_msg_add.jsp?msgType=1'>添加</a>
 	     					

@@ -6,10 +6,11 @@ import java.util.Date;
 public class PointSummaryPOJO extends BasePOJO {
     private Long pointSummaryId;
     private Long userId;
-    private String pointTotal;
-    private String pointUsed;
-    private String pointRemainder;
+    private Integer pointTotal;
+    private Integer pointUsed;
+    private Integer pointRemainder;
     private Date createDateTime;
+    
 	public Long getPointSummaryId() {
 		return pointSummaryId;
 	}
@@ -22,22 +23,22 @@ public class PointSummaryPOJO extends BasePOJO {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public String getPointTotal() {
+	public Integer getPointTotal() {
 		return pointTotal;
 	}
-	public void setPointTotal(String pointTotal) {
+	public void setPointTotal(Integer pointTotal) {
 		this.pointTotal = pointTotal;
 	}
-	public String getPointUsed() {
+	public Integer getPointUsed() {
 		return pointUsed;
 	}
-	public void setPointUsed(String pointUsed) {
+	public void setPointUsed(Integer pointUsed) {
 		this.pointUsed = pointUsed;
 	}
-	public String getPointRemainder() {
+	public Integer getPointRemainder() {
 		return pointRemainder;
 	}
-	public void setPointRemainder(String pointRemainder) {
+	public void setPointRemainder(Integer pointRemainder) {
 		this.pointRemainder = pointRemainder;
 	}
 	public Date getCreateDateTime() {

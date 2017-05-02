@@ -8,8 +8,8 @@ public class PointEventPOJO extends BasePOJO {
     private Long userId;
     private String authorizerAppId;
     private String eventName;
-    private String pointNumPer;
-    private String pointRate;
+    private Integer pointNumPer;
+    private Integer pointRate;
     private Date createDateTime;
 	public Long getPointEventId() {
 		return pointEventId;
@@ -35,16 +35,16 @@ public class PointEventPOJO extends BasePOJO {
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
-	public String getPointNumPer() {
+	public Integer getPointNumPer() {
 		return pointNumPer;
 	}
-	public void setPointNumPer(String pointNumPer) {
+	public void setPointNumPer(Integer pointNumPer) {
 		this.pointNumPer = pointNumPer;
 	}
-	public String getPointRate() {
+	public Integer getPointRate() {
 		return pointRate;
 	}
-	public void setPointRate(String pointRate) {
+	public void setPointRate(Integer pointRate) {
 		this.pointRate = pointRate;
 	}
 	public Date getCreateDateTime() {

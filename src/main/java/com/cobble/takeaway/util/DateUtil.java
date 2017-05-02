@@ -29,4 +29,23 @@ public class DateUtil {
 		
 		return ret;
 	}
+	
+	public static Date toDate(String dateStr, String pattern) {
+		Date ret = null;
+		if (StringUtils.isBlank(dateStr)) {
+			return ret;
+		}
+		if (StringUtils.isBlank(pattern)) {
+			pattern = "yyyyMMddHHmmss";
+		}
+
+		DateFormat df = new SimpleDateFormat(pattern);
+		try {
+			ret = df.parse(dateStr);
+		} catch (Exception e) {
+			logger.error("Parse date: {}, Exception: {}", dateStr, e);
+		}
+		
+		return ret;
+	}
 }

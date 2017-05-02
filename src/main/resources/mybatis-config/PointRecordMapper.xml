@@ -37,6 +37,12 @@
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>
+	<if test="startDateTime != null">
+		and a.CREATE_DATE_TIME &gt;= #{startDateTime}
+	</if>
+	<if test="endDateTime != null">
+		and a.CREATE_DATE_TIME &lt;= #{endDateTime}
+	</if>
   </sql>
   
   <select id="finds" resultMap="PointRecordResultMap" parameterType="com.cobble.takeaway.pojo.PointRecordSearchPOJO" >

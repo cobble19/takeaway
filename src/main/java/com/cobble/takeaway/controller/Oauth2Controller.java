@@ -2,6 +2,7 @@ package com.cobble.takeaway.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -41,6 +42,12 @@ import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
+import com.cobble.takeaway.pojo.PointEventPOJO;
+import com.cobble.takeaway.pojo.PointEventSearchPOJO;
+import com.cobble.takeaway.pojo.PointRecordPOJO;
+import com.cobble.takeaway.pojo.PointRecordSearchPOJO;
+import com.cobble.takeaway.pojo.PointSummaryPOJO;
+import com.cobble.takeaway.pojo.PointSummarySearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
@@ -94,6 +101,9 @@ import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetRespApiPOJO;
 import com.cobble.takeaway.service.ActivityService;
+import com.cobble.takeaway.service.PointEventService;
+import com.cobble.takeaway.service.PointRecordService;
+import com.cobble.takeaway.service.PointSummaryService;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerAccessTokenService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
@@ -105,6 +115,7 @@ import com.cobble.takeaway.service.WxRespMsgService;
 import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.CommonConstant;
+import com.cobble.takeaway.util.DateUtil;
 import com.cobble.takeaway.util.FileUtil;
 import com.cobble.takeaway.util.HttpClientUtil;
 import com.cobble.takeaway.util.HttpRequestUtil;
@@ -146,6 +157,14 @@ public class Oauth2Controller extends BaseController {
 	
 	@Autowired
 	private ActivityService activityService;
+	
+	@Autowired
+	private PointEventService pointEventService;
+	@Autowired
+	private PointRecordService pointRecordService;
+	@Autowired
+	private PointSummaryService pointSummaryService;
+	
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -2365,6 +2384,9 @@ public class Oauth2Controller extends BaseController {
 			String result = pc.decryptMsg(msgSignature, timestamp, nonce, requestBody);
 			logger.info("Paintext: {}", result);
 			
+			if (StringUtils.isBlank(result)) {
+				return "success";
+			}
 			
 			if (result.contains(CommonConstant.HFJT_USER_NAME)) {
 				return "success";
@@ -2380,10 +2402,11 @@ public class Oauth2Controller extends BaseController {
 				WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
 				wxAuthorizerInfoSearchPOJO.setUserName(toUserName);
 				List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+				WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
 				List<String> controlCodes = new ArrayList<String>();
 				if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
 					// get first one
-					WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+					wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
 					String controlCode = wxAuthorizerInfoPOJO.getControlCode();
 					if (StringUtils.isNotBlank(controlCode)) {
 						String[] controlCodeArr = StringUtils.split(controlCode, ",");
@@ -2393,6 +2416,16 @@ public class Oauth2Controller extends BaseController {
 							}
 						}
 					}
+				}
+				
+
+				WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+				wxPersonUserSearchPOJO.setOpenId(fromUserName);
+				wxPersonUserSearchPOJO.setWxAuthorizerUserName(toUserName);
+				List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
+				WxPersonUserPOJO wxPersonUserPOJO = null;
+				if (!CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 				}
 				
 				if ("text".equalsIgnoreCase(msgType)) {
@@ -2453,7 +2486,7 @@ public class Oauth2Controller extends BaseController {
 					}
 					// end deal resp msg
 					
-					
+
 					// 检测VIEW， 获取from/to，注册其他的公众号的用户
 					// 得味驿站是服务号， 直接发送【注册】2个字
 					// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号
@@ -2465,16 +2498,11 @@ public class Oauth2Controller extends BaseController {
 						// 001-注册会员, 002-重新加入会员, 003-退出会员
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
-						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
-						wxPersonUserSearchPOJO.setOpenId(fromUserName);
-						wxPersonUserSearchPOJO.setWxAuthorizerUserName(toUserName);
-						List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
 						
 						Boolean needRegisterMember = false;
 						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 							needRegisterMember = true;
 						} else {
-							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 							if (wxPersonUserPOJO.getMemberFlag() == null || CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
 								needRegisterMember = true;
 							} else {
@@ -2521,7 +2549,6 @@ public class Oauth2Controller extends BaseController {
 							return encryptMsg;
 						} else {	// 2. 如果有返回已经注册
 							// 去除个人用户的标签
-							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 							String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
 									+ "/api/wx/third/" + wxPersonUserPOJO.getAuthorizerAppId() + "/tags/batchuntagging";
 							// test request POJO<->requestBody
@@ -2556,16 +2583,11 @@ public class Oauth2Controller extends BaseController {
 							/*&& CommonConstant.DWYZ_USER_NAME.equals(toUserName)*/) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
-						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
-						wxPersonUserSearchPOJO.setOpenId(fromUserName);
-						wxPersonUserSearchPOJO.setWxAuthorizerUserName(toUserName);
-						List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
 						
 						Boolean isMember = false;
 						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 							isMember = false;
 						} else {
-							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 							if (wxPersonUserPOJO.getMemberFlag() == null || CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
 								isMember = false;
 							} else {
@@ -2609,7 +2631,6 @@ public class Oauth2Controller extends BaseController {
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 							return encryptMsg;
 						} else {	// 2. 如果有返回已经注册
-							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
 							wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
@@ -2656,16 +2677,11 @@ public class Oauth2Controller extends BaseController {
 							/*&& CommonConstant.DWYZ_USER_NAME.equals(toUserName)*/) {
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
-						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
-						wxPersonUserSearchPOJO.setOpenId(fromUserName);
-						wxPersonUserSearchPOJO.setWxAuthorizerUserName(toUserName);
-						List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
 
 						Boolean isMember = false;
 						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 							isMember = false;
 						} else {
-							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 							if (wxPersonUserPOJO.getMemberFlag() == null || CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
 								isMember = false;
 							} else {
@@ -2687,18 +2703,17 @@ public class Oauth2Controller extends BaseController {
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 							return encryptMsg;
 						} else {	// 2. 如果有返回已经注册
-							for (WxPersonUserPOJO wxPersonUserPOJO : wxPersonUserPOJOs) {
-								Long id = wxPersonUserPOJO.getWxPersonUserId();
+							for (WxPersonUserPOJO tempOrgi : wxPersonUserPOJOs) {
+//								Long id = tempOrgi.getWxPersonUserId();
 								
 								WxPersonUserPOJO temp = new WxPersonUserPOJO();
-								temp.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
+								temp.setWxPersonUserId(tempOrgi.getWxPersonUserId());
 								temp.setMemberFlag(CommonConstant.MEMBER_FLAG_NOT);
 								
 								int retUpd = wxPersonUserService.update(temp);
 							}
 							
 							// 去除个人用户的标签
-							WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 							String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
 									+ "/api/wx/third/" + wxPersonUserPOJO.getAuthorizerAppId() + "/tags/batchuntagging";
 							// test request POJO<->requestBody
@@ -2728,22 +2743,174 @@ public class Oauth2Controller extends BaseController {
 						}
 						
 					}	// end 003
-					
-					
-				} /**text end**/ else if ("event".equalsIgnoreCase(msgType)) {
-					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
-					logger.info("接收到的事件: {}", wxMsgEventRecvEventApiPOJO);
-					if (wxAutoTestUsername.equals(toUserName)) {
+
+					if ("签到".equalsIgnoreCase(contentRecv)
+							&& CommonConstant.DWYZ_USER_NAME.equals(toUserName)) {
+
 						WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 						wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
 						wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
 						wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
 						wxMsgEventRespTextApiPOJO.setMsgType("text");
+//						wxMsgEventRecvApiPOJO
+						/// deal text event
+						logger.info("wxMsgEventRecvApiPOJO: {}", wxMsgEventRecvApiPOJO);
+
+						String content = "";
+						
+						if ("签到".equalsIgnoreCase(contentRecv)) {
+							PointRecordSearchPOJO pointRecordSearchPOJO = new PointRecordSearchPOJO();
+							pointRecordSearchPOJO.setPointReason(contentRecv);
+							Date curDate = new Date();
+							Date dateOfDayMin = DateUtils.truncate(curDate, Calendar.DATE);
+							
+							String ymd = DateUtil.toStr(curDate, "yyyy-MM-dd");
+							Date dateOfDayMax = DateUtil.toDate(ymd + " 23:59:59", "yyyy-MM-dd HH:mm:ss");
+							pointRecordSearchPOJO.setStartDateTime(dateOfDayMin);
+							pointRecordSearchPOJO.setEndDateTime(dateOfDayMax);
+							List<PointRecordPOJO> pointRecordPOJOs = pointRecordService.finds(pointRecordSearchPOJO);
+							if (CollectionUtils.isEmpty(pointRecordPOJOs)) {
+								// 开始签到
+								PointEventSearchPOJO pointEventSearchPOJO = new PointEventSearchPOJO();
+								pointEventSearchPOJO.setEventName(contentRecv);
+								List<PointEventPOJO> pointEventPOJOs = pointEventService.finds(pointEventSearchPOJO);
+								if (!CollectionUtils.isEmpty(pointEventPOJOs)) {
+									PointEventPOJO pointEventPOJO = pointEventPOJOs.get(0);
+									
+									// insert pointRecord 
+									PointRecordPOJO pointRecordPOJO = new PointRecordPOJO();
+									pointRecordPOJO.setAuthorizerAppId(authorizerAppId);
+									pointRecordPOJO.setOpenId(wxPersonUserPOJO.getOpenId());
+									pointRecordPOJO.setPointNum(pointEventPOJO.getPointNumPer());
+									pointRecordPOJO.setPointReason(contentRecv);
+									pointRecordPOJO.setUserId(wxPersonUserPOJO.getUserId());
+									pointRecordService.insert(pointRecordPOJO , wxPersonUserPOJO.getUserId());
+									
+									// insert pointSummary
+									
+									PointSummaryPOJO pointSummaryPOJO = new PointSummaryPOJO();
+									PointSummarySearchPOJO pointSummarySearchPOJO = new PointSummarySearchPOJO();
+									pointSummarySearchPOJO.setUserId(wxPersonUserPOJO.getUserId());
+									List<PointSummaryPOJO> pointSummaryPOJOs = pointSummaryService.finds(pointSummarySearchPOJO);
+									if (!CollectionUtils.isEmpty(pointSummaryPOJOs)) {
+										pointSummaryPOJO = pointSummaryPOJOs.get(0);
+										pointSummaryPOJO.setPointTotal(pointSummaryPOJO.getPointTotal() + pointRecordPOJO.getPointNum());
+//											pointSummaryPOJO.setPointUsed(pointSummaryPOJO.getPointUsed());
+										pointSummaryPOJO.setPointRemainder(pointSummaryPOJO.getPointRemainder() + pointRecordPOJO.getPointNum());
+										pointSummaryService.update(pointSummaryPOJO);
+									} else {
+										pointSummaryPOJO.setUserId(wxPersonUserPOJO.getUserId());
+										pointSummaryPOJO.setPointTotal(pointRecordPOJO.getPointNum());
+										pointSummaryPOJO.setPointUsed(0);
+										pointSummaryPOJO.setPointRemainder(pointRecordPOJO.getPointNum());
+										int insert = pointSummaryService.insert(pointSummaryPOJO, wxPersonUserPOJO.getUserId());
+									}
+									
+								}
+								content = "签到成功 text";
+							} else {
+								// 已经签到
+								content = "已经签到 text";
+							}
+						}
+						
+						wxMsgEventRespTextApiPOJO.setContent(content);
+						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+						return encryptMsg;
+						///
+						
+					}	// end test "签到"
+					
+					
+				} /**text end**/ else if ("event".equalsIgnoreCase(msgType)) {
+					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
+					logger.info("接收到的事件: {}", wxMsgEventRecvEventApiPOJO);
+
+					WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+					wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
+					wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
+					wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+					wxMsgEventRespTextApiPOJO.setMsgType("text");
+					
+					if (wxAutoTestUsername.equals(toUserName)) {
 						wxMsgEventRespTextApiPOJO.setContent(wxMsgEventRecvEventApiPOJO.getEvent() + "from_callback");
 						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 						return encryptMsg;
 					}
+					/// deal CLICK event
+					if ("CLICK".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())
+							&& CommonConstant.DWYZ_USER_NAME.equalsIgnoreCase(toUserName)) {
+						String eventKey = wxMsgEventRecvEventApiPOJO.getEventKey();
+						logger.info("wxMsgEventRecvEventApiPOJO: {}", wxMsgEventRecvEventApiPOJO);
+
+						String content = "";
+						
+						if ("签到".equalsIgnoreCase(eventKey)) {
+							PointRecordSearchPOJO pointRecordSearchPOJO = new PointRecordSearchPOJO();
+							pointRecordSearchPOJO.setPointReason(eventKey);
+							Date curDate = new Date();
+							Date dateOfDayMin = DateUtils.truncate(curDate, Calendar.DATE);
+							
+							String ymd = DateUtil.toStr(curDate, "yyyy-MM-dd");
+							Date dateOfDayMax = DateUtil.toDate(ymd + " 23:59:59", "yyyy-MM-dd HH:mm:ss");
+							pointRecordSearchPOJO.setStartDateTime(dateOfDayMin);
+							pointRecordSearchPOJO.setEndDateTime(dateOfDayMax);
+							List<PointRecordPOJO> pointRecordPOJOs = pointRecordService.finds(pointRecordSearchPOJO);
+							if (CollectionUtils.isEmpty(pointRecordPOJOs)) {
+								// 开始签到
+								PointEventSearchPOJO pointEventSearchPOJO = new PointEventSearchPOJO();
+								pointEventSearchPOJO.setEventName(eventKey);
+								List<PointEventPOJO> pointEventPOJOs = pointEventService.finds(pointEventSearchPOJO);
+								if (!CollectionUtils.isEmpty(pointEventPOJOs)) {
+									PointEventPOJO pointEventPOJO = pointEventPOJOs.get(0);
+									
+									// insert pointRecord 
+									PointRecordPOJO pointRecordPOJO = new PointRecordPOJO();
+									pointRecordPOJO.setAuthorizerAppId(authorizerAppId);
+									pointRecordPOJO.setOpenId(wxPersonUserPOJO.getOpenId());
+									pointRecordPOJO.setPointNum(pointEventPOJO.getPointNumPer());
+									pointRecordPOJO.setPointReason(eventKey);
+									pointRecordPOJO.setUserId(wxPersonUserPOJO.getUserId());
+									pointRecordService.insert(pointRecordPOJO , wxPersonUserPOJO.getUserId());
+									
+									// insert pointSummary
+									
+									PointSummaryPOJO pointSummaryPOJO = new PointSummaryPOJO();
+									PointSummarySearchPOJO pointSummarySearchPOJO = new PointSummarySearchPOJO();
+									pointSummarySearchPOJO.setUserId(wxPersonUserPOJO.getUserId());
+									List<PointSummaryPOJO> pointSummaryPOJOs = pointSummaryService.finds(pointSummarySearchPOJO);
+									if (!CollectionUtils.isEmpty(pointSummaryPOJOs)) {
+										pointSummaryPOJO = pointSummaryPOJOs.get(0);
+										pointSummaryPOJO.setPointTotal(pointSummaryPOJO.getPointTotal() + pointRecordPOJO.getPointNum());
+//										pointSummaryPOJO.setPointUsed(pointSummaryPOJO.getPointUsed());
+										pointSummaryPOJO.setPointRemainder(pointSummaryPOJO.getPointRemainder() + pointRecordPOJO.getPointNum());
+										pointSummaryService.update(pointSummaryPOJO);
+									} else {
+										pointSummaryPOJO.setUserId(wxPersonUserPOJO.getUserId());
+										pointSummaryPOJO.setPointTotal(pointRecordPOJO.getPointNum());
+										pointSummaryPOJO.setPointUsed(0);
+										pointSummaryPOJO.setPointRemainder(pointRecordPOJO.getPointNum());
+										int insert = pointSummaryService.insert(pointSummaryPOJO, wxPersonUserPOJO.getUserId());
+									}
+									
+								}
+								content = "签到成功";
+							} else {
+								// 已经签到
+								content = "已经签到";
+							}
+						}
+						
+						wxMsgEventRespTextApiPOJO.setContent(content);
+						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+						return encryptMsg;
+					} else {
+						logger.info("其他的event先不做处理");
+					}
+					///
 					
 					// to text
 					if (true/*CommonConstant.DWYZ_USER_NAME.equals(toUserName)*/) {
@@ -2751,17 +2918,7 @@ public class Oauth2Controller extends BaseController {
 						
 						// 查询是否有wx_person_user_vice
 						// 1. 如果没有wx_person_user_vice, then 回复带有参数openIdVice的登录连接
-						WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
-						wxPersonUserSearchPOJO.setOpenId(fromUserName);
-						wxPersonUserSearchPOJO.setWxAuthorizerUserName(toUserName);
-						List<WxPersonUserPOJO> wxPersonUserPOJOs = null /*wxPersonUserService.findFulls(wxPersonUserSearchPOJO)*/;
 						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
-							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
-							wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
-							wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
-							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime()/1000 + "");
-							wxMsgEventRespTextApiPOJO.setMsgType("text");
-							
 							String wxWebLoginUrl = "";
 							String wxThirdPersonUserLoginUrl = "";
 							
@@ -2797,11 +2954,6 @@ public class Oauth2Controller extends BaseController {
 								logger.info("其他的event先不做处理");
 							}
 						} else {	// 2. 如果有返回已经注册
-							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
-							wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
-							wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
-							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
-							wxMsgEventRespTextApiPOJO.setMsgType("text");
 							String content = "已经注册, " + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO);
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);

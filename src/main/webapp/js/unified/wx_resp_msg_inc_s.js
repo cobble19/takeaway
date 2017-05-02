@@ -81,6 +81,7 @@ var buildWxRespMsgS = function() {
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
 		"columnDefs" : [ {
 			"targets" : 0,
+			"visible": false,
 			"render" : function(data, type, full, meta) {
 				var checkBox = '<input type="checkbox" name="chkBox" value="'
 					+ full.wxRespMsgId
@@ -90,12 +91,26 @@ var buildWxRespMsgS = function() {
 			}
 		},{
 			"targets" : 1,
+			"visible": false,
 			"render" : function(data, type, full, meta) {
 				//console.log(data + " " + type + " " + full + " " + meta);
 			}
 		}, {
-			"targets" : [2, 5, 6, 7],
+			"targets" : [2, 5, 6, 7, 8, 9],
 			"visible": false
+		}, {
+			"targets": [4],
+			"render" : function(data, type, full, meta) {
+				var ret = data;
+				if (data == '001') {
+					ret = '加入会员';
+				} else if (data == '002') {
+					ret = '重新加入'
+				} else if (data == '003') {
+					ret = '退出会员';
+				}
+				return ret;
+			}
 		}, {
 			"targets": [5],
 			"render" : function(data, type, full, meta) {
@@ -433,6 +448,12 @@ var showTable4WxRespMsgGather = function() {
                 "orderable":      false,
                 "data":           null,
                 "defaultContent": ''
+            },
+            {
+                /*"className":      'details-control',*/
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
             }
 	];
 	result.columns = columns;
@@ -452,7 +473,7 @@ var showTable4WxRespMsgGather = function() {
 					//console.log(data + " " + type + " " + full + " " + meta);
 				}
 			}, {
-				"targets" : [1, 2, 3, 4],
+				"targets" : [1, 2, 3, 4, 6],
 				"visible": false
 			}, {
 				"targets": [2],
@@ -468,7 +489,13 @@ var showTable4WxRespMsgGather = function() {
 					return ret;
 				}
 			}, {
-				"targets" : [6],
+				"targets": [6],
+				"render" : function(data, type, full, meta) {
+					var ret = '绑定会员功能';
+					return ret;
+				}
+			}, {
+				"targets" : [7],
 				"render" : function(data, type, full, meta) {
 //					var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.userId
 //									+ '&msgType=0';
@@ -490,8 +517,8 @@ var showTable4WxRespMsgGather = function() {
 					
 					var linkEdit = '<button data-toggle="tooltip" data-placement="top" title="OK/BAN"' +
 						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" onclick="javascript: enableOrDisable();">'
-								+ (enableFlag ? '<span style="color: green;" class="glyphicon glyphicon-ok"></span>'
-												: '<span style="color: green;" class="glyphicon glyphicon-ban-circle"></span>')
+								+ (enableFlag ? '<span style="color: green;" class="glyphicon glyphicon-ban-circle"></span>'
+												: '<span style="color: green;" class="glyphicon glyphicon-ok"></span>')
 								/**+ '修改内容'**/ 
 								+ '</button>';
 					
@@ -595,7 +622,7 @@ var buildTable4WxRespMsgGather = function(tableId, result) {
         	}
         	
         },
-		"dom" : '<"top"fl<"clear">>rt<"bottom"ip<"clear">>',
+		"dom" : '<"top"<"clear">>rt<"bottom"<"clear">>',
 		"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
 		/*"columnDefs" : [ {
 			"targets" : 4,
