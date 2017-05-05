@@ -2847,7 +2847,7 @@ public class Oauth2Controller extends BaseController {
 
 						String content = "";
 						
-						if ("签到".equalsIgnoreCase(eventKey)) {
+						if ("签到".equalsIgnoreCase(eventKey)) {	// 点击签到
 							PointRecordSearchPOJO pointRecordSearchPOJO = new PointRecordSearchPOJO();
 							pointRecordSearchPOJO.setPointReason(eventKey);
 							Date curDate = new Date();
@@ -2897,10 +2897,12 @@ public class Oauth2Controller extends BaseController {
 									
 								}
 								content = "签到成功";
-							} else {
+							} else {	
 								// 已经签到
 								content = "已经签到";
 							}
+						} else {	// CLICK 不是 "签到"
+							content = eventKey;
 						}
 						
 						wxMsgEventRespTextApiPOJO.setContent(content);
