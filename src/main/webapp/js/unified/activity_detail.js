@@ -220,6 +220,20 @@ var onClickApply2Summit = function() {
 				return;
 			}
 			
+			// 判断提交日期是否在有效期内
+			var startDateTime = $('#startDateTime').val();
+			startDateTime = parseInt(startDateTime);
+			var endDateTime = $('#endDateTime').val();
+			endDateTime = parseInt(endDateTime);
+			var curDateTime = new Date();
+			curDateTime = curDateTime.getTime();
+			curDateTime = parseInt(curDateTime);
+			if (curDateTime < startDateTime || curDateTime > endDateTime) {
+				alert('活动不在有效期内');
+				return;
+			}
+			
+			
 //			var formData;
 //		    formData = new FormData();
 		    
@@ -442,6 +456,13 @@ var showDetail = function() {
         }),*/
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
+        	var success = data.success;
+        	
+        	if (!success) {
+        		alert('显示活动内容失败, ' + data.desc);
+        		return;
+        	}
+        	
         	var publishType = data.publishType;
         	if (publishType == null || publishType == 0) {
         		window.location.href = $('#basePath').val() + "/errorPage/404.jsp";
@@ -453,6 +474,11 @@ var showDetail = function() {
         	}
 //        	$("#authorizerAppId").html(data.wxAuthorizerInfoPOJO.authorizerAppId);
         	$("#activityId").html(data.activityId);
+        	
+        	$("#startDateTime").val(data.startDateTime);
+        	//console.log('startDateTime:' + data.startDateTime);
+        	$("#endDateTime").val(data.endDateTime);
+        	
         	$("#title").html(data.title);
 			/*$("#title_1").html(data.title);*/
 			/*$("#title_2").html(data.title);*/

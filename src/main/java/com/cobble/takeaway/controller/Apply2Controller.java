@@ -1,6 +1,7 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,13 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.Apply2AttrPOJO;
-import com.cobble.takeaway.pojo.Apply2AttrSearchPOJO;
 import com.cobble.takeaway.pojo.Apply2POJO;
 import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.RelActivityApply2POJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
+import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.Apply2AttrService;
 import com.cobble.takeaway.service.Apply2Service;
 import com.cobble.takeaway.util.HttpRequestUtil;
@@ -41,6 +43,9 @@ public class Apply2Controller extends BaseController {
 	private Apply2Service apply2Service;
 	@Autowired
 	private Apply2AttrService apply2AttrService;
+
+	@Autowired
+	private ActivityService activityService;
 	
 
 	@RequestMapping(value = "/api/apply2/existByUnionId", method = {RequestMethod.POST})
@@ -85,10 +90,32 @@ public class Apply2Controller extends BaseController {
 			String openId = UserUtil.getCurrentUser().getOpenId();
 			String unionId = UserUtil.getCurrentUser().getUnionId();
 			
+
+			Apply2AttrPOJO apply2AttrPOJOTemp = apply2AttrPOJOs.get(0);
+			Long activityId = apply2AttrPOJOTemp.getActivityId();
+			ActivityPOJO activityPOJO = activityService.findById(activityId);
+			/*if (activityPOJO == null) {
+				ret.setSuccess(false);
+				ret.setDesc("活动不存在!!");
+				return ret;
+			}*/
+			
+			if (activityPOJO != null && activityPOJO.getStartDateTime() != null
+					&& activityPOJO.getEndDateTime() != null) {
+				Date curDate = new Date();
+				if (curDate.before(activityPOJO.getStartDateTime()) || curDate.after(activityPOJO.getEndDateTime())) {
+					ret.setSuccess(false);
+					ret.setDesc("活动不在有效期内");
+					return ret;
+				}
+			}
+			
+			
+			
 			Long apply2Id = -9999L;
 			for (int i = 0; i < apply2AttrPOJOs.size(); i++) {
 				Apply2AttrPOJO apply2AttrPOJO = apply2AttrPOJOs.get(i);
-				Long activityId = apply2AttrPOJO.getActivityId();
+				activityId = apply2AttrPOJO.getActivityId();
 				if (0 == i) {
 					Apply2POJO apply2pojo = new Apply2POJO();
 					apply2pojo.setDescription("活动id：" + activityId + ", i: " + i);

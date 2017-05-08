@@ -35,6 +35,7 @@
 			  <div class="col-md-12 col-xs-12" >
 	            	<span style=" margin-top:20px; margin-bottom:20px; display:block;"><h3 id="title"></h3></span>                    
 	            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
+	            	               
 	            	<!-- <input type="hidden" id="authorizerAppId" name="authorizerAppId"/> -->
 			  </div>
             </div>
@@ -45,6 +46,10 @@
             </div>-->
 			<div class="row">
 				<div class="col-md-12">
+				
+	            	<input type="hidden" id="startDateTime" name="startDateTime" />
+	            	<input type="hidden" id="endDateTime" name="endDateTime" />    
+				
 	            	<h5 style="margin-bottom:20px; display:block;float: left;margin-right:10px; color:#898989;"><span class="h5" id="createDateTime"></span></h5>
             	  	<h5 style=" margin-bottom:20px; display:block; float: left; color:#88a8c1;"><span class="h5" id="publisher"></span></h5>
 	            	<!--<h5 style="margin-bottom:10px; display:block;">组织者:<span class="h5" id="organiser"></span></h5>-->

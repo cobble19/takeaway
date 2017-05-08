@@ -34,7 +34,7 @@ var buildWxRespMsgS = function() {
 			  						'<th>序号</th>' +
 			  						'<th>标识</th>' +
 			  						'<th>接受关键字</th>' +
-			  						'<th>回复关键字</th>' +
+			  						'<th>关键字用途</th>' +
 			  						'<th>信息类别</th>' +
 			  						'<th>用户ID</th>' +
 			  						'<th>公众号APPID</th>' +
@@ -473,7 +473,7 @@ var showTable4WxRespMsgGather = function() {
 					//console.log(data + " " + type + " " + full + " " + meta);
 				}
 			}, {
-				"targets" : [1, 2, 3, 4, 6],
+				"targets" : [1, 2, 3, 4, 5],
 				"visible": false
 			}, {
 				"targets": [2],
@@ -515,9 +515,11 @@ var showTable4WxRespMsgGather = function() {
 									+ '&msgType=0';
 					hrefEdit = '#';
 					
-					var linkEdit = '<button data-toggle="tooltip" data-placement="top" title="OK/BAN"' +
+					var linkEdit = '<button data-toggle="tooltip" data-placement="top" title="' +
+							(enableFlag == 1 ? '禁止系统关键字' : '启动系统关键字') +
+							'"' +
 						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" onclick="javascript: enableOrDisable();">'
-								+ (enableFlag ? '<span style="color: green;" class="glyphicon glyphicon-ban-circle"></span>'
+								+ (enableFlag == 1 ? '<span style="color: green;" class="glyphicon glyphicon-ban-circle"></span>'
 												: '<span style="color: green;" class="glyphicon glyphicon-ok"></span>')
 								/**+ '修改内容'**/ 
 								+ '</button>';
