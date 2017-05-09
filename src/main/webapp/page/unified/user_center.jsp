@@ -66,8 +66,7 @@
 	                      <li role="presentation"><a href="#wx_menu_mgr_category"><h6>菜单category</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_button"><h6>菜单按钮</h6></a></li>
 	                      <li role="presentation"><a href="#wx_menu_mgr_full"><h6>菜单full</h6></a></li>
-	                      <li role="presentation"><a href="#wx_menu_mgr_match_rule"><h6>菜单match rule</h6></a></li>	                   
-	                      <li role="presentation"><a href="#wx_person_user"><h6>微信个人用户</h6></a></li>
+	                      <li role="presentation"><a href="#wx_menu_mgr_match_rule"><h6>菜单match rule</h6></a></li>	 
 	                      </c:if>
 	                      <li role="presentation"><a href="#wx_resp_msg"><h6>关键字设置</h6></a></li>
                       
@@ -85,7 +84,6 @@
 	                      <li role="presentation"><a href="#award_record"><h6>奖品记录</h6></a></li>
 	                      <li role="presentation"><a href="#point_record"><h6>积分记录</h6></a></li>
 	                      <li role="presentation"><a href="#point_summary"><h6>积分总结</h6></a></li>
-	                      <li role="presentation"><a href="#point_event"><h6>积分事件</h6></a></li>
                       </c:if>
                   </ul>
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px; border-bottom:1px solid #e7e7eb;">
@@ -105,6 +103,13 @@
                       <c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
                       	<li role="presentation"><a href="#rel_wx_index_map"><h6>微官网修改</h6></a></li>
                       </c:if>
+                  </ul> 
+                  
+                  <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
+                      <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;">
+                      <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>&nbsp;会员功能</h5></li>                 
+	                    <li role="presentation"><a href="#wx_person_user"><h6>微信个人用户</h6></a></li>
+	                    <li role="presentation"><a href="#point_event"><h6>基础设置</h6></a></li> 
                   </ul> 
 		          
 		            <!-- <li class="list-group-item active col-md-12 col-xs-6"><a href="#profile">媒体资料</a></li>
