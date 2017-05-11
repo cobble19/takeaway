@@ -15,6 +15,8 @@
     <result column="MSG_RECEIVE" property="msgReceive"/>
     <result column="MSG_SEND" property="msgSend"/>
     <result column="MSG_TYPE" property="msgType"/>
+    <result column="MSG_USAGE" property="msgUsage"/>
+    <result column="INTERACTIVE_ID" property="interactiveId"/>
     <result column="ENABLE_FLAG" property="enableFlag"/>
     <result column="USER_ID" property="userId"/>
     <result column="AUTHORIZER_APP_ID" property="authorizerAppId" />
@@ -23,7 +25,7 @@
   
   <sql id="Base_Column_List" >
     a.WX_RESP_MSG_ID, a.MSG_RECEIVE, a.MSG_SEND
-    , a.MSG_TYPE, a.ENABLE_FLAG
+    , a.MSG_TYPE, a.MSG_USAGE, a.INTERACTIVE_ID, a.ENABLE_FLAG
     , a.USER_ID, a.AUTHORIZER_APP_ID, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
@@ -35,6 +37,12 @@
 	</if>
 	<if test="msgType != null">
 		and a.MSG_TYPE = #{msgType}
+	</if>
+	<if test="msgUsage != null">
+		and a.MSG_USAGE = #{msgUsage}
+	</if>
+	<if test="interactiveId != null">
+		and a.INTERACTIVE_ID = #{interactiveId}
 	</if>
 	<if test="enableFlag != null">
 		and a.ENABLE_FLAG = #{enableFlag}
@@ -112,6 +120,12 @@
       <if test="msgType != null" >
         MSG_TYPE,
       </if>
+      <if test="msgUsage != null" >
+        MSG_USAGE,
+      </if>
+      <if test="interactiveId != null" >
+        INTERACTIVE_ID,
+      </if>
       <if test="enableFlag != null" >
         ENABLE_FLAG,
       </if>
@@ -132,6 +146,12 @@
       </if>
       <if test="msgType != null" >
         #{msgType},
+      </if>
+      <if test="msgUsage != null" >
+        #{msgUsage},
+      </if>
+      <if test="interactiveId != null" >
+        #{interactiveId},
       </if>
       <if test="enableFlag != null" >
         #{enableFlag},
@@ -157,6 +177,12 @@
       </if>
       <if test="msgType != null" >
         MSG_TYPE = #{msgType},
+      </if>
+      <if test="msgUsage != null" >
+        MSG_USAGE = #{msgUsage},
+      </if>
+      <if test="interactiveId != null" >
+        INTERACTIVE_ID = #{interactiveId},
       </if>
       <if test="enableFlag != null" >
         ENABLE_FLAG = #{enableFlag},

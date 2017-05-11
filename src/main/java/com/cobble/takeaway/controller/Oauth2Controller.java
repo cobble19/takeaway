@@ -40,6 +40,7 @@ import com.cobble.takeaway.oauth2.WxOauth2TokenApiPOJO;
 import com.cobble.takeaway.oauth2.WxUserApiPOJO;
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.AwardPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
 import com.cobble.takeaway.pojo.PointEventPOJO;
@@ -2428,6 +2429,12 @@ public class Oauth2Controller extends BaseController {
 					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 				}
 				
+				Long userId = null;
+				if (wxPersonUserPOJO != null) {
+					userId = wxPersonUserPOJO.getUserId();
+				}
+				
+				
 				if ("text".equalsIgnoreCase(msgType)) {
 					WxMsgEventRecvApiPOJO wxMsgEventRecvApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvApiPOJO.class);
 					if (result.contains("TESTCOMPONENT_MSG_TYPE_TEXT")) {
@@ -2469,12 +2476,42 @@ public class Oauth2Controller extends BaseController {
 						respMsgType = wxRespMsgPOJO.getMsgType();
 						
 						if (CommonConstant.MSG_TYPE_CUSTOMER.equalsIgnoreCase(respMsgType)) {
+
 							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
 							wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
 							wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
 							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
 							wxMsgEventRespTextApiPOJO.setMsgType("text");
-							String content = wxRespMsgPOJO.getMsgSend();
+							String content = "";
+							if (CommonConstant.MSG_USAGE_LOTTERY.equalsIgnoreCase(wxRespMsgPOJO.getMsgUsage())) {
+								// to call lottery api
+								// /api/unified/lottery/{interactiveId}/happy?userId={userId}
+								String url = "http://127.0.0.1" + "/api/unified/lottery/" + wxRespMsgPOJO.getInteractiveId() + "/happy"
+												+ "?userId=" + userId;
+								String res = HttpClientUtil.get(url);
+								Map lotterymap = JsonUtils.convertToJavaBean(res, Map.class);
+								Boolean success = (Boolean) (lotterymap.get("success"));
+//								AwardPOJO awardPOJO = (AwardPOJO) (lotterymap.get("awardPOJO"));
+
+								Map awardMap = (Map) (lotterymap.get("awardPOJO"));
+								String awardName = (String) awardMap.get("name");
+								
+								Boolean isHappy = (Boolean) (lotterymap.get("isHappy"));
+								String result1 = (String) (lotterymap.get("result"));
+								/*ret.put("success", true);
+								ret.put("awardPOJO", awardPOJO);
+								ret.put("isHappy", false);
+								ret.put("result", "活动未开始");*/
+								
+								if (StringUtils.isBlank(awardName)) {
+									awardName = "未中奖";
+								}
+								
+								content = "您的抽奖结果是: " + awardName;
+								
+							} else {
+								content = wxRespMsgPOJO.getMsgSend();
+							}
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);

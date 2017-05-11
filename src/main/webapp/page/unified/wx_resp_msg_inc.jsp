@@ -74,6 +74,8 @@
 				  						<th>接受关键字</th>
 				  						<th>回复关键字</th>
 				  						<th>信息类别</th>
+				  						<th>关键字用途</th>
+				  						<th>互动ID</th>
 				  						<th>用户ID</th>
 				  						<th>公众号APPID</th>
 				  						<th>创建时间</th>

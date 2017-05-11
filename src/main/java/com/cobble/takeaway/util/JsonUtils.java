@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cobble.takeaway.pojo.AwardPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuInfoRespApiPOJO;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -75,6 +76,11 @@ public class JsonUtils {
 	}
 	
 	public static void main(String[] argv) throws Exception {
+		testLottery();
+	}
+	
+	public static void testJson() throws Exception {
+
 		String str = "{\"a\": \"b\"}";
 		
 		/*str = "{\"button\":[{\"name\":\"扫码\",\"sub_button\":"
@@ -201,6 +207,22 @@ public class JsonUtils {
 //		String wxThirdAuthorizerToken = "{\"authorization_info\":{\"authorizer_appid\":\"wxe0037de41e16f816\",\"authorizer_access_token\":\"F8R2aQwTsRSH-GAd3jLAau7ZIIYa1VjYj2tLH14aKzfRjiheqBSHu6C-2GiR6J6nzKVmffOGtONn7aqeNtR6_-vM7HiE3vPoZM6qe2YKxAcD3jW-e5rGtqlMQkJii7FFXGLbAMDGPU\",\"expires_in\":7200,\"authorizer_refresh_token\":\"refreshtoken@@@duDVOVUScFHsbP8DxIYWA_73-nj339-5DXyJ4aS6ePo\",\"func_info\":[{\"funcscope_category\":{\"id\":1}},{\"funcscope_category\":{\"id\":15}},{\"funcscope_category\":{\"id\":4}},{\"funcscope_category\":{\"id\":7}},{\"funcscope_category\":{\"id\":2}},{\"funcscope_category\":{\"id\":3}},{\"funcscope_category\":{\"id\":11}},{\"funcscope_category\":{\"id\":6}},{\"funcscope_category\":{\"id\":5}},{\"funcscope_category\":{\"id\":8}},{\"funcscope_category\":{\"id\":13}},{\"funcscope_category\":{\"id\":10}},{\"funcscope_category\":{\"id\":12}}]}}";
 //		wxAuthorizerAccessTokenPOJO = JsonUtils.convertToJavaBean(result, WxAuthorizerAccessTokenApiPOJO.class);
 //		logger.info("wxAuthorizerAccessTokenPOJO: {}", wxAuthorizerAccessTokenPOJO);
+	}
+	
+	public static void testLottery() throws Exception {
+		Long interactiveId = 30L;
+		Long userId = 16L;
+		String url = "http://127.0.0.1:8080/takeaway" + "/api/unified/lottery/" + interactiveId + "/happy"
+						+ "?userId=" + userId;
+		String res = HttpClientUtil.get(url);
+		Map lotterymap = JsonUtils.convertToJavaBean(res, Map.class);
+		Boolean success = (Boolean) (lotterymap.get("success"));
+		Map awardMap = (Map) (lotterymap.get("awardPOJO"));
+		String awardName = (String) awardMap.get("name");
+		Boolean isHappy = (Boolean) (lotterymap.get("isHappy"));
+		String result1 = (String) (lotterymap.get("result"));
+		logger.info("res: " + res);
+		logger.info("lotteryMap: " + lotterymap);
 		
 	}
 }

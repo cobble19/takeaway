@@ -49,7 +49,7 @@ $(document).ready(function() {
 				//console.log(data + " " + type + " " + full + " " + meta);
 			}
 		}, {
-			"targets" : [2, 5, 6, 7],
+			"targets" : [2, 5, 8, 9],
 			"visible": false
 		}, {
 			"targets": [5],
@@ -65,13 +65,13 @@ $(document).ready(function() {
 				return ret;
 			}
 		}, {
-			"targets": [8],
+			"targets": [10],
 			"render" : function(data, type, full, meta) {
 				var date = new Date(data);
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets" : [9],
+			"targets" : [11],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.wxRespMsgId 
 								+ '&msgType=1';

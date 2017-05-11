@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cobble.takeaway.pojo.AwardPOJO;
@@ -49,14 +50,13 @@ public class LotteryController extends BaseController {
 	
 	@RequestMapping(value = "/api/unified/lottery/{interactiveId}/happy", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public Map add4WebAPI(@PathVariable(value="interactiveId") Long interactiveId, Model model, 
+	public Map add4WebAPI(@PathVariable(value="interactiveId") Long interactiveId, @RequestParam(value="userId", required=false) Long userId, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map ret = new HashMap();
 		try {
 			synchronized (this) {
 
 				InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
-				
 
 				Date currDate = new Date();
 				if (currDate.after(interactivePOJO.getStartDateTime()) && currDate.before(interactivePOJO.getEndDateTime())) {
@@ -74,8 +74,11 @@ public class LotteryController extends BaseController {
 				awardSearchPOJO.setBalanceGt0Flag(true);
 				awardSearchPOJO.setInteractiveId(interactiveId);
 				List<AwardPOJO> awardPOJOs = awardService.finds(awardSearchPOJO);
+				
+				if (userId == null) {
+					userId = UserUtil.getCurrentUserId();
+				}
 
-				Long userId = UserUtil.getCurrentUserId();
 				if (userId == null) {
 					AwardPOJO awardPOJO = new AwardPOJO();
 					awardPOJO.setOrderNo(-1);
