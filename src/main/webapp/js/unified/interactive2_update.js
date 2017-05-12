@@ -85,6 +85,7 @@ var showDetail = function() {
         	$('#numOfWinner').val(data.numOfWinner);
         	$('#answer').val(data.answer);
         	$('#awardNumberPer').val(data.awardNumberPer);
+        	$('#interactiveType').val(data.interactiveType);
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');

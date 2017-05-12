@@ -49,7 +49,7 @@ $(document).ready(function() {
 				//console.log(data + " " + type + " " + full + " " + meta);
 			}
 		}, {
-			"targets" : [2, 5, 8, 9],
+			"targets" : [2, 5],
 			"visible": false
 		}, {
 			"targets": [5],
@@ -59,19 +59,21 @@ $(document).ready(function() {
 					ret = '系统关键字';
 				} else if (data == 1) {
 					ret = '客户关键字'
+				} else if (data == 2) {
+					ret = '抽奖关键字'
 				} else {
 					ret = '未知关键字';
 				}
 				return ret;
 			}
 		}, {
-			"targets": [10],
+			"targets": [8],
 			"render" : function(data, type, full, meta) {
 				var date = new Date(data);
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets" : [11],
+			"targets" : [9],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.wxRespMsgId 
 								+ '&msgType=1';

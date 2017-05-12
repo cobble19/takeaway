@@ -36,23 +36,8 @@
  					<select class="form-control" id="msgType" name="msgType" required="required">
 						<option value="1">自定义关键字</option>
 						<option value="0">系统关键字</option>
+						<option value="2">抽奖关键字</option>
 					</select>
- 				</div>
- 			</div>
- 			<div class="form-group">
- 				<label class="control-label" for="msgUsage">关键字用途:</label>
- 				<div class="">
- 					<%-- <input class="form-control" id="msgType" name="msgType" value="${wxRespMsgPOJO.msgType}" placeholder="请输入关键字类型"> --%>
- 					<select class="form-control" id="msgUsage" name="msgUsage">
-						<option value="NORMAL">正常</option>
-						<option value="LOTTERY">抽奖</option>
-					</select>
- 				</div>
- 			</div>
- 			<div class="form-group">
- 				<label class="control-label" for="interactiveId">互动ID:</label>
- 				<div class="">
- 					<input class="form-control" id="interactiveId" name="interactiveId" value="${wxRespMsgPOJO.interactiveId}" placeholder="请输入互动ID">
  				</div>
  			</div>
  			<div class="form-group" style="display: none;">

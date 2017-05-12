@@ -60,7 +60,7 @@ public class InteractiveController extends BaseController {
 	public DataTablesPOJO<InteractivePOJO> query4ApiList(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
 		DataTablesPOJO<InteractivePOJO> ret = new DataTablesPOJO<InteractivePOJO>();
 		try {
-			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 			interactiveSearchPOJO.setPaginationFlage(false);
 			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);

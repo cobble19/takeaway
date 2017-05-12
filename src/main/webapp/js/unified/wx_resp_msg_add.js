@@ -94,7 +94,7 @@ $(document).ready(function() {
 								'>退出会员</option>'
 						+ '</select>';
 			$('#wxRespMsgForm #msgSendWrap').append(input);
-		} else if (value == '1') {
+		} else if (value == '1' || value == '2') {
 			var input = '<input class="form-control" id="msgSend" name="msgSend" value="' + msgSend + '" ' +
 					'required="required" placeholder="请输入回复关键字"/>';
 			console.log(input);

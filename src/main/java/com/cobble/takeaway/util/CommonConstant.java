@@ -88,9 +88,7 @@ public interface CommonConstant {
 	// 0-系统定义, 1-客户自定义
 	public final static String MSG_TYPE_SYSTEM = "0";
 	public final static String MSG_TYPE_CUSTOMER = "1";
-	// 0-系统定义, 1-客户自定义
-	public final static String MSG_USAGE_NORMAL = "NORMAL";
-	public final static String MSG_USAGE_LOTTERY = "LOTTERY";
+	public final static String MSG_TYPE_LOTTERY = "2";
 	
 	
 }

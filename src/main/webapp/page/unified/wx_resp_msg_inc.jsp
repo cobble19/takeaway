@@ -57,7 +57,7 @@
 				  		</table>
 				  		</div> -->
 				  			
-	     				<h3 style="margin-top:20px;"><span style="color: green;" class="glyphicon glyphicon-wrench"></span> 定制关键字</h3>
+	     				<h3><span style="color: green;" class="glyphicon glyphicon-wrench"></span> 定制关键字</h3>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_resp_msg_add.jsp?msgType=1'>添加</a>
 	     					
@@ -74,8 +74,6 @@
 				  						<th>接受关键字</th>
 				  						<th>回复关键字</th>
 				  						<th>信息类别</th>
-				  						<th>关键字用途</th>
-				  						<th>互动ID</th>
 				  						<th>用户ID</th>
 				  						<th>公众号APPID</th>
 				  						<th>创建时间</th>
@@ -87,3 +85,4 @@
 	     			</div>	<!-- wx_resp_msg end -->
 	     			<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/wx_resp_msg_inc_s.js?v=3"></script>
 	     			<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/wx_resp_msg_inc_c.js"></script>
+

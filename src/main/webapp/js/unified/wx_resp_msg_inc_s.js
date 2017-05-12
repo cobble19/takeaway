@@ -119,6 +119,8 @@ var buildWxRespMsgS = function() {
 					ret = '系统关键字';
 				} else if (data == 1) {
 					ret = '客户关键字'
+				} else if (data == 2) {
+					ret = '抽奖关键字'
 				} else {
 					ret = '未知关键字';
 				}
@@ -483,6 +485,8 @@ var showTable4WxRespMsgGather = function() {
 						ret = '系统关键字';
 					} else if (data == 1) {
 						ret = '客户关键字'
+					} else if (data == 2) {
+						ret = '抽奖关键字'
 					} else {
 						ret = '未知关键字';
 					}

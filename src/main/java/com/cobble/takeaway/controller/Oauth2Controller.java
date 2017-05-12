@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +42,10 @@ import com.cobble.takeaway.oauth2.WxUserApiPOJO;
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
 import com.cobble.takeaway.pojo.AwardPOJO;
+import com.cobble.takeaway.pojo.AwardRecordSearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
+import com.cobble.takeaway.pojo.InteractivePOJO;
 import com.cobble.takeaway.pojo.PointEventPOJO;
 import com.cobble.takeaway.pojo.PointEventSearchPOJO;
 import com.cobble.takeaway.pojo.PointRecordPOJO;
@@ -102,6 +105,9 @@ import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetRespApiPOJO;
 import com.cobble.takeaway.service.ActivityService;
+import com.cobble.takeaway.service.AwardRecordService;
+import com.cobble.takeaway.service.AwardService;
+import com.cobble.takeaway.service.InteractiveService;
 import com.cobble.takeaway.service.PointEventService;
 import com.cobble.takeaway.service.PointRecordService;
 import com.cobble.takeaway.service.PointSummaryService;
@@ -165,6 +171,14 @@ public class Oauth2Controller extends BaseController {
 	private PointRecordService pointRecordService;
 	@Autowired
 	private PointSummaryService pointSummaryService;
+	
+
+	@Autowired
+	private InteractiveService interactiveService;
+	@Autowired
+	private AwardService awardService;
+	@Autowired
+	private AwardRecordService awardRecordService;
 	
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
@@ -2483,41 +2497,74 @@ public class Oauth2Controller extends BaseController {
 							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
 							wxMsgEventRespTextApiPOJO.setMsgType("text");
 							String content = "";
-							if (CommonConstant.MSG_USAGE_LOTTERY.equalsIgnoreCase(wxRespMsgPOJO.getMsgUsage())) {
-								// to call lottery api
-								// /api/unified/lottery/{interactiveId}/happy?userId={userId}
-								String url = "http://127.0.0.1" + "/api/unified/lottery/" + wxRespMsgPOJO.getInteractiveId() + "/happy"
-												+ "?userId=" + userId;
-								String res = HttpClientUtil.get(url);
-								Map lotterymap = JsonUtils.convertToJavaBean(res, Map.class);
-								Boolean success = (Boolean) (lotterymap.get("success"));
-//								AwardPOJO awardPOJO = (AwardPOJO) (lotterymap.get("awardPOJO"));
-
-								Map awardMap = (Map) (lotterymap.get("awardPOJO"));
-								String awardName = (String) awardMap.get("name");
-								
-								Boolean isHappy = (Boolean) (lotterymap.get("isHappy"));
-								String result1 = (String) (lotterymap.get("result"));
-								/*ret.put("success", true);
-								ret.put("awardPOJO", awardPOJO);
-								ret.put("isHappy", false);
-								ret.put("result", "活动未开始");*/
-								
-								if (StringUtils.isBlank(awardName)) {
-									awardName = "未中奖";
-								}
-								
-								content = "您的抽奖结果是: " + awardName;
-								
-							} else {
-								content = wxRespMsgPOJO.getMsgSend();
-							}
+							content = wxRespMsgPOJO.getMsgSend();
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 							return encryptMsg;
 						} else if (CommonConstant.MSG_TYPE_SYSTEM.equalsIgnoreCase(respMsgType)) {
 							contentRecv = wxRespMsgPOJO.getMsgSend();
+						} else if (CommonConstant.MSG_TYPE_LOTTERY.equalsIgnoreCase(respMsgType)) {
+							// to call lottery api
+							// /api/unified/lottery/{interactiveId}/happy?userId={userId}
+							Long interactiveId = NumberUtils.toLong(wxRespMsgPOJO.getMsgSend());
+							String url = "http://127.0.0.1" + "/api/unified/lottery/" + interactiveId + "/happy"
+											+ "?userId=" + userId;
+							String res = HttpClientUtil.get(url);
+							Map lotterymap = JsonUtils.convertToJavaBean(res, Map.class);
+							Boolean success = (Boolean) (lotterymap.get("success"));
+//							AwardPOJO awardPOJO = (AwardPOJO) (lotterymap.get("awardPOJO"));
+
+							Map awardMap = (Map) (lotterymap.get("awardPOJO"));
+							String awardName = (String) awardMap.get("name");
+							
+							Boolean isHappy = (Boolean) (lotterymap.get("isHappy"));
+							String result1 = (String) (lotterymap.get("result"));
+							/*ret.put("success", true);
+							ret.put("awardPOJO", awardPOJO);
+							ret.put("isHappy", false);
+							ret.put("result", "活动未开始");*/
+							
+							if (StringUtils.isBlank(awardName)) {
+								awardName = "未中奖";
+							}
+							InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+
+							
+							AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+							awardRecordSearchPOJO.setInteractiveId(interactiveId);
+							awardRecordSearchPOJO.setUserId(userId);
+//							List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
+							int count = awardRecordService.getCount(awardRecordSearchPOJO);
+							
+							Integer awardNumberPer = interactivePOJO.getAwardNumberPer();
+							if (awardNumberPer == null) {
+								awardNumberPer = 1;
+							}
+							int remindCount = awardNumberPer;
+							if (count - awardNumberPer <= 0) {
+								remindCount = awardNumberPer - count;
+							} else {
+								remindCount = 0;
+							}
+							WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
+							wxMsgEventRespTextApiPOJO.setToUserName(fromUserName);
+							wxMsgEventRespTextApiPOJO.setFromUserName(toUserName);
+							wxMsgEventRespTextApiPOJO.setCreateTime(new Date().getTime() + "");
+							wxMsgEventRespTextApiPOJO.setMsgType("text");
+							String content = "";
+							
+							content = "欢迎您参加[" + interactivePOJO.getName()
+									+ "]抽奖活动, 您的抽奖结果是: " + awardName + "! 您还有" + remindCount
+											+ "次抽奖机会！活动详情请点击"
+											+ "<a href=" + "http://www.deweiyizhan.com/web/unified/interactive2Detail?interactiveId=" 
+											+ interactiveId
+											+ ">查看活动</a>";
+							
+							wxMsgEventRespTextApiPOJO.setContent(content);
+							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+							return encryptMsg;
 						}
 						
 					}

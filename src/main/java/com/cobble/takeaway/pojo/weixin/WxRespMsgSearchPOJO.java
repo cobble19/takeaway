@@ -9,8 +9,6 @@ public class WxRespMsgSearchPOJO extends BaseSearchPOJO {
     private String msgReceive;
     private String msgSend;
     private String msgType;
-    private String msgUsage;
-    private Long interactiveId;
     
     private Integer enableFlag;
 
@@ -66,18 +64,6 @@ public class WxRespMsgSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setEnableFlag(Integer enableFlag) {
 		this.enableFlag = enableFlag;
-	}
-	public String getMsgUsage() {
-		return msgUsage;
-	}
-	public void setMsgUsage(String msgUsage) {
-		this.msgUsage = msgUsage;
-	}
-	public Long getInteractiveId() {
-		return interactiveId;
-	}
-	public void setInteractiveId(Long interactiveId) {
-		this.interactiveId = interactiveId;
 	}
     
     

@@ -20,13 +20,13 @@
  			<div class="form-group">
  				<label class="control-label" for="userId">用户ID:</label>
  				<div class="">
- 					<input class="form-control" id="userId" name="userId" value="${pointEventPOJO.userId}" placeholder="请输入用户ID">
+ 					<input class="form-control" id="userId" name="userId" readonly="readonly" value="${pointEventPOJO.userId}" placeholder="请输入用户ID">
  				</div>
  			</div>
  			<div class="form-group">
  				<label class="control-label" for="authorizerAppId">授权APP ID:</label>
  				<div class="">
- 					<input class="form-control" id="authorizerAppId" name="authorizerAppId" value="${pointEventPOJO.authorizerAppId}" placeholder="请输入授权APP ID">
+ 					<input class="form-control" id="authorizerAppId" name="authorizerAppId" readonly="readonly" value="${pointEventPOJO.authorizerAppId}" placeholder="请输入授权APP ID">
  				</div>
  			</div>
  			<div class="form-group">

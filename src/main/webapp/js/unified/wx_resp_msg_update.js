@@ -88,7 +88,7 @@ $(document).ready(function() {
 		//隐藏 04/11/2017
 		if (value == '0') {
 			$('#wxRespMsgForm #msgSendWrap').parent().hide();
-		} else if (value == '1') {
+		} else if (value == '1' || value == '2') {
 			$('#wxRespMsgForm #msgSendWrap').parent().show();
 		}
 		

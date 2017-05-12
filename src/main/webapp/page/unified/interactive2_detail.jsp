@@ -66,28 +66,30 @@
                     	<!-- for update -->
 			  			<!-- <hr/> -->
 			  			<div class="row" style="margin-bottom:50px; padding:10px;">
+			  			<c:if test="${interactiveType ne 'MSG_LOTTERY'}">
                             <div class="col-md-8 col-xs-12" style="border:#ffd3d4 solid 14px;">
-			  				<div id="lottery" style="border:#FFF solid 12px;">
-								<table border="0" cellpadding="0" cellspacing="0" style="border:#fe735e solid 10px;">
-									<tr>
-										<td class="lottery-unit lottery-unit-0 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
-										<td class="lottery-unit lottery-unit-1 lottery-orderno-0"><img src="<cmn:base/>/images/lottery/1.png"></td>
-										<td class="lottery-unit lottery-unit-2 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
-									</tr>
-									<tr>
-										<td class="lottery-unit lottery-unit-7 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
-										<td class="kscj" colspan="1" rowspan="1"><a class="btn" href=""><img src="<cmn:base/>/images/lottery/cjstart.jpg"></a></td>
-										<td class="lottery-unit lottery-unit-3 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
-									</tr>
-							        <tr>
-										<td class="lottery-unit lottery-unit-6 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
-										<td class="lottery-unit lottery-unit-5 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
-										<td class="lottery-unit lottery-unit-4 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
-									</tr>
-								</table>
-							</div>
-			  			</div>
-                        <div class="col-md-4 col-xs-12">
+				  				<div id="lottery" style="border:#FFF solid 12px;">
+									<table border="0" cellpadding="0" cellspacing="0" style="border:#fe735e solid 10px;">
+										<tr>
+											<td class="lottery-unit lottery-unit-0 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
+											<td class="lottery-unit lottery-unit-1 lottery-orderno-0"><img src="<cmn:base/>/images/lottery/1.png"></td>
+											<td class="lottery-unit lottery-unit-2 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
+										</tr>
+										<tr>
+											<td class="lottery-unit lottery-unit-7 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
+											<td class="kscj" colspan="1" rowspan="1"><a class="btn" href=""><img src="<cmn:base/>/images/lottery/cjstart.jpg"></a></td>
+											<td class="lottery-unit lottery-unit-3 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
+										</tr>
+								        <tr>
+											<td class="lottery-unit lottery-unit-6 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
+											<td class="lottery-unit lottery-unit-5 lottery-orderno-1"><img src="<cmn:base/>/images/lottery/2.png"></td>
+											<td class="lottery-unit lottery-unit-4 lottery-orderno-2"><img src="<cmn:base/>/images/lottery/3.png"></td>
+										</tr>
+									</table>
+								</div>
+			  				</div>
+			  			</c:if>
+                        	<div class="col-md-4 col-xs-12">
                         <div class="col-md-12 col-xs-12" style="margin-top: 5px;">		
 					    <span id="errorMsg" style="color: red;"></span>
 					    <p class="h5"><c:if test="${not empty myAwardRecordPOJOs}">

@@ -12,6 +12,10 @@ public class InteractiveSearchPOJO extends BaseSearchPOJO {
     private String prize;
     private Double answer;
     
+    private Integer numOfWinner;
+    private Integer awardNumberPer;
+    private String interactiveTYpe;
+    
     private Integer status;
     
 	public Long getInteractiveId() {
@@ -61,6 +65,24 @@ public class InteractiveSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public Integer getNumOfWinner() {
+		return numOfWinner;
+	}
+	public void setNumOfWinner(Integer numOfWinner) {
+		this.numOfWinner = numOfWinner;
+	}
+	public Integer getAwardNumberPer() {
+		return awardNumberPer;
+	}
+	public void setAwardNumberPer(Integer awardNumberPer) {
+		this.awardNumberPer = awardNumberPer;
+	}
+	public String getInteractiveTYpe() {
+		return interactiveTYpe;
+	}
+	public void setInteractiveTYpe(String interactiveTYpe) {
+		this.interactiveTYpe = interactiveTYpe;
 	}
     
 }

@@ -93,6 +93,15 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="interactiveType">互动类型:</label>
+ 				<div class="">
+ 					<select class="form-control" id="interactiveType" name="interactiveType" required="required">
+						<option value="NORMAL">正常</option>
+						<option value="MSG_LOTTERY">关键字抽奖</option>
+					</select>
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
 	 			<div class="">
 	  				<button type="button" class="btn btn-default" id="addBtn">创建</button>
 	 			</div>

@@ -21,6 +21,7 @@ public class InteractivePOJO extends BasePOJO {
     
     private Integer status;
     private Integer awardNumberPer;
+    private String interactiveType;
     
     private UserPOJO userPOJO;
     
@@ -115,6 +116,12 @@ public class InteractivePOJO extends BasePOJO {
 	}
 	public void setAwardNumberPer(Integer awardNumberPer) {
 		this.awardNumberPer = awardNumberPer;
+	}
+	public String getInteractiveType() {
+		return interactiveType;
+	}
+	public void setInteractiveType(String interactiveType) {
+		this.interactiveType = interactiveType;
 	}
     
 }

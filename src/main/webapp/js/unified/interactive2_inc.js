@@ -107,7 +107,7 @@ $(document).ready(function() {
 				return link;
 			}
 		}, {
-			"targets" : 12,
+			"targets" : 13,
 			"render" : function(data, type, full, meta) {
 				/*var href = $('#basePath').val() + '/page/unified/apply_in_interactive.jsp?interactiveId='  + full.interactiveId
 				+ '&name=' + ((full.name));
@@ -192,6 +192,7 @@ $(document).ready(function() {
             { "data": "answer" },
             { "data": "content" },
             { "data": "awardNumberPer" },
+            { "data": "interactiveType" },
             {
                 /*"className":      'details-control',*/
                 "orderable":      false,
