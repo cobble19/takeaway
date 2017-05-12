@@ -106,7 +106,7 @@
 						<option value="view">跳转链接</option>
 						<option value="media_id">媒体回复（包括图文、图片、语音）</option>
 						<option value="click">一键添加加入会员</option>
-						<option value="click">一键添加签到</option>
+						<option value="click">一键添加今日签到</option>
 					</select>
  				</div>
  			</div>

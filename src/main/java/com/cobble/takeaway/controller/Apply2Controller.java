@@ -93,14 +93,14 @@ public class Apply2Controller extends BaseController {
 
 			Apply2AttrPOJO apply2AttrPOJOTemp = apply2AttrPOJOs.get(0);
 			Long activityId = apply2AttrPOJOTemp.getActivityId();
-//			ActivityPOJO activityPOJO = activityService.findById(activityId);
-			/*if (activityPOJO == null) {
+			ActivityPOJO activityPOJO = activityService.findById(activityId);
+			if (activityPOJO == null) {
 				ret.setSuccess(false);
 				ret.setDesc("活动不存在!!");
 				return ret;
-			}*/
+			}
 			
-			/*if (activityPOJO != null && activityPOJO.getStartDateTime() != null
+			if (activityPOJO != null && activityPOJO.getStartDateTime() != null
 					&& activityPOJO.getEndDateTime() != null) {
 				Date curDate = new Date();
 				if (curDate.before(activityPOJO.getStartDateTime()) || curDate.after(activityPOJO.getEndDateTime())) {
@@ -108,7 +108,7 @@ public class Apply2Controller extends BaseController {
 					ret.setDesc("活动不在有效期内");
 					return ret;
 				}
-			}*/
+			}
 			
 			
 			

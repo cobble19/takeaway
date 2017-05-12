@@ -221,17 +221,17 @@ var onClickApply2Summit = function() {
 			}
 			
 			// 判断提交日期是否在有效期内
-//			var startDateTime = $('#startDateTime').val();
-//			startDateTime = parseInt(startDateTime);
-//			var endDateTime = $('#endDateTime').val();
-//			endDateTime = parseInt(endDateTime);
-//			var curDateTime = new Date();
-//			curDateTime = curDateTime.getTime();
-//			curDateTime = parseInt(curDateTime);
-//			if (curDateTime < startDateTime || curDateTime > endDateTime) {
-//				alert('活动不在有效期内');
-//				return;
-//			}
+			var startDateTime = $('#startDateTime').val();
+			startDateTime = parseInt(startDateTime);
+			var endDateTime = $('#endDateTime').val();
+			endDateTime = parseInt(endDateTime);
+			var curDateTime = new Date();
+			curDateTime = curDateTime.getTime();
+			curDateTime = parseInt(curDateTime);
+			if (curDateTime < startDateTime || curDateTime > endDateTime) {
+				alert('活动不在有效期内');
+				return;
+			}
 			
 			
 //			var formData;
@@ -456,7 +456,7 @@ var showDetail = function() {
         }),*/
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
-//        	var success = data.success;
+//        	var success = data.success;	// 这段代码错误, 因为返回值没有success
 //        	
 //        	if (!success) {
 //        		alert('显示活动内容失败, ' + data.desc);

@@ -74,15 +74,15 @@ $(document).ready(function() {
 			}
 			$('#wxMenuMgrEntryButtonDiv #btnKey').val(btnKey);
 			
-			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').show();
+			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
 			
 			$('#wxMenuMgrEntryButtonDiv #btnKey').attr('readonly', true);
 			$('#wxMenuMgrEntryButtonDiv #name').attr('readonly', true);
-		} else if (value == 'click' && text == '一键添加签到') {
+		} else if (value == 'click' && text == '一键添加今日签到') {
 //			var wxRespMsgPOJOs = getWxRespMsgPOJOs();
-			$('#wxMenuMgrEntryButtonDiv #name').val('签到');
+			$('#wxMenuMgrEntryButtonDiv #name').val('今日签到');
 			var btnKey = '签到';
 //			if (wxRespMsgPOJOs != null) {
 //				for (var i = 0; i < wxRespMsgPOJOs.length; i++) {
@@ -92,7 +92,7 @@ $(document).ready(function() {
 //			}
 			$('#wxMenuMgrEntryButtonDiv #btnKey').val(btnKey);
 			
-			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').show();
+			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
 			
