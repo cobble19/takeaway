@@ -13,7 +13,7 @@
   
 	<div class="container">
 		<%-- <%@include file="../../../reg_login_full.jsp" %> --%>
-        <div class="row" style="margin-bottom:15px; margin-top:15px;"><h3 style="text-align:center; border-bottom:1px #06F solid; padding-bottom:5px; color:#06F;">活动一览</h3></div>
+        <div class="row" style="margin-bottom:15px; margin-top:15px;"><h4 style="text-align:center; border-bottom:1px #06F solid; padding-bottom:5px; color:#06F;">活动一览</h4></div>
 		<c:forEach items="${activityPOJOs}" var="activityPOJO" varStatus="st">
 			<div class="row">
                <div class="col-xs-12 col-md-4">
