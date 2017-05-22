@@ -66,7 +66,7 @@
                     	<!-- for update -->
 			  			<!-- <hr/> -->
 			  			<div class="row" style="margin-bottom:50px; padding:10px;">
-			  			<c:if test="${interactiveType ne 'MSG_LOTTERY'}">
+			  			<c:if test="${interactivePOJO.interactiveType ne 'MSG_LOTTERY'}">
                             <div class="col-md-8 col-xs-12" style="border:#ffd3d4 solid 14px;">
 				  				<div id="lottery" style="border:#FFF solid 12px;">
 									<table border="0" cellpadding="0" cellspacing="0" style="border:#fe735e solid 10px;">

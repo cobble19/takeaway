@@ -75,33 +75,43 @@ $(document).ready(function() {
 		}, {
 			"targets" : [9],
 			"render" : function(data, type, full, meta) {
-				var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.wxRespMsgId 
+//				var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.wxRespMsgId 
+//								+ '&msgType=1';
+//				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
+//								+ '">'
+//								+ '修改' + '</a>';
+								
+				var hrefEdit = $('#basePath').val() + '/web/unified/wxRespMsg/showupdate?wxRespMsgId='  + full.wxRespMsgId
 								+ '&msgType=1';
-				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
+				
+				var linkEdit = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="修改内容"' +
+						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + hrefEdit
 								+ '">'
-								+ '修改' + '</a>';
+								+ '<span style="color: green;" class="glyphicon glyphicon-edit"></span>'
+								/**+ '修改内容'**/ 
+								+ '</a>';
 				
-				var hrefVIAdd = $('#basePath').val() + '/web/media/wxRespMsgDetail?wxRespMsgId='  + full.wxRespMsgId 
-								+ '&msgType=1';
-				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
-								+ '">'
-								+ '详细信息' + '</a>';
+//				var hrefVIAdd = $('#basePath').val() + '/web/media/wxRespMsgDetail?wxRespMsgId='  + full.wxRespMsgId 
+//								+ '&msgType=1';
+//				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
+//								+ '">'
+//								+ '详细信息' + '</a>';
 				
 				
-				var oper =
-					'<div class="btn-group" role="group">'
-						+ '<button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
-							+ '操作选项'
-								+ '<span class="caret"></span>'
-						+ '</button>'
-						+ '<ul class="dropdown-menu dropdown-menu-xs">'
-							+ '<li>' + linkEdit + '</li>'
-//							+ '<li>' + linkVIAdd + '</li>'
-						+ '</ul>'
-					+ '</div>';
+//				var oper =
+//					'<div class="btn-group" role="group">'
+//						+ '<button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+//							+ '操作选项'
+//								+ '<span class="caret"></span>'
+//						+ '</button>'
+//						+ '<ul class="dropdown-menu dropdown-menu-xs">'
+//							+ '<li>' + linkEdit + '</li>'
+////							+ '<li>' + linkVIAdd + '</li>'
+//						+ '</ul>'
+//					+ '</div>';
 					
 			      
-				return oper;
+				return linkEdit;
 			}
 		} ],
         "columns": [

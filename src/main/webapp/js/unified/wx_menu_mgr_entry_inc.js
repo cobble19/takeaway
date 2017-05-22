@@ -63,15 +63,16 @@ $(document).ready(function() {
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').show();
 		} else if (value == 'click' && text == '一键添加加入会员') {
-			var wxRespMsgPOJOs = getWxRespMsgPOJOs();
+//			var wxRespMsgPOJOs = getWxRespMsgPOJOs();
 			$('#wxMenuMgrEntryButtonDiv #name').val('加入会员');
-			var btnKey = '欢迎您，GUEST  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003';
-			if (wxRespMsgPOJOs != null) {
-				for (var i = 0; i < wxRespMsgPOJOs.length; i++) {
-					var wxRespMsgPOJO = wxRespMsgPOJOs[i];
-					btnKey = btnKey.replace(wxRespMsgPOJO.msgSend, wxRespMsgPOJO.msgReceive);
-				}
-			}
+//			var btnKey = '欢迎您，GUEST  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003';
+			var btnKey = '加入会员_DWYZ';
+//			if (wxRespMsgPOJOs != null) {
+//				for (var i = 0; i < wxRespMsgPOJOs.length; i++) {
+//					var wxRespMsgPOJO = wxRespMsgPOJOs[i];
+//					btnKey = btnKey.replace(wxRespMsgPOJO.msgSend, wxRespMsgPOJO.msgReceive);
+//				}
+//			}
 			$('#wxMenuMgrEntryButtonDiv #btnKey').val(btnKey);
 			
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
@@ -83,7 +84,8 @@ $(document).ready(function() {
 		} else if (value == 'click' && text == '一键添加今日签到') {
 //			var wxRespMsgPOJOs = getWxRespMsgPOJOs();
 			$('#wxMenuMgrEntryButtonDiv #name').val('今日签到');
-			var btnKey = '签到';
+//			var btnKey = '签到';
+			var btnKey = '签到_DWYZ';
 //			if (wxRespMsgPOJOs != null) {
 //				for (var i = 0; i < wxRespMsgPOJOs.length; i++) {
 //					var wxRespMsgPOJO = wxRespMsgPOJOs[i];

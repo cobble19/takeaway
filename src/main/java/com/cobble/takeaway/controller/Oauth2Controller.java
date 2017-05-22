@@ -2828,7 +2828,7 @@ public class Oauth2Controller extends BaseController {
 						
 					}	// end 003
 
-					if ("签到".equalsIgnoreCase(contentRecv)
+					if ("签到_DWYZ".equalsIgnoreCase(contentRecv)
 							&& CommonConstant.DWYZ_USER_NAME.equals(toUserName)) {
 
 						WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO = new WxMsgEventRespTextApiPOJO();
@@ -2842,7 +2842,7 @@ public class Oauth2Controller extends BaseController {
 
 						String content = "";
 						
-						if ("签到".equalsIgnoreCase(contentRecv)) {
+						if ("签到_DWYZ".equalsIgnoreCase(contentRecv)) {
 							PointRecordSearchPOJO pointRecordSearchPOJO = new PointRecordSearchPOJO();
 							pointRecordSearchPOJO.setPointReason(contentRecv);
 							Date curDate = new Date();
@@ -2931,7 +2931,7 @@ public class Oauth2Controller extends BaseController {
 
 						String content = "";
 						
-						if ("签到".equalsIgnoreCase(eventKey)) {	// 点击签到
+						if ("签到_DWYZ".equalsIgnoreCase(eventKey)) {	// 点击签到
 							PointRecordSearchPOJO pointRecordSearchPOJO = new PointRecordSearchPOJO();
 							pointRecordSearchPOJO.setPointReason(eventKey);
 							Date curDate = new Date();
@@ -2980,10 +2980,26 @@ public class Oauth2Controller extends BaseController {
 									}
 									
 								}
-								content = "签到成功";
+								content = "签到成功, " + wxPersonUserPOJO.getNickname();
 							} else {	
 								// 已经签到
-								content = "已经签到";
+								content = "已经签到, " + wxPersonUserPOJO.getNickname();
+							}	
+						} else if ("加入会员_DWYZ".equalsIgnoreCase(eventKey)) {	// 点击 加入会员
+							content = "欢迎您，"
+									+ wxPersonUserPOJO.getNickname()
+									+ "  1.加入会员请回复001  2.重新加入请回复002  3.退出会员请回复003";
+							String msgTypeTemp = CommonConstant.MSG_TYPE_SYSTEM;
+
+							WxRespMsgSearchPOJO tempSearch = new WxRespMsgSearchPOJO();
+							tempSearch.setAuthorizerAppId(authorizerAppId);
+							tempSearch.setMsgType(msgTypeTemp);
+							tempSearch.setUserId(userId);
+							List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgService.finds(tempSearch);
+							if (!CollectionUtils.isEmpty(wxRespMsgPOJOs)) {
+								for (WxRespMsgPOJO wxRespMsgPOJO : wxRespMsgPOJOs) {
+									content = content.replace(wxRespMsgPOJO.getMsgSend(), wxRespMsgPOJO.getMsgReceive());
+								}
 							}
 						} else {	// CLICK 不是 "签到"
 							content = eventKey;
