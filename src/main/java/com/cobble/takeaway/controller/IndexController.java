@@ -19,7 +19,16 @@ public class IndexController extends BaseController {
 	@Autowired
 	private TreeService treeService;
 	
-	@RequestMapping(value = "index")
+	@RequestMapping(value = "")
+	public ModelAndView defaultPage() throws Exception {
+		ModelAndView ret = new ModelAndView();
+		List<LocationAreaPOJO> locationAreaPOJOList = treeService.findAllAreas();
+		ret.addObject("locationAreaPOJOList", locationAreaPOJOList);
+		ret.setViewName("index");
+		return ret;
+	}
+
+	@RequestMapping(value = "/index")
 	public ModelAndView index() throws Exception {
 		ModelAndView ret = new ModelAndView();
 		List<LocationAreaPOJO> locationAreaPOJOList = treeService.findAllAreas();
