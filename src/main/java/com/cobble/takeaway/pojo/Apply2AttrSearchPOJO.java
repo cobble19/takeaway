@@ -1,5 +1,7 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.List;
+
 
 public class Apply2AttrSearchPOJO extends BaseSearchPOJO {
 	private Long apply2AttrId;
@@ -8,6 +10,8 @@ public class Apply2AttrSearchPOJO extends BaseSearchPOJO {
     private Integer orderNo;
     private Long activityId;
     private Long apply2Id;
+    
+    private List<Long> apply2AttrModelIds;
     
 	public Long getApply2AttrId() {
 		return apply2AttrId;
@@ -44,5 +48,11 @@ public class Apply2AttrSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setApply2Id(Long apply2Id) {
 		this.apply2Id = apply2Id;
+	}
+	public List<Long> getApply2AttrModelIds() {
+		return apply2AttrModelIds;
+	}
+	public void setApply2AttrModelIds(List<Long> apply2AttrModelIds) {
+		this.apply2AttrModelIds = apply2AttrModelIds;
 	}
 }

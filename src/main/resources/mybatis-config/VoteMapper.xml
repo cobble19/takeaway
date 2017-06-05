@@ -18,11 +18,13 @@
     <result column="VOTE_TYPE" property="voteType" />
     <result column="PUBLISH_TYPE" property="publishType" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="ACTIVITY_ID" property="activityId" />
+    <result column="APPLY2_ATTR_MODEL_IDS" property="apply2AttrModelIds" />
   </resultMap>
   
   
   <sql id="Base_Column_List" >
-    a.VOTE_ID, a.USER_ID, a.TITLE, a.CONTENT, a.VOTE_TYPE, a.PUBLISH_TYPE, a.CREATE_DATE_TIME
+    a.VOTE_ID, a.USER_ID, a.TITLE, a.CONTENT, a.VOTE_TYPE, a.PUBLISH_TYPE, a.CREATE_DATE_TIME, a.ACTIVITY_ID, a.APPLY2_ATTR_MODEL_IDS
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -36,6 +38,9 @@
 	</if>
 	<if test="publishType != null">
 		and PUBLISH_TYPE = #{publishType}
+	</if>
+	<if test="activityId != null">
+		and ACTIVITY_ID = #{activityId}
 	</if>
   </sql>
   
@@ -99,6 +104,12 @@
       <if test="publishType != null" >
         PUBLISH_TYPE,
       </if>
+      <if test="activityId != null" >
+        ACTIVITY_ID,
+      </if>
+      <if test="apply2AttrModelIds != null" >
+        APPLY2_ATTR_MODEL_IDS,
+      </if>
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -116,6 +127,12 @@
       </if>
       <if test="publishType != null" >
         #{publishType},
+      </if>
+      <if test="activityId != null" >
+        #{activityId},
+      </if>
+      <if test="apply2AttrModelIds != null" >
+        #{apply2AttrModelIds},
       </if>
         sysdate(),
     </trim>
@@ -138,6 +155,12 @@
       </if>
       <if test="publishType != null" >
         PUBLISH_TYPE = #{publishType},
+      </if>
+      <if test="activityId != null" >
+        ACTIVITY_ID = #{activityId},
+      </if>
+      <if test="apply2AttrModelIds != null" >
+        APPLY2_ATTR_MODEL_IDS = #{apply2AttrModelIds},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>

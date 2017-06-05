@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,10 +35,14 @@ import com.cobble.takeaway.pojo.InteractiveSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.UserSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
+import com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO;
 import com.cobble.takeaway.service.AwardRecordService;
 import com.cobble.takeaway.service.InteractiveService;
 import com.cobble.takeaway.service.UserService;
+import com.cobble.takeaway.service.WxRespMsgService;
 import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -52,6 +57,8 @@ public class InteractiveController extends BaseController {
 	private AwardRecordService awardRecordService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private WxRespMsgService wxRespMsgService;
 	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
@@ -63,6 +70,31 @@ public class InteractiveController extends BaseController {
 			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 			interactiveSearchPOJO.setPaginationFlage(false);
 			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
+			
+			// 获取每个互动活动对应的回复关键字
+			WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
+			if (CollectionUtils.isNotEmpty(interactivePOJOs)) {
+				List<Long> interactiveIds = new ArrayList<Long>();
+				for (InteractivePOJO interactivePOJO : interactivePOJOs) {
+					interactiveIds.add(interactivePOJO.getInteractiveId());
+				}
+				wxRespMsgSearchPOJO.setInteractiveIds(interactiveIds);
+
+				List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgService.finds(wxRespMsgSearchPOJO);
+				if (CollectionUtils.isNotEmpty(interactivePOJOs) && CollectionUtils.isNotEmpty(wxRespMsgPOJOs)) {
+					for (InteractivePOJO interactivePOJO : interactivePOJOs) {
+						for (WxRespMsgPOJO wxRespMsgPOJO : wxRespMsgPOJOs) {
+							if (wxRespMsgPOJO != null && wxRespMsgPOJO.getMsgSend() != null 
+									&& wxRespMsgPOJO.getMsgSend().equalsIgnoreCase(interactivePOJO.getInteractiveId() + "")) {
+								interactivePOJO.setWxRespMsgPOJO(wxRespMsgPOJO);
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+			
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {
 			logger.error("list error.", e);
@@ -75,19 +107,47 @@ public class InteractiveController extends BaseController {
 	@RequestMapping(value = "/web/unified/interactive2/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	//@ResponseBody
 	public StatusPOJO add4WebUnified(InteractivePOJO interactivePOJO, Model model, 
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+			HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			if (interactivePOJO == null) {
 				throw new Exception("interactivePOJO can't is NULL.");
 			}
+			Long userId = UserUtil.getCurrentUser().getUserId();
+			String authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			
 			int result = -1;
 			if (interactivePOJO.getInteractiveId() != null) {
 				result = interactiveService.update(interactivePOJO);
 			} else {
 				interactivePOJO.setStatus(-1);
-				result = interactiveService.insert(interactivePOJO, UserUtil.getCurrentUser().getUserId());
+				result = interactiveService.insert(interactivePOJO, userId);
 			}
+			
+			// 添加/更新 wxRespMsg
+			WxRespMsgPOJO wxRespMsgPOJO = interactivePOJO.getWxRespMsgPOJO();
+			if (wxRespMsgPOJO != null) {
+				Long wxRespMsgId = wxRespMsgPOJO.getWxRespMsgId();
+				String msgReceive = wxRespMsgPOJO.getMsgReceive();
+				if (StringUtils.isNotBlank(msgReceive)) {
+					if (wxRespMsgId == null) {
+						wxRespMsgPOJO.setMsgSend(interactivePOJO.getInteractiveId() + "");
+						wxRespMsgPOJO.setMsgType(CommonConstant.MSG_TYPE_LOTTERY);
+						wxRespMsgPOJO.setUserId(userId);
+						wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
+						wxRespMsgPOJO.setEnableFlag(CommonConstant.ENABLE_FLAG);
+						wxRespMsgService.insert(wxRespMsgPOJO);
+					} else {
+						wxRespMsgPOJO.setMsgSend(interactivePOJO.getInteractiveId() + "");
+						wxRespMsgPOJO.setMsgType(CommonConstant.MSG_TYPE_LOTTERY);
+						wxRespMsgPOJO.setUserId(userId);
+						wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
+						wxRespMsgPOJO.setEnableFlag(CommonConstant.ENABLE_FLAG);
+						wxRespMsgService.update(wxRespMsgPOJO);
+					}
+				}
+			}
+			
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);

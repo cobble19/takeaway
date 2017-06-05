@@ -54,10 +54,16 @@ $(document).ready(function() {
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').show();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
-		} else if (value == 'view') {
+		} else if (value == 'view' && text == '跳转链接') {
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').show();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
+		} else if (value == 'view' && text == '一键添加会员中心') {
+			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
+			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
+			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
+			var urlPersonUc = $('#basePath').val() + '/web/wx/usercenter/' + $('#indexCode').val() + '/person';
+			$('#wxMenuMgrEntryButtonDiv #url').val(urlPersonUc);
 		} else if (value == 'media_id') {
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();

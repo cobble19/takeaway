@@ -1,6 +1,7 @@
 package com.cobble.takeaway.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class VoteItemSearchPOJO extends BaseSearchPOJO {
@@ -11,6 +12,9 @@ public class VoteItemSearchPOJO extends BaseSearchPOJO {
     private String description;
     private Integer totalNum;
     private Date createDateTime;
+    
+    private List<Long> apply2Ids;
+    private Long apply2Id;
     
 	public Long getVoteItemId() {
 		return voteItemId;
@@ -53,6 +57,18 @@ public class VoteItemSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setTotalNum(Integer totalNum) {
 		this.totalNum = totalNum;
+	}
+	public List<Long> getApply2Ids() {
+		return apply2Ids;
+	}
+	public void setApply2Ids(List<Long> apply2Ids) {
+		this.apply2Ids = apply2Ids;
+	}
+	public Long getApply2Id() {
+		return apply2Id;
+	}
+	public void setApply2Id(Long apply2Id) {
+		this.apply2Id = apply2Id;
 	}
 
 }

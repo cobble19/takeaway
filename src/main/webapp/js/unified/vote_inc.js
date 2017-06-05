@@ -58,14 +58,14 @@ $(document).ready(function() {
 				return status;
 			}
 		}, {
-			"targets" : [9],
+			"targets" : [11],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/page/unified/vote_update.jsp?voteId='  + full.voteId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
 								+ '">'
 								+ '修改' + '</a>';
 				
-				var hrefVIAdd = $('#basePath').val() + '/web/media/voteDetail?voteId='  + full.voteId;
+				var hrefVIAdd = $('#basePath').val() + '/web/unified/voteDetail?voteId='  + full.voteId;
 				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
 								+ '">'
 								+ '追加投票项' + '</a>';
@@ -109,6 +109,8 @@ $(document).ready(function() {
             { "data": "voteType" },
             { "data": "publishType" },
             { "data": "createDateTime" },
+            { "data": "activityId" },
+            { "data": "apply2AttrModelIds" },
             {
                 /*"className":      'details-control',*/
                 "orderable":      false,
@@ -160,7 +162,7 @@ $(document).ready(function() {
     		return;
     	}
     	$.ajax({
-    		"url" : "../../mgr/vote/delete",
+    		"url" : $('#basePath').val() + "/mgr/vote/delete",
     		"type" : "GET",
     		"headers" : {
     			"Content-Type" : "application/json"
@@ -196,7 +198,7 @@ var changePublish = function(voteId, publishType) {
 	
 	$('#progress').dialog('open');
 	$.ajax({
-		"url" : $('#basePath').val() + "/api/media/vote/publishType",
+		"url" : $('#basePath').val() + "/api/unified/vote/publishType",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
@@ -228,7 +230,7 @@ var changePublish = function(voteId, publishType) {
 var voteSearch = function(table) {
 	$('#progress').dialog('open');
 	$.ajax({
-		"url" : "../../api/media/vote/voteByUserId",
+		"url" : $('#basePath').val() + "/api/unified/vote/voteByUserId",
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"

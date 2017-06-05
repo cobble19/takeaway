@@ -251,6 +251,7 @@ var onClickApply2Summit = function() {
 		    	var inputText = inputTexts[i];
 		    	var apply2AttrPOJO = {};
 		    	apply2AttrPOJO.apply2AttrModelName = $(inputText).prev().prev().prev().children('span').html();
+		    	apply2AttrPOJO.apply2AttrModelId = $(inputText).next().val();
 		    	apply2AttrPOJO.apply2AttrData = $(inputText).val();
 		    	apply2AttrPOJO.orderNo = i;
 		    	apply2AttrPOJO.activityId = activityId;
@@ -315,8 +316,9 @@ var showApply2 = function() {
             						+ '<label class="control-label" for="' + 'attr' + i + '">' + (i + 1) + ". " + '<span>' + e.apply2AttrModelName + '</span>' + ':' + '</label>'
             						+ '<br>'
             						+ '<p style="font-size:10px;">' + e.apply2AttrModelRemark + '</p>'
-            						+  '<textarea class="form-control" required="required" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'
+            						+ '<textarea class="form-control" required="required" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'
             						+ '</textarea>'
+            						+ '<input type="hidden" id="' + 'attrModelId' + i + '" name="' + 'attrModelId' + i + '" value="' + e.apply2AttrModelId + '" />' 
             						+ '</div>'
 //            						+ '<div class="col-sm-8">'
 //            						+  '<input type="text" class="form-control" id="' + 'attr' + i + '" name="' + 'attr' + i + '" placeholder="请输入' + '' + e.apply2AttrModelName + '">'

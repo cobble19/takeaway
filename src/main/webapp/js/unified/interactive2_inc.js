@@ -87,7 +87,7 @@ $(document).ready(function() {
 				return startDateTime.format('Y-m-d') + "/" + endDateTime.format('Y-m-d');
 			}*/
 		}, {
-			"targets": [9],
+			"targets": [9, 13],
 			"visible": false/*,
 			"render" : function(data, type, full, meta) {
 				var expired = false;
@@ -107,7 +107,7 @@ $(document).ready(function() {
 				return link;
 			}
 		}, {
-			"targets" : 13,
+			"targets" : 15,
 			"render" : function(data, type, full, meta) {
 				/*var href = $('#basePath').val() + '/page/unified/apply_in_interactive.jsp?interactiveId='  + full.interactiveId
 				+ '&name=' + ((full.name));
@@ -193,6 +193,8 @@ $(document).ready(function() {
             { "data": "content" },
             { "data": "awardNumberPer" },
             { "data": "interactiveType" },
+            { "data": "wxRespMsgPOJO.wxRespMsgId" },
+            { "data": "wxRespMsgPOJO.msgReceive" },
             {
                 /*"className":      'details-control',*/
                 "orderable":      false,

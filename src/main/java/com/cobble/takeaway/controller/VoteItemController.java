@@ -65,7 +65,7 @@ public class VoteItemController extends BaseController {
 				ret.setDesc("还没有投票");
 			}
 			
-			ret.setSuccess(true);
+//			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 			ret.setSuccess(false);

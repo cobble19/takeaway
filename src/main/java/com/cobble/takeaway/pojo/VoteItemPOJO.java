@@ -12,6 +12,9 @@ public class VoteItemPOJO extends BasePOJO {
     private Integer totalNum;
     private Date createDateTime;
     
+    private Long apply2Id;
+    private Apply2POJO apply2POJO;
+    
 	public Long getVoteItemId() {
 		return voteItemId;
 	}
@@ -53,6 +56,18 @@ public class VoteItemPOJO extends BasePOJO {
 	}
 	public void setTotalNum(Integer totalNum) {
 		this.totalNum = totalNum;
+	}
+	public Long getApply2Id() {
+		return apply2Id;
+	}
+	public void setApply2Id(Long apply2Id) {
+		this.apply2Id = apply2Id;
+	}
+	public Apply2POJO getApply2POJO() {
+		return apply2POJO;
+	}
+	public void setApply2POJO(Apply2POJO apply2pojo) {
+		apply2POJO = apply2pojo;
 	}
 
 }

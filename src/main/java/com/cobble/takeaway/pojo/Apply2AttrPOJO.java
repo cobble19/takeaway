@@ -5,6 +5,9 @@ import java.util.Date;
 
 public class Apply2AttrPOJO extends BasePOJO {
     private Long apply2AttrId;
+    
+    private Long apply2AttrModelId;
+    
     private String apply2AttrModelName;
     private String apply2AttrData;
     private Integer orderNo;
@@ -53,6 +56,12 @@ public class Apply2AttrPOJO extends BasePOJO {
 	}
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+	public Long getApply2AttrModelId() {
+		return apply2AttrModelId;
+	}
+	public void setApply2AttrModelId(Long apply2AttrModelId) {
+		this.apply2AttrModelId = apply2AttrModelId;
 	}
     
 }

@@ -18,11 +18,12 @@
     <result column="DESCRIPTION" property="description" />
     <result column="TOTAL_NUM" property="totalNum" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="APPLY2_ID" property="apply2Id" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     a.VOTE_ITEM_ID, a.VOTE_ID, a.TITLE, a.IMG_URL, a.DESCRIPTION
-    , a.TOTAL_NUM, a.CREATE_DATE_TIME
+    , a.TOTAL_NUM, a.CREATE_DATE_TIME, a.APPLY2_ID
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -30,6 +31,15 @@
 	</if>
 	<if test="voteId != null">
 		and a.VOTE_ID = #{voteId}
+	</if>
+	<if test="apply2Id != null">
+		and a.APPLY2_ID = #{apply2Id}
+	</if>
+	<if test="apply2Ids != null">
+		and a.APPLY2_ID in
+		<foreach collection="apply2Ids" item="apply2Id" open="(" close=")" separator=",">
+			#{apply2Id}
+		</foreach>
 	</if>
   </sql>
   
@@ -93,6 +103,9 @@
       <if test="totalNum != null" >
         TOTAL_NUM,
       </if>
+      <if test="apply2Id != null" >
+        APPLY2_ID,
+      </if>
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -110,6 +123,9 @@
       </if>
       <if test="totalNum != null" >
         #{totalNum},
+      </if>
+      <if test="apply2Id != null" >
+        #{apply2Id},
       </if>
         sysdate(),
     </trim>
@@ -132,6 +148,9 @@
       </if>
       <if test="totalNum != null" >
         TOTAL_NUM = #{totalNum},
+      </if>
+      <if test="apply2Id != null" >
+        APPLY2_ID = #{apply2Id},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>

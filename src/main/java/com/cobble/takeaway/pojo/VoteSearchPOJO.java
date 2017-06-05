@@ -12,6 +12,8 @@ public class VoteSearchPOJO extends BaseSearchPOJO {
     private Integer publishType;
     private Date createDateTime;
     
+    private Long activityId;
+    
 	public Long getVoteId() {
 		return voteId;
 	}
@@ -53,6 +55,12 @@ public class VoteSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public Long getActivityId() {
+		return activityId;
+	}
+	public void setActivityId(Long activityId) {
+		this.activityId = activityId;
 	}
 
 }

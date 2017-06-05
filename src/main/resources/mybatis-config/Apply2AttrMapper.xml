@@ -21,11 +21,26 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.Apply2_ATTR_ID, a.Apply2_ATTR_MODEL_NAME, a.Apply2_ATTR_DATA, a.ORDER_NO, a.ACTIVITY_ID, a.Apply2_ID, a.CREATE_DATE_TIME
+    a.Apply2_ATTR_ID, a.Apply2_ATTR_MODEL_ID, a.Apply2_ATTR_MODEL_NAME, a.Apply2_ATTR_DATA, a.ORDER_NO, a.ACTIVITY_ID, a.Apply2_ID, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="apply2AttrModelName != null">
 		and a.Apply2_ATTR_MODEL_NAME like concat("%", concat(#{apply2AttrModelName}, "%"))
+	</if>
+	<if test="apply2AttrModelIds != null">
+		and a.Apply2_ATTR_MODEL_ID in 
+		<foreach collection="apply2AttrModelIds" item="apply2AttrModelIds" open="(" close=")" separator=",">
+			#{apply2AttrModelIds}
+		</foreach>
+	</if>
+	<if test="activityId != null">
+		and a.ACTIVITY_ID = ${activityId}
+	</if>
+	<if test="orderNo != null">
+		and a.ORDER_NO = ${orderNo}
+	</if>
+	<if test="apply2AttrData != null">
+		and a.Apply2_ATTR_DATA = ${apply2AttrData}
 	</if>
   </sql>
   
@@ -39,15 +54,6 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
-			<if test="activityId != null">
-				and a.ACTIVITY_ID = ${activityId}
-			</if>
-			<if test="orderNo != null">
-				and a.ORDER_NO = ${orderNo}
-			</if>
-			<if test="apply2AttrData != null">
-				and a.Apply2_ATTR_DATA = ${apply2AttrData}
-			</if>
   		</trim>
   	</where>
   	order by a.ORDER_NO
@@ -61,15 +67,6 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
-			<if test="activityId != null">
-				and a.ACTIVITY_ID = ${activityId}
-			</if>
-			<if test="orderNo != null">
-				and a.ORDER_NO = ${orderNo}
-			</if>
-			<if test="apply2AttrData != null">
-				and a.Apply2_ATTR_DATA = ${apply2AttrData}
-			</if>
   		</trim>
   	</where>
   </select>
@@ -104,6 +101,9 @@
   	keyProperty="apply2AttrId" keyColumn="Apply2_ATTR_ID">
     insert into p_apply2_attr
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="apply2AttrModelId != null" >
+        Apply2_ATTR_MODEL_ID,
+      </if>
       <if test="apply2AttrModelName != null" >
         Apply2_ATTR_MODEL_NAME,
       </if>
@@ -122,6 +122,9 @@
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="apply2AttrModelId != null" >
+        #{apply2AttrModelId},
+      </if>
       <if test="apply2AttrModelName != null" >
         #{apply2AttrModelName},
       </if>
@@ -144,6 +147,9 @@
   <update id="update" parameterType="com.cobble.takeaway.pojo.Apply2AttrPOJO" >
     update p_apply2_attr
     <set >
+      <if test="apply2AttrModelId != null" >
+        Apply2_ATTR_MODEL_ID = #{apply2AttrModelId},
+      </if>
       <if test="apply2AttrModelName != null" >
         Apply2_ATTR_MODEL_NAME = #{apply2AttrModelName},
       </if>

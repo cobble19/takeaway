@@ -89,6 +89,10 @@
 											<textarea rows="5" cols="" id="descriptionX" name="description" minlength="1" required="required" value="" placeholder="描述" class="form-control"></textarea> 
 										</div>
 										<div class="form-group">
+											<label for="apply2Id" class="control-label">Apply2 ID: </label>
+											<input type="text" id="apply2Id" name="apply2Id" value="" placeholder="Apply2 ID" class="form-control" /> 
+										</div>
+										<div class="form-group">
 											<input type="button" id="applyBtn" value="提交" class="btn btn-default" />
 										</div>
 								</form>
@@ -98,21 +102,20 @@
   				<fieldset class="scheduler-border">
 					<legend class="scheduler-border" style="font-size:16px;font-family:'幼圆'; font-weight:bold;">已添加投票项</legend>
                     
-                    
                     <div class="row">
-                   <c:forEach items="${votePOJO.voteItemPOJOs}" var="voteItemPOJO" varStatus="st">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="<cmn:base/>/${voteItemPOJO.imgUrl}" title="${voteItemPOJO.title}" alt="${voteItemPOJO.title}">
-      <div class="caption">
-        <p style=" font-weight:bold;"><c:out value="${voteItemPOJO.title}"></c:out></p>
-        <p><c:out value="${voteItemPOJO.description}"></c:out></p>
-        <p>票数：<c:out value="${voteItemPOJO.totalNum}"></c:out></p>
-      </div>
-    </div>
-  </div>
-  </c:forEach> 
-</div>
+	                   <c:forEach items="${votePOJO.voteItemPOJOs}" var="voteItemPOJO" varStatus="st">
+						  <div class="col-sm-6 col-md-4">
+						    <div class="thumbnail">
+						      <img src="<cmn:base/>/${voteItemPOJO.imgUrl}" title="${voteItemPOJO.title}" alt="${voteItemPOJO.title}">
+						      <div class="caption">
+						        <p style=" font-weight:bold;"><c:out value="${voteItemPOJO.title}"></c:out></p>
+						        <p><c:out value="${voteItemPOJO.description}"></c:out></p>
+						        <p>票数：<c:out value="${voteItemPOJO.totalNum}"></c:out></p>
+						      </div>
+						    </div>
+						  </div>
+	  					</c:forEach> 
+					</div>
                    
                     
                     

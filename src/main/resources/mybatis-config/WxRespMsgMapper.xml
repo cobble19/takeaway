@@ -45,6 +45,12 @@
 	<if test="authorizerAppId != null">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>
+	<if test="interactiveIds != null and interactiveIds != '' and interactiveIds.size &gt; 0">
+		and a.MSG_SEND in
+		<foreach collection="interactiveIds" item="interactiveId" separator="," open="(" close=")">
+			#{interactiveId}
+		</foreach>
+	</if>
   </sql>
   
   <select id="finds" resultMap="WxRespMsgResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO" >

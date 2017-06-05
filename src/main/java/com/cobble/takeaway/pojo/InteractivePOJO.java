@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
+
 
 public class InteractivePOJO extends BasePOJO {
     private Long interactiveId;
@@ -24,6 +26,8 @@ public class InteractivePOJO extends BasePOJO {
     private String interactiveType;
     
     private UserPOJO userPOJO;
+    
+    private WxRespMsgPOJO wxRespMsgPOJO = new WxRespMsgPOJO();
     
     private List<AwardRecordPOJO> awardRecordPOJOs = new ArrayList<AwardRecordPOJO>();
     
@@ -122,6 +126,12 @@ public class InteractivePOJO extends BasePOJO {
 	}
 	public void setInteractiveType(String interactiveType) {
 		this.interactiveType = interactiveType;
+	}
+	public WxRespMsgPOJO getWxRespMsgPOJO() {
+		return wxRespMsgPOJO;
+	}
+	public void setWxRespMsgPOJO(WxRespMsgPOJO wxRespMsgPOJO) {
+		this.wxRespMsgPOJO = wxRespMsgPOJO;
 	}
     
 }

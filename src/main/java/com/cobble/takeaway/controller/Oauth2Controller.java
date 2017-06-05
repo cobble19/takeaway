@@ -2557,9 +2557,9 @@ public class Oauth2Controller extends BaseController {
 							content = "欢迎您参加[" + interactivePOJO.getName()
 									+ "]抽奖活动, 您的抽奖结果是: " + awardName + "! 您还有" + remindCount
 											+ "次抽奖机会！活动详情请点击"
-											+ "<a href=" + "http://www.deweiyizhan.com/web/unified/interactive2Detail?interactiveId=" 
+											+ "<a href=\"" + "http://www.deweiyizhan.com/web/unified/interactive2Detail?interactiveId=" 
 											+ interactiveId
-											+ ">查看活动</a>";
+											+ "\">查看活动</a>";
 							
 							wxMsgEventRespTextApiPOJO.setContent(content);
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);

@@ -82,7 +82,7 @@ $(document).ready(function() {
 var showDetail = function() {
 	var voteId = getParam('voteId');
 	$.ajax({
-		"url" : "../../api/media/vote/" + voteId,
+		"url" : "../../api/unified/vote/" + voteId,
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
@@ -96,6 +96,8 @@ var showDetail = function() {
         	$('#content').val(data.content);
     		$('#voteType').val(data.voteType);
     		$('#publishType').val(data.publishType);
+    		$('#activityId').val(data.activityId);
+    		$('#apply2AttrModelIds').val(data.apply2AttrModelIds);
     		
         },
         error: function(jqXHR, textStatus, errorThrown) {

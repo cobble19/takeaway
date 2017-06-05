@@ -14,6 +14,9 @@ public class VotePOJO extends BasePOJO {
     private Integer publishType;
     private Date createDateTime;
     
+    private Long activityId;
+    private String apply2AttrModelIds;
+    
     private List<VoteItemPOJO> voteItemPOJOs = new ArrayList<VoteItemPOJO>();
     
 	public Long getVoteId() {
@@ -63,6 +66,18 @@ public class VotePOJO extends BasePOJO {
 	}
 	public void setVoteItemPOJOs(List<VoteItemPOJO> voteItemPOJOs) {
 		this.voteItemPOJOs = voteItemPOJOs;
+	}
+	public Long getActivityId() {
+		return activityId;
+	}
+	public void setActivityId(Long activityId) {
+		this.activityId = activityId;
+	}
+	public String getApply2AttrModelIds() {
+		return apply2AttrModelIds;
+	}
+	public void setApply2AttrModelIds(String apply2AttrModelIds) {
+		this.apply2AttrModelIds = apply2AttrModelIds;
 	}
 
 }

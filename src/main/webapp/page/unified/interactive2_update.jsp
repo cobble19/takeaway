@@ -17,10 +17,26 @@
   		</div>
   		<form id="interactiveForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/interactive2/add' method="post">
 	  		<input type="hidden" id="interactiveId" name="interactiveId" value="<%=request.getParameter("interactiveId") %>"/>
+	  		<input type="hidden" id="wxRespMsgId" name="wxRespMsgPOJO.wxRespMsgId"/>
  			<div class="form-group">
  				<label class="control-label" for="title">名称:</label>
  				<div class="">
  					<input class="form-control" id="name" name="name" minlength="2" required="required" placeholder="请输入本次互动主题">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="interactiveType">互动类型:</label>
+ 				<div class="">
+ 					<select class="form-control" id="interactiveType" name="interactiveType" required="required">
+						<option value="NORMAL">正常</option>
+						<option value="MSG_LOTTERY">关键字抽奖</option>
+					</select>
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="msgReceive">抽奖关键字:</label>
+ 				<div class="">
+ 					<input class="form-control" id="msgReceive" name="wxRespMsgPOJO.msgReceive" placeholder="请输入本次抽奖活动的抽奖关键字">
  				</div>
  			</div>
  			<div class="form-group">

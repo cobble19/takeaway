@@ -30,7 +30,7 @@ $(document).ready(function() {
 //			alert('结束时间不能小于开始时间');
 		}
 	})*/
-//	showDetail();
+	showDetail();
 	
 	$('#voteForm').validate();
 
@@ -82,7 +82,7 @@ $(document).ready(function() {
 var showDetail = function() {
 	var voteId = getParam('voteId');
 	$.ajax({
-		"url" : "../../api/media/vote/" + voteId,
+		"url" : $('#basePath').val() + "/api/unified/vote/" + voteId,
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"

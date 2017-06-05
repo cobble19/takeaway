@@ -1,7 +1,13 @@
 package com.cobble.takeaway.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class CollectionUtilx {
 
@@ -31,5 +37,22 @@ public class CollectionUtilx {
 			sb.append(it.next());
 		}
 		return sb.toString();
-	} 
+	}
+	
+	public static List<Long> string2Longs(String str) {
+		List<Long> ret = new ArrayList<Long>();
+		if (StringUtils.isBlank(str)) {
+			return null;
+		}
+		
+		String[] strs = StringUtils.split(str, ",");
+		if (ArrayUtils.isNotEmpty(strs)) {
+			for (String temp : strs) {
+				Long l = Long.parseLong(temp);
+				ret.add(l);
+			}
+		}
+		
+		return ret;
+	}
 }

@@ -7,7 +7,7 @@
   <head>
     <%@include file="../common/head.jsp" %>
     
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/vote_update.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_update.js"></script>
     
   </head>
   <body>
@@ -15,12 +15,24 @@
   		<div class="row">
   			<h2 class="">添加投票信息</h2>
   		</div>
-  		<form id="voteForm" class="form-horizontal" role="form" action='<cmn:base/>/web/media/vote/add' method="post">
+  		<form id="voteForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/vote/add' method="post">
 	  		<input type="hidden" id="voteId" name="voteId" value="<%=request.getParameter("voteId") %>"/>
  			<div class="form-group">
  				<label class="control-label" for="title">标题:</label>
  				<div class="">
  					<input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入本次互动主题">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="activityId">活动ID:</label>
+ 				<div class="">
+ 					<input class="form-control" id="activityId" name="activityId" placeholder="请输入本次投票相关的活动ID">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="apply2AttrModelIds">显示属性模块ID:</label>
+ 				<div class="">
+ 					<input class="form-control" id="apply2AttrModelIds" name="apply2AttrModelIds" placeholder="请输入需显示属性模块IDS(,逗号分隔)">
  				</div>
  			</div>
  			<!-- <div class="form-group">

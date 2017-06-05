@@ -1,6 +1,8 @@
 package com.cobble.takeaway.pojo.weixin;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
@@ -16,6 +18,8 @@ public class WxRespMsgSearchPOJO extends BaseSearchPOJO {
     
 	private Long userId;
     private String authorizerAppId;
+    
+    private List<Long> interactiveIds = new ArrayList<Long>();
     
 	public Long getWxRespMsgId() {
 		return wxRespMsgId;
@@ -64,6 +68,12 @@ public class WxRespMsgSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setEnableFlag(Integer enableFlag) {
 		this.enableFlag = enableFlag;
+	}
+	public List<Long> getInteractiveIds() {
+		return interactiveIds;
+	}
+	public void setInteractiveIds(List<Long> interactiveIds) {
+		this.interactiveIds = interactiveIds;
 	}
     
     

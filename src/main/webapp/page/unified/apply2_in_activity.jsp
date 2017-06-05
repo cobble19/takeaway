@@ -44,6 +44,15 @@
 		 					<input class="form-control" id="endDateTime" name="endDateTime" placeholder="请输入结束时间">
 		 				</div>
 		 			</div>
+		 			
+		 			<div class="form-group">
+		 				<c:forEach items="${apply2AttrModelPOJOs}" var="apply2AttrModelPOJO" varStatus="st">
+			 				<label class="checkbox-inline">
+							  <input type="checkbox" name="apply2AttrModelId" id="apply2AttrModelId" 
+							  	value="${apply2AttrModelPOJO.apply2AttrModelId}"> <c:out value="${apply2AttrModelPOJO.apply2AttrModelName}"></c:out>
+							</label>
+		 				</c:forEach>
+		 			</div>
 				</div>
 			</form>
   		</div>

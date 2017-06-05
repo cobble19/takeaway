@@ -23,6 +23,21 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="interactiveType">互动类型:</label>
+ 				<div class="">
+ 					<select class="form-control" id="interactiveType" name="interactiveType" required="required">
+						<option value="NORMAL">正常</option>
+						<option value="MSG_LOTTERY">关键字抽奖</option>
+					</select>
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="msgReceive">抽奖关键字:</label>
+ 				<div class="">
+ 					<input class="form-control" id="msgReceive" name="wxRespMsgPOJO.msgReceive" placeholder="请输入本次抽奖活动的抽奖关键字">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
  				<label class="control-label" for="startDateTime">活动开始时间:</label>
  				<div class="">
  					<input class="form-control" id="startDateTime" name="startDateTime" required="required" placeholder="请输入开始时间">
@@ -89,15 +104,6 @@
  				<label class="control-label" for="awardNumberPer">每个人获奖次数:</label>
  				<div class="">
  					<input class="form-control" id="awardNumberPer" name="awardNumberPer" placeholder="请输入本次获奖次数">
- 				</div>
- 			</div>
- 			<div class="form-group">
- 				<label class="control-label" for="interactiveType">互动类型:</label>
- 				<div class="">
- 					<select class="form-control" id="interactiveType" name="interactiveType" required="required">
-						<option value="NORMAL">正常</option>
-						<option value="MSG_LOTTERY">关键字抽奖</option>
-					</select>
  				</div>
  			</div>
  			<div class="form-group">

@@ -86,6 +86,8 @@ var showDetail = function() {
         	$('#answer').val(data.answer);
         	$('#awardNumberPer').val(data.awardNumberPer);
         	$('#interactiveType').val(data.interactiveType);
+        	$('#wxRespMsgId').val(data.wxRespMsgPOJO.wxRespMsgId);
+        	$('#msgReceive').val(data.wxRespMsgPOJO.msgReceive);
         },
         error: function(jqXHR, textStatus, errorThrown) {
         	console.log('Load Error!');
