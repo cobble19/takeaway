@@ -107,7 +107,7 @@ $(document).ready(function() {
 				'查看报名详情' + '</a>';*/
 
 				var href2 = $('#basePath').val() + '/page/unified/apply2_in_activity.jsp?activityId='  + full.activityId
-				+ '&activityTitle=' + (full.title);
+				+ '&activityTitle=' + (full.title.replace('|', '%7C'));
 				var linkApply2 = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="表单汇总"' +
 						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
 				+ '">'

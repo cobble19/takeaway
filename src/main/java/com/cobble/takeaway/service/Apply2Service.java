@@ -21,6 +21,9 @@ public interface Apply2Service {
 
 	int insertRelActivityApply2(RelActivityApply2POJO relActivityApply2POJO) throws Exception;
 	
+	
+	List<Apply2POJO> finds2ByActivityId(Apply2SearchPOJO apply2SearchPOJO) throws Exception;
+	
 	int findsApply2InActivityByUnionId(Apply2SearchPOJO apply2SearchPOJO) throws Exception;
 
 }

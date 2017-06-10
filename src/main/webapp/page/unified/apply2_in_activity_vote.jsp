@@ -8,7 +8,7 @@
   <head>
     <%@include file="../common/head.jsp" %>
     
-	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/apply2_in_activity.js"></script>
+	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/apply2_in_activity_vote.js"></script>
 	<link href="<cmn:base/>/css/enterprise/activity_list.css" rel="stylesheet">
   </head>
   <body>
@@ -17,14 +17,17 @@
   		<div class="row">
   			<h2 class="">活动[<span id="activityTitle"></span>]的申请人</h2>
   			
-  			<button class="btn btn-success" id="searchBtn4Apply2">
+  			<button class="btn btn-default" id="searchBtn4Apply2">
   				查询  <span style="" class="glyphicon glyphicon-search"></span>
   				</button>
-  			<button class="btn btn-success" id="print" onclick="javascript: window.print();">
+  			<button class="btn btn-default" id="print" onclick="javascript: window.print();">
   				打印  <span style="" class="glyphicon glyphicon-print"></span>
   				</button>
-  			<button class="btn btn-success" id="exportBtn">
+  			<button class="btn btn-default" id="exportBtn">
   			导出excel <span style="" class="glyphicon glyphicon-export"></span>
+  			</button>
+  			<button class="btn btn-default" id="settingFilter4VoteBtn">
+  			显示信息 <span style="" class="glyphicon glyphicon-cog"></span>
   			</button>
   			<%-- <a class="btn btn-success" href='<cmn:base/>/api/apply2/v2/export/xls?activityId=${param.activityId}'>导出</a> --%>
   		</div>
@@ -45,6 +48,19 @@
 		 				</div>
 		 			</div>
 		 			
+		 			<div class="form-group">
+		 				显示投票属性:  
+		 				<c:forEach items="${apply2AttrModelPOJOs}" var="apply2AttrModelPOJO" varStatus="st">
+			 				<label class="checkbox-inline">
+							  <input type="checkbox" name="apply2AttrModelId" id="apply2AttrModelId" 
+							  	value="${apply2AttrModelPOJO.apply2AttrModelId}"
+							  	<c:if test="${apply2AttrModelPOJO.checked == true}">
+							  		checked="checked"
+							  	</c:if>
+							  	> <c:out value="${apply2AttrModelPOJO.apply2AttrModelName}"></c:out>
+							</label>
+		 				</c:forEach>
+		 			</div>
 				</div>
 			</form>
   		</div>

@@ -12,6 +12,7 @@
 	
   <resultMap id="Apply2AttrResultMap" type="com.cobble.takeaway.pojo.Apply2AttrPOJO" >
     <id column="Apply2_ATTR_ID" property="apply2AttrId" />
+    <result column="APPLY2_ATTR_MODEL_ID" property="apply2AttrModelId"/>
     <result column="Apply2_ATTR_MODEL_NAME" property="apply2AttrModelName"/>
     <result column="Apply2_ATTR_DATA" property="apply2AttrData"/>
     <result column="ORDER_NO" property="orderNo" />

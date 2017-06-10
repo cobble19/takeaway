@@ -7,6 +7,7 @@ public class Apply2AttrModelPOJO extends BasePOJO {
     private String apply2AttrModelRemark;
     private Integer orderNo;
     private Long activityId;
+    private Boolean checked = false;
     
 	public Long getApply2AttrModelId() {
 		return apply2AttrModelId;
@@ -37,6 +38,12 @@ public class Apply2AttrModelPOJO extends BasePOJO {
 	}
 	public void setApply2AttrModelRemark(String apply2AttrModelRemark) {
 		this.apply2AttrModelRemark = apply2AttrModelRemark;
+	}
+	public Boolean getChecked() {
+		return checked;
+	}
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
 	}
     
 }

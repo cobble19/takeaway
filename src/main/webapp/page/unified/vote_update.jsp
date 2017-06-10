@@ -26,7 +26,7 @@
  			<div class="form-group">
  				<label class="control-label" for="activityId">活动ID:</label>
  				<div class="">
- 					<input class="form-control" id="activityId" name="activityId" placeholder="请输入本次投票相关的活动ID">
+ 					<input class="form-control" id="activityId" name="activityId" readonly="readonly" placeholder="请输入本次投票相关的活动ID">
  				</div>
  			</div>
  			<div class="form-group">

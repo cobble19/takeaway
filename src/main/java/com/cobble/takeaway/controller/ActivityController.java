@@ -56,6 +56,7 @@ import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.Apply2AttrModelService;
 import com.cobble.takeaway.service.VoteItemService;
 import com.cobble.takeaway.service.VoteService;
+import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.DateUtil;
 import com.cobble.takeaway.util.JsonUtils;
@@ -243,9 +244,58 @@ public class ActivityController extends BaseController {
 		return null;
 	}
 	
+
+	@RequestMapping(value = "/api/apply2/v2/{activityId}/vote/settingfilter4vote", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public Map settingFilter4Vote(@PathVariable("activityId") Long activityId
+			, @RequestParam(value="apply2AttrModelIds", required=false) String apply2AttrModelIds
+			, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map ret = new HashMap();
+		ActivityPOJO activityPOJO = new ActivityPOJO();
+		try {
+			Long userId = UserUtil.getCurrentUserId();
+
+			activityPOJO = activityService.find2ById(activityId);
+			
+			VoteSearchPOJO voteSearchPOJO = new VoteSearchPOJO();
+			voteSearchPOJO.setActivityId(activityId);
+			List<VotePOJO> votePOJOs = voteService.finds(voteSearchPOJO);
+			VotePOJO votePOJO = null;
+			if (!CollectionUtils.isEmpty(votePOJOs)) {
+				votePOJO = votePOJOs.get(0);
+			}
+			
+			if (votePOJO == null) {
+				logger.error("votePOJO is null");
+				// insert vote
+				votePOJO = new VotePOJO();
+				votePOJO.setActivityId(activityId);
+				votePOJO.setApply2AttrModelIds(apply2AttrModelIds);
+				votePOJO.setUserId(userId);
+				votePOJO.setContent(activityPOJO.getContent());
+				votePOJO.setTitle(activityPOJO.getTitle());
+				votePOJO.setVoteType(2);
+				votePOJO.setPublishType(1);
+				voteService.insert(votePOJO);
+			} else {
+				votePOJO.setApply2AttrModelIds(apply2AttrModelIds);
+				voteService.update(votePOJO);
+			}
+			
+			ret.put("success", true);
+			
+		} catch (Exception e) {
+			logger.error("query error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
+	
 	// if voteItemId is null, create voteItem
 	// else delete voteItemId
-	@RequestMapping(value = "/api/apply2/v2/{activityId}/approve", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/api/apply2/v2/{activityId}/vote/approve", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map query4ApproveToVoteItem(@PathVariable("activityId") Long activityId
 			, @RequestParam(value="apply2Id") Long apply2Id
@@ -262,7 +312,7 @@ public class ActivityController extends BaseController {
 			
 			VoteSearchPOJO voteSearchPOJO = new VoteSearchPOJO();
 			voteSearchPOJO.setActivityId(activityId);
-			List<VotePOJO> votePOJOs = voteService.finds(voteSearchPOJO );
+			List<VotePOJO> votePOJOs = voteService.finds(voteSearchPOJO);
 			VotePOJO votePOJO = null;
 			if (!CollectionUtils.isEmpty(votePOJOs)) {
 				votePOJO = votePOJOs.get(0);
@@ -274,6 +324,7 @@ public class ActivityController extends BaseController {
 			List<VoteItemPOJO> voteItems = voteItemService.finds(voteItemSearchPOJO);
 			
 			if (votePOJO == null) {
+				logger.error("votePOJO is null");
 				// insert vote
 				votePOJO = new VotePOJO();
 				votePOJO.setActivityId(activityId);
@@ -311,16 +362,44 @@ public class ActivityController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/web/person/apply2inactivity")
-	public ModelAndView query4Apply2Detail(@RequestParam(value="activityId", required=false) Long activityId, 
-			@RequestParam(value="activityTitle", required=false) String activityTitle, 
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/web/unified/apply2inactivity/vote")
+	public ModelAndView apply2InActivity4Vote(@RequestParam(value="activityId", required=false) Long activityId, 
+			@RequestParam(value="activityTitle", required=false) String activityTitle
+			, @RequestParam(value="startDateTime", required=false) Date startDateTime
+			, @RequestParam(value="endDateTime", required=false) Date endDateTime
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
 
+//			ActivityPOJO activityPOJO = new ActivityPOJO();
+//			activityPOJO = activityService.find2ById(activityId, startDateTime, endDateTime);
+			
+
+			VoteSearchPOJO voteSearchPOJO = new VoteSearchPOJO();
+			voteSearchPOJO.setActivityId(activityId);
+			List<VotePOJO> votePOJOs = voteService.finds(voteSearchPOJO);
+			VotePOJO votePOJO = null;
+			String apply2AttrModelIds = "";
+			List<Long> apply2AttrModelIdList = new ArrayList<Long>();
+			if (!CollectionUtils.isEmpty(votePOJOs)) {
+				votePOJO = votePOJOs.get(0);
+				apply2AttrModelIds = votePOJO.getApply2AttrModelIds();
+				apply2AttrModelIdList = CollectionUtilx.string2Longs(apply2AttrModelIds);
+			}
+			
 			List<Apply2AttrModelPOJO> apply2AttrModelPOJOs = apply2AttrModelService.findsByActivityId(activityId);
+			if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(apply2AttrModelPOJOs) 
+					&& org.apache.commons.collections4.CollectionUtils.isNotEmpty(apply2AttrModelIdList)) {
+				for (Apply2AttrModelPOJO apply2AttrModelPOJO : apply2AttrModelPOJOs) {
+					if (apply2AttrModelIdList.contains(apply2AttrModelPOJO.getApply2AttrModelId())) {
+						apply2AttrModelPOJO.setChecked(true);
+					}
+				}
+			}
+			
+			
 			ret.addObject("apply2AttrModelPOJOs", apply2AttrModelPOJOs);
-			ret.setViewName("/page/unified/apply2_in_activity");
+			ret.setViewName("/page/unified/apply2_in_activity_vote");
 		} catch (Exception e) {
 			logger.error("list error.", e);
 			throw e;
@@ -330,9 +409,9 @@ public class ActivityController extends BaseController {
 	}
 
 	// 版本2中的申请人信息
-	@RequestMapping(value = "/api/apply2/v2/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/api/apply2/v2/{activityId}/vote", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public Map query4Detail(@PathVariable("activityId") Long activityId
+	public Map query4Detail4Vote(@PathVariable("activityId") Long activityId
 			, @RequestParam(value="startDateTime", required=false) Date startDateTime
 			, @RequestParam(value="endDateTime", required=false) Date endDateTime
 			, Model model, 
@@ -431,6 +510,90 @@ public class ActivityController extends BaseController {
 		
 		return ret;
 	}
+	// 版本2中的申请人信息
+		@RequestMapping(value = "/api/apply2/v2/{activityId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+		@ResponseBody
+		public Map query4Detail(@PathVariable("activityId") Long activityId
+				, @RequestParam(value="startDateTime", required=false) Date startDateTime
+				, @RequestParam(value="endDateTime", required=false) Date endDateTime
+				, Model model, 
+				HttpServletRequest request, HttpServletResponse response) throws Exception {
+			/**
+			 * apply2POJOList: List<Map>
+			 * columns: List<String>
+			 * trHeaderNames
+			 */
+			Map ret = new HashMap();
+			ActivityPOJO activityPOJO = new ActivityPOJO();
+			try {
+				/*activityPOJO = activityService.find2ById(activityId);*/
+				activityPOJO = activityService.find2ById(activityId, startDateTime, endDateTime);
+				logger.info("activityPOJO convert to Json: " + JsonUtils.convertToJson(activityPOJO));
+				
+				List<Map> maps = new ArrayList<Map>();
+				List<String> columns = new ArrayList<String>();
+				List<String> trHeaderNames = new ArrayList<String>();
+				
+				List<Apply2AttrModelPOJO> apply2AttrModelPOJOs = apply2AttrModelService.findsByActivityId(activityId);
+				
+				if (!CollectionUtils.isEmpty(apply2AttrModelPOJOs)) {
+					for (int i = 0; i < apply2AttrModelPOJOs.size(); i++) {
+						Apply2AttrModelPOJO apply2AttrModelPOJO = apply2AttrModelPOJOs.get(i);
+						String key = "attr" + i;
+						columns.add(key);
+						trHeaderNames.add(apply2AttrModelPOJO.getApply2AttrModelName());
+					}
+				}
+				
+				List<Apply2POJO> apply2pojos = activityPOJO.getApply2POJOs();
+				
+				List<Long> apply2Ids = new ArrayList<Long>();
+				
+				if (!CollectionUtils.isEmpty(apply2pojos)) {
+					for (int i = 0; i < apply2pojos.size(); i++) {
+						apply2Ids.add(apply2pojos.get(i).getApply2Id());
+					}
+					
+					for (int i = 0; i < apply2pojos.size(); i++) {	// an apply2 VS a record
+						Apply2POJO apply2pojo = apply2pojos.get(i);
+						Date createDateTime = apply2pojo.getCreateDateTime();
+						Map map = new LinkedHashMap();
+						List<Apply2AttrPOJO> apply2AttrPOJOs = apply2pojo.getApply2AttrPOJOs();
+						if (!CollectionUtils.isEmpty(apply2AttrPOJOs)) {
+							int tempLength = apply2AttrPOJOs.size() > columns.size() ? columns.size() : apply2AttrPOJOs.size();
+							for (int j = 0; j < tempLength; j++) {
+								Apply2AttrPOJO apply2AttrPOJO = apply2AttrPOJOs.get(j);
+								String key = columns.get(j);
+								map.put(key, apply2AttrPOJO.getApply2AttrData());
+							}
+							
+							if (tempLength < columns.size()) {
+								for (int j = tempLength; j < columns.size(); j++) {
+									String key = columns.get(j);
+									map.put(key, "");
+								}
+							}
+							
+							map.put("createDateTime", createDateTime);
+							maps.add(map);
+						}
+					}
+				}
+				// 放在下面， 上面用到了columns.size()
+				trHeaderNames.add("提交时间");
+				columns.add("createDateTime");
+				
+				ret.put("apply2POJOList", maps);
+				ret.put("columns", columns);
+				ret.put("trHeaderNames", trHeaderNames);
+				
+			} catch (Exception e) {
+				logger.error("query error.", e);
+				throw e;
+			}
+			
+			return ret;
+		}
 
 	@RequestMapping(value = "/api/unified/activity/publishType", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody

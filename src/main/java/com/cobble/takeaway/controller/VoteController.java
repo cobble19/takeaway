@@ -1,11 +1,13 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +22,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cobble.takeaway.pojo.Apply2AttrPOJO;
+import com.cobble.takeaway.pojo.Apply2POJO;
+import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.VoteItemPOJO;
 import com.cobble.takeaway.pojo.VotePOJO;
 import com.cobble.takeaway.pojo.VoteSearchPOJO;
+import com.cobble.takeaway.service.Apply2Service;
 import com.cobble.takeaway.service.VoteItemService;
 import com.cobble.takeaway.service.VoteService;
+import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -38,6 +45,8 @@ public class VoteController extends BaseController {
 	private VoteService voteService;
 	@Autowired
 	private VoteItemService voteItemService;
+	@Autowired
+	private Apply2Service apply2Service;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 
@@ -149,7 +158,7 @@ public class VoteController extends BaseController {
 			}
 			
 			ret.addObject("votePOJO", votePOJO);
-			ret.setViewName("/page/media/vote_detail");
+			ret.setViewName("/page/unified/vote_detail");
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 			throw e;
@@ -189,6 +198,87 @@ public class VoteController extends BaseController {
 		return ret;
 	}
 
+	// 通过activity的定制表单来实现
+	@RequestMapping(value = "/web/unified/vote/custom/query/{voteId}")
+	public ModelAndView listVoteById4Unified4Custom(@PathVariable(value="voteId") Long voteId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		VotePOJO votePOJO = new VotePOJO();
+		try {
+			if (voteId == null) {
+				throw new Exception("voteId can't is NULL.");
+			}
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			/*if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+			votePOJO  = voteService.findById(voteId);
+			
+			if (votePOJO == null) {
+				throw new Exception("投票活动无效, voteId: " + voteId);
+			}
+			
+			Long activityId = votePOJO.getActivityId();
+			String apply2AttrModelIds = votePOJO.getApply2AttrModelIds();
+			List<Long> apply2AttrModelIdList = CollectionUtilx.string2Longs(apply2AttrModelIds);
+			
+			List<VoteItemPOJO> voteItemPOJOs = voteItemService.findsByVoteId(voteId);
+			votePOJO.setVoteItemPOJOs(voteItemPOJOs);
+			
+			Apply2SearchPOJO apply2SearchPOJO = new Apply2SearchPOJO();
+			apply2SearchPOJO.setActivityId(activityId);
+			List<Apply2POJO> apply2POJOs = apply2Service.finds2ByActivityId(apply2SearchPOJO);
+			if (CollectionUtils.isNotEmpty(apply2POJOs) && CollectionUtils.isNotEmpty(apply2AttrModelIdList)) {
+				for (Apply2POJO apply2POJO : apply2POJOs) {
+					List<Apply2AttrPOJO> apply2AttrPOJOs = apply2POJO.getApply2AttrPOJOs();
+					if (CollectionUtils.isNotEmpty(apply2AttrPOJOs)) {
+						Iterator<Apply2AttrPOJO> it = apply2AttrPOJOs.iterator();
+						while (it.hasNext()) {
+							Apply2AttrPOJO apply2AttrPOJO = it.next();
+							if (!apply2AttrModelIdList.contains(apply2AttrPOJO.getApply2AttrModelId())) {
+								it.remove();
+							}
+						}
+					}
+					// apply2 set into voteItem
+					if (CollectionUtils.isNotEmpty(voteItemPOJOs)) {
+						for (VoteItemPOJO voteItemPOJO : voteItemPOJOs) {
+							if (voteItemPOJO.getApply2Id().longValue() == apply2POJO.getApply2Id().longValue()) {
+								voteItemPOJO.setApply2POJO(apply2POJO);
+								break;
+							}
+						}
+					}
+					
+				}
+			}
+			
+			if (CollectionUtils.isNotEmpty(apply2POJOs) && CollectionUtils.isNotEmpty(voteItemPOJOs)) {
+				for (Apply2POJO apply2POJO : apply2POJOs) {
+					// apply2 set into voteItem
+					for (VoteItemPOJO voteItemPOJO : voteItemPOJOs) {
+						if (voteItemPOJO.getApply2Id().longValue() == apply2POJO.getApply2Id().longValue()) {
+							voteItemPOJO.setApply2POJO(apply2POJO);
+							break;
+						}
+					}
+				}
+			}
+			
+			
+			
+			ret.addObject("votePOJO", votePOJO);
+			ret.setViewName("/page/unified/vote_item_by_vote_id_custom");
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			throw e;
+		}
+		
+		
+		return ret;
+	}
+
 	@RequestMapping(value = "/web/unified/vote/query/{id}")
 	public ModelAndView listVoteById4Unified(@PathVariable(value="id") Long id, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -210,7 +300,7 @@ public class VoteController extends BaseController {
 			}
 			
 			ret.addObject("votePOJO", votePOJO);
-			ret.setViewName("/page/media/vote_item_by_vote_id");
+			ret.setViewName("/page/unified/vote_item_by_vote_id");
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 			throw e;

@@ -22,12 +22,12 @@
  					<input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入本次互动主题">
  				</div>
  			</div>
- 			<div class="form-group">
+ 			<!-- <div class="form-group">
  				<label class="control-label" for="activityId">活动ID:</label>
  				<div class="">
  					<input class="form-control" id="activityId" name="activityId" placeholder="请输入需活动ID">
  				</div>
- 			</div>
+ 			</div> -->
  			<div class="form-group">
  				<label class="control-label" for="apply2AttrModelIds">显示属性模块ID:</label>
  				<div class="">

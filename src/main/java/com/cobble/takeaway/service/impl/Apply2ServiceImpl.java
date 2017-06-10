@@ -1,5 +1,6 @@
 package com.cobble.takeaway.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -10,8 +11,6 @@ import com.cobble.takeaway.dao.Apply2Mapper;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
 import com.cobble.takeaway.pojo.Apply2POJO;
 import com.cobble.takeaway.pojo.Apply2SearchPOJO;
-import com.cobble.takeaway.pojo.ApplyPOJO;
-import com.cobble.takeaway.pojo.ApplySearchPOJO;
 import com.cobble.takeaway.pojo.RelActivityApply2POJO;
 import com.cobble.takeaway.service.Apply2Service;
 
@@ -108,6 +107,13 @@ public class Apply2ServiceImpl implements Apply2Service {
 		return ret;
 	}
 
+	@Override
+	public List<Apply2POJO> finds2ByActivityId(Apply2SearchPOJO apply2SearchPOJO) throws Exception {
+		List<Apply2POJO> ret = new ArrayList<Apply2POJO>();
+		ret = apply2Mapper.finds2ByActivityId(apply2SearchPOJO);
+		return ret;
+	}
+	
 	@Override
 	public int findsApply2InActivityByUnionId(Apply2SearchPOJO apply2SearchPOJO)
 			throws Exception {

@@ -118,6 +118,31 @@ public class VoteItemController extends BaseController {
 		
 		return ret;
 	}
+
+	@RequestMapping(value = "/api/unified/voteItem/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO add4WebPI4Unified(VoteItemPOJO voteItemPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			if (voteItemPOJO == null) {
+				throw new Exception("voteItemPOJO can't is NULL.");
+			}
+			int result = -1;
+			if (voteItemPOJO.getVoteItemId() != null) {
+				result = voteItemService.update(voteItemPOJO);
+			} else {
+				result = voteItemService.insert(voteItemPOJO, UserUtil.getCurrentUserId());
+			}
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/api/media/voteItem/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody

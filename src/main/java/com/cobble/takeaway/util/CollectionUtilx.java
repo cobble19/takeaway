@@ -49,7 +49,7 @@ public class CollectionUtilx {
 		if (ArrayUtils.isNotEmpty(strs)) {
 			for (String temp : strs) {
 				Long l = Long.parseLong(temp);
-				ret.add(l);
+				ret.add(l.longValue());
 			}
 		}
 		
