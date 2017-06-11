@@ -36,6 +36,7 @@ public class VoteServiceImpl implements VoteService {
 		activityPOJO.setTypeCode(1);
 		activityPOJO.setPublishType(1);
 		activityPOJO.setNeedSubscribe(0);
+		activityPOJO.setUserIdEnterprise(votePOJO.getUserId());
 		
 		activityService.insert(activityPOJO, userId);
 		votePOJO.setActivityId(activityPOJO.getActivityId());

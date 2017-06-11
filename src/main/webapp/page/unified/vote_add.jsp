@@ -28,7 +28,7 @@
  					<input class="form-control" id="activityId" name="activityId" placeholder="请输入需活动ID">
  				</div>
  			</div> -->
- 			<div class="form-group">
+ 			<div class="form-group" style="display: none;">
  				<label class="control-label" for="apply2AttrModelIds">显示属性模块ID:</label>
  				<div class="">
  					<input class="form-control" id="apply2AttrModelIds" name="apply2AttrModelIds" placeholder="请输入需显示属性模块IDS(,逗号分隔)">

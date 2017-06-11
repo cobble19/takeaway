@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
 <%@include file="../common/wx_head.jsp" %>
-<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/vote_item_by_vote_id.js"></script>
+<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_item_by_vote_id_custom.js"></script>
 <style type="text/css">
 .head-img {
 	/* width: 20px;
@@ -57,7 +57,13 @@
           <li class="weui_media_info_meta" style="color:#000">票数：
             <c:out value="${voteItemPOJO.totalNum}"></c:out>
           </li>
-          <li class="weui_media_info_meta"><a href="javascript:;" class="open-popup" data-target="#voteItem_description" style="color:#000">详细信息...</a></li>
+          <li class="weui_media_info_meta">
+          	<button type="button" id="voteBtn" class="btn btn-default btn-sm" voteItemId="${voteItemPOJO.voteItemId}">
+			  <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+			</button>
+          
+          	<a href="javascript:;" class="open-popup" data-target="#voteItem_description" style="color:#000">详细信息...</a>
+          </li>
         </ul>
       </div>
       <div id="voteItem_description" class="weui-popup-container">
