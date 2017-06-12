@@ -69,6 +69,11 @@ $(document).ready(function() {
 				var linkVIAdd = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVIAdd
 								+ '">'
 								+ '追加投票项' + '</a>';
+								
+				var hrefVote = $('#basePath').val() + '/web/unified/vote/custom/query/'  + full.voteId;
+				var linkVote = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVote
+								+ '">'
+								+ '投票' + '</a>';
 				
 				var publishType = (full.publishType == null || full.publishType == 0) ? '未发布' : '已发布';
 				var linkPublish = '<a class="btn btn-success btn-xs" href=# onclick=changePublish(' + full.voteId + ',' + full.publishType + ')>' + publishType + '</a>';
@@ -82,6 +87,7 @@ $(document).ready(function() {
 						+ '<ul class="dropdown-menu dropdown-menu-xs">'
 							+ '<li>' + linkEdit + '</li>'
 							+ '<li>' + linkVIAdd + '</li>'
+							+ '<li>' + linkVote + '</li>'
 						+ '</ul>'
 					+ '</div>';
 					

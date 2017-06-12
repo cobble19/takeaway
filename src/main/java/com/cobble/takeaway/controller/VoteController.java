@@ -1,6 +1,8 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +30,14 @@ import com.cobble.takeaway.pojo.Apply2POJO;
 import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
+import com.cobble.takeaway.pojo.RelVoteUserPOJO;
+import com.cobble.takeaway.pojo.RelVoteUserSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.VoteItemPOJO;
 import com.cobble.takeaway.pojo.VotePOJO;
 import com.cobble.takeaway.pojo.VoteSearchPOJO;
 import com.cobble.takeaway.service.Apply2Service;
+import com.cobble.takeaway.service.RelVoteUserService;
 import com.cobble.takeaway.service.VoteItemService;
 import com.cobble.takeaway.service.VoteService;
 import com.cobble.takeaway.util.CollectionUtilx;
@@ -47,6 +53,8 @@ public class VoteController extends BaseController {
 	private VoteItemService voteItemService;
 	@Autowired
 	private Apply2Service apply2Service;
+	@Autowired
+	private RelVoteUserService relVoteUserService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 
@@ -213,6 +221,7 @@ public class VoteController extends BaseController {
 			/*if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}*/
+			// 获取vote
 			votePOJO  = voteService.findById(voteId);
 			
 			if (votePOJO == null) {
@@ -223,27 +232,66 @@ public class VoteController extends BaseController {
 			String apply2AttrModelIds = votePOJO.getApply2AttrModelIds();
 			List<Long> apply2AttrModelIdList = CollectionUtilx.string2Longs(apply2AttrModelIds);
 			
+			// 获取voteItem
 			List<VoteItemPOJO> voteItemPOJOs = voteItemService.findsByVoteId(voteId);
 			votePOJO.setVoteItemPOJOs(voteItemPOJOs);
 			
+			// 获取当前用户的投票的voteItem
+
+			Integer period = votePOJO.getPeriod();
+			Integer numOfPeriod = votePOJO.getNumOfPeriod();
+			if (numOfPeriod == null) {
+				numOfPeriod = 1;
+			}
+			
+			RelVoteUserSearchPOJO relVoteUserSearchPOJO = new RelVoteUserSearchPOJO();
+			relVoteUserSearchPOJO.setUserId(userId);
+			relVoteUserSearchPOJO.setVoteId(voteId);
+			if (period != null && period.intValue() > 0) {
+
+				Date curDateTime = new Date();
+				
+				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
+				Date endDateTime = DateUtils.addSeconds(startDateTime, period.intValue() * 24 * 60 * 60 - 1);
+				
+				relVoteUserSearchPOJO.setStartDateTime(startDateTime);
+				relVoteUserSearchPOJO.setEndDateTime(endDateTime);
+			}
+//			Integer totalHasAddVote = relVoteUserService.getCount(relVoteUserSearchPOJO);
+			List<RelVoteUserPOJO> relVoteUserPOJOs = relVoteUserService.finds(relVoteUserSearchPOJO);
+			
+			// 获取apply2
 			Apply2SearchPOJO apply2SearchPOJO = new Apply2SearchPOJO();
 			apply2SearchPOJO.setActivityId(activityId);
 			List<Apply2POJO> apply2POJOs = apply2Service.finds2ByActivityId(apply2SearchPOJO);
-			if (CollectionUtils.isNotEmpty(apply2POJOs) && CollectionUtils.isNotEmpty(apply2AttrModelIdList)) {
+			if (CollectionUtils.isNotEmpty(apply2POJOs)) {
 				for (Apply2POJO apply2POJO : apply2POJOs) {
-					List<Apply2AttrPOJO> apply2AttrPOJOs = apply2POJO.getApply2AttrPOJOs();
-					if (CollectionUtils.isNotEmpty(apply2AttrPOJOs)) {
-						Iterator<Apply2AttrPOJO> it = apply2AttrPOJOs.iterator();
-						while (it.hasNext()) {
-							Apply2AttrPOJO apply2AttrPOJO = it.next();
-							if (!apply2AttrModelIdList.contains(apply2AttrPOJO.getApply2AttrModelId())) {
-								it.remove();
+					// 过滤掉不需要显示的apply2attrmodel
+					if (CollectionUtils.isNotEmpty(apply2AttrModelIdList)) {
+						List<Apply2AttrPOJO> apply2AttrPOJOs = apply2POJO.getApply2AttrPOJOs();
+						if (CollectionUtils.isNotEmpty(apply2AttrPOJOs)) {
+							Iterator<Apply2AttrPOJO> it = apply2AttrPOJOs.iterator();
+							while (it.hasNext()) {
+								Apply2AttrPOJO apply2AttrPOJO = it.next();
+								if (!apply2AttrModelIdList.contains(apply2AttrPOJO.getApply2AttrModelId())) {
+									it.remove();
+								}
 							}
 						}
 					}
 					// apply2 set into voteItem
 					if (CollectionUtils.isNotEmpty(voteItemPOJOs)) {
 						for (VoteItemPOJO voteItemPOJO : voteItemPOJOs) {
+							
+							if (CollectionUtils.isNotEmpty(relVoteUserPOJOs)) {
+								for (RelVoteUserPOJO relVoteUserPOJO : relVoteUserPOJOs) {
+									if (relVoteUserPOJO.getVoteItemId().longValue() == voteItemPOJO.getVoteItemId().longValue()) {
+										voteItemPOJO.setBeenVoted(true);
+										break;
+									}
+								}
+							}
+							
 							if (voteItemPOJO.getApply2Id().longValue() == apply2POJO.getApply2Id().longValue()) {
 								voteItemPOJO.setApply2POJO(apply2POJO);
 								break;
@@ -254,7 +302,7 @@ public class VoteController extends BaseController {
 				}
 			}
 			
-			if (CollectionUtils.isNotEmpty(apply2POJOs) && CollectionUtils.isNotEmpty(voteItemPOJOs)) {
+			/*if (CollectionUtils.isNotEmpty(apply2POJOs) && CollectionUtils.isNotEmpty(voteItemPOJOs)) {
 				for (Apply2POJO apply2POJO : apply2POJOs) {
 					// apply2 set into voteItem
 					for (VoteItemPOJO voteItemPOJO : voteItemPOJOs) {
@@ -264,7 +312,7 @@ public class VoteController extends BaseController {
 						}
 					}
 				}
-			}
+			}*/
 			
 			
 			

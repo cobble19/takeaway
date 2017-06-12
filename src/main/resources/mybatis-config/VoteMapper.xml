@@ -20,11 +20,15 @@
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <result column="ACTIVITY_ID" property="activityId" />
     <result column="APPLY2_ATTR_MODEL_IDS" property="apply2AttrModelIds" />
+    <result column="PERIOD" property="period" />
+    <result column="NUM_OF_PERIOD" property="numOfPeriod" />
   </resultMap>
   
   
   <sql id="Base_Column_List" >
-    a.VOTE_ID, a.USER_ID, a.TITLE, a.CONTENT, a.VOTE_TYPE, a.PUBLISH_TYPE, a.CREATE_DATE_TIME, a.ACTIVITY_ID, a.APPLY2_ATTR_MODEL_IDS
+    a.VOTE_ID, a.USER_ID, a.TITLE, a.CONTENT, a.VOTE_TYPE
+    , a.PUBLISH_TYPE, a.CREATE_DATE_TIME, a.ACTIVITY_ID, a.APPLY2_ATTR_MODEL_IDS, a.PERIOD
+    , a.NUM_OF_PERIOD
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -110,6 +114,12 @@
       <if test="apply2AttrModelIds != null" >
         APPLY2_ATTR_MODEL_IDS,
       </if>
+      <if test="period != null" >
+        PERIOD,
+      </if>
+      <if test="numOfPeriod != null" >
+        NUM_OF_PERIOD,
+      </if>
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -133,6 +143,12 @@
       </if>
       <if test="apply2AttrModelIds != null" >
         #{apply2AttrModelIds},
+      </if>
+      <if test="period != null" >
+        #{period},
+      </if>
+      <if test="numOfPeriod != null" >
+        #{numOfPeriod},
       </if>
         sysdate(),
     </trim>
@@ -161,6 +177,12 @@
       </if>
       <if test="apply2AttrModelIds != null" >
         APPLY2_ATTR_MODEL_IDS = #{apply2AttrModelIds},
+      </if>
+      <if test="period != null" >
+        PERIOD = #{period},
+      </if>
+      <if test="numOfPeriod != null" >
+        NUM_OF_PERIOD = #{numOfPeriod},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>

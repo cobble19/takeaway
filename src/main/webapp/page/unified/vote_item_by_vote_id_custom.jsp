@@ -58,7 +58,11 @@
             <c:out value="${voteItemPOJO.totalNum}"></c:out>
           </li>
           <li class="weui_media_info_meta">
-          	<button type="button" id="voteBtn" class="btn btn-default btn-sm" voteItemId="${voteItemPOJO.voteItemId}">
+          	<button type="button" id="voteBtn" class="btn btn-default btn-sm"
+          	<c:if test="${voteItemPOJO.beenVoted}">
+          	 style="color: blue;"
+          	</c:if>
+          	 voteItemId="${voteItemPOJO.voteItemId}">
 			  <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
 			</button>
           

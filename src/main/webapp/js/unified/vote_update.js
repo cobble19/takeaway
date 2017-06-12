@@ -94,6 +94,8 @@ var showDetail = function() {
         success: function(data, textStatus, jqXHR ) {
         	$('#title').val(data.title);
         	$('#activityId').val(data.activityId);
+        	$('#period').val(data.period);
+        	$('#numOfPeriod').val(data.numOfPeriod);
         	$('#apply2AttrModelIds').val(data.apply2AttrModelIds);
         	$('#content').val(data.content);
     		$('#voteType').val(data.voteType);

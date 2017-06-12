@@ -1,63 +1,43 @@
 $(document).ready(function() {
 	
 	$('#addVoteItemBtn').click(function() {
-		onAddVoteIem();
-	});
-	
-	$('#voteBtn').click(function(event) {
-		var exist = existUser4VoteItem();
+		var voteId = $('#voteId').val();
+		var ids = [];
+		var chkBox = $('input[name=chkBox]');
+		chkBox.each(function(index, ele) {
+			if ($(this).attr('checked')) {
+				ids.push($(this).val());
+			}
+		});
+		
+		
+		var exist = existUser4VoteItem(voteId, null, userId);
 		if (exist) {
 			$.alert('您已经投过票了！');
 			return;
 		}
-		
-		var ids = [];
-		var voteItemId = $(this).attr('voteItemId');
-		ids.push(voteItemId);
-		console.log('ids: ' + ids);
-		if (ids == null || ids.length <= 0) {
-			alert('请选择一条记录');
-			return;
-		}
-		
+	
+		onAddVoteIem(voteId, ids);
+	});
+	
+	$('#voteBtn').click(function(event) {
+		var userId = $('#userId').val();
 		var voteId = $('#voteId').val();
-	
-		var confirm = window.confirm('确定投票');
-		if (!confirm) {
+		var voteItemId = $(this).attr('voteItemId');
+		
+		var exist = existUser4VoteItem(voteId, voteItemId, userId);
+		if (exist) {
+			$.alert('您已经投过票了！');
 			return;
 		}
-	
-		$.showLoading('正在加载...');
-		$.ajax({
-			"url" : $('#basePath').val() + "/api/media/voteItem/addVote",
-			"type" : "GET",
-			"headers" : {
-				"Content-Type" : "application/json"
-			},
-			"dataType" : 'json',
-			traditional :true, 
-			"data": {
-	            "ids": ids,
-	            voteId: voteId
-	        },
-	        success: function(data, textStatus, jqXHR ) {
-	        	$.hideLoading();
-	        	window.location.reload();
-	        },
-	        error: function(jqXHR, textStatus, errorThrown) {
-	        	console.log('Load Error!');
-	        },
-	        complete: function(jqXHR, textStatus) {
-	        	console.log('Ajax complete.');
-	        }
-		});	// end ajax
+		onAddVoteIemX(voteId, voteItemId, userId);
 		
 	});	// end voteBtn click
 
 })
 
 
-var existUser4VoteItem = function() {
+var existUser4VoteItem = function(voteId, voteItemId, userId) {
 		var exist = false;
 		
 		/*var ids = [];
@@ -67,8 +47,6 @@ var existUser4VoteItem = function() {
 				ids.push($(this).val());
 			}
 		})*/
-		var userId = $('#userId').val();
-		var voteId = $('#voteId').val();
 		
 		/*if (ids == null || ids.length <= 0) {
 			alert('请选择一条记录');
@@ -82,6 +60,7 @@ var existUser4VoteItem = function() {
     		"dataType" : 'json',
     		"data": ({
     			voteId: voteId,
+    			voteItemId: voteItemId,
     			userId: userId
             }),
             success: function(data, textStatus, jqXHR ) {
@@ -101,28 +80,17 @@ var existUser4VoteItem = function() {
     	return exist;
 }
 
-var onAddVoteItem = function() {
-	var exist = existUser4VoteItem();
-	if (exist) {
-		$.alert('您已经投过票了！');
-		return;
-	}
-	
+var addVoteItem = function(voteId, voteItemIds) {
 	var ids = [];
-	var chkBox = $('input[name=chkBox]');
-	chkBox.each(function(index, ele) {
-		if ($(this).attr('checked')) {
-			ids.push($(this).val());
-		}
-	})
+	voteItemIds.each(function(index, ele) {
+		ids.push($(this).val());
+	});
 	console.log('ids: ' + ids);
 	if (ids == null || ids.length <= 0) {
 		alert('请选择一条记录');
 		return;
 	}
 	
-	var voteId = $('#voteId').val();
-
 	var confirm = window.confirm('确定投票');
 	if (!confirm) {
 		return;
@@ -155,7 +123,46 @@ var onAddVoteItem = function() {
 }
 ///
 ///
-
+var addVoteItemX = function(voteId, voteItemId, userId, $ele) {
+		var ids = [];
+		ids.push(voteItemId);
+		console.log('ids: ' + ids);
+		if (ids == null || ids.length <= 0) {
+			alert('请选择一条记录');
+			return;
+		}
+		
+		var confirm = window.confirm('确定投票');
+		if (!confirm) {
+			return;
+		}
+	
+		$.showLoading('正在加载...');
+		$.ajax({
+			"url" : $('#basePath').val() + "/api/media/voteItem/addVote",
+			"type" : "GET",
+			"headers" : {
+				"Content-Type" : "application/json"
+			},
+			"dataType" : 'json',
+			traditional :true, 
+			"data": {
+	            "ids": ids,
+	            voteId: voteId,
+	            userId: userId
+	        },
+	        success: function(data, textStatus, jqXHR ) {
+	        	$.hideLoading();
+	        	window.location.reload();
+	        },
+	        error: function(jqXHR, textStatus, errorThrown) {
+	        	console.log('Load Error!');
+	        },
+	        complete: function(jqXHR, textStatus) {
+	        	console.log('Ajax complete.');
+	        }
+		});	// end ajax
+}
 ///
 
 

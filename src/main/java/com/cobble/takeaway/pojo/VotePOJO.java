@@ -16,6 +16,8 @@ public class VotePOJO extends BasePOJO {
     
     private Long activityId;
     private String apply2AttrModelIds;
+    private Integer period;
+    private Integer numOfPeriod;
     
     private List<VoteItemPOJO> voteItemPOJOs = new ArrayList<VoteItemPOJO>();
     
@@ -78,6 +80,18 @@ public class VotePOJO extends BasePOJO {
 	}
 	public void setApply2AttrModelIds(String apply2AttrModelIds) {
 		this.apply2AttrModelIds = apply2AttrModelIds;
+	}
+	public Integer getPeriod() {
+		return period;
+	}
+	public void setPeriod(Integer period) {
+		this.period = period;
+	}
+	public Integer getNumOfPeriod() {
+		return numOfPeriod;
+	}
+	public void setNumOfPeriod(Integer numOfPeriod) {
+		this.numOfPeriod = numOfPeriod;
 	}
 
 }

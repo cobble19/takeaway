@@ -1,11 +1,15 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +29,11 @@ import com.cobble.takeaway.pojo.RelVoteUserSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.VoteItemPOJO;
 import com.cobble.takeaway.pojo.VoteItemSearchPOJO;
+import com.cobble.takeaway.pojo.VotePOJO;
 import com.cobble.takeaway.service.RelVoteUserService;
 import com.cobble.takeaway.service.VoteItemService;
+import com.cobble.takeaway.service.VoteService;
+import com.cobble.takeaway.util.DateUtil;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -37,11 +44,15 @@ public class VoteItemController extends BaseController {
 	private VoteItemService voteItemService;
 	@Autowired
 	private RelVoteUserService relVoteUserService;
+	@Autowired
+	private VoteService voteService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@RequestMapping(value = "/api/media/voteItem/existUser4VoteItem", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public StatusPOJO existUser4VoteItem(@RequestParam("voteId") Long voteId, @RequestParam("userId") Long userId, Model model, 
+	public StatusPOJO existUser4VoteItem(@RequestParam("voteId") Long voteId
+			, @RequestParam(value="voteItemId", required=false) Long voteItemId
+			, @RequestParam(value="userId", required=false) Long userId, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
@@ -52,18 +63,67 @@ public class VoteItemController extends BaseController {
 				userId = UserUtil.getCurrentUserId();
 			}
 			int result = -1;
+			
+			// 获取判断投票的规则
+			VotePOJO votePOJO = voteService.findById(voteId); 
+			Integer period = votePOJO.getPeriod();
+			Integer numOfPeriod = votePOJO.getNumOfPeriod();
+			if (numOfPeriod == null) {
+				numOfPeriod = 1;
+			}
+			
 			// Check whether user have addVote to this voteItem
 			RelVoteUserSearchPOJO relVoteUserSearchPOJO = new RelVoteUserSearchPOJO();
 			relVoteUserSearchPOJO.setUserId(userId);
 			relVoteUserSearchPOJO.setVoteId(voteId);
-			Integer totalHasAddVote = relVoteUserService.getCount(relVoteUserSearchPOJO);
-			if (totalHasAddVote > 0) {
+			relVoteUserSearchPOJO.setVoteItemId(voteItemId);
+			if (period != null && period.intValue() > 0) {
+
+				Date curDateTime = new Date();
+				
+				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
+				Date endDateTime = DateUtils.addSeconds(startDateTime, period.intValue() * 24 * 60 * 60 - 1);
+				
+				relVoteUserSearchPOJO.setStartDateTime(startDateTime);
+				relVoteUserSearchPOJO.setEndDateTime(endDateTime);
+			}
+//			Integer totalHasAddVote = relVoteUserService.getCount(relVoteUserSearchPOJO);
+			List<RelVoteUserPOJO> relVoteUserPOJOs = relVoteUserService.finds(relVoteUserSearchPOJO);
+			
+			if (CollectionUtils.isNotEmpty(relVoteUserPOJOs)) {
+				if (relVoteUserPOJOs.size() >= numOfPeriod) {
+					ret.setSuccess(true);
+					ret.setDesc("已经投过票");
+					return ret;
+				}
+				if (voteItemId != null) {
+					for (RelVoteUserPOJO relVoteUserPOJO : relVoteUserPOJOs) {
+						if (voteItemId.longValue() == relVoteUserPOJO.getVoteItemId().longValue()) {
+							ret.setSuccess(true);
+							ret.setDesc("已经投过票");
+							return ret;
+						} else {
+							ret.setSuccess(false);
+							ret.setDesc("还没有投票");
+						}
+					}
+				} else {	// voteItemId is null
+					ret.setSuccess(false);
+					ret.setDesc("还没有投票");
+				}
+			} else {	// relVoteUserPOJOs is empty
+				ret.setSuccess(false);
+				ret.setDesc("还没有投票");
+			}
+			
+			
+			/*if (totalHasAddVote > 0) {
 				ret.setSuccess(true);
 				ret.setDesc("已经投过票");
 			} else {
 				ret.setSuccess(false);
 				ret.setDesc("还没有投票");
-			}
+			}*/
 			
 //			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -77,14 +137,19 @@ public class VoteItemController extends BaseController {
 	
 	@RequestMapping(value = "/api/media/voteItem/addVote", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public StatusPOJO addVote(@RequestParam("ids") Long[] ids, @RequestParam("voteId") Long voteId, Model model, 
+	public StatusPOJO addVote(@RequestParam("ids") Long[] ids, @RequestParam("voteId") Long voteId
+			, @RequestParam(value="userId", required=false) Long userId
+			, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
 			if (ids == null || ids.length < 1) {
 				throw new Exception("ids can't is NULL.");
 			}
-			Long userId = UserUtil.getCurrentUserId();
+
+			if (userId == null) {
+				userId = UserUtil.getCurrentUserId();
+			}
 			int result = -1;
 			for (int i = 0; i < ids.length; i++) {
 				VoteItemPOJO voteItemPOJO = new VoteItemPOJO();

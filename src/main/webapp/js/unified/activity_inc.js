@@ -106,6 +106,17 @@ $(document).ready(function() {
 				+ '">' +
 				'查看报名详情' + '</a>';*/
 
+
+				var href4Vote = $('#basePath').val() + '/web/unified/apply2inactivity/vote?activityId='  + full.activityId
+				+ '&activityTitle=' + (full.title.replace('|', '%7C'));
+				var link4Vote = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="表单汇总"' +
+						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href4Vote
+				+ '">'
+				+ '<span style="color: green;" class="glyphicon glyphicon-thumbs-up"></span>'
+				 +
+				/**'表单汇总' +*/
+				 '</a>';
+				 
 				var href2 = $('#basePath').val() + '/page/unified/apply2_in_activity.jsp?activityId='  + full.activityId
 				+ '&activityTitle=' + (full.title.replace('|', '%7C'));
 				var linkApply2 = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="表单汇总"' +
@@ -156,7 +167,7 @@ $(document).ready(function() {
 						+ '</a>';
 				
 				
-				return /*linkApply + " " + */linkApply2 + " " + linkEdit + " " + urlCopy
+				return /*linkApply + " " + */link4Vote + " " + linkApply2 + " " + linkEdit + " " + urlCopy
 					 + " " + picBtn + " " + apply2AttrModelBtn + " " + linkPublish;
 			}
 		}/*, {

@@ -15,6 +15,8 @@ public class VoteItemPOJO extends BasePOJO {
     private Long apply2Id;
     private Apply2POJO apply2POJO;
     
+    private Boolean beenVoted = false;
+    
 	public Long getVoteItemId() {
 		return voteItemId;
 	}
@@ -68,6 +70,12 @@ public class VoteItemPOJO extends BasePOJO {
 	}
 	public void setApply2POJO(Apply2POJO apply2pojo) {
 		apply2POJO = apply2pojo;
+	}
+	public Boolean getBeenVoted() {
+		return beenVoted;
+	}
+	public void setBeenVoted(Boolean beenVoted) {
+		this.beenVoted = beenVoted;
 	}
 
 }

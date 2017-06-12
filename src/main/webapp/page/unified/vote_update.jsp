@@ -24,6 +24,17 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="period">频率:</label>
+ 				<div class="">
+ 					<input class="form-control" id="period" name="period" placeholder="请输入本次互动主题, 例如 1, 7天">
+ 				</div>
+ 			</div><div class="form-group">
+ 				<label class="control-label" for="numOfPeriod">每次可投票个数:</label>
+ 				<div class="">
+ 					<input class="form-control" id="numOfPeriod" name="numOfPeriod" placeholder="请输入本次互动主题, 例如1, 3名">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
  				<label class="control-label" for="activityId">活动ID:</label>
  				<div class="">
  					<input class="form-control" id="activityId" name="activityId" readonly="readonly" placeholder="请输入本次投票相关的活动ID">

@@ -13,6 +13,8 @@ public class VoteSearchPOJO extends BaseSearchPOJO {
     private Date createDateTime;
     
     private Long activityId;
+    private Integer period;
+    private Integer numOfPeriod;
     
 	public Long getVoteId() {
 		return voteId;
@@ -61,6 +63,18 @@ public class VoteSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setActivityId(Long activityId) {
 		this.activityId = activityId;
+	}
+	public Integer getPeriod() {
+		return period;
+	}
+	public void setPeriod(Integer period) {
+		this.period = period;
+	}
+	public Integer getNumOfPeriod() {
+		return numOfPeriod;
+	}
+	public void setNumOfPeriod(Integer numOfPeriod) {
+		this.numOfPeriod = numOfPeriod;
 	}
 
 }

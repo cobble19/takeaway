@@ -1,5 +1,7 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.Date;
+
 
 
 public class RelVoteUserPOJO extends BasePOJO {
@@ -7,6 +9,7 @@ public class RelVoteUserPOJO extends BasePOJO {
     private Long voteId;
     private Long voteItemId;
     private Long userId;
+    private Date createDateTime;
     
 	public Long getRelVoteUserId() {
 		return relVoteUserId;
@@ -31,6 +34,12 @@ public class RelVoteUserPOJO extends BasePOJO {
 	}
 	public void setVoteItemId(Long voteItemId) {
 		this.voteItemId = voteItemId;
+	}
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
 	}
 
 }

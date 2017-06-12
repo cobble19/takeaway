@@ -15,6 +15,7 @@
     <result column="VOTE_ID" property="voteId" />
     <result column="VOTE_ITEM_ID" property="voteItemId"/>
     <result column="USER_ID" property="userId"/>
+    <result column="CREATE_DATE_TIME" property="createDateTime"/>
   </resultMap>
   
   
@@ -30,6 +31,12 @@
 	</if>
 	<if test="userId != null">
 		and USER_ID = #{userId}
+	</if>
+	<if test="startDateTime != null">
+		and CREATE_DATE_TIME &gt;= #{startDateTime}
+	</if>
+	<if test="endDateTime != null">
+		and CREATE_DATE_TIME &lt;= #{endDateTime}
 	</if>
   </sql>
   
