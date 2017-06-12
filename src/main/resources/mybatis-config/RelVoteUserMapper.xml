@@ -93,6 +93,7 @@
       <if test="userId != null" >
         USER_ID,
       </if>
+        CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="voteId != null" >
@@ -104,6 +105,7 @@
       <if test="userId != null" >
         #{userId},
       </if>
+        sysdate(),
     </trim>
   </insert>
   
@@ -119,6 +121,7 @@
       <if test="userId != null" >
         USER_ID = #{userId},
       </if>
+        CREATE_DATE_TIME = sysdate(),
     </set>
     where REL_VOTE_USER_ID = #{relVoteUserId}
   </update>
