@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Apply2POJO extends BasePOJO {
     private Long apply2Id;
+    private Long userId;
     private String openId;
     private String unionId;
     private String description;
@@ -60,6 +61,14 @@ public class Apply2POJO extends BasePOJO {
 
 	public void setUnionId(String unionId) {
 		this.unionId = unionId;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
     
 }

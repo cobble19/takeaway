@@ -12,6 +12,7 @@
 	
   <resultMap id="Apply2ResultMap" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
+    <result column="USER_ID" property="userId" />
     <result column="OPEN_ID" property="openId" />
     <result column="UNION_ID" property="unionId" />
     <result column="DESCRIPTION" property="description" />
@@ -20,6 +21,7 @@
   
   <resultMap id="Apply2Result2Map" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
+    <result column="USER_ID" property="userId" />
     <result column="OPEN_ID" property="openId" />
     <result column="UNION_ID" property="unionId" />
     <result column="DESCRIPTION" property="description" />
@@ -29,11 +31,20 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    apply2.APPLY2_ID, apply2.OPEN_ID, apply2.UNION_ID, apply2.DESCRIPTION, apply2.CREATE_DATE_TIME
+    apply2.APPLY2_ID, apply2.USER_ID, apply2.OPEN_ID, apply2.UNION_ID, apply2.DESCRIPTION, apply2.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="description != null">
-		and DESCRIPTION like concat("%", concat(#{description}, "%"))
+		and apply2.DESCRIPTION like concat("%", concat(#{description}, "%"))
+	</if>
+	<if test="userId != null">
+		and apply2.USER_ID = #{userId}
+	</if>
+	<if test="openId != null">
+		and apply2.OPEN_ID = #{openId}
+	</if>
+	<if test="unionId != null">
+		and apply2.UNION_ID = #{unionId}
 	</if>
   </sql>
   <select id="findsApply2InActivity" resultMap="Apply2ResultMap" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
@@ -143,14 +154,21 @@
     select 
     <include refid="Base_Column_List" />
     from p_apply2 apply2, rel_activity_apply2 raa2
-    where apply2.apply2_id = raa2.apply2_id
-    and raa2.ACTIVITY_ID = #{activityId}
-    <if test="startDateTime != null">
-    	and apply2.CREATE_DATE_TIME &gt;= #{startDateTime}
-    </if>
-    <if test="endDateTime != null">
-    	and apply2.CREATE_DATE_TIME &lt;= #{endDateTime}
-    </if>
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			and apply2.apply2_id = raa2.apply2_id
+			<if test="activityId != null">
+				and raa2.ACTIVITY_ID = #{activityId}
+			</if>
+		    <if test="startDateTime != null">
+		    	and apply2.CREATE_DATE_TIME &gt;= #{startDateTime}
+		    </if>
+		    <if test="endDateTime != null">
+		    	and apply2.CREATE_DATE_TIME &lt;= #{endDateTime}
+		    </if>
+  		</trim>
+  	</where>
     
   	order by apply2.CREATE_DATE_TIME asc
   </select>
@@ -162,6 +180,9 @@
   	keyProperty="apply2Id" keyColumn="APPLY2_ID">
     insert into p_apply2
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
       <if test="openId != null" >
         OPEN_ID,
       </if>
@@ -174,6 +195,9 @@
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
       <if test="openId != null" >
         #{openId},
       </if>
@@ -209,6 +233,9 @@
   <update id="update" parameterType="com.cobble.takeaway.pojo.Apply2POJO" >
     update p_apply2
     <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
       <if test="openId != null" >
         OPEN_ID = #{openId},
       </if>

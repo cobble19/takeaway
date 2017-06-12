@@ -119,6 +119,7 @@ public class Apply2Controller extends BaseController {
 				if (0 == i) {
 					Apply2POJO apply2pojo = new Apply2POJO();
 					apply2pojo.setDescription("活动id：" + activityId + ", i: " + i);
+					apply2pojo.setUserId(userId);
 					apply2pojo.setOpenId(openId);
 					apply2pojo.setUnionId(unionId);
 					apply2Service.insert(apply2pojo);
