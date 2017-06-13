@@ -13,21 +13,21 @@ $(document).ready(function() {
 		
 		var exist = existUser4VoteItem(voteId, null, userId);
 		if (exist) {
-			$.alert('您已经投过票了！');
+			alert('您已经投过票了！');
 			return;
 		}
 	
 		addVoteItem(voteId, ids);
 	});
 	
-	$('#voteBtn').click(function(event) {
+	$('.vote-click').click(function(event) {
 		var userId = $('#userId').val();
 		var voteId = $('#voteId').val();
 		var voteItemId = $(this).attr('voteItemId');
 		
 		var exist = existUser4VoteItem(voteId, voteItemId, userId);
 		if (exist) {
-			$.alert('您已经投过票了！');
+			alert('您已经投过票了！');
 			return;
 		}
 		addVoteItemX(voteId, voteItemId, userId);
@@ -96,7 +96,7 @@ var addVoteItem = function(voteId, voteItemIds) {
 		return;
 	}
 
-	$.showLoading('正在加载...');
+//	$.showLoading('正在加载...');
 	$.ajax({
 		"url" : $('#basePath').val() + "/api/media/voteItem/addVote",
 		"type" : "GET",
@@ -110,7 +110,7 @@ var addVoteItem = function(voteId, voteItemIds) {
             voteId: voteId
         },
         success: function(data, textStatus, jqXHR ) {
-        	$.hideLoading();
+//        	$.hideLoading();
         	window.location.reload();
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -137,7 +137,7 @@ var addVoteItemX = function(voteId, voteItemId, userId, $ele) {
 			return;
 		}
 	
-		$.showLoading('正在加载...');
+//		$.showLoading('正在加载...');
 		$.ajax({
 			"url" : $('#basePath').val() + "/api/media/voteItem/addVote",
 			"type" : "GET",
@@ -152,7 +152,7 @@ var addVoteItemX = function(voteId, voteItemId, userId, $ele) {
 	            userId: userId
 	        },
 	        success: function(data, textStatus, jqXHR ) {
-	        	$.hideLoading();
+//	        	$.hideLoading();
 	        	window.location.reload();
 	        },
 	        error: function(jqXHR, textStatus, errorThrown) {

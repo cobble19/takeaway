@@ -36,10 +36,13 @@ import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.VoteItemPOJO;
 import com.cobble.takeaway.pojo.VotePOJO;
 import com.cobble.takeaway.pojo.VoteSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
+import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
 import com.cobble.takeaway.service.Apply2Service;
 import com.cobble.takeaway.service.RelVoteUserService;
 import com.cobble.takeaway.service.VoteItemService;
 import com.cobble.takeaway.service.VoteService;
+import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.UserUtil;
 
@@ -55,6 +58,8 @@ public class VoteController extends BaseController {
 	private Apply2Service apply2Service;
 	@Autowired
 	private RelVoteUserService relVoteUserService;
+	@Autowired
+	private WxPersonUserService wxPersonUserService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 
@@ -206,6 +211,170 @@ public class VoteController extends BaseController {
 		return ret;
 	}
 
+	// 通过activity的定制表单来实现
+		@RequestMapping(value = "/web/unified/vote/bs/query/{voteId}")
+		public ModelAndView listVoteById4UnifiedBootstrap(@PathVariable(value="voteId") Long voteId, 
+				@RequestParam(value="activityId") Long activityId,
+				@RequestParam(value="activityTitle") String activityTitle,
+				@RequestParam(value="voteItemId", required=false) Long voteItemId,
+				Model model, 
+				HttpServletRequest request, HttpServletResponse response) throws Exception {
+			ModelAndView ret = new ModelAndView();
+			VotePOJO votePOJO = new VotePOJO();
+			try {
+				if (voteId == null) {
+					throw new Exception("voteId can't is NULL.");
+				}
+				int result = -1;
+				Long userId = UserUtil.getCurrentUserId();
+				/*if (userId == null) {
+					throw new Exception("userId can't is NULL.");
+				}*/
+				// 获取vote
+				votePOJO  = voteService.findById(voteId);
+				
+				if (votePOJO == null) {
+					throw new Exception("投票活动无效, voteId: " + voteId);
+				}
+				
+				Long activityIdFromVote = votePOJO.getActivityId();
+				
+				if (activityId.longValue() != activityIdFromVote.longValue()) {
+					activityId = activityIdFromVote;
+				}
+				
+				String apply2AttrModelIds = votePOJO.getApply2AttrModelIds();
+				List<Long> apply2AttrModelIdList = CollectionUtilx.string2Longs(apply2AttrModelIds);
+				
+				// 获取voteItem
+				List<VoteItemPOJO> voteItemPOJOsTemp = voteItemService.findsByVoteId(voteId);
+				
+				List<VoteItemPOJO> voteItemPOJOs = new ArrayList<VoteItemPOJO>();
+				
+				if (CollectionUtils.isNotEmpty(voteItemPOJOsTemp) && voteItemId != null) {
+					Iterator<VoteItemPOJO> it = voteItemPOJOsTemp.iterator();
+					while (it.hasNext()) {
+						VoteItemPOJO voteItemPOJO = it.next();
+						if (voteItemId.longValue() == voteItemPOJO.getVoteItemId().longValue()) {
+							voteItemPOJOs.add(voteItemPOJO);
+							break;
+						}
+					}
+				} else {
+					voteItemPOJOs = voteItemPOJOsTemp;
+				}
+				
+				votePOJO.setVoteItemPOJOs(voteItemPOJOs);
+				
+				// 获取当前用户的投票的voteItem
+
+				Integer period = votePOJO.getPeriod();
+				Integer numOfPeriod = votePOJO.getNumOfPeriod();
+				if (numOfPeriod == null) {
+					numOfPeriod = 1;
+				}
+				
+				RelVoteUserSearchPOJO relVoteUserSearchPOJO = new RelVoteUserSearchPOJO();
+				relVoteUserSearchPOJO.setUserId(userId);
+				relVoteUserSearchPOJO.setVoteId(voteId);
+				if (period != null && period.intValue() > 0) {
+
+					Date curDateTime = new Date();
+					
+					Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
+					Date endDateTime = DateUtils.addSeconds(startDateTime, period.intValue() * 24 * 60 * 60 - 1);
+					
+					relVoteUserSearchPOJO.setStartDateTime(startDateTime);
+					relVoteUserSearchPOJO.setEndDateTime(endDateTime);
+				}
+//				Integer totalHasAddVote = relVoteUserService.getCount(relVoteUserSearchPOJO);
+				List<RelVoteUserPOJO> relVoteUserPOJOs = relVoteUserService.finds(relVoteUserSearchPOJO);
+				
+				// 获取apply2
+				Apply2SearchPOJO apply2SearchPOJO = new Apply2SearchPOJO();
+				apply2SearchPOJO.setActivityId(activityId);
+				List<Apply2POJO> apply2POJOs = apply2Service.finds2ByActivityId(apply2SearchPOJO);
+				if (CollectionUtils.isNotEmpty(apply2POJOs)) {
+					for (Apply2POJO apply2POJO : apply2POJOs) {
+						// 过滤掉不需要显示的apply2attrmodel
+						if (CollectionUtils.isNotEmpty(apply2AttrModelIdList)) {
+							List<Apply2AttrPOJO> apply2AttrPOJOs = apply2POJO.getApply2AttrPOJOs();
+							if (CollectionUtils.isNotEmpty(apply2AttrPOJOs)) {
+								Iterator<Apply2AttrPOJO> it = apply2AttrPOJOs.iterator();
+								while (it.hasNext()) {
+									Apply2AttrPOJO apply2AttrPOJO = it.next();
+									if (!apply2AttrModelIdList.contains(apply2AttrPOJO.getApply2AttrModelId())) {
+										it.remove();
+									}
+								}
+							}
+						}
+						// apply2 set into voteItem
+						if (CollectionUtils.isNotEmpty(voteItemPOJOs)) {
+							for (VoteItemPOJO voteItemPOJO : voteItemPOJOs) {
+								
+								if (CollectionUtils.isNotEmpty(relVoteUserPOJOs)) {
+									for (RelVoteUserPOJO relVoteUserPOJO : relVoteUserPOJOs) {
+										if (relVoteUserPOJO.getVoteItemId().longValue() == voteItemPOJO.getVoteItemId().longValue()) {
+											voteItemPOJO.setBeenVoted(true);
+											break;
+										}
+									}
+								}
+								
+								if (voteItemPOJO.getApply2Id().longValue() == apply2POJO.getApply2Id().longValue()) {
+									// get wxPersonUserPOJO
+									WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+									wxPersonUserSearchPOJO.setUserId(apply2POJO.getUserId());
+									List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
+									WxPersonUserPOJO wxPersonUserPOJO = new WxPersonUserPOJO();
+									if (CollectionUtils.isNotEmpty(wxPersonUserPOJOs)) {
+										wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+										ret.addObject("wxPersonPOJO", wxPersonUserPOJO);
+									}
+									
+									voteItemPOJO.setApply2POJO(apply2POJO);
+									voteItemPOJO.setWxPersonUserPOJO(wxPersonUserPOJO);
+									break;
+								}
+							}
+						}
+						
+					}
+				}
+				
+				/*if (CollectionUtils.isNotEmpty(apply2POJOs) && CollectionUtils.isNotEmpty(voteItemPOJOs)) {
+					for (Apply2POJO apply2POJO : apply2POJOs) {
+						// apply2 set into voteItem
+						for (VoteItemPOJO voteItemPOJO : voteItemPOJOs) {
+							if (voteItemPOJO.getApply2Id().longValue() == apply2POJO.getApply2Id().longValue()) {
+								voteItemPOJO.setApply2POJO(apply2POJO);
+								break;
+							}
+						}
+					}
+				}*/
+
+				// get current wxPersonUserPOJO
+				WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+				wxPersonUserSearchPOJO.setUserId(userId);
+				List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
+				if (CollectionUtils.isNotEmpty(wxPersonUserPOJOs)) {
+					WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+					ret.addObject("wxPersonPOJO", wxPersonUserPOJO);
+				}
+				
+				ret.addObject("votePOJO", votePOJO);
+				ret.setViewName("/page/unified/vote_item_by_vote_id_bs");
+			} catch (Exception e) {
+				logger.error("insert error.", e);
+				throw e;
+			}
+			
+			
+			return ret;
+		}
+		
 	// 通过activity的定制表单来实现
 	@RequestMapping(value = "/web/unified/vote/custom/query/{voteId}")
 	public ModelAndView listVoteById4Unified4Custom(@PathVariable(value="voteId") Long voteId, Model model, 

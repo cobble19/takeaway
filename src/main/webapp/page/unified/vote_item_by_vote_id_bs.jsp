@@ -5,8 +5,12 @@
 <html lang="en">
 <head>
 <%@include file="../common/head.jsp"%>
+<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_item_by_vote_id_bs.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/activity_detail.js"></script>
 </head>
 <body>
+
+    <input type="hidden" id="voteId" value="${votePOJO.voteId}">
 	<div class="container-fluid">
 		<!-- 隐藏 -->
 		<div id="qrcodeDiv" class="col-md-12 col-xs-12"
@@ -68,73 +72,184 @@
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="home">
 				<div class="row" style="margin-top: 15px;">
-					<div class="media"
-						style="border: #F00 solid 1px; margin: 0px 5px; padding: 10px;">
-						<div class="media-left">
-							<a href="#"> <img style="max-width: none !important;"
-								class="media-object"
-								src="http://www.deweiyizhan.com/files/images/22_-1_2_.gif"
-								alt="" height="64" width="64">
-							</a>
+					<c:forEach items="${votePOJO.voteItemPOJOs}" var="voteItemPOJO" varStatus="st">
+						<div class="media"
+							style="border: #F00 solid 1px; margin: 0px 5px; padding: 10px;">
+							<div class="media-left">
+								<a href="#"> <img style="max-width: none !important;"
+									class="media-object"
+									src="${voteItemPOJO.wxPersonUserPOJO.headImgUrl}"
+									alt="" height="64" width="64">
+								</a>
+							</div>
+							<div class="media-body">
+								<h5 class="media-heading">No.<c:out value="${voteItemPOJO.voteItemId}"></c:out>:<c:out value="${voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out></h5>
+								<c:forEach items="${voteItemPOJO.apply2POJO.apply2AttrPOJOs}" var="apply2AttrPOJO" varStatus="st2">
+						          <li class="weui_media_info_meta" style="color:#000">
+									<h5><c:out value="${apply2AttrPOJO.apply2AttrModelName}"></c:out>:<c:out value="${apply2AttrPOJO.apply2AttrData}"></c:out></h5>
+						          </li>
+			        			</c:forEach>
+								<br />
+								<c:out value="${voteItemPOJO.beenVoted}"></c:out>
+								<button type="button" class="btn btn-default btn-sm vote-click" style="text-align: right;" 
+						          	
+						          	 voteItemId="${voteItemPOJO.voteItemId}">
+						          	 <c:if test="${voteItemPOJO.beenVoted == true}">
+									  	<span class="glyphicon glyphicon-heart" style="color: red;" aria-hidden="true"></span>
+									  </c:if>
+									  <c:if test="${voteItemPOJO.beenVoted == false}">
+									  	<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+									  </c:if>
+									   <c:out value="${voteItemPOJO.totalNum}"></c:out>
+								</button>
+								<!-- <h5 style="text-align: right;">
+									<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;9999
+								</h5> -->
+							</div>
 						</div>
-						<div class="media-body">
-							<h5 class="media-heading">No.1:奋斗的东少</h5>
-							<h5>姓名:曾昭东</h5>
-							<h5>口号:你的电台为你发声！</h5>
-							<br />
-							<h5 style="text-align: right;">
-								<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;9999
-							</h5>
-						</div>
-					</div>
-					<div class="media"
-						style="border: #F00 solid 1px; margin: 0px 5px; padding: 10px;">
-						<div class="media-left">
-							<a href="#"> <img style="max-width: none !important;"
-								class="media-object"
-								src="http://www.deweiyizhan.com/files/images/22_-1_2_.gif"
-								alt="" height="64" width="64">
-							</a>
-						</div>
-						<div class="media-body">
-							<h5 class="media-heading">No.2:奋斗的东少</h5>
-							<h5>姓名:曾昭东</h5>
-							<h5>口号:你的电台为你发声！</h5>
-							<br />
-							<h5 style="text-align: right;">
-								<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;9999
-							</h5>
-						</div>
-					</div>
-					<div class="media"
-						style="border: #F00 solid 1px; margin: 0px 5px; padding: 10px;">
-						<div class="media-left">
-							<a href="#"> <img style="max-width: none !important;"
-								class="media-object"
-								src="http://www.deweiyizhan.com/files/images/22_-1_2_.gif"
-								alt="" height="64" width="64">
-							</a>
-						</div>
-						<div class="media-body">
-							<h5 class="media-heading">No.3:奋斗的东少</h5>
-							<h5>姓名:曾昭东</h5>
-							<h5>口号:你的电台为你发声！</h5>
-							<br />
-							<h5 style="text-align: right;">
-								<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;9999
-							</h5>
-						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
-			<div role="tabpanel" class="tab-pane" id="profile">...</div>
-			<div role="tabpanel" class="tab-pane" id="messages">...</div>
+			<div role="tabpanel" class="tab-pane" id="profile">
+				活动: <c:out value="${votePOJO.title}"></c:out>
+				规则: <c:out value="${votePOJO.content}"></c:out>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="messages">
+				
+				<div class="row hidden-xs" style="height:150px;"></div>
+					<!-- 隐藏 -->
+		 			<div id="qrcodeDiv" class="col-md-12 col-xs-12" style="border:1px solid #CCC; display:none; margin: auto;">
+		 				<div class="thumbnail">
+					      <div class="caption">
+					        <h3>请通过长按识别二维码或微信扫描二维码关注公众号</h3>
+					        <p></p>
+					      </div>
+					      <img id="qrcodeImg" src="" alt="">
+					    </div>
+					</div>
+				
+				<div id="showDiv">
+					<div class="row">
+					  <div class="col-md-12 col-xs-12" >
+			            	<span style=" margin-top:20px; margin-bottom:20px; display:block;"><h3 id="title"></h3></span>                    
+			            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
+			            	               
+			            	<!-- <input type="hidden" id="authorizerAppId" name="authorizerAppId"/> -->
+					  </div>
+		            </div>
+		            <!--<div class="row visible-xs">
+		                <div class="col-xs-12">
+		                   <img src="" alt="" id="logoImg">
+		                </div>
+		            </div>-->
+					<div class="row">
+						<div class="col-md-12">
+						
+			            	<input type="hidden" id="startDateTime" name="startDateTime" />
+			            	<input type="hidden" id="endDateTime" name="endDateTime" />    
+						
+			            	<h5 style="margin-bottom:20px; display:block;float: left;margin-right:10px; color:#898989;"><span class="h5" id="createDateTime"></span></h5>
+		            	  	<h5 style=" margin-bottom:20px; display:block; float: left; color:#88a8c1;"><span class="h5" id="publisher"></span></h5>
+			            	<!--<h5 style="margin-bottom:10px; display:block;">组织者:<span class="h5" id="organiser"></span></h5>-->
+						</div>
+			        </div>
+					<div class="row" style="margin-top:10px;">
+		  			  	<% 
+		  			  		String hidContent = request.getParameter("hidContent");
+		  			  		if (!"1".equalsIgnoreCase(hidContent)) {
+		  			  	%>
+			  				<div class="col-md-12 col-xs-12">
+			  					<!-- <h4 class="" style="text-align: bottom;"><span id="title"></span></h4>
+			  					<hr/> -->
+					  			<p id="content"></p>
+					  			<!-- for update -->
+					  			<div style="" class="">
+				 					<!-- <textarea rows="5" cols="20" id="content" name="content" placeholder="请输入本次活动内容"></textarea>
+				 					<input class="form-control" type="text" id="content" name="content" placeholder="请输入本次活动内容"> -->
+				 					<script id="editor" type="text/plain" name="content"></script>
+				 				</div>
+					  			<!-- <hr/> -->
+			  				</div>
+			  				<%
+		  			  		}
+			  				%>
+		                    </div>
+		                    <div class="row" style="margin-left:2px; margin-right:2px;">
+		                    <div id="lineSplit" class="col-md-12 col-xs-12" style="margin-top:30px; border-bottom:5px ridge #ccc;"></div>
+		                    <div id="errorMsg4Activity" class="col-md-12 col-xs-12" 
+		                    	style="display: none; border:1px solid #CCC; padding-top:10px; margin-bottom:10px; font-size: xx-large; text-align: center;">
+		                    	<span style="color: red; text-align: center;"></span>
+		                    </div>
+			  				<div id="apply2Div" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
+				  				<div class="row col-md-12 col-xs-12">
+					  				<fieldset>
+											<form id="apply2Form" class="form-horizontal">
+													<!-- <div class="form-group">
+														<label for="usernameX" class="control-label h5">姓名: </label>
+														<input id="usernameX" name="username" minlength="2" required="required" value="" placeholder="请填写姓名" class="form-control" />
+													</div> -->
+													<!-- <div class="form-group">
+														<label for="phone" class="control-label h5">手机: </label>
+														<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
+													</div>
+													<div class="form-group">
+														<label for="sex" class="control-label h5">性别: </label>
+														<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
+														<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
+													</div>
+													<div class="form-group">
+														<label for="description" class="control-label h5">备注: </label> 
+														<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control"  style="margin-bottom:5px;"></textarea>
+													</div> -->
+													<div class="form-group">
+		                                                <div class="col-md-12">
+														<input type="button" id="apply2Btn" value="提交" class="btn btn-default" />
+		                                                </div>
+													</div>
+											</form>
+									</fieldset>	
+			  					</div>
+							</div>
+							<!-- 隐藏 -->
+			  				<div id="applyDiv" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px; display:none;">
+				  				<div class="row col-md-12 col-xs-12">
+					  				<fieldset>
+											<form id="applyForm" class="form-inline">
+													<div class="form-group">
+														<label for="usernameX" class="control-label h5">姓名: </label>
+														<input id="usernameX" name="username" minlength="2" required="required" value="" placeholder="请填写姓名" class="form-control" />
+													</div>
+													<div class="form-group">
+														<label for="phone" class="control-label h5">手机: </label>
+														<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
+													</div>
+													<div class="form-group">
+														<label for="sex" class="control-label h5">性别: </label>
+														<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
+														<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
+													</div>
+													<div class="form-group">
+														<label for="description" class="control-label h5">备注: </label> 
+														<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control"  style="margin-bottom:5px;"></textarea>
+													</div>
+													<div class="form-group">
+														<input type="button" id="applyBtn" value="提交" class="btn btn-default" />
+													</div>
+											</form>
+									</fieldset>	
+			  					</div>
+							</div>
+			  			</div>
+				</div><!-- for show -->
+				
+			</div>
 			<div role="tabpanel" class="tab-pane" id="search">
 				<div class="row">
-					<form class="form-inline">
+					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/bs/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}&activityTitle=${votePOJO.title}' method="post">
 						<div class="form-group">
-							<label class="sr-only" for="search">搜索</label> <input
-								style="width: auto; margin-left: 5px; float: left;" type="text"
+							<label class="sr-only" for="search">搜索</label> 
+							<input style="width: auto; margin-left: 5px; float: left;" type="text"
+								id="voteItemId" name="voteItemId"
 								class="form-control" placeholder="请输入编号">
 							<button style="margin-left: 5px; float: left;" type="submit"
 								class="btn btn-default">搜索</button>

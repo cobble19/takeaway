@@ -446,7 +446,7 @@ var showDetail = function() {
 	var activityId = getParam('activityId');
 	var hidContent = getParam('hidContent');
 	$.ajax({
-		"url" : "../../web/enterprise/activity/" + activityId,
+		"url" : $('#basePath').val() + "/web/enterprise/activity/" + activityId,
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"

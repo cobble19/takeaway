@@ -2,6 +2,8 @@ package com.cobble.takeaway.pojo;
 
 import java.util.Date;
 
+import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
+
 
 public class VoteItemPOJO extends BasePOJO {
     private Long voteItemId;
@@ -14,6 +16,8 @@ public class VoteItemPOJO extends BasePOJO {
     
     private Long apply2Id;
     private Apply2POJO apply2POJO;
+    
+    private WxPersonUserPOJO wxPersonUserPOJO = new WxPersonUserPOJO();
     
     private Boolean beenVoted = false;
     
@@ -76,6 +80,12 @@ public class VoteItemPOJO extends BasePOJO {
 	}
 	public void setBeenVoted(Boolean beenVoted) {
 		this.beenVoted = beenVoted;
+	}
+	public WxPersonUserPOJO getWxPersonUserPOJO() {
+		return wxPersonUserPOJO;
+	}
+	public void setWxPersonUserPOJO(WxPersonUserPOJO wxPersonUserPOJO) {
+		this.wxPersonUserPOJO = wxPersonUserPOJO;
 	}
 
 }
