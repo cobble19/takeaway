@@ -124,11 +124,17 @@ var buildTable = function(result) {
 			var ret = voteItemId == null ? "未审批" : "已审批";
 			var title = voteItemId == null ? "审批" : "撤销审批";
 			var icon = voteItemId == null ? ' glyphicon-ok-circle' : ' glyphicon-ban-circle'
+//			var approveVoteItemBtn = '<button id="approveVoteItem" class="btn btn-default btn-sm" ' + 
+//		     							' data-toggle="tooltip" data-placement="top" title="' + title + '"' +
+//		     							' onclick="javascript: approveVoteItem(this' + ',' + JSON.stringify(data).replace(/"/g, '&quot;') 
+//		     							+ ',' + 0 + ',' + JSON.stringify(full).replace(/"/g, '&quot;')
+//		     							 + ',' + JSON.stringify(meta).replace(/"/g, '&quot;') + ')"' + 
+//		     							'> ' + title + 
+//		     							' <span style="color: green;" class="glyphicon ' + icon + '"></span>' +
+//		     						'</button>';
 			var approveVoteItemBtn = '<button id="approveVoteItem" class="btn btn-default btn-sm" ' + 
 		     							' data-toggle="tooltip" data-placement="top" title="' + title + '"' +
-		     							' onclick="javascript: approveVoteItem(this' + ',' + JSON.stringify(data).replace(/"/g, '&quot;') 
-		     							+ ',' + 0 + ',' + JSON.stringify(full).replace(/"/g, '&quot;')
-		     							 + ',' + JSON.stringify(meta).replace(/"/g, '&quot;') + ')"' + 
+		     							' onclick="javascript: approveVoteItem(this' + ')"' + 
 		     							'> ' + title + 
 		     							' <span style="color: green;" class="glyphicon ' + icon + '"></span>' +
 		     						'</button>';
