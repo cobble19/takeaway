@@ -85,6 +85,7 @@ public class Apply2AttrModelServiceImpl implements Apply2AttrModelService {
 		List<Apply2AttrModelPOJO> ret = null;
 		Apply2AttrModelSearchPOJO apply2AttrModelSearchPOJO = new Apply2AttrModelSearchPOJO();
 		apply2AttrModelSearchPOJO.setActivityId(activityId);
+		apply2AttrModelSearchPOJO.setPaginationFlage(false);
 		ret = apply2AttrModelMapper.finds(apply2AttrModelSearchPOJO);
 		return ret;
 	}

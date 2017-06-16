@@ -55,7 +55,7 @@
 			<include refid="Clause_Common"/>
   		</trim>
   	</where>
-  	order by a.title asc, a.vote_item_id asc
+  	order by a.vote_item_id asc
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>

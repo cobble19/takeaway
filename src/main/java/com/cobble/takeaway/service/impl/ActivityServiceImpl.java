@@ -9,21 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cobble.takeaway.dao.ActivityMapper;
-import com.cobble.takeaway.dao.Apply2Mapper;
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
 import com.cobble.takeaway.pojo.Apply2POJO;
 import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.RelActivityUserPOJO;
 import com.cobble.takeaway.service.ActivityService;
+import com.cobble.takeaway.service.Apply2Service;
 
 @Service
 public class ActivityServiceImpl implements ActivityService {
 	
 	@Autowired
 	private ActivityMapper activityMapper;
+	/*@Autowired
+	private Apply2Mapper apply2Mapper;*/
 	@Autowired
-	private Apply2Mapper apply2Mapper;
+	private Apply2Service apply2Service;
 
 	@Override
 	public int insert(ActivityPOJO activityPOJO, Long userId) throws Exception {
@@ -124,7 +126,7 @@ public class ActivityServiceImpl implements ActivityService {
 		Apply2SearchPOJO apply2SearchPOJO = new Apply2SearchPOJO();
 		apply2SearchPOJO.setActivityId(id);
 		
-		List<Apply2POJO> apply2pojos = apply2Mapper.finds2ByActivityId(apply2SearchPOJO);
+		List<Apply2POJO> apply2pojos = apply2Service.finds2ByActivityId(apply2SearchPOJO);
 		if (ret != null && CollectionUtils.isNotEmpty(apply2pojos)) {
 			ret.setApply2POJOs(apply2pojos);
 		}
@@ -142,7 +144,7 @@ public class ActivityServiceImpl implements ActivityService {
 		apply2SearchPOJO.setStartDateTime(startDateTime);
 		apply2SearchPOJO.setEndDateTime(endDateTime);
 		
-		List<Apply2POJO> apply2pojos = apply2Mapper.finds2ByActivityId(apply2SearchPOJO);
+		List<Apply2POJO> apply2pojos = apply2Service.finds2ByActivityId(apply2SearchPOJO);
 		if (ret != null && CollectionUtils.isNotEmpty(apply2pojos)) {
 			ret.setApply2POJOs(apply2pojos);
 		}

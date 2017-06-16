@@ -454,7 +454,8 @@ public class ActivityController extends BaseController {
 				}
 				VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
 				voteItemSearchPOJO.setApply2Ids(apply2Ids);
-				
+				voteItemSearchPOJO.setPaginationFlage(false);
+				// Map<apply2Id, >
 				Map<Long, VoteItemPOJO> voteItemMaps = voteItemService.finds4Map(voteItemSearchPOJO);
 				
 				for (int i = 0; i < apply2pojos.size(); i++) {	// an apply2 VS a record

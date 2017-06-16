@@ -26,8 +26,8 @@
     <result column="UNION_ID" property="unionId" />
     <result column="DESCRIPTION" property="description" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
-    <collection property="apply2AttrPOJOs" column="APPLY2_ID" ofType="com.cobble.takeaway.pojo.Apply2AttrPOJO"
-    		select="com.cobble.takeaway.dao.Apply2AttrMapper.finds2ByApply2Id"></collection>
+    <!-- <collection property="apply2AttrPOJOs" column="APPLY2_ID" ofType="com.cobble.takeaway.pojo.Apply2AttrPOJO"
+    		select="com.cobble.takeaway.dao.Apply2AttrMapper.finds2ByApply2Id"></collection> -->
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -149,8 +149,8 @@
     from p_apply2 apply2
     where APPLY2_ID = #{apply2Id}
   </select>
-  
-  <select id="finds2ByActivityId" resultMap="Apply2Result2Map" parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
+  <!-- Apply2Result2Map -->
+  <select id="finds2ByActivityId" resultMap="Apply2ResultMap" parameterType="com.cobble.takeaway.pojo.Apply2SearchPOJO" >
     select 
     <include refid="Base_Column_List" />
     from p_apply2 apply2, rel_activity_apply2 raa2
