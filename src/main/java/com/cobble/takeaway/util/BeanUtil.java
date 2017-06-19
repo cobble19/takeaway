@@ -24,7 +24,7 @@ public class BeanUtil {
 	private static WebApplicationContext webAppContext = null;
 	private static ClassPathXmlApplicationContext classPathXmlAppContext = null;
 
-	public static Object get(String beanName) {
+	public static synchronized Object get(String beanName) {
 		if (webAppContext != null) {
 			return webAppContext.getBean(beanName);
 		} else if (classPathXmlAppContext != null) {
@@ -35,17 +35,17 @@ public class BeanUtil {
 		return classPathXmlAppContext.getBean(beanName);
 	}
 
-	private static void initClassPathXmlAppContext() {
+	private static synchronized void initClassPathXmlAppContext() {
 		classPathXmlAppContext = new ClassPathXmlApplicationContext(
 				"classpath*:/applicationContext*.xml");
 	}
 
-	public static void initWebAppContext(
+	public static synchronized void initWebAppContext(
 			WebApplicationContext webApplicationContext) {
 		BeanUtil.webAppContext = webApplicationContext;
 	}
 
-	public static DefaultListableBeanFactory getBeanFactory() {
+	public static synchronized DefaultListableBeanFactory getBeanFactory() {
 		if (webAppContext != null) {
 			return (DefaultListableBeanFactory) (((XmlWebApplicationContext) webAppContext)
 					.getBeanFactory());
