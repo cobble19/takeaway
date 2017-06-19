@@ -428,6 +428,14 @@ public class ActivityController extends BaseController {
 			activityPOJO = activityService.find2ById(activityId, startDateTime, endDateTime);
 			logger.info("activityPOJO convert to Json: " + JsonUtils.convertToJson(activityPOJO));
 			
+			long voteId = -99999;
+			VoteSearchPOJO voteSearchPOJO = new VoteSearchPOJO();
+			voteSearchPOJO.setActivityId(activityId);
+			List<VotePOJO> votePOJOs = voteService.finds(voteSearchPOJO);
+			if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(votePOJOs)) {
+				voteId = votePOJOs.get(0).getVoteId();
+			}
+			
 			List<Map> maps = new ArrayList<Map>();
 			List<String> columns = new ArrayList<String>();
 			List<String> trHeaderNames = new ArrayList<String>();
@@ -445,15 +453,16 @@ public class ActivityController extends BaseController {
 			
 			List<Apply2POJO> apply2pojos = activityPOJO.getApply2POJOs();
 			
-			List<Long> apply2Ids = new ArrayList<Long>();
+			/*List<Long> apply2Ids = new ArrayList<Long>();*/
 			
 			
 			if (!CollectionUtils.isEmpty(apply2pojos)) {
-				for (int i = 0; i < apply2pojos.size(); i++) {
+				/*for (int i = 0; i < apply2pojos.size(); i++) {
 					apply2Ids.add(apply2pojos.get(i).getApply2Id());
-				}
+				}*/
 				VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
-				voteItemSearchPOJO.setApply2Ids(apply2Ids);
+//				voteItemSearchPOJO.setApply2Ids(apply2Ids);
+				voteItemSearchPOJO.setVoteId(voteId);
 				voteItemSearchPOJO.setPaginationFlage(false);
 				// Map<apply2Id, >
 				Map<Long, VoteItemPOJO> voteItemMaps = voteItemService.finds4Map(voteItemSearchPOJO);
