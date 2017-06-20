@@ -129,7 +129,7 @@
 					</div>
 				
 				<div id="showDiv">
-					<div class="row">
+					<div class="row" style="display:none;">
 					  <div class="col-md-12 col-xs-12" >
 			            	<span style=" margin-top:20px; margin-bottom:20px; display:block;"><h3 id="title"></h3></span>                    
 			            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
@@ -142,7 +142,7 @@
 		                   <img src="" alt="" id="logoImg">
 		                </div>
 		            </div>-->
-					<div class="row">
+					<div class="row" style="display:none;">
 						<div class="col-md-12">
 						
 			            	<input type="hidden" id="startDateTime" name="startDateTime" />
@@ -153,7 +153,7 @@
 			            	<!--<h5 style="margin-bottom:10px; display:block;">组织者:<span class="h5" id="organiser"></span></h5>-->
 						</div>
 			        </div>
-					<div class="row" style="margin-top:10px;">
+					<div class="row" style="margin-top:10px; display:none;">
 		  			  	<% 
 		  			  		String hidContent = request.getParameter("hidContent");
 		  			  		if (!"1".equalsIgnoreCase(hidContent)) {
