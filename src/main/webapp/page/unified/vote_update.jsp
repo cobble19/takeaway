@@ -61,9 +61,9 @@
  			<div class="form-group">
  				<label class="control-label" for="content">介绍:</label>
  				<div style="" class="">
- 					<textarea rows="5" cols="" id="content" name="content" placeholder="请输入内容" class="form-control"></textarea>
+ 					<!-- <textarea rows="5" cols="" id="content" name="content" placeholder="请输入内容" class="form-control"></textarea> -->
  					<!-- <input class="form-control" type="text" id="content" name="content" placeholder="请输入本次活动内容"> -->
- 					<!-- <script id="editor" type="text/plain" name="content"></script> -->
+ 					<script id="editor" type="text/plain" name="content"></script>
  				</div>
  			</div>
  			<div class="form-group">

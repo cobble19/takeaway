@@ -1,13 +1,13 @@
-/*var ue;*/
+var ue;
 $(document).ready(function() {
-	/*if (!ue) {
+	if (!ue) {
 		ue = UE.getEditor('editor', {
 			initialFrameHeight: 400
 		});
 		ue.ready(function() {
 			showDetail();
 		});
-	}*/
+	}
 	
 
 	/*$('#startDateTime').datetimepicker({
@@ -30,7 +30,7 @@ $(document).ready(function() {
 //			alert('结束时间不能小于开始时间');
 		}
 	})*/
-	showDetail();
+//	showDetail();
 	
 	$('#voteForm').validate();
 

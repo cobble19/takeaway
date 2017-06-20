@@ -23,6 +23,7 @@
     <result column="CITY" property="city" />
     <result column="PROVINCE" property="province" />
     <result column="COUNTRY" property="country" />
+    <result column="HEAD_IMG_URL" property="headImgUrl" />
     <result column="SUBSCRIBE" property="subscribe" />
     <result column="SUBSCRIBE_TIME" property="subscribeTime" />
     <result column="PRIVILEGES" property="privileges" />

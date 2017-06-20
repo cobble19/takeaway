@@ -95,6 +95,22 @@ var applyInActivitySearch = function() {
 ///
 var buildTable = function(result) {
 	columns = [];
+	
+	var chkColumn = {
+			    /*"className":      'details-control',*/
+			    "orderable":      false,
+			    "data":           null,
+			    "defaultContent": ''
+			};
+    var noColumn = {
+                /*"className":      'details-control',*/
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            };
+    columns.push(chkColumn);
+    columns.push(noColumn);
+	
 	var temp = result.columns;
 	$.each(temp, function(i, e) {
 		column = {
@@ -154,6 +170,27 @@ var buildTable = function(result) {
 	};
 	columnDefs.push(columnDef);
 	
+	var chkTarget = {
+			"targets" : 0,
+			"render" : function(data, type, full, meta) {
+				var checkBox = '<input type="checkbox" name="chkBox" value="'
+					+ full.activityId
+					+ '">';
+				return checkBox;
+				;
+			}
+		};
+	var noTarget = {
+			"targets" : 1,
+			"render" : function(data, type, full, meta) {
+				//console.log(data + " " + type + " " + full + " " + meta);
+			}
+		};
+	columnDefs.push(chkTarget);
+	columnDefs.push(noTarget);
+	
+	$('#trHeader').append('<th><input type="checkbox" name="chkBoxAll" id="chkBoxAll">全选</th>');
+	$('#trHeader').append('<th>序号</th>');
 	
 	$.each(result.trHeaderNames, function(i, e){
 		$('#trHeader').append('<th>' + e + '</th>');
@@ -228,10 +265,69 @@ var buildTable = function(result) {
     .to$()
     .addClass( 'new' );
     $('#dbTable').DataTable().draw();
+    
+    
+    $('#dbTable').DataTable().on( 'order.dt search.dt', function () {
+    	$('#dbTable').DataTable().column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
+    
+    
+    $('#chkBoxAll').click(function() {
+    	var chkBoxAll = $(this).attr('checked');
+    	if (chkBoxAll) {
+    		$('#dbTable').find('input[name=chkBox]').attr('checked', true);
+    	} else {
+    		$('#dbTable').find('input[name=chkBox]').attr('checked', false);
+    	}
+    })
+
+    $('#approveBtn4Vote').click(function() {
+    	var chkBox = $('#dbTable').find('input[name=chkBox]');
+    	
+    	var voteItemPOJOs = [];
+    	
+		var apply2AttrModelIds = "";
+		
+		$('input[name=apply2AttrModelId]:checked').each(function(index, ele) {
+			apply2AttrModelIds += $(this).val() + ",";
+		});
+		apply2AttrModelIds = apply2AttrModelIds.substring(0, apply2AttrModelIds.length - 1);
+    	
+    	chkBox.each(function(index, ele) {
+//    		console.log($(this).val() + ele.value);
+        	var tr = $(this).closest('tr');
+            var row = $('#dbTable').DataTable().row( tr );
+    		if ($(this).attr('checked')) {
+				var voteItemId = row.data().voteItemId;
+				var apply2Id = row.data().apply2Id;
+				
+    			var voteItemPOJO = {
+					"apply2Id": apply2Id,
+			        "voteItemId": voteItemId
+				}
+    			voteItemPOJOs.push(voteItemPOJO);
+    		}
+    	})
+//    	console.log('voteItemPOJO: ' + voteItemPOJO);
+    	if (voteItemPOJOs == null || voteItemPOJOs.length <= 0) {
+    		alert('请选择一条记录');
+    		return;
+    	}
+
+    	var confirm = window.confirm('确定审批');
+    	if (!confirm) {
+    		return;
+    	}
+    	submitVoteItemApprove(voteItemPOJOs, apply2AttrModelIds);
+    })
+    
 	return ;
 }
 ///
 ///
+/// data, type, full, meta,数据量太大, 不用了
 var approveVoteItem = function(btn, data, type, full, meta) {
 	console.log(this);
 	var activityId = getParam('activityId');
@@ -257,30 +353,60 @@ var approveVoteItem = function(btn, data, type, full, meta) {
 		return;
 	}
 	
-	var confirmMsg = voteItemId == null ? '通过审批?' : '撤销审批?'
+	var confirmMsg = voteItemId == null ? '审批通过?' : '撤销审批?'
 
 	var confirm = window.confirm(confirmMsg);
 	if (!confirm) {
 		return;
 	}
+	
+	var voteItemPOJOs = [];
+//	var voteItemPOJO = {
+//		"apply2Id": apply2Id,
+//        "voteItemId": voteItemId
+//	}
+	var voteItemPOJO = {};
+	voteItemPOJO.apply2Id = apply2Id;
+	voteItemPOJO.voteItemId = voteItemId;
+	voteItemPOJOs.push(voteItemPOJO);
+	
+	submitVoteItemApprove(voteItemPOJOs, apply2AttrModelIds);
+}
+///
+///
+var submitVoteItemApprove = function(voteItemPOJOs, apply2AttrModelIds) {
+	
+	var activityId = getParam('activityId');
+	
+//	var voteItemParamPOJO = {
+//		"voteItemPOJOs": voteItemPOJOs
+//	};
+	var voteItemParamPOJO = {};
+	voteItemParamPOJO.voteItemPOJOs = voteItemPOJOs;
+	
+	var params = {};
+	for (var i = 0; i < voteItemPOJOs.length; i++) {
+		var voteItemPOJO = voteItemPOJOs[i];
+		for (var key in voteItemPOJO) {
+			params['voteItemPOJOs[' + i + '].' + key] = voteItemPOJO[key];
+		}
+	}
+	params.apply2AttrModelIds = apply2AttrModelIds;
+	
 	$('#progress').dialog('open');
 	$.ajax({
 		"url" : $('#basePath').val() + "/api/apply2/v2/" + activityId + "/vote/approve",
-		"type" : "GET",
-		"headers" : {
-			"Content-Type" : "application/json"
-		},
+		"type" : "POST",
+//		"headers" : {
+//			"Content-Type" : "application/json"
+//		},
 		"dataType" : 'json',
-		traditional :true, 
-		"data": {
-            "apply2Id": apply2Id,
-            "voteItemId": voteItemId,
-            "apply2AttrModelIds": apply2AttrModelIds
-        },
+//		traditional :true, 
+		"data": params,
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');
         	if (data.success) {
-        		alert(confirmMsg + '成功');
+        		alert('审批' + '成功');
         	}
         	window.location.reload();
 //        	applyInActivitySearch();

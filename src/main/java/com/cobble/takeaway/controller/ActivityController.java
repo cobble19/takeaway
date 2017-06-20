@@ -49,6 +49,7 @@ import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.VoteItemPOJO;
+import com.cobble.takeaway.pojo.VoteItemParamPOJO;
 import com.cobble.takeaway.pojo.VoteItemSearchPOJO;
 import com.cobble.takeaway.pojo.VotePOJO;
 import com.cobble.takeaway.pojo.VoteSearchPOJO;
@@ -297,15 +298,19 @@ public class ActivityController extends BaseController {
 	// else delete voteItemId
 	@RequestMapping(value = "/api/apply2/v2/{activityId}/vote/approve", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public Map query4ApproveToVoteItem(@PathVariable("activityId") Long activityId
-			, @RequestParam(value="apply2Id") Long apply2Id
-			, @RequestParam(value="voteItemId", required=false) Long voteItemId
+	public Map query4ApproveToVoteItem(
+			VoteItemParamPOJO voteItemParamPOJO
+			, @PathVariable("activityId") Long activityId
+			/*, @RequestParam(value="apply2Id") Long apply2Id
+			, @RequestParam(value="voteItemId", required=false) Long voteItemId*/
 			, @RequestParam(value="apply2AttrModelIds", required=false) String apply2AttrModelIds
 			, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map ret = new HashMap();
 		ActivityPOJO activityPOJO = new ActivityPOJO();
 		try {
+			List<VoteItemPOJO> voteItemPOJOs = voteItemParamPOJO.getVoteItemPOJOs();
+			
 			Long userId = UserUtil.getCurrentUserId();
 
 			activityPOJO = activityService.find2ById(activityId);
@@ -318,10 +323,10 @@ public class ActivityController extends BaseController {
 				votePOJO = votePOJOs.get(0);
 			}
 			
-			VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
-			voteItemSearchPOJO.setApply2Id(apply2Id);
+//			VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
+//			voteItemSearchPOJO.setApply2Id(apply2Id);
 			
-			List<VoteItemPOJO> voteItems = voteItemService.finds(voteItemSearchPOJO);
+//			List<VoteItemPOJO> voteItems = voteItemService.finds(voteItemSearchPOJO);
 			
 			if (votePOJO == null) {
 				logger.error("votePOJO is null");
@@ -337,18 +342,21 @@ public class ActivityController extends BaseController {
 				voteService.insert(votePOJO);
 			}
 			
-			if (voteItemId == null) {
-				VoteItemPOJO voteItemPOJO = new VoteItemPOJO();
-				voteItemPOJO.setApply2Id(apply2Id);
-				voteItemPOJO.setDescription("create by back code");
-				voteItemPOJO.setTotalNum(0);
-				voteItemPOJO.setVoteId(votePOJO.getVoteId());
-				voteItemService.insert(voteItemPOJO, userId);
-			} else {
-				// delete, un approved
-				for (int i = 0; i < voteItems.size(); i++) {
-					VoteItemPOJO voteItemPOJO = voteItems.get(i);
-					voteItemService.delete(voteItemPOJO.getVoteItemId());
+			
+			for (int i = 0; i < voteItemPOJOs.size(); i++) {
+				VoteItemPOJO temp = voteItemPOJOs.get(i);
+				Long voteItemId = temp.getVoteItemId();
+				Long apply2Id = temp.getApply2Id();
+				if (voteItemId == null) {
+					VoteItemPOJO voteItemPOJO = new VoteItemPOJO();
+					voteItemPOJO.setApply2Id(apply2Id);
+					voteItemPOJO.setDescription("create by back code");
+					voteItemPOJO.setTotalNum(0);
+					voteItemPOJO.setVoteId(votePOJO.getVoteId());
+					voteItemService.insert(voteItemPOJO, userId);
+				} else {
+					// delete, un approved
+					voteItemService.delete(voteItemId);
 				}
 			}
 			

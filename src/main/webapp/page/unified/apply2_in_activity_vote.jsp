@@ -29,6 +29,9 @@
   			<button class="btn btn-default" id="settingFilter4VoteBtn">
   			显示信息 <span style="" class="glyphicon glyphicon-cog"></span>
   			</button>
+  			<button class="btn btn-default" id="approveBtn4Vote">
+  			审批 <span style="" class="glyphicon glyphicon-check"></span>
+  			</button>
   			<%-- <a class="btn btn-success" href='<cmn:base/>/api/apply2/v2/export/xls?activityId=${param.activityId}'>导出</a> --%>
   		</div>
   		

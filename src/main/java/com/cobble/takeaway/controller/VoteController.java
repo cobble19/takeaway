@@ -221,6 +221,7 @@ public class VoteController extends BaseController {
 				HttpServletRequest request, HttpServletResponse response) throws Exception {
 			ModelAndView ret = new ModelAndView();
 			VotePOJO votePOJO = new VotePOJO();
+			Apply2POJO apply2POJORet = null;
 			try {
 				if (voteId == null) {
 					throw new Exception("voteId can't is NULL.");
@@ -296,6 +297,12 @@ public class VoteController extends BaseController {
 				List<Apply2POJO> apply2POJOs = apply2Service.finds2ByActivityId(apply2SearchPOJO);
 				if (CollectionUtils.isNotEmpty(apply2POJOs)) {
 					for (Apply2POJO apply2POJO : apply2POJOs) {
+						// 获取当前登录用户的apply2POJO
+						if (apply2POJO.getUserId() != null && userId != null) {
+							if (apply2POJO.getUserId() == userId.longValue()) {
+								apply2POJORet = apply2POJO;
+							}
+						}
 						// 过滤掉不需要显示的apply2attrmodel
 						if (CollectionUtils.isNotEmpty(apply2AttrModelIdList)) {
 							List<Apply2AttrPOJO> apply2AttrPOJOs = apply2POJO.getApply2AttrPOJOs();
@@ -335,6 +342,14 @@ public class VoteController extends BaseController {
 									
 									voteItemPOJO.setApply2POJO(apply2POJO);
 									voteItemPOJO.setWxPersonUserPOJO(wxPersonUserPOJO);
+									// 当前登录用户
+									if (apply2POJO.getUserId() != null && userId != null) {
+										if (apply2POJO.getUserId() == userId.longValue()) {
+											apply2POJORet = apply2POJO;
+											apply2POJORet.setVoteItemPOJO(voteItemPOJO); 
+										}
+									}
+									
 									break;
 								}
 							}
@@ -365,6 +380,7 @@ public class VoteController extends BaseController {
 				}
 				
 				ret.addObject("votePOJO", votePOJO);
+				ret.addObject("apply2POJO", apply2POJORet);
 				ret.setViewName("/page/unified/vote_item_by_vote_id_bs");
 			} catch (Exception e) {
 				logger.error("insert error.", e);

@@ -83,14 +83,15 @@
 								</a>
 							</div>
 							<div class="media-body">
-								<h5 class="media-heading">No.<c:out value="${voteItemPOJO.voteItemId}"></c:out>:<c:out value="${voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out></h5>
+								<h5 class="media-heading">编号: <c:out value="${voteItemPOJO.voteItemId}"></c:out></h5>
+								昵称:<c:out value="${voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out>
 								<c:forEach items="${voteItemPOJO.apply2POJO.apply2AttrPOJOs}" var="apply2AttrPOJO" varStatus="st2">
 						          <li class="weui_media_info_meta" style="color:#000">
 									<h5><c:out value="${apply2AttrPOJO.apply2AttrModelName}"></c:out>:<c:out value="${apply2AttrPOJO.apply2AttrData}"></c:out></h5>
 						          </li>
 			        			</c:forEach>
 								<br />
-								<c:out value="${voteItemPOJO.beenVoted}"></c:out>
+								<%-- <c:out value="${voteItemPOJO.beenVoted}"></c:out> --%>
 								<button type="button" class="btn btn-default btn-sm vote-click" style="text-align: right;" 
 						          	
 						          	 voteItemId="${voteItemPOJO.voteItemId}">
@@ -112,10 +113,39 @@
 			</div>
 			<div role="tabpanel" class="tab-pane" id="profile">
 				活动: <c:out value="${votePOJO.title}"></c:out>
-				规则: <c:out value="${votePOJO.content}"></c:out>
+				规则: <p><c:out value="${votePOJO.content}"></c:out></p>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="messages">
+				<div class="row">
+					<c:if test="${apply2POJO != null}">
+						<c:forEach items="${apply2POJO.apply2AttrPOJOs}" var="apply2AttrPOJO" varStatus="st2">
+				          <li class="weui_media_info_meta" style="color:#000">
+							<h5><c:out value="${apply2AttrPOJO.apply2AttrModelName}"></c:out>:<c:out value="${apply2AttrPOJO.apply2AttrData}"></c:out></h5>
+				          </li>
+	        			</c:forEach>
+	        			<c:if test="${apply2POJO.voteItemPOJO != null}">
+	        				<h5 class="media-heading">编号: <c:out value="${apply2POJO.voteItemPOJO.voteItemId}"></c:out></h5>
+	        				昵称:<c:out value="${voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out>
+							票数: <c:out value="${apply2POJO.voteItemPOJO.totalNum}"></c:out>
+	        			</c:if>
+				          
+					</c:if>
+				</div>
 				
+				<div class="row">
+					<c:if test="${apply2POJO != null}">
+						<c:forEach items="${apply2POJO.apply2AttrPOJOs}" var="apply2AttrPOJO" varStatus="st2">
+				          <li class="weui_media_info_meta" style="color:#000">
+							<h5><c:out value="${apply2AttrPOJO.apply2AttrModelName}"></c:out>:<c:out value="${apply2AttrPOJO.apply2AttrData}"></c:out></h5>
+				          </li>
+	        			</c:forEach>
+	        			<c:if test="${apply2POJO.voteItemPOJO != null}">
+	        				<h5 class="media-heading">编号: <c:out value="${apply2POJO.voteItemPOJO.voteItemId}"></c:out>:<c:out value="${apply2POJO.voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out></h5>
+							票数: <c:out value="${apply2POJO.voteItemPOJO.totalNum}"></c:out>
+	        			</c:if>
+				          
+					</c:if>
+				</div>
 				<div class="row hidden-xs" style="height:150px;"></div>
 					<!-- 隐藏 -->
 		 			<div id="qrcodeDiv" class="col-md-12 col-xs-12" style="border:1px solid #CCC; display:none; margin: auto;">
@@ -180,6 +210,7 @@
 		                    	style="display: none; border:1px solid #CCC; padding-top:10px; margin-bottom:10px; font-size: xx-large; text-align: center;">
 		                    	<span style="color: red; text-align: center;"></span>
 		                    </div>
+		                    
 			  				<div id="apply2Div" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
 				  				<div class="row col-md-12 col-xs-12">
 					  				<fieldset>
@@ -266,3 +297,4 @@
 	<!-- container -->
 </body>
 </html>
+
