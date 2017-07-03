@@ -1,6 +1,7 @@
 package com.cobble.takeaway.pojo.weixin;
 
 import java.util.Date;
+import java.util.List;
 
 import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
@@ -35,6 +36,9 @@ public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
     private Integer memberFlag;
     
     private Date createDateTime;
+    
+    // for search
+    private List<Long> userIds;
 
     public String getOpenId() {
         return openId;
@@ -170,6 +174,14 @@ public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
 
 	public void setMemberFlag(Integer memberFlag) {
 		this.memberFlag = memberFlag;
+	}
+
+	public List<Long> getUserIds() {
+		return userIds;
+	}
+
+	public void setUserIds(List<Long> userIds) {
+		this.userIds = userIds;
 	}
 
 }

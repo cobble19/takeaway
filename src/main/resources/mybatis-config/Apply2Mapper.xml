@@ -46,6 +46,18 @@
 	<if test="unionId != null">
 		and apply2.UNION_ID = #{unionId}
 	</if>
+    <if test="startDateTime != null">
+    	and apply2.CREATE_DATE_TIME &gt;= #{startDateTime}
+    </if>
+    <if test="endDateTime != null">
+    	and apply2.CREATE_DATE_TIME &lt;= #{endDateTime}
+    </if>
+    <if test="apply2Ids != null">
+    	and apply2.APPLY2_ID in
+    	<foreach collection="apply2Ids" item="apply2Id" open="(" close=")" separator=",">
+    		#{apply2Id}
+    	</foreach>
+    </if>
   </sql>
   <select id="findsApply2InActivity" resultMap="Apply2ResultMap" parameterType="com.cobble.takeaway.pojo.ActivitySearchPOJO" >
     select
@@ -161,12 +173,6 @@
 			<if test="activityId != null">
 				and raa2.ACTIVITY_ID = #{activityId}
 			</if>
-		    <if test="startDateTime != null">
-		    	and apply2.CREATE_DATE_TIME &gt;= #{startDateTime}
-		    </if>
-		    <if test="endDateTime != null">
-		    	and apply2.CREATE_DATE_TIME &lt;= #{endDateTime}
-		    </if>
   		</trim>
   	</where>
     

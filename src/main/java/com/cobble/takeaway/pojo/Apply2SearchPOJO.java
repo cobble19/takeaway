@@ -1,5 +1,7 @@
 package com.cobble.takeaway.pojo;
 
+import java.util.List;
+
 
 public class Apply2SearchPOJO extends BaseSearchPOJO {
 	private Long apply2Id;
@@ -10,6 +12,8 @@ public class Apply2SearchPOJO extends BaseSearchPOJO {
     private String wxIndexCode;
 
     private Long activityId;
+    
+    private List<Long> apply2Ids;
 
 	public Long getApply2Id() {
 		return apply2Id;
@@ -57,6 +61,14 @@ public class Apply2SearchPOJO extends BaseSearchPOJO {
 
 	public void setWxIndexCode(String wxIndexCode) {
 		this.wxIndexCode = wxIndexCode;
+	}
+
+	public List<Long> getApply2Ids() {
+		return apply2Ids;
+	}
+
+	public void setApply2Ids(List<Long> apply2Ids) {
+		this.apply2Ids = apply2Ids;
 	}
     
 }

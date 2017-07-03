@@ -24,6 +24,8 @@ public class BaseSearchPOJO implements Serializable {
 	private Date startDateTime;
 	private Date endDateTime;
 	
+	private String sort;
+	private String orderBy = "desc";
 	
 	// all data
 	
@@ -93,4 +95,21 @@ public class BaseSearchPOJO implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
 }

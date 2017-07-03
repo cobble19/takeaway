@@ -125,6 +125,7 @@ public class Apply2ServiceImpl implements Apply2Service {
 		Apply2AttrSearchPOJO apply2AttrSearchPOJO = new Apply2AttrSearchPOJO();
 		apply2AttrSearchPOJO.setActivityId(apply2SearchPOJO.getActivityId());
 		apply2AttrSearchPOJO.setPaginationFlage(false);
+		apply2AttrSearchPOJO.setApply2Ids(apply2SearchPOJO.getApply2Ids());
 		List<Apply2AttrPOJO> apply2AttrPOJOs = apply2AttrMapper.finds(apply2AttrSearchPOJO);
 		// Map<apply2Id, >
 		Map<Long, List<Apply2AttrPOJO>> map = new HashMap<Long, List<Apply2AttrPOJO>>();

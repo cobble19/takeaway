@@ -16,6 +16,9 @@ public class VoteItemSearchPOJO extends BaseSearchPOJO {
     private List<Long> apply2Ids;
     private Long apply2Id;
     
+    private Long activityId;
+    private List<Long> apply2AttrModelIds;
+    
 	public Long getVoteItemId() {
 		return voteItemId;
 	}
@@ -69,6 +72,18 @@ public class VoteItemSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setApply2Id(Long apply2Id) {
 		this.apply2Id = apply2Id;
+	}
+	public Long getActivityId() {
+		return activityId;
+	}
+	public void setActivityId(Long activityId) {
+		this.activityId = activityId;
+	}
+	public List<Long> getApply2AttrModelIds() {
+		return apply2AttrModelIds;
+	}
+	public void setApply2AttrModelIds(List<Long> apply2AttrModelIds) {
+		this.apply2AttrModelIds = apply2AttrModelIds;
 	}
 
 }

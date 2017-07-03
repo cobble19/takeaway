@@ -43,6 +43,12 @@
 	<if test="apply2AttrData != null">
 		and a.Apply2_ATTR_DATA = ${apply2AttrData}
 	</if>
+	<if test="apply2Ids != null">
+		and a.APPLY2_ID in
+		<foreach collection="apply2Ids" item="apply2Id" open="(" close=")" separator=",">
+			#{apply2Id}
+		</foreach>
+	</if>
   </sql>
   
   <select id="finds" resultMap="Apply2AttrResultMap" parameterType="com.cobble.takeaway.pojo.Apply2AttrSearchPOJO" >

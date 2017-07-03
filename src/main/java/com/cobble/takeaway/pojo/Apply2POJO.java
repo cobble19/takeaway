@@ -15,7 +15,7 @@ public class Apply2POJO extends BasePOJO {
     
     private List<Apply2AttrPOJO> apply2AttrPOJOs = new ArrayList<Apply2AttrPOJO>();
     
-    private VoteItemPOJO voteItemPOJO = null;
+//    private VoteItemPOJO voteItemPOJO = null;
 
 	public Long getApply2Id() {
 		return apply2Id;
@@ -73,12 +73,12 @@ public class Apply2POJO extends BasePOJO {
 		this.userId = userId;
 	}
 
-	public VoteItemPOJO getVoteItemPOJO() {
+	/*public VoteItemPOJO getVoteItemPOJO() {
 		return voteItemPOJO;
 	}
 
 	public void setVoteItemPOJO(VoteItemPOJO voteItemPOJO) {
 		this.voteItemPOJO = voteItemPOJO;
-	}
+	}*/
     
 }

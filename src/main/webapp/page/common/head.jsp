@@ -31,6 +31,8 @@
 	<!-- jQuery datetime -->
     <script src="<cmn:base/>/js/thirdpart/jquery-datetimepicker-2.4.3/jquery.datetimepicker.js"></script>
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-datetimepicker-2.4.3/jquery.datetimepicker.css">
+	
+    
     <!-- Bootstrap -->
     <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -86,12 +88,12 @@
 	<%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/zeroclipboard/ZeroClipboard.min.js"></script> --%>
 	
 	<!-- JQuery-weui -->
-	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/weui/weui.css">
+	<%-- <link rel="stylesheet" href="<cmn:base/>/js/thirdpart/weui/weui.css">
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/weui/jquery-weui.css">
-    <%--<script src="<cmn:base/>/js/thirdpart/weui/jquery-weui.js"></script>
-    <script src="<cmn:base/>/js/thirdpart/weui/city-picker.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/weui/jquery-weui.js"></script> --%>
+    <%-- <script src="<cmn:base/>/js/thirdpart/weui/city-picker.js"></script>
     <script src="<cmn:base/>/js/thirdpart/weui/swiper.js"></script>
-    <script src="<cmn:base/>/js/thirdpart/weui/zepto.js"></script>--%>
+    <script src="<cmn:base/>/js/thirdpart/weui/zepto.js"></script> --%>
     
     <!-- Mustache -->
     <script src="<cmn:base/>/js/thirdpart/mustache/mustache.js"></script>

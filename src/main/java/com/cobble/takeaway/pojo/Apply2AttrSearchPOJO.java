@@ -12,6 +12,7 @@ public class Apply2AttrSearchPOJO extends BaseSearchPOJO {
     private Long apply2Id;
     
     private List<Long> apply2AttrModelIds;
+    private List<Long> apply2Ids;
     
 	public Long getApply2AttrId() {
 		return apply2AttrId;
@@ -54,5 +55,11 @@ public class Apply2AttrSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setApply2AttrModelIds(List<Long> apply2AttrModelIds) {
 		this.apply2AttrModelIds = apply2AttrModelIds;
+	}
+	public List<Long> getApply2Ids() {
+		return apply2Ids;
+	}
+	public void setApply2Ids(List<Long> apply2Ids) {
+		this.apply2Ids = apply2Ids;
 	}
 }

@@ -64,6 +64,12 @@
 	<if test="memberFlag != null">
 		and a.MEMBER_FLAG = #{memberFlag}
 	</if>
+	<if test="userIds != null">
+		and a.USER_ID in 
+		<foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+			#{userId}
+		</foreach>
+	</if>
   </sql>
   
   <select id="findFulls" resultMap="WxPersonUserResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO" >

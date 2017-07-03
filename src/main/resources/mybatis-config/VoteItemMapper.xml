@@ -41,6 +41,9 @@
 			#{apply2Id}
 		</foreach>
 	</if>
+	<if test="voteItemId != null">
+		and a.VOTE_ITEM_ID = #{voteItemId}
+	</if>
   </sql>
   
   <select id="finds" resultMap="VoteItemResultMap" parameterType="com.cobble.takeaway.pojo.VoteItemSearchPOJO" >
@@ -55,7 +58,12 @@
 			<include refid="Clause_Common"/>
   		</trim>
   	</where>
-  	order by a.vote_item_id asc
+  	<if test="sort != null and sort != ''">
+  		order by a.${sort} ${orderBy}
+  	</if>
+  	<if test="sort == null or sort == ''">
+  		order by a.vote_item_id asc
+  	</if>
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>

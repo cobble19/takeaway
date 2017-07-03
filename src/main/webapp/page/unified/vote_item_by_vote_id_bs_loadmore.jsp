@@ -4,9 +4,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<%@include file="../common/head.jsp"%>
-<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_item_by_vote_id_bs.js"></script>
+<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <c:if test="${not empty documentTitle}">
+    	<title>${documentTitle}</title>
+    </c:if>
+    <c:if test="${empty documentTitle}">
+    	<title>得味驿站</title>
+    </c:if>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="<cmn:base/>/jquery/jquery-1.11.1.min.js"></script>
+    <script src="<cmn:base/>/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <!-- jQuery Validation -->
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/jquery.validate.min.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/additional-methods.min.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/jquery-validation-1.13.1/jquery.validate.message.zh_cn.js"></script>
+    
+    
+    <script src="<cmn:base/>/bootstrap/js/bootstrap.min.js"></script>
+    
+    <style>
+		form label.error {
+			color: #f00; font-size:12px;
+		}
+	</style>
+    <!-- jQuery UI -->
+    <script src="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.min.css">
+	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.structure.min.css">
+	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.theme.min.css">
+	<!-- jQuery datetime -->
+    <%-- <script src="<cmn:base/>/js/thirdpart/jquery-datetimepicker-2.4.3/jquery.datetimepicker.js"></script>
+	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-datetimepicker-2.4.3/jquery.datetimepicker.css"> --%>
+	
+    
+    <!-- Bootstrap -->
+    <link href="<cmn:base/>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<cmn:base/>/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	<!-- UEditor -->    
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/ueditor/lang/zh-cn/zh-cn.js"></script>
+    
+<%-- <script src="<cmn:base/>/js/jquery-1.2.4b.js" type="text/javascript"></script> --%>
+	<!-- conflict with jQuery-ui -->
+    <!--<script src="<cmn:base/>/js/ui.core.js" type="text/javascript"></script>
+	<script src="<cmn:base/>/js/ui.tabs.js" type="text/javascript"></script>-->
+	<!-- <script type="text/javascript" src="http://api.go2map.com/maps/js/api_v2.5.1.js"></script> -->
+	<!-- <script src="js/jquery-1.2.4b.js" type="text/javascript"></script> -->
+	
+	
+	<!-- <script src="js/ui.core.js" type="text/javascript"></script>
+	<script src="js/ui.tabs.js" type="text/javascript"></script> -->
+
+	<!-- DataTables -->
+    <%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/media/js/jquery.dataTables.min.js"></script>
+    <link href="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/media/css/jquery.dataTables.min.css" rel="stylesheet"> --%>
+    <!-- DataTables integration Bootstrap -->
+    <%-- <script src="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/DataTables-1.10.2-trial/integration/bootstrap/3/dataTables.bootstrap.css"> --%>
+	<!-- Date.format('Y-m-d H:i:s'); -->
+	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/date.format.js"></script>
+	
+	<%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/jquery-zeroclipboard/jquery.zeroclipboard.js"></script> --%>
+	
+	<%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/jquery-clipboard/jquery.clipboard.js"></script> --%>
+	
+	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/clipboard/clipboard.min.js"></script>
+	
+	<%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/zeroclipboard/ZeroClipboard.min.js"></script> --%>
+	
+	<!-- JQuery-weui -->
+	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/weui/weui.css">
+	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/weui/jquery-weui.css">
+    <script src="<cmn:base/>/js/thirdpart/weui/jquery-weui.js"></script>
+    <%-- <script src="<cmn:base/>/js/thirdpart/weui/city-picker.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/weui/swiper.js"></script>
+    <script src="<cmn:base/>/js/thirdpart/weui/zepto.js"></script> --%>
+    
+    <!-- Mustache -->
+    <script src="<cmn:base/>/js/thirdpart/mustache/mustache.js"></script>
+	
+	
+	
+    
+    <!-- customer -->
+    <!-- 公共的函数 -->
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/common.js"></script>
+    <link href="<cmn:base/>/css/common.css" rel="stylesheet">
+	<link href="<cmn:base/>/css/dwsy.css" rel="stylesheet" media="print, projection, screen">
+    <!-- <link href="css/dwsy.css" rel="stylesheet" media="print, projection, screen"> -->
+    <!--<link href="<cmn:base/>/css/wm.css" rel="stylesheet">-->
+    
+	<input id="basePath" type="hidden" value='<cmn:base/>'>
+	<c:set var="basePath"><cmn:base/></c:set>
+	<input id="userId" type="hidden" value='${sessionScope.myUser.userId}'>
+	<input id="username" type="hidden" value='${sessionScope.myUser.username}'>
+	
+	<input id="unionId" type="hidden" value='${sessionScope.unionId}'>
+	<input id="openId" type="hidden" value='${sessionScope.openId}'>
+	<input id="authorizerAppId" type="hidden" value='${sessionScope.authorizerAppId}'>
+	<input id="indexCode" type="hidden" value='${sessionScope.indexCode}'>
+	
+<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_item_by_vote_id_bs_loadmore.js"></script>
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/activity_detail.js"></script>
+    
+    <style type="text/css">
+    	.t-focus {
+    		color: #ff0000 !important;
+    	}
+    </style>
 </head>
 <body>
 
@@ -66,49 +179,68 @@
 			</ul>
 		</nav>
 
-
-
-		<!-- Tab panes -->
-		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane active" id="home">
+<script id="homeTmpl" type="x-tmpl-mustache">
 				<div class="row" style="margin-top: 15px;">
-					<c:forEach items="${votePOJO.voteItemPOJOs}" var="voteItemPOJO" varStatus="st">
+					{{#data}}
 						<div class="media"
 							style="border: #F00 solid 1px; margin: 0px 5px; padding: 10px;">
 							<div class="media-left">
 								<a href="#"> <img style="max-width: none !important;"
 									class="media-object"
-									src="${voteItemPOJO.wxPersonUserPOJO.headImgUrl}"
+									src="{{wxPersonUserPOJO.headImgUrl}}"
 									alt="" height="64" width="64">
 								</a>
 							</div>
 							<div class="media-body">
-								<h5 class="media-heading">编号: <c:out value="${voteItemPOJO.voteItemId}"></c:out></h5>
-								昵称:<c:out value="${voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out>
-								<c:forEach items="${voteItemPOJO.apply2POJO.apply2AttrPOJOs}" var="apply2AttrPOJO" varStatus="st2">
+								<h5 class="media-heading">编号: {{voteItemId}}</h5>
+								昵称:{{wxPersonUserPOJO.nickname}}
+								{{#apply2POJO.apply2AttrPOJOs}}
 						          <li class="weui_media_info_meta" style="color:#000">
-									<h5><c:out value="${apply2AttrPOJO.apply2AttrModelName}"></c:out>:<c:out value="${apply2AttrPOJO.apply2AttrData}"></c:out></h5>
+									<h5>{{apply2AttrModelName}}:{{apply2AttrData}}</h5>
 						          </li>
-			        			</c:forEach>
+			        			{{/apply2POJO.apply2AttrPOJOs}}
 								<br />
 								<%-- <c:out value="${voteItemPOJO.beenVoted}"></c:out> --%>
 								<button type="button" class="btn btn-default btn-sm vote-click" style="text-align: right;" 
 						          	
-						          	 voteItemId="${voteItemPOJO.voteItemId}">
-						          	 <c:if test="${voteItemPOJO.beenVoted == true}">
+						          	 voteItemId="{{voteItemId}}">
+						          	  {{#beenVoted}}
 									  	<span class="glyphicon glyphicon-heart" style="color: red;" aria-hidden="true"></span>
-									  </c:if>
-									  <c:if test="${voteItemPOJO.beenVoted == false}">
+									  {{/beenVoted}}
+									  {{^beenVoted}}
 									  	<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-									  </c:if>
-									   <c:out value="${voteItemPOJO.totalNum}"></c:out>
+									  {{/beenVoted}}
+									   <c:out value="{{totalNum}}"></c:out>
 								</button>
 								<!-- <h5 style="text-align: right;">
 									<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;9999
 								</h5> -->
 							</div>
 						</div>
-					</c:forEach>
+					{{/data}}
+					{{^data}}
+						<span>没有数据</span>
+					{{/data}}
+				</div>
+</script>
+<script id="paginationTmpl" type="x-tmpl-mustache">
+<input type="text" id="start" name="start" value="{{start}}" />
+<input type="text" id="limit" name="limit" value="{{limit}}" />
+<input type="text" id="paginationFlage" name="paginationFlage" value="{{paginationFlage}}" />
+</script>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="home">
+				<button class="btn btn-default" id="sortDate">时间排序</button>
+				<button class="btn btn-default" id="sortNum">票数排序</button>
+				<div class="row" id="pagination">
+				</div>
+				<div class="row" id="homeContent">
+				</div>
+				
+				<div class="weui-infinite-scroll" id="homeInfinite">
+				  <div class="infinite-preloader"></div><!-- 菊花 -->
+				  正在加载... <!-- 文案，可以自行修改 -->
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="profile">
@@ -126,24 +258,11 @@
 	        			<c:if test="${apply2POJO.voteItemPOJO != null}">
 	        				<h5 class="media-heading">编号: <c:out value="${apply2POJO.voteItemPOJO.voteItemId}"></c:out></h5>
 	        				昵称:<c:out value="${apply2POJO.voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out>
-	        				<br/>
 							票数: <c:out value="${apply2POJO.voteItemPOJO.totalNum}"></c:out>
 	        			</c:if>
 				          
 					</c:if>
 				</div> --%>
-				
-				<div class="row hidden-xs" style="height:150px;"></div>
-					<!-- 隐藏 -->
-		 			<div id="qrcodeDiv" class="col-md-12 col-xs-12" style="border:1px solid #CCC; display:none; margin: auto;">
-		 				<div class="thumbnail">
-					      <div class="caption">
-					        <h3>请通过长按识别二维码或微信扫描二维码关注公众号</h3>
-					        <p></p>
-					      </div>
-					      <img id="qrcodeImg" src="" alt="">
-					    </div>
-					</div>
 				
 				<div id="showDiv">
 					<div class="row" style="display:none;">
@@ -212,8 +331,7 @@
 					        			</c:forEach>
 					        			<c:if test="${voteItemPOJO != null}">
 					        				<h5 class="media-heading">编号: <c:out value="${voteItemPOJO.voteItemId}"></c:out></h5>
-					        				昵称:<c:out value="${wxPersonUserPOJO.nickname}"></c:out>
-					        				<br/>
+					        				昵称:<c:out value="${voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out>
 											票数: <c:out value="${voteItemPOJO.totalNum}"></c:out>
 					        			</c:if>
 								          
@@ -253,42 +371,13 @@
 			  					</div>
 							</div>
 							</c:if>
-							<!-- 隐藏 -->
-			  				<div id="applyDiv" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px; display:none;">
-				  				<div class="row col-md-12 col-xs-12">
-					  				<fieldset>
-											<form id="applyForm" class="form-inline">
-													<div class="form-group">
-														<label for="usernameX" class="control-label h5">姓名: </label>
-														<input id="usernameX" name="username" minlength="2" required="required" value="" placeholder="请填写姓名" class="form-control" />
-													</div>
-													<div class="form-group">
-														<label for="phone" class="control-label h5">手机: </label>
-														<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
-													</div>
-													<div class="form-group">
-														<label for="sex" class="control-label h5">性别: </label>
-														<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
-														<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
-													</div>
-													<div class="form-group">
-														<label for="description" class="control-label h5">备注: </label> 
-														<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control"  style="margin-bottom:5px;"></textarea>
-													</div>
-													<div class="form-group">
-														<input type="button" id="applyBtn" value="提交" class="btn btn-default" />
-													</div>
-											</form>
-									</fieldset>	
-			  					</div>
-							</div>
 			  			</div>
 				</div><!-- for show -->
 				
 			</div>
 			<div role="tabpanel" class="tab-pane" id="search">
 				<div class="row">
-					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/bs/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}&activityTitle=${votePOJO.title}' method="post">
+					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/loadmore/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}&activityTitle=${votePOJO.title}' method="post">
 						<div class="form-group">
 							<label class="sr-only" for="search">搜索</label> 
 							<input style="width: auto; margin-left: 5px; float: left;" type="text"
