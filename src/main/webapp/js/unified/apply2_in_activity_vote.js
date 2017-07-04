@@ -136,10 +136,12 @@ var buildTable = function(result) {
 			// voteItemId
 			console.log("length - 1: " + full);
 			var voteItemId = full.voteItemId;
+			var approveFlag = full.approveFlag;
+			var unapproved = (approveFlag == null || approveFlag == 0);
 			
-			var ret = voteItemId == null ? "未审批" : "已审批";
-			var title = voteItemId == null ? "审批" : "撤销审批";
-			var icon = voteItemId == null ? ' glyphicon-ok-circle' : ' glyphicon-ban-circle'
+			var ret = unapproved ? "未审批" : "已审批";
+			var title = unapproved ? "审批" : "撤销审批";
+			var icon = unapproved ? ' glyphicon-ok-circle' : ' glyphicon-ban-circle'
 //			var approveVoteItemBtn = '<button id="approveVoteItem" class="btn btn-default btn-sm" ' + 
 //		     							' data-toggle="tooltip" data-placement="top" title="' + title + '"' +
 //		     							' onclick="javascript: approveVoteItem(this' + ',' + JSON.stringify(data).replace(/"/g, '&quot;') 
@@ -161,7 +163,7 @@ var buildTable = function(result) {
 	columnDefs.push(columnDef);
 	
 	columnDef = {
-		"targets": columns.length - 4,
+		"targets": columns.length - 5,
 		"visible": true,
 		"render" : function(data, type, full, meta) {
 			var createDateTime = new Date(full.createDateTime);
@@ -337,6 +339,12 @@ var approveVoteItem = function(btn, data, type, full, meta) {
 	var rowData = data[0];
 	
 	var voteItemId = rowData.voteItemId;
+	var approveFlag = rowData.approveFlag;
+	if (approveFlag == null) {
+		approveFlag = 0;
+	}
+	var unapproved = (approveFlag == null || approveFlag == 0);
+	
 	
 	var apply2Id = rowData.apply2Id;
 	
@@ -353,7 +361,7 @@ var approveVoteItem = function(btn, data, type, full, meta) {
 		return;
 	}
 	
-	var confirmMsg = voteItemId == null ? '审批通过?' : '撤销审批?'
+	var confirmMsg = unapproved ? '审批通过?' : '撤销审批?'
 
 	var confirm = window.confirm(confirmMsg);
 	if (!confirm) {
@@ -368,6 +376,7 @@ var approveVoteItem = function(btn, data, type, full, meta) {
 	var voteItemPOJO = {};
 	voteItemPOJO.apply2Id = apply2Id;
 	voteItemPOJO.voteItemId = voteItemId;
+	voteItemPOJO.approveFlag = approveFlag
 	voteItemPOJOs.push(voteItemPOJO);
 	
 	submitVoteItemApprove(voteItemPOJOs, apply2AttrModelIds);

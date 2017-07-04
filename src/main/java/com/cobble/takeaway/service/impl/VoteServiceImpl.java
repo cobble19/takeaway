@@ -488,7 +488,7 @@ public class VoteServiceImpl implements VoteService {
 				throw new Exception("userId can't is NULL.");
 			}*/
 			// 获取vote
-			votePOJO  = this.findById(voteId);
+			votePOJO = this.findById(voteId);
 			
 			if (votePOJO == null) {
 				throw new Exception("投票活动无效, voteId: " + voteId);

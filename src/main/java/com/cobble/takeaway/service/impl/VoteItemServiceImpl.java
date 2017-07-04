@@ -34,6 +34,8 @@ public class VoteItemServiceImpl implements VoteItemService {
 	@Override
 	public int insert(VoteItemPOJO voteItemPOJO, Long userId) throws Exception {
 		int ret = 0;
+		int maxOrderNo = this.getMaxOrderNoByVoteId(voteItemPOJO.getVoteId());
+		voteItemPOJO.setOrderNo(maxOrderNo + 1);
 		ret = voteItemMapper.insert(voteItemPOJO);
 		return ret;
 	}
@@ -146,6 +148,15 @@ public class VoteItemServiceImpl implements VoteItemService {
 			throws Exception {
 		int ret = 0;
 		ret = voteItemMapper.increaseTotalNumPlusOne(voteItemPOJO);
+		return ret;
+	}
+
+	@Override
+	public int getMaxOrderNoByVoteId(Long voteId) throws Exception {
+		int ret = 0;
+		VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
+		voteItemSearchPOJO.setVoteId(voteId);
+		ret = voteItemMapper.getMaxOrderNo(voteItemSearchPOJO);
 		return ret;
 	}
 

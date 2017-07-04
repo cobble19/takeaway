@@ -12,6 +12,9 @@ public class VoteItemSearchPOJO extends BaseSearchPOJO {
     private String description;
     private Integer totalNum;
     private Date createDateTime;
+
+    private Integer orderNo;
+    private Integer approveFlag;
     
     private List<Long> apply2Ids;
     private Long apply2Id;
@@ -84,6 +87,18 @@ public class VoteItemSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setApply2AttrModelIds(List<Long> apply2AttrModelIds) {
 		this.apply2AttrModelIds = apply2AttrModelIds;
+	}
+	public Integer getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(Integer orderNo) {
+		this.orderNo = orderNo;
+	}
+	public Integer getApproveFlag() {
+		return approveFlag;
+	}
+	public void setApproveFlag(Integer approveFlag) {
+		this.approveFlag = approveFlag;
 	}
 
 }

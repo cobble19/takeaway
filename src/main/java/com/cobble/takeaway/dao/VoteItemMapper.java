@@ -15,4 +15,6 @@ public interface VoteItemMapper {
 	int deleteById(Long id) throws Exception;
 	int increaseTotalNumPlusOne(VoteItemPOJO voteItemPOJO) throws Exception;
 
+	int getMaxOrderNo(VoteItemSearchPOJO voteItemSearchPOJO) throws Exception;
+
 }

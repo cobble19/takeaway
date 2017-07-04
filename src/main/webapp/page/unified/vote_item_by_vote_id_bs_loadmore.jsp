@@ -32,10 +32,10 @@
 		}
 	</style>
     <!-- jQuery UI -->
-    <script src="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.js"></script>
+    <%-- <script src="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.min.css">
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.structure.min.css">
-	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.theme.min.css">
+	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-ui-1.11.4/jquery-ui.theme.min.css"> --%>
 	<!-- jQuery datetime -->
     <%-- <script src="<cmn:base/>/js/thirdpart/jquery-datetimepicker-2.4.3/jquery.datetimepicker.js"></script>
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-datetimepicker-2.4.3/jquery.datetimepicker.css"> --%>
@@ -224,9 +224,9 @@
 				</div>
 </script>
 <script id="paginationTmpl" type="x-tmpl-mustache">
-<input type="text" id="start" name="start" value="{{start}}" />
-<input type="text" id="limit" name="limit" value="{{limit}}" />
-<input type="text" id="paginationFlage" name="paginationFlage" value="{{paginationFlage}}" />
+<input type="hidden" id="start" name="start" value="{{start}}" />
+<input type="hidden" id="limit" name="limit" value="{{limit}}" />
+<input type="hidden" id="paginationFlage" name="paginationFlage" value="{{paginationFlage}}" />
 </script>
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -236,6 +236,9 @@
 				<div class="row" id="pagination">
 				</div>
 				<div class="row" id="homeContent">
+				</div>
+				<div class="row" id="noData" style="display:none;">
+					<span>没有更多的数据了!</span>
 				</div>
 				
 				<div class="weui-infinite-scroll" id="homeInfinite">

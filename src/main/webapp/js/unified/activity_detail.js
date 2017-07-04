@@ -17,10 +17,10 @@ $(document).ready(function() {
 	})
 	
 
-    $('#qrcodeDiv').dialog({
-    	autoOpen: false,
-    	modal: true
-    });
+//    $('#qrcodeDiv').dialog({
+//    	autoOpen: false,
+//    	modal: true
+//    });
 	
 })
 

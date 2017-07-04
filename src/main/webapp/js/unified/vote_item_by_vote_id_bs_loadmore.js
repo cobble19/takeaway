@@ -1,14 +1,26 @@
 $(document).ready(function() {
-	$('#home').infinite(500);
+//	$('#home').infinite(500);
 	var loading = false;  //状态标记
-	$('#home').infinite().on("infinite", function() {
-		console.log('22222');
-	  if(loading) return;
+	$(document.body).infinite().on("infinite", function() {
+//	  console.log('22222');
+	  if(loading) {
+	  	$('#homeInfinite').show();
+	  	return;
+	  } else {
+	  	$('#homeInfinite').hide();
+	  }
 	  loading = true;
 	  setTimeout(function() {
-	    $("#homeContent").append("<p> 我是新加载的内容 </p>");
+	  	if ('none' == $('#noData').css('display')) {
+		  	console.log('start: ' + $('#start').val());
+		  	var start = parseInt($('#start').val()) + parseInt($('#limit').val());
+		  	$('#start').val(start);
+	//	    $("#homeContent").append("<p> 我是新加载的内容 </p>");
+			voteItemSearchII();
+	  	}
 	    loading = false;
-	  }, 500);   //模拟延迟
+	    $('#homeInfinite').hide();
+	 }, 500);   //模拟延迟
 	});
 	
 	///
@@ -97,7 +109,7 @@ var voteItemSearchII = function() {
 	if (start == null || start == '' || start == undefined) {
 		start = 0;
 	} else {
-		start += limit;
+		start = parseInt(start) + parseInt(limit);
 	}
 	
 	var voteItemId = null;
@@ -107,7 +119,7 @@ var voteItemSearchII = function() {
 
 var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, start, limit, sort, orderBy) {
 	
-	$('#progress').dialog('open');
+//	$('#progress').dialog('open');
 	var basePath = $('#basePath').val();
 	$.ajax({
 		"url" : basePath + "/api/unified/vote/loadmore/query/" + voteId,
@@ -127,10 +139,12 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
             "paginationFlage": true
         },
         success: function(data, textStatus, jqXHR ) {
-        	$('#progress').dialog('close');
+//        	$('#progress').dialog('close');
         	var content = "";
         	if (data == null) {
         		console.log('response data is null');
+        		$('#noData').show();
+        		$('#homeInfinite').hide();
         		return;
         	}
 //        	if (data.success) {
@@ -161,7 +175,9 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
 					addVoteItemX(voteId, voteItemId, userId);
 				});	// end voteBtn click
 				///
-							
+				///
+				$('#homeInfinite').hide();
+				///
 				
 //        	}
         },

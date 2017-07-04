@@ -301,23 +301,47 @@ public class VoteController extends BaseController {
 				throw new Exception("userId can't is NULL.");
 			}*/
 
-
 			Long activityId = voteSearchPOJO.getActivityId();
 			String activityTitle = voteSearchPOJO.getActivityTitle();
 			Long voteItemId = voteSearchPOJO.getVoteItemId();
-			
-			Map map = voteService.listVoteById4UnifiedBootstrap(voteId, activityId, activityTitle, voteItemId, userId);
+			votePOJO = voteService.findById(voteId);
 
-			votePOJO = (VotePOJO) map.get("votePOJO");
-			apply2POJORet = (Apply2POJO) map.get("apply2POJO");
-			voteItemPOJORet = (VoteItemPOJO) map.get("voteItemPOJO");
-			wxPersonUserPOJO = (WxPersonUserPOJO) map.get("wxPersonUserPOJO");
-			
 			if (votePOJO == null) {
 				throw new Exception("投票活动无效, voteId: " + voteId);
 			}
+
+			/*Long voteId = votePOJO.getVoteId(); 
+			Long activityId = votePOJO.getActivityId();*/
+//			String apply2AttrModelIdsStr = votePOJO.getApply2AttrModelIds();
+//			Integer period = votePOJO.getPeriod();
+//			Integer numOfPeriod = votePOJO.getNumOfPeriod();
 			
-			ret.addObject("wxPersonUserPOJO", wxPersonUserPOJO);
+			/*Long voteItemId = voteSearchPOJO.getVoteItemId();
+			Long userId = voteSearchPOJO.getUserId();*/
+			Integer start = voteSearchPOJO.getStart();
+			Integer limit = voteSearchPOJO.getLimit();
+			String sort = voteSearchPOJO.getSort();
+			String orderBy = voteSearchPOJO.getOrderBy();
+			Boolean paginationFlag = voteSearchPOJO.getPaginationFlage();
+			
+			VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
+			voteItemSearchPOJO.setVoteItemId(voteItemId);
+			voteItemSearchPOJO.setUserId(userId);
+			voteItemSearchPOJO.setStart(start);
+			voteItemSearchPOJO.setLimit(limit);
+			voteItemSearchPOJO.setSort(sort);
+			voteItemSearchPOJO.setOrderBy(orderBy);
+			voteItemSearchPOJO.setPaginationFlage(paginationFlag);
+			
+//			Map map = voteService.listVoteById4UnifiedBootstrap(voteId, activityId, activityTitle, voteItemId, userId);
+			Map map = voteService.findCurrentVoteItem(voteItemSearchPOJO, votePOJO);
+
+//			votePOJO = (VotePOJO) map.get("votePOJO");
+			apply2POJORet = (Apply2POJO) map.get("apply2POJO");
+			voteItemPOJORet = (VoteItemPOJO) map.get("voteItemPOJO");
+//			wxPersonUserPOJO = (WxPersonUserPOJO) map.get("wxPersonUserPOJO");
+			
+//			ret.addObject("wxPersonUserPOJO", wxPersonUserPOJO);
 			ret.addObject("votePOJO", votePOJO);
 			ret.addObject("apply2POJO", apply2POJORet);
 			ret.addObject("voteItemPOJO", voteItemPOJORet);

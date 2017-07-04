@@ -19,11 +19,13 @@
     <result column="TOTAL_NUM" property="totalNum" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <result column="APPLY2_ID" property="apply2Id" />
+    <result column="ORDER_NO" property="orderNo" />
+    <result column="APPROVE_FLAG" property="approveFlag" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     a.VOTE_ITEM_ID, a.VOTE_ID, a.TITLE, a.IMG_URL, a.DESCRIPTION
-    , a.TOTAL_NUM, a.CREATE_DATE_TIME, a.APPLY2_ID
+    , a.TOTAL_NUM, a.CREATE_DATE_TIME, a.APPLY2_ID, a.ORDER_NO, a.APPROVE_FLAG
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -43,6 +45,9 @@
 	</if>
 	<if test="voteItemId != null">
 		and a.VOTE_ITEM_ID = #{voteItemId}
+	</if>
+	<if test="approveFlag != null">
+		and a.APPROVE_FLAG = #{approveFlag}
 	</if>
   </sql>
   
@@ -69,10 +74,21 @@
 	</if>
   </select>
   <select id="getCount" parameterType="com.cobble.takeaway.pojo.VoteItemSearchPOJO" resultType="java.lang.Integer" >
-    select count(1) from e_voteItem
+    select count(1) from v_vote_item
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="getMaxOrderNo" parameterType="com.cobble.takeaway.pojo.VoteItemSearchPOJO" resultType="java.lang.Integer" >
+    select ifnull(ORDER_NO, 0) from v_vote_item
+    <where>
+  		<trim prefixOverrides="and">
+  			<if test="voteId != null and voteId != ''">
+				and VOTE_ID = #{voteId}
+  			</if>
   		</trim>
   	</where>
   </select>
@@ -114,6 +130,12 @@
       <if test="apply2Id != null" >
         APPLY2_ID,
       </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="approveFlag != null" >
+        APPROVE_FLAG,
+      </if>
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -134,6 +156,12 @@
       </if>
       <if test="apply2Id != null" >
         #{apply2Id},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo},
+      </if>
+      <if test="approveFlag != null" >
+        #{approveFlag},
       </if>
         sysdate(),
     </trim>
@@ -159,6 +187,12 @@
       </if>
       <if test="apply2Id != null" >
         APPLY2_ID = #{apply2Id},
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo},
+      </if>
+      <if test="approveFlag != null" >
+        APPROVE_FLAG = #{approveFlag},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>

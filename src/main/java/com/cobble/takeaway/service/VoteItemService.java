@@ -21,5 +21,7 @@ public interface VoteItemService {
 	
 	int increaseTotalNumPlusOne(VoteItemPOJO voteItemPOJO) throws Exception;
 	List<VoteItemPOJO> findsByVote(VotePOJO votePOJO) throws Exception;
+	
+	int getMaxOrderNoByVoteId(Long voteId) throws Exception;
 
 }

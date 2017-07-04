@@ -14,6 +14,9 @@ public class VoteItemPOJO extends BasePOJO {
     private Integer totalNum;
     private Date createDateTime;
     
+    private Integer orderNo;
+    private Integer approveFlag;
+    
     private Long apply2Id;
     private Apply2POJO apply2POJO;
     
@@ -86,6 +89,18 @@ public class VoteItemPOJO extends BasePOJO {
 	}
 	public void setWxPersonUserPOJO(WxPersonUserPOJO wxPersonUserPOJO) {
 		this.wxPersonUserPOJO = wxPersonUserPOJO;
+	}
+	public Integer getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(Integer orderNo) {
+		this.orderNo = orderNo;
+	}
+	public Integer getApproveFlag() {
+		return approveFlag;
+	}
+	public void setApproveFlag(Integer approveFlag) {
+		this.approveFlag = approveFlag;
 	}
 
 }

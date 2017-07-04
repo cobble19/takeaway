@@ -347,16 +347,27 @@ public class ActivityController extends BaseController {
 				VoteItemPOJO temp = voteItemPOJOs.get(i);
 				Long voteItemId = temp.getVoteItemId();
 				Long apply2Id = temp.getApply2Id();
+				Integer approveFlag = temp.getApproveFlag();
 				if (voteItemId == null) {
 					VoteItemPOJO voteItemPOJO = new VoteItemPOJO();
 					voteItemPOJO.setApply2Id(apply2Id);
 					voteItemPOJO.setDescription("create by back code");
 					voteItemPOJO.setTotalNum(0);
+					voteItemPOJO.setApproveFlag(1);
 					voteItemPOJO.setVoteId(votePOJO.getVoteId());
+					
 					voteItemService.insert(voteItemPOJO, userId);
 				} else {
-					// delete, un approved
-					voteItemService.delete(voteItemId);
+					// ----- delete, un approved --- to update
+					VoteItemPOJO voteItemPOJO = new VoteItemPOJO();
+					if (approveFlag == null || approveFlag == 0) {
+						voteItemPOJO.setVoteItemId(voteItemId);
+						voteItemPOJO.setApproveFlag(1);
+					} else {
+						voteItemPOJO.setVoteItemId(voteItemId);
+						voteItemPOJO.setApproveFlag(0);
+					}
+					voteItemService.update(voteItemPOJO);
 				}
 			}
 			
@@ -498,10 +509,13 @@ public class ActivityController extends BaseController {
 						map.put("createDateTime", createDateTime);
 						VoteItemPOJO voteItemPOJOTemp = voteItemMaps.get(apply2pojo.getApply2Id());
 						Long voteItemId = null;
+						Integer approveFlag = 0;
 						if (voteItemPOJOTemp != null) {
 							voteItemId = voteItemPOJOTemp.getVoteItemId();
+							approveFlag = voteItemPOJOTemp.getApproveFlag();
 						}
 						map.put("voteItemId", voteItemId);
+						map.put("approveFlag", approveFlag);
 						map.put("apply2Id", apply2pojo.getApply2Id());
 						maps.add(map);
 					}
@@ -512,6 +526,8 @@ public class ActivityController extends BaseController {
 			columns.add("createDateTime");
 			trHeaderNames.add("审批投票项");
 			columns.add("voteItemId");
+			trHeaderNames.add("审批标志");
+			columns.add("approveFlag");
 			trHeaderNames.add("APPLY2 ID");
 			columns.add("apply2Id");
 			
