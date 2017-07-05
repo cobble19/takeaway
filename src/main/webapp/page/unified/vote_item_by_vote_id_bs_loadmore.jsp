@@ -227,6 +227,8 @@
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="home">
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 <div class="row" style="background-color:#158cce; padding:10px 0px;">
 					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/bs/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}&activityTitle=${votePOJO.title}' method="post">
 						<div class="form-group">
@@ -241,9 +243,18 @@
 					</form>
 				</div>
                 <div style="margin-top:15px; text-align:right;">
-				<button class="btn btn-default btn-xs" id="sortDate">编号排序</button>
+				<!-- <button class="btn btn-default btn-xs" id="sortDate">时间排序</button> -->
+				
+				<button class="btn btn-default" id="sortOrderNo">编号排序</button>
 				<button class="btn btn-default btn-xs" id="sortNum">票数排序</button>
                 </div>
+=======
+=======
+>>>>>>> Stashed changes
+				<!-- <button class="btn btn-default" id="sortDate">时间排序</button> -->
+				<button class="btn btn-default" id="sortOrderNo">编号排序</button>
+				<button class="btn btn-default" id="sortNum">票数排序</button>
+>>>>>>> Stashed changes
 				<div class="row" id="pagination">
 				</div>
 				<div id="homeContent">
@@ -395,4 +406,3 @@
 	<!-- container -->
 </body>
 </html>
-

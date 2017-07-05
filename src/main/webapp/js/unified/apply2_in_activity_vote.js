@@ -302,12 +302,19 @@ var buildTable = function(result) {
         	var tr = $(this).closest('tr');
             var row = $('#dbTable').DataTable().row( tr );
     		if ($(this).attr('checked')) {
-				var voteItemId = row.data().voteItemId;
-				var apply2Id = row.data().apply2Id;
+    			var rowData = row.data();
+				var voteItemId = rowData.voteItemId;
+				var apply2Id = rowData.apply2Id;
+				
+				var approveFlag = rowData.approveFlag;
+				if (approveFlag == null) {
+					approveFlag = 0;
+				}
 				
     			var voteItemPOJO = {
 					"apply2Id": apply2Id,
-			        "voteItemId": voteItemId
+			        "voteItemId": voteItemId,
+			        "approveFlag": approveFlag
 				}
     			voteItemPOJOs.push(voteItemPOJO);
     		}

@@ -97,7 +97,7 @@ var showDetail = function() {
         	$('#period').val(data.period);
         	$('#numOfPeriod').val(data.numOfPeriod);
         	$('#apply2AttrModelIds').val(data.apply2AttrModelIds);
-        	$('#content').val(data.content);
+        	ue.setContent(data.content);
     		$('#voteType').val(data.voteType);
     		$('#publishType').val(data.publishType);
     		

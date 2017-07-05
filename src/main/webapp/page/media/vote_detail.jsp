@@ -56,7 +56,7 @@
 				<div class="col-md-12" >
 				    <div style="font-size: 14px;">
 						<span style="font-size: 16px; font-family: '幼圆'; font-weight: bold;">内容：</span>
-						<span id="content"><c:out value="${votePOJO.content}"></c:out></span>
+						<span id="content">${votePOJO.content}</span>
 				    </div>
 				</div>
 			</div>
