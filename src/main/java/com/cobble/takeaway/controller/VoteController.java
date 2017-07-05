@@ -256,6 +256,7 @@ public class VoteController extends BaseController {
 			String sort = voteSearchPOJO.getSort();
 			String orderBy = voteSearchPOJO.getOrderBy();
 			Boolean paginationFlag = voteSearchPOJO.getPaginationFlage();
+			Integer orderNo = voteSearchPOJO.getOrderNo();
 			
 			final int APPROVED = 1;
 			
@@ -268,6 +269,7 @@ public class VoteController extends BaseController {
 			voteItemSearchPOJO.setOrderBy(orderBy);
 			voteItemSearchPOJO.setPaginationFlage(paginationFlag);
 			voteItemSearchPOJO.setApproveFlag(APPROVED);
+			voteItemSearchPOJO.setOrderNo(orderNo);
 			
 			DataTablesPOJO<VoteItemPOJO> dataTablesPOJO = voteService.findVoteItems(voteItemSearchPOJO , votePOJO);
 
@@ -326,6 +328,7 @@ public class VoteController extends BaseController {
 			String sort = voteSearchPOJO.getSort();
 			String orderBy = voteSearchPOJO.getOrderBy();
 			Boolean paginationFlag = voteSearchPOJO.getPaginationFlage();
+			Integer orderNo = voteSearchPOJO.getOrderNo();
 			
 			VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
 			voteItemSearchPOJO.setVoteItemId(voteItemId);
@@ -335,6 +338,7 @@ public class VoteController extends BaseController {
 			voteItemSearchPOJO.setSort(sort);
 			voteItemSearchPOJO.setOrderBy(orderBy);
 			voteItemSearchPOJO.setPaginationFlage(paginationFlag);
+//			voteItemSearchPOJO.setOrderNo(orderNo);
 			
 //			Map map = voteService.listVoteById4UnifiedBootstrap(voteId, activityId, activityTitle, voteItemId, userId);
 			Map map = voteService.findCurrentVoteItem(voteItemSearchPOJO, votePOJO);
@@ -345,6 +349,7 @@ public class VoteController extends BaseController {
 //			wxPersonUserPOJO = (WxPersonUserPOJO) map.get("wxPersonUserPOJO");
 			
 //			ret.addObject("wxPersonUserPOJO", wxPersonUserPOJO);
+			ret.addObject("orderNo", orderNo);
 			ret.addObject("votePOJO", votePOJO);
 			ret.addObject("apply2POJO", apply2POJORet);
 			ret.addObject("voteItemPOJO", voteItemPOJORet);

@@ -73,7 +73,7 @@ $(document).ready(function() {
 	$('#sortOrderNo').click(function(event) {
 		$('#sortNum').removeClass('btn-info');
 		$('#sortNum').addClass('btn-default');
-		$(this).remove('btn-default')
+		$(this).removeClass('btn-default')
 		$(this).addClass('btn-info');
 		$('#pagination').html('');
 		$('#homeContent').html('');
@@ -84,7 +84,7 @@ $(document).ready(function() {
 	$('#sortNum').click(function(event) {
 		$('#sortOrderNo').removeClass('btn-info');
 		$('#sortOrderNo').addClass('btn-default');
-		$(this).remove('btn-default')
+		$(this).removeClass('btn-default')
 		$(this).addClass('btn-info');
 		$('#pagination').html('');
 		$('#homeContent').html('');
@@ -104,12 +104,16 @@ var voteItemSearchII = function() {
 	var limit = $('#limit').val();
 	var sort = 'create_date_time';
 	var orderBy = 'desc';
+	var orderNo = $('#orderNo').val();
 	
 	if ($('#sortDate').hasClass('btn-info')) {
 		sort = 'create_date_time';
 		orderBy = 'desc';
-	} else {
+	} else if ($('#sortNum').hasClass('btn-info')){
 		sort = 'total_num';
+		orderBy = 'desc';
+	} else if ($('#sortOrderNo').hasClass('btn-info')){
+		sort = 'order_no';
 		orderBy = 'desc';
 	}
 	
@@ -125,10 +129,10 @@ var voteItemSearchII = function() {
 	
 	var voteItemId = null;
 	
-	voteItemSearch(voteId, activityId, activityTitle, voteItemId, start, limit, sort, orderBy);
+	voteItemSearch(voteId, activityId, activityTitle, voteItemId, start, limit, sort, orderBy, orderNo);
 }
 
-var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, start, limit, sort, orderBy) {
+var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, start, limit, sort, orderBy, orderNo) {
 	
 //	$('#progress').dialog('open');
 	var basePath = $('#basePath').val();
@@ -147,7 +151,8 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
             "limit": limit,
             "sort": sort,
             "orderBy": orderBy,
-            "paginationFlage": true
+            "paginationFlage": true,
+            "orderNo": orderNo
         },
         success: function(data, textStatus, jqXHR ) {
 //        	$('#progress').dialog('close');

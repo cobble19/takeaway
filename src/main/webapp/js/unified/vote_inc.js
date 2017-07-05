@@ -70,7 +70,7 @@ $(document).ready(function() {
 								+ '">'
 								+ '追加投票项' + '</a>';
 								
-				var hrefVote = $('#basePath').val() + '/web/unified/vote/bs/query/'  + full.voteId + '?activityId=' + full.activityId
+				var hrefVote = $('#basePath').val() + '/web/unified/vote/loadmore/query/'  + full.voteId + '?activityId=' + full.activityId
 								+ '&activityTitle=' + full.title+ '&start=0&limit=10&paginationFlage=true';
 				var linkVote = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefVote
 								+ '">'

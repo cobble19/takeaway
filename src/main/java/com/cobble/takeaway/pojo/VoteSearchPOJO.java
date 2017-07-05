@@ -18,6 +18,7 @@ public class VoteSearchPOJO extends BaseSearchPOJO {
     
     private String activityTitle;
     private Long voteItemId;
+    private Integer orderNo;
     
 	public Long getVoteId() {
 		return voteId;
@@ -90,6 +91,12 @@ public class VoteSearchPOJO extends BaseSearchPOJO {
 	}
 	public void setVoteItemId(Long voteItemId) {
 		this.voteItemId = voteItemId;
+	}
+	public Integer getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(Integer orderNo) {
+		this.orderNo = orderNo;
 	}
 
 }

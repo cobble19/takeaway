@@ -248,6 +248,7 @@ public class VoteServiceImpl implements VoteService {
 			String orderBy = voteItemSearchPOJO.getOrderBy();
 			Boolean paginationFlag = voteItemSearchPOJO.getPaginationFlage();
 			Integer approveFlag = voteItemSearchPOJO.getApproveFlag();
+			Integer orderNo = voteItemSearchPOJO.getOrderNo();
 			
 			// 显示哪些报名属性
 			List<Long> apply2AttrModelIdList = CollectionUtilx.string2Longs(apply2AttrModelIdsStr);
@@ -272,6 +273,7 @@ public class VoteServiceImpl implements VoteService {
 			voteItemSearchPOJO1.setSort(sort);
 			voteItemSearchPOJO1.setOrderBy(orderBy);
 			voteItemSearchPOJO1.setApproveFlag(approveFlag);
+			voteItemSearchPOJO1.setOrderNo(orderNo);
 			List<VoteItemPOJO> voteItemPOJOsTemp = voteItemService.finds(voteItemSearchPOJO1);
 			
 			List<VoteItemPOJO> voteItemPOJOs = new ArrayList<VoteItemPOJO>();
