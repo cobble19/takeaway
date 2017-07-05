@@ -229,6 +229,7 @@
 			<div role="tabpanel" class="tab-pane active" id="home">
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 <div class="row" style="background-color:#158cce; padding:10px 0px;">
 					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/bs/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}&activityTitle=${votePOJO.title}' method="post">
 						<div class="form-group">
@@ -249,6 +250,8 @@
 				<button class="btn btn-default btn-xs" id="sortNum">票数排序</button>
                 </div>
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 				<!-- <button class="btn btn-default" id="sortDate">时间排序</button> -->
