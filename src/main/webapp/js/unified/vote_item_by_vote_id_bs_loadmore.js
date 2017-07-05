@@ -59,7 +59,18 @@ $(document).ready(function() {
 	});	// end voteBtn click
 	///
 	///
-	$('#sortDate').click(function(event) {
+//	$('#sortDate').click(function(event) {
+//		$('#sortNum').removeClass('btn-info');
+//		$('#sortNum').addClass('btn-default');
+//		$(this).remove('btn-default')
+//		$(this).addClass('btn-info');
+//		$('#pagination').html('');
+//		$('#homeContent').html('');
+//		voteItemSearchII();
+//	});
+	///
+	///
+	$('#sortOrderNo').click(function(event) {
 		$('#sortNum').removeClass('btn-info');
 		$('#sortNum').addClass('btn-default');
 		$(this).remove('btn-default')
@@ -71,8 +82,8 @@ $(document).ready(function() {
 	///
 	///
 	$('#sortNum').click(function(event) {
-		$('#sortDate').removeClass('btn-info');
-		$('#sortDate').addClass('btn-default');
+		$('#sortOrderNo').removeClass('btn-info');
+		$('#sortOrderNo').addClass('btn-default');
 		$(this).remove('btn-default')
 		$(this).addClass('btn-info');
 		$('#pagination').html('');

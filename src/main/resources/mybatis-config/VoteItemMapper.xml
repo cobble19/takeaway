@@ -46,7 +46,7 @@
 	<if test="voteItemId != null">
 		and a.VOTE_ITEM_ID = #{voteItemId}
 	</if>
-	<if test="approveFlag != null">
+	<if test="approveFlag != null and approveFlag != ''">
 		and a.APPROVE_FLAG = #{approveFlag}
 	</if>
   </sql>
@@ -83,7 +83,7 @@
   </select>
   
   <select id="getMaxOrderNo" parameterType="com.cobble.takeaway.pojo.VoteItemSearchPOJO" resultType="java.lang.Integer" >
-    select ifnull(ORDER_NO, 0) from v_vote_item
+    select max(ifnull(ORDER_NO, 0)) from v_vote_item
     <where>
   		<trim prefixOverrides="and">
   			<if test="voteId != null and voteId != ''">

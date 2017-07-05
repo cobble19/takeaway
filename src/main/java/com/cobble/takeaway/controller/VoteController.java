@@ -257,6 +257,8 @@ public class VoteController extends BaseController {
 			String orderBy = voteSearchPOJO.getOrderBy();
 			Boolean paginationFlag = voteSearchPOJO.getPaginationFlage();
 			
+			final int APPROVED = 1;
+			
 			VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
 			voteItemSearchPOJO.setVoteItemId(voteItemId);
 			voteItemSearchPOJO.setUserId(userId);
@@ -265,6 +267,7 @@ public class VoteController extends BaseController {
 			voteItemSearchPOJO.setSort(sort);
 			voteItemSearchPOJO.setOrderBy(orderBy);
 			voteItemSearchPOJO.setPaginationFlage(paginationFlag);
+			voteItemSearchPOJO.setApproveFlag(APPROVED);
 			
 			DataTablesPOJO<VoteItemPOJO> dataTablesPOJO = voteService.findVoteItems(voteItemSearchPOJO , votePOJO);
 
