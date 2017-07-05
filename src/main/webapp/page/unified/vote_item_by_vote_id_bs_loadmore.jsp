@@ -12,7 +12,7 @@
     	<title>${documentTitle}</title>
     </c:if>
     <c:if test="${empty documentTitle}">
-    	<title>得味驿站</title>
+    	<title></title>
     </c:if>
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -121,7 +121,7 @@
     	}
     </style>
 </head>
-<body>
+<body style="background-color:#40c2f3;">
 
     <input type="hidden" id="voteId" value="${votePOJO.voteId}">
 	<div class="container-fluid">
@@ -140,7 +140,7 @@
 		<div class="row">
 			<div class="col-xs-12"
 				style="padding: 0px; text-align: center; margin-bottom: 15px;">
-				<img src="http://www.deweiyizhan.com/files/images/22_-1_0_.jpg">
+				<img src="http://www.deweiyizhan.com/files/images/jtgbdz.jpg">
 			</div>
 		</div>
 
@@ -148,60 +148,47 @@
 			<!-- Nav tabs -->
 			<ul class="nav nav-pills" role="tablist"
 				style="text-align: center; padding-top: 5px">
-				<div role="presentation" class="active col-xs-3">
+				<div role="presentation" class="active col-xs-4">
 					<a href="#home" style="color: #F00; font-size: 14px;"
 						aria-controls="home" role="tab" data-toggle="tab"><span
 						style="font-size: 24px;" class="glyphicon glyphicon-home"
 						aria-hidden="true"></span>
 						<p>首页</p></a>
 				</div>
-				<div role="presentation" class="col-xs-3">
+				<div role="presentation" class="col-xs-4">
 					<a href="#profile" style="color: #F00; font-size: 14px;"
 						aria-controls="profile" role="tab" data-toggle="tab"><span
 						style="font-size: 24px;" class="glyphicon glyphicon-file"
 						aria-hidden="true"></span>
 						<p>规则</p></a>
 				</div>
-				<div role="presentation" class="col-xs-3">
+				<div role="presentation" class="col-xs-4">
 					<a href="#messages" style="color: #F00; font-size: 14px;"
 						aria-controls="messages" role="tab" data-toggle="tab"><span
 						style="font-size: 24px;" class="glyphicon glyphicon-pencil"
 						aria-hidden="true"></span>
 						<p>报名</p></a>
 				</div>
-				<div role="presentation" class="col-xs-3">
-					<a href="#search" style="color: #F00; font-size: 14px;"
-						aria-controls="search" role="tab" data-toggle="tab"><span
-						style="font-size: 24px;" class="glyphicon glyphicon-search"
-						aria-hidden="true"></span>
-						<p>查询</p></a>
-				</div>
 			</ul>
 		</nav>
 
 <script id="homeTmpl" type="x-tmpl-mustache">
-				<div class="row" style="margin-top: 15px;">
+				<div class="row">
 					{{#data}}
 						<div class="media"
-							style="border: #F00 solid 1px; margin: 0px 5px; padding: 10px;">
+							style="border: #ffffff solid 1px; margin: 0px 5px; padding: 10px;">
 							<div class="media-left">
-								<a href="#"> <img style="max-width: none !important;"
+								<a href="#"> <img style="max-width: none !important;border-radius:30px;"
 									class="media-object"
 									src="{{wxPersonUserPOJO.headImgUrl}}"
 									alt="" height="64" width="64">
 								</a>
 							</div>
-							<div class="media-body">
-								<h5 class="media-heading">编号: {{voteItemId}}</h5>
-								昵称:{{wxPersonUserPOJO.nickname}}
-								{{#apply2POJO.apply2AttrPOJOs}}
-						          <li class="weui_media_info_meta" style="color:#000">
-									<h5>{{apply2AttrModelName}}:{{apply2AttrData}}</h5>
-						          </li>
-			        			{{/apply2POJO.apply2AttrPOJOs}}
-								<br />
-								<%-- <c:out value="${voteItemPOJO.beenVoted}"></c:out> --%>
-								<button type="button" class="btn btn-default btn-sm vote-click" style="text-align: right;" 
+							<div class="media-body" style="color:#ffffff;">
+								<h5 class="media-heading row">
+								<div class="col-xs-8">{{wxPersonUserPOJO.nickname}}</div>
+								<div class="col-xs-4" style="text-align:right;">
+								<button type="button" class="btn btn-link btn-xs vote-click" style="text-align: right;" 
 						          	
 						          	 voteItemId="{{voteItemId}}">
 						          	  {{#beenVoted}}
@@ -212,6 +199,15 @@
 									  {{/beenVoted}}
 									   <c:out value="{{totalNum}}"></c:out>
 								</button>
+								</div>
+								</h5>
+						        <li class="weui_media_info_meta">
+								<h5>编号: {{voteItemId}}</h5>
+								{{#apply2POJO.apply2AttrPOJOs}}
+									<h5>{{apply2AttrModelName}}:{{apply2AttrData}}</h5>  
+			        			{{/apply2POJO.apply2AttrPOJOs}}
+								</li>
+								<%-- <c:out value="${voteItemPOJO.beenVoted}"></c:out> --%>
 								<!-- <h5 style="text-align: right;">
 									<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;9999
 								</h5> -->
@@ -231,11 +227,26 @@
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="home">
-				<button class="btn btn-default" id="sortDate">时间排序</button>
-				<button class="btn btn-default" id="sortNum">票数排序</button>
+                <div class="row" style="background-color:#158cce; padding:10px 0px;">
+					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/bs/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}&activityTitle=${votePOJO.title}' method="post">
+						<div class="form-group">
+							<label for="search"></label> 
+							<input style="width: auto; margin-left: 5px; float: left;" type="text"
+								id="voteItemId" name="voteItemId"
+								class="form-control" placeholder="请输入编号">
+							<button style="margin-left: 5px; float: left;" type="submit"
+								class="btn btn-default">搜索</button>
+						</div>
+
+					</form>
+				</div>
+                <div style="margin-top:15px; text-align:right;">
+				<button class="btn btn-default btn-xs" id="sortDate">编号排序</button>
+				<button class="btn btn-default btn-xs" id="sortNum">票数排序</button>
+                </div>
 				<div class="row" id="pagination">
 				</div>
-				<div class="row" id="homeContent">
+				<div id="homeContent">
 				</div>
 				<div class="row" id="noData" style="display:none;">
 					<span>没有更多的数据了!</span>
@@ -247,8 +258,12 @@
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="profile">
-				活动: <c:out value="${votePOJO.title}"></c:out>
-				规则: <p><c:out value="${votePOJO.content}"></c:out></p>
+				<div class="row">
+                <div class="row" style="border:2px solid #ed7332; margin:20px 5px 10px 5px; padding:0px 10px 10px 10px; background-color:#ffffff;">
+                <div class="col-xs-6 col-xs-offset-3"><h4 style="text-align:center;background-color:#ed7332; padding:5px; color:#ffffff; margin-bottom:10px;">活动规则</h4></div>
+				<div class="col-md-12 col-xs-12"><p><c:out value="${votePOJO.content}"></c:out></p></div>
+                </div>
+                </div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="messages">
 				<%-- <div class="row">
@@ -313,57 +328,51 @@
 		  			  		}
 			  				%>
 		                    </div>
-		                    <div class="row" style="margin-left:2px; margin-right:2px;">
-		                    <div id="lineSplit" class="col-md-12 col-xs-12" style="margin-top:30px; border-bottom:5px ridge #ccc;"></div>
-		                    <div id="errorMsg4Activity" class="col-md-12 col-xs-12" 
-		                    	style="display: none; border:1px solid #CCC; padding-top:10px; margin-bottom:10px; font-size: xx-large; text-align: center;">
-		                    	<span style="color: red; text-align: center;"></span>
-		                    </div>
+		                    <div class="row" style="margin-top: 15px;">
 		                    <c:if test="${apply2POJO != null and voteItemPOJO == null}">
-		                    	待审批
+		                    	<h4 style="margin:0px 5px; color:#ed7332;">您好，您提交的信息正在审批中，请耐心等待！</h4>
 		                    </c:if>
-		                    
 		                    <c:if test="${apply2POJO != null and voteItemPOJO != null}">
-		                    	已审批
-		                    	<div class="row">
+		                    	<h4 style="margin:0px 5px; color:#ed7332;">恭喜您，您提交的信息已通过审批，以下是您的参选信息:</h4>
+                                <div class="media"
+							style="border: #ffffff solid 1px; margin: 0px 5px; padding: 10px; margin-top:5px;">
+                                <div class="media-left">
+								<a href="#"> <img style="max-width: none !important;border-radius:30px;"
+									class="media-object head-img"
+									src="${voteItemPOJO.wxPersonUserPOJO.headImgUrl}"
+									alt="" height="64" width="64">
+								</a>
+							    </div>
+                                <div class="media-body" style="color:#ffffff;">
+                                    <c:if test="${voteItemPOJO != null}">
+                                            <h5 class="media-heading row"><div class="col-xs-8"><c:out value="${voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out></div>
+											<div class="col-xs-4" style="text-align:right;"><span class="glyphicon glyphicon-heart" style="color: red;" aria-hidden="true"></span><c:out value="${voteItemPOJO.totalNum}"></c:out></div>
+                                            </h5>
+                                    </c:if>
+                                    <li class="weui_media_info_meta">
+                                    <c:if test="${voteItemPOJO != null}">        
+					        				<h5>编号: <c:out value="${voteItemPOJO.voteItemId}"></c:out></h5>
+					        		</c:if>
 									<c:if test="${apply2POJO != null}">
 										<c:forEach items="${apply2POJO.apply2AttrPOJOs}" var="apply2AttrPOJO" varStatus="st2">
-								          <li class="weui_media_info_meta" style="color:#000">
-											<h5><c:out value="${apply2AttrPOJO.apply2AttrModelName}"></c:out>:<c:out value="${apply2AttrPOJO.apply2AttrData}"></c:out></h5>
-								          </li>
+										<h5><c:out value="${apply2AttrPOJO.apply2AttrModelName}"></c:out>:<c:out value="${apply2AttrPOJO.apply2AttrData}"></c:out></h5>
 					        			</c:forEach>
-					        			<c:if test="${voteItemPOJO != null}">
-					        				<h5 class="media-heading">编号: <c:out value="${voteItemPOJO.voteItemId}"></c:out></h5>
-					        				昵称:<c:out value="${voteItemPOJO.wxPersonUserPOJO.nickname}"></c:out>
-											票数: <c:out value="${voteItemPOJO.totalNum}"></c:out>
-					        			</c:if>
-								          
 									</c:if>
+                                    </li>
 								</div>
 								
 		                    </c:if>
 		                    <c:if test="${apply2POJO == null}">
-			  				<div id="apply2Div" class="col-md-12 col-xs-12" style="border:1px solid #CCC; padding-top:10px; margin-bottom:10px;">
+                             <!--<div id="lineSplit" class="col-md-12 col-xs-12" style="margin-top:30px; border-bottom:5px ridge #ccc;"></div>
+		                    <div id="errorMsg4Activity" class="col-md-12 col-xs-12" 
+		                    	style="display: none; border:1px solid #CCC; padding-top:10px; margin-bottom:10px; font-size: xx-large; text-align: center;">
+		                    	<span style="color: red; text-align: center;"></span>
+		                    </div>-->
+			  				<div id="apply2Div" class="row" style="border:2px solid #ed7332;margin:20px 5px 10px 5px; padding:0px 10px 10px 10px; background-color:#ffffff;">
+                                <div class="col-xs-6 col-xs-offset-3"><h4 style="text-align:center;background-color:#ed7332; padding:5px; color:#ffffff; margin-bottom:10px;">活动报名</h4></div>
 				  				<div class="row col-md-12 col-xs-12">
 					  				<fieldset>
 											<form id="apply2Form" class="form-horizontal">
-													<!-- <div class="form-group">
-														<label for="usernameX" class="control-label h5">姓名: </label>
-														<input id="usernameX" name="username" minlength="2" required="required" value="" placeholder="请填写姓名" class="form-control" />
-													</div> -->
-													<!-- <div class="form-group">
-														<label for="phone" class="control-label h5">手机: </label>
-														<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
-													</div>
-													<div class="form-group">
-														<label for="sex" class="control-label h5">性别: </label>
-														<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
-														<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
-													</div>
-													<div class="form-group">
-														<label for="description" class="control-label h5">备注: </label> 
-														<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control"  style="margin-bottom:5px;"></textarea>
-													</div> -->
 													<div class="form-group">
 		                                                <div class="col-md-12">
 														<input type="button" id="apply2Btn" value="提交" class="btn btn-default" />
@@ -377,21 +386,6 @@
 			  			</div>
 				</div><!-- for show -->
 				
-			</div>
-			<div role="tabpanel" class="tab-pane" id="search">
-				<div class="row">
-					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/loadmore/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}&activityTitle=${votePOJO.title}' method="post">
-						<div class="form-group">
-							<label class="sr-only" for="search">搜索</label> 
-							<input style="width: auto; margin-left: 5px; float: left;" type="text"
-								id="voteItemId" name="voteItemId" value=""
-								class="form-control" placeholder="请输入编号">
-							<button style="margin-left: 5px; float: left;" type="submit"
-								class="btn btn-default">搜索</button>
-						</div>
-
-					</form>
-				</div>
 			</div>
 		</div>
 
