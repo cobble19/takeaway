@@ -197,7 +197,8 @@
 									  {{^beenVoted}}
 									  	<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
 									  {{/beenVoted}}
-									   <c:out value="{{totalNum}}"></c:out>
+									<span class="vote-num"><c:out value="{{totalNum}}"></c:out></span>
+									   
 								</button>
 								</div>
 								</h5>
@@ -234,8 +235,10 @@
 							<input style="width: auto; margin-left: 5px; float: left;" type="text"
 								id="orderNo" name="orderNo" value="${orderNo}"
 								class="form-control" placeholder="请输入编号">
-							<button style="margin-left: 5px; float: left;" type="submit"
+							<button id="searchBtn" style="margin-left: 5px; float: left;" type="submit"
 								class="btn btn-default">搜索</button>
+							<button id="resetBtn" style="margin-left: 5px; float: left;" type="button"
+							class="btn btn-default">所有</button>
 						</div>
 
 					</form>

@@ -86,7 +86,7 @@
   </select>
   
   <select id="getMaxOrderNo" parameterType="com.cobble.takeaway.pojo.VoteItemSearchPOJO" resultType="java.lang.Integer" >
-    select max(ifnull(ORDER_NO, 0)) from v_vote_item
+    select ifnull(max(ORDER_NO), 0) from v_vote_item
     <where>
   		<trim prefixOverrides="and">
   			<if test="voteId != null and voteId != ''">

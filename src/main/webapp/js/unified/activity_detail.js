@@ -272,6 +272,9 @@ var onClickApply2Summit = function() {
 		        success : function(data) {
 		        	if (data.success) {
 			            alert('信息提交成功');
+			            if (location.href.indexOf('/web/unified/vote/loadmore') >= 0) {
+			            	window.location.reload();
+			            }
 			            
 //						$.alert('信息提交成功', '提示');
 		        	} else {

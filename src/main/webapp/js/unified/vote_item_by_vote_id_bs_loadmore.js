@@ -55,7 +55,7 @@ $(document).ready(function() {
 			alert('您已经投过票了！');
 			return;
 		}
-		addVoteItemX(voteId, voteItemId, userId);
+		addVoteItemX(voteId, voteItemId, userId, $(this));
 	});	// end voteBtn click
 	///
 	///
@@ -89,6 +89,12 @@ $(document).ready(function() {
 		$('#pagination').html('');
 		$('#homeContent').html('');
 		voteItemSearchII();
+	});
+	///
+	///
+	$('#resetBtn').click(function() {
+		$('#orderNo').val("");
+		$('#searchBtn').trigger('click');
 	});
 	///
 	///
@@ -188,7 +194,7 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
 						alert('您已经投过票了！');
 						return;
 					}
-					addVoteItemX(voteId, voteItemId, userId);
+					addVoteItemX(voteId, voteItemId, userId, $(this));
 				});	// end voteBtn click
 				///
 				///
@@ -250,6 +256,7 @@ var existUser4VoteItem = function(voteId, voteItemId, userId) {
     	return exist;
 }
 
+// 多个投票
 var addVoteItem = function(voteId, voteItemIds) {
 	var ids = [];
 	voteItemIds.each(function(index, ele) {
@@ -293,7 +300,8 @@ var addVoteItem = function(voteId, voteItemIds) {
 }
 ///
 ///
-var addVoteItemX = function(voteId, voteItemId, userId, $ele) {
+// 一个投票
+var addVoteItemX = function(voteId, voteItemId, userId, me) {
 		var ids = [];
 		ids.push(voteItemId);
 		console.log('ids: ' + ids);
@@ -302,10 +310,10 @@ var addVoteItemX = function(voteId, voteItemId, userId, $ele) {
 			return;
 		}
 		
-		var confirm = window.confirm('确定投票');
-		if (!confirm) {
-			return;
-		}
+//		var confirm = window.confirm('确定投票');
+//		if (!confirm) {
+//			return;
+//		}
 	
 //		$.showLoading('正在加载...');
 		$.ajax({
@@ -323,7 +331,10 @@ var addVoteItemX = function(voteId, voteItemId, userId, $ele) {
 	        },
 	        success: function(data, textStatus, jqXHR ) {
 //	        	$.hideLoading();
-	        	window.location.reload();
+//	        	window.location.reload();
+				me.find('span.glyphicon').removeClass('glyphicon-heart-empty').addClass('glyphicon-heart').css('color', 'red');
+				var num = me.find('span.vote-num').text();
+				me.find('span.vote-num').text(parseInt(num) + 1);
 	        },
 	        error: function(jqXHR, textStatus, errorThrown) {
 	        	console.log('Load Error!');
