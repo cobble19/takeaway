@@ -314,6 +314,25 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 					}
 				}
 			}
+		} else if (uri.contains("/vote/loadmore/query/")) {	// /page/enterprise/activity_detail.jsp?activityId=31
+			Pattern p = Pattern.compile("(/vote/loadmore/query/)(\\d+)");
+			Matcher m = p.matcher(uri);
+			if (m.find() && m.groupCount() == 2) {
+				String s = m.group(2);
+				logger.info("voteId: {}", s);
+				Long voteId = Long.parseLong(s);
+				VotePOJO votePOJO = voteService.findById(voteId);
+				
+				userPOJO = userService.findById(votePOJO.getUserId());
+				
+				if (userPOJO != null && userPOJO.getUserId() != null) {
+					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+					if (user4IndexCode != null) {
+						String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+					}
+				}
+			}
 		}
 
 		// 获取AuthorizerAppId

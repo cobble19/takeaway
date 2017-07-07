@@ -244,6 +244,8 @@
 					</form>
 				</div>
                 <div style="margin-top:15px; text-align:right;">
+                <input type="hidden" id="startX" name="startX" value="${voteItemSearchPOJOX.start}">
+                <input type="hidden" id="limitX" name="limitX" value="${voteItemSearchPOJOX.limit}">
 				<!-- <button class="btn btn-default btn-xs" id="sortDate">时间排序</button> -->
 				
 				<button class="btn btn-default btn-xs" id="sortOrderNo">编号排序</button>

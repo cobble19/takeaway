@@ -353,6 +353,7 @@ public class VoteController extends BaseController {
 			ret.addObject("votePOJO", votePOJO);
 			ret.addObject("apply2POJO", apply2POJORet);
 			ret.addObject("voteItemPOJO", voteItemPOJORet);
+			ret.addObject("voteItemSearchPOJOX", voteItemSearchPOJO);
 			ret.setViewName("/page/unified/vote_item_by_vote_id_bs_loadmore");
 		} catch (Exception e) {
 			logger.error("insert error.", e);
@@ -727,6 +728,7 @@ public class VoteController extends BaseController {
 		}
 		voteSearchPOJO.setUserId(userId);
 		try {
+			voteSearchPOJO.setPaginationFlage(false);
 			List<VotePOJO> votePOJOs = voteService.finds(voteSearchPOJO);
 			ret.setData(votePOJOs);
 		} catch (Exception e) {
@@ -747,6 +749,7 @@ public class VoteController extends BaseController {
 		}
 		voteSearchPOJO.setUserId(userId);
 		try {
+			voteSearchPOJO.setPaginationFlage(false);
 			List<VotePOJO> votePOJOs = voteService.finds(voteSearchPOJO);
 			ret.setData(votePOJOs);
 		} catch (Exception e) {

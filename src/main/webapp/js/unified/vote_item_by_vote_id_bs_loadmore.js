@@ -11,13 +11,19 @@ $(document).ready(function() {
 	  }
 	  loading = true;
 	  setTimeout(function() {
-	  	if ('none' == $('#noData').css('display')) {
-		  	console.log('start: ' + $('#start').val());
-		  	var start = parseInt($('#start').val()) + parseInt($('#limit').val());
-		  	$('#start').val(start);
-	//	    $("#homeContent").append("<p> 我是新加载的内容 </p>");
-			voteItemSearchII();
-	  	}
+//	  	if ('none' == $('#noData').css('display')) {
+//		  	console.log('start: ' + $('#start').val());
+//		  	var start = parseInt($('#start').val()) + parseInt($('#limit').val());
+//		  	$('#start').val(start);
+//	//	    $("#homeContent").append("<p> 我是新加载的内容 </p>");
+//			voteItemSearchII();
+//	  	}
+	  	console.log('start: ' + $('#start').val());
+	  	var start = parseInt($('#start').val()) + parseInt($('#limit').val());
+	  	$('#start').val(start);
+//	    $("#homeContent").append("<p> 我是新加载的内容 </p>");
+		voteItemSearchII();
+		
 	    loading = false;
 	    $('#homeInfinite').hide();
 	 }, 500);   //模拟延迟
@@ -125,10 +131,12 @@ var voteItemSearchII = function() {
 	
 	console.log('start: ' + start + ", limit: " + limit);
 	if (limit == null || limit == '' || limit == undefined) {
-		limit = 10;
+		var limitX = $('#limitX').val();
+		limit = limitX || 10;
 	}
 	if (start == null || start == '' || start == undefined) {
-		start = 0;
+		var startX = $('#startX').val();
+		start = startX || 0;
 	} else {
 		start = parseInt(start) + parseInt(limit);
 	}

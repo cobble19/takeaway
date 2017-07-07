@@ -831,6 +831,7 @@ public class ActivityController extends BaseController {
 		DataTablesPOJO<ActivityPOJO> ret = new DataTablesPOJO<ActivityPOJO>();
 		activitySearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
 		try {
+			activitySearchPOJO.setPaginationFlage(false);
 			List<ActivityPOJO> activityPOJOs = activityService.finds(activitySearchPOJO);
 			ret.setData(activityPOJOs);
 		} catch (Exception e) {
