@@ -12,16 +12,13 @@ $(document).ready(function() {
 	  loading = true;
 	  setTimeout(function() {
 //	  	if ('none' == $('#noData').css('display')) {
-//		  	console.log('start: ' + $('#start').val());
-//		  	var start = parseInt($('#start').val()) + parseInt($('#limit').val());
-//		  	$('#start').val(start);
+////		  	console.log('start: ' + $('#start').val());
+////		  	var start = parseInt($('#start').val()) + parseInt($('#limit').val());
+////		  	$('#start').val(start);
 //	//	    $("#homeContent").append("<p> 我是新加载的内容 </p>");
 //			voteItemSearchII();
 //	  	}
-	  	console.log('start: ' + $('#start').val());
-	  	var start = parseInt($('#start').val()) + parseInt($('#limit').val());
-	  	$('#start').val(start);
-//	    $("#homeContent").append("<p> 我是新加载的内容 </p>");
+
 		voteItemSearchII();
 		
 	    loading = false;
@@ -133,12 +130,14 @@ var voteItemSearchII = function() {
 	if (limit == null || limit == '' || limit == undefined) {
 		var limitX = $('#limitX').val();
 		limit = limitX || 10;
+		$('#limit').val(limit);
 	}
 	if (start == null || start == '' || start == undefined) {
 		var startX = $('#startX').val();
 		start = startX || 0;
+		$('#start').val(start);
 	} else {
-		start = parseInt(start) + parseInt(limit);
+//		start = parseInt(start) + parseInt(limit);
 	}
 	
 	var voteItemId = null;
@@ -170,6 +169,7 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
         },
         success: function(data, textStatus, jqXHR ) {
 //        	$('#progress').dialog('close');
+			
         	var content = "";
         	if (data == null) {
         		console.log('response data is null');
@@ -189,6 +189,13 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
 				var rendered = Mustache.render(template, data);
 //				$('#homeContent').html(rendered);
 				$('#pagination').html(rendered);
+				
+				
+				// 查询以后, start自动改变
+				console.log('当前start: ' + $('#start').val());
+			  	var start = parseInt($('#start').val()) + parseInt($('#limit').val());
+			  	$('#start').val(start);
+				console.log('下一次start: ' + $('#start').val());
 				
 				
 				/// 
