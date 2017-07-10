@@ -1,6 +1,9 @@
+
+var loading = false;  //状态标记
+
 $(document).ready(function() {
 //	$('#home').infinite(500);
-	var loading = false;  //状态标记
+//	var loading = false;  //状态标记
 	$(document.body).infinite().on("infinite", function() {
 //	  console.log('22222');
 	  if(loading) {
@@ -21,8 +24,8 @@ $(document).ready(function() {
 
 		voteItemSearchII();
 		
-	    loading = false;
-	    $('#homeInfinite').hide();
+//	    loading = false;
+//	    $('#homeInfinite').hide();
 	 }, 500);   //模拟延迟
 	});
 	
@@ -48,18 +51,18 @@ $(document).ready(function() {
 	});
 	///
 	/// 
-	$('.vote-click').click(function(event) {
-		var userId = $('#userId').val();
-		var voteId = $('#voteId').val();
-		var voteItemId = $(this).attr('voteItemId');
-		
-		var exist = existUser4VoteItem(voteId, voteItemId, userId);
-		if (exist) {
-			alert('您已经投过票了！');
-			return;
-		}
-		addVoteItemX(voteId, voteItemId, userId, $(this));
-	});	// end voteBtn click
+//	$('.vote-click').click(function(event) {
+//		var userId = $('#userId').val();
+//		var voteId = $('#voteId').val();
+//		var voteItemId = $(this).attr('voteItemId');
+//		
+//		var exist = existUser4VoteItem(voteId, voteItemId, userId);
+//		if (exist) {
+//			alert('您已经投过票了！');
+//			return;
+//		}
+//		addVoteItemX(voteId, voteItemId, userId, $(this));
+//	});	// end voteBtn click
 	///
 	///
 //	$('#sortDate').click(function(event) {
@@ -80,6 +83,7 @@ $(document).ready(function() {
 		$(this).addClass('btn-info');
 		$('#pagination').html('');
 		$('#homeContent').html('');
+		$('#sortOrderNo').toggleClass('order-by');
 		voteItemSearchII();
 	});
 	///
@@ -91,6 +95,7 @@ $(document).ready(function() {
 		$(this).addClass('btn-info');
 		$('#pagination').html('');
 		$('#homeContent').html('');
+		$('#sortNum').toggleClass('order-by');
 		voteItemSearchII();
 	});
 	///
@@ -101,7 +106,10 @@ $(document).ready(function() {
 	});
 	///
 	///
-	voteItemSearchII();
+//	voteItemSearchII();
+	$('#sortOrderNo').trigger('click');
+	///
+	///
 	
 
 })
@@ -117,13 +125,26 @@ var voteItemSearchII = function() {
 	
 	if ($('#sortDate').hasClass('btn-info')) {
 		sort = 'create_date_time';
-		orderBy = 'desc';
+		if ($('#sortDate').hasClass('order-by')) {
+			orderBy = 'asc';
+		} else {
+			orderBy = 'desc';
+		}
+		
 	} else if ($('#sortNum').hasClass('btn-info')){
 		sort = 'total_num';
-		orderBy = 'desc';
+		if ($('#sortNum').hasClass('order-by')) {
+			orderBy = 'asc';
+		} else {
+			orderBy = 'desc';
+		}
 	} else if ($('#sortOrderNo').hasClass('btn-info')){
 		sort = 'order_no';
-		orderBy = 'desc';
+		if ($('#sortOrderNo').hasClass('order-by')) {
+			orderBy = 'asc';
+		} else {
+			orderBy = 'desc';
+		}
 	}
 	
 	console.log('start: ' + start + ", limit: " + limit);
@@ -199,6 +220,7 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
 				
 				
 				/// 
+				$('.vote-click').unbind('click');
 				$('.vote-click').click(function(event) {
 					var userId = $('#userId').val();
 					var voteId = $('#voteId').val();
@@ -213,6 +235,7 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
 				});	// end voteBtn click
 				///
 				///
+				loading = false;
 				$('#homeInfinite').hide();
 				///
 				

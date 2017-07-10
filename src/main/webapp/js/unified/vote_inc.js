@@ -52,6 +52,9 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": false
 		}, {
+			"targets" : [5],
+			"visible": false
+		}, {
 			"targets": [7],
 			"render" : function(data, type, full, meta) {
 				var status = (data == null || data == 0) ? '未发布' : '已发布';

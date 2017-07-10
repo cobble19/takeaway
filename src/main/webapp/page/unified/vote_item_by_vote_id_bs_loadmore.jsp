@@ -396,7 +396,7 @@
 			</div>
 		</div>
 
-		<div class="row" style="height: 70px;"></div>
+		<div class="row" style="height: 100px;"></div>
 	</div>
 
 	<!-- container -->

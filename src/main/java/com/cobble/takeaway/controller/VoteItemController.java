@@ -160,8 +160,8 @@ public class VoteItemController extends BaseController {
 				relVoteUserSearchPOJO.setUserId(userId);
 				relVoteUserSearchPOJO.setVoteId(voteId);
 				relVoteUserSearchPOJO.setVoteItemId(voteItemId);
-				Integer totalHasAddVote = relVoteUserService.getCount(relVoteUserSearchPOJO);
-				if (totalHasAddVote <= 0) {
+//				Integer totalHasAddVote = relVoteUserService.getCount(relVoteUserSearchPOJO);
+//				if (totalHasAddVote <= 0) {
 					voteItemPOJO.setVoteItemId(voteItemId);
 					voteItemService.increaseTotalNumPlusOne(voteItemPOJO);
 					
@@ -171,7 +171,7 @@ public class VoteItemController extends BaseController {
 					relVoteUserPOJO.setVoteId(voteId);
 					relVoteUserPOJO.setVoteItemId(voteItemId);
 					relVoteUserService.insert(relVoteUserPOJO);
-				}
+//				}
 			}
 			
 			ret.setSuccess(true);

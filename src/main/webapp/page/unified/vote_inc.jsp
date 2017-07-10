@@ -29,4 +29,4 @@
 				  				</thead>
 				  			</table>
 	     			</div>	<!-- create_vote end -->
-	     			<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_inc.js"></script>
+	     			<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_inc.js?v=1"></script>
