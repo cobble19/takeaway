@@ -83,7 +83,7 @@ $(document).ready(function() {
 		$(this).addClass('btn-info');
 		$('#pagination').html('');
 		$('#homeContent').html('');
-		$('#sortOrderNo').toggleClass('order-by');
+		$('#sortOrderNo').addClass('order-by-asc');
 		voteItemSearchII();
 	});
 	///
@@ -95,7 +95,7 @@ $(document).ready(function() {
 		$(this).addClass('btn-info');
 		$('#pagination').html('');
 		$('#homeContent').html('');
-		$('#sortNum').toggleClass('order-by');
+		$('#sortNum').removeClass('order-by-asc');
 		voteItemSearchII();
 	});
 	///
@@ -125,7 +125,7 @@ var voteItemSearchII = function() {
 	
 	if ($('#sortDate').hasClass('btn-info')) {
 		sort = 'create_date_time';
-		if ($('#sortDate').hasClass('order-by')) {
+		if ($('#sortDate').hasClass('order-by-asc')) {
 			orderBy = 'asc';
 		} else {
 			orderBy = 'desc';
@@ -133,14 +133,14 @@ var voteItemSearchII = function() {
 		
 	} else if ($('#sortNum').hasClass('btn-info')){
 		sort = 'total_num';
-		if ($('#sortNum').hasClass('order-by')) {
+		if ($('#sortNum').hasClass('order-by-asc')) {
 			orderBy = 'asc';
 		} else {
 			orderBy = 'desc';
 		}
 	} else if ($('#sortOrderNo').hasClass('btn-info')){
 		sort = 'order_no';
-		if ($('#sortOrderNo').hasClass('order-by')) {
+		if ($('#sortOrderNo').hasClass('order-by-asc')) {
 			orderBy = 'asc';
 		} else {
 			orderBy = 'desc';
