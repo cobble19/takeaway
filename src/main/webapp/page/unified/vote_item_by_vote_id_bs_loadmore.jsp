@@ -188,7 +188,7 @@
 								<h5 class="media-heading row">
 								<div class="col-xs-8">{{wxPersonUserPOJO.nickname}}</div>
 								<div class="col-xs-4" style="text-align:right;">
-								<button type="button" class="btn btn-link btn-xs vote-click" style="text-align: right;" 
+								<button type="button" class="btn btn-link btn-xs vote-click" style="text-align: right; text-decoration: none;" 
 						          	
 						          	 voteItemId="{{voteItemId}}">
 						          	  {{#beenVoted}}

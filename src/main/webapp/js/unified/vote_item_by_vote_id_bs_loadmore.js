@@ -26,7 +26,7 @@ $(document).ready(function() {
 		
 //	    loading = false;
 //	    $('#homeInfinite').hide();
-	 }, 500);   //模拟延迟
+	 }, 1500);   //模拟延迟
 	});
 	
 	///
@@ -195,10 +195,12 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
         	if (data == null) {
         		console.log('response data is null');
         		$('#noData').show();
+				loading = false;
         		$('#homeInfinite').hide();
         		return;
         	}
 //        	if (data.success) {
+				$('#noData').hide();
         		var template = $('#homeTmpl').html();
 				Mustache.parse(template);   // optional, speeds up future uses
 				var rendered = Mustache.render(template, data);
