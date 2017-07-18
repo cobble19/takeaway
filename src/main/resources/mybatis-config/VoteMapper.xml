@@ -22,13 +22,15 @@
     <result column="APPLY2_ATTR_MODEL_IDS" property="apply2AttrModelIds" />
     <result column="PERIOD" property="period" />
     <result column="NUM_OF_PERIOD" property="numOfPeriod" />
+    <result column="START_DATE_TIME" property="startDateTime" />
+    <result column="END_DATE_TIME" property="endDateTime" />
   </resultMap>
   
   
   <sql id="Base_Column_List" >
     a.VOTE_ID, a.USER_ID, a.TITLE, a.CONTENT, a.VOTE_TYPE
     , a.PUBLISH_TYPE, a.CREATE_DATE_TIME, a.ACTIVITY_ID, a.APPLY2_ATTR_MODEL_IDS, a.PERIOD
-    , a.NUM_OF_PERIOD
+    , a.NUM_OF_PERIOD, a.START_DATE_TIME, a.END_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="title != null">
@@ -120,6 +122,12 @@
       <if test="numOfPeriod != null" >
         NUM_OF_PERIOD,
       </if>
+      <if test="startDateTime != null" >
+        START_DATE_TIME,
+      </if>
+      <if test="endDateTime != null" >
+        END_DATE_TIME,
+      </if>
         CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -149,6 +157,12 @@
       </if>
       <if test="numOfPeriod != null" >
         #{numOfPeriod},
+      </if>
+      <if test="startDateTime != null" >
+        #{startDateTime},
+      </if>
+      <if test="endDateTime != null" >
+        #{endDateTime},
       </if>
         sysdate(),
     </trim>
@@ -183,6 +197,12 @@
       </if>
       <if test="numOfPeriod != null" >
         NUM_OF_PERIOD = #{numOfPeriod},
+      </if>
+      <if test="startDateTime != null" >
+        START_DATE_TIME = #{startDateTime},
+      </if>
+      <if test="endDateTime != null" >
+        END_DATE_TIME = #{endDateTime},
       </if>
         CREATE_DATE_TIME = sysdate(),
     </set>

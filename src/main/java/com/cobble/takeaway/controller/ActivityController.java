@@ -510,12 +510,15 @@ public class ActivityController extends BaseController {
 						VoteItemPOJO voteItemPOJOTemp = voteItemMaps.get(apply2pojo.getApply2Id());
 						Long voteItemId = null;
 						Integer approveFlag = 0;
+						Integer totalNum = 0;
 						if (voteItemPOJOTemp != null) {
 							voteItemId = voteItemPOJOTemp.getVoteItemId();
 							approveFlag = voteItemPOJOTemp.getApproveFlag();
+							totalNum = voteItemPOJOTemp.getTotalNum();
 						}
 						map.put("voteItemId", voteItemId);
 						map.put("approveFlag", approveFlag);
+						map.put("totalNum", totalNum);
 						map.put("apply2Id", apply2pojo.getApply2Id());
 						maps.add(map);
 					}
@@ -528,6 +531,8 @@ public class ActivityController extends BaseController {
 			columns.add("voteItemId");
 			trHeaderNames.add("审批标志");
 			columns.add("approveFlag");
+			trHeaderNames.add("票数");
+			columns.add("totalNum");
 			trHeaderNames.add("APPLY2 ID");
 			columns.add("apply2Id");
 			

@@ -163,12 +163,17 @@ var buildTable = function(result) {
 	columnDefs.push(columnDef);
 	
 	columnDef = {
-		"targets": columns.length - 5,
+		"targets": columns.length - 6,
 		"visible": true,
 		"render" : function(data, type, full, meta) {
 			var createDateTime = new Date(full.createDateTime);
 			return createDateTime.format('Y-m-d H:i:s');
 		}
+	};
+	columnDefs.push(columnDef);
+	columnDef = {
+		"targets": columns.length - 9,
+		"visible": true
 	};
 	columnDefs.push(columnDef);
 	

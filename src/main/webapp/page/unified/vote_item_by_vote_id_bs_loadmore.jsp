@@ -124,6 +124,8 @@
 <body style="background-color:#40c2f3;">
 
     <input type="hidden" id="voteId" value="${votePOJO.voteId}">
+    	<input type="hidden" id="startDateTimeX" name="startDateTime" value="${votePOJO.startDateTime}" />
+    	<input type="hidden" id="endDateTimeX" name="endDateTime" value="${votePOJO.endDateTime}" />    
 	<div class="container-fluid">
 		<!-- 隐藏 -->
 		<div id="qrcodeDiv" class="col-md-12 col-xs-12"

@@ -2,6 +2,19 @@
 var loading = false;  //状态标记
 
 $(document).ready(function() {
+//	$('#startDateTime').datetimepicker({
+//		lang:'ch',
+//		timepicker:true,
+////		format: 'Y-m-d H:i'
+//		value: '2015-02-20 20:20:20'
+//	});
+//	$('#endDateTime').datetimepicker({
+//		lang:'ch',
+//		timepicker:true,
+////		format: 'Y-m-d H:i'
+//		value: '2015-02-20 21:22:23'
+//	});
+	
 //	$('#home').infinite(500);
 //	var loading = false;  //状态标记
 	$(document.body).infinite().on("infinite", function() {
@@ -44,6 +57,18 @@ $(document).ready(function() {
 		var exist = existUser4VoteItem(voteId, null, userId);
 		if (exist) {
 			alert('您已经投过票了！');
+			return;
+		}
+		// 判断提交日期是否在有效期内
+		var startDateTime = $('#startDateTimeX').val().val();
+		startDateTime = parseInt(startDateTime);
+		var endDateTime = $('#endDateTimeX').val().val();
+		endDateTime = parseInt(endDateTime);
+		var curDateTime = new Date();
+		curDateTime = curDateTime.getTime();
+		curDateTime = parseInt(curDateTime);
+		if (curDateTime < startDateTime || curDateTime > endDateTime) {
+			alert('活动不在有效期内');
 			return;
 		}
 	
@@ -308,6 +333,22 @@ var addVoteItem = function(voteId, voteItemIds) {
 		return;
 	}
 	
+	
+		// 判断提交日期是否在有效期内
+		var startDateTime = new Date($('#startDateTimeX').val());
+		startDateTime = parseInt(startDateTime.getTime());
+		var endDateTime = new Date($('#endDateTimeX').val());
+		endDateTime = parseInt(endDateTime.getTime());
+		var curDateTime = new Date();
+		curDateTime = curDateTime.getTime();
+		curDateTime = parseInt(curDateTime);
+		console.log("startDateTime: " + startDateTime + ",endDateTime: " + endDateTime + ",curDateTime: " + curDateTime);
+		if (curDateTime < startDateTime || curDateTime > endDateTime) {
+			alert('活动不在有效期内');
+			return;
+		}
+		
+	
 	var confirm = window.confirm('确定投票');
 	if (!confirm) {
 		return;
@@ -347,6 +388,21 @@ var addVoteItemX = function(voteId, voteItemId, userId, me) {
 		console.log('ids: ' + ids);
 		if (ids == null || ids.length <= 0) {
 			alert('请选择一条记录');
+			return;
+		}
+		
+		
+		// 判断提交日期是否在有效期内
+		var startDateTime = new Date($('#startDateTimeX').val());
+		startDateTime = parseInt(startDateTime.getTime());
+		var endDateTime = new Date($('#endDateTimeX').val());
+		endDateTime = parseInt(endDateTime.getTime());
+		var curDateTime = new Date();
+		curDateTime = curDateTime.getTime();
+		curDateTime = parseInt(curDateTime);
+		console.log("startDateTime: " + startDateTime + ",endDateTime: " + endDateTime + ",curDateTime: " + curDateTime);
+		if (curDateTime < startDateTime || curDateTime > endDateTime) {
+			alert('活动不在有效期内');
 			return;
 		}
 		

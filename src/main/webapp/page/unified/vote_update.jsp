@@ -46,18 +46,18 @@
  					<input class="form-control" id="apply2AttrModelIds" name="apply2AttrModelIds" placeholder="请输入需显示属性模块IDS(,逗号分隔)">
  				</div>
  			</div>
- 			<!-- <div class="form-group">
- 				<label class="control-label" for="startDateTime">活动开始时间:</label>
+ 			<div class="form-group">
+ 				<label class="control-label" for="startDateTime">投票开始时间:</label>
  				<div class="">
  					<input class="form-control" id="startDateTime" name="startDateTime" required="required" placeholder="请输入开始时间">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="endDateTime">活动结束时间:</label>
+ 				<label class="control-label" for="endDateTime">投票结束时间:</label>
  				<div class="">
  					<input class="form-control" id="endDateTime" name="endDateTime" required="required" placeholder="请输入结束时间">
  				</div>
- 			</div> -->
+ 			</div>
  			<div class="form-group">
  				<label class="control-label" for="content">介绍:</label>
  				<div style="" class="">

@@ -61,7 +61,14 @@ $(document).ready(function() {
 				return status;
 			}
 		}, {
-			"targets" : [11],
+			"targets": [8,9,10],
+			"visible": true,
+			"render" : function(data, type, full, meta) {
+				var createDateTime = new Date(data);
+				return createDateTime.format('Y-m-d H:i:s');
+			}
+		}, {
+			"targets" : [13],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/page/unified/vote_update.jsp?voteId='  + full.voteId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
@@ -119,6 +126,8 @@ $(document).ready(function() {
             { "data": "voteType" },
             { "data": "publishType" },
             { "data": "createDateTime" },
+            { "data": "startDateTime" },
+            { "data": "endDateTime" },
             { "data": "activityId" },
             { "data": "apply2AttrModelIds" },
             {

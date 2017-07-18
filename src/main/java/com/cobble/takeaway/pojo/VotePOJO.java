@@ -19,6 +19,9 @@ public class VotePOJO extends BasePOJO {
     private Integer period;
     private Integer numOfPeriod;
     
+    private Date startDateTime;
+    private Date endDateTime;
+    
     private List<VoteItemPOJO> voteItemPOJOs = new ArrayList<VoteItemPOJO>();
     
 	public Long getVoteId() {
@@ -92,6 +95,18 @@ public class VotePOJO extends BasePOJO {
 	}
 	public void setNumOfPeriod(Integer numOfPeriod) {
 		this.numOfPeriod = numOfPeriod;
+	}
+	public Date getStartDateTime() {
+		return startDateTime;
+	}
+	public void setStartDateTime(Date startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+	public Date getEndDateTime() {
+		return endDateTime;
+	}
+	public void setEndDateTime(Date endDateTime) {
+		this.endDateTime = endDateTime;
 	}
 
 }

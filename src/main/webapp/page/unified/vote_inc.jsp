@@ -22,6 +22,8 @@
 				  						<th>投票类型</th>
 				  						<th>发布类型</th>
 				  						<th>创建时间</th>
+				  						<th>开始时间</th>
+				  						<th>结束时间</th>
 				  						<th>活动ID</th>
 				  						<th>显示属性模块ID</th>
 				  						<th>操作</th>
@@ -29,4 +31,4 @@
 				  				</thead>
 				  			</table>
 	     			</div>	<!-- create_vote end -->
-	     			<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_inc.js?v=1"></script>
+	     			<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_inc.js"></script>
