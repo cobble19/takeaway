@@ -112,8 +112,142 @@ public class ActivityController extends BaseController {
 	}
 
 	// 版本2中的申请人信息
-	@RequestMapping(value = "/api/apply2/v2/export/xls", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-	public Map export4Detail(@RequestParam("activityId") Long activityId
+		@RequestMapping(value = "/api/apply2/v2/export/xls", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+		public Map export4Detail(@RequestParam("activityId") Long activityId
+				, @RequestParam("startDateTime") Date startDateTime
+				, @RequestParam("endDateTime") Date endDateTime
+				, Model model, 
+				HttpServletRequest request, HttpServletResponse response) throws Exception {
+			/**
+			 * apply2POJOList: List<Map>
+			 * columns: List<String>
+			 * trHeaderNames
+			 */
+			Map ret = new HashMap();
+			ActivityPOJO activityPOJO = new ActivityPOJO();
+			try {
+				activityPOJO = activityService.find2ById(activityId, startDateTime, endDateTime);
+				logger.info("activityPOJO convert to Json: " + JsonUtils.convertToJson(activityPOJO));
+				
+				List<Map> maps = new ArrayList<Map>();
+				List<String> columns = new ArrayList<String>();
+				List<String> trHeaderNames = new ArrayList<String>();
+				
+				List<Apply2AttrModelPOJO> apply2AttrModelPOJOs = apply2AttrModelService.findsByActivityId(activityId);
+				
+				if (!CollectionUtils.isEmpty(apply2AttrModelPOJOs)) {
+					for (int i = 0; i < apply2AttrModelPOJOs.size(); i++) {
+						Apply2AttrModelPOJO apply2AttrModelPOJO = apply2AttrModelPOJOs.get(i);
+						String key = "attr" + i;
+						columns.add(key);
+						trHeaderNames.add(apply2AttrModelPOJO.getApply2AttrModelName());
+					}
+				}
+				
+				List<Apply2POJO> apply2pojos = activityPOJO.getApply2POJOs();
+				if (!CollectionUtils.isEmpty(apply2pojos)) {
+					for (int i = 0; i < apply2pojos.size(); i++) {
+						Apply2POJO apply2pojo = apply2pojos.get(i);
+						Date createDateTime = apply2pojo.getCreateDateTime();
+						Map map = new LinkedHashMap();
+						List<Apply2AttrPOJO> apply2AttrPOJOs = apply2pojo.getApply2AttrPOJOs();
+						if (!CollectionUtils.isEmpty(apply2AttrPOJOs)) {
+							int tempLength = apply2AttrPOJOs.size() > columns.size() ? columns.size() : apply2AttrPOJOs.size();
+							for (int j = 0; j < tempLength; j++) {
+								Apply2AttrPOJO apply2AttrPOJO = apply2AttrPOJOs.get(j);
+								String key = columns.get(j);
+								map.put(key, apply2AttrPOJO.getApply2AttrData());
+							}
+							
+							if (tempLength < columns.size()) {
+								for (int j = tempLength; j < columns.size(); j++) {
+									String key = columns.get(j);
+									map.put(key, "");
+								}
+							}
+							
+							map.put("createDateTime", createDateTime);
+							maps.add(map);
+						}
+					}
+				}
+				// 放在下面， 上面用到了columns.size()
+				trHeaderNames.add("提交时间");
+				columns.add("createDateTime");
+				
+				ret.put("apply2POJOList", maps);
+				ret.put("columns", columns);
+				ret.put("trHeaderNames", trHeaderNames);
+				
+				// Export excel
+				
+				HSSFWorkbook wb = new HSSFWorkbook();
+				HSSFSheet sheet = wb.createSheet("活动申请人");
+				
+				HSSFCellStyle cs = wb.createCellStyle();
+				HSSFDataFormat df = wb.createDataFormat();
+				HSSFFont font = wb.createFont();
+				font.setFontHeightInPoints((short)12);
+				font.setColor(HSSFColor.BLACK.index);
+				font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+				
+				cs.setFont(font);
+//				cs.setDataFormat(df.getFormat("#,##0.0"));
+				cs.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
+				
+				HSSFRow row = sheet.createRow(0);
+				for (int i = 0; i < trHeaderNames.size(); i++) {
+					HSSFCell cell = row.createCell(i);
+					cell.setCellValue(trHeaderNames.get(i));
+					cell.setCellStyle(cs);
+				}
+				
+				for (int i = 0; i < maps.size(); i++) {
+					Map map = maps.get(i);
+					row = sheet.createRow(i + 1);
+					for (int j = 0; j < columns.size(); j++) {
+						HSSFCell cell = row.createCell(j);
+						Object value = map.get(columns.get(j));
+						if (value instanceof Date) {
+							String dateStr = DateUtil.toStr((Date) value, "yyyy-MM-dd HH:mm:ss");
+							cell.setCellValue(dateStr);
+						} else {
+							cell.setCellValue(value != null ? value.toString() : "");
+						}
+					}
+				}
+				
+				/*FileOutputStream os = new FileOutputStream("apply2.xls");
+				wb.write(os);
+				os.close();*/
+				
+				String fileName = WorkbookUtil.createSafeSheetName(activityPOJO.getTitle());
+				fileName = URLEncoder.encode(fileName, "UTF-8");
+				fileName = fileName + ".xls";
+				
+				response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+//				response.setContentType("application/octet-stream");
+				response.setContentType("application/ms-excel");
+				OutputStream out = response.getOutputStream();
+
+	            BufferedOutputStream bos = new BufferedOutputStream(out);   
+				wb.write(bos);
+				bos.flush();
+				bos.close();
+				
+				
+			} catch (Exception e) {
+				logger.error("query error.", e);
+				throw e;
+			}
+			
+//			return ret;
+			return null;
+		}
+		
+	// 版本2中的申请人信息
+	@RequestMapping(value = "/api/apply2/v2/export/xls/vote", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+	public Map export4Detail4Vote(@RequestParam("activityId") Long activityId
 			, @RequestParam("startDateTime") Date startDateTime
 			, @RequestParam("endDateTime") Date endDateTime
 			, Model model, 
@@ -126,8 +260,17 @@ public class ActivityController extends BaseController {
 		Map ret = new HashMap();
 		ActivityPOJO activityPOJO = new ActivityPOJO();
 		try {
+			/*activityPOJO = activityService.find2ById(activityId);*/
 			activityPOJO = activityService.find2ById(activityId, startDateTime, endDateTime);
 			logger.info("activityPOJO convert to Json: " + JsonUtils.convertToJson(activityPOJO));
+			
+			long voteId = -99999;
+			VoteSearchPOJO voteSearchPOJO = new VoteSearchPOJO();
+			voteSearchPOJO.setActivityId(activityId);
+			List<VotePOJO> votePOJOs = voteService.finds(voteSearchPOJO);
+			if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(votePOJOs)) {
+				voteId = votePOJOs.get(0).getVoteId();
+			}
 			
 			List<Map> maps = new ArrayList<Map>();
 			List<String> columns = new ArrayList<String>();
@@ -145,8 +288,22 @@ public class ActivityController extends BaseController {
 			}
 			
 			List<Apply2POJO> apply2pojos = activityPOJO.getApply2POJOs();
+			
+			/*List<Long> apply2Ids = new ArrayList<Long>();*/
+			
+			
 			if (!CollectionUtils.isEmpty(apply2pojos)) {
-				for (int i = 0; i < apply2pojos.size(); i++) {
+				/*for (int i = 0; i < apply2pojos.size(); i++) {
+					apply2Ids.add(apply2pojos.get(i).getApply2Id());
+				}*/
+				VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
+//				voteItemSearchPOJO.setApply2Ids(apply2Ids);
+				voteItemSearchPOJO.setVoteId(voteId);
+				voteItemSearchPOJO.setPaginationFlage(false);
+				// Map<apply2Id, >
+				Map<Long, VoteItemPOJO> voteItemMaps = voteItemService.finds4Map(voteItemSearchPOJO);
+				
+				for (int i = 0; i < apply2pojos.size(); i++) {	// an apply2 VS a record
 					Apply2POJO apply2pojo = apply2pojos.get(i);
 					Date createDateTime = apply2pojo.getCreateDateTime();
 					Map map = new LinkedHashMap();
@@ -167,6 +324,19 @@ public class ActivityController extends BaseController {
 						}
 						
 						map.put("createDateTime", createDateTime);
+						VoteItemPOJO voteItemPOJOTemp = voteItemMaps.get(apply2pojo.getApply2Id());
+						Long voteItemId = null;
+						Integer approveFlag = 0;
+						Integer totalNum = 0;
+						if (voteItemPOJOTemp != null) {
+							voteItemId = voteItemPOJOTemp.getVoteItemId();
+							approveFlag = voteItemPOJOTemp.getApproveFlag();
+							totalNum = voteItemPOJOTemp.getTotalNum();
+						}
+						map.put("voteItemId", voteItemId);
+						map.put("approveFlag", approveFlag);
+						map.put("totalNum", totalNum);
+						map.put("apply2Id", apply2pojo.getApply2Id());
 						maps.add(map);
 					}
 				}
@@ -174,6 +344,14 @@ public class ActivityController extends BaseController {
 			// 放在下面， 上面用到了columns.size()
 			trHeaderNames.add("提交时间");
 			columns.add("createDateTime");
+			trHeaderNames.add("审批投票项");
+			columns.add("voteItemId");
+			trHeaderNames.add("审批标志");
+			columns.add("approveFlag");
+			trHeaderNames.add("票数");
+			columns.add("totalNum");
+			trHeaderNames.add("APPLY2 ID");
+			columns.add("apply2Id");
 			
 			ret.put("apply2POJOList", maps);
 			ret.put("columns", columns);

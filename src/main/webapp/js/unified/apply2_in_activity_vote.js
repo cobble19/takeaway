@@ -34,7 +34,7 @@ $(document).ready(function() {
 		var activityId = getParam('activityId');
 		var startDateTime = $('#startDateTime').val();
 		var endDateTime = $('#endDateTime').val();
-		window.location.href = $('#basePath').val() + "/api/apply2/v2/export/xls?activityId=" +
+		window.location.href = $('#basePath').val() + "/api/apply2/v2/export/xls/vote?activityId=" +
 				activityId + "&startDateTime=" + startDateTime + "&endDateTime=" + endDateTime;
 	});
 	
@@ -94,6 +94,8 @@ var applyInActivitySearch = function() {
 ///
 ///
 var buildTable = function(result) {
+	// init/clear  $('#trHeader')
+	$('#trHeader').html('');
 	columns = [];
 	
 	var chkColumn = {
@@ -172,8 +174,8 @@ var buildTable = function(result) {
 	};
 	columnDefs.push(columnDef);
 	columnDef = {
-		"targets": columns.length - 9,
-		"visible": true
+		"targets": [columns.length - 2,columns.length - 4,columns.length - 5],
+		"visible": false
 	};
 	columnDefs.push(columnDef);
 	
@@ -187,14 +189,14 @@ var buildTable = function(result) {
 				;
 			}
 		};
-	var noTarget = {
+	var numTarget = {
 			"targets" : 1,
 			"render" : function(data, type, full, meta) {
 				//console.log(data + " " + type + " " + full + " " + meta);
 			}
 		};
 	columnDefs.push(chkTarget);
-	columnDefs.push(noTarget);
+	columnDefs.push(numTarget);
 	
 	$('#trHeader').append('<th><input type="checkbox" name="chkBoxAll" id="chkBoxAll">全选</th>');
 	$('#trHeader').append('<th>序号</th>');
