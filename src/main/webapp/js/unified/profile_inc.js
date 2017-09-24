@@ -1,5 +1,10 @@
 
 $(document).ready(function() {
+	
+	$('#progress').dialog({
+    	autoOpen: false,
+    	modal: true
+    });
 
     $('#updateInfoBtn').click(function() {
     	var confirm = window.confirm('确定修改');

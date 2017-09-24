@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.ActivityGatherMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="ActivityGatherResultMap" type="com.cobble.takeaway.pojo.ActivityGatherPOJO" >
+    <id column="ACTIVITY_GATHER_ID" property="activityGatherId" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    <result column="CONTENT" property="content" />
+    <result column="START_DATE_TIME" property="startDateTime" />
+    <result column="END_DATE_TIME" property="endDateTime" />
+    <result column="USER_ID_ENTERPRISE" property="userIdEnterprise" />
+    <result column="LOGO_IMG" property="logoImg" jdbcType="VARCHAR"/>
+    <result column="PUBLISH_TYPE" property="publishType" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="NEED_SUBSCRIBE" property="needSubscribe" />
+    <result column="USER_ID" property="userId" />
+    <result column="ACTIVITY_ID" property="activityId" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    a.ACTIVITY_GATHER_ID, a.TITLE, a.LOGO_IMG, a.START_DATE_TIME
+    , a.END_DATE_TIME, a.CONTENT, a.PUBLISH_TYPE, a.USER_ID_ENTERPRISE
+    , a.CREATE_DATE_TIME, a.NEED_SUBSCRIBE, a.USER_ID, a.ACTIVITY_ID
+  </sql>
+  <sql id="Clause_Common">
+	<if test="title != null">
+		and a.TITLE like concat("%", concat(#{title}, "%"))
+	</if>
+	<if test="publishType != null">
+		and a.PUBLISH_TYPE = #{publishType}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+	<if test="activityId != null">
+		and a.ACTIVITY_ID = #{activityId}
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="ActivityGatherResultMap" parameterType="com.cobble.takeaway.pojo.ActivityGatherSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from e_activity_gather a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by (a.END_DATE_TIME - now()) desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.ActivityGatherSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from e_activity_gather
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="ActivityGatherResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from e_activity_gather a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.ACTIVITY_GATHER_ID = #{activityGatherId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from e_activity_gather
+    where ACTIVITY_GATHER_ID = #{activityGatherId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.ActivityGatherPOJO" useGeneratedKeys="true"
+  	keyProperty="activityGatherId" keyColumn="ACTIVITY_GATHER_ID">
+    insert into e_activity_gather
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="logoImg != null" >
+        LOGO_IMG,
+      </if>
+      <if test="userIdEnterprise != null" >
+        USER_ID_ENTERPRISE,
+      </if>
+      <if test="startDateTime != null" >
+        START_DATE_TIME,
+      </if>
+      <if test="endDateTime != null" >
+        END_DATE_TIME,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="publishType != null" >
+        PUBLISH_TYPE,
+      </if>
+      <if test="needSubscribe != null" >
+        NEED_SUBSCRIBE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="activityGatherId != null" >
+        ACTIVITY_GATHER_ID,
+      </if>
+        CREATE_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        #{title},
+      </if>
+      <if test="logoImg != null" >
+        #{logoImg},
+      </if>
+      <if test="userIdEnterprise != null" >
+        #{userIdEnterprise},
+      </if>
+      <if test="startDateTime != null" >
+        #{startDateTime},
+      </if>
+      <if test="endDateTime != null" >
+        #{endDateTime},
+      </if>
+      <if test="content != null" >
+        #{content},
+      </if>
+      <if test="publishType != null" >
+        #{publishType},
+      </if>
+      <if test="needSubscribe != null" >
+        #{needSubscribe},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="activityGatherId != null" >
+        #{activityGatherId},
+      </if>
+      sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.ActivityGatherPOJO" >
+    update e_activity_gather
+    <set>
+      <if test="title != null" >
+        TITLE = #{title},
+      </if>
+      <if test="logoImg != null" >
+        LOGO_IMG = #{logoImg},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content},
+      </if>
+      <if test="startDateTime != null" >
+        START_DATE_TIME = #{startDateTime},
+      </if>
+      <if test="endDateTime != null" >
+        END_DATE_TIME = #{endDateTime},
+      </if>
+      <if test="userIdEnterprise != null" >
+        USER_ID_ENTERPRISE = #{userIdEnterprise},
+      </if>
+      <if test="publishType != null" >
+        PUBLISH_TYPE = #{publishType},
+      </if>
+      <if test="needSubscribe != null" >
+        NEED_SUBSCRIBE = #{needSubscribe},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="activityGatherId != null" >
+        ACTIVITY_GATHER_ID = #{activityGatherId},
+      </if>
+      CREATE_DATE_TIME = sysdate(),
+    </set>
+    where ACTIVITY_GATHER_ID = #{activityGatherId}
+  </update>
+</mapper>

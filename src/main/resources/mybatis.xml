@@ -82,5 +82,8 @@
 		<mapper resource="mybatis-config/PointSummaryMapper.xml" />
 		<mapper resource="mybatis-config/PointEventMapper.xml" />
 		
+		<mapper resource="mybatis-config/ActivityGatherMapper.xml" />
+		<mapper resource="mybatis-config/ActivityRegistrationMapper.xml" />
+		
 	</mappers>
 </configuration>

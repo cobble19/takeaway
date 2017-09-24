@@ -14,12 +14,7 @@ $(document).ready(function() {
     	e.preventDefault();
 		
     	//return false;
-	});
-	
-	$('#progress').dialog({
-    	autoOpen: false,
-    	modal: true
-    });
+	})
 	
 
 //    $('#qrcodeDiv').dialog({
@@ -50,10 +45,10 @@ var showQrcode = function() {
 
 var needSubscribe = function() {
 	var needSubscribeFlag = false;
-	var activityId = getParam('activityId');
+	var activityRegistrationId = getParam('activityRegistrationId');
 	var hidContent = getParam('hidContent');
 	$.ajax({
-		"url" : $('#basePath').val() + "/web/enterprise/activity/" + activityId,
+		"url" : $('#basePath').val() + "/api/unified/activityregistration/" + activityRegistrationId,
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
@@ -140,7 +135,7 @@ var isSubscribe = function() {
 var existApply2 = function() {
 		var exist = false;
 		
-	    var activityId = $('#activityId').val();
+	    var activityRegistrationId = $('#activityRegistrationId').val();
     	
 	    inputTexts = $('#apply2Form div.form-group textarea.form-control');
 	    var apply2AttrPOJOs = [];
@@ -158,7 +153,7 @@ var existApply2 = function() {
 //    	params.apply2AttrModelName = $(inputText).prev().prev().prev().children('span').html();
     	params.apply2AttrData = $(inputText).val();
     	params.orderNo = 1;*/
-    	params.activityId = activityId;
+    	params.activityRegistrationId = activityRegistrationId;
     	
     	$.ajax({
     		"url" : $('#basePath').val() + "/api/apply2/existByUnionId",
@@ -187,21 +182,18 @@ var existApply2 = function() {
 }
 
 var onClickApply2Summit = function() {
-		$('#progress').dialog('open');
 		var form = $("form[id=apply2Form]");
 		
 		$(form).find('#apply2Btn').click(function(e) {
 			var form1 = $(this).parents('form');
 			
 			if (!$(form1).valid()) {
-				$('#progress').dialog('close');
 //				alert('请正确输入');
 				return;
 			}
 			
 			var exist = existApply2();
 			if (exist) {
-				$('#progress').dialog('close');
 				alert('请勿重复提交')
 //				$.alert('请勿重复提交', '警告');
 				return;
@@ -209,7 +201,6 @@ var onClickApply2Summit = function() {
 			
 			var subscribe = isSubscribe();
 			if (!subscribe) {
-				$('#progress').dialog('close');
 //				alert('请关注该活动发布方微信公众号');
 				/// 跳出微信qrcode进行关注
 				
@@ -219,7 +210,6 @@ var onClickApply2Summit = function() {
 			    } else {
 			    	confirm = window.confirm('提交信息，需要关注公众号， 是否关注');
 			    }
-			    
 			    
 				if (confirm) {
 					showQrcode();
@@ -239,7 +229,6 @@ var onClickApply2Summit = function() {
 			curDateTime = curDateTime.getTime();
 			curDateTime = parseInt(curDateTime);
 			if (curDateTime < startDateTime || curDateTime > endDateTime) {
-				$('#progress').dialog('close');
 				alert('活动不在有效期内');
 				return;
 			}
@@ -254,7 +243,7 @@ var onClickApply2Summit = function() {
 		    /*var count = 0;*/
 		    
 //		    var userId = $('#userId').val();
-		    var activityId = $('#activityId').val();
+		    var activityRegistrationId = $('#activityRegistrationId').val();
 		    
 		    console.log('inputTexts length: ' + inputTexts.length);
 
@@ -265,7 +254,7 @@ var onClickApply2Summit = function() {
 		    	apply2AttrPOJO.apply2AttrModelId = $(inputText).next().val();
 		    	apply2AttrPOJO.apply2AttrData = $(inputText).val();
 		    	apply2AttrPOJO.orderNo = i;
-		    	apply2AttrPOJO.activityId = activityId;
+		    	apply2AttrPOJO.activityRegistrationId = activityRegistrationId;
 		    	apply2AttrPOJOs.push(apply2AttrPOJO);
 		    }
 		    
@@ -281,7 +270,6 @@ var onClickApply2Summit = function() {
 		        type: 'POST',
 		        contentType: "application/json",
 		        success : function(data) {
-					$('#progress').dialog('close');
 		        	if (data.success) {
 			            alert('信息提交成功');
 			            if (location.href.indexOf('/web/unified/vote/loadmore') >= 0) {
@@ -303,10 +291,10 @@ var onClickApply2Summit = function() {
 }
 
 var showApply2 = function() {
-	var activityId = getParam('activityId');
+	var activityRegistrationId = getParam('activityRegistrationId');
 	var hidContent = getParam('hidContent');
 	$.ajax({
-		"url" : $('#basePath').val() + "/api/apply2AttrModel/" + activityId,
+		"url" : $('#basePath').val() + "/api/apply2AttrModel/" + activityRegistrationId,
 		"type" : "GET",
 		/*"headers" : {
 			"Content-Type" : "application/json"
@@ -387,7 +375,7 @@ var addApply = function() {
 	var phone = $("#phone").val();
 	var sex = $("input[type=radio][name=sex]:checked").val();
 	var description = $("#description").val();
-	var activityId = $("#activityId").val();
+	var activityRegistrationId = $("#activityRegistrationId").val();
 	
 	if (existApply()) {
 		alert('号码：' + phone + '已报名成功，请勿重复报名！');
@@ -404,7 +392,7 @@ var addApply = function() {
 		"data": ({
 			username: username,
 			phone: phone,
-			activityId: activityId,
+			activityRegistrationId: activityRegistrationId,
 			sex: sex,
 			description: description
         }),
@@ -425,7 +413,7 @@ var existApply = function() {
 		var exist = false;
     	var username = $("#usernameX").val();
     	var phone = $("#phone").val();
-    	var activityId = $("#activityId").val();
+    	var activityRegistrationId = $("#activityRegistrationId").val();
     	
     	$.ajax({
     		"url" : "../../web/person/apply/exist",
@@ -438,7 +426,7 @@ var existApply = function() {
     		"data": ({
     			username: username,
     			phone: phone,
-    			activityId: activityId
+    			activityRegistrationId: activityRegistrationId
             }),
             success: function(data, textStatus, jqXHR ) {
             	if (data.success) {
@@ -458,10 +446,10 @@ var existApply = function() {
 }
 
 var showDetail = function() {
-	var activityId = getParam('activityId');
+	var activityRegistrationId = getParam('activityRegistrationId');
 	var hidContent = getParam('hidContent');
 	$.ajax({
-		"url" : $('#basePath').val() + "/web/enterprise/activity/" + activityId,
+		"url" : $('#basePath').val() + "/api/unified/activityregistration/" + activityRegistrationId,
 		"type" : "GET",
 		"headers" : {
 			"Content-Type" : "application/json"
@@ -481,16 +469,16 @@ var showDetail = function() {
 //        	}
         	
         	var publishType = data.publishType;
-        	if (publishType == null || publishType == 0) {
-        		window.location.href = $('#basePath').val() + "/errorPage/404.jsp";
-//        		$('#apply2Div').hide();
-//        		$('nav.navbar').hide();
-//        		$('#errorMsg4Activity').show();
-//        		$('#errorMsg4Activity span').text('访问的页面未发布!');
-        		return;
-        	}
+//        	if (publishType == null || publishType == 0) {
+//        		window.location.href = $('#basePath').val() + "/errorPage/404.jsp";
+////        		$('#apply2Div').hide();
+////        		$('nav.navbar').hide();
+////        		$('#errorMsg4Activity').show();
+////        		$('#errorMsg4Activity span').text('访问的页面未发布!');
+//        		return;
+//        	}
 //        	$("#authorizerAppId").html(data.wxAuthorizerInfoPOJO.authorizerAppId);
-        	$("#activityId").html(data.activityId);
+        	$("#activityRegistrationId").html(data.activityRegistrationId);
         	
         	$("#startDateTime").val(data.startDateTime);
         	//console.log('startDateTime:' + data.startDateTime);

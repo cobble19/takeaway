@@ -82,6 +82,8 @@
                   <ul class="nav nav-pills nav-stacked" style="padding:10px 0px;">
                       <li style="margin-left:-20px; margin-bottom:20px;"><h5 style="color:#42b047; font-weight:bold;"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;信息发布</h5></li>
                       <li role="presentation"><a href="#create_activity"><h6>报名征集</h6></a></li>
+                      <!-- <li role="presentation"><a href="#create_activity_gather"><h6>报名征集II</h6></a></li>
+                      <li role="presentation"><a href="#create_activity_registration"><h6>申请报名</h6></a></li> -->
                       
                       <c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8 or sessionScope.myUser.userId eq 22}">
                       	<li role="presentation"><a href="#create_vote"><h6>网络投票</h6></a></li>
@@ -127,6 +129,10 @@
 	     			<%@include file="rel_wx_index_map_inc.jsp" %>
 	     			<!-- create_activity -->
 	     			<%@include file="activity_inc.jsp" %>
+	     			<!-- create_activity_gather -->
+	     			<%@include file="activity_gather_inc.jsp" %>
+	     			<!-- create_activity_registration -->
+	     			<%@include file="activity_registration_inc.jsp" %>
 	     			<!-- award -->
 	     			<%@include file="award_inc.jsp" %>
 	     			<!-- award_record -->

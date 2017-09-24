@@ -8,7 +8,7 @@
     <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     <%@include file="../common/head.jsp" %>
     
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/activity_detail.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/activity_gather_detail.js"></script>
     
   </head>
   <body>
@@ -34,16 +34,9 @@
 			<div class="row">
 			  <div class="col-md-12 col-xs-12" >
 	            	<span style=" margin-top:20px; margin-bottom:20px; display:block;"><h3 id="title"></h3></span>                    
-	            	<input type="hidden" id="activityId" name="activityId" value="<%=request.getParameter("activityId") %>"/>
-	            	               
-	            	<!-- <input type="hidden" id="authorizerAppId" name="authorizerAppId"/> -->
+	            	<input type="hidden" id="activityGatherId" name="activityGatherId" value="<%=request.getParameter("activityGatherId") %>"/>
 			  </div>
             </div>
-            <!--<div class="row visible-xs">
-                <div class="col-xs-12">
-                   <img src="" alt="" id="logoImg">
-                </div>
-            </div>-->
 			<div class="row">
 				<div class="col-md-12">
 				
@@ -66,8 +59,6 @@
 			  			<p id="content"></p>
 			  			<!-- for update -->
 			  			<div style="" class="">
-		 					<!-- <textarea rows="5" cols="20" id="content" name="content" placeholder="请输入本次活动内容"></textarea>
-		 					<input class="form-control" type="text" id="content" name="content" placeholder="请输入本次活动内容"> -->
 		 					<script id="editor" type="text/plain" name="content"></script>
 		 				</div>
 			  			<!-- <hr/> -->
@@ -86,23 +77,6 @@
 		  				<div class="row col-md-12 col-xs-12">
 			  				<fieldset>
 									<form id="apply2Form" class="form-horizontal">
-											<!-- <div class="form-group">
-												<label for="usernameX" class="control-label h5">姓名: </label>
-												<input id="usernameX" name="username" minlength="2" required="required" value="" placeholder="请填写姓名" class="form-control" />
-											</div> -->
-											<!-- <div class="form-group">
-												<label for="phone" class="control-label h5">手机: </label>
-												<input type="tel" id="phone" name="phone" minlength="3"  required="required" value="" placeholder="请填写手机号码" class="form-control" />
-											</div>
-											<div class="form-group">
-												<label for="sex" class="control-label h5">性别: </label>
-												<label class="radio-inline"><input type="radio" id="sexM" name="sex" value="M" class="" />男</label>
-												<label class="radio-inline"><input type="radio" id="sexF" name="sex" value="F" class="" />女</label>
-											</div>
-											<div class="form-group">
-												<label for="description" class="control-label h5">备注: </label> 
-												<textarea id="description" name="description" rows="3" cols="18" value="" placeholder="备注为选填项" class="form-control"  style="margin-bottom:5px;"></textarea>
-											</div> -->
 											<div class="form-group">
                                                 <div class="col-md-12">
 												<input type="button" id="apply2Btn" value="提交" class="btn btn-default" />
@@ -143,7 +117,6 @@
 					</div>
 	  			</div>
 		</div><!-- for show -->
-		<div id="progress">正在执行中。。。</div>
 	<%@include file="../../../bottom.jsp" %>  		
 	</div> <!-- container -->
   </body>
