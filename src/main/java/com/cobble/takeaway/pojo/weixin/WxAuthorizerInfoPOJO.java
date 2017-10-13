@@ -16,7 +16,11 @@ public class WxAuthorizerInfoPOJO extends BasePOJO {
     private String qrcodeUrl;
     private String businessInfo;
 	private Integer idc;
+	private String principalName;
+	private String signature;
+	
     private String authorizerAppId;
+    private String authorizerRefreshToken;
     private String funcInfo;
     
     private String qrcodeFilePath;
@@ -133,6 +137,24 @@ public class WxAuthorizerInfoPOJO extends BasePOJO {
 	}
 	public void setControlCode(String controlCode) {
 		this.controlCode = controlCode;
+	}
+	public String getPrincipalName() {
+		return principalName;
+	}
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
+	}
+	public String getSignature() {
+		return signature;
+	}
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+	public String getAuthorizerRefreshToken() {
+		return authorizerRefreshToken;
+	}
+	public void setAuthorizerRefreshToken(String authorizerRefreshToken) {
+		this.authorizerRefreshToken = authorizerRefreshToken;
 	}
     
 	

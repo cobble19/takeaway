@@ -22,8 +22,11 @@
     <result column="QRCODE_URL" property="qrcodeUrl" />
     <result column="BUSINESS_INFO" property="businessInfo" />
     <result column="IDC" property="idc" />
+    <result column="PRINCIPAL_NAME" property="principalName" />
+    <result column="SIGNATURE" property="signature" />
     <result column="AUTHORIZER_APPID" property="authorizerAppId" />
     <result column="FUNC_INFO" property="funcInfo" />
+    <result column="AUTHORIZER_REFRESH_TOKEN" property="authorizerRefreshToken" />
     <result column="QRCODE_FILE_PATH" property="qrcodeFilePath" />
     <result column="CONTROL_CODE" property="controlCode" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
@@ -33,7 +36,8 @@
     a.WX_AUTHORIZER_INFO_ID, a.USER_ID, a.NICK_NAME, a.HEAD_IMG
     , a.SERVICE_TYPE_INFO, a.VERIFY_TYPE_INFO, a.USER_NAME
     , a.ALIAS, a.QRCODE_URL, a.BUSINESS_INFO
-    , a.IDC, a.AUTHORIZER_APPID, a.FUNC_INFO
+    , a.IDC, a.PRINCIPAL_NAME, a.SIGNATURE
+    , a.AUTHORIZER_APPID, a.FUNC_INFO, a.AUTHORIZER_REFRESH_TOKEN
     , a.QRCODE_FILE_PATH, a.CONTROL_CODE
     , a.CREATE_DATE_TIME
   </sql>
@@ -135,11 +139,20 @@
       <if test="idc != null" >
         IDC,
       </if>
+      <if test="principalName != null" >
+        PRINCIPAL_NAME,
+      </if>
+      <if test="signature != null" >
+        SIGNATURE,
+      </if>
       <if test="authorizerAppId != null" >
         AUTHORIZER_APPID,
       </if>
       <if test="funcInfo != null" >
         FUNC_INFO,
+      </if>
+      <if test="authorizerRefreshToken != null" >
+        AUTHORIZER_REFRESH_TOKEN,
       </if>
       <if test="qrcodeFilePath != null" >
         QRCODE_FILE_PATH,
@@ -182,11 +195,20 @@
       <if test="idc != null" >
         #{idc},
       </if>
+      <if test="principalName != null" >
+        #{principalName},
+      </if>
+      <if test="signature != null" >
+        #{signature},
+      </if>
       <if test="authorizerAppId != null" >
         #{authorizerAppId},
       </if>
       <if test="funcInfo != null" >
         #{funcInfo},
+      </if>
+      <if test="authorizerRefreshToken != null" >
+        #{authorizerRefreshToken},
       </if>
       <if test="qrcodeFilePath != null" >
         #{qrcodeFilePath},
@@ -233,11 +255,20 @@
       <if test="idc != null" >
         IDC = #{idc},
       </if>
+      <if test="principalName != null" >
+        PRINCIPAL_NAME = #{principalName},
+      </if>
+      <if test="signature != null" >
+        SIGNATURE = #{signature},
+      </if>
       <if test="authorizerAppId != null" >
         AUTHORIZER_APPID = #{authorizerAppId},
       </if>
       <if test="funcInfo != null" >
         FUNC_INFO = #{funcInfo},
+      </if>
+      <if test="authorizerRefreshToken != null" >
+        AUTHORIZER_REFRESH_TOKEN = #{authorizerRefreshToken},
       </if>
       <if test="qrcodeFilePath != null" >
         QRCODE_FILE_PATH = #{qrcodeFilePath},

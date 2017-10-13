@@ -2062,36 +2062,45 @@ public class Oauth2Controller extends BaseController {
 
 			logger.debug("wxThirdAuthorizerInfo: " + wxThirdAuthorizerInfo);
 			
-			WxAuthorizerInfoApiPOJO wxAuthorizerInfoPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerInfo, WxAuthorizerInfoApiPOJO.class);
+			WxAuthorizerInfoApiPOJO wxAuthorizerInfoApiPOJO = JsonUtils.convertToJavaBean(wxThirdAuthorizerInfo, WxAuthorizerInfoApiPOJO.class);
 			
 			// 保存授权者信息到数据库
 			com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO2 = new com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO();
-			String nickName = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getNickName();
+			String nickName = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getNickName();
 //			wxAuthorizerInfoPOJO2.setNickName(new String(nickName.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
 			wxAuthorizerInfoPOJO2.setNickName(nickName);
-			String headImg = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getHeadImg();
+			String headImg = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getHeadImg();
 			wxAuthorizerInfoPOJO2.setHeadImg(headImg);
-			Integer serviceTypeInfo = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getServiceTypeInfoPOJO().getId();
+			Integer serviceTypeInfo = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getServiceTypeInfoPOJO().getId();
 			wxAuthorizerInfoPOJO2.setServiceTypeInfo(serviceTypeInfo);
-			Integer verifyTypeInfo = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getVerifyTypeInfoPOJO().getId();
+			Integer verifyTypeInfo = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getVerifyTypeInfoPOJO().getId();
 			wxAuthorizerInfoPOJO2.setVerifyTypeInfo(verifyTypeInfo);
-			String userName = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getUserName();
+			String userName = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getUserName();
 			wxAuthorizerInfoPOJO2.setUserName(userName);
-			String alias = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getAlias();
+			String alias = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getAlias();
 			wxAuthorizerInfoPOJO2.setAlias(alias);
-			String qrcodeUrl = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getQrcodeUrl();
+			String qrcodeUrl = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getQrcodeUrl();
 			wxAuthorizerInfoPOJO2.setQrcodeUrl(qrcodeUrl);
-			String businessInfo = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenStore()
-					 			+ "," + wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenScan()
-					 			+ "," + wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenPay()
-					 			+ "," + wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenCard()
-					 			+ "," + wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenShake();
+			String businessInfo = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenStore()
+					 			+ "," + wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenScan()
+					 			+ "," + wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenPay()
+					 			+ "," + wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenCard()
+					 			+ "," + wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getBusinessInfoPOJO().getOpenShake();
 			wxAuthorizerInfoPOJO2.setBusinessInfo(businessInfo);
-			Integer idc = wxAuthorizerInfoPOJO.getAuthorizerInfoPOJO().getIdc();
+			Integer idc = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getIdc();
 			wxAuthorizerInfoPOJO2.setIdc(idc);
+			String principalName = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getPrincipalName();
+			wxAuthorizerInfoPOJO2.setPrincipalName(principalName);
+			String signature = wxAuthorizerInfoApiPOJO.getAuthorizerInfoPOJO().getSignature();
+			wxAuthorizerInfoPOJO2.setSignature(signature);
+			
 			wxAuthorizerInfoPOJO2.setAuthorizerAppId(authorizerAppId);
+			
+			String authorizerRefreshToken = wxAuthorizerInfoApiPOJO.getAuthorizationInfo4AuthzerPOJO().getAuthorizerRefreshToken();
+			wxAuthorizerInfoPOJO2.setAuthorizerRefreshToken(authorizerRefreshToken);
+			
 			String funcInfo = "";
-			List<FuncInfoApiPOJO> funcInfoPOJOs = wxAuthorizerInfoPOJO.getAuthorizationInfo4AuthzerPOJO().getFuncInfoPOJOList();
+			List<FuncInfoApiPOJO> funcInfoPOJOs = wxAuthorizerInfoApiPOJO.getAuthorizationInfo4AuthzerPOJO().getFuncInfoPOJOList();
 			List<Integer> ids = new ArrayList<Integer>();
 			if (!CollectionUtils.isEmpty(funcInfoPOJOs)) {
 				for (int i = 0; i < funcInfoPOJOs.size(); i++) {

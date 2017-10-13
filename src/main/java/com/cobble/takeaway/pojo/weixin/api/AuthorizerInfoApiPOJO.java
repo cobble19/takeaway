@@ -24,6 +24,8 @@ public class AuthorizerInfoApiPOJO extends BasePOJO {
 	private Integer idc;
 	@JsonProperty(value="principal_name")
 	private String principalName;
+	@JsonProperty(value="signature")
+	private String signature;
 	
 	public String getNickName() {
 		return nickName;
@@ -78,5 +80,17 @@ public class AuthorizerInfoApiPOJO extends BasePOJO {
 	}
 	public void setIdc(Integer idc) {
 		this.idc = idc;
+	}
+	public String getPrincipalName() {
+		return principalName;
+	}
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
+	}
+	public String getSignature() {
+		return signature;
+	}
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 }

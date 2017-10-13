@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AuthorizationInfo4AuthzerApiPOJO extends BasePOJO {
 	@JsonProperty(value="authorizer_appid")
     private String authorizerAppId;
+	@JsonProperty(value="authorizer_refresh_token")
+    private String authorizerRefreshToken;
 	@JsonProperty(value="func_info")
     private List<FuncInfoApiPOJO> funcInfoPOJOList;
 
@@ -23,5 +25,11 @@ public class AuthorizationInfo4AuthzerApiPOJO extends BasePOJO {
 	}
 	public void setFuncInfoPOJOList(List<FuncInfoApiPOJO> funcInfoPOJOList) {
 		this.funcInfoPOJOList = funcInfoPOJOList;
+	}
+	public String getAuthorizerRefreshToken() {
+		return authorizerRefreshToken;
+	}
+	public void setAuthorizerRefreshToken(String authorizerRefreshToken) {
+		this.authorizerRefreshToken = authorizerRefreshToken;
 	}
 }
