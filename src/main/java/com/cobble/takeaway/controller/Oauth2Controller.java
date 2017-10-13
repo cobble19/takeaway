@@ -2403,9 +2403,10 @@ public class Oauth2Controller extends BaseController {
 				return "success";
 			}
 			
-			if (result.contains(CommonConstant.HFJT_USER_NAME)) {
+			// 处理HFJT定制关键字
+			/*if (result.contains(CommonConstant.HFJT_USER_NAME)) {
 				return "success";
-			}
+			}*/
 			
 			// 全网发布监测开始
 			// for username is autoTest and contains "text" and content is "TESTCOMPONENT_MSG_TYPE_TEXT"
@@ -2502,9 +2503,9 @@ public class Oauth2Controller extends BaseController {
 							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 							return encryptMsg;
-						} else if (CommonConstant.MSG_TYPE_SYSTEM.equalsIgnoreCase(respMsgType)) {
+						} else if (CommonConstant.MSG_TYPE_SYSTEM.equalsIgnoreCase(respMsgType) && !result.contains(CommonConstant.HFJT_USER_NAME)) {
 							contentRecv = wxRespMsgPOJO.getMsgSend();
-						} else if (CommonConstant.MSG_TYPE_LOTTERY.equalsIgnoreCase(respMsgType)) {
+						} else if (CommonConstant.MSG_TYPE_LOTTERY.equalsIgnoreCase(respMsgType) && !result.contains(CommonConstant.HFJT_USER_NAME)) {
 							// to call lottery api
 							// /api/unified/lottery/{interactiveId}/happy?userId={userId}
 							Long interactiveId = NumberUtils.toLong(wxRespMsgPOJO.getMsgSend());
@@ -2569,7 +2570,10 @@ public class Oauth2Controller extends BaseController {
 						
 					}
 					// end deal resp msg
-					
+					// HFJT只处理定制关键字
+					if (result.contains(CommonConstant.HFJT_USER_NAME)) {
+						return "success";
+					}
 
 					// 检测VIEW， 获取from/to，注册其他的公众号的用户
 					// 得味驿站是服务号， 直接发送【注册】2个字
@@ -2908,6 +2912,11 @@ public class Oauth2Controller extends BaseController {
 					
 					
 				} /**text end**/ else if ("event".equalsIgnoreCase(msgType)) {
+					// HFJT只处理定制关键字
+					if (result.contains(CommonConstant.HFJT_USER_NAME)) {
+						return "success";
+					}
+
 					WxMsgEventRecvEventApiPOJO wxMsgEventRecvEventApiPOJO = XmlUtils.convertToJavaBean(result, WxMsgEventRecvEventApiPOJO.class);
 					logger.info("接收到的事件: {}", wxMsgEventRecvEventApiPOJO);
 
