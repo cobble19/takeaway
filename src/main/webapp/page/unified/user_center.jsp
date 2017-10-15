@@ -130,9 +130,9 @@
 	     			<!-- create_activity -->
 	     			<%@include file="activity_inc.jsp" %>
 	     			<!-- create_activity_gather -->
-	     			<%@include file="activity_gather_inc.jsp" %>
+	     			<%-- <%@include file="activity_gather_inc.jsp" %> --%>
 	     			<!-- create_activity_registration -->
-	     			<%@include file="activity_registration_inc.jsp" %>
+	     			<%-- <%@include file="activity_registration_inc.jsp" %> --%>
 	     			<!-- award -->
 	     			<%@include file="award_inc.jsp" %>
 	     			<!-- award_record -->
