@@ -28,8 +28,8 @@ public class ActivityGatherServiceImpl implements ActivityGatherService {
 		ActivityPOJO activityPOJO = new ActivityPOJO();
 		activityPOJO.setTitle(activityGatherPOJO.getTitle());
 		activityPOJO.setContent(activityGatherPOJO.getContent());
-//		activityPOJO.setStartDateTime(startDateTime);
-//		activityPOJO.setEndDateTime(endDateTime);
+		activityPOJO.setStartDateTime(activityGatherPOJO.getStartDateTime());
+		activityPOJO.setEndDateTime(activityGatherPOJO.getEndDateTime());
 		activityPOJO.setTypeCode(1);
 		activityPOJO.setPublishType(1);
 		activityPOJO.setNeedSubscribe(0);

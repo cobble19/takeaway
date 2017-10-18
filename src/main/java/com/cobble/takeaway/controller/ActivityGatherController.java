@@ -51,10 +51,16 @@ public class ActivityGatherController extends BaseController {
 				throw new Exception("activityGatherPOJO can't is NULL.");
 			}
 			int result = -1;
+
+			Long userId = UserUtil.getCurrentUserId();
+			if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}
+			activityGatherPOJO.setUserId(userId);
 			if (activityGatherPOJO.getActivityGatherId() != null) {
 				result = activityGatherService.update(activityGatherPOJO);
 			} else {
-				result = activityGatherService.insert(activityGatherPOJO, UserUtil.getCurrentUser().getUserId());
+				result = activityGatherService.insert(activityGatherPOJO, userId);
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {

@@ -10,8 +10,8 @@
 		<%@include file="../../page/common/head.jsp"%>
 		
 		<link href="<cmn:base/>/css/unified/activity_list.css" rel="stylesheet">
-		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/common_div.js"></script>
-		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/activity_inc.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/progress_dialog.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/activity_single.js"></script>
 	</head>
 	
   <body style="padding-top: 100px;">
@@ -66,6 +66,8 @@
 				  						<th><input type="checkbox" name="chkBoxAll" id="chkBoxAll">全选</th>
 				  						<th>序号</th>
 				  						<th>标识</th>
+				  						<th>用户ID</th>
+				  						<th>活动ID</th>
 				  						<th>标题</th>
 				  						<th>开始时间</th>
 				  						<th>截止时间</th>
