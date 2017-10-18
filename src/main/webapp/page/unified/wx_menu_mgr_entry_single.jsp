@@ -10,8 +10,8 @@
 		<%@include file="../../page/common/head.jsp"%>
 		
 		<link href="<cmn:base/>/css/unified/activity_list.css" rel="stylesheet">
-		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/common_div.js"></script>
-		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/wx_menu_mgr_entry_inc.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/progress_dialog.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/wx_menu_mgr_entry_single.js"></script>
 		<style type="text/css">
 			<!--
 			/* .no-close .ui-dialog-titlebar-close {

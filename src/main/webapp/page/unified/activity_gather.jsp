@@ -13,23 +13,23 @@
   <body>
   	<div class="container">
   		<div class="row">
-  			<h2 class="">征集</h2>
+  			<h2 class="">征集活动</h2>
   		</div>
   		<form id="activityGatherForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/activitygather/add' method="post">
  			<div class="form-group">
- 				<label class="control-label" for="title">主题:</label>
+ 				<label class="control-label" for="title">征集活动主题:</label>
  				<div class="">
  					<input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入本次活动主题">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="startDateTime">活动开始时间:</label>
+ 				<label class="control-label" for="startDateTime">征集活动开始时间:</label>
  				<div class="">
  					<input class="form-control" id="startDateTime" name="startDateTime" required="required" placeholder="请输入开始时间">
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="endDateTime">活动结束时间:</label>
+ 				<label class="control-label" for="endDateTime">征集活动结束时间:</label>
  				<div class="">
  					<input class="form-control" id="endDateTime" name="endDateTime" required="required" placeholder="请输入结束时间">
  				</div>
