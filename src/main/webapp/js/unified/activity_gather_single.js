@@ -206,6 +206,8 @@ $(document).ready(function() {
                 "defaultContent": ''
             },
             { "data": "activityGatherId" },
+            { "data": "userId" },
+            { "data": "activityId" },
             { "data": "title" },
             { "data": "startDateTime" },
             { "data": "endDateTime" },

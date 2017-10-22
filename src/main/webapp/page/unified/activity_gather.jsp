@@ -17,6 +17,18 @@
   		</div>
   		<form id="activityGatherForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/activitygather/add' method="post">
  			<div class="form-group">
+ 				<label class="control-label" for="userId">用户ID:</label>
+ 				<div class="">
+ 					<input class="form-control" id="userId" name="userId" minlength="1" required="required" placeholder="请输入用户ID">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="activityId">征集活动主题:</label>
+ 				<div class="">
+ 					<input class="form-control" id="activityId" name="activityId" minlength="1" required="required" placeholder="请输入活动ID">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
  				<label class="control-label" for="title">征集活动主题:</label>
  				<div class="">
  					<input class="form-control" id="title" name="title" minlength="2" required="required" placeholder="请输入本次活动主题">

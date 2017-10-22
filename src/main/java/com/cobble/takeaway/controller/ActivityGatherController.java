@@ -197,7 +197,7 @@ public class ActivityGatherController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<ActivityGatherPOJO> queryByUserId(ActivityGatherSearchPOJO activityGatherSearchPOJO) throws Exception {
 		DataTablesPOJO<ActivityGatherPOJO> ret = new DataTablesPOJO<ActivityGatherPOJO>();
-		activityGatherSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+		activityGatherSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 		try {
 			activityGatherSearchPOJO.setPaginationFlage(false);
 			List<ActivityGatherPOJO> activityGatherPOJOs = activityGatherService.finds(activityGatherSearchPOJO);
