@@ -68,14 +68,6 @@
 				  						<th>操作</th>
 				  					</tr>
 				  				</thead>
-				  				<!-- <tfoot>
-				  					<tr>
-				  						<th>No.</th>
-				  						<th>标识</th>
-				  						<th>标题</th>
-				  						<th>内容</th>
-				  					</tr>
-				  				</tfoot> -->
 				  			</table>
                             </div>
 	     			</div>	<!-- create_activity_gather end -->

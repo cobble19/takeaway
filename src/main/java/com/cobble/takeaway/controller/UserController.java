@@ -153,7 +153,7 @@ public class UserController extends BaseController {
 		return ret;
 	}
     
-	@RequestMapping(value = "/web/user/updatePassword")
+	@RequestMapping(value = "/api/user/updatePassword", method = {RequestMethod.POST})
 	@ResponseBody
 	public StatusPOJO updatePassword(UserPOJO userPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
@@ -163,6 +163,10 @@ public class UserController extends BaseController {
 				int result = userService.updatePassword(userPOJO);
 				ret.setSuccess(true);
 			} else {
+				if (!myUser.getPassword().equals(userPOJO.getPasswordOld())) {
+					ret.setErrorCode("PaswordError");
+					ret.setErrorMsg("原密码不正确！");
+				}
 				ret.setSuccess(false);
 			}
 		} catch (Exception e) {
@@ -174,7 +178,7 @@ public class UserController extends BaseController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/web/user/updateInfo")
+	@RequestMapping(value = "/api/user/updateInfo", method = {RequestMethod.POST})
 	@ResponseBody
 	public StatusPOJO updateInfo(UserPOJO userPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();

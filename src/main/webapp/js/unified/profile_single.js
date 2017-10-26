@@ -17,13 +17,13 @@ $(document).ready(function() {
     	var userId = $('#userId').val();
     	
     	$.ajax({
-    		"url" : "../../web/user/updateInfo",
-    		"type" : "GET",
+    		"url" : $('#basePath').val() + "/api/user/updateInfo",
+    		"type" : "POST",
     		/*"headers" : {
     			"Content-Type" : "application/json"
     		},*/
     		"dataType" : 'json',
-    		traditional :true, 
+//    		traditional :true, 
     		"data": {
                 /*"username": username,*/
                 "nickname": nickname,

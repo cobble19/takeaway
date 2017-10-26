@@ -38,11 +38,6 @@
 	     			<div id="wx_menu_mgr_entry">
 	     				<h3>公众号菜单</h3>
 	     				<div style="margin: 10px auto;">
-	     					<%-- <a class="btn btn-primary btn-xs" target="_blank" href='<cmn:base/>/page/unified/wx_menu_mgr_entry_add.jsp'>添加</a>
-	     					
-	     					<input id="searchBtn4WxMenuMgrEntry" type="button" class="btn btn-default btn-xs" value="查询">
-	     					<input id="deleteBtn4WxMenuMgrEntry" type="button" class="btn btn-default btn-xs" value="删除"> --%>
-	     					
      						<button id="getMenuBtn4WxMenuMgrEntryFromWx" class="btn btn-default btn-sm" 
      							data-toggle="tooltip" data-placement="top" title="获取微信公众号当前显示的菜单">
      							获取菜单 <span style="color: green;" class="glyphicon glyphicon-download"></span>

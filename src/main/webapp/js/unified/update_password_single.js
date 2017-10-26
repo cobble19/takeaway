@@ -5,8 +5,8 @@ $(document).ready(function() {
 		var passwordOld = $('#update_password').find('#passwordOld').val();
 		console.log(password + $('#password').val() + " " + $('#password').text()+ " " + $('#password').html())
     	$.ajax({
-    		"url" : "../../web/user/updatePassword",
-    		"type" : "GET",
+    		"url" : $('#basePath').val() + "/api/user/updatePassword",
+    		"type" : "POST",
     		/*"headers" : {
     			"Content-Type" : "application/json"
     		},*/
