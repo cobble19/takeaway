@@ -1057,6 +1057,7 @@ public class ActivityController extends BaseController {
 	@ResponseBody
 	public StatusPOJO add(ActivityPOJO activityPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
+		
 		try {
 			int result = activityService.insert(activityPOJO, UserUtil.getCurrentUserId());
 			ret.setSuccess(true);
