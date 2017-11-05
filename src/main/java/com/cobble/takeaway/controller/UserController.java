@@ -67,6 +67,34 @@ public class UserController extends BaseController {
 	private RelWxIndexMapService relWxIndexMapService;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    @RequestMapping(value = "/web/unified/profile", method = {RequestMethod.GET})
+	public ModelAndView userProfile(Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		MyUser myUser = UserUtil.getCurrentUser();
+		myUser = new MyUser(myUser);
+		
+		Long userId = myUser.getUserId();
+
+		Map map = new HashMap();
+		map.put("userId", userId);
+		String wxComLoginUrl = WxUtil.getWxComLoginUrl(map);
+
+		WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+		try {
+			wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userId);
+		} catch (Exception e) {
+			logger.error("Can't get Authorizer: {}", e);
+		}
+
+		ret.addObject("myUser", myUser);
+		ret.addObject("wxComLoginUrl", wxComLoginUrl);
+		ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+		ret.setViewName("/page/unified/profile_single");
+
+		return ret;
+	}
     
     @RequestMapping(value = "/web/user/check", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
@@ -207,26 +235,26 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/web/unified/usercenter", method = {RequestMethod.GET})
 	public ModelAndView usercenter4Unified(UserPOJO userPOJO, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	ModelAndView ret = new ModelAndView();
-    	MyUser myUser = UserUtil.getCurrentUser();
-    	myUser = new MyUser(myUser);
-    	
+		ModelAndView ret = new ModelAndView();
+		MyUser myUser = UserUtil.getCurrentUser();
+		myUser = new MyUser(myUser);
+
 		Map map = new HashMap();
 		map.put("userId", myUser.getUserId());
-    	String wxComLoginUrl = WxUtil.getWxComLoginUrl(map);
-    	
-    	WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
-    	try {
-        	wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
-    	} catch (Exception e) {
-    		logger.error("Can't get Authorizer: {}", e);
-    	}
-    	
-    	ret.addObject("myUser", myUser);
-    	ret.addObject("wxComLoginUrl", wxComLoginUrl);
-    	ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
-    	ret.setViewName("/page/unified/user_center");
-		
+		String wxComLoginUrl = WxUtil.getWxComLoginUrl(map);
+
+		WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+		try {
+			wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
+		} catch (Exception e) {
+			logger.error("Can't get Authorizer: {}", e);
+		}
+
+		ret.addObject("myUser", myUser);
+		ret.addObject("wxComLoginUrl", wxComLoginUrl);
+		ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+		ret.setViewName("/page/unified/user_center");
+
 		return ret;
 	}
     

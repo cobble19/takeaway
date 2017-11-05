@@ -164,9 +164,10 @@ public class WxMenuMgrCategoryController extends BaseController {
 		DataTablesPOJO<WxMenuMgrCategoryPOJO> ret = new DataTablesPOJO<WxMenuMgrCategoryPOJO>();
 		Long userId = wxMenuMgrCategorySearchPOJO.getUserId();
 		if (userId == null || userId <= 0) {
-			userId = UserUtil.getCurrentUser().getUserId();
+			userId = UserUtil.getCurrentUserId();
 		}
 		wxMenuMgrCategorySearchPOJO.setUserId(userId);
+		
 		try {
 			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.finds(wxMenuMgrCategorySearchPOJO);
 			ret.setData(wxMenuMgrCategoryPOJOs);

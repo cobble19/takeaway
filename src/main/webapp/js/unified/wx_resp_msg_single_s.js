@@ -378,7 +378,8 @@ var wxRespMsgSSearch = function(table) {
 		"dataType" : 'json',
 		traditional :true, 
 		"data": {
-            'msgType': 0
+            'msgType': 0,
+            "authorizerAppId": $("#authorizerAppId").val()
         },
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');

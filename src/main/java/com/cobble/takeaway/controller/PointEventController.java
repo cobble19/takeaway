@@ -50,7 +50,7 @@ public class PointEventController extends BaseController {
 			if (pointEventPOJO.getPointEventId() != null) {
 				result = pointEventService.update(pointEventPOJO);
 			} else {
-				result = pointEventService.insert(pointEventPOJO, UserUtil.getCurrentUser().getUserId());
+				result = pointEventService.insert(pointEventPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class PointEventController extends BaseController {
 			if (pointEventPOJO.getPointEventId() != null) {
 				result = pointEventService.update(pointEventPOJO);
 			} else {
-				result = pointEventService.insert(pointEventPOJO, UserUtil.getCurrentUser().getUserId());
+				result = pointEventService.insert(pointEventPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -139,7 +139,7 @@ public class PointEventController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<PointEventPOJO> queryByUserId(PointEventSearchPOJO pointEventSearchPOJO) throws Exception {
 		DataTablesPOJO<PointEventPOJO> ret = new DataTablesPOJO<PointEventPOJO>();
-		pointEventSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+		pointEventSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 		try {
 			List<PointEventPOJO> pointEventPOJOs = pointEventService.finds(pointEventSearchPOJO);
 			ret.setData(pointEventPOJOs);
@@ -172,7 +172,7 @@ public class PointEventController extends BaseController {
 	public StatusPOJO add(PointEventPOJO pointEventPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = pointEventService.insert(pointEventPOJO, UserUtil.getCurrentUser().getUserId());
+			int result = pointEventService.insert(pointEventPOJO, UserUtil.getCurrentUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);

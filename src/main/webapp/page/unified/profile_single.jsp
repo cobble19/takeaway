@@ -6,7 +6,6 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
 		<%@include file="../../page/common/head.jsp"%>
 		
 		<link href="<cmn:base/>/css/unified/activity_list.css" rel="stylesheet">
@@ -125,7 +124,7 @@
 													8.二维码图片:
 													<c:out value="${wxAuthorizerInfoPOJO.qrcodeFilePath}"></c:out>
 													<img alt="二维码图片"
-														src='<cmn:base/>${wxAuthorizerInfoPOJO.qrcodeFilePath}'
+														src='<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}'
 														height="40" width="40">
 												</p></li>
 										</ul>

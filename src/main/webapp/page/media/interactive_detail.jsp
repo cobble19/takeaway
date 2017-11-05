@@ -9,7 +9,6 @@
     
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/interactive_detail.js"></script>
     
-    <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
   </head>
   <body>
   

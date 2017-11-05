@@ -210,7 +210,7 @@ public class WxMenuMgrButtonController extends BaseController {
 		DataTablesPOJO<WxMenuMgrButtonPOJO> ret = new DataTablesPOJO<WxMenuMgrButtonPOJO>();
 		Long userId = wxMenuMgrButtonSearchPOJO.getUserId();
 		if (userId == null || userId <= 0) {
-			userId = UserUtil.getCurrentUser().getUserId();
+			userId = UserUtil.getCurrentUserId();
 		}
 		wxMenuMgrButtonSearchPOJO.setUserId(userId);
 		try {

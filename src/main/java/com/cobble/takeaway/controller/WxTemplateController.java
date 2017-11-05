@@ -68,7 +68,7 @@ public class WxTemplateController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			Long wxTemplateId = relWxTemplateUserPOJO.getWxTemplateId();
 			
 			// 获取已经生成的静态页面
@@ -145,7 +145,7 @@ public class WxTemplateController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ExtjsPOJO<WxTemplatePOJO> ret = new ExtjsPOJO<WxTemplatePOJO>();
 		try {
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			WxTemplateSearchPOJO wxTemplateSearchPOJO = new WxTemplateSearchPOJO();
 			wxTemplateSearchPOJO.setUserId(userId);
 			List<WxTemplatePOJO> wxTemplatePOJOs = wxTemplateService.findsByUserId(wxTemplateSearchPOJO);
@@ -191,7 +191,7 @@ public class WxTemplateController extends BaseController {
 			}
 			
 
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userId);
 			if (user4IndexCode != null) {
 				String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
@@ -246,7 +246,7 @@ public class WxTemplateController extends BaseController {
 	public DataTablesPOJO<WxTemplatePOJO> queryWxTemplate(WxTemplateSearchPOJO wxTemplateSearchPOJO, Model model) throws Exception {
 		DataTablesPOJO<WxTemplatePOJO> ret = new DataTablesPOJO<WxTemplatePOJO>();
 		List<WxTemplatePOJO> wxTemplatePOJOList = new ArrayList<WxTemplatePOJO>();
-		Long userId = UserUtil.getCurrentUser().getUserId();
+		Long userId = UserUtil.getCurrentUserId();
 		wxTemplateSearchPOJO.setUserId(userId);
 		wxTemplatePOJOList = wxTemplateService.findsByUserId4UC(wxTemplateSearchPOJO);
 		

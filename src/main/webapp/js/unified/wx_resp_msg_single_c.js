@@ -221,7 +221,8 @@ var wxRespMsgCSearch = function(table) {
 		},
 		"dataType" : 'json',
 		"data": {
-            msgType: 1
+            msgType: 1,
+            "authorizerAppId": $("#authorizerAppId").val()
         },
         success: function(data, textStatus, jqXHR ) {
         	$('#progress').dialog('close');

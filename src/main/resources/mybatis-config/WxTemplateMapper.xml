@@ -77,7 +77,7 @@
 			<include refid="Clause_Common"/>
   		</trim>
   	</where> -->
-  	order by b.wx_template_id desc
+  	order by a.wx_template_id desc
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>

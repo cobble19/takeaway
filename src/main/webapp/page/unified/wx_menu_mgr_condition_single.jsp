@@ -6,7 +6,6 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
 		<%@include file="../../page/common/head.jsp"%>
 		
 		<link href="<cmn:base/>/css/unified/activity_list.css" rel="stylesheet">

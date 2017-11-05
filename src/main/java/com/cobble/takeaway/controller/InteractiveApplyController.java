@@ -162,7 +162,7 @@ public class InteractiveApplyController extends BaseController {
 	public StatusPOJO verify(InteractiveApplySearchPOJO interactiveApplySearchPOJO) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			if (userId == null || userId == 0) {
 				ret.setSuccess(false);
 				ret.setDesc("请登录！");
@@ -215,7 +215,7 @@ public class InteractiveApplyController extends BaseController {
 	public StatusPOJO apply(InteractiveApplyPOJO interactiveApplyPOJO) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			if (userId == null || userId == 0) {
 				ret.setSuccess(false);
 				ret.setDesc("请登录！");

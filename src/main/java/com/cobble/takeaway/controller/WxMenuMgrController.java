@@ -361,7 +361,8 @@ public class WxMenuMgrController extends BaseController {
 			}*/
 			// Full
 			WxMenuMgrFullSearchPOJO wxMenuMgrFullSearchPOJO = new WxMenuMgrFullSearchPOJO();
-			wxMenuMgrFullSearchPOJO.setUserId(userId);
+//			wxMenuMgrFullSearchPOJO.setUserId(userId);
+			wxMenuMgrFullSearchPOJO.setAuthorizerAppId(wxMenuMgrButtonPOJO.getAuthorizerAppId());
 			
 			List<WxMenuMgrFullPOJO> wxMenuMgrFullPOJOs = wxMenuMgrFullService.finds(wxMenuMgrFullSearchPOJO);
 			if (CollectionUtils.isNotEmpty(wxMenuMgrFullPOJOs)) {
@@ -847,6 +848,7 @@ public class WxMenuMgrController extends BaseController {
 				throw new Exception("userId can't is NULL.");
 			}*/
 			WxMenuMgrCategorySearchPOJO wxMenuMgrCategorySearchPOJO = new WxMenuMgrCategorySearchPOJO();
+			wxMenuMgrCategorySearchPOJO.setAuthorizerAppId(wxMenuMgrButtonPOJO.getAuthorizerAppId());
 			List<WxMenuMgrCategoryPOJO> wxMenuMgrCategoryPOJOs = wxMenuMgrCategoryService.findFull(wxMenuMgrCategorySearchPOJO);
 			
 			ret.setData(wxMenuMgrCategoryPOJOs);

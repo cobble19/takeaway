@@ -8,7 +8,6 @@
 <html lang="en">
   <head>
   
-    <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     <%@include file="../common/head.jsp" %>
     
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/interactive2_detail.js"></script>

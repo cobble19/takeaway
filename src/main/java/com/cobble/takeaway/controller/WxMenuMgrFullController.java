@@ -164,7 +164,7 @@ public class WxMenuMgrFullController extends BaseController {
 		DataTablesPOJO<WxMenuMgrFullPOJO> ret = new DataTablesPOJO<WxMenuMgrFullPOJO>();
 		Long userId = wxMenuMgrFullSearchPOJO.getUserId();
 		if (userId == null || userId <= 0) {
-			userId = UserUtil.getCurrentUser().getUserId();
+			userId = UserUtil.getCurrentUserId();
 		}
 		wxMenuMgrFullSearchPOJO.setUserId(userId);
 		try {

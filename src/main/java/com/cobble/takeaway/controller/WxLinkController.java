@@ -89,7 +89,7 @@ public class WxLinkController extends BaseController {
 			
 			String base = HttpRequestUtil.getBase(request);
 			
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			
 			for (WxAttrPOJO wxAttrPOJO : wxAttrPOJOs) {
 				if (userId.longValue() != wxAttrPOJO.getUserId()) {
@@ -139,7 +139,7 @@ public class WxLinkController extends BaseController {
 			
 			String base = HttpRequestUtil.getBase(request);
 			
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			
 			if (userId.longValue() != wxAttrPOJO.getUserId()) {
 				throw new Exception("User is not yourself");
@@ -212,7 +212,7 @@ public class WxLinkController extends BaseController {
 			}
 			
 
-			userId = UserUtil.getCurrentUser().getUserId();
+			userId = UserUtil.getCurrentUserId();
 			UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userId);
 			if (user4IndexCode != null) {
 				String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
@@ -261,7 +261,7 @@ public class WxLinkController extends BaseController {
 				}
 			}
 			
-			Long userId = wxLinkPOJO.getUserId();	/*UserUtil.getCurrentUser().getUserId()*/
+			Long userId = wxLinkPOJO.getUserId();	/*UserUtil.getCurrentUserId()*/
 			UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userId);
 			if (user4IndexCode != null) {
 				String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
@@ -290,7 +290,7 @@ public class WxLinkController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HtmlConvertedPOJO ret = new HtmlConvertedPOJO();
 		try {
-//			Long userId = UserUtil.getCurrentUser().getUserId();
+//			Long userId = UserUtil.getCurrentUserId();
 			UserPOJO userPOJO = userService.findUserByIndexCode(wxIndexCode);
 			
 			/*WxTemplateSearchPOJO wxTemplateSearchPOJO = new WxTemplateSearchPOJO();
@@ -337,7 +337,7 @@ public class WxLinkController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HtmlConvertedPOJO ret = new HtmlConvertedPOJO();
 		try {
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			
 			WxTemplatePOJO wxTemplatePOJO = wxTemplateService.findById(wxTemplateId);
 			String fromUrl = wxTemplatePOJO.getWxPage();
@@ -444,7 +444,7 @@ public class WxLinkController extends BaseController {
 			}
 			
 			
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			wxLinkPOJO.setUserId(userId);
 			
 			int result = -1;
@@ -490,7 +490,7 @@ public class WxLinkController extends BaseController {
 		/*wxLinkPOJOList = wxLinkService.finds(wxLinkSearchPOJO);
 		int total = wxLinkService.getCount(wxLinkSearchPOJO);*/
 		
-		Long userId = UserUtil.getCurrentUser().getUserId();
+		Long userId = UserUtil.getCurrentUserId();
 		wxLinkPOJO.setUserId(userId);
 		wxLinkPOJOList = wxLinkService.findsByIds(wxLinkPOJO);
 		int total = CollectionUtils.isEmpty(wxLinkPOJOList) ? 0 : wxLinkPOJOList.size();

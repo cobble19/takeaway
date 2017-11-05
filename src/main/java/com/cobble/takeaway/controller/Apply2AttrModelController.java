@@ -54,7 +54,7 @@ public class Apply2AttrModelController extends BaseController {
 			apply2AttrModelService.deleteByActivityId(activityId);
 			
 			/*String base = HttpRequestUtil.getBase(request);
-			Long userId = UserUtil.getCurrentUser().getUserId();*/
+			Long userId = UserUtil.getCurrentUserId();*/
 			
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -76,7 +76,7 @@ public class Apply2AttrModelController extends BaseController {
 			List<Apply2AttrModelPOJO> apply2AttrModelPOJOs = apply2AttrModelService.findsByActivityId(activityId);
 			
 			/*String base = HttpRequestUtil.getBase(request);
-			Long userId = UserUtil.getCurrentUser().getUserId();*/
+			Long userId = UserUtil.getCurrentUserId();*/
 			
 			ret.setData(apply2AttrModelPOJOs);
 			ret.setSuccess(true);
@@ -103,7 +103,7 @@ public class Apply2AttrModelController extends BaseController {
 			}
 			
 			String base = HttpRequestUtil.getBase(request);
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			
 			for (int i = 0; i < apply2AttrModelPOJOs.size(); i++) {
 				Apply2AttrModelPOJO apply2AttrModelPOJO = apply2AttrModelPOJOs.get(i);

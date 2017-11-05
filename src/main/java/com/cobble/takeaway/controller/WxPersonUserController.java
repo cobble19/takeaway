@@ -422,7 +422,7 @@ public class WxPersonUserController extends BaseController {
 		DataTablesPOJO<WxPersonUserPOJO> ret = new DataTablesPOJO<WxPersonUserPOJO>();
 		Long userId = wxPersonUserSearchPOJO.getUserId();
 		if (userId == null || userId <= 0) {
-			userId = UserUtil.getCurrentUser().getUserId();
+			userId = UserUtil.getCurrentUserId();
 		}
 		
 		HttpSession session = request.getSession();

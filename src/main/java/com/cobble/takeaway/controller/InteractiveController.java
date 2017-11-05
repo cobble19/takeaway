@@ -113,7 +113,7 @@ public class InteractiveController extends BaseController {
 			if (interactivePOJO == null) {
 				throw new Exception("interactivePOJO can't is NULL.");
 			}
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			String authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			
 			int result = -1;
@@ -228,7 +228,7 @@ public class InteractiveController extends BaseController {
 				result = interactiveService.update(interactivePOJO);
 			} else {
 				interactivePOJO.setStatus(-1);
-				result = interactiveService.insert(interactivePOJO, UserUtil.getCurrentUser().getUserId());
+				result = interactiveService.insert(interactivePOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -319,7 +319,7 @@ public class InteractiveController extends BaseController {
 	public DataTablesPOJO<InteractivePOJO> query(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
 		DataTablesPOJO<InteractivePOJO> ret = new DataTablesPOJO<InteractivePOJO>();
 		try {
-			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {
@@ -335,7 +335,7 @@ public class InteractiveController extends BaseController {
 	public DataTablesPOJO<InteractivePOJO> query4Enterprise(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
 		DataTablesPOJO<InteractivePOJO> ret = new DataTablesPOJO<InteractivePOJO>();
 		try {
-			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 			List<InteractivePOJO> interactivePOJOs = interactiveService.find4Enterprises(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {
@@ -350,7 +350,7 @@ public class InteractiveController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<InteractivePOJO> queryByUserId(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
 		DataTablesPOJO<InteractivePOJO> ret = new DataTablesPOJO<InteractivePOJO>();
-		interactiveSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+		interactiveSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 		try {
 			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
 			ret.setData(interactivePOJOs);
@@ -395,7 +395,7 @@ public class InteractiveController extends BaseController {
 	public StatusPOJO add(InteractivePOJO interactivePOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = interactiveService.insert(interactivePOJO, UserUtil.getCurrentUser().getUserId());
+			int result = interactiveService.insert(interactivePOJO, UserUtil.getCurrentUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);

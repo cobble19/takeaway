@@ -86,7 +86,7 @@ public class Apply2Controller extends BaseController {
 			}
 			
 			String base = HttpRequestUtil.getBase(request);
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			String openId = UserUtil.getCurrentUser().getOpenId();
 			String unionId = UserUtil.getCurrentUser().getUnionId();
 			

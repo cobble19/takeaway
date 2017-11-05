@@ -191,7 +191,7 @@ public class RelWxIndexMapController extends BaseController {
 		DataTablesPOJO<RelWxIndexMapPOJO> ret = new DataTablesPOJO<RelWxIndexMapPOJO>();
 		Long userId = relWxIndexMapSearchPOJO.getUserId();
 		if (userId == null || userId <= 0) {
-			userId = UserUtil.getCurrentUser().getUserId();
+			userId = UserUtil.getCurrentUserId();
 		}
 		
 		HttpSession session = request.getSession();
@@ -199,7 +199,6 @@ public class RelWxIndexMapController extends BaseController {
 		relWxIndexMapSearchPOJO.setPaginationFlage(false);
 		relWxIndexMapSearchPOJO.setUserId(userId);
 		
-//		relWxIndexMapSearchPOJO.setUserId(userId);
 		try {
 			List<RelWxIndexMapPOJO> relWxIndexMapPOJOs = relWxIndexMapService.finds(relWxIndexMapSearchPOJO);
 			ret.setData(relWxIndexMapPOJOs);

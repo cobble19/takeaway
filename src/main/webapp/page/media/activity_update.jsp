@@ -10,7 +10,6 @@
     <%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/enterprise/activity.js"></script> --%>
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/activity_update.js"></script>
     
-    <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
   </head>
   <body>
   

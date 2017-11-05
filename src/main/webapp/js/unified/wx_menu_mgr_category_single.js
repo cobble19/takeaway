@@ -233,6 +233,9 @@ var wxMenuMgrCategorySearch = function(table) {
 			"Content-Type" : "application/json"
 		},
 		"dataType" : 'json',
+		"data": {
+            "authorizerAppId": $("#authorizerAppId").val()
+        },
 		/*"data": JSON.stringify({
             title: $("#title").val()
         }),*/

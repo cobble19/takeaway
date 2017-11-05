@@ -117,7 +117,7 @@ public class ActivityGatherController extends BaseController {
 			if (activityGatherPOJO.getActivityGatherId() != null) {
 				result = activityGatherService.update(activityGatherPOJO);
 			} else {
-				result = activityGatherService.insert(activityGatherPOJO, UserUtil.getCurrentUser().getUserId());
+				result = activityGatherService.insert(activityGatherPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -142,7 +142,7 @@ public class ActivityGatherController extends BaseController {
 			if (activityGatherPOJO.getActivityGatherId() != null) {
 				result = activityGatherService.update(activityGatherPOJO);
 			} else {
-				result = activityGatherService.insert(activityGatherPOJO, UserUtil.getCurrentUser().getUserId());
+				result = activityGatherService.insert(activityGatherPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -243,7 +243,7 @@ public class ActivityGatherController extends BaseController {
 	public StatusPOJO add(ActivityGatherPOJO activityGatherPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = activityGatherService.insert(activityGatherPOJO, UserUtil.getCurrentUser().getUserId());
+			int result = activityGatherService.insert(activityGatherPOJO, UserUtil.getCurrentUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);

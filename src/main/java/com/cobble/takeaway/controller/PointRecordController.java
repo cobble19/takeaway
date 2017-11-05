@@ -50,7 +50,7 @@ public class PointRecordController extends BaseController {
 			if (pointRecordPOJO.getPointRecordId() != null) {
 				result = pointRecordService.update(pointRecordPOJO);
 			} else {
-				result = pointRecordService.insert(pointRecordPOJO, UserUtil.getCurrentUser().getUserId());
+				result = pointRecordService.insert(pointRecordPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class PointRecordController extends BaseController {
 			if (pointRecordPOJO.getPointRecordId() != null) {
 				result = pointRecordService.update(pointRecordPOJO);
 			} else {
-				result = pointRecordService.insert(pointRecordPOJO, UserUtil.getCurrentUser().getUserId());
+				result = pointRecordService.insert(pointRecordPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -139,7 +139,7 @@ public class PointRecordController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<PointRecordPOJO> queryByUserId(PointRecordSearchPOJO pointRecordSearchPOJO) throws Exception {
 		DataTablesPOJO<PointRecordPOJO> ret = new DataTablesPOJO<PointRecordPOJO>();
-		pointRecordSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+		pointRecordSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 		try {
 			List<PointRecordPOJO> pointRecordPOJOs = pointRecordService.finds(pointRecordSearchPOJO);
 			ret.setData(pointRecordPOJOs);
@@ -172,7 +172,7 @@ public class PointRecordController extends BaseController {
 	public StatusPOJO add(PointRecordPOJO pointRecordPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = pointRecordService.insert(pointRecordPOJO, UserUtil.getCurrentUser().getUserId());
+			int result = pointRecordService.insert(pointRecordPOJO, UserUtil.getCurrentUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);

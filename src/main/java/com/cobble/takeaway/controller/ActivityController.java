@@ -93,7 +93,7 @@ public class ActivityController extends BaseController {
 			if (activityPOJO.getActivityId() != null) {
 				result = activityService.update(activityPOJO);
 			} else {
-				result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
+				result = activityService.insert(activityPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -850,7 +850,7 @@ public class ActivityController extends BaseController {
 			if (activityPOJO.getActivityId() != null) {
 				result = activityService.update(activityPOJO);
 			} else {
-				result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
+				result = activityService.insert(activityPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -875,7 +875,7 @@ public class ActivityController extends BaseController {
 			if (activityPOJO.getActivityId() != null) {
 				result = activityService.update(activityPOJO);
 			} else {
-				result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
+				result = activityService.insert(activityPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -931,10 +931,10 @@ public class ActivityController extends BaseController {
 	public DataTablesPOJO<ActivityPOJO> queryProvider(ActivitySearchPOJO activitySearchPOJO) throws Exception {
 		DataTablesPOJO<ActivityPOJO> ret = new DataTablesPOJO<ActivityPOJO>();
 		try {
-			if (UserUtil.getCurrentUser().getUserId() == null) {
+			if (UserUtil.getCurrentUserId() == null) {
 				return ret;
 			}
-			activitySearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+			activitySearchPOJO.setUserId(UserUtil.getCurrentUserId());
 			List<ActivityPOJO> activityPOJOs = activityService.find4Enterprises(activitySearchPOJO);
 			ret.setData(activityPOJOs);
 		} catch (Exception e) {
@@ -1012,7 +1012,7 @@ public class ActivityController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<ActivityPOJO> queryByUserId(ActivitySearchPOJO activitySearchPOJO) throws Exception {
 		DataTablesPOJO<ActivityPOJO> ret = new DataTablesPOJO<ActivityPOJO>();
-		activitySearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+		activitySearchPOJO.setUserId(UserUtil.getCurrentUserId());
 		try {
 			activitySearchPOJO.setPaginationFlage(false);
 			List<ActivityPOJO> activityPOJOs = activityService.finds(activitySearchPOJO);
@@ -1058,7 +1058,7 @@ public class ActivityController extends BaseController {
 	public StatusPOJO add(ActivityPOJO activityPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = activityService.insert(activityPOJO, UserUtil.getCurrentUser().getUserId());
+			int result = activityService.insert(activityPOJO, UserUtil.getCurrentUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);

@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-	<link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
     <%@include file="../../page/common/head.jsp" %>
     
 	<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/person/user_center.js"></script>

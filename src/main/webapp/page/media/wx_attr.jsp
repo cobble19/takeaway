@@ -10,7 +10,6 @@
     
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/wx_link_index.js"></script>
     
-    <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
   </head>
   <body style="padding:0px; background-color:#f1f1f1;">
   

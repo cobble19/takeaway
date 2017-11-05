@@ -54,7 +54,7 @@ public class ActivityRegistrationController extends BaseController {
 			if (activityRegistrationPOJO.getActivityRegistrationId() != null) {
 				result = activityRegistrationService.update(activityRegistrationPOJO);
 			} else {
-				result = activityRegistrationService.insert(activityRegistrationPOJO, UserUtil.getCurrentUser().getUserId());
+				result = activityRegistrationService.insert(activityRegistrationPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -111,7 +111,7 @@ public class ActivityRegistrationController extends BaseController {
 			if (activityRegistrationPOJO.getActivityRegistrationId() != null) {
 				result = activityRegistrationService.update(activityRegistrationPOJO);
 			} else {
-				result = activityRegistrationService.insert(activityRegistrationPOJO, UserUtil.getCurrentUser().getUserId());
+				result = activityRegistrationService.insert(activityRegistrationPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class ActivityRegistrationController extends BaseController {
 			if (activityRegistrationPOJO.getActivityRegistrationId() != null) {
 				result = activityRegistrationService.update(activityRegistrationPOJO);
 			} else {
-				result = activityRegistrationService.insert(activityRegistrationPOJO, UserUtil.getCurrentUser().getUserId());
+				result = activityRegistrationService.insert(activityRegistrationPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -191,7 +191,7 @@ public class ActivityRegistrationController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<ActivityRegistrationPOJO> queryByUserId(ActivityRegistrationSearchPOJO activityRegistrationSearchPOJO) throws Exception {
 		DataTablesPOJO<ActivityRegistrationPOJO> ret = new DataTablesPOJO<ActivityRegistrationPOJO>();
-		activityRegistrationSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+		activityRegistrationSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 		try {
 			activityRegistrationSearchPOJO.setPaginationFlage(false);
 			List<ActivityRegistrationPOJO> activityRegistrationPOJOs = activityRegistrationService.finds(activityRegistrationSearchPOJO);
@@ -237,7 +237,7 @@ public class ActivityRegistrationController extends BaseController {
 	public StatusPOJO add(ActivityRegistrationPOJO activityRegistrationPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = activityRegistrationService.insert(activityRegistrationPOJO, UserUtil.getCurrentUser().getUserId());
+			int result = activityRegistrationService.insert(activityRegistrationPOJO, UserUtil.getCurrentUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);

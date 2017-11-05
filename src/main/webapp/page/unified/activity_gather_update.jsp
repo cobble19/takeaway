@@ -9,7 +9,6 @@
     
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/activity_gather_update.js"></script>
     
-    <link href="<cmn:base/>/css/dwuc.css" rel="stylesheet">
   </head>
   <body>
   

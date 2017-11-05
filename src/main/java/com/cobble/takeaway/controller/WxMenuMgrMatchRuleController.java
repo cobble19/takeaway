@@ -170,7 +170,7 @@ public class WxMenuMgrMatchRuleController extends BaseController {
 		DataTablesPOJO<WxMenuMgrMatchRulePOJO> ret = new DataTablesPOJO<WxMenuMgrMatchRulePOJO>();
 		Long userId = wxMenuMgrMatchRuleSearchPOJO.getUserId();
 		if (userId == null || userId <= 0) {
-			userId = UserUtil.getCurrentUser().getUserId();
+			userId = UserUtil.getCurrentUserId();
 		}
 		wxMenuMgrMatchRuleSearchPOJO.setUserId(userId);
 		try {

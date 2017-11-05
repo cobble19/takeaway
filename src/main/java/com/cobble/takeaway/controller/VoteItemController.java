@@ -222,7 +222,7 @@ public class VoteItemController extends BaseController {
 			if (voteItemPOJO.getVoteItemId() != null) {
 				result = voteItemService.update(voteItemPOJO);
 			} else {
-				result = voteItemService.insert(voteItemPOJO, UserUtil.getCurrentUser().getUserId());
+				result = voteItemService.insert(voteItemPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -247,7 +247,7 @@ public class VoteItemController extends BaseController {
 			if (voteItemPOJO.getVoteItemId() != null) {
 				result = voteItemService.update(voteItemPOJO);
 			} else {
-				result = voteItemService.insert(voteItemPOJO, UserUtil.getCurrentUser().getUserId());
+				result = voteItemService.insert(voteItemPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -282,7 +282,7 @@ public class VoteItemController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<VoteItemPOJO> queryByUserId(VoteItemSearchPOJO voteItemSearchPOJO) throws Exception {
 		DataTablesPOJO<VoteItemPOJO> ret = new DataTablesPOJO<VoteItemPOJO>();
-		voteItemSearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+		voteItemSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 		try {
 			List<VoteItemPOJO> voteItemPOJOs = voteItemService.finds(voteItemSearchPOJO);
 			ret.setData(voteItemPOJOs);
@@ -315,7 +315,7 @@ public class VoteItemController extends BaseController {
 	public StatusPOJO add(VoteItemPOJO voteItemPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = voteItemService.insert(voteItemPOJO, UserUtil.getCurrentUser().getUserId());
+			int result = voteItemService.insert(voteItemPOJO, UserUtil.getCurrentUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);

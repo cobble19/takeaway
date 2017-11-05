@@ -1256,7 +1256,7 @@ public class Oauth2Controller extends BaseController {
 		ModelAndView ret = new ModelAndView();
 		try {
 			HttpSession session = request.getSession();
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			logger.info("begin...");
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
@@ -1275,7 +1275,7 @@ public class Oauth2Controller extends BaseController {
 		ModelAndView ret = new ModelAndView();
 		try {
 			HttpSession session = request.getSession();
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			logger.info("begin...");
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
@@ -1298,7 +1298,7 @@ public class Oauth2Controller extends BaseController {
 		ModelAndView ret = new ModelAndView();
 		try {
 			HttpSession session = request.getSession();
-			Long userId = UserUtil.getCurrentUser().getUserId();
+			Long userId = UserUtil.getCurrentUserId();
 			logger.info("begin...");
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
@@ -1337,7 +1337,7 @@ public class Oauth2Controller extends BaseController {
 			String qs = request.getQueryString();
 			logger.info("wxLinkUserCenter uri: " + uri + ", qs: " + qs);
 			
-			UserUtil.getCurrentUser().getUserId();
+			UserUtil.getCurrentUserId();
 			WxUserInfoApiPOJO wxUserInfoApiPOJO = (WxUserInfoApiPOJO) session.getAttribute(CommonConstant.WX_USER_INFO_API_POJO);
 			
 			ret.addObject(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);

@@ -50,7 +50,7 @@ public class PointSummaryController extends BaseController {
 			if (pointSummaryPOJO.getPointSummaryId() != null) {
 				result = pointSummaryService.update(pointSummaryPOJO);
 			} else {
-				result = pointSummaryService.insert(pointSummaryPOJO, UserUtil.getCurrentUser().getUserId());
+				result = pointSummaryService.insert(pointSummaryPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class PointSummaryController extends BaseController {
 			if (pointSummaryPOJO.getPointSummaryId() != null) {
 				result = pointSummaryService.update(pointSummaryPOJO);
 			} else {
-				result = pointSummaryService.insert(pointSummaryPOJO, UserUtil.getCurrentUser().getUserId());
+				result = pointSummaryService.insert(pointSummaryPOJO, UserUtil.getCurrentUserId());
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {
@@ -139,7 +139,7 @@ public class PointSummaryController extends BaseController {
 	@ResponseBody
 	public DataTablesPOJO<PointSummaryPOJO> queryByUserId(PointSummarySearchPOJO pointSummarySearchPOJO) throws Exception {
 		DataTablesPOJO<PointSummaryPOJO> ret = new DataTablesPOJO<PointSummaryPOJO>();
-		pointSummarySearchPOJO.setUserId(UserUtil.getCurrentUser().getUserId());
+//		pointSummarySearchPOJO.setUserId(UserUtil.getCurrentUserId());
 		try {
 			List<PointSummaryPOJO> pointSummaryPOJOs = pointSummaryService.finds(pointSummarySearchPOJO);
 			ret.setData(pointSummaryPOJOs);
@@ -172,7 +172,7 @@ public class PointSummaryController extends BaseController {
 	public StatusPOJO add(PointSummaryPOJO pointSummaryPOJO, Model model) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			int result = pointSummaryService.insert(pointSummaryPOJO, UserUtil.getCurrentUser().getUserId());
+			int result = pointSummaryService.insert(pointSummaryPOJO, UserUtil.getCurrentUserId());
 			ret.setSuccess(true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
