@@ -352,7 +352,8 @@ public class WxPersonUserController extends BaseController {
 		
 		String url = "/web/unified/wxPersonUserDetail?wxPersonUserId=" + wxPersonUserPOJO.getWxPersonUserId();
 
-		url = "/web/unified/usercenter#wx_person_user";
+//		url = "/web/unified/usercenter#wx_person_user";
+		url = "/page/unified/wx_person_user_single.jsp";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;

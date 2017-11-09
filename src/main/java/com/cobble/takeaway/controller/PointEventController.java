@@ -86,7 +86,8 @@ public class PointEventController extends BaseController {
 		
 		String url = "/page/enterprise/pointEvent_detail.jsp?pointEventId=" + pointEventPOJO.getPointEventId();
 
-		url = "/web/unified/usercenter#point_event";
+//		url = "/web/unified/usercenter#point_event";
+		url = "/page/unified/point_event_single.jsp";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;

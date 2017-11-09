@@ -70,7 +70,8 @@ public class ActivityGatherController extends BaseController {
 		}
 		
 		String url = "/page/unified/activityGather_detail.jsp?activityGatherId=" + activityGatherPOJO.getActivityGatherId();
-		url = "/web/unified/usercenter#create_activity_gather";
+//		url = "/web/unified/usercenter#create_activity_gather";
+		url = "/page/unified/activity_gather_single.jsp";
 
 		redirectStrategy.sendRedirect(request, response, url);
 		

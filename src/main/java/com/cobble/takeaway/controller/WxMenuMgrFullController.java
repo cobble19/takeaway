@@ -95,7 +95,8 @@ public class WxMenuMgrFullController extends BaseController {
 		
 		String url = "/web/unified/wxMenuMgrFullDetail?wxMenuMgrFullId=" + wxMenuMgrFullPOJO.getWxMenuMgrFullId();
 
-		url = "/web/unified/usercenter#wx_menu_mgr_full";
+//		url = "/web/unified/usercenter#wx_menu_mgr_full";
+		url = "/page/unified/wx_menu_mgr_full_single.jsp";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;

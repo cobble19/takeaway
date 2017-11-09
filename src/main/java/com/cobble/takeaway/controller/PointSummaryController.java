@@ -87,6 +87,7 @@ public class PointSummaryController extends BaseController {
 		String url = "/page/enterprise/pointSummary_detail.jsp?pointSummaryId=" + pointSummaryPOJO.getPointSummaryId();
 
 		url = "/web/unified/usercenter#point_summary";
+		url = "/page/unified/point_summary_single.jsp";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;

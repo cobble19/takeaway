@@ -65,6 +65,7 @@ public class ActivityRegistrationController extends BaseController {
 		
 		String url = "/page/unified/activityRegistration_detail.jsp?activityRegistrationId=" + activityRegistrationPOJO.getActivityRegistrationId();
 		url = "/web/unified/usercenter#create_activity_registration";
+		url = "/page/unified/activity_registration_single.jsp";
 
 		redirectStrategy.sendRedirect(request, response, url);
 		

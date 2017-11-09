@@ -95,7 +95,8 @@ public class WxMenuMgrCategoryController extends BaseController {
 		
 		String url = "/web/unified/wxMenuMgrCategoryDetail?wxMenuMgrCategoryId=" + wxMenuMgrCategoryPOJO.getWxMenuMgrCategoryId();
 
-		url = "/web/unified/usercenter#wx_menu_mgr_category";
+//		url = "/web/unified/usercenter#wx_menu_mgr_category";
+		url = "/page/unified/wx_menu_mgr_category_single.jsp";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;

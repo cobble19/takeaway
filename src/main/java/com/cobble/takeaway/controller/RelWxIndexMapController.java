@@ -121,7 +121,8 @@ public class RelWxIndexMapController extends BaseController {
 		
 		String url = "/web/unified/relWxIndexMapDetail?relWxIndexMapId=" + relWxIndexMapPOJO.getRelWxIndexMapId();
 
-		url = "/web/unified/usercenter#rel_wx_index_map";
+//		url = "/web/unified/usercenter#rel_wx_index_map";
+		url = "/page/unified/rel_wx_index_map_single.jsp";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;

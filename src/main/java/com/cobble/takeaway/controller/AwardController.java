@@ -62,7 +62,8 @@ public class AwardController extends BaseController {
 		}
 		
 		String url = "/page/unified/award_detail.jsp?awardId=" + awardPOJO.getAwardId();
-		url = "/web/unified/usercenter#award";
+//		url = "/web/unified/usercenter#award";
+		url = "/page/unified/award_single.jsp";
 		redirectStrategy.sendRedirect(request, response, url);
 		
 //		return ret;

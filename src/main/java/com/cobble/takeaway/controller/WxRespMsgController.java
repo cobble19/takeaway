@@ -263,7 +263,8 @@ public class WxRespMsgController extends BaseController {
 		
 		
 		String url = "/web/unified/wxRespMsgDetail?wxRespMsgId=" + wxRespMsgPOJO.getWxRespMsgId();
-		url = "/web/unified/usercenter#wx_resp_msg";
+//		url = "/web/unified/usercenter#wx_resp_msg";
+		url = "/page/unified/wx_resp_msg_single.jsp";
 
 		redirectStrategy.sendRedirect(request, response, url);;
 		

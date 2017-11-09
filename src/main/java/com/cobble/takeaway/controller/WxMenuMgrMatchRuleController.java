@@ -101,7 +101,8 @@ public class WxMenuMgrMatchRuleController extends BaseController {
 		
 		String url = "/web/unified/wxMenuMgrMatchRuleDetail?wxMenuMgrMatchRuleId=" + wxMenuMgrMatchRulePOJO.getWxMenuMgrMatchRuleId();
 
-		url = "/web/unified/usercenter#wx_menu_mgr_match_rule";
+//		url = "/web/unified/usercenter#wx_menu_mgr_match_rule";
+		url = "/page/unified/wx_menu_mgr_match_rule_single.jsp";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;

@@ -86,7 +86,8 @@ public class PointRecordController extends BaseController {
 		
 		String url = "/page/enterprise/pointRecord_detail.jsp?pointRecordId=" + pointRecordPOJO.getPointRecordId();
 
-		url = "/web/unified/usercenter#point_record";
+//		url = "/web/unified/usercenter#point_record";
+		url = "/page/unified/point_record_single.jsp";
 		redirectStrategy.sendRedirect(request, response, url);;
 		
 //		return ret;
