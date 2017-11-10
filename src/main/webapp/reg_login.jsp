@@ -61,9 +61,9 @@
           <div class="col-md-12" style=" text-align:right;">  
 	          <a class="sy-dl-wz" style="float:right;" href='<cmn:base/>/j_spring_security_logout'>退出</a>
 	          <c:choose>
-	            <c:when test="${sessionScope.userType eq 'PERSON'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/person/usercenter">个人中心</a> </c:when>
+	            <c:when test="${sessionScope.userType eq 'PERSON'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/unified/profile">个人中心</a> </c:when>
 	            <c:when test="${sessionScope.userType eq 'ENTERPRISE'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/unified/profile">管理中心</a> </c:when>
-	            <c:when test="${sessionScope.userType eq 'MEDIA'}"> <a class="sy-dl-wz" href="<cmn:base/>/page/unified/profile_single.jsp">媒体中心</a> </c:when>
+	            <c:when test="${sessionScope.userType eq 'MEDIA'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/unified/profile">媒体中心</a> </c:when>
 	            <%-- <c:when test="${sessionScope.userType eq 'ENTERPRISE'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/unified/usercenter">管理中心</a> </c:when>
 	            <c:when test="${sessionScope.userType eq 'MEDIA'}"> <a class="sy-dl-wz" href="<cmn:base/>/web/unified/usercenter">媒体中心</a> </c:when> --%>
 	            <c:otherwise>
