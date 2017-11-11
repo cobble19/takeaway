@@ -105,8 +105,7 @@ $(document).ready(function() {
 				+ '">' +
 				'查看报名详情' + '</a>';*/
 
-				var href2 = $('#basePath').val() + '/page/person/apply2_in_activity.jsp?activityId='  + full.activityId
-				+ '&activityTitle=' + ((full.title));
+				var href2 = $('#basePath').val() + '/page/person/apply2_in_activity.jsp?activityId='  + full.activityId;
 				var linkApply2 = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
 				+ '">' +
 				'表单汇总' + '</a>';

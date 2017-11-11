@@ -26,7 +26,7 @@
 	     		<div id="uc_content" style="padding-top:40px;">
 				
 	     			<div id="create_activity_gather">
-	     				<h4 style="font-weight:bold;">表单类信息
+	     				<h4 style="font-weight:bold;">报名征集
 	     				</h4>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-info btn-xs" target="_blank" data-toggle="tooltip" data-placement="top" 
@@ -86,9 +86,9 @@
 				  			
 			  		</div>
 			  		
-	     			<div id="activityActiveGatherListDiv" class="row" style="width: 450px; height: 120px;">
+	     			<div id="activityGatherActiveListDiv" class="row" style="width: 450px; height: 120px;">
 				  			<label>正在活动列表页面链接</label>: <input type="text" class="" style="width: 400px;" id="activityGatherActiveListUrl">
-				  			<button class="btn btn-info btn-xs" id="copyBtn4activityGatherActiveList" data-clipboard-target="#activityActiveListUrl">
+				  			<button class="btn btn-info btn-xs" id="copyBtn4activityGatherActiveList" data-clipboard-target="#activityGatherActiveListUrl">
 							    复制链接
 							</button>
 							<br/>

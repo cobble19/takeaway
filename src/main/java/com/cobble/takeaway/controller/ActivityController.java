@@ -801,9 +801,13 @@ public class ActivityController extends BaseController {
 				trHeaderNames.add("提交时间");
 				columns.add("createDateTime");
 				
+				//前台页面用不到内容, 而且内容size大, 占用带宽
+				activityPOJO.setContent("");
+				
 				ret.put("apply2POJOList", maps);
 				ret.put("columns", columns);
 				ret.put("trHeaderNames", trHeaderNames);
+				ret.put("activityPOJO", activityPOJO);
 				
 			} catch (Exception e) {
 				logger.error("query error.", e);

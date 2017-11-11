@@ -13,7 +13,7 @@
   <body>
   	<div class="container">
   		<div class="row">
-  			<h2 class="">征集</h2>
+  			<h2 class="">申请报名</h2>
   		</div>
   		<form id="activityRegistrationForm" class="form-horizontal" role="form" action='<cmn:base/>/web/unified/activityregistration/add' method="post">
  			<div class="form-group">

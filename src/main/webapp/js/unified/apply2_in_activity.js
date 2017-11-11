@@ -78,6 +78,7 @@ var applyInActivitySearch = function() {
 		"data": params,
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
+        	$('#"activityTitle"').val(activityPOJO.title);
         	buildTable(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {

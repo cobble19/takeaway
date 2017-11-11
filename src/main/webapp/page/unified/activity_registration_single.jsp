@@ -26,7 +26,7 @@
 	     		<div id="uc_content" style="padding-top:40px;">
 				
 	     			<div id="create_activity_registration">
-	     				<h4 style="font-weight:bold;">表单类信息
+	     				<h4 style="font-weight:bold;">申请报名
 	     				</h4>
 	     				<div style=" height:50px; line-height:50px;">
 	     					<a class="btn btn-info btn-xs" target="_blank" data-toggle="tooltip" data-placement="top" 
@@ -92,9 +92,9 @@
 				  			
 			  		</div>
 			  		
-	     			<div id="activityActiveGatherListDiv" class="row" style="width: 450px; height: 120px;">
-				  			<label>正在活动列表页面链接</label>: <input type="text" class="" style="width: 400px;" id="activityRegistrationActiveListUrl">
-				  			<button class="btn btn-info btn-xs" id="copyBtn4activityRegistrationActiveList" data-clipboard-target="#activityActiveListUrl">
+	     			<div id="activityRegistrationActiveListDiv" class="row" style="width: 450px; height: 120px;">
+				  			<label>当前申请报名列表页面链接</label>: <input type="text" class="" style="width: 400px;" id="activityRegistrationActiveListUrl">
+				  			<button class="btn btn-info btn-xs" id="copyBtn4activityRegistrationActiveList" data-clipboard-target="#activityRegistrationActiveListUrl">
 							    复制链接
 							</button>
 							<br/>

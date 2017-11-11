@@ -119,8 +119,7 @@ $(document).ready(function() {
 				/**'表单汇总' +*/
 				 '</a>';
 				 
-				var href2 = $('#basePath').val() + '/page/unified/apply2_in_activity.jsp?activityRegistrationId='  + full.activityRegistrationId
-				+ '&activityTitle=' + (full.title.replace('|', '%7C'));
+				var href2 = $('#basePath').val() + '/page/unified/apply2_in_activity.jsp?activityRegistrationId='  + full.activityRegistrationId;
 				var linkApply2 = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="表单汇总"' +
 						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href2
 				+ '">'
@@ -614,9 +613,9 @@ var openUrlDivII = function(url) {
 }
 
 var openActivityRegistrationActiveListDiv = function() {
-	$('#activityActiveListDiv').dialog('open');
-	var url = $('#basePath').val() + '/web/unified/activity/list/active/' + $('#userId').val();
-	$('#activityActiveListUrl').val(url);
+	$('#activityRegistrationActiveListDiv').dialog('open');
+	var url = $('#basePath').val() + '/web/unified/activityregistration/list/active/' + $('#userId').val();
+	$('#activityRegistrationActiveListUrl').val(url);
 	
 }
 
