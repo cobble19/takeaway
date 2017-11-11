@@ -1,8 +1,8 @@
 $(document).ready(function() {
 	applyInActivitySearch();
 	
-	var activityTitle = getParam('activityTitle');
-	$('#activityTitle').text(activityTitle);
+//	var activityTitle = getParam('activityTitle');
+//	$('#activityTitle').text(activityTitle);
 	
 	$('#startDateTime').datetimepicker({
 		lang:'ch',
@@ -81,6 +81,7 @@ var applyInActivitySearch = function() {
 		"data": params,
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
+        	$('#activityTitle').text(activityPOJO.title);
         	buildTable(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {

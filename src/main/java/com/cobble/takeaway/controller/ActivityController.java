@@ -721,6 +721,8 @@ public class ActivityController extends BaseController {
 			
 			ret.put("apply2AttrModelPOJOs", apply2AttrModelPOJOs);
 			
+			ret.put("activityPOJO", activityPOJO);
+			
 		} catch (Exception e) {
 			logger.error("query error.", e);
 			throw e;

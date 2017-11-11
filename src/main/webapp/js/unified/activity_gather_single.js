@@ -102,11 +102,6 @@ $(document).ready(function() {
 			{
 			"targets" : 9,
 			"render" : function(data, type, full, meta) {
-				/*var href = $('#basePath').val() + '/page/person/apply_in_activity.jsp?activityGatherId='  + full.activityGatherId
-				+ '&activityTitle=' + ((full.title));
-				var linkApply = '<a class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href
-				+ '">' +
-				'查看报名详情' + '</a>';*/
 
 
 				var href4Vote = $('#basePath').val() + '/web/unified/apply2inactivity/vote?activityGatherId='  + full.activityGatherId
