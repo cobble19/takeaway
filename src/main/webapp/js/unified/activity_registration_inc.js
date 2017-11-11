@@ -104,8 +104,7 @@ $(document).ready(function() {
 			"render" : function(data, type, full, meta) {
 
 
-				var href4Vote = $('#basePath').val() + '/web/unified/apply2inactivity/vote?activityRegistrationId='  + full.activityRegistrationId
-				+ '&activityTitle=' + (full.title.replace('|', '%7C'));
+				var href4Vote = $('#basePath').val() + '/web/unified/apply2inactivity/vote?activityRegistrationId='  + full.activityRegistrationId;
 				var link4Vote = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="表单汇总"' +
 						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href4Vote
 				+ '">'

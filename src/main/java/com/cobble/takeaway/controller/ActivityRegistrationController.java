@@ -51,10 +51,18 @@ public class ActivityRegistrationController extends BaseController {
 				throw new Exception("activityRegistrationPOJO can't is NULL.");
 			}
 			int result = -1;
+
+			Long userId = UserUtil.getCurrentUserId();
+			if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}
+			
+			activityRegistrationPOJO.setUserId(userId);
+			
 			if (activityRegistrationPOJO.getActivityRegistrationId() != null) {
 				result = activityRegistrationService.update(activityRegistrationPOJO);
 			} else {
-				result = activityRegistrationService.insert(activityRegistrationPOJO, UserUtil.getCurrentUserId());
+				result = activityRegistrationService.insert(activityRegistrationPOJO, userId);
 			}
 			ret.setSuccess(true);
 		} catch (Exception e) {

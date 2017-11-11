@@ -102,14 +102,12 @@ $(document).ready(function() {
 			"render" : function(data, type, full, meta) {
 
 
-				var href4Vote = $('#basePath').val() + '/web/unified/apply2inactivity/vote?activityId='  + full.activityId
-				+ '&activityTitle=' + (full.title.replace('|', '%7C'));
-				var link4Vote = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="表单汇总"' +
+				var href4Vote = $('#basePath').val() + '/web/unified/apply2inactivity/vote?activityId='  + full.activityId;
+				var link4Vote = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="投票审批"' +
 						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href4Vote
 				+ '">'
 				+ '<span style="color: green;" class="glyphicon glyphicon-thumbs-up"></span>'
 				 +
-				/**'表单汇总' +*/
 				 '</a>';
 				 
 				var href2 = $('#basePath').val() + '/page/unified/apply2_in_activity.jsp?activityId='  + full.activityId;

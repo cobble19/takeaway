@@ -56,7 +56,9 @@ public class ActivityGatherController extends BaseController {
 			if (userId == null) {
 				throw new Exception("userId can't is NULL.");
 			}
+			
 			activityGatherPOJO.setUserId(userId);
+			
 			if (activityGatherPOJO.getActivityGatherId() != null) {
 				result = activityGatherService.update(activityGatherPOJO);
 			} else {

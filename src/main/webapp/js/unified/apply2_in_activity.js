@@ -1,9 +1,6 @@
 $(document).ready(function() {
 	applyInActivitySearch();
 	
-	var activityTitle = getParam('activityTitle');
-	$('#activityTitle').text(activityTitle);
-	
 	$('#startDateTime').datetimepicker({
 		lang:'ch',
 		timepicker:true,

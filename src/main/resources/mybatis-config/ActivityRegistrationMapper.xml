@@ -118,8 +118,8 @@
       <if test="userId != null" >
         USER_ID,
       </if>
-      <if test="activityRegistrationId != null" >
-        ACTIVITY_REGISTRATION_ID,
+      <if test="activityId != null" >
+        ACTIVITY_ID,
       </if>
         CREATE_DATE_TIME,
     </trim>
@@ -151,8 +151,8 @@
       <if test="userId != null" >
         #{userId},
       </if>
-      <if test="activityRegistrationId != null" >
-        #{activityRegistrationId},
+      <if test="activityId != null" >
+        #{activityId},
       </if>
       sysdate(),
     </trim>
@@ -188,8 +188,8 @@
       <if test="userId != null" >
         USER_ID = #{userId},
       </if>
-      <if test="activityRegistrationId != null" >
-        ACTIVITY_REGISTRATION_ID = #{activityRegistrationId},
+      <if test="activityId != null" >
+        ACTIVITY_ID = #{activityId},
       </if>
       CREATE_DATE_TIME = sysdate(),
     </set>

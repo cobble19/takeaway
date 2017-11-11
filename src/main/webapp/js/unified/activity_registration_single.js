@@ -52,60 +52,43 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": false
 		}, {
-			"targets": [4,5],
+			"targets": [6,7],
 			"visible": false,
 			"render" : function(data, type, full, meta) {
 				var date = new Date(data);
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets": [6],
+			"targets": [8],
 			"render" : function(data, type, full, meta) {
 				var startDateTime = new Date(full.startDateTime);
 				var endDateTime = new Date(full.endDateTime);
 				return startDateTime.format('Y-m-d') + "/" + endDateTime.format('Y-m-d');
 			}
 		}, {
-			"targets": [7],
-			"render" : function(data, type, full, meta) {
-				var expired = false;
-				if (data != null && data) {
-					expired = true;
-				}
-				return expired ? '<font style="color: red;">过期</font>' : '未过期';
-			}
+			"targets": [9],
+			"visible": false
 		},  {
-			"targets" : 8,
+			"targets" : 10,
 			"visible": false,
 			"render" : function(data, type, full, meta) {
-				var content = (data != null) ? data.substring(0, 10): '';
+				var content = '';
+				if (data != null) {
+					var length = data.length;
+					var cut = (length > 10 ? 10 : length);
+					content = data.substring(0, length);
+				}
 				content += '...>>';
 				var link = '<a target="_blank" href="' + $('#basePath').val() + '/page/unified/activity_registration_detail.jsp?activityRegistrationId=' + full.activityRegistrationId + '">' +
 						content + '</a>';
 				return link;
 			}
-		},
-//		},  {
-//			"targets" : 9,
-//			"render" : function(data, type, full, meta) {
-//				var ret = '未知';
-//				if (data == null) {
-//					ret = '未知';
-//				} else if (data == 1) {
-//					ret = '报名申请';
-//				} else if (data == 2) {
-//					ret = '征集调查';
-//				}
-//				return ret;
-//			}
-//		}, {
-			{
-			"targets" : 9,
+		}, {
+			"targets" : 11,
 			"render" : function(data, type, full, meta) {
 
 
-				var href4Vote = $('#basePath').val() + '/web/unified/apply2inactivity/vote?activityRegistrationId='  + full.activityRegistrationId
-				+ '&activityTitle=' + (full.title.replace('|', '%7C'));
+				var href4Vote = $('#basePath').val() + '/web/unified/apply2inactivity/vote?activityRegistrationId='  + full.activityRegistrationId;
 				var link4Vote = '<a target="_blank" data-toggle="tooltip" data-placement="top" title="表单汇总"' +
 						' class="btn btn-warning btn-xs" style="margin-bottom:5px;" href="' + href4Vote
 				+ '">'
@@ -200,6 +183,8 @@ $(document).ready(function() {
                 "defaultContent": ''
             },
             { "data": "activityRegistrationId" },
+            { "data": "userId" },
+            { "data": "activityId" },
             { "data": "title" },
             { "data": "startDateTime" },
             { "data": "endDateTime" },
