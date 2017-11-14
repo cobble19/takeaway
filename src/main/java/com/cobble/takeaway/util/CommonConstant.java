@@ -1,6 +1,10 @@
 package com.cobble.takeaway.util;
 
 public interface CommonConstant {
+	String WX_MSG_SIGN_IN = "签到_DWYZ";
+	String WX_MSG_JOIN_MEMBER = "加入会员_DWYZ";
+	String WX_MSG_MEMBER_CENTER = "会员中心_DWYZ";
+	
 	String FILES_DIRECTORY = "files.directory";
 	String CHECK_SESSION_URLS_NEEDLOGIN = "check.session.urls.needlogin";
 	String CHECK_SESSION_URLS_NONEEDLOGIN = "check.session.urls.noneedlogin";
