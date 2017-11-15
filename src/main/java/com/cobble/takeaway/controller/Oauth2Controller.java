@@ -53,6 +53,8 @@ import com.cobble.takeaway.pojo.PointRecordPOJO;
 import com.cobble.takeaway.pojo.PointRecordSearchPOJO;
 import com.cobble.takeaway.pojo.PointSummaryPOJO;
 import com.cobble.takeaway.pojo.PointSummarySearchPOJO;
+import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
+import com.cobble.takeaway.pojo.RelWxIndexMapSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
@@ -112,6 +114,7 @@ import com.cobble.takeaway.service.InteractiveService;
 import com.cobble.takeaway.service.PointEventService;
 import com.cobble.takeaway.service.PointRecordService;
 import com.cobble.takeaway.service.PointSummaryService;
+import com.cobble.takeaway.service.RelWxIndexMapService;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerAccessTokenService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
@@ -162,6 +165,8 @@ public class Oauth2Controller extends BaseController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RelWxIndexMapService relWxIndexMapService;
 	
 	@Autowired
 	private ActivityService activityService;
@@ -2492,7 +2497,7 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	// CLICK会员中心的回复信息
-	private String getWxMsgMemberCenterContent(WxPersonUserPOJO wxPersonUserPOJO, String fromUserName, String toUserName, HttpServletRequest request) {
+	private String getWxMsgMemberCenterContent(WxPersonUserPOJO wxPersonUserPOJO, String fromUserName, String toUserName, String wxIndexCode, HttpServletRequest request) {
 		String ret = "";
 		HttpSession session = request.getSession();
 		// 如果WxPersonUserPOJO是空,或者不是会员则回复加入会员
@@ -2524,7 +2529,7 @@ public class Oauth2Controller extends BaseController {
 
 			// 用户中心
 			String memberCenterUrl = "";
-			memberCenterUrl += HttpRequestUtil.getBase(request) + "/web/wx/usercenter/" + session.getAttribute("indexCode") + "/person";
+			memberCenterUrl += HttpRequestUtil.getBase(request) + "/web/wx/usercenter/" + wxIndexCode + "/person";
 			
 			String memberCenter = "";
 			memberCenter += "<a href=\"" + memberCenterUrl
@@ -2597,6 +2602,10 @@ public class Oauth2Controller extends BaseController {
 				wxAuthorizerInfoSearchPOJO.setUserName(toUserName);
 				List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
 				WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+				
+				RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();
+				String wxIndexCode = "";
+				
 				// 获取设置的公众号的控制code,(001,002, etc,.)
 				List<String> controlCodes = new ArrayList<String>();
 				if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
@@ -2610,6 +2619,15 @@ public class Oauth2Controller extends BaseController {
 								controlCodes.add(controlCodeArr[i]);
 							}
 						}
+					}
+					
+
+					RelWxIndexMapSearchPOJO relWxIndexMapSearchPOJO = new RelWxIndexMapSearchPOJO();
+					relWxIndexMapSearchPOJO.setUserId(wxAuthorizerInfoPOJO.getUserId());
+					List<RelWxIndexMapPOJO> relWxIndexMapPOJOs = relWxIndexMapService.finds(relWxIndexMapSearchPOJO );
+					if (!CollectionUtils.isEmpty(relWxIndexMapPOJOs)) {
+						relWxIndexMapPOJO = relWxIndexMapPOJOs.get(0);
+						wxIndexCode = relWxIndexMapPOJO.getWxIndexCode();
 					}
 				}
 				
@@ -2982,10 +3000,10 @@ public class Oauth2Controller extends BaseController {
 //						wxMsgEventRecvApiPOJO
 						/// deal text event
 						logger.info("wxMsgEventRecvApiPOJO: {}", wxMsgEventRecvApiPOJO);
-
+						
 						String content = "";
 						
-						content = this.getWxMsgMemberCenterContent(wxPersonUserPOJO, fromUserName, toUserName, request);
+						content = this.getWxMsgMemberCenterContent(wxPersonUserPOJO, fromUserName, toUserName, wxIndexCode, request);
 						
 						wxMsgEventRespTextApiPOJO.setContent(content);
 						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
@@ -3044,7 +3062,7 @@ public class Oauth2Controller extends BaseController {
 						} else if (CommonConstant.WX_MSG_JOIN_MEMBER.equalsIgnoreCase(eventKey)) {	// 点击 加入会员
 							content = this.getWxMsgJoinMemberContent(wxPersonUserPOJO, authorizerAppId);
 						} else if (CommonConstant.WX_MSG_MEMBER_CENTER.equalsIgnoreCase(eventKey)) {	// 点击 会员中心
-							content = this.getWxMsgMemberCenterContent(wxPersonUserPOJO, fromUserName, toUserName, request);
+							content = this.getWxMsgMemberCenterContent(wxPersonUserPOJO, fromUserName, toUserName, wxIndexCode, request);
 						} else {	// CLICK 不是 "签到"
 							content = eventKey;
 						}
