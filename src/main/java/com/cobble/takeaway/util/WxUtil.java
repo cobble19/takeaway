@@ -83,9 +83,10 @@ public class WxUtil {
 				String wxComAccessTokenStr = HttpClientUtil.postHttpsJson(wxThirdAccessTokenUrl, JsonUtils.convertToJson(wxComAccessTokenReqPOJO));
 				wxComAccessTokenPOJO = JsonUtils.convertToJavaBean(wxComAccessTokenStr, WxComAccessTokenApiPOJO.class);
 				wxComAccessTokenPOJO.setCreateDateTime(new Date());
+
+				wxComAccessTokenService.insert(wxComAccessTokenPOJO);
 			}
 			
-			wxComAccessTokenService.insert(wxComAccessTokenPOJO);
 			
 			WxPreAuthCodeReqApiPOJO wxPreAuthCodeReqPOJO = new WxPreAuthCodeReqApiPOJO();
 			wxPreAuthCodeReqPOJO.setComponentAppId(wxThirdClientId);

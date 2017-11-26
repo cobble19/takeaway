@@ -41,6 +41,7 @@ import com.cobble.takeaway.service.RelWxIndexMapService;
 import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.UserUtil;
 import com.cobble.takeaway.util.WxUtil;
@@ -530,25 +531,24 @@ public class UserController extends BaseController {
 		Map ret = new HashMap();
 		try {
 			userPOJO.setUserType(MyUser.ENTERPRISE);
-			int result = userService.insert(userPOJO);
-			ret.put("success", true);
+//			int result = userService.insert(userPOJO);
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("regUserPOJO", userPOJO);
 			// create MyUser
-			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
+//			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
 			
-			logger.info("userPOJO userId: {}, myUser userId: {}", userPOJO.getUserId(), myUser.getUserId());
+//			logger.info("userPOJO userId: {}, myUser userId: {}", userPOJO.getUserId(), myUser.getUserId());
 			
 			// 可以用session
-			session.setAttribute("userId", userPOJO.getUserId());
+//			session.setAttribute("userId", userPOJO.getUserId());
 			
 			try {
 				// 创建微信首页超链接
-				RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();
-				relWxIndexMapPOJO.setUserId(userPOJO.getUserId());
-				relWxIndexMapPOJO.setWxIndexCode(userPOJO.getWxIndexCode());
-				relWxIndexMapService.insert(relWxIndexMapPOJO);
+//				RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();
+//				relWxIndexMapPOJO.setUserId(userPOJO.getUserId());
+//				relWxIndexMapPOJO.setWxIndexCode(userPOJO.getWxIndexCode());
+//				relWxIndexMapService.insert(relWxIndexMapPOJO);
 				
 				// 创建文件夹, 用于保存文件/图片/等等
 				// 上传文件的代码才需要, 这儿是多余的代码
@@ -568,11 +568,12 @@ public class UserController extends BaseController {
 			// add wxComLoginUrl
 			
 			Map map = new HashMap();
-			map.put("userId", myUser.getUserId());
-	    	String wxComLoginUrl = WxUtil.getWxComLoginUrl(map);
-	    	
-	    	
-	    	ret.put("wxComLoginUrl", wxComLoginUrl);
+			map.put(CommonConstant.COMMON_PARAM, CommonConstant.REG_ENTERPRISE_USER);	// session.setAttribute("regUserPOJO", userPOJO);
+//			map.put("userId", myUser.getUserId());
+		    	String wxComLoginUrl = WxUtil.getWxComLoginUrl(map);
+		    	
+		    	ret.put("wxComLoginUrl", wxComLoginUrl);
+			ret.put("success", true);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 			ret.put("success", false);

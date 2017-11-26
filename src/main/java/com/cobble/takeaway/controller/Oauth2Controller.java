@@ -2132,17 +2132,19 @@ public class Oauth2Controller extends BaseController {
 			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
 			if (CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {	// insert
 				wxAuthorizerInfoService.insert(wxAuthorizerInfoPOJO2);
+				msg += ", 添加成功 ";
 			} else {	// update
 				if (wxAuthorizerInfoPOJOs.size() > 1) {
 					logger.error("存在多个相同的公众号， 请检查数据库和代码。wxAuthorizerInfoPOJOs size: {}", wxAuthorizerInfoPOJOs.size());
 				}
 				
 				// 01/11/2017, 如果此公众号已经被使用, 则不能进行再次绑定
-				msg = "此公众号已经被使用, 您不能进行二次绑定.";
-				success = false;
-				/*WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO3 = wxAuthorizerInfoPOJOs.get(0);
+//				msg = "此公众号已经被使用, 您不能进行二次绑定.";
+//				success = false;
+				WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO3 = wxAuthorizerInfoPOJOs.get(0);
 				wxAuthorizerInfoPOJO2.setWxAuthorizerInfoId(wxAuthorizerInfoPOJO3.getWxAuthorizerInfoId());
-				wxAuthorizerInfoService.update(wxAuthorizerInfoPOJO2);*/
+				wxAuthorizerInfoService.update(wxAuthorizerInfoPOJO2);
+				msg += ", 更新成功 ";
 			}
 			
 			ret.addObject("success", success);
@@ -2209,14 +2211,14 @@ public class Oauth2Controller extends BaseController {
 
 			HttpSession session = request.getSession();
 			
-			logger.info("Param userId: {}", userId);
+			logger.info("Param userId: {}, Session userId: {}", userId, session.getAttribute("userId"));
 			
 			if (userId == null) {
 				userId = (Long) session.getAttribute("userId");
 			}
 			String newPassword = (String) session.getAttribute("newPassword");
 			
-			logger.info("session userId: {}, newPassword: {}", userId, newPassword);
+			logger.info("Session userId: {}, Session newPassword: {}", userId, newPassword);
 			
 			if (StringUtils.isNotBlank(code)) {
 				// 组建去获取授权者token请求
@@ -2289,10 +2291,46 @@ public class Oauth2Controller extends BaseController {
 								userPOJO.setUserId(userId);
 								userPOJO.setPassword(newPassword);
 								userService.updatePassword(userPOJO);
+								// 跳转到登录页面
 								myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) + "/login.jsp");
 								return null;
 							}
 						}
+					}
+				} else if (CommonConstant.REG_ENTERPRISE_USER.equalsIgnoreCase(commonParam)) {
+					UserPOJO userPOJO = (UserPOJO) session.getAttribute("regUserPOJO");
+					int result = userService.insert(userPOJO);
+					MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
+					
+					logger.info("userPOJO userId: {}, myUser userId: {}", userPOJO.getUserId(), myUser.getUserId());
+					
+					userId = userPOJO.getUserId();
+					// 可以用session
+					session.setAttribute("userId", userId);
+					try {
+						// 创建微信首页超链接
+						RelWxIndexMapPOJO relWxIndexMapPOJO = new RelWxIndexMapPOJO();
+						relWxIndexMapPOJO.setUserId(userPOJO.getUserId());
+						String wxIndexCode = userPOJO.getWxIndexCode();
+						if (StringUtils.isBlank(wxIndexCode)) {
+							wxIndexCode = RandomStringUtils.randomAlphabetic(6);
+						}
+						relWxIndexMapPOJO.setWxIndexCode(wxIndexCode);
+						relWxIndexMapService.insert(relWxIndexMapPOJO);
+						
+						// 创建文件夹, 用于保存文件/图片/等等
+						// 上传文件的代码才需要, 这儿是多余的代码
+						/*String fileDirPath = messageSource.getMessage("files.directory", null, null);
+						File fileDir = new File(fileDirPath);
+						FileUtils.forceMkdir(fileDir);
+						if (!fileDirPath.endsWith(File.separator)) {
+							fileDirPath += File.separator;
+						}
+						fileDir = new File(fileDirPath + relWxIndexMapPOJO.getWxIndexCode());
+						FileUtils.forceMkdir(fileDir);*/
+					} catch (Exception e) {
+						logger.error("创建微信首页链接/文件夹失败, userId: {}, wxIndexCode: {}, Exception: {}"
+								, userPOJO.getUserId(), userPOJO.getWxIndexCode(), e);
 					}
 				}
 				// 显示获取授权者信息

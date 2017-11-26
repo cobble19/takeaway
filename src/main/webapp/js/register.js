@@ -73,114 +73,114 @@ $(document).ready(function() {
 
     }, "昵称不能重复");
     
-    $('#person form').find('#registerBtn').click(function(e) {
-    	e.preventDefault();
-    	console.log('person form');
-    	
-    	var form = $('#person form');
-    	var username = form.find('input[name=username]').val();
-    	var nickname = form.find('input[name=nickname]').val();
-    	var password = form.find('input[name=password]').val();
-    	var email = form.find('input[name=email]').val();
-    	$.ajax({
-    		"url" : $('#basePath').val() + "/web/user/person/reg",
-    		"type" : "POST",
-            async:true,                                             
-    		"dataType" : 'json',
-    		"data": ({
-    			username: username,
-    			nickname: nickname,
-    			password: password,
-    			email: email
-            }),
-            success: function(data, textStatus, jqXHR ) {
-        		console.log(data);
-        		if (data.success) {
-        			window.location.href = $('#basePath').val() + '/web/regSuccess';
-        		} else {
-        			alert(data.desc);
-        		}
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-            	console.log('Ajax error');
-            },
-            complete: function(jqXHR, textStatus) {
-            	console.log('Ajax complete.');
-            }
-        });
-    })
+//    $('#person form').find('#registerBtn').click(function(e) {
+//    	e.preventDefault();
+//    	console.log('person form');
+//    	
+//    	var form = $('#person form');
+//    	var username = form.find('input[name=username]').val();
+//    	var nickname = form.find('input[name=nickname]').val();
+//    	var password = form.find('input[name=password]').val();
+//    	var email = form.find('input[name=email]').val();
+//    	$.ajax({
+//    		"url" : $('#basePath').val() + "/web/user/person/reg",
+//    		"type" : "POST",
+//            async:true,                                             
+//    		"dataType" : 'json',
+//    		"data": ({
+//    			username: username,
+//    			nickname: nickname,
+//    			password: password,
+//    			email: email
+//            }),
+//            success: function(data, textStatus, jqXHR ) {
+//        		console.log(data);
+//        		if (data.success) {
+//        			window.location.href = $('#basePath').val() + '/web/regSuccess';
+//        		} else {
+//        			alert(data.desc);
+//        		}
+//            },
+//            error: function(jqXHR, textStatus, errorThrown) {
+//            	console.log('Ajax error');
+//            },
+//            complete: function(jqXHR, textStatus) {
+//            	console.log('Ajax complete.');
+//            }
+//        });
+//    })
     
     $('#enterprise form').find('#registerBtn').click(function(e) {
-    	e.preventDefault();
-    	console.log('enterprise form');
-    	
-    	var form = $('#enterprise form');
-    	var username = form.find('input[name=username]').val();
-    	var nickname = form.find('input[name=nickname]').val();
-    	var password = form.find('input[name=password]').val();
-    	var email = form.find('input[name=email]').val();
-    	var wxIndexCode = form.find('input[name=wxIndexCode]').val();
-    	$.ajax({
-    		"url" : $('#basePath').val() + "/api/user/enterprise/reg",
-    		"type" : "POST",
-            async:true,                                             
-    		"dataType" : 'json',
-    		"data": ({
-    			username: username,
-    			nickname: nickname,
-    			password: password,
-    			email: email,
-    			wxIndexCode: wxIndexCode
-            }),
-            success: function(data, textStatus, jqXHR ) {
-        		console.log(data);
-        		if (data.success) {
-        			//window.location.href = $('#basePath').val() + '/web/regSuccess';
-        			//@09/27/2016, redirect to wxComLogin
-//        			window.location.href = data.wxComLoginUrl;
-        			$('#wxComLoginIframe').attr('src', data.wxComLoginUrl);
-        			$('#enterprise').hide();
-        			$('#step1').css('color', '#ccc');
-        			$('#step2').css('color', '#f00');
-        		} else {
-        			alert(data.desc);
-        		}
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-            	console.log('Ajax error');
-            },
-            complete: function(jqXHR, textStatus) {
-            	console.log('Ajax complete.');
-            }
-        });
+	    	e.preventDefault();
+	    	console.log('enterprise form');
+	    	
+	    	var form = $('#enterprise form');
+	    	var username = form.find('input[name=username]').val();
+	    	var nickname = form.find('input[name=nickname]').val();
+	    	var password = form.find('input[name=password]').val();
+	    	var email = form.find('input[name=email]').val();
+//	    	var wxIndexCode = form.find('input[name=wxIndexCode]').val();
+	    	$.ajax({
+	    		"url" : $('#basePath').val() + "/api/user/enterprise/reg",
+	    		"type" : "POST",
+	            async:true,                                             
+	    		"dataType" : 'json',
+	    		"data": ({
+	    			username: username,
+	    			nickname: nickname,
+	    			password: password,
+	    			email: email/*,
+	    			wxIndexCode: wxIndexCode*/
+	            }),
+	            success: function(data, textStatus, jqXHR ) {
+	        		console.log(data);
+	        		if (data.success) {
+	        			//window.location.href = $('#basePath').val() + '/web/regSuccess';
+	        			//@09/27/2016, redirect to wxComLogin
+	//        			window.location.href = data.wxComLoginUrl;
+	        			$('#wxComLoginIframe').attr('src', data.wxComLoginUrl);
+	        			$('#enterprise').hide();
+	        			$('#step1').css('color', '#ccc');
+	        			$('#step2').css('color', '#f00');
+	        		} else {
+	        			alert(data.desc);
+	        		}
+	            },
+	            error: function(jqXHR, textStatus, errorThrown) {
+	            	console.log('Ajax error');
+	            },
+	            complete: function(jqXHR, textStatus) {
+	            	console.log('Ajax complete.');
+	            }
+	        });
     })
 
-    $("#person form").validate({
-        errorPlacement: function(error, element) {
-             error.insertAfter(element);
-         },
-         rules:{
-             username:{
-               required:true,
-               duplicateUsername: true
-             },
-             nickname:{
-                 required:true,
-                 duplicateNickname: true
-             }
-          },
-          messages:{
-        	  username:{
-                  required:"用户名不能为空",
-                  duplicateUsername:"用户名不能重复"
-              },
-              nickname:{
-                  required:"昵称不能为空",
-                  duplicateUsername:"昵称不能重复"
-              }
-          },
-         debug:true
-       })
+//    $("#person form").validate({
+//        errorPlacement: function(error, element) {
+//             error.insertAfter(element);
+//         },
+//         rules:{
+//             username:{
+//               required:true,
+//               duplicateUsername: true
+//             },
+//             nickname:{
+//                 required:true,
+//                 duplicateNickname: true
+//             }
+//          },
+//          messages:{
+//        	  username:{
+//                  required:"用户名不能为空",
+//                  duplicateUsername:"用户名不能重复"
+//              },
+//              nickname:{
+//                  required:"昵称不能为空",
+//                  duplicateUsername:"昵称不能重复"
+//              }
+//          },
+//         debug:true
+//       })
 
     $("#enterprise form").validate({
         errorPlacement: function(error, element) {

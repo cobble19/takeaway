@@ -69,12 +69,12 @@ $(function() {
 							 					<input class="form-control" type="email" id="email" name="email" required="required" value="" placeholder="请输入email">
 							 				</div>
 							 			</div>
-							 			<div class="form-group">
+							 			<!-- <div class="form-group">
 							 				<label class="control-label col-sm-3 col-md-3" for="wxIndexCode">唯一识别号:</label>
 							 				<div class="col-sm-9 col-md-7">
 							 					<input class="form-control" type="text" id="wxIndexCode" name="wxIndexCode" required="required" value="" placeholder="请输入唯一识别号, 英文和数字">
 							 				</div>
-							 			</div>
+							 			</div> -->
 							 			<div class="form-group">
 								 			<div class="col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-7">
 								  				<button type="button" class="btn btn-danger btn-block" id="registerBtn">下一步</button>

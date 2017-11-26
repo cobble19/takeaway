@@ -193,20 +193,22 @@ public class HttpClientUtil {
 
 			httppost.setEntity(reqEntity);
 
-			System.out.println("Executing request: "
-					+ httppost.getRequestLine());
 			response = httpclient.execute(httppost);
             logger.info("url: {}, Response Status: {}", url, response.getStatusLine());
             Header[] headers = response.getAllHeaders();
+    			StringBuilder headerSb = new StringBuilder();
             if (ArrayUtils.isNotEmpty(headers)) {
-            	for (Header header : headers) {
-            		logger.info("url: {}, Header: {} = {}", url, header.getName(), header.getValue());
-            	}
+	            	for (Header header : headers) {
+	            		headerSb.append(header.getName());
+	            		headerSb.append(" = ");
+	            		headerSb.append(header.getValue());
+	            		headerSb.append(", ");
+	            	}
             }
             
 			String responseBody = EntityUtils.toString(response.getEntity());
 			ret = responseBody;
-			logger.info("url: {}, Response Body: {}", url, responseBody);
+			logger.info("url: {}, Headers: {}, Response Body: {}", url, headerSb.toString(), responseBody);
 		} finally {
 			try {
 				response.close();

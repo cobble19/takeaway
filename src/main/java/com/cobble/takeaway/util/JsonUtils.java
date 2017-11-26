@@ -8,7 +8,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cobble.takeaway.pojo.AwardPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuInfoRespApiPOJO;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -16,6 +15,10 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 
 public class JsonUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
@@ -76,7 +79,20 @@ public class JsonUtils {
 	}
 	
 	public static void main(String[] argv) throws Exception {
-		testLottery();
+		testEhCache();
+//		testLottery();
+	}
+	
+	public static void testEhCache() throws Exception {
+
+
+		CacheManager cacheManager = CacheManager.getInstance();
+		String[] cacheNames = cacheManager.getCacheNames();
+		System.out.println(cacheNames);
+		Cache cache = cacheManager.getCache("taCache");
+		cache.put(new Element("k1", "v1"));
+		Object v = cache.get("k1").getObjectValue();
+		System.out.println(v);
 	}
 	
 	public static void testJson() throws Exception {

@@ -1,4 +1,10 @@
 $(document).ready(function() {
+
+	$('#progress').dialog({
+    	autoOpen: false,
+    	modal: true
+    });
+	
 	showDetail();
 	
 	/*$('#applyForm').validate();
@@ -16,10 +22,6 @@ $(document).ready(function() {
     	//return false;
 	});
 	
-	$('#progress').dialog({
-    	autoOpen: false,
-    	modal: true
-    });
 	
 
 //    $('#qrcodeDiv').dialog({
@@ -187,10 +189,10 @@ var existApply2 = function() {
 }
 
 var onClickApply2Summit = function() {
-		$('#progress').dialog('open');
 		var form = $("form[id=apply2Form]");
 		
 		$(form).find('#apply2Btn').click(function(e) {
+			$('#progress').dialog('open');
 			var form1 = $(this).parents('form');
 			
 			if (!$(form1).valid()) {

@@ -40,9 +40,14 @@ public interface CommonConstant {
 	// 权限
 	String NUMBER_GUESS = "3001";
 	
-	// other
+	// COM
+	String COMMON_PARAM = "commonParam";
+	
 	String FORGET_PASSWORD = "forgetPassword";
+	String REG_ENTERPRISE_USER = "regEnterpriseUser";
+	// person user
 	String LOGIN_VICE = "loginVice";
+	
 	
 	// Oauth2Controller
 	public final static int WX_SUBSCRIBE = 1;

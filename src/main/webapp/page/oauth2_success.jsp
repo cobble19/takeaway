@@ -32,10 +32,10 @@
   <div class="weui_opr_area">
     <p class="weui_btn_area">
         <c:if test="${success == true}">
-  			<a href="<cmn:base/>/web/unified/usercenter" class="weui_btn weui_btn_primary">确定</a>
+  			<a href="<cmn:base/>/web/unified/profile" class="weui_btn weui_btn_primary">确定</a>
   		</c:if>
   		<c:if test="${success == false}">
-  			<a href="<cmn:base/>/web/unified/usercenter" class="weui_btn weui_btn_primary">确定</a>
+  			<a href="<cmn:base/>/web/unified/profile" class="weui_btn weui_btn_primary">确定</a>
   		</c:if>
   		
   		<c:if test="${addVip eq 'ADD_VIP'}">
