@@ -52,6 +52,7 @@
 	<input id="unionId" type="hidden" value='${sessionScope.unionId}'>
 	<input id="openId" type="hidden" value='${sessionScope.openId}'>
 	<input id="authorizerAppId" type="hidden" value='${sessionScope.authorizerAppId}'>
+	<input id="indexCode" type="hidden" value='${sessionScope.indexCode}'>
 	
 
 

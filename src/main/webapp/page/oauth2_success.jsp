@@ -72,13 +72,13 @@
 		<p>Message: <c:out value="${msg}"></c:out></p> 
 		<p><a href="${globalLogoutUrl}">Sign Out</a></p>
 	</div>-->
-	<!--<script type="text/javascript">
+	<script type="text/javascript">
 		$(function() {
 			window.setTimeout(function() {
-				window.location.href = $('#basePath').val() + "/web/unified/usercenter";
-			}, 5000);
+				window.location.href = $('#basePath').val() + "/web/wx/usercenter/"  + $('#indexCode').val() + "/person";
+			}, 3000);
 		});
-	</script>-->
+	</script>
 	
   </body>
 </html>

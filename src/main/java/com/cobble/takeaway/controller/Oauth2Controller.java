@@ -1645,10 +1645,19 @@ public class Oauth2Controller extends BaseController {
 				} else {
 					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 				}
+				WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO =  new WxAuthorizerInfoSearchPOJO();
+				wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(appid);
+				List<RelWxIndexMapPOJO> relWxIndexMapPOJOs = relWxIndexMapService.findsByAuthorizerInfo(wxAuthorizerInfoSearchPOJO );
+				if (!CollectionUtils.isEmpty(relWxIndexMapPOJOs)) {
+					RelWxIndexMapPOJO relWxIndexMapPOJO = relWxIndexMapPOJOs.get(0);
+					String indexCode = relWxIndexMapPOJO.getWxIndexCode();
+					session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+				}
 				
+				// Deal appid is proxy id case
 				String authorizerAppIdVice = "";
 				if (StringUtils.isNotBlank(authorizerUserNameVice)) {
-					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+					wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
 					wxAuthorizerInfoSearchPOJO.setUserName(authorizerUserNameVice);
 					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
 					if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
@@ -1656,6 +1665,16 @@ public class Oauth2Controller extends BaseController {
 							logger.error("存在多个WxAuthorizerInfoPOJO, Authorizer UserName: {}", authorizerUserNameVice);
 						}
 						authorizerAppIdVice = wxAuthorizerInfoPOJOs.get(0).getAuthorizerAppId();
+
+						// get indexCode and set into session
+						wxAuthorizerInfoSearchPOJO =  new WxAuthorizerInfoSearchPOJO();
+						wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppIdVice);
+						relWxIndexMapPOJOs = relWxIndexMapService.findsByAuthorizerInfo(wxAuthorizerInfoSearchPOJO );
+						if (!CollectionUtils.isEmpty(relWxIndexMapPOJOs)) {
+							RelWxIndexMapPOJO relWxIndexMapPOJO = relWxIndexMapPOJOs.get(0);
+							String indexCode = relWxIndexMapPOJO.getWxIndexCode();
+							session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+						}
 					}
 				}
 				
@@ -2560,16 +2579,16 @@ public class Oauth2Controller extends BaseController {
 			String wxThirdPersonUserLoginUrl = this.getWxThirdPersonUserLoginUrl(fromUserName, toUserName);
 			
 			String content = "";
-			content += "您好，现在开始加入会员，请点击";
+			content += "您好，现在请点击";
 			content += "<a href=\"" + wxThirdPersonUserLoginUrl
-					+ "\">加入会员</a>";
+					+ "\">会员中心</a>";
 			content += "\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
 			
 			ret = content;
 //			return ret;
 		} else {	// 2. // 如果是会员, 则回复会员中心和重写加入会员链接
-			String wxThirdPersonUserLoginUrl = "";
-			wxThirdPersonUserLoginUrl = this.getWxThirdPersonUserLoginUrl(fromUserName, toUserName);
+//			String wxThirdPersonUserLoginUrl = "";
+//			wxThirdPersonUserLoginUrl = this.getWxThirdPersonUserLoginUrl(fromUserName, toUserName);
 
 			// 用户中心
 			String memberCenterUrl = "";
@@ -2583,10 +2602,10 @@ public class Oauth2Controller extends BaseController {
 			content += "您好," + wxPersonUserPOJO.getNickname()
 					+ ",";
 			content += memberCenter;
-			content += "/";
-			content += "<a href=\"" + wxThirdPersonUserLoginUrl
-					+ "\">重新加入</a>";
-			content += "\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
+//			content += "/";
+//			content += "<a href=\"" + wxThirdPersonUserLoginUrl
+//					+ "\">重新加入</a>";
+//			content += "\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
 			
 			ret = content;
 //			return ret;
