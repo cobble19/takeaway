@@ -29,10 +29,10 @@
       diskExpiryThreadIntervalSeconds="120"
       memoryStoreEvictionPolicy="LRU" />
    <cache name="taCache"
-         maxElementsInMemory="100"
+         maxElementsInMemory="10000"
          maxElementsOnDisk="0"
          eternal="false"
-         timeToIdleSeconds="120"
+         timeToIdleSeconds="3600"
          timeToLiveSeconds="0">
     		<!-- <terracotta/> -->
   	</cache>

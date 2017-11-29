@@ -126,6 +126,7 @@ import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.service.WxRespMsgService;
 import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.CacheUtil;
 import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.DateUtil;
@@ -2577,12 +2578,13 @@ public class Oauth2Controller extends BaseController {
 		// 不是会员, 返回加入会员链接
 		if (!isMember) {
 			String wxThirdPersonUserLoginUrl = this.getWxThirdPersonUserLoginUrl(fromUserName, toUserName);
-			
+			String key = RandomStringUtils.randomAlphabetic(8);
+			CacheUtil.getInstance().put(key, wxThirdPersonUserLoginUrl, 15);
 			String content = "";
 			content += "您好，现在请点击";
-			content += "<a href=\"" + wxThirdPersonUserLoginUrl
+			content += "<a href=\"" + HttpRequestUtil.getBase(request) + "/web/unified/t/" + key
 					+ "\">会员中心</a>";
-			content += "\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为30秒。";
+			content += "\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为15秒。";
 			
 			ret = content;
 //			return ret;
