@@ -18,7 +18,7 @@
     <h2 class="weui_msg_title">操作成功</h2>
     <p class="weui_msg_desc">
         <c:if test="${success == true}">
-  			恭喜您:<c:out value="${username}"></c:out>,授权成功！
+  			恭喜您:<c:out value="${username}"></c:out>,操作成功！
   		</c:if>
   		<c:if test="${success == false}">
   			错误信息:<c:out value="${msg}"></c:out>
@@ -29,7 +29,7 @@
   		</c:if>
     </p>
   </div>
-  <div class="weui_opr_area">
+  <%-- <div class="weui_opr_area">
     <p class="weui_btn_area">
         <c:if test="${success == true}">
   			<a href="<cmn:base/>/web/unified/profile" class="weui_btn weui_btn_primary">确定</a>
@@ -43,7 +43,7 @@
   		</c:if>
       <!--<a href="javascript:;" class="weui_btn weui_btn_default">取消</a>-->
     </p>
-  </div>
+  </div> --%>
   <!--<div class="weui_extra_area">
     <a href="">查看详情</a>
   </div>-->
@@ -76,7 +76,7 @@
 		$(function() {
 			window.setTimeout(function() {
 				window.location.href = $('#basePath').val() + "/web/wx/usercenter/"  + $('#indexCode').val() + "/person";
-			}, 3000);
+			}, 1);
 		});
 	</script>
 	

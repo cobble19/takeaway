@@ -2561,7 +2561,7 @@ public class Oauth2Controller extends BaseController {
 	}
 	
 	// CLICK会员中心的回复信息
-	private String getWxMsgMemberCenterContent(WxPersonUserPOJO wxPersonUserPOJO, String fromUserName, String toUserName, String wxIndexCode, HttpServletRequest request) {
+	private String getWxMsgMemberCenterContent(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO, WxPersonUserPOJO wxPersonUserPOJO, String fromUserName, String toUserName, String wxIndexCode, HttpServletRequest request) {
 		String ret = "";
 		HttpSession session = request.getSession();
 		// 如果WxPersonUserPOJO是空,或者不是会员则回复加入会员
@@ -2575,16 +2575,20 @@ public class Oauth2Controller extends BaseController {
 				isMember = true;
 			}
 		}
+
+		String authorizerNickName = "";
+		if (wxAuthorizerInfoPOJO != null) {
+			authorizerNickName = wxAuthorizerInfoPOJO.getNickName();
+		}
 		// 不是会员, 返回加入会员链接
 		if (!isMember) {
 			String wxThirdPersonUserLoginUrl = this.getWxThirdPersonUserLoginUrl(fromUserName, toUserName);
 			String key = RandomStringUtils.randomAlphabetic(8);
 			CacheUtil.getInstance().put(key, wxThirdPersonUserLoginUrl, 15);
 			String content = "";
-			content += "您好，现在请点击";
+			content += "您好，欢迎来到" + authorizerNickName + ", 点击链接进入";
 			content += "<a href=\"" + HttpRequestUtil.getBase(request) + "/web/unified/t/" + key
 					+ "\">会员中心</a>";
-			content += "\n注意：请不要将该链接转发给任何人，否则会出现安全隐患；该链接的有效时间为15秒。";
 			
 			ret = content;
 //			return ret;
@@ -2602,7 +2606,7 @@ public class Oauth2Controller extends BaseController {
 			
 			String content = "";
 			content += "您好," + wxPersonUserPOJO.getNickname()
-					+ ",";
+					+ ", 欢迎来到" + authorizerNickName + ", 点击链接进入";
 			content += memberCenter;
 //			content += "/";
 //			content += "<a href=\"" + wxThirdPersonUserLoginUrl
@@ -2783,7 +2787,7 @@ public class Oauth2Controller extends BaseController {
 		}
 	}
 	
-	private String dealTextMemberCenter(WxPersonUserPOJO wxPersonUserPOJO, String fromUserName, String toUserName, String wxIndexCode, HttpServletRequest request
+	private String dealTextMemberCenter(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO, WxPersonUserPOJO wxPersonUserPOJO, String fromUserName, String toUserName, String wxIndexCode, HttpServletRequest request
 			, WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO) {
 
 //		wxMsgEventRecvApiPOJO
@@ -2792,7 +2796,7 @@ public class Oauth2Controller extends BaseController {
 		
 		String content = "";
 		
-		content = this.getWxMsgMemberCenterContent(wxPersonUserPOJO, fromUserName, toUserName, wxIndexCode, request);
+		content = this.getWxMsgMemberCenterContent(wxAuthorizerInfoPOJO, wxPersonUserPOJO, fromUserName, toUserName, wxIndexCode, request);
 		
 		wxMsgEventRespTextApiPOJO.setContent(content);
 		String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
@@ -3123,7 +3127,7 @@ public class Oauth2Controller extends BaseController {
 						} else if (CommonConstant.WX_MSG_JOIN_MEMBER.equalsIgnoreCase(eventKey)) {	// 点击 加入会员
 							content = this.getWxMsgJoinMemberContent(wxPersonUserPOJO, authorizerAppId);
 						} else if (CommonConstant.WX_MSG_MEMBER_CENTER.equalsIgnoreCase(eventKey)) {	// 点击 会员中心
-							content = this.getWxMsgMemberCenterContent(wxPersonUserPOJO, fromUserName, toUserName, wxIndexCode, request);
+							content = this.getWxMsgMemberCenterContent(wxAuthorizerInfoPOJO, wxPersonUserPOJO, fromUserName, toUserName, wxIndexCode, request);
 						} else {	// CLICK 不是 "签到"
 							content = eventKey;
 						}
