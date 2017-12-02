@@ -338,8 +338,9 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		// 获取AuthorizerAppId
 		WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
 		if (userPOJO == null) {
-			logger.info("微官网、活动发布者为空");
+			logger.info("微官网、活动发布者为空, 使用默认的得味驿站公众号代理");
 			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(CommonConstant.DWYZ_AUTHORIZER_APP_ID);
 			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = null;
 			try {
 				wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
