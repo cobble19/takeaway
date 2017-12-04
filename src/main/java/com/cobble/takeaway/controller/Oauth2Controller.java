@@ -3136,7 +3136,7 @@ public class Oauth2Controller extends BaseController {
 					}
 					/// deal CLICK event, and is DWYZ公众号
 					if ("CLICK".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())
-							&& CommonConstant.DWYZ_USER_NAME.equalsIgnoreCase(toUserName)) {
+							/*&& CommonConstant.DWYZ_USER_NAME.equalsIgnoreCase(toUserName)*/) {
 						String eventKey = wxMsgEventRecvEventApiPOJO.getEventKey();
 						logger.info("wxMsgEventRecvEventApiPOJO: {}", wxMsgEventRecvEventApiPOJO);
 
@@ -3157,7 +3157,7 @@ public class Oauth2Controller extends BaseController {
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 						return encryptMsg;
 					} else {
-						logger.info("其他的event先不做处理");
+						logger.info("除了CLICK, 其他的event先不做处理");
 					}
 					///
 					
