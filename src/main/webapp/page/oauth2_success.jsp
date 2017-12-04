@@ -72,6 +72,7 @@
 		<p>Message: <c:out value="${msg}"></c:out></p> 
 		<p><a href="${globalLogoutUrl}">Sign Out</a></p>
 	</div>-->
+	
 	<script type="text/javascript">
 		$(function() {
 			window.setTimeout(function() {
