@@ -1384,7 +1384,7 @@ public class Oauth2Controller extends BaseController {
 
 			ret.addObject("wxScoreUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxscore");
 //			ret.addObject("wxPrizeUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxprize");
-			ret.addObject("wxPrizeUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxcard");
+			ret.addObject("wxCardUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxcard");
 			ret.setViewName("/page/weixin/wx_person_user_center");
 		} catch (Exception e) {
 			logger.error("wxLinkUserCenter error.", e);
@@ -3162,37 +3162,37 @@ public class Oauth2Controller extends BaseController {
 					///
 					
 					// to text
-					if (true/*CommonConstant.DWYZ_USER_NAME.equals(toUserName)*/) {
-						logger.info("发生事件：{}", wxMsgEventRecvEventApiPOJO.getEventKey());
-						
-						// 查询是否有wx_person_user
-						// 1. 如果没有wx_person_user, then 回复带有参数openIdVice的登录连接
-						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
-//							String wxWebLoginUrl = "";
-							String wxThirdPersonUserLoginUrl = "";
-							wxThirdPersonUserLoginUrl = this.getWxThirdPersonUserLoginUrl(fromUserName, toUserName);
-							
-							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO) + "\n<br/>";
-							content += wxThirdPersonUserLoginUrl;
-							content = "test event response";
-							if ("CLICK".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())) {
-								content = wxMsgEventRecvEventApiPOJO.getEventKey();
-								
-								wxMsgEventRespTextApiPOJO.setContent(content);
-								String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
-								String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
-								return encryptMsg;
-							} else {
-								logger.info("其他的event先不做处理");
-							}
-						} else {	// 2. 如果有返回已经注册
-							String content = "已经注册, " + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO);
-							wxMsgEventRespTextApiPOJO.setContent(content);
-							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
-							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
-							return encryptMsg;
-						}
-					}
+//					if (true/*CommonConstant.DWYZ_USER_NAME.equals(toUserName)*/) {
+//						logger.info("发生事件：{}", wxMsgEventRecvEventApiPOJO.getEventKey());
+//						
+//						// 查询是否有wx_person_user
+//						// 1. 如果没有wx_person_user, then 回复带有参数openIdVice的登录连接
+//						if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+////							String wxWebLoginUrl = "";
+//							String wxThirdPersonUserLoginUrl = "";
+//							wxThirdPersonUserLoginUrl = this.getWxThirdPersonUserLoginUrl(fromUserName, toUserName);
+//							
+//							String content = "获取的事件：" + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO) + "\n<br/>";
+//							content += wxThirdPersonUserLoginUrl;
+//							content = "test event response";
+//							if ("CLICK".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())) {
+//								content = wxMsgEventRecvEventApiPOJO.getEventKey();
+//								
+//								wxMsgEventRespTextApiPOJO.setContent(content);
+//								String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+//								String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+//								return encryptMsg;
+//							} else {
+//								logger.info("其他的event先不做处理");
+//							}
+//						} else {	// 2. 如果有返回已经注册
+//							String content = "已经注册, " + XmlUtils.convertToXml(wxMsgEventRecvEventApiPOJO);
+//							wxMsgEventRespTextApiPOJO.setContent(content);
+//							String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+//							String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+//							return encryptMsg;
+//						}
+//					}
 					
 				} //event end
 			}	// 全网发布监测结束
