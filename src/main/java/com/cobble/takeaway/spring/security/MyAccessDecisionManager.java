@@ -392,8 +392,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				
 				wxThirdPersonUserLoginUrl = wxWebLoginUrl;
 //				wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
-				wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&openIdVice=", "%26openIdVice%3D")
-											.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
+				wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
 			}
 			
 		}

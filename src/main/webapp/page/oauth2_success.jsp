@@ -73,13 +73,13 @@
 		<p><a href="${globalLogoutUrl}">Sign Out</a></p>
 	</div>-->
 	
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(function() {
 			window.setTimeout(function() {
 				window.location.href = $('#basePath').val() + "/web/wx/usercenter/"  + $('#indexCode').val() + "/person";
 			}, 1);
 		});
-	</script>
+	</script> -->
 	
   </body>
 </html>
