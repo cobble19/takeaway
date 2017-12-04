@@ -58,12 +58,20 @@ $(document).ready(function() {
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').show();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
-		} else if (value == 'view' && text == '一键添加会员中心') {
+		} else if (value == 'click' && text == '一键添加会员中心') {
+			$('#wxMenuMgrEntryButtonDiv #name').val('会员中心');
+			var btnKey = '会员中心_DWYZ';
+			$('#wxMenuMgrEntryButtonDiv #btnKey').val(btnKey);
+			
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #mediaId').parent('div').parent('div').hide();
-			var urlPersonUc = $('#basePath').val() + '/web/wx/usercenter/' + $('#indexCode').val() + '/person';
-			$('#wxMenuMgrEntryButtonDiv #url').val(urlPersonUc);
+
+			
+			$('#wxMenuMgrEntryButtonDiv #btnKey').attr('readonly', true);
+			$('#wxMenuMgrEntryButtonDiv #name').attr('readonly', true);
+//			var urlPersonUc = $('#basePath').val() + '/web/wx/usercenter/' + $('#indexCode').val() + '/person';
+//			$('#wxMenuMgrEntryButtonDiv #url').val(urlPersonUc);
 		} else if (value == 'media_id') {
 			$('#wxMenuMgrEntryButtonDiv #btnKey').parent('div').parent('div').hide();
 			$('#wxMenuMgrEntryButtonDiv #url').parent('div').parent('div').hide();

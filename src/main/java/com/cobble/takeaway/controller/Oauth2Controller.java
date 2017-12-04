@@ -1301,6 +1301,25 @@ public class Oauth2Controller extends BaseController {
 		
 		return ret;
 	}
+
+	@RequestMapping(value = "/web/weixin/wxcard", method = {RequestMethod.GET})
+	public ModelAndView wxCard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			HttpSession session = request.getSession();
+			Long userId = UserUtil.getCurrentUserId();
+			logger.info("begin...");
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			logger.info("uri: " + uri + ", qs: " + qs);
+			ret.setViewName("/page/weixin/wx_card");
+		} catch (Exception e) {
+			logger.error("error.", e);
+			throw e;
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/web/weixin/wxactivitys", method = {RequestMethod.GET})
 	public ModelAndView wxActivitys(@RequestParam(value="wxIndexCode") String wxIndexCode
@@ -1354,17 +1373,18 @@ public class Oauth2Controller extends BaseController {
 			WxUserInfoApiPOJO wxUserInfoApiPOJO = (WxUserInfoApiPOJO) session.getAttribute(CommonConstant.WX_USER_INFO_API_POJO);
 			
 			ret.addObject(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
-			ret.addObject("wxActivitys4ApplyUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxactivitys" + "?wxIndexCode=" + wxIndexCode
-					+ "&openId=" + session.getAttribute(CommonConstant.OPEN_ID)
-					+ "&unionId=" + session.getAttribute(CommonConstant.UNION_ID)
-					+ "&typeCode=" + 1);
-			ret.addObject("wxActivitys4SurveyUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxactivitys" + "?wxIndexCode=" + wxIndexCode
-					+ "&openId=" + session.getAttribute(CommonConstant.OPEN_ID)
-					+ "&unionId=" + session.getAttribute(CommonConstant.UNION_ID)
-					+ "&typeCode=" + 2);
+//			ret.addObject("wxActivitys4ApplyUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxactivitys" + "?wxIndexCode=" + wxIndexCode
+//					+ "&openId=" + session.getAttribute(CommonConstant.OPEN_ID)
+//					+ "&unionId=" + session.getAttribute(CommonConstant.UNION_ID)
+//					+ "&typeCode=" + 1);
+//			ret.addObject("wxActivitys4SurveyUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxactivitys" + "?wxIndexCode=" + wxIndexCode
+//					+ "&openId=" + session.getAttribute(CommonConstant.OPEN_ID)
+//					+ "&unionId=" + session.getAttribute(CommonConstant.UNION_ID)
+//					+ "&typeCode=" + 2);
 
 			ret.addObject("wxScoreUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxscore");
-			ret.addObject("wxPrizeUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxprize");
+//			ret.addObject("wxPrizeUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxprize");
+			ret.addObject("wxPrizeUrl", HttpRequestUtil.getBase(request) + "/web/weixin/wxcard");
 			ret.setViewName("/page/weixin/wx_person_user_center");
 		} catch (Exception e) {
 			logger.error("wxLinkUserCenter error.", e);
