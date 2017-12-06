@@ -1566,9 +1566,10 @@ public class Oauth2Controller extends BaseController {
 		return wxUserInfoApiPOJO;
 	}
 	
-	// 微信用户web页面登录的redirect url, 获取用户的信息(OPEN_ID)
+	// 微信个人用户web页面登录的redirect url, 获取用户的信息(OPEN_ID)
 	// 1. 如果是代理, 则authorizerUserNameVice必存在, 
 	// 2. loginVice和openIdVice只会存在一个
+	// 3. @20171206, 以后都用DWYZ代理
 	@RequestMapping(value = "/web/wx/oauth2/third/web/authCode"/*, produces = {MediaType.APPLICATION_JSON_VALUE}*/)
 	public ModelAndView wxWebAuthCode(@RequestParam(value="code", required=false) String code
 			, @RequestParam(value="state", required=false) String state
@@ -1589,6 +1590,11 @@ public class Oauth2Controller extends BaseController {
 				logger.info("code must not be null");
 				throw new NullPointerException("code must not be null");
 			}
+			if (StringUtils.isBlank(authorizerUserNameVice)) {
+				logger.error("authorizerUserNameVice must not be null");
+				throw new NullPointerException("authorizerUserNameVice must not be null");
+			}
+			
 			// get token
 			WxAuthorizerInfoReqApiPOJO wxAuthorizerAccessTokenReqPOJO = new WxAuthorizerInfoReqApiPOJO();
 			wxAuthorizerAccessTokenReqPOJO.setAuthorizerAppId(appid);
@@ -1610,35 +1616,23 @@ public class Oauth2Controller extends BaseController {
 			WxOauth2TokenApiPOJO wxOauth2TokenPOJO = JsonUtils.convertToJavaBean(result, WxOauth2TokenApiPOJO.class);
 			// get user info with subscribe
 			logger.info("Get user info with subscribe");
-			/*WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(appid);
-			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
-			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
-			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
-			}*/
 			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(appid);
-			
+
+			// get user info unionID
 			WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(authorizerAccessToken, 
 					wxOauth2TokenPOJO.getOpenId(), wxOauth2TokenPOJO.getAccessToken());
-			// 微信用户信息放入session
-			/*session.setAttribute(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
-			session.setAttribute(CommonConstant.OPEN_ID, wxUserInfoApiPOJO.getOpenId());
-			session.setAttribute(CommonConstant.UNION_ID, wxUserInfoApiPOJO.getUnionId());
-			session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, appid);*/
+			
+			// 通过代理取得的openId
+			String proxyOpenId = wxUserInfoApiPOJO.getOpenId();
 			
 			logger.info("wxUserInfoApiPOJO: {}", wxUserInfoApiPOJO);
-			// get user info unionID
-			/*String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", wxOauth2TokenPOJO.getAccessToken())
-										.replace("OPENID", wxOauth2TokenPOJO.getOpenId());
-			String myUserInfoUid = HttpClientUtil.get(myUserInfoUidUrl);*/
 			
 			// insert Wx person user into DB
-			UserPOJO userPOJO1 = userService.findUserByName(wxUserInfoApiPOJO.getOpenId());
+			UserPOJO userPOJO1 = userService.findUserByName(proxyOpenId);
 			UserPOJO userPOJO = new UserPOJO();
 			if (userPOJO1 == null) {
-				userPOJO.setUsername(wxUserInfoApiPOJO.getOpenId());
-				userPOJO.setPassword(wxUserInfoApiPOJO.getOpenId());
+				userPOJO.setUsername(proxyOpenId);
+				userPOJO.setPassword(proxyOpenId);
 				userPOJO.setUserType(MyUser.PERSON);
 				userPOJO.setNickname(wxUserInfoApiPOJO.getNickname());
 				userService.insert(userPOJO);
@@ -1646,10 +1640,41 @@ public class Oauth2Controller extends BaseController {
 				BeanUtils.copyProperties(userPOJO1, userPOJO);
 			}
 			
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = new WxAuthorizerInfoPOJO();
+			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO =  new WxAuthorizerInfoSearchPOJO();
+			// Deal appid is proxy id case
+			String authorizerAppIdVice = "";
+			String indexCode = "";
+			if (StringUtils.isNotBlank(authorizerUserNameVice)) {
+				wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+				wxAuthorizerInfoSearchPOJO.setUserName(authorizerUserNameVice);
+				List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+				if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+					if (wxAuthorizerInfoPOJOs.size() > 1) {
+						logger.error("存在多个WxAuthorizerInfoPOJO, Authorizer UserName: {}", authorizerUserNameVice);
+					}
+					wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+					authorizerAppIdVice = wxAuthorizerInfoPOJO.getAuthorizerAppId();
+
+					// get indexCode and set into session
+					wxAuthorizerInfoSearchPOJO =  new WxAuthorizerInfoSearchPOJO();
+					wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppIdVice);
+					List<RelWxIndexMapPOJO> relWxIndexMapPOJOs = relWxIndexMapService.findsByAuthorizerInfo(wxAuthorizerInfoSearchPOJO);
+					if (!CollectionUtils.isEmpty(relWxIndexMapPOJOs)) {
+						RelWxIndexMapPOJO relWxIndexMapPOJO = relWxIndexMapPOJOs.get(0);
+						indexCode = relWxIndexMapPOJO.getWxIndexCode();
+						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+					}
+				}
+			}
+			
+			// Deal wxPersonUser
 			WxPersonUserSearchPOJO wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
 //				wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
-			wxPersonUserSearchPOJO.setOpenId(wxUserInfoApiPOJO.getOpenId());
-			wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
+//			wxPersonUserSearchPOJO.setOpenId(wxUserInfoApiPOJO.getOpenId());
+//			wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
+			wxPersonUserSearchPOJO.setProxyOpenId(proxyOpenId);
+			wxPersonUserSearchPOJO.setAuthorizerAppId(authorizerAppIdVice);
 			List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
 			WxPersonUserPOJO wxPersonUserPOJO = new WxPersonUserPOJO();
 			if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
@@ -1662,136 +1687,73 @@ public class Oauth2Controller extends BaseController {
 				}
 				wxPersonUserPOJO.setTagidList(tagidListStr);
 				
+				// 通过代理取得的微信个人用户信息
 				wxPersonUserPOJO.setUserId(userPOJO.getUserId());
-				wxPersonUserPOJO.setAuthorizerAppId(appid);
+				wxPersonUserPOJO.setAuthorizerAppId(authorizerAppIdVice);
+				wxPersonUserPOJO.setOpenId(null);
+				wxPersonUserPOJO.setProxyOpenId(proxyOpenId);
+				wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
 				wxPersonUserService.insert(wxPersonUserPOJO);
 			} else {
 				wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 			}
 			
-			String indexCode = "";
-			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO =  new WxAuthorizerInfoSearchPOJO();
-			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(appid);
-			List<RelWxIndexMapPOJO> relWxIndexMapPOJOs = relWxIndexMapService.findsByAuthorizerInfo(wxAuthorizerInfoSearchPOJO );
-			if (!CollectionUtils.isEmpty(relWxIndexMapPOJOs)) {
-				RelWxIndexMapPOJO relWxIndexMapPOJO = relWxIndexMapPOJOs.get(0);
-				indexCode = relWxIndexMapPOJO.getWxIndexCode();
-				session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
-			}
 			
-			// Deal appid is proxy id case
-			String authorizerAppIdVice = "";
-			if (StringUtils.isNotBlank(authorizerUserNameVice)) {
-				wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
-				wxAuthorizerInfoSearchPOJO.setUserName(authorizerUserNameVice);
-				List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
-				if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
-					if (wxAuthorizerInfoPOJOs.size() > 1) {
-						logger.error("存在多个WxAuthorizerInfoPOJO, Authorizer UserName: {}", authorizerUserNameVice);
-					}
-					authorizerAppIdVice = wxAuthorizerInfoPOJOs.get(0).getAuthorizerAppId();
-
-					// get indexCode and set into session
-					wxAuthorizerInfoSearchPOJO =  new WxAuthorizerInfoSearchPOJO();
-					wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppIdVice);
-					relWxIndexMapPOJOs = relWxIndexMapService.findsByAuthorizerInfo(wxAuthorizerInfoSearchPOJO );
-					if (!CollectionUtils.isEmpty(relWxIndexMapPOJOs)) {
-						RelWxIndexMapPOJO relWxIndexMapPOJO = relWxIndexMapPOJOs.get(0);
-						indexCode = relWxIndexMapPOJO.getWxIndexCode();
-						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
-					}
-				}
-			}
-			
-			// @10102016 如果openIdVice不是空
+			// @10102016 如果openIdVice不是空, 绑定用户
 			if (StringUtils.isNotBlank(openIdVice)) {
-				userPOJO1 = userService.findUserByName(openIdVice);
-				userPOJO = new UserPOJO();
-				if (userPOJO1 == null) {
-					userPOJO.setUsername(openIdVice);
-					userPOJO.setPassword(openIdVice);
-					userPOJO.setUserType(MyUser.PERSON);
-					userPOJO.setNickname(wxUserInfoApiPOJO.getNickname());
-					userService.insert(userPOJO);
-				} else {
-					BeanUtils.copyProperties(userPOJO1, userPOJO);
-				}
-				
-				wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
-				wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
-				wxPersonUserSearchPOJO.setOpenId(openIdVice);
-				wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
-				wxPersonUserPOJO = new WxPersonUserPOJO();
-				if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
-					BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
-					
-					List<String> tagidList = wxUserInfoApiPOJO.getTagidList();
-					String tagidListStr = "";
-					if (!CollectionUtils.isEmpty(tagidList)) {
-						tagidListStr = CollectionUtilx.nullSafeToString(tagidList);
-					}
-					wxPersonUserPOJO.setTagidList(tagidListStr);
+//				userPOJO1 = userService.findUserByName(openIdVice);
+//				userPOJO = new UserPOJO();
+//				if (userPOJO1 == null) {
+//					userPOJO.setUsername(openIdVice);
+//					userPOJO.setPassword(openIdVice);
+//					userPOJO.setUserType(MyUser.PERSON);
+//					userPOJO.setNickname(wxUserInfoApiPOJO.getNickname());
+//					userService.insert(userPOJO);
+//				} else {
+//					BeanUtils.copyProperties(userPOJO1, userPOJO);
+//				}
 
-					wxPersonUserPOJO.setOpenId(openIdVice);
-					wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
-					wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
-					wxPersonUserPOJO.setUserId(userPOJO.getUserId());
-					wxPersonUserPOJO.setAuthorizerAppId(authorizerAppIdVice);
-					wxPersonUserPOJO.setMemberFlag(CommonConstant.MEMBER_FLAG);
-					wxPersonUserService.insert(wxPersonUserPOJO);
-				} else {
-					wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
-					// 可能存在proxy openId/authorizerAppId 为空, 如果为空, 则更新
-					if (StringUtils.isBlank(wxPersonUserPOJO.getProxyOpenId())
-							|| StringUtils.isBlank(wxPersonUserPOJO.getProxyAuthorizerAppId())) {
-						wxPersonUserPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
-						wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
-						wxPersonUserService.update(wxPersonUserPOJO);
-					}
-					
-					if (wxPersonUserPOJO.getMemberFlag() == null || CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
-						WxPersonUserPOJO temp = new WxPersonUserPOJO();
-						temp.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
-						temp.setMemberFlag(CommonConstant.MEMBER_FLAG);
-						wxPersonUserService.update(temp);
-					}
-				}
+				WxPersonUserPOJO temp = new WxPersonUserPOJO();
+				temp.setWxPersonUserId(wxPersonUserPOJO.getWxPersonUserId());
+				temp.setOpenId(openIdVice);
+				temp.setMemberFlag(CommonConstant.MEMBER_FLAG);
+				wxPersonUserService.update(temp);
 				
-				String msg = "openid: " + wxOauth2TokenPOJO.getOpenId() + ", nickname: " + wxUserInfoApiPOJO.getNickname()
-						+ "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
-						/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
-				msg += ", openIdVice: " + openIdVice + "\n <br/>";
-				msg += wxPersonUserPOJO + "\n <br/>";
-				ret.addObject("msg", msg);
-				
-				session.setAttribute("msg", msg);
-
-				ret.addObject("addVip", "ADD_VIP");
-				ret.addObject("msg", "加入会员成功");
+//				String msg = "proxyOpenId: " + proxyOpenId + ", nickname: " + wxUserInfoApiPOJO.getNickname()
+//						+ "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
+//						/*+ "MyUserInfoUid: \n" + myUserInfoUid*/;
+//				msg += ", openIdVice: " + openIdVice + "\n <br/>";
+//				msg += wxPersonUserPOJO + "\n <br/>";
+//				ret.addObject("msg", msg);
+//				
+//				session.setAttribute("msg", msg);
+//
+//				ret.addObject("addVip", "ADD_VIP");
+//				ret.addObject("msg", "加入会员成功");
 				
 //				ret.setViewName("/page/oauth2_success");
 			} // openIdVice end
 			
 			if (StringUtils.isNotBlank(loginVice)) {
 				// 根据authorizerUserNameVice 和 proxyOpenId 获取user
-				wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
-				wxPersonUserSearchPOJO.setWxAuthorizerUserName(authorizerUserNameVice);
-				wxPersonUserSearchPOJO.setProxyOpenId(wxUserInfoApiPOJO.getOpenId());
-				
-				wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
-				if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
-					logger.error("根据authorizerUserNameVice: {} 和 proxyOpenId: {} 获取user 失败"
-								, authorizerUserNameVice, wxUserInfoApiPOJO.getOpenId());
-					String msg = "您还不是该公众号的会员，请关注该公众号并加入会员" ;
-					ret.addObject("msg", msg);
-					
-					session.setAttribute("msg", msg);
-					myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) 
-							+ "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppIdVice
-							+ "&errorCode=" + "NOTVIP");
-					return null;
-				}
-				wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
+//				wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+//				wxPersonUserSearchPOJO.setWxAuthorizerUserName(authorizerUserNameVice);
+//				wxPersonUserSearchPOJO.setProxyOpenId(proxyOpenId);
+//				
+//				wxPersonUserPOJOs = wxPersonUserService.findFulls(wxPersonUserSearchPOJO);
+//				if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+//					logger.error("根据authorizerUserNameVice: {} 和 proxyOpenId: {} 获取user 失败"
+//								, authorizerUserNameVice, wxUserInfoApiPOJO.getOpenId());
+//					String msg = "您还不是该公众号的会员，请关注该公众号并加入会员" ;
+//					ret.addObject("msg", msg);
+//					
+//					session.setAttribute("msg", msg);
+//					myRedirectStrategy.sendRedirect(request, response, HttpRequestUtil.getBase(request) 
+//							+ "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppIdVice
+//							+ "&errorCode=" + "NOTVIP");
+//					return null;
+//				}
+				/*wxPersonUserPOJO = wxPersonUserPOJOs.get(0);
 				openIdVice = wxPersonUserPOJO.getOpenId();
 				userPOJO1 = userService.findUserByName(openIdVice);
 				userPOJO = new UserPOJO();
@@ -1803,7 +1765,7 @@ public class Oauth2Controller extends BaseController {
 					userService.insert(userPOJO);
 				} else {
 					BeanUtils.copyProperties(userPOJO1, userPOJO);
-				}
+				}*/
 				
 				/*wxPersonUserPOJO = new WxPersonUserPOJO();
 				BeanUtils.copyProperties(wxUserInfoApiPOJO, wxPersonUserPOJO);
@@ -1812,7 +1774,7 @@ public class Oauth2Controller extends BaseController {
 				wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
 				wxPersonUserPOJO.setUserId(userPOJO.getUserId());*/
 				
-				wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+				/*wxPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
 //					wxPersonUserSearchPOJO.setUnionId(wxUserInfoApiPOJO.getUnionId());
 				wxPersonUserSearchPOJO.setUserId(userPOJO.getUserId());
 				wxPersonUserSearchPOJO.setOpenId(openIdVice);
@@ -1843,27 +1805,9 @@ public class Oauth2Controller extends BaseController {
 						wxPersonUserPOJO.setProxyAuthorizerAppId(appid);
 						wxPersonUserService.update(wxPersonUserPOJO);
 					}
-				}
+				}*/
 			}	// loginVice不是空, end
 			
-//			if (StringUtils.isNotBlank(authorizerUserNameVice)
-//					&& (StringUtils.isNotBlank(loginVice) || StringUtils.isNotBlank(openIdVice))
-//					&& wxPersonUserPOJO != null) {
-//				// 去除个人用户的标签
-//				String url = /*HttpRequestUtil.getBase(request)*/"http://127.0.0.1"
-//						+ "/api/wx/third/" + wxPersonUserPOJO.getAuthorizerAppId() + "/tags/batchuntagging";
-//				// test request POJO<->requestBody
-//				WxTagsMgrBatchTaggingReqApiPOJO wxTagsMgrBatchTaggingReqApiPOJO = new WxTagsMgrBatchTaggingReqApiPOJO();
-//				final int TAG_ID = 101;
-//				List<String> openIdList = new ArrayList<String>();
-//				openIdList.add(wxPersonUserPOJO.getOpenId());
-//				wxTagsMgrBatchTaggingReqApiPOJO.setTagId(TAG_ID);
-//				wxTagsMgrBatchTaggingReqApiPOJO.setOpenIdList(openIdList);
-//				String requestBody = JsonUtils.convertToJson(wxTagsMgrBatchTaggingReqApiPOJO);
-//				String resp = HttpClientUtil.postHttpsJson(url, requestBody);
-//				BaseWxApiPOJO baseWxApiPOJO = JsonUtils.convertToJavaBean(resp, BaseWxApiPOJO.class);
-//				logger.info("batchuntagging, openId: {}, baseWxApiPOJO: {}", openIdVice, baseWxApiPOJO);
-//			}
 			
 			// 微信用户信息放入session
 			session.setAttribute(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
@@ -1873,7 +1817,7 @@ public class Oauth2Controller extends BaseController {
 
 			session.setAttribute(CommonConstant.CURRENT_WX_PERSON_USER, wxPersonUserPOJO);
 			
-			session.setAttribute(CommonConstant.PROXY_OPEN_ID, wxUserInfoApiPOJO.getOpenId());
+			session.setAttribute(CommonConstant.PROXY_OPEN_ID, proxyOpenId);
 			session.setAttribute(CommonConstant.PROXY_AUTHORIZER_APP_ID, appid);
 			
 			
@@ -1904,12 +1848,12 @@ public class Oauth2Controller extends BaseController {
 
 //			ret.setViewName("/page/oauth2_success");
 		} catch (Exception e) {
-			logger.error("deal person user login/reg/proxyOpenId error.", e);
+			logger.error("deal person user login/bind/proxyOpenId error.", e);
 			throw e;
 		}
 		
-		/*return null;*/
-		return ret;
+		return null;
+//		return ret;
 	}
 
 	@RequestMapping(value = "/web/wx/oauth2/third/personUser/login")

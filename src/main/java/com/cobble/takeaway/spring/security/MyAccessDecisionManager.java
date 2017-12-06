@@ -354,47 +354,31 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			logger.info("微官网、活动发布者不为空");
 			wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userPOJO.getUserId());
 		}
+		logger.info("wxAuthorizerInfoPOJO: {}", wxAuthorizerInfoPOJO);
 		
+		// 个人微信用户登录系统, 通过DWYZ代理登录
 		String wxWebLoginUrl = "";
 		String wxThirdPersonUserLoginUrl = "";
 		
-		logger.info("wxAuthorizerInfoPOJO: {}", wxAuthorizerInfoPOJO);
 		if (wxAuthorizerInfoPOJO != null) {
-			if (UserUtil.haveWebAuth(wxAuthorizerInfoPOJO)) {
-				wxWebLoginUrl = wxThirdWebAuthorizeUrl
-						.replace("COMPONENT_APPID", wxThirdClientId)
-						.replace("APPID", wxAuthorizerInfoPOJO.getAuthorizerAppId())
-						.replace("REDIRECT_URI", wxThirdWebRedirectUrl)
-						.replace("SCOPE", scope)
-						.replace("STATE", RandomStringUtils.randomAlphabetic(6))
-						;
-						
-						session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
-						/*wxEncodeUrl = wxWebLoginUrl;
-						wxWebLoginUrl = myRedirectStrategy.encodeQueryParam(wxWebLoginUrl);
-						wxEncodeUrl = myRedirectStrategy.encodeUrl(response, wxEncodeUrl);*/
-						
-						wxThirdPersonUserLoginUrl = wxWebLoginUrl;
-//						wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
-			} else {
-				String extraParam = "&loginVice=loginVice"
-									+ "&authorizerUserNameVice=" + wxAuthorizerInfoPOJO.getUserName();
-				
-				wxWebLoginUrl = wxThirdWebAuthorizeUrl
-				.replace("COMPONENT_APPID", wxThirdClientId)
-				.replace("APPID", CommonConstant.PROXY_AUTHORIZER_APP_ID_VALUE)
-				.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
-						wxThirdWebRedirectUrl + extraParam
-						: wxThirdWebRedirectUrl + "?abc=1" + extraParam)
-				.replace("SCOPE", scope)
-				.replace("STATE", RandomStringUtils.randomAlphabetic(6))
-				;
-				
-				wxThirdPersonUserLoginUrl = wxWebLoginUrl;
-//				wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
-				wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
-			}
+			String extraParam = "&loginVice=loginVice"
+					+ "&authorizerUserNameVice=" + wxAuthorizerInfoPOJO.getUserName();
+
+			wxWebLoginUrl = wxThirdWebAuthorizeUrl
+			.replace("COMPONENT_APPID", wxThirdClientId)
+			.replace("APPID", CommonConstant.PROXY_AUTHORIZER_APP_ID_VALUE)
+			.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
+					wxThirdWebRedirectUrl + extraParam
+					: wxThirdWebRedirectUrl + "?abc=1" + extraParam)
+			.replace("SCOPE", scope)
+			.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+			;
 			
+			wxThirdPersonUserLoginUrl = wxWebLoginUrl;
+			//wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+			wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
+		} else {
+			throw new NullPointerException("AuthorizerInfo is null");
 		}
 		ret = wxThirdPersonUserLoginUrl;
 		return ret;
