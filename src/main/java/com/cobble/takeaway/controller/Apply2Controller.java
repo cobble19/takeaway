@@ -59,6 +59,7 @@ public class Apply2Controller extends BaseController {
 			String unionId = UserUtil.getCurrentUser().getUnionId();
 			apply2SearchPOJO.setUnionId(unionId);
 			
+			
 			int result = apply2Service.findsApply2InActivityByUnionId(apply2SearchPOJO);
 			if (result > 0) {
 				ret.setSuccess(true);
