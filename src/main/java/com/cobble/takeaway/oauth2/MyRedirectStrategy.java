@@ -33,6 +33,7 @@ public final class MyRedirectStrategy implements RedirectStrategy {
         String redirectUrl = calculateRedirectUrl(request.getContextPath(), url);
         redirectUrl = encodeQueryParam(redirectUrl);
         redirectUrl = response.encodeRedirectURL(redirectUrl);
+        redirectUrl = redirectUrl.replace("${AND}", "%26").replace("${EQ}", "%3D");
         logger.debug("Redirecting to [{}]", redirectUrl);
         response.sendRedirect(redirectUrl);
     }
@@ -118,8 +119,9 @@ public final class MyRedirectStrategy implements RedirectStrategy {
     
     public static void main(String[] argv) {
     	MyRedirectStrategy rs = new MyRedirectStrategy();
-    	String result = rs.encodeQueryParam("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe0037de41e16f816&redirect_uri=http://www.deweiyizhan.com/web/wx/oauth2/third/web/authCode?abc=1%26commparam=foget&response_type=code&scope=snsapi_userinfo&state=Aaqpwh&component_appid=COMPONENT_wxe0037de41e16f816#wechat_redirect");
+    	String result = rs.encodeQueryParam("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe0037de41e16f816&redirect_uri=http://www.deweiyizhan.com/web/wx/oauth2/third/web/authCode?abc=1&commparam=foget&#38;commparam1=foget1%26exparam=exvalue${AND}loginVice${EQ}logVice${AND}loginVice1${EQ}logVice1&response_type=code&scope=snsapi_userinfo&state=Aaqpwh&component_appid=COMPONENT_wxe0037de41e16f816#wechat_redirect");
     	logger.info("result: {}", result);
+    	logger.info("result: {}", result.replace("${AND}", "%26").replace("${EQ}", "%3D"));
     	result = rs.encodeContent("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe0037de41e16f816&redirect_uri=http://www.deweiyizhan.com/web/wx/oauth2/third/web/authCode&response_type=code&scope=snsapi_userinfo&state=Aaqpwh&component_appid=COMPONENT_wxe0037de41e16f816#wechat_redirect");
     	logger.info("result: {}", result);
     }
