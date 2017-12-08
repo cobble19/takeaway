@@ -75,7 +75,10 @@ var applyInActivitySearch = function() {
 		"data": params,
         success: function(data, textStatus, jqXHR ) {
         	console.log("data = " + data);
-        	$('#activityTitle').text(activityPOJO.title);
+        	var activityPOJO = data.activityPOJO;
+        	if (activityPOJO != null) {
+        		$('#activityTitle').text(activityPOJO.title);
+        	}
         	buildTable(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,11 +51,14 @@ public class Apply2Controller extends BaseController {
 
 	@RequestMapping(value = "/api/apply2/existByUnionId", method = {RequestMethod.POST})
 	@ResponseBody
-	public StatusPOJO existApply2InActivity(Apply2SearchPOJO apply2SearchPOJO) throws Exception {
+	public StatusPOJO existApply2InActivity(Apply2SearchPOJO apply2SearchPOJO, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
+			HttpSession session = request.getSession();
 			String unionId = UserUtil.getCurrentUser().getUnionId();
 			apply2SearchPOJO.setUnionId(unionId);
+			
 			int result = apply2Service.findsApply2InActivityByUnionId(apply2SearchPOJO);
 			if (result > 0) {
 				ret.setSuccess(true);

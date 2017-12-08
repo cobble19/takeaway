@@ -376,7 +376,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			
 			wxThirdPersonUserLoginUrl = wxWebLoginUrl;
 			//wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
-			wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
+			wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&loginVice=", "%26loginVice%3D")
+										.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D");
 		} else {
 			throw new NullPointerException("AuthorizerInfo is null");
 		}
