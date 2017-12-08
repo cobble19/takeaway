@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -16,7 +15,6 @@ import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.service.RelWxIndexMapService;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
-import com.sun.org.apache.bcel.internal.generic.RET;
 
 @Service
 public class RelWxIndexMapServiceImpl implements RelWxIndexMapService {
