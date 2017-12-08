@@ -32,9 +32,12 @@ public final class MyRedirectStrategy implements RedirectStrategy {
     public void sendRedirect(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
         String redirectUrl = calculateRedirectUrl(request.getContextPath(), url);
         redirectUrl = encodeQueryParam(redirectUrl);
+        
         logger.debug("encodeQueryParam redirectUrl: {} to [{}]", url, redirectUrl);
         redirectUrl = redirectUrl.replace("${AND}", "%26").replace("${EQ}", "%3D");
+        
         redirectUrl = response.encodeRedirectURL(redirectUrl);
+        
         redirectUrl = redirectUrl.replace("%24%7BAND%7D", "%26").replace("%24%7BEQ%7D", "%3D");
         logger.debug("Redirecting to [{}]", redirectUrl);
         
