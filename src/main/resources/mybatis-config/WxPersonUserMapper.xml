@@ -46,25 +46,28 @@
     , a.TAGID_LIST, a.MEMBER_FLAG, a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
-	<if test="nickname != null">
+	<if test="nickname != null AND nickname != ''">
 		and a.NICKNAME like concat("%", concat(#{nickname}, "%"))
 	</if>
-	<if test="unionId != null">
+	<if test="unionId != null AND unionId != ''">
 		and a.UNION_ID = #{unionId}
 	</if>
-	<if test="userId != null">
+	<if test="userId != null AND userId != ''">
 		and a.USER_ID = #{userId}
 	</if>
-	<if test="openId != null">
+	<if test="proxyOpenId != null AND proxyOpenId != ''">
+		and a.PROXY_OPEN_ID = #{proxyOpenId}
+	</if>
+	<if test="openId != null AND openId != ''">
 		and a.OPEN_ID = #{openId}
 	</if>
-	<if test="authorizerAppId != null">
+	<if test="authorizerAppId != null AND authorizerAppId != ''">
 		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
 	</if>
-	<if test="memberFlag != null">
+	<if test="memberFlag != null AND memberFlag != ''">
 		and a.MEMBER_FLAG = #{memberFlag}
 	</if>
-	<if test="userIds != null">
+	<if test="userIds != null AND userIds != ''">
 		and a.USER_ID in 
 		<foreach collection="userIds" item="userId" open="(" close=")" separator=",">
 			#{userId}

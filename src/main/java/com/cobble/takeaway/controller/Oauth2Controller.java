@@ -1810,6 +1810,8 @@ public class Oauth2Controller extends BaseController {
 				}*/
 			}	// loginVice不是空, end
 			
+
+			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
 			
 			// 微信用户信息放入session
 			session.setAttribute(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);
@@ -1822,10 +1824,8 @@ public class Oauth2Controller extends BaseController {
 			session.setAttribute(CommonConstant.PROXY_OPEN_ID, proxyOpenId);
 			session.setAttribute(CommonConstant.PROXY_AUTHORIZER_APP_ID, appid);
 			
-			
-			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
-			
 
+			// maybe duplicate code
 			session.setAttribute("username", myUser.getUsername());
 			session.setAttribute("userType", myUser.getUserType());
 			session.setAttribute("myUser", myUser);
