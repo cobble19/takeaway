@@ -17,7 +17,8 @@ public class MyUser extends User {
 	 */
 	private String userType = "GUEST";
 	private Long userId;
-	
+
+	private String proxyOpenId;
 	private String openId;
 	private String unionId;
 
@@ -107,6 +108,14 @@ public class MyUser extends User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getProxyOpenId() {
+		return proxyOpenId;
+	}
+
+	public void setProxyOpenId(String proxyOpenId) {
+		this.proxyOpenId = proxyOpenId;
 	}
 
 	public String getOpenId() {

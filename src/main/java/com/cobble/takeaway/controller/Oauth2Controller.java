@@ -1582,7 +1582,8 @@ public class Oauth2Controller extends BaseController {
 		try {
 			HttpSession session = request.getSession();
 			logger.info("login begin...");
-			logger.info("code: {}, state: {}, appid: {}", code, state, appid);
+			logger.info("code: {}, state: {}, appid: {}, loginVice: {}, openIdVide: {}, authorizerUserNameVice: {}"
+					, code, state, appid, loginVice, openIdVice, authorizerUserNameVice);
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("login uri: " + uri + ", qs: " + qs);
@@ -1701,6 +1702,7 @@ public class Oauth2Controller extends BaseController {
 			
 			// @10102016 如果openIdVice不是空, 绑定用户
 			if (StringUtils.isNotBlank(openIdVice)) {
+				
 //				userPOJO1 = userService.findUserByName(openIdVice);
 //				userPOJO = new UserPOJO();
 //				if (userPOJO1 == null) {
@@ -1822,6 +1824,22 @@ public class Oauth2Controller extends BaseController {
 			
 			
 			MyUser myUser = userService.createPrincipalByName(userPOJO.getUsername(), session);
+			
+
+			session.setAttribute("username", myUser.getUsername());
+			session.setAttribute("userType", myUser.getUserType());
+			session.setAttribute("myUser", myUser);
+			String openId = (String) session.getAttribute(CommonConstant.OPEN_ID);
+			String unionId = (String) session.getAttribute(CommonConstant.UNION_ID);
+			if (StringUtils.isNotBlank(proxyOpenId)) {
+				myUser.setProxyOpenId(proxyOpenId);
+			}
+			if (StringUtils.isNotBlank(openId)) {
+				myUser.setOpenId(openId);
+			}
+			if (StringUtils.isNotBlank(unionId)) {
+				myUser.setUnionId(unionId);
+			}
 
 			SavedRequest savedRequest = HttpRequestUtil.getRequest(request, response);
 			String url = "";

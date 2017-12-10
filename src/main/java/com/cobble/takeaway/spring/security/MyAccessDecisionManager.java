@@ -73,8 +73,12 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			session.setAttribute("username", myUser.getUsername());
 			session.setAttribute("userType", myUser.getUserType());
 			session.setAttribute("myUser", myUser);
-			String openId = (String) session.getAttribute("openId");
-			String unionId = (String) session.getAttribute("unionId");
+			String proxyOpenId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+			String openId = (String) session.getAttribute(CommonConstant.OPEN_ID);
+			String unionId = (String) session.getAttribute(CommonConstant.UNION_ID);
+			if (StringUtils.isNotBlank(proxyOpenId)) {
+				myUser.setProxyOpenId(proxyOpenId);
+			}
 			if (StringUtils.isNotBlank(openId)) {
 				myUser.setOpenId(openId);
 			}
@@ -85,9 +89,12 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
 			try {
-				wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
-				if (wxAuthorizerInfoPOJO != null) {
-					session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+				if (!MyUser.PERSON.equalsIgnoreCase(myUser.getUserType())) {
+
+					wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
+					if (wxAuthorizerInfoPOJO != null) {
+						session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+					}
 				}
 			} catch (Exception e) {
 				logger.error("get wxAuthorizerInfo Exception: {}", e);
@@ -417,6 +424,9 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		if (isMatcher) {
 			if (myUser == null || myUser.getUserId() == null) {
 				logger.error("Not user been login, please check it.");
+				ret = false;
+			} else if ("anonymousUser".equalsIgnoreCase(myUser.getUsername())) {
+				logger.error("anonymousUser user been login, please check it, it is not correct.");
 				ret = false;
 			} else {
 				ret = true;
