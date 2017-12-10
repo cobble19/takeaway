@@ -73,8 +73,12 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			session.setAttribute("username", myUser.getUsername());
 			session.setAttribute("userType", myUser.getUserType());
 			session.setAttribute("myUser", myUser);
-			String openId = (String) session.getAttribute("openId");
-			String unionId = (String) session.getAttribute("unionId");
+			String proxyOpenId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+			String openId = (String) session.getAttribute(CommonConstant.OPEN_ID);
+			String unionId = (String) session.getAttribute(CommonConstant.UNION_ID);
+			if (StringUtils.isNotBlank(proxyOpenId)) {
+				myUser.setProxyOpenId(proxyOpenId);
+			}
 			if (StringUtils.isNotBlank(openId)) {
 				myUser.setOpenId(openId);
 			}
@@ -85,9 +89,12 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
 			try {
-				wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
-				if (wxAuthorizerInfoPOJO != null) {
-					session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+				if (!MyUser.PERSON.equalsIgnoreCase(myUser.getUserType())) {
+
+					wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
+					if (wxAuthorizerInfoPOJO != null) {
+						session.setAttribute(CommonConstant.AUTHORIZER_APP_ID, wxAuthorizerInfoPOJO.getAuthorizerAppId());
+					}
 				}
 			} catch (Exception e) {
 				logger.error("get wxAuthorizerInfo Exception: {}", e);
@@ -113,7 +120,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 //			}*/
 //		}
 		
-		if (!checkSessionUrls(url, session)) {
+		if (!checkSessionUrls(url, session, request, response)) {
 			this.saveRequest(request, response);
 			try {
 				myRedirectStrategy.sendRedirect(request, response, this.getWxLoginUrl(request, response));
@@ -223,6 +230,158 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		}
 	}
 	
+	private UserPOJO getUser4Publisher(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		UserPOJO ret = null;
+		
+		try {
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			String url = request.getRequestURL().toString();
+			HttpSession session = request.getSession();
+			
+			logger.info("uri: {}, qs: {}, url: {}", uri, qs, url);
+			
+			UserService userService = (UserService) BeanUtil.get("userServiceImpl");
+			VoteService voteService = (VoteService) BeanUtil.get("voteServiceImpl");
+			
+			UserPOJO userPOJO = null;
+			// indexCode、活动发布者， 不是普通个人用户
+			// 1. 根据indexCode,得到user。 
+			// 2. 根据activityid得到user
+			// 3. 根据/web/wx/usercenter/{wxIndexCode}/person
+			if (uri.startsWith("/wx/")) {
+				int index = uri.indexOf("/wx/");
+				String indexCode = uri.substring(index + 4);
+				logger.info("Index Code: {}", indexCode);
+				if (!indexCode.contains("/")) {
+					session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+					userPOJO = userService.findUserByIndexCode(indexCode);
+				}
+			} else if (uri.startsWith("/web/wx/usercenter/")) {
+				Pattern p = Pattern.compile("(/web/wx/usercenter/)(\\w+)(/person)");
+				Matcher m = p.matcher(qs);
+				if (m.find() && m.groupCount() == 3) {
+					String s = m.group(2);
+					logger.info("index code: {}", s);
+					String indexCode = s;
+					if (!indexCode.contains("/")) {
+						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+						userPOJO = userService.findUserByIndexCode(indexCode);
+					}
+				}
+			} else if (uri.contains("/activity_detail.jsp")) {	// /page/enterprise(unified)/activity_detail.jsp?activityId=31
+				Pattern p = Pattern.compile("(activityId=)(\\d+)");
+				Matcher m = p.matcher(qs);
+				if (m.find() && m.groupCount() == 2) {
+					String s = m.group(2);
+					logger.info("activityId: {}", s);
+					Long activityId = Long.parseLong(s);
+					userPOJO = userService.findUserByActivityId(activityId);
+					
+					if (userPOJO != null && userPOJO.getUserId() != null) {
+						UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+						if (user4IndexCode != null) {
+							String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+							session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+						}
+					}
+				}
+			} else if (uri.contains("interactive2Detail")) {	// /page/enterprise(unified)/activity_detail.jsp?activityId=31
+				Pattern p = Pattern.compile("(interactiveId=)(\\d+)");
+				Matcher m = p.matcher(qs);
+				if (m.find() && m.groupCount() == 2) {
+					String s = m.group(2);
+					logger.info("interactiveId: {}", s);
+					Long interactiveId = Long.parseLong(s);
+					userPOJO = userService.findUserByInteractiveId(interactiveId);
+					
+					if (userPOJO != null && userPOJO.getUserId() != null) {
+						UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+						if (user4IndexCode != null) {
+							String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+							session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+						}
+					}
+				}
+			} else if (uri.contains("/vote/query/")) {	// /page/enterprise/activity_detail.jsp?activityId=31
+				Pattern p = Pattern.compile("(/vote/query/)(\\d+)");
+				Matcher m = p.matcher(uri);
+				if (m.find() && m.groupCount() == 2) {
+					String s = m.group(2);
+					logger.info("voteId: {}", s);
+					Long voteId = Long.parseLong(s);
+					VotePOJO votePOJO = voteService.findById(voteId);
+					
+					userPOJO = userService.findById(votePOJO.getUserId());
+					
+					if (userPOJO != null && userPOJO.getUserId() != null) {
+						UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+						if (user4IndexCode != null) {
+							String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+							session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+						}
+					}
+				}
+			} else if (uri.contains("/vote/loadmore/query/")) {	// /page/enterprise/activity_detail.jsp?activityId=31
+				Pattern p = Pattern.compile("(/vote/loadmore/query/)(\\d+)");
+				Matcher m = p.matcher(uri);
+				if (m.find() && m.groupCount() == 2) {
+					String s = m.group(2);
+					logger.info("voteId: {}", s);
+					Long voteId = Long.parseLong(s);
+					VotePOJO votePOJO = voteService.findById(voteId);
+					
+					userPOJO = userService.findById(votePOJO.getUserId());
+					
+					if (userPOJO != null && userPOJO.getUserId() != null) {
+						UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+						if (user4IndexCode != null) {
+							String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+							session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+						}
+					}
+				}
+			}
+			
+			ret = userPOJO;
+		} catch (Exception e) {
+			logger.error("get enterprise user exception: {}", e);
+		}
+		return ret;
+	}
+	
+	private WxAuthorizerInfoPOJO getWxAuthorizerInfo(Long userId) {
+		WxAuthorizerInfoPOJO ret = null;
+		try {
+			// 获取AuthorizerAppId
+			WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+			if (userId == null) {
+				logger.info("微官网、活动发布者为空, 使用默认的得味驿站公众号代理");
+				WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+				wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(CommonConstant.DWYZ_AUTHORIZER_APP_ID);
+				List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = null;
+				try {
+					wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+				} catch (Exception e) {
+					logger.error("Got Authorizer Exception: {}", e);
+				}
+				if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+					wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+				}
+			} else {
+				logger.info("微官网、活动发布者不为空");
+				wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userId);
+			}
+			logger.info("wxAuthorizerInfoPOJO: {}", wxAuthorizerInfoPOJO);
+			ret = wxAuthorizerInfoPOJO;
+		} catch (Exception e) {
+			logger.error("get WxAuthorizerInfo exception: {}", e);
+		}
+		
+		return ret;
+	}
+	
 	public String getWxLoginUrl(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String ret = "";
 		if (!HttpRequestUtil.isWeiXin(request)) {
@@ -250,111 +409,10 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		UserService userService = (UserService) BeanUtil.get("userServiceImpl");
 		VoteService voteService = (VoteService) BeanUtil.get("voteServiceImpl");
 		
-		UserPOJO userPOJO = null;
-		// indexCode、活动发布者， 不是普通个人用户
-		// 1. 根据indexCode,得到user。 2. 根据activityid得到user
-		if (uri.startsWith("/wx/")) {
-			int index = uri.indexOf("/wx/");
-			String indexCode = uri.substring(index + 4);
-			logger.info("Index Code: {}", indexCode);
-			if (!indexCode.contains("/")) {
-				session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
-				userPOJO = userService.findUserByIndexCode(indexCode);
-			}
-		} else if (uri.contains("/activity_detail.jsp")) {	// /page/enterprise(unified)/activity_detail.jsp?activityId=31
-			Pattern p = Pattern.compile("(activityId=)(\\d+)");
-			Matcher m = p.matcher(qs);
-			if (m.find() && m.groupCount() == 2) {
-				String s = m.group(2);
-				logger.info("activityId: {}", s);
-				Long activityId = Long.parseLong(s);
-				userPOJO = userService.findUserByActivityId(activityId);
-				
-				if (userPOJO != null && userPOJO.getUserId() != null) {
-					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
-					if (user4IndexCode != null) {
-						String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
-						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
-					}
-				}
-			}
-		} else if (uri.contains("interactive2Detail")) {	// /page/enterprise(unified)/activity_detail.jsp?activityId=31
-			Pattern p = Pattern.compile("(interactiveId=)(\\d+)");
-			Matcher m = p.matcher(qs);
-			if (m.find() && m.groupCount() == 2) {
-				String s = m.group(2);
-				logger.info("interactiveId: {}", s);
-				Long interactiveId = Long.parseLong(s);
-				userPOJO = userService.findUserByInteractiveId(interactiveId);
-				
-				if (userPOJO != null && userPOJO.getUserId() != null) {
-					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
-					if (user4IndexCode != null) {
-						String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
-						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
-					}
-				}
-			}
-		} else if (uri.contains("/vote/query/")) {	// /page/enterprise/activity_detail.jsp?activityId=31
-			Pattern p = Pattern.compile("(/vote/query/)(\\d+)");
-			Matcher m = p.matcher(uri);
-			if (m.find() && m.groupCount() == 2) {
-				String s = m.group(2);
-				logger.info("voteId: {}", s);
-				Long voteId = Long.parseLong(s);
-				VotePOJO votePOJO = voteService.findById(voteId);
-				
-				userPOJO = userService.findById(votePOJO.getUserId());
-				
-				if (userPOJO != null && userPOJO.getUserId() != null) {
-					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
-					if (user4IndexCode != null) {
-						String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
-						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
-					}
-				}
-			}
-		} else if (uri.contains("/vote/loadmore/query/")) {	// /page/enterprise/activity_detail.jsp?activityId=31
-			Pattern p = Pattern.compile("(/vote/loadmore/query/)(\\d+)");
-			Matcher m = p.matcher(uri);
-			if (m.find() && m.groupCount() == 2) {
-				String s = m.group(2);
-				logger.info("voteId: {}", s);
-				Long voteId = Long.parseLong(s);
-				VotePOJO votePOJO = voteService.findById(voteId);
-				
-				userPOJO = userService.findById(votePOJO.getUserId());
-				
-				if (userPOJO != null && userPOJO.getUserId() != null) {
-					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
-					if (user4IndexCode != null) {
-						String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
-						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
-					}
-				}
-			}
-		}
-
+		UserPOJO userPOJO = this.getUser4Publisher(request, response);
+		
 		// 获取AuthorizerAppId
-		WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
-		if (userPOJO == null) {
-			logger.info("微官网、活动发布者为空, 使用默认的得味驿站公众号代理");
-			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
-			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(CommonConstant.DWYZ_AUTHORIZER_APP_ID);
-			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = null;
-			try {
-				wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
-			} catch (Exception e) {
-				logger.error("Got Authorizer Exception: {}", e);
-			}
-			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
-				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
-			}
-		} else {
-			logger.info("微官网、活动发布者不为空");
-			wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(userPOJO.getUserId());
-		}
-		logger.info("wxAuthorizerInfoPOJO: {}", wxAuthorizerInfoPOJO);
+		WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = this.getWxAuthorizerInfo(userPOJO.getUserId());
 		
 		// 个人微信用户登录系统, 通过DWYZ代理登录
 		String wxWebLoginUrl = "";
@@ -385,44 +443,68 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		return ret;
 	}
 	
-	public boolean checkSessionUrls(String url, HttpSession session) {
+	public boolean checkSessionUrls(String url, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		Boolean ret = true;
-		PathMatcher pathMatcher = new AntPathMatcher();
-		MessageSource ms = (MessageSource) BeanUtil.get("messageSource");
-		String checkSessionUrlsBlacklist = ms.getMessage("check.session.urls.noneedlogin", null, null);
-		String[] checkSessionUrlsBlacklistArr = StringUtils.split(checkSessionUrlsBlacklist, ",");
-		// blacklist, then return true, not filter
-		if (ArrayUtils.isNotEmpty(checkSessionUrlsBlacklistArr)) {
-			for (String temp : checkSessionUrlsBlacklistArr) {
-				boolean isMatcherBlacklist = pathMatcher.match(StringUtils.trim(temp), url);
-				if (isMatcherBlacklist) {
-					return true;
+		try {
+			PathMatcher pathMatcher = new AntPathMatcher();
+			MessageSource ms = (MessageSource) BeanUtil.get("messageSource");
+			String checkSessionUrlsBlacklist = ms.getMessage("check.session.urls.noneedlogin", null, null);
+			String[] checkSessionUrlsBlacklistArr = StringUtils.split(checkSessionUrlsBlacklist, ",");
+			// blacklist, then return true, not filter
+			if (ArrayUtils.isNotEmpty(checkSessionUrlsBlacklistArr)) {
+				for (String temp : checkSessionUrlsBlacklistArr) {
+					boolean isMatcherBlacklist = pathMatcher.match(StringUtils.trim(temp), url);
+					if (isMatcherBlacklist) {
+						return true;
+					}
 				}
 			}
-		}
 
-		String checkSessionUrlsWhitelist = ms.getMessage("check.session.urls.needlogin", null, null);
-		String[] checkSessionUrlsWhitelistArr = StringUtils.split(checkSessionUrlsWhitelist, ",");
-		boolean isMatcher = false;
-		if (ArrayUtils.isNotEmpty(checkSessionUrlsWhitelistArr)) {
-			for (String temp : checkSessionUrlsWhitelistArr) {
-				isMatcher = pathMatcher.match(StringUtils.trim(temp), url);
-				if (isMatcher) {
-					break;
+			String checkSessionUrlsWhitelist = ms.getMessage("check.session.urls.needlogin", null, null);
+			String[] checkSessionUrlsWhitelistArr = StringUtils.split(checkSessionUrlsWhitelist, ",");
+			boolean isMatcher = false;
+			if (ArrayUtils.isNotEmpty(checkSessionUrlsWhitelistArr)) {
+				for (String temp : checkSessionUrlsWhitelistArr) {
+					isMatcher = pathMatcher.match(StringUtils.trim(temp), url);
+					if (isMatcher) {
+						break;
+					}
 				}
 			}
-		}
-		
-		MyUser myUser = (MyUser) session.getAttribute("myUser");
-		if (isMatcher) {
-			if (myUser == null || myUser.getUserId() == null) {
-				logger.error("Not user been login, please check it.");
-				ret = false;
+			
+			MyUser myUser = (MyUser) session.getAttribute("myUser");
+			if (isMatcher) {
+				if (myUser == null || myUser.getUserId() == null) {
+					logger.error("Not user been login, please check it.");
+					ret = false;
+				} else if ("anonymousUser".equalsIgnoreCase(myUser.getUsername())) {
+					logger.error("anonymousUser user been login, please check it, it is not correct.");
+					ret = false;
+				} else {
+					ret = true;
+				}
+				
+				if (ret) {
+					UserPOJO userPOJO = this.getUser4Publisher(request, response);
+					WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
+					if (userPOJO != null) {
+						wxAuthorizerInfoPOJO = this.getWxAuthorizerInfo(userPOJO.getUserId());
+					}
+					if (wxAuthorizerInfoPOJO != null) {
+						String wxAuthorizerInfoId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+						if (StringUtils.isNotBlank(wxAuthorizerInfoId) && StringUtils.isNotBlank(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
+							if (!wxAuthorizerInfoId.equalsIgnoreCase(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
+								ret = false;
+							}
+						}
+					}
+				}
+				
 			} else {
 				ret = true;
 			}
-		} else {
-			ret = true;
+		} catch (Exception e) {
+			logger.error("checkSessionUrl exception: {}", e);
 		}
 		return ret;
 	}
