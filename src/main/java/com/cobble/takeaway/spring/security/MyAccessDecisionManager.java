@@ -495,7 +495,6 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 						if (StringUtils.isNotBlank(wxAuthorizerInfoId) && StringUtils.isNotBlank(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
 							if (!wxAuthorizerInfoId.equalsIgnoreCase(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
 								ret = false;
-								session.invalidate();
 							}
 						}
 					}
