@@ -1,6 +1,5 @@
 package com.cobble.takeaway.spring.security;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +42,6 @@ import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.util.BeanUtil;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.HttpRequestUtil;
-import com.cobble.takeaway.util.UserUtil;
 
 public class MyAccessDecisionManager implements AccessDecisionManager {
 	private static final Logger logger = LoggerFactory.getLogger(MyAccessDecisionManager.class);
@@ -495,6 +493,10 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 						if (StringUtils.isNotBlank(wxAuthorizerInfoId) && StringUtils.isNotBlank(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
 							if (!wxAuthorizerInfoId.equalsIgnoreCase(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
 								ret = false;
+								SecurityContextHolder.clearContext();
+								if (session != null) {
+									session.invalidate();
+								}
 							}
 						}
 					}
