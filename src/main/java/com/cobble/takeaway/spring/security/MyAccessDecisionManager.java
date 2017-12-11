@@ -489,9 +489,10 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 						wxAuthorizerInfoPOJO = this.getWxAuthorizerInfo(userPOJO.getUserId());
 					}
 					if (wxAuthorizerInfoPOJO != null) {
-						String wxAuthorizerInfoId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
-						if (StringUtils.isNotBlank(wxAuthorizerInfoId) && StringUtils.isNotBlank(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
-							if (!wxAuthorizerInfoId.equalsIgnoreCase(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
+						String authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+						if (StringUtils.isNotBlank(authorizerAppId) && StringUtils.isNotBlank(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
+							if (!authorizerAppId.equalsIgnoreCase(wxAuthorizerInfoPOJO.getAuthorizerAppId())) {
+								logger.info("当前session中的authorizerAppId({})和当前authorizerAppId({})不同, 清除当前session, 重新登录");
 								ret = false;
 								SecurityContextHolder.clearContext();
 								if (session != null) {
