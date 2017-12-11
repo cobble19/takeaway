@@ -89,7 +89,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
 			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = null;
 			try {
-				if (!MyUser.PERSON.equalsIgnoreCase(myUser.getUserType())) {
+				if (!MyUser.PERSON.equalsIgnoreCase(myUser.getUserType()) && myUser.getUserId() != null) {
 
 					wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByUserId(myUser.getUserId());
 					if (wxAuthorizerInfoPOJO != null) {
