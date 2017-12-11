@@ -84,6 +84,8 @@ isSubscribe = function() {
 	    var unionId = $('#unionId').val();
 	    var authorizerAppId = $('#authorizerAppId').val();
 	    var openId = $('#openId').val();
+	    var proxyOpenId = $('#proxyOpenId').val();
+	    var proxyAuthorizerAppId = $('#proxyAuthorizerAppId').val();
 	    
 	    /*if (unionId == null || authorizerAppId == "") {
 	    	alert("微信用户的联合ID为空， 请重新登录");
@@ -101,6 +103,8 @@ isSubscribe = function() {
     	params.unionId = unionId;
     	params.authorizerAppId = authorizerAppId;
     	params.openId = openId;
+    	params.proxyAuthorizerAppId = proxyAuthorizerAppId;
+    	params.proxyOpenId = proxyOpenId;
     	
     	$.ajax({
     		"url" : $('#basePath').val() + "/api/wx/oauth2/third/web/subscribe",

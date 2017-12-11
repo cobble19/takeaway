@@ -10,6 +10,7 @@ public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
 	// 查询关键字
 	private String wxAuthorizerUserName;
 	private String proxyOpenId;
+    private String proxyAuthorizerAppId;
 	private Long userId;
     // 
     private String openId;
@@ -40,7 +41,15 @@ public class WxPersonUserSearchPOJO extends BaseSearchPOJO {
     // for search
     private List<Long> userIds;
 
-    public String getOpenId() {
+    public String getProxyAuthorizerAppId() {
+		return proxyAuthorizerAppId;
+	}
+
+	public void setProxyAuthorizerAppId(String proxyAuthorizerAppId) {
+		this.proxyAuthorizerAppId = proxyAuthorizerAppId;
+	}
+
+	public String getOpenId() {
         return openId;
     }
 

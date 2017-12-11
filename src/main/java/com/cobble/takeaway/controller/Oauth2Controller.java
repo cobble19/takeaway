@@ -1,10 +1,8 @@
 package com.cobble.takeaway.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +17,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.poi.hssf.record.chart.DefaultDataLabelTextPropertiesRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -44,7 +41,6 @@ import com.cobble.takeaway.oauth2.WxOauth2TokenApiPOJO;
 import com.cobble.takeaway.oauth2.WxUserApiPOJO;
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
-import com.cobble.takeaway.pojo.AwardPOJO;
 import com.cobble.takeaway.pojo.AwardRecordSearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
@@ -137,10 +133,6 @@ import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
 import com.cobble.takeaway.util.WxUtil;
 import com.cobble.takeaway.util.XmlUtils;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 
 @Controller
@@ -1442,22 +1434,23 @@ public class Oauth2Controller extends BaseController {
 		
 		return ret;
 	}
-	
-	@RequestMapping(value = "/api/wx/oauth2/third/web/subscribe", method = {RequestMethod.POST})
-	@ResponseBody
+
 	/**
-	 * paramters: unionId and authorizerAppId
+	 * paramters: unionId, authorizerAppId, openId, proxyAuthorizerAppId, proxyOpenId
 	 * @param wxPersonUserPOJO
 	 * @return
 	 * @throws Exception
 	 */
+	@RequestMapping(value = "/api/wx/oauth2/third/web/subscribe", method = {RequestMethod.POST})
+	@ResponseBody
 	public StatusPOJO subscribe(WxPersonUserSearchPOJO wxPersonUserSearchPOJO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
-			// 根据unionId and authorizerAppId, 获取是否存在openId
 //			String unionId = wxPersonUserSearchPOJO.getUnionId();
 			String authorizerAppId = wxPersonUserSearchPOJO.getAuthorizerAppId();
 			String openId = wxPersonUserSearchPOJO.getOpenId();
+			String proxyAuthorizerAppId = wxPersonUserSearchPOJO.getProxyAuthorizerAppId();
+			String proxyOpenId = wxPersonUserSearchPOJO.getProxyOpenId();
 
 			HttpSession session = request.getSession();
 			/*if (StringUtils.isBlank(unionId)) {
@@ -1472,9 +1465,15 @@ public class Oauth2Controller extends BaseController {
 			
 			
 			/*RelWxPuOpenPOJO relWxPuOpenPOJO = relWxPuOpenService.findWithPu(unionId, authorizerAppId);*/
-			List<WxPersonUserPOJO> wxPersonUserPOJOs = wxPersonUserService.finds(wxPersonUserSearchPOJO);
+			WxPersonUserSearchPOJO tmPersonUserSearchPOJO = new WxPersonUserSearchPOJO();
+			List<WxPersonUserPOJO> wxPersonUserPOJOs = null;
+			if (StringUtils.isNotBlank(openId)) {
+				tmPersonUserSearchPOJO.setOpenId(openId);
+				wxPersonUserPOJOs = wxPersonUserService.finds(tmPersonUserSearchPOJO);
+			}
 			
-			if (CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
+			
+			if (StringUtils.isBlank(openId) || CollectionUtils.isEmpty(wxPersonUserPOJOs)) {
 				ret.setSuccess(false);
 				ret.setDesc("没有关注");
 				return ret;
@@ -1508,58 +1507,69 @@ public class Oauth2Controller extends BaseController {
 	
 	private WxUserInfoApiPOJO getWxUserInfoApi(String authorizerAccessToken, String openId, String thirdWebAccessToken) throws Exception {
 		String userInfo = "";
-		WxUserInfoApiPOJO wxUserInfoApiPOJO = new WxUserInfoApiPOJO();
+		WxUserInfoApiPOJO wxUserInfoApiPOJO = null;
 		String nickname = "";
 		String country = "";
 		String province = "";
 		String city = "";
-		if (StringUtils.isNotBlank(authorizerAccessToken)) {
-			int count = 0;
-			do {
-				try {
-					String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", authorizerAccessToken)
-							.replace("OPENID", openId);
-					userInfo = HttpClientUtil.get(myUserInfoUidUrl);
-					wxUserInfoApiPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
-					if (wxUserInfoApiPOJO.getSubscribe() == CommonConstant.WX_SUBSCRIBE) {
-						nickname = wxUserInfoApiPOJO.getNickname();
-						country = wxUserInfoApiPOJO.getCountry();
-						province = wxUserInfoApiPOJO.getProvince();
-						city = wxUserInfoApiPOJO.getCity();
-						wxUserInfoApiPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-						wxUserInfoApiPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-						wxUserInfoApiPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-						wxUserInfoApiPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-					}
-				} catch (Exception e) {
-					logger.error("myUserInfoUidUrl exception: {}", e);
-				} finally {
-					count++;
-					if (wxUserInfoApiPOJO == null) {
-						Thread.sleep(1000);
-					}
-				}
-			} while (wxUserInfoApiPOJO == null && count < 2);
-			
-		}
 		
-		if (wxUserInfoApiPOJO.getSubscribe() != CommonConstant.WX_SUBSCRIBE && StringUtils.isNotBlank(thirdWebAccessToken)) {
-			// get user info without subscribe
-			logger.info("Get user info without subscribe");
-			String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", thirdWebAccessToken)
+		if (StringUtils.isBlank(openId)) {
+			return null;
+		}
+		try {
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				int count = 0;
+				do {
+					try {
+						String myUserInfoUidUrl = userInfoUidUrl.replace("ACCESS_TOKEN", authorizerAccessToken)
 								.replace("OPENID", openId);
-			userInfo = HttpClientUtil.get(profileUrl);
-			WxUserApiPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserApiPOJO.class);
-			nickname = wxUserPOJO.getNickname();
-			country = wxUserPOJO.getCountry();
-			province = wxUserPOJO.getProvince();
-			city = wxUserPOJO.getCity();
-			wxUserPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-			wxUserPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-			wxUserPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
-			wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						userInfo = HttpClientUtil.get(myUserInfoUidUrl);
+						wxUserInfoApiPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserInfoApiPOJO.class);
+						if (wxUserInfoApiPOJO.getSubscribe() == CommonConstant.WX_SUBSCRIBE) {
+							nickname = wxUserInfoApiPOJO.getNickname();
+							country = wxUserInfoApiPOJO.getCountry();
+							province = wxUserInfoApiPOJO.getProvince();
+							city = wxUserInfoApiPOJO.getCity();
+							wxUserInfoApiPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+							wxUserInfoApiPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+							wxUserInfoApiPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+							wxUserInfoApiPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+						}
+					} catch (Exception e) {
+						logger.error("myUserInfoUidUrl exception: {}", e);
+					} finally {
+						count++;
+						if (wxUserInfoApiPOJO == null) {
+							Thread.sleep(1000);
+						}
+					}
+				} while (wxUserInfoApiPOJO == null && count < 2);
+				
+			}
 			
-			BeanUtils.copyProperties(wxUserPOJO, wxUserInfoApiPOJO);
+			if ((wxUserInfoApiPOJO == null || wxUserInfoApiPOJO.getSubscribe() != CommonConstant.WX_SUBSCRIBE)
+					&& StringUtils.isNotBlank(thirdWebAccessToken)) {
+				// get user info without subscribe
+				logger.info("Get user info without subscribe");
+				String profileUrl = myProfileUrl.replace("ACCESS_TOKEN", thirdWebAccessToken)
+									.replace("OPENID", openId);
+				userInfo = HttpClientUtil.get(profileUrl);
+				WxUserApiPOJO wxUserPOJO = JsonUtils.convertToJavaBean(userInfo, WxUserApiPOJO.class);
+				nickname = wxUserPOJO.getNickname();
+				country = wxUserPOJO.getCountry();
+				province = wxUserPOJO.getProvince();
+				city = wxUserPOJO.getCity();
+				wxUserPOJO.setNickname(new String(nickname.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				wxUserPOJO.setCountry(new String(country.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				wxUserPOJO.setProvince(new String(province.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				wxUserPOJO.setCity(new String(city.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8));
+				if (wxUserInfoApiPOJO == null) {
+					wxUserInfoApiPOJO = new WxUserInfoApiPOJO();
+				}
+				BeanUtils.copyProperties(wxUserPOJO, wxUserInfoApiPOJO);
+			}
+		} catch (Exception e) {
+			logger.error("myUserInfoUidUrl exception: {}", e);
 		}
 		
 		logger.info("wxUserInfoApiPOJO: {}", wxUserInfoApiPOJO);

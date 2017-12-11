@@ -112,9 +112,11 @@
 	<input id="userId" type="hidden" value='${sessionScope.myUser.userId}'>
 	<input id="username" type="hidden" value='${sessionScope.myUser.username}'>
 	
+	<input id="proxyOpenId" type="hidden" value='${sessionScope.proxyOpenId}'>
 	<input id="unionId" type="hidden" value='${sessionScope.unionId}'>
 	<input id="openId" type="hidden" value='${sessionScope.openId}'>
 	<input id="authorizerAppId" type="hidden" value='${sessionScope.authorizerAppId}'>
+	<input id="proxyAuthorizerAppId" type="hidden" value='${sessionScope.proxyAuthorizerAppId}'>
 	<input id="indexCode" type="hidden" value='${sessionScope.indexCode}'>
 	
 	
