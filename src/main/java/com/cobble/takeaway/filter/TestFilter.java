@@ -24,10 +24,10 @@ public class TestFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain filterChain) throws IOException, ServletException {
 		try {
+			filterChain.doFilter(req, resp);
 		} catch (Exception e) {
 			logger.error("Test Filter: {}", e);
 		}
-		filterChain.doFilter(req, resp);
 	}
 
 	@Override

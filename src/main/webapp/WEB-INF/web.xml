@@ -63,6 +63,16 @@
 	</filter-mapping>
 	
 	<filter>
+		<filter-name>myPreFilter</filter-name>
+		<filter-class>com.cobble.takeaway.filter.MyPreFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>myPreFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
 		<filter-name>myHttpRequestFilter</filter-name>
 		<filter-class>com.cobble.takeaway.filter.MyHttpRequestFilter</filter-class>
 	</filter>
