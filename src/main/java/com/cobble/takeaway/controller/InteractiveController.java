@@ -69,31 +69,7 @@ public class InteractiveController extends BaseController {
 		try {
 			interactiveSearchPOJO.setUserId(UserUtil.getCurrentUserId());
 			interactiveSearchPOJO.setPaginationFlage(false);
-			List<InteractivePOJO> interactivePOJOs = interactiveService.finds(interactiveSearchPOJO);
-			
-			// 获取每个互动活动对应的回复关键字
-			WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
-			if (CollectionUtils.isNotEmpty(interactivePOJOs)) {
-				List<Long> interactiveIds = new ArrayList<Long>();
-				for (InteractivePOJO interactivePOJO : interactivePOJOs) {
-					interactiveIds.add(interactivePOJO.getInteractiveId());
-				}
-				wxRespMsgSearchPOJO.setInteractiveIds(interactiveIds);
-
-				List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgService.finds(wxRespMsgSearchPOJO);
-				if (CollectionUtils.isNotEmpty(interactivePOJOs) && CollectionUtils.isNotEmpty(wxRespMsgPOJOs)) {
-					for (InteractivePOJO interactivePOJO : interactivePOJOs) {
-						for (WxRespMsgPOJO wxRespMsgPOJO : wxRespMsgPOJOs) {
-							if (wxRespMsgPOJO != null && wxRespMsgPOJO.getMsgSend() != null 
-									&& wxRespMsgPOJO.getMsgSend().equalsIgnoreCase(interactivePOJO.getInteractiveId() + "")) {
-								interactivePOJO.setWxRespMsgPOJO(wxRespMsgPOJO);
-								break;
-							}
-						}
-					}
-				}
-			}
-			
+			List<InteractivePOJO> interactivePOJOs = interactiveService.findFulls(interactiveSearchPOJO);
 			
 			ret.setData(interactivePOJOs);
 		} catch (Exception e) {

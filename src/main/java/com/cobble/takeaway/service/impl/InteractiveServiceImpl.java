@@ -1,15 +1,20 @@
 package com.cobble.takeaway.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cobble.takeaway.dao.InteractiveMapper;
+import com.cobble.takeaway.dao.WxRespMsgMapper;
 import com.cobble.takeaway.pojo.InteractivePOJO;
 import com.cobble.takeaway.pojo.InteractiveSearchPOJO;
 import com.cobble.takeaway.pojo.RelInteractiveUserPOJO;
+import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
+import com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO;
 import com.cobble.takeaway.service.InteractiveService;
 
 @Service
@@ -17,6 +22,8 @@ public class InteractiveServiceImpl implements InteractiveService {
 	
 	@Autowired
 	private InteractiveMapper interactiveMapper;
+	@Autowired
+	private WxRespMsgMapper wxRespMsgMapper;
 
 	@Override
 	public int insert(InteractivePOJO interactivePOJO, Long userId) throws Exception {
@@ -102,6 +109,38 @@ public class InteractiveServiceImpl implements InteractiveService {
 			InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
 		List<InteractivePOJO> ret = null;
 		ret = interactiveMapper.find4Enterprises(interactiveSearchPOJO);
+		return ret;
+	}
+
+	@Override
+	public List<InteractivePOJO> findFulls(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception {
+		List<InteractivePOJO> ret = null;
+		List<InteractivePOJO> interactivePOJOs = interactiveMapper.finds(interactiveSearchPOJO);
+		
+		// 获取每个互动活动对应的回复关键字
+		WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
+		if (CollectionUtils.isNotEmpty(interactivePOJOs)) {
+			List<Long> interactiveIds = new ArrayList<Long>();
+			for (InteractivePOJO interactivePOJO : interactivePOJOs) {
+				interactiveIds.add(interactivePOJO.getInteractiveId());
+			}
+			wxRespMsgSearchPOJO.setInteractiveIds(interactiveIds);
+
+			List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgMapper.finds(wxRespMsgSearchPOJO);
+			if (CollectionUtils.isNotEmpty(interactivePOJOs) && CollectionUtils.isNotEmpty(wxRespMsgPOJOs)) {
+				for (InteractivePOJO interactivePOJO : interactivePOJOs) {
+					for (WxRespMsgPOJO wxRespMsgPOJO : wxRespMsgPOJOs) {
+						if (wxRespMsgPOJO != null && wxRespMsgPOJO.getMsgSend() != null 
+								&& wxRespMsgPOJO.getMsgSend().equalsIgnoreCase(interactivePOJO.getInteractiveId() + "")) {
+							interactivePOJO.setWxRespMsgPOJO(wxRespMsgPOJO);
+							break;
+						}
+					}
+				}
+			}
+		}
+		ret = interactivePOJOs;
+		
 		return ret;
 	}
 

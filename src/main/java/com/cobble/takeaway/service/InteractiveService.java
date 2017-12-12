@@ -9,6 +9,7 @@ public interface InteractiveService {
 	int insert(InteractivePOJO interactivePOJO, Long userId) throws Exception;
 	int update(InteractivePOJO interactivePOJO) throws Exception;
 	List<InteractivePOJO> finds(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
+	List<InteractivePOJO> findFulls(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
 	List<InteractivePOJO> find4Enterprises(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
 	int getCount(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
 	List<InteractivePOJO> findActives(InteractiveSearchPOJO interactiveSearchPOJO) throws Exception;
@@ -18,4 +19,5 @@ public interface InteractiveService {
 	int delete(Long[] ids) throws Exception;
 
 	int updateStatus(InteractivePOJO interactivePOJO) throws Exception;
+
 }

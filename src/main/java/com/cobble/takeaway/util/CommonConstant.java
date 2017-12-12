@@ -94,10 +94,11 @@ public interface CommonConstant {
 	public final static int ENABLE_FLAG = 1;
 	public final static int DISABLE_FLAG = 0;
 	
-	// 0-系统定义, 1-客户自定义
+	// 0-系统定义, 1-客户自定义, 2-抽奖, 3-语音抽奖
 	public final static String MSG_TYPE_SYSTEM = "0";
 	public final static String MSG_TYPE_CUSTOMER = "1";
 	public final static String MSG_TYPE_LOTTERY = "2";
+	public final static String MSG_TYPE_LOTTERY_VOICE = "3";
 	
 	
 }

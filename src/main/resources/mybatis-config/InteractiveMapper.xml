@@ -42,6 +42,12 @@
 	<if test="interactiveType != null">
 		and INTERACTIVE_TYPE = #{interactiveType}
 	</if>
+	<if test="startDateTime != null">
+		and START_DATE_TIME &lt;= #{startDateTime}
+	</if>
+	<if test="endDateTime != null">
+		and END_DATE_TIME &gt;= #{endDateTime}
+	</if>
   </sql>
   <select id="finds" resultMap="InteractiveResultMap" parameterType="com.cobble.takeaway.pojo.InteractiveSearchPOJO" >
     select

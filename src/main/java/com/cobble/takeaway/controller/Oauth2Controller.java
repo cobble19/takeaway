@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +27,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +45,7 @@ import com.cobble.takeaway.pojo.AwardRecordSearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
 import com.cobble.takeaway.pojo.InteractivePOJO;
+import com.cobble.takeaway.pojo.InteractiveSearchPOJO;
 import com.cobble.takeaway.pojo.PointEventPOJO;
 import com.cobble.takeaway.pojo.PointEventSearchPOJO;
 import com.cobble.takeaway.pojo.PointRecordPOJO;
@@ -2474,14 +2475,16 @@ public class Oauth2Controller extends BaseController {
 		ret = content;
 		return ret;
 	}
-	
-	// CLICK会员中心的回复信息
-	private String getWxMsgMemberCenterContent(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO, WxPersonUserPOJO wxPersonUserPOJO, String fromUserName, String toUserName, String wxIndexCode, HttpServletRequest request) {
-		String ret = "";
-		HttpSession session = request.getSession();
+	private Boolean isMember(WxPersonUserPOJO wxPersonUserPOJO) {
+		Boolean ret = false;
 		// 如果WxPersonUserPOJO是空,或者不是会员则回复加入会员
 		Boolean isMember = false;
-		if (wxPersonUserPOJO == null) {
+		if ( wxPersonUserPOJO != null 
+				&& wxPersonUserPOJO.getMemberFlag() != null && CommonConstant.MEMBER_FLAG == wxPersonUserPOJO.getMemberFlag()
+				&& StringUtils.isNotBlank(wxPersonUserPOJO.getOpenId()) ) {
+			isMember = true;
+		}
+		/*if (wxPersonUserPOJO == null) {
 			isMember = false;
 		} else {
 			if (wxPersonUserPOJO.getMemberFlag() == null || CommonConstant.MEMBER_FLAG != wxPersonUserPOJO.getMemberFlag()) {
@@ -2489,7 +2492,17 @@ public class Oauth2Controller extends BaseController {
 			} else {
 				isMember = true;
 			}
-		}
+		}*/
+		
+		ret = isMember;
+		return ret;
+	}
+	// CLICK会员中心的回复信息
+	private String getWxMsgMemberCenterContent(WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO, WxPersonUserPOJO wxPersonUserPOJO, String fromUserName, String toUserName, String wxIndexCode, HttpServletRequest request) {
+		String ret = "";
+		HttpSession session = request.getSession();
+		// 如果WxPersonUserPOJO是空,或者不是会员则回复加入会员
+		Boolean isMember = this.isMember(wxPersonUserPOJO);
 
 		String authorizerNickName = "";
 		if (wxAuthorizerInfoPOJO != null) {
@@ -2501,9 +2514,9 @@ public class Oauth2Controller extends BaseController {
 			String key = RandomStringUtils.randomAlphabetic(8);
 			CacheUtil.getInstance().put(key, wxThirdPersonUserLoginUrl, 15);
 			String content = "";
-			content += "您好，欢迎来到" + authorizerNickName + ", 点击链接进入";
+			content += "您好，欢迎来到" + authorizerNickName + ", 您还不是会员, 请";
 			content += "<a href=\"" + HttpRequestUtil.getBase(request) + "/web/unified/t/" + key
-					+ "\">会员中心</a>";
+					+ "\">加入会员</a>";
 			
 			ret = content;
 //			return ret;
@@ -2521,7 +2534,7 @@ public class Oauth2Controller extends BaseController {
 			
 			String content = "";
 			content += "您好," + wxPersonUserPOJO.getNickname()
-					+ ", 欢迎来到" + authorizerNickName + ", 点击链接进入";
+					+ ", 欢迎来到" + authorizerNickName + ", 点击进入";
 			content += memberCenter;
 //			content += "/";
 //			content += "<a href=\"" + wxThirdPersonUserLoginUrl
@@ -2736,7 +2749,64 @@ public class Oauth2Controller extends BaseController {
 //		String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 		return replyMsg;
 	}
-	
+
+	private String dealTextLottery(WxRespMsgPOJO wxRespMsgPOJO, Long userId) throws Exception {
+		String ret = "success";
+		// to call lottery api
+		// /api/unified/lottery/{interactiveId}/happy?userId={userId}
+		Long interactiveId = NumberUtils.toLong(wxRespMsgPOJO.getMsgSend());
+		String url = "http://127.0.0.1" + "/api/unified/lottery/" + interactiveId + "/happy"
+						+ "?userId=" + userId;
+		String res = HttpClientUtil.get(url);
+		Map lotterymap = JsonUtils.convertToJavaBean(res, Map.class);
+		Boolean success = (Boolean) (lotterymap.get("success"));
+//		AwardPOJO awardPOJO = (AwardPOJO) (lotterymap.get("awardPOJO"));
+
+		Map awardMap = (Map) (lotterymap.get("awardPOJO"));
+		String awardName = (String) awardMap.get("name");
+		
+		Boolean isHappy = (Boolean) (lotterymap.get("isHappy"));
+		String result1 = (String) (lotterymap.get("result"));
+		/*ret.put("success", true);
+		ret.put("awardPOJO", awardPOJO);
+		ret.put("isHappy", false);
+		ret.put("result", "活动未开始");*/
+		
+		if (StringUtils.isBlank(awardName)) {
+			awardName = "未中奖";
+		}
+		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+
+		
+		AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+		awardRecordSearchPOJO.setInteractiveId(interactiveId);
+		awardRecordSearchPOJO.setUserId(userId);
+//		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
+		int count = awardRecordService.getCount(awardRecordSearchPOJO);
+		
+		Integer awardNumberPer = interactivePOJO.getAwardNumberPer();
+		if (awardNumberPer == null) {
+			awardNumberPer = 1;
+		}
+		int remindCount = awardNumberPer;
+		if (count - awardNumberPer <= 0) {
+			remindCount = awardNumberPer - count;
+		} else {
+			remindCount = 0;
+		}
+
+		String content = "";
+		
+		content = "欢迎您参加[" + interactivePOJO.getName()
+				+ "]抽奖活动, 您的抽奖结果是: " + awardName + "! 您还有" + remindCount
+						+ "次抽奖机会！活动详情请点击"
+						+ "<a href=\"" + "http://www.deweiyizhan.com/web/unified/interactive2Detail?interactiveId=" 
+						+ interactiveId
+						+ "\">查看活动</a>";
+		
+		ret = content;
+		return ret;
+	}
 	private String dealTextLottery(WxRespMsgPOJO wxRespMsgPOJO, Long userId, WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO) throws Exception {
 
 		// to call lottery api
@@ -2898,6 +2968,76 @@ public class Oauth2Controller extends BaseController {
 //			return dealTextSignIn(authorizerAppId, wxPersonUserPOJO, wxMsgEventRespTextApiPOJO);
 //		}	// end test "签到"
 		
+		return ret;
+	}
+	
+
+	private String dealVoiceLottery(String result
+						, WxPersonUserPOJO wxPersonUserPOJO
+						, WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO
+						, String wxIndexCode
+						, HttpServletRequest request) throws Exception {
+		String ret = "success";
+		
+		String msgType = XmlUtils.getNodeString(result, "/xml/MsgType");
+		String toUserName = XmlUtils.getNodeString(result, "/xml/ToUserName");
+		String fromUserName = XmlUtils.getNodeString(result, "/xml/FromUserName");
+		String recognition = XmlUtils.getNodeString(result, "/xml/Recognition");
+		String mediaId = XmlUtils.getNodeString(result, "/xml/MediaId");
+		String format = XmlUtils.getNodeString(result, "/xml/Format");
+		String msgId = XmlUtils.getNodeString(result, "/xml/MsgId");
+		String createTime = XmlUtils.getNodeString(result, "/xml/CreateTime");
+
+		if (!this.isMember(wxPersonUserPOJO)) {
+			return this.getWxMsgMemberCenterContent(wxAuthorizerInfoPOJO, wxPersonUserPOJO, fromUserName, toUserName, wxIndexCode, request);
+		}
+
+		
+		String authorizerAppId = wxAuthorizerInfoPOJO.getAuthorizerAppId();
+		Long userId = wxAuthorizerInfoPOJO.getUserId();
+		
+		InteractiveSearchPOJO interactiveSearchPOJO = new InteractiveSearchPOJO();
+		interactiveSearchPOJO.setUserId(userId);
+		interactiveSearchPOJO.setStartDateTime(new Date());
+		interactiveSearchPOJO.setEndDateTime(new Date());
+		List<InteractivePOJO> interactivePOJOs = interactiveService.findFulls(interactiveSearchPOJO);
+		
+		if (!CollectionUtils.isEmpty(interactivePOJOs)) {
+			if (interactivePOJOs.size() > 1) {
+				logger.error("同一个公众号/用户当前时间返回了{}条记录抽奖活动, 请查询代码.", interactivePOJOs.size());
+			}
+			// 获取语音抽奖关键字
+			WxRespMsgPOJO wxRespMsgPOJO = null;
+			for (int i = 0; i < interactivePOJOs.size(); i++) {
+				InteractivePOJO interactivePOJO = interactivePOJOs.get(i);
+				wxRespMsgPOJO = interactivePOJO.getWxRespMsgPOJO();
+				if (CommonConstant.MSG_TYPE_LOTTERY_VOICE.equals(wxRespMsgPOJO.getMsgType())) {
+					break;
+				}
+			}
+			
+			if (wxRespMsgPOJO == null) {
+				return ret;
+			}
+			String msgReceive = wxRespMsgPOJO.getMsgReceive();
+			if (recognition.contains(msgReceive)) {
+				ret = this.dealTextLottery(wxRespMsgPOJO, wxPersonUserPOJO.getUserId());
+			}
+			
+		}
+		return ret;
+	}
+
+	private String dealVoiceMsg(String result
+						, WxPersonUserPOJO wxPersonUserPOJO
+						, WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO
+						, String wxIndexCode
+						, HttpServletRequest request) throws Exception {
+		String ret = "success";
+		ret = dealVoiceLottery(result, wxPersonUserPOJO, wxAuthorizerInfoPOJO, wxIndexCode, request);
+		if (StringUtils.isBlank(ret)) {
+			ret = "success";
+		}
 		return ret;
 	}
 	
@@ -3088,8 +3228,18 @@ public class Oauth2Controller extends BaseController {
 //							return encryptMsg;
 //						}
 //					}
+
+				} /*event end*/ else if ("voice".equalsIgnoreCase(msgType)) {
+					String content = "";
 					
-				} //event end
+					content = this.dealVoiceMsg(result, wxPersonUserPOJO, wxAuthorizerInfoPOJO, wxIndexCode, request);
+					if (StringUtils.isNotBlank(content) && "success".equals(content)) {
+						wxMsgEventRespTextApiPOJO.setContent(content);
+						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
+						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
+						return encryptMsg;
+					}
+				}
 			}	// 全网发布监测结束
 			
 			
