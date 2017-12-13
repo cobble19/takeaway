@@ -63,6 +63,26 @@ public class InteractiveServiceImpl implements InteractiveService {
 	public InteractivePOJO findById(Long id) throws Exception {
 		InteractivePOJO ret = null;
 		ret = interactiveMapper.findById(id);
+
+		// 获取每个互动活动对应的回复关键字
+		WxRespMsgSearchPOJO wxRespMsgSearchPOJO = new WxRespMsgSearchPOJO();
+		if (ret != null) {
+			List<Long> interactiveIds = new ArrayList<Long>();
+			interactiveIds.add(ret.getInteractiveId());
+			
+			wxRespMsgSearchPOJO.setInteractiveIds(interactiveIds);
+
+			List<WxRespMsgPOJO> wxRespMsgPOJOs = wxRespMsgMapper.finds(wxRespMsgSearchPOJO);
+			if (CollectionUtils.isNotEmpty(wxRespMsgPOJOs)) {
+				for (WxRespMsgPOJO wxRespMsgPOJO : wxRespMsgPOJOs) {
+					if (wxRespMsgPOJO != null && wxRespMsgPOJO.getMsgSend() != null 
+							&& wxRespMsgPOJO.getMsgSend().equalsIgnoreCase(ret.getInteractiveId() + "")) {
+						ret.setWxRespMsgPOJO(wxRespMsgPOJO);
+						break;
+					}
+				}
+			}
+		}
 		return ret;
 	}
 

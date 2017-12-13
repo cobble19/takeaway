@@ -2775,10 +2775,14 @@ public class Oauth2Controller extends BaseController {
 		
 		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
 
-		String detail = "活动详情请点击"
+		String detail = "查看请点击👉"
 				+ "<a href=\"" + "http://www.deweiyizhan.com/web/unified/interactive2Detail/lotteryvoice?interactiveId=" 
 				+ interactiveId
-				+ "\">查看活动</a>";
+				+ "\">活动详情</a>";
+		String contact = ""
+				+ "<a href=\"" + "http://www.deweiyizhan.com/web/unified/interactive2Detail/lotteryvoice?interactiveId=" 
+				+ interactiveId
+				+ "\">领奖方式</a>";
 
 		AwardSearchPOJO awardSearchPOJO = new AwardSearchPOJO();
 		awardSearchPOJO.setBalanceGt0Flag(true);
@@ -2808,8 +2812,9 @@ public class Oauth2Controller extends BaseController {
 		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
 		int awardCount = awardRecordService.getCount(awardRecordSearchPOJO);
 		if (awardCount > 0) {
-			ret = "恭喜您已经中奖啦！请把机会留给别人吧, 领取奖品请点击👉领奖方式,";
-			ret += detail;
+			ret = "恭喜您已经中奖啦！请把机会留给别人吧, 领取奖品请点击👉";
+			ret += "," + contact;
+			ret += "," + detail;
 //			ret = "欢迎您参加[" + interactivePOJO.getName()
 //					+ "]抽奖活动, 您的抽奖结果是: " + awardRecordPOJOs.get(0).getAwardPOJO().getName() + "! 您还有" + remindCount
 //							+ "次抽奖机会！活动详情请点击"
@@ -2863,7 +2868,7 @@ public class Oauth2Controller extends BaseController {
 		
 		// 没有中奖
 		if (awardNamesNot.contains(awardName)) {
-			ret = "啊欧，很遗憾！你的运气还不够，没有获得奖品！请继续加油！";
+			ret = "啊欧，很遗憾！您的运气还不够，没有获得奖品！请继续加油！";
 			if (count >= 10 && count < 20) {
 				ret = "啊欧，很遗憾！没有获得奖品！您已经参与了" + count
 						+ "次了，请继续加油，坚持就是胜利！";
@@ -2879,8 +2884,9 @@ public class Oauth2Controller extends BaseController {
 			ret += detail;
 			return ret;
 		} else {	//抽中奖品
-			ret = "哇塞~几率大神降临了！恭喜您中奖啦！请点击👉领奖方式";
-			ret += detail;
+			ret = "哇塞~几率大神降临了！恭喜您中奖啦！请点击👉";
+			ret += contact;
+//			ret += detail;
 			return ret;
 		}
 
@@ -3113,7 +3119,7 @@ public class Oauth2Controller extends BaseController {
 			if (recognition.contains(msgReceive)) {
 				ret = this.dealTextLottery(wxRespMsgPOJO, wxPersonUserPOJO.getUserId());
 			} else {
-				ret = "啊欧，口令好像不对耶！提醒您：一定要用普通话说出口令哦！我们的口令是" + msgReceive + ", 大声说出来";
+				ret = "啊欧，口令好像不对耶！提醒您：一定要用普通话说出口令哦！我们的口令是\"" + msgReceive + "\", 请大声说出来!";
 			}
 			
 		}
