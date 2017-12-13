@@ -86,6 +86,7 @@ var showDetail = function() {
         	$('#answer').val(data.answer);
         	$('#awardNumberPer').val(data.awardNumberPer);
         	$('#interactiveType').val(data.interactiveType);
+        	$('#interactiveType').find("option[value='" + data.interactiveType + "']").attr('selected', true);
         	$('#wxRespMsgId').val(data.wxRespMsgPOJO.wxRespMsgId);
         	$('#msgReceive').val(data.wxRespMsgPOJO.msgReceive);
         },

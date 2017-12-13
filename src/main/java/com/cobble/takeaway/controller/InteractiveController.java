@@ -137,7 +137,58 @@ public class InteractiveController extends BaseController {
 //		return ret;
 		return null;
 	}
-	
+
+	@RequestMapping(value = "/web/unified/interactive2Detail/lotteryvoice", method = {RequestMethod.GET})
+	public ModelAndView interactive2LotteryVoiceDetail(@RequestParam(value="interactiveId") Long interactiveId, Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		
+		/*AwardRecordPOJO awardRecordPOJO = null;*/
+		Long userId = UserUtil.getCurrentUserId();
+
+		AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+		awardRecordSearchPOJO.setPaginationFlage(false);
+		awardRecordSearchPOJO.setInteractiveId(interactiveId);
+		awardRecordSearchPOJO.setUserId(userId);
+		List<AwardRecordPOJO> myAwardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
+		/*if (CollectionUtils.isNotEmpty(myAwardRecordPOJOs)) {
+			logger.info("myAwardRecordPOJOs size: {}, should be is 1", myAwardRecordPOJOs.size());
+			awardRecordPOJO = myAwardRecordPOJOs.get(0);
+		}*/
+		ret.addObject("myAwardRecordPOJOs", myAwardRecordPOJOs);
+		
+		
+		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+		awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+		awardRecordSearchPOJO.setPaginationFlage(false);
+		awardRecordSearchPOJO.setInteractiveId(interactiveId);
+		List<String> awardNamesNot = new ArrayList<String>();
+		String notName = messageSource.getMessage("lottery.award.notname", null, null);
+		if (StringUtils.isNotBlank(notName)) {
+			String[] notNames = StringUtils.split(notName, ",");
+			if (null != notNames) {
+				for (int i = 0; i < notNames.length; i++) {
+					awardNamesNot.add(notNames[i]);
+				}
+			} else {
+				awardNamesNot.add("未中奖");
+			}
+		} else {
+			awardNamesNot.add("未中奖");
+		}
+		awardRecordSearchPOJO.setAwardNamesNot(awardNamesNot);
+		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
+		
+		if (interactivePOJO != null) {
+			interactivePOJO.setAwardRecordPOJOs(awardRecordPOJOs);
+
+			ret.addObject("documentTitle", interactivePOJO.getName());
+		}
+		
+		ret.addObject("interactivePOJO", interactivePOJO);
+		ret.setViewName("page/unified/interactive2_lottery_voice_detail");
+		return ret;
+	}
 	@RequestMapping(value = "/web/unified/interactive2Detail", method = {RequestMethod.GET})
 	public ModelAndView interactiveDetail(@RequestParam(value="interactiveId") Long interactiveId, Model model, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {

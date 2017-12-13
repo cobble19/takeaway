@@ -52,14 +52,6 @@
  				</div>
  			</div>
  			<div class="form-group">
- 				<label class="control-label" for="content">活动介绍:</label>
- 				<div style="" class="">
- 					<!-- <textarea rows="5" cols="20" id="content" name="content" placeholder="请输入本次活动内容"></textarea>
- 					<input class="form-control" type="text" id="content" name="content" placeholder="请输入本次活动内容"> -->
- 					<script id="editor" type="text/plain" name="content"></script>
- 				</div>
- 			</div>
- 			<div class="form-group">
  				<label class="control-label" for="title">活动规则:</label>
  				<div class="">
  					<input class="form-control" id="rule" name="rule" minlength="2" required="required" placeholder="请输入本次互动活动规则">
@@ -109,6 +101,14 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="content">活动介绍:</label>
+ 				<div style="" class="">
+ 					<!-- <textarea rows="5" cols="20" id="content" name="content" placeholder="请输入本次活动内容"></textarea>
+ 					<input class="form-control" type="text" id="content" name="content" placeholder="请输入本次活动内容"> -->
+ 					<script id="editor" type="text/plain" name="content"></script>
+ 				</div>
+ 			</div>
+ 			<!-- <div class="form-group">
  				<label class="control-label" for="interactiveType">互动类型:</label>
  				<div class="">
  					<select class="form-control" id="interactiveType" name="interactiveType" required="required">
@@ -116,7 +116,7 @@
 						<option value="MSG_LOTTERY">关键字抽奖</option>
 					</select>
  				</div>
- 			</div>
+ 			</div> -->
  			<div class="form-group">
 	 			<div class="">
 	  				<button type="button" class="btn btn-default" id="addBtn">创建</button>

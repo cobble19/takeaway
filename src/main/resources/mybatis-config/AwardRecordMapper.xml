@@ -81,10 +81,21 @@
 	</if>
   </select>
   <select id="getCount" parameterType="com.cobble.takeaway.pojo.AwardRecordSearchPOJO" resultType="java.lang.Integer" >
-    select count(1) from E_AWARD_RECORD a
+    select count(1) 
+    from E_AWARD_RECORD a
+    join e_interactive e on e.interactive_id = a.interactive_id
+    join b_user b on b.user_id = a.user_id
+    join e_award c on c.award_id = a.award_id
+    left join wx_person_user d on d.user_id = b.user_id
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
+			<if test="awardNamesNot != null">
+				and c.NAME not in
+				<foreach collection="awardNamesNot" index="index" item="awardNameNot" open="(" close=")" separator=",">
+					#{awardNameNot}
+				</foreach>
+			</if>
   		</trim>
   	</where>
   </select>
