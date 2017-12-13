@@ -41,8 +41,10 @@ import com.cobble.takeaway.oauth2.WxOauth2TokenApiPOJO;
 import com.cobble.takeaway.oauth2.WxUserApiPOJO;
 import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.ActivitySearchPOJO;
+import com.cobble.takeaway.pojo.AwardPOJO;
 import com.cobble.takeaway.pojo.AwardRecordPOJO;
 import com.cobble.takeaway.pojo.AwardRecordSearchPOJO;
+import com.cobble.takeaway.pojo.AwardSearchPOJO;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
 import com.cobble.takeaway.pojo.InteractivePOJO;
@@ -2754,14 +2756,6 @@ public class Oauth2Controller extends BaseController {
 	private String dealTextLottery(WxRespMsgPOJO wxRespMsgPOJO, Long userId) throws Exception {
 		String ret = "success";
 
-		Long interactiveId = NumberUtils.toLong(wxRespMsgPOJO.getMsgSend());
-		
-		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
-		
-		AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
-		awardRecordSearchPOJO.setInteractiveId(interactiveId);
-		awardRecordSearchPOJO.setUserId(userId);
-
 		List<String> awardNamesNot = new ArrayList<String>();
 		String notName = messageSource.getMessage("lottery.award.notname", null, null);
 		if (StringUtils.isNotBlank(notName)) {
@@ -2776,14 +2770,43 @@ public class Oauth2Controller extends BaseController {
 		} else {
 			awardNamesNot.add("未中奖");
 		}
-		awardRecordSearchPOJO.setAwardNamesNot(awardNamesNot);
 		
-		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
-		int awardCount = awardRecordService.getCount(awardRecordSearchPOJO);
+		Long interactiveId = NumberUtils.toLong(wxRespMsgPOJO.getMsgSend());
+		
+		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
+
 		String detail = "活动详情请点击"
 				+ "<a href=\"" + "http://www.deweiyizhan.com/web/unified/interactive2Detail/lotteryvoice?interactiveId=" 
 				+ interactiveId
 				+ "\">查看活动</a>";
+
+		AwardSearchPOJO awardSearchPOJO = new AwardSearchPOJO();
+		awardSearchPOJO.setBalanceGt0Flag(true);
+		awardSearchPOJO.setInteractiveId(interactiveId);
+		List<AwardPOJO> awardPOJOs = awardService.finds(awardSearchPOJO);
+		// 获取奖品的剩余量
+		int awardRemindCount = 0;
+		if (CollectionUtils.isNotEmpty(awardPOJOs)) {
+			for (int i = 0; i < awardPOJOs.size(); i++) {
+				AwardPOJO awardPOJO = awardPOJOs.get(i);
+				if (!awardNamesNot.contains(awardPOJO.getName())) {
+					awardRemindCount += awardPOJO.getBalance();
+				}
+			}
+		}
+		if (awardRemindCount <= 0) {
+			ret = "很抱歉，您来迟了！福利已被一抢而空了！,";
+			ret += detail;
+			return ret;
+		}
+		
+		AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
+		awardRecordSearchPOJO.setInteractiveId(interactiveId);
+		awardRecordSearchPOJO.setUserId(userId);
+		awardRecordSearchPOJO.setAwardNamesNot(awardNamesNot);
+		
+		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
+		int awardCount = awardRecordService.getCount(awardRecordSearchPOJO);
 		if (awardCount > 0) {
 			ret = "恭喜您已经中奖啦！请把机会留给别人吧, 领取奖品请点击👉领奖方式,";
 			ret += detail;
@@ -3089,6 +3112,8 @@ public class Oauth2Controller extends BaseController {
 			String msgReceive = wxRespMsgPOJO.getMsgReceive();
 			if (recognition.contains(msgReceive)) {
 				ret = this.dealTextLottery(wxRespMsgPOJO, wxPersonUserPOJO.getUserId());
+			} else {
+				ret = "啊欧，口令好像不对耶！提醒您：一定要用普通话说出口令哦！我们的口令是" + msgReceive + ", 大声说出来";
 			}
 			
 		}
