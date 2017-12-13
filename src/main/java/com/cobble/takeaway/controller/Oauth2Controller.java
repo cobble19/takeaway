@@ -3325,7 +3325,7 @@ public class Oauth2Controller extends BaseController {
 					String content = "";
 					
 					content = this.dealVoiceMsg(result, wxPersonUserPOJO, wxAuthorizerInfoPOJO, wxIndexCode, request);
-					if (StringUtils.isNotBlank(content) && "success".equals(content)) {
+					if (StringUtils.isNotBlank(content) && !"success".equals(content)) {
 						wxMsgEventRespTextApiPOJO.setContent(content);
 						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
