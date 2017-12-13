@@ -3066,6 +3066,7 @@ public class Oauth2Controller extends BaseController {
 		interactiveSearchPOJO.setUserId(userId);
 		interactiveSearchPOJO.setStartDateTime(new Date());
 		interactiveSearchPOJO.setEndDateTime(new Date());
+		interactiveSearchPOJO.setInteractiveType(CommonConstant.INTERACTIVE_LOTTERY_VOICE);
 		List<InteractivePOJO> interactivePOJOs = interactiveService.findFulls(interactiveSearchPOJO);
 		
 		if (!CollectionUtils.isEmpty(interactivePOJOs)) {

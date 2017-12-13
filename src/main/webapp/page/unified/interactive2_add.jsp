@@ -27,7 +27,8 @@
  				<div class="">
  					<select class="form-control" id="interactiveType" name="interactiveType" required="required">
 						<option value="NORMAL">正常</option>
-						<option value="MSG_LOTTERY">关键字抽奖</option>
+						<option value="INTERACTIVE_LOTTERY">关键字抽奖</option>
+						<option value="INTERACTIVE_LOTTERY_VOICE">语音关键字抽奖</option>
 					</select>
  				</div>
  			</div>

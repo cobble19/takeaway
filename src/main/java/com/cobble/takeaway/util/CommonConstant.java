@@ -100,5 +100,10 @@ public interface CommonConstant {
 	public final static String MSG_TYPE_LOTTERY = "2";
 	public final static String MSG_TYPE_LOTTERY_VOICE = "3";
 	
+	// 抽奖活动类型
+	public final static String INTERACTIVE_NORMAL = "NORMAL";
+	public final static String INTERACTIVE_LOTTERY = "INTERACTIVE_LOTTERY";
+	public final static String INTERACTIVE_LOTTERY_VOICE = "INTERACTIVE_LOTTERY_VOICE";
+	
 	
 }

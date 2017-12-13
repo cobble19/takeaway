@@ -106,16 +106,23 @@ public class InteractiveController extends BaseController {
 				Long wxRespMsgId = wxRespMsgPOJO.getWxRespMsgId();
 				String msgReceive = wxRespMsgPOJO.getMsgReceive();
 				if (StringUtils.isNotBlank(msgReceive)) {
+					String msgType = CommonConstant.MSG_TYPE_LOTTERY;
+					if (CommonConstant.INTERACTIVE_LOTTERY.equalsIgnoreCase(interactivePOJO.getInteractiveType())) {
+						msgType = CommonConstant.MSG_TYPE_LOTTERY;
+					} else if (CommonConstant.INTERACTIVE_LOTTERY_VOICE.equalsIgnoreCase(interactivePOJO.getInteractiveType())) {
+						msgType = CommonConstant.MSG_TYPE_LOTTERY_VOICE;
+					}
+					
 					if (wxRespMsgId == null) {
 						wxRespMsgPOJO.setMsgSend(interactivePOJO.getInteractiveId() + "");
-						wxRespMsgPOJO.setMsgType(CommonConstant.MSG_TYPE_LOTTERY);
+						wxRespMsgPOJO.setMsgType(msgType);
 						wxRespMsgPOJO.setUserId(userId);
 						wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
 						wxRespMsgPOJO.setEnableFlag(CommonConstant.ENABLE_FLAG);
 						wxRespMsgService.insert(wxRespMsgPOJO);
 					} else {
 						wxRespMsgPOJO.setMsgSend(interactivePOJO.getInteractiveId() + "");
-						wxRespMsgPOJO.setMsgType(CommonConstant.MSG_TYPE_LOTTERY);
+						wxRespMsgPOJO.setMsgType(msgType);
 						wxRespMsgPOJO.setUserId(userId);
 						wxRespMsgPOJO.setAuthorizerAppId(authorizerAppId);
 						wxRespMsgPOJO.setEnableFlag(CommonConstant.ENABLE_FLAG);
