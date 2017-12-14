@@ -257,7 +257,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				}
 			} else if (uri.startsWith("/web/wx/usercenter/")) {
 				Pattern p = Pattern.compile("(/web/wx/usercenter/)(\\w+)(/person)");
-				Matcher m = p.matcher(qs);
+				Matcher m = p.matcher(uri);
 				if (m.find() && m.groupCount() == 3) {
 					String s = m.group(2);
 					logger.info("index code: {}", s);
