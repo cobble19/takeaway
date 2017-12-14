@@ -1591,13 +1591,14 @@ public class Oauth2Controller extends BaseController {
 			, @RequestParam(value="loginVice", required=false) String loginVice
 			, @RequestParam(value="openIdVice", required=false) String openIdVice
 			, @RequestParam(value="authorizerUserNameVice", required=false) String authorizerUserNameVice
+			, @RequestParam(value="typeCode", required=false) String typeCode
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
 			HttpSession session = request.getSession();
 			logger.info("login begin...");
-			logger.info("code: {}, state: {}, appid: {}, loginVice: {}, openIdVide: {}, authorizerUserNameVice: {}"
-					, code, state, appid, loginVice, openIdVice, authorizerUserNameVice);
+			logger.info("code: {}, state: {}, appid: {}, loginVice: {}, openIdVide: {}, authorizerUserNameVice: {}, typeCode: {}"
+					, code, state, appid, loginVice, openIdVice, authorizerUserNameVice, typeCode);
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
 			logger.info("login uri: " + uri + ", qs: " + qs);
@@ -1873,6 +1874,10 @@ public class Oauth2Controller extends BaseController {
 			
 			if (StringUtils.isNotBlank(openIdVice)) {
 				url = "/web/wx/usercenter/"  + indexCode + "/person";
+			}
+			
+			if (StringUtils.isNotBlank(typeCode) && typeCode.equalsIgnoreCase(CommonConstant.BIND_MEMBER_TYPE_LOTTERY_VOICE)) {
+				url = "/page/wx_auto_close.jsp";
 			}
 			
 			//有一个设置session的代码, 所有最后再跳转
@@ -2392,6 +2397,31 @@ public class Oauth2Controller extends BaseController {
 		ret = wxThirdPersonUserLoginUrl;
 		return ret;
 	}
+	// 得到个人用户登录, 获取个人用户信息和授权确认URL
+	private String getWxThirdPersonUserLoginUrl(String fromUserName, String toUserName, String typeCode) {
+		String ret = "";
+		String extraParam = "&openIdVice=" + fromUserName
+				+ "&authorizerUserNameVice=" + toUserName
+				+ "&typeCode=" + typeCode;
+
+		String wxWebLoginUrl = wxThirdWebAuthorizeUrl
+		.replace("COMPONENT_APPID", wxThirdClientId)
+		.replace("APPID", CommonConstant.PROXY_AUTHORIZER_APP_ID_VALUE)
+		.replace("REDIRECT_URI", wxThirdWebRedirectUrl.contains("?") ? 
+			wxThirdWebRedirectUrl + extraParam
+			: wxThirdWebRedirectUrl + "?abc_event=1" + extraParam)
+		.replace("SCOPE", scope)
+		.replace("STATE", RandomStringUtils.randomAlphabetic(6))
+		;
+		
+		String wxThirdPersonUserLoginUrl = wxWebLoginUrl;
+		wxThirdPersonUserLoginUrl = myRedirectStrategy.encodeQueryParam(wxThirdPersonUserLoginUrl);
+		wxThirdPersonUserLoginUrl = wxThirdPersonUserLoginUrl.replace("&openIdVice=", "%26openIdVice%3D")
+								.replace("&authorizerUserNameVice=", "%26authorizerUserNameVice%3D")
+								.replace("&typeCode=", "%26typeCode%3D");
+		ret = wxThirdPersonUserLoginUrl;
+		return ret;
+	}
 	
 	// 获取签到成功的回复信息
 	private String getWxMsgSignInContent(String eventKey, String authorizerAppId, WxPersonUserPOJO wxPersonUserPOJO) throws Exception {
@@ -2517,9 +2547,9 @@ public class Oauth2Controller extends BaseController {
 			String key = RandomStringUtils.randomAlphabetic(8);
 			CacheUtil.getInstance().put(key, wxThirdPersonUserLoginUrl, 15);
 			String content = "";
-			content += "您好，欢迎来到" + authorizerNickName + ", 您还不是会员, 请";
+			content += "您好，欢迎来到" + authorizerNickName + ", 请点击👉";
 			content += "<a href=\"" + HttpRequestUtil.getBase(request) + "/web/unified/t/" + key
-					+ "\">加入会员</a>";
+					+ "\">会员中心</a>";
 			
 			ret = content;
 //			return ret;
@@ -2537,7 +2567,7 @@ public class Oauth2Controller extends BaseController {
 			
 			String content = "";
 			content += "您好," + wxPersonUserPOJO.getNickname()
-					+ ", 欢迎来到" + authorizerNickName + ", 点击进入";
+					+ ", 欢迎来到" + authorizerNickName + ", 请点击👉";
 			content += memberCenter;
 //			content += "/";
 //			content += "<a href=\"" + wxThirdPersonUserLoginUrl
@@ -2753,6 +2783,7 @@ public class Oauth2Controller extends BaseController {
 		return replyMsg;
 	}
 
+	// voice lottry
 	private String dealTextLottery(WxRespMsgPOJO wxRespMsgPOJO, Long userId) throws Exception {
 		String ret = "success";
 
@@ -2902,6 +2933,8 @@ public class Oauth2Controller extends BaseController {
 //		ret = content;
 //		return ret;
 	}
+	
+	// lotter
 	private String dealTextLottery(WxRespMsgPOJO wxRespMsgPOJO, Long userId, WxMsgEventRespTextApiPOJO wxMsgEventRespTextApiPOJO) throws Exception {
 
 		// to call lottery api
@@ -3065,8 +3098,8 @@ public class Oauth2Controller extends BaseController {
 		
 		return ret;
 	}
-	
 
+	// voice lottery
 	private String dealVoiceLottery(String result
 						, WxPersonUserPOJO wxPersonUserPOJO
 						, WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO
@@ -3083,11 +3116,7 @@ public class Oauth2Controller extends BaseController {
 		String msgId = XmlUtils.getNodeString(result, "/xml/MsgId");
 		String createTime = XmlUtils.getNodeString(result, "/xml/CreateTime");
 
-		if (!this.isMember(wxPersonUserPOJO)) {
-			return this.getWxMsgMemberCenterContent(wxAuthorizerInfoPOJO, wxPersonUserPOJO, fromUserName, toUserName, wxIndexCode, request);
-		}
 
-		
 		String authorizerAppId = wxAuthorizerInfoPOJO.getAuthorizerAppId();
 		Long userId = wxAuthorizerInfoPOJO.getUserId();
 		
@@ -3098,34 +3127,61 @@ public class Oauth2Controller extends BaseController {
 		interactiveSearchPOJO.setInteractiveType(CommonConstant.INTERACTIVE_LOTTERY_VOICE);
 		List<InteractivePOJO> interactivePOJOs = interactiveService.findFulls(interactiveSearchPOJO);
 		
+		InteractivePOJO interactivePOJO = null;
+		WxRespMsgPOJO wxRespMsgPOJO = null;
 		if (!CollectionUtils.isEmpty(interactivePOJOs)) {
 			if (interactivePOJOs.size() > 1) {
 				logger.error("同一个公众号/用户当前时间返回了{}条记录抽奖活动, 请查询代码.", interactivePOJOs.size());
 			}
 			// 获取语音抽奖关键字
-			WxRespMsgPOJO wxRespMsgPOJO = null;
 			for (int i = 0; i < interactivePOJOs.size(); i++) {
-				InteractivePOJO interactivePOJO = interactivePOJOs.get(i);
+				interactivePOJO = interactivePOJOs.get(i);
 				wxRespMsgPOJO = interactivePOJO.getWxRespMsgPOJO();
 				if (CommonConstant.MSG_TYPE_LOTTERY_VOICE.equals(wxRespMsgPOJO.getMsgType())) {
 					break;
 				}
 			}
-			
-			if (wxRespMsgPOJO == null) {
-				return ret;
+		}
+		if (interactivePOJO == null) {
+			return ret;
+		}
+		
+		if (!this.isMember(wxPersonUserPOJO)) {
+			String authorizerNickName = "";
+			if (wxAuthorizerInfoPOJO != null) {
+				authorizerNickName = wxAuthorizerInfoPOJO.getNickName();
 			}
-			String msgReceive = wxRespMsgPOJO.getMsgReceive();
-			if (recognition.contains(msgReceive)) {
-				ret = this.dealTextLottery(wxRespMsgPOJO, wxPersonUserPOJO.getUserId());
-			} else {
-				ret = "啊欧，口令好像不对耶！提醒您：一定要用普通话说出口令哦！我们的口令是\"" + msgReceive + "\", 请大声说出来!";
-			}
+			String typeCode = CommonConstant.BIND_MEMBER_TYPE_LOTTERY_VOICE;
+			String wxThirdPersonUserLoginUrl = this.getWxThirdPersonUserLoginUrl(fromUserName, toUserName, typeCode);
+			String key = RandomStringUtils.randomAlphabetic(8);
+			CacheUtil.getInstance().put(key, wxThirdPersonUserLoginUrl, 15);
+			String content = "";
+			content += "您好，欢迎来到" + authorizerNickName + ", 正在进行[" + interactivePOJO.getName()
+					+ "]活动, 请点击👉";
+			content += "<a href=\"" + HttpRequestUtil.getBase(request) + "/web/unified/t/" + key
+					+ "\">参加活动</a>";
 			
+			ret = content;
+			return ret;
+//			return this.getWxMsgMemberCenterContent(wxAuthorizerInfoPOJO, wxPersonUserPOJO, fromUserName, toUserName, wxIndexCode, request);
+		}
+
+		
+		
+
+		if (wxRespMsgPOJO == null) {
+			return ret;
+		}
+		String msgReceive = wxRespMsgPOJO.getMsgReceive();
+		if (recognition.contains(msgReceive)) {
+			ret = this.dealTextLottery(wxRespMsgPOJO, wxPersonUserPOJO.getUserId());
+		} else {
+			ret = "啊欧，口令好像不对耶！提醒您：一定要用普通话说出口令哦！我们的口令是\"" + msgReceive + "\", 请大声说出来!";
 		}
 		return ret;
 	}
 
+	// deal voice msg
 	private String dealVoiceMsg(String result
 						, WxPersonUserPOJO wxPersonUserPOJO
 						, WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO

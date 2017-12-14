@@ -1,6 +1,7 @@
 package com.cobble.takeaway.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +58,6 @@ import com.cobble.takeaway.service.WxMenuMgrMatchRuleService;
 import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.DateUtil;
 import com.cobble.takeaway.util.HttpClientUtil;
-import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
 
@@ -771,15 +771,36 @@ public class WxMenuMgrController extends BaseController {
 				/*wxMenuMgrButtonReqApiPOJO.setType(wxMenuMgrButtonPOJO.getType());
 				wxMenuMgrButtonReqApiPOJO.setUrl(wxMenuMgrButtonPOJO.getUrl());
 				wxMenuMgrButtonReqApiPOJO.setKey(wxMenuMgrButtonPOJO.getBtnKey());*/
-
+				/*对于不同的菜单类型，value的值意义不同。官网上设置的自定义菜单： 
+				Text:保存文字到value； 
+				Img、voice：保存mediaID到value； 
+				Video：保存视频下载链接到value； 
+				News：保存图文消息到news_info，同时保存mediaID到value； 
+				View：保存链接到url。 使用API设置的自定义菜单： 
+				click、scancode_push、scancode_waitmsg、pic_sysphoto、pic_photo_or_album、 pic_weixin、location_select：保存值到key；
+				view：保存链接到url*/
+				List<String> typeMediaIds = Arrays.asList("img", "voice","news");
+				
 				String type = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO.getType()) ? "click" : wxMenuMgrButtonPOJO.getType();
+				
+				String mediaId = wxMenuMgrButtonPOJO.getMediaId();
+				if (typeMediaIds.contains(wxMenuMgrButtonPOJO.getType())) {
+					type = "media_id";
+					mediaId = wxMenuMgrButtonPOJO.getValue();
+				}
+				String url = wxMenuMgrButtonPOJO.getUrl();
+				if ("video".equalsIgnoreCase(wxMenuMgrButtonPOJO.getType())) {
+					type = "view";
+					url = wxMenuMgrButtonPOJO.getValue();
+				}
+				
 				String key = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO.getType()) ? wxMenuMgrButtonPOJO.getValue() : wxMenuMgrButtonPOJO.getBtnKey();
 				
 				wxMenuMgrButtonReqApiPOJO.setType(type);
-				wxMenuMgrButtonReqApiPOJO.setUrl(wxMenuMgrButtonPOJO.getUrl());
+				wxMenuMgrButtonReqApiPOJO.setUrl(url);
 				wxMenuMgrButtonReqApiPOJO.setKey(key);
 				
-				wxMenuMgrButtonReqApiPOJO.setMediaId(wxMenuMgrButtonPOJO.getMediaId());
+				wxMenuMgrButtonReqApiPOJO.setMediaId(mediaId);
 				wxMenuMgrButtonReqApiPOJO.setName(wxMenuMgrButtonPOJO.getName());
 				
 				List<WxMenuMgrButtonPOJO> wxMenuMgrButtonPOJOs2 = wxMenuMgrButtonPOJO.getWxMenuMgrButtonPOJOs();
@@ -795,11 +816,23 @@ public class WxMenuMgrController extends BaseController {
 					WxMenuMgrButtonPOJO wxMenuMgrButtonPOJO2 = wxMenuMgrButtonPOJOs2.get(j);
 					WxMenuMgrButtonReqApiPOJO wxMenuMgrButtonReqApiPOJO2 = new WxMenuMgrButtonReqApiPOJO();
 					type = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO2.getType()) ? "click" : wxMenuMgrButtonPOJO2.getType();
+					
+					mediaId = wxMenuMgrButtonPOJO2.getMediaId();
+					if (typeMediaIds.contains(wxMenuMgrButtonPOJO2.getType())) {
+						type = "media_id";
+						mediaId = wxMenuMgrButtonPOJO2.getValue();
+					}
+					url = wxMenuMgrButtonPOJO2.getUrl();
+					if ("video".equalsIgnoreCase(wxMenuMgrButtonPOJO2.getType())) {
+						type = "view";
+						url = wxMenuMgrButtonPOJO2.getValue();
+					}
+					
 					key = "text".equalsIgnoreCase(wxMenuMgrButtonPOJO2.getType()) ? wxMenuMgrButtonPOJO2.getValue() : wxMenuMgrButtonPOJO2.getBtnKey();
 					wxMenuMgrButtonReqApiPOJO2.setType(type);
-					wxMenuMgrButtonReqApiPOJO2.setUrl(wxMenuMgrButtonPOJO2.getUrl());
+					wxMenuMgrButtonReqApiPOJO2.setUrl(url);
 					wxMenuMgrButtonReqApiPOJO2.setKey(key);
-					wxMenuMgrButtonReqApiPOJO2.setMediaId(wxMenuMgrButtonPOJO2.getMediaId());
+					wxMenuMgrButtonReqApiPOJO2.setMediaId(mediaId);
 					wxMenuMgrButtonReqApiPOJO2.setName(wxMenuMgrButtonPOJO2.getName());
 					subButton.add(wxMenuMgrButtonReqApiPOJO2);
 				}

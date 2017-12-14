@@ -105,5 +105,8 @@ public interface CommonConstant {
 	public final static String INTERACTIVE_LOTTERY = "INTERACTIVE_LOTTERY";
 	public final static String INTERACTIVE_LOTTERY_VOICE = "INTERACTIVE_LOTTERY_VOICE";
 	
+	// 加入会员绑定;类型
+	public final static String BIND_MEMBER_TYPE_LOTTERY_VOICE = "BIND_MEMBER_TYPE_LOTTERY_VOICE";
+	
 	
 }
