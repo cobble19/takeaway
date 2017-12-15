@@ -55,7 +55,9 @@
 	<c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8 or sessionScope.myUser.userId eq 22}">
 		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/vote_single.jsp"><h6>网络投票</h6></a></li>
 	</c:if>
-	<c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8 or sessionScope.authorizerAppId eq 'wx44660de3caeef6b5'}">
+	<c:if test="${sessionScope.myUser.userId eq 16 
+				or sessionScope.myUser.userId eq 8 
+				or sessionScope.authorizerAppId eq 'wxeaa5221eab533277'}">
 		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/interactive2_single.jsp"><h6>抽奖活动</h6></a></li>
 		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/award_single.jsp"><h6>奖品</h6></a></li>
 		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/award_record_single.jsp"><h6>奖品记录</h6></a></li>

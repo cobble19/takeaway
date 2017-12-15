@@ -5,17 +5,21 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cobble.takeaway.dao.InteractiveMapper;
 import com.cobble.takeaway.dao.WxRespMsgMapper;
+import com.cobble.takeaway.pojo.ActivityPOJO;
 import com.cobble.takeaway.pojo.InteractivePOJO;
 import com.cobble.takeaway.pojo.InteractiveSearchPOJO;
 import com.cobble.takeaway.pojo.RelInteractiveUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
 import com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO;
+import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.InteractiveService;
+import com.cobble.takeaway.util.CommonConstant;
 
 @Service
 public class InteractiveServiceImpl implements InteractiveService {
@@ -24,15 +28,33 @@ public class InteractiveServiceImpl implements InteractiveService {
 	private InteractiveMapper interactiveMapper;
 	@Autowired
 	private WxRespMsgMapper wxRespMsgMapper;
+	@Autowired
+	private ActivityService activityService;
 
 	@Override
 	public int insert(InteractivePOJO interactivePOJO, Long userId) throws Exception {
 		int ret = 0;
+
+		ActivityPOJO activityPOJO = new ActivityPOJO();
+		activityPOJO.setTitle(interactivePOJO.getName());
+		activityPOJO.setContent(interactivePOJO.getContent());
+		activityPOJO.setStartDateTime(interactivePOJO.getStartDateTime());
+		activityPOJO.setEndDateTime(interactivePOJO.getEndDateTime());
+		activityPOJO.setTypeCode(1);
+		activityPOJO.setPublishType(1);
+		activityPOJO.setNeedSubscribe(0);
+		activityPOJO.setUserIdEnterprise(userId);
+		activityService.insert(activityPOJO, userId);
+		
+		interactivePOJO.setActivityId(activityPOJO.getActivityId());
+		interactivePOJO.setUserId(userId);
+
 		ret = interactiveMapper.insert(interactivePOJO);
 		RelInteractiveUserPOJO relInteractiveUserPOJO = new RelInteractiveUserPOJO();
 		relInteractiveUserPOJO.setInteractiveId(interactivePOJO.getInteractiveId());
 		relInteractiveUserPOJO.setUserId(userId);
 		interactiveMapper.insertRelInteractiveUser(relInteractiveUserPOJO);
+		
 		return ret;
 	}
 

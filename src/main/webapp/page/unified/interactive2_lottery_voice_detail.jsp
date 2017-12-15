@@ -36,7 +36,21 @@
 			</div>
             <div class="row">
 				<div class="col-md-12">
-	            	<h5 style=" margin-bottom:10px; display:block;">发布者:<span id="publisher">
+				
+	            	<h5 style="margin-bottom:20px; display:block;float: left;margin-right:10px; color:#898989;"><span class="h5" id="createDateTime"><c:out value="${interactivePOJO.createDateTime}"></c:out></span></h5>
+            	  	<h5 style=" margin-bottom:20px; display:block; float: left; color:#88a8c1;">
+	            	  	<span class="h5" id="publisher">
+	            	  		<c:if test="${not empty interactivePOJO.userPOJO}">
+		            			<c:if test="${not empty interactivePOJO.userPOJO.nickname}">
+		            				<c:out value="${interactivePOJO.userPOJO.nickname}"></c:out>
+		            			</c:if>
+		            			<c:if test="${empty interactivePOJO.userPOJO.nickname and not empty interactivePOJO.userPOJO}">
+		            				<c:out value="${interactivePOJO.userPOJO.username}"></c:out>
+		            			</c:if>
+		            		</c:if>
+	            	  	</span>
+            	  	</h5>
+	            	<%-- <h5 style=" margin-bottom:10px; display:block;">发布者:<span id="publisher">
 	            		<c:if test="${not empty interactivePOJO.userPOJO}">
 	            			<c:if test="${not empty interactivePOJO.userPOJO.nickname}">
 	            				<c:out value="${interactivePOJO.userPOJO.nickname}"></c:out>
@@ -46,7 +60,7 @@
 	            			</c:if>
 	            		</c:if>
 	            	</span>
-				</h5>
+				</h5> --%>
 				</div>
 	        </div>	
 	  			<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
@@ -54,9 +68,10 @@
 	  					<input type="hidden" id="interactiveId" name="interactiveId" value="${interactivePOJO.interactiveId}">
 	  					<!-- <h4 class="" style="text-align: bottom;"><span id="title"></span></h4>
 	  					<hr/> -->
-			  			<p style="font-size:14px;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold;">活动内容：</span><span id="content"><c:out value="${interactivePOJO.content}"></c:out></span></p>
-			  			<p style="font-size:14px; margin-top: 15px;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold;">活动规则：</span><span id="rule"><c:out value="${interactivePOJO.rule}"></c:out></span></p>
-			  			<p style="font-size:14px; margin-top: 15px;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold;">活动时间：</span>
+			  			<p style="font-size:14px;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold; display: none;">活动内容：</span><span id="content"><c:out value="${interactivePOJO.content}"></c:out></span></p>
+			  			<p style="font-size:14px; margin-top: 15px; display: none;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold;">活动规则：</span>
+			  			<span id="rule"><c:out value="${interactivePOJO.rule}"></c:out></span></p>
+			  			<p style="font-size:14px; margin-top: 15px; display: none;"><span style="font-size:16px;font-family:'幼圆'; font-weight:bold;">活动时间：</span>
 			  				<span id="startDateTime"><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${interactivePOJO.startDateTime}" /></span>
                             
 			  				~<span id="endDateTime"><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${interactivePOJO.endDateTime}" /></span></p>
@@ -67,9 +82,10 @@
 			  			<div class="row" style="margin-bottom:50px; padding:10px;">
                         <div class="col-md-12 col-xs-12" style="margin-top: 5px;">		
 					    <span id="errorMsg" style="color: red;"></span>
-					    <p class="h5"><c:if test="${not empty myAwardRecordPOJOs}">
-					    	您的抽奖结果：
-					    	<c:if test="${fn:length(myAwardRecordPOJOs) > 1}">
+					    <p class="h5">
+					    <c:if test="${not empty myAwardRecordPOJOs}">
+					    	您的当前抽奖结果：<c:out value="${myAwardRecordPOJOs[fn:length(myAwardRecordPOJOs)-1].awardPOJO.name}"></c:out>
+					    	<%-- <c:if test="${fn:length(myAwardRecordPOJOs) > 1}">
 						    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
 						    		<c:out value="${st.count}"></c:out>.
 						    		<c:out value="${myAwardRecordPOJO.awardPOJO.name}"></c:out>
@@ -79,7 +95,7 @@
 						    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
 						    		<c:out value="${myAwardRecordPOJO.awardPOJO.name}"></c:out>
 						    	</c:forEach>
-					    	</c:if>
+					    	</c:if> --%>
 					    </c:if></p>
 					</div>
                         <div class="col-md-12 col-xs-12 visible-xs" style=" border-bottom:2px solid #ccc; height:30px;"></div>

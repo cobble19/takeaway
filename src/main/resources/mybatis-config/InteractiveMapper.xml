@@ -12,6 +12,8 @@
 	
   <resultMap id="InteractiveResultMap" type="com.cobble.takeaway.pojo.InteractivePOJO" >
     <id column="INTERACTIVE_ID" property="interactiveId" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR"/>
+    <result column="ACTIVITY_ID" property="activityId" jdbcType="VARCHAR"/>
     <result column="NAME" property="name" jdbcType="VARCHAR"/>
     <result column="START_DATE_TIME" property="startDateTime" />
     <result column="END_DATE_TIME" property="endDateTime" />
@@ -25,11 +27,12 @@
     <result column="STATUS" property="status" />
     <result column="AWARD_NUMBER_PER" property="awardNumberPer" />
     <result column="INTERACTIVE_TYPE" property="interactiveType" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
     <association property="userPOJO" resultMap="com.cobble.takeaway.dao.UserMapper.UserResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
-    a.INTERACTIVE_ID, a.NAME, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, a.RULE, a.PRIZE, a.ANSWER, a.NUM_OF_WINNER, a.STATUS
-    , a.PRIZE_END_DATE_TIME, a.AWARD_NUMBER_PER, a.INTERACTIVE_TYPE, a.USER_ID AS USER_ID_ENTERPRISE
+    a.INTERACTIVE_ID, a.USER_ID, a.ACTIVITY_ID, a.NAME, a.START_DATE_TIME, a.END_DATE_TIME, a.CONTENT, a.RULE, a.PRIZE, a.ANSWER, a.NUM_OF_WINNER, a.STATUS
+    , a.PRIZE_END_DATE_TIME, a.AWARD_NUMBER_PER, a.INTERACTIVE_TYPE, a.CREATE_DATE_TIME, a.USER_ID AS USER_ID_ENTERPRISE
   </sql>
   <sql id="Clause_Common">
 	<if test="name != null">
@@ -160,6 +163,12 @@
   	keyProperty="interactiveId" keyColumn="INTERACTIVE_ID">
     insert into e_interactive
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="activityId != null" >
+        ACTIVITY_ID,
+      </if>
       <if test="name != null" >
         NAME,
       </if>
@@ -199,8 +208,15 @@
       <if test="interactiveType != null" >
         INTERACTIVE_TYPE,
       </if>
+        CREATE_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="activityId != null" >
+        #{activityId},
+      </if>
       <if test="name != null" >
         #{name},
       </if>
@@ -240,6 +256,7 @@
       <if test="interactiveType != null" >
         #{interactiveType},
       </if>
+      sysdate(),
     </trim>
   </insert>
   
@@ -267,6 +284,12 @@
   <update id="update" parameterType="com.cobble.takeaway.pojo.InteractivePOJO" >
     update e_interactive
     <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="activityId != null" >
+        ACTIVITY_ID = #{activityId},
+      </if>
       <if test="name != null" >
         NAME = #{name},
       </if>
@@ -306,6 +329,7 @@
       <if test="interactiveType != null" >
         INTERACTIVE_TYPE = #{interactiveType},
       </if>
+      CREATE_DATE_TIME = sysdate(),
     </set>
     where INTERACTIVE_ID = #{interactiveId}
   </update>

@@ -53,21 +53,21 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": false
 		}, {
-			"targets": [4,5],
+			"targets": [6,7],
 			"visible": false,
 			"render" : function(data, type, full, meta) {
 				var date = new Date(data);
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets": [6],
+			"targets": [8],
 			"render" : function(data, type, full, meta) {
 				var startDateTime = new Date(full.startDateTime);
 				var endDateTime = new Date(full.endDateTime);
 				return startDateTime.format('Y-m-d') + "/" + endDateTime.format('Y-m-d');
 			}
 		}, {
-			"targets": [7],
+			"targets": [9],
 			"render" : function(data, type, full, meta) {
 				var expired = false;
 //				var startDateTime = new Date(full.startDateTime);
@@ -79,7 +79,7 @@ $(document).ready(function() {
 				return expired ? '<font style="color: red;">过期</font>' : '未过期';
 			}
 		}, {
-			"targets": [8],
+			"targets": [10],
 			"visible": false/*,
 			"render" : function(data, type, full, meta) {
 				var startDateTime = new Date(full.startDateTime);
@@ -87,7 +87,7 @@ $(document).ready(function() {
 				return startDateTime.format('Y-m-d') + "/" + endDateTime.format('Y-m-d');
 			}*/
 		}, {
-			"targets": [9, 13],
+			"targets": [11, 15],
 			"visible": false/*,
 			"render" : function(data, type, full, meta) {
 				var expired = false;
@@ -97,7 +97,7 @@ $(document).ready(function() {
 				return expired ? '<font style="color: red;">过期</font>' : '未过期';
 			}*/
 		},  {
-			"targets" : 10,
+			"targets" : 12,
 			"visible": false,
 			"render" : function(data, type, full, meta) {
 				var content = (data != null) ? data.substring(0, 10): '';
@@ -107,7 +107,7 @@ $(document).ready(function() {
 				return link;
 			}
 		}, {
-			"targets" : 15,
+			"targets" : 17,
 			"render" : function(data, type, full, meta) {
 				/*var href = $('#basePath').val() + '/page/unified/apply_in_interactive.jsp?interactiveId='  + full.interactiveId
 				+ '&name=' + ((full.name));
@@ -168,6 +168,8 @@ $(document).ready(function() {
                 "defaultContent": ''
             },
             { "data": "interactiveId" },
+            { "data": "userId" },
+            { "data": "activityId" },
             { "data": "name" },
             { "data": "startDateTime" },
             { "data": "endDateTime" },

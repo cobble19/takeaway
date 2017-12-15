@@ -41,6 +41,8 @@
 				  						<th><input type="checkbox" name="chkBoxAll4Interactive2" id="chkBoxAll4Interactive2">全选</th>
 				  						<th>序号</th>
 				  						<th>标识</th>
+				  						<th>用户ID</th>
+				  						<th>活动ID</th>
 				  						<th>名称</th>
 				  						<th>开始时间</th>
 				  						<th>截止时间</th>

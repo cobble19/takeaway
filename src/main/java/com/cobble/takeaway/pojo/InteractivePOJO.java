@@ -18,12 +18,14 @@ public class InteractivePOJO extends BasePOJO {
     private Double answer;
     private Integer numOfWinner;
     
-    private Long userId;
+    private Long userId;    
+    private Long activityId;
     private Date prizeEndDateTime;
     
     private Integer status;
     private Integer awardNumberPer;
     private String interactiveType;
+    private Date createDateTime;
     
     private UserPOJO userPOJO;
     
@@ -31,6 +33,12 @@ public class InteractivePOJO extends BasePOJO {
     
     private List<AwardRecordPOJO> awardRecordPOJOs = new ArrayList<AwardRecordPOJO>();
     
+	public Long getActivityId() {
+		return activityId;
+	}
+	public void setActivityId(Long activityId) {
+		this.activityId = activityId;
+	}
 	public Long getInteractiveId() {
 		return interactiveId;
 	}
@@ -132,6 +140,12 @@ public class InteractivePOJO extends BasePOJO {
 	}
 	public void setWxRespMsgPOJO(WxRespMsgPOJO wxRespMsgPOJO) {
 		this.wxRespMsgPOJO = wxRespMsgPOJO;
+	}
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
 	}
     
 }
