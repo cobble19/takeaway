@@ -193,9 +193,6 @@
       <if test="numOfWinner != null" >
         NUM_OF_WINNER,
       </if>
-      <if test="userId != null" >
-        USER_ID,
-      </if>
       <if test="prizeEndDateTime != null" >
         PRIZE_END_DATE_TIME,
       </if>
@@ -240,9 +237,6 @@
       </if>
       <if test="numOfWinner != null" >
         #{numOfWinner},
-      </if>
-      <if test="userId != null" >
-        #{userId},
       </if>
       <if test="prizeEndDateTime != null" >
         #{prizeEndDateTime},
@@ -313,9 +307,6 @@
       </if>
       <if test="numOfWinner != null" >
         NUM_OF_WINNER = #{numOfWinner},
-      </if>
-      <if test="userId != null" >
-        USER_ID = #{userId},
       </if>
       <if test="prizeEndDateTime != null" >
         PRIZE_END_DATE_TIME = #{prizeEndDateTime},
