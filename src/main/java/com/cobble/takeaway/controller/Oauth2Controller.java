@@ -1737,6 +1737,9 @@ public class Oauth2Controller extends BaseController {
 				temp.setOpenId(openIdVice);
 				temp.setMemberFlag(CommonConstant.MEMBER_FLAG);
 				wxPersonUserService.update(temp);
+				// fix openId is null issue
+				wxPersonUserPOJO.setOpenId(openIdVice);
+				wxPersonUserPOJO.setMemberFlag(CommonConstant.MEMBER_FLAG);
 				
 //				String msg = "proxyOpenId: " + proxyOpenId + ", nickname: " + wxUserInfoApiPOJO.getNickname()
 //						+ "\n" + "wxUserInfoApiPOJO: \n" + wxUserInfoApiPOJO + "\n"
