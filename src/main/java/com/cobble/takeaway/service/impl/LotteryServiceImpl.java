@@ -101,15 +101,16 @@ public class LotteryServiceImpl implements LotteryService {
 				if (awardNumberPer == null) {
 					awardNumberPer = 1;
 				}
-				
-				if (count - awardNumberPer >= 0) {
-					AwardPOJO awardPOJO = new AwardPOJO();
-					awardPOJO.setOrderNo(-1);
-					ret.setSuccess(true);
-					ret.setAwardPOJO(awardPOJO);
-					ret.setIsHappy(false);
-					ret.setResult("您的抽奖次数已用完");
-					return ret;
+				if (awardNumberPer > -1) {
+					if (count - awardNumberPer >= 0) {
+						AwardPOJO awardPOJO = new AwardPOJO();
+						awardPOJO.setOrderNo(-1);
+						ret.setSuccess(true);
+						ret.setAwardPOJO(awardPOJO);
+						ret.setIsHappy(false);
+						ret.setResult("您的抽奖次数已用完");
+						return ret;
+					}
 				}
 				
 				if (count > 0) {
