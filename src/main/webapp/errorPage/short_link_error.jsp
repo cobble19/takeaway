@@ -13,7 +13,7 @@
   	<div class="container">
   		<div class="row">
   			<div class="col-md-12">
-		  		<h2>链接已经失效</h2>
+		  		<h2>您的响应时间超过15秒, 为了安全考虑, 该链接已失效!</h2>
 		  		<%
 		  			String uri = request.getRequestURI();
 		  		%>
