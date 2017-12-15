@@ -59,8 +59,6 @@ import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.RelWxIndexMapSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
-import com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenPOJO;
-import com.cobble.takeaway.pojo.weixin.WxAuthorizerAccessTokenSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
@@ -3528,15 +3526,12 @@ public class Oauth2Controller extends BaseController {
 			wxCustomSendReqApiPOJO.setTouser(openId);
 			wxCustomSendReqApiPOJO.setMsgtype("text");
 			wxCustomSendReqApiPOJO.setWxCustomSendReqTextApiPOJO(wxCustomSendReqTextApiPOJO);
-			WxAuthorizerAccessTokenSearchPOJO wxAuthorizerAccessTokenSearchPOJO = new WxAuthorizerAccessTokenSearchPOJO();
-			wxAuthorizerAccessTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
-			List<WxAuthorizerAccessTokenPOJO> wxAuthorizerAccessTokenPOJOs = wxAuthorizerAccessTokenService.finds(wxAuthorizerAccessTokenSearchPOJO);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 
-			String authorizerAccessToken = null;
-			if (CollectionUtils.isEmpty(wxAuthorizerAccessTokenPOJOs)) {
+			if (StringUtils.isBlank(authorizerAccessToken)) {
 				logger.info("客服发送接口失败，wxAuthorizerAccessTokenPOJOs is null");
-			} else {
-				authorizerAccessToken = wxAuthorizerAccessTokenPOJOs.get(0).getAuthorizerAccessToken();
+				return ret;
 			}
 			String wxCustomSendResp = HttpClientUtil.postHttpsJson(wxCustomSend.replace("ACCESS_TOKEN", authorizerAccessToken), 
 					JsonUtils.convertToJson(wxCustomSendReqApiPOJO));
