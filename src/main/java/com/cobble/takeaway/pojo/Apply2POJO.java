@@ -12,6 +12,7 @@ public class Apply2POJO extends BasePOJO {
     private String openId;
     private String unionId;
     private Long activityId;
+    private Long wxPersonUserId;
     private String description;
     private Date createDateTime;
     
@@ -89,6 +90,14 @@ public class Apply2POJO extends BasePOJO {
 
 	public void setActivityId(Long activityId) {
 		this.activityId = activityId;
+	}
+
+	public Long getWxPersonUserId() {
+		return wxPersonUserId;
+	}
+
+	public void setWxPersonUserId(Long wxPersonUserId) {
+		this.wxPersonUserId = wxPersonUserId;
 	}
 
 	/*public VoteItemPOJO getVoteItemPOJO() {

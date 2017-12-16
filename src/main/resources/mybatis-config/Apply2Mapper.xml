@@ -13,17 +13,18 @@
   <resultMap id="Apply2ResultMap" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
     <result column="USER_ID" property="userId" />
+    <result column="WX_PERSON_USER_ID" property="wxPersonUserId" />
     <result column="PROXY_OPEN_ID" property="proxyOpenId" />
     <result column="OPEN_ID" property="openId" />
     <result column="UNION_ID" property="unionId" />
-    <result column="ACTIVITY_ID" property="activityId" />
-    <result column="DESCRIPTION" property="description" />
+    <result column="ACTIVITY_ID" property="activityId" />    <result column="DESCRIPTION" property="description" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
   
   <resultMap id="Apply2Result2Map" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
     <result column="USER_ID" property="userId" />
+    <result column="WX_PERSON_USER_ID" property="wxPersonUserId" />
     <result column="PROXY_OPEN_ID" property="proxyOpenId" />
     <result column="OPEN_ID" property="openId" />
     <result column="UNION_ID" property="unionId" />
@@ -35,7 +36,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    apply2.APPLY2_ID, apply2.USER_ID,apply2.PROXY_OPEN_ID
+    apply2.APPLY2_ID, apply2.USER_ID, apply2.WX_PERSON_USER_ID,apply2.PROXY_OPEN_ID
     , apply2.OPEN_ID, apply2.UNION_ID, apply2.ACTIVITY_ID
     , apply2.DESCRIPTION, apply2.CREATE_DATE_TIME
   </sql>
@@ -45,6 +46,9 @@
 	</if>
 	<if test="userId != null">
 		and apply2.USER_ID = #{userId}
+	</if>
+	<if test="wxPersonUserId != null">
+		and apply2.WX_PERSON_USER_ID = #{wxPersonUserId}
 	</if>
 	<if test="proxyOpenId != null">
 		and apply2.PROXY_OPEN_ID = #{proxyOpenId}
@@ -201,6 +205,9 @@
       <if test="userId != null" >
         USER_ID,
       </if>
+      <if test="wxPersonUserId != null" >
+        WX_PERSON_USER_ID,
+      </if>
       <if test="proxyOpenId != null" >
         PROXY_OPEN_ID,
       </if>
@@ -221,6 +228,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         #{userId},
+      </if>
+      <if test="wxPersonUserId != null" >
+        #{wxPersonUserId},
       </if>
       <if test="proxyOpenId != null" >
         #{proxyOpenId},
@@ -265,6 +275,9 @@
     <set >
       <if test="userId != null" >
         USER_ID = #{userId},
+      </if>
+      <if test="wxPersonUserId != null" >
+        WX_PERSON_USER_ID = #{wxPersonUserId},
       </if>
       <if test="proxyOpenId != null" >
         PROXY_OPEN_ID = #{proxyOpenId},

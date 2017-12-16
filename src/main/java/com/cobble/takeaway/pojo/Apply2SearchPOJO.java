@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Apply2SearchPOJO extends BaseSearchPOJO {
 	private Long apply2Id;
+    private String proxyOpenId;
     private String openId;
     private String unionId;
     private String description;
@@ -12,6 +13,7 @@ public class Apply2SearchPOJO extends BaseSearchPOJO {
     private String wxIndexCode;
 
     private Long activityId;
+    private Long wxPersonUserId;
     
     private List<Long> apply2Ids;
 
@@ -69,6 +71,22 @@ public class Apply2SearchPOJO extends BaseSearchPOJO {
 
 	public void setApply2Ids(List<Long> apply2Ids) {
 		this.apply2Ids = apply2Ids;
+	}
+
+	public String getProxyOpenId() {
+		return proxyOpenId;
+	}
+
+	public void setProxyOpenId(String proxyOpenId) {
+		this.proxyOpenId = proxyOpenId;
+	}
+
+	public Long getWxPersonUserId() {
+		return wxPersonUserId;
+	}
+
+	public void setWxPersonUserId(Long wxPersonUserId) {
+		this.wxPersonUserId = wxPersonUserId;
 	}
     
 }
