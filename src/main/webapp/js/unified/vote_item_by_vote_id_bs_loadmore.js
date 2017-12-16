@@ -204,7 +204,7 @@ var voteItemSearch = function(voteId, activityId, activityTitle, voteItemId, sta
 		"dataType" : 'json',
 		"data": {
             "activityId": activityId,
-            "activityTitle": activityTitle,
+//            "activityTitle": activityTitle,
             "voteItemId" : voteItemId,
             "start": start,
             "limit": limit,

@@ -28,9 +28,11 @@ import com.cobble.takeaway.pojo.Apply2SearchPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.RelActivityApply2POJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
+import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.Apply2AttrService;
 import com.cobble.takeaway.service.Apply2Service;
+import com.cobble.takeaway.util.CommonConstant;
 import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
@@ -89,11 +91,18 @@ public class Apply2Controller extends BaseController {
 			if (CollectionUtils.isEmpty(apply2AttrPOJOs)) {
 				throw new Exception("apply2AttrPOJOs can't is NULL.");
 			}
+			HttpSession session = request.getSession();
 			
 			String base = HttpRequestUtil.getBase(request);
 			Long userId = UserUtil.getCurrentUserId();
 			String openId = UserUtil.getCurrentUser().getOpenId();
 			String unionId = UserUtil.getCurrentUser().getUnionId();
+			String proxyOpenId = UserUtil.getCurrentUser().getProxyOpenId();
+			WxPersonUserPOJO wxPersonUserPOJO = (WxPersonUserPOJO) session.getAttribute(CommonConstant.CURRENT_WX_PERSON_USER);
+			Long wxPersonUserId = null;
+			if (wxPersonUserPOJO != null) {
+				wxPersonUserId = wxPersonUserPOJO.getWxPersonUserId();
+			}
 			
 
 			Apply2AttrPOJO apply2AttrPOJOTemp = apply2AttrPOJOs.get(0);
@@ -125,8 +134,10 @@ public class Apply2Controller extends BaseController {
 					Apply2POJO apply2pojo = new Apply2POJO();
 					apply2pojo.setDescription("活动id：" + activityId + ", i: " + i);
 					apply2pojo.setUserId(userId);
+					apply2pojo.setProxyOpenId(proxyOpenId);
 					apply2pojo.setOpenId(openId);
 					apply2pojo.setUnionId(unionId);
+					apply2pojo.setActivityId(activityId);
 					apply2Service.insert(apply2pojo);
 					
 					apply2Id = apply2pojo.getApply2Id();

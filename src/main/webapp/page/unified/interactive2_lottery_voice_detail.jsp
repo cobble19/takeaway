@@ -37,7 +37,9 @@
             <div class="row">
 				<div class="col-md-12">
 				
-	            	<h5 style="margin-bottom:20px; display:block;float: left;margin-right:10px; color:#898989;"><span class="h5" id="createDateTime"><c:out value="${interactivePOJO.createDateTime}"></c:out></span></h5>
+	            	<h5 style="margin-bottom:20px; display:block;float: left;margin-right:10px; color:#898989;">
+	            		<span class="h5" id="createDateTime"><fmt:formatDate pattern = "yyyy-MM-dd" value = "${interactivePOJO.createDateTime}" /></span>
+	            	</h5>
             	  	<h5 style=" margin-bottom:20px; display:block; float: left; color:#88a8c1;">
 	            	  	<span class="h5" id="publisher">
 	            	  		<c:if test="${not empty interactivePOJO.userPOJO}">
@@ -63,7 +65,7 @@
 				</h5> --%>
 				</div>
 	        </div>	
-	  			<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+	  			<div class="row" style="margin-top: 10px; margin-bottom: 20px;">
 	  				<div class="col-md-12 col-xs-12">
 	  					<input type="hidden" id="interactiveId" name="interactiveId" value="${interactivePOJO.interactiveId}">
 	  					<!-- <h4 class="" style="text-align: bottom;"><span id="title"></span></h4>
@@ -84,7 +86,10 @@
 					    <span id="errorMsg" style="color: red;"></span>
 					    <p class="h5">
 					    <c:if test="${not empty myAwardRecordPOJOs}">
-					    	您的当前抽奖结果：<c:out value="${myAwardRecordPOJOs[fn:length(myAwardRecordPOJOs)-1].awardPOJO.name}"></c:out>
+					    	您的当前抽奖结果：<c:out value="${myAwardRecordPOJOs[0].awardPOJO.name}"></c:out>
+					    	<c:if test="${not empty contactUrl }">
+					    		&nsbp;&nsbp;点击前往👉<a href="${contactUrl}">领奖方式</a>
+					    	</c:if>
 					    	<%-- <c:if test="${fn:length(myAwardRecordPOJOs) > 1}">
 						    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
 						    		<c:out value="${st.count}"></c:out>.

@@ -231,7 +231,7 @@
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="home">
                 <div class="row" style="background-color:#158cce; padding:10px 0px;">
-					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/loadmore/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}&activityTitle=${votePOJO.title}' method="post">
+					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/loadmore/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}' method="post">
 						<div class="form-group">
 							<label for="search"></label> 
 							<input style="width: auto; margin-left: 5px; float: left;" type="text"
@@ -399,6 +399,8 @@
 		</div>
 
 		<div class="row" style="height: 100px;"></div>
+		
+  		<div id="progress">数据加载中。。。</div>
 	</div>
 
 	<!-- container -->

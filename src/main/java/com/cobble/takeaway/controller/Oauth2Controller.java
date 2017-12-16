@@ -1888,7 +1888,7 @@ public class Oauth2Controller extends BaseController {
 				String authorizerAppId = wxAuthorizerInfoPOJO.getAuthorizerAppId();
 				KfMsgSendThread kfMsgSendThread = new KfMsgSendThread(openId, content, authorizerAppId, this);
 				kfMsgSendThread.start();
-			} else {
+			} else if (StringUtils.isNotBlank(openIdVice)) {
 				String detail = "请点击👉"
 						+ "<a href=\"" + HttpRequestUtil.getBase(request)
 								+ "/web/wx/usercenter/"  + indexCode + "/person"
@@ -2568,7 +2568,7 @@ public class Oauth2Controller extends BaseController {
 			String key = RandomStringUtils.randomAlphabetic(8);
 			CacheUtil.getInstance().put(key, wxThirdPersonUserLoginUrl, 15);
 			String content = "";
-			content += /*"您好，欢迎来到" + authorizerNickName +*/ "抱歉您还不是会员, 请点击👉";
+			content += /*"您好，欢迎来到" + authorizerNickName +*/ "抱歉! 您还不是会员, 请点击👉";
 			content += "<a href=\"" + HttpRequestUtil.getBase(request) + "/web/unified/t/" + key
 					+ "\">加入会员</a>";
 			

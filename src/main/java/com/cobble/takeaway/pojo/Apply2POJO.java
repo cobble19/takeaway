@@ -8,8 +8,10 @@ import java.util.List;
 public class Apply2POJO extends BasePOJO {
     private Long apply2Id;
     private Long userId;
+    private String proxyOpenId;
     private String openId;
     private String unionId;
+    private Long activityId;
     private String description;
     private Date createDateTime;
     
@@ -71,6 +73,22 @@ public class Apply2POJO extends BasePOJO {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getProxyOpenId() {
+		return proxyOpenId;
+	}
+
+	public void setProxyOpenId(String proxyOpenId) {
+		this.proxyOpenId = proxyOpenId;
+	}
+
+	public Long getActivityId() {
+		return activityId;
+	}
+
+	public void setActivityId(Long activityId) {
+		this.activityId = activityId;
 	}
 
 	/*public VoteItemPOJO getVoteItemPOJO() {

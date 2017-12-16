@@ -52,7 +52,10 @@
 	<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/activity_gather_single.jsp"><h6>报名征集II</h6></a></li>
 	<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/activity_registration_single.jsp"><h6>申请报名</h6></a></li>
 
-	<c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8 or sessionScope.myUser.userId eq 22}">
+	<c:if test="${sessionScope.myUser.userId eq 16 
+				or sessionScope.myUser.userId eq 8 
+				or sessionScope.myUser.userId eq 22
+				or sessionScope.authorizerAppId eq 'wxeaa5221eab533277'}">
 		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/vote_single.jsp"><h6>网络投票</h6></a></li>
 	</c:if>
 	<c:if test="${sessionScope.myUser.userId eq 16 

@@ -196,12 +196,17 @@ var onClickApply2Summit = function() {
 		var form = $("form[id=apply2Form]");
 		
 		$(form).find('#apply2Btn').click(function(e) {
+			var text = $(this).text();
+			$(this).prop('disabled', true);
+			$(this).text('正在提交...');
 			$('#progress').dialog('open');
 			var form1 = $(this).parents('form');
 			
 			if (!$(form1).valid()) {
 				$('#progress').dialog('close');
 //				alert('请正确输入');
+				$(this).text(text);
+				$(this).prop('disabled', false);
 				return;
 			}
 			
@@ -210,6 +215,8 @@ var onClickApply2Summit = function() {
 				$('#progress').dialog('close');
 				alert('请勿重复提交')
 //				$.alert('请勿重复提交', '警告');
+				$(this).text(text);
+				$(this).prop('disabled', false);
 				return;
 			}
 			
@@ -228,11 +235,17 @@ var onClickApply2Summit = function() {
 			    
 			    
 				if (confirm) {
+					$(this).text(text);
+					$(this).prop('disabled', false);
 					showQrcode();
 				} else {
+					$(this).text(text);
+					$(this).prop('disabled', false);
 					return;
 				}
-				
+
+				$(this).text(text);
+				$(this).prop('disabled', false);
 				return;
 			}
 			
@@ -247,6 +260,8 @@ var onClickApply2Summit = function() {
 			if (curDateTime < startDateTime || curDateTime > endDateTime) {
 				$('#progress').dialog('close');
 				alert('活动不在有效期内');
+				$(this).text(text);
+				$(this).prop('disabled', false);
 				return;
 			}
 			
@@ -301,6 +316,10 @@ var onClickApply2Summit = function() {
 		        	}
 
 		    		/*$('#apply2Div').dialog('close');*/
+		        },
+		        complete: function() {
+					$(this).text(text);
+					$(this).prop('disabled', false);
 		        }
 		    });	// ajax end
 		    

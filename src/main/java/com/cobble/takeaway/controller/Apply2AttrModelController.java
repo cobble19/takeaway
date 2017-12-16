@@ -108,6 +108,8 @@ public class Apply2AttrModelController extends BaseController {
 			for (int i = 0; i < apply2AttrModelPOJOs.size(); i++) {
 				Apply2AttrModelPOJO apply2AttrModelPOJO = apply2AttrModelPOJOs.get(i);
 				apply2AttrModelService.deleteByActivityId(apply2AttrModelPOJO.getActivityId());
+				// only delete once
+				break;
 			}
 			for (int i = 0; i < apply2AttrModelPOJOs.size(); i++) {
 				Apply2AttrModelPOJO apply2AttrModelPOJO = apply2AttrModelPOJOs.get(i);

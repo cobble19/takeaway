@@ -43,6 +43,7 @@ import com.cobble.takeaway.service.UserService;
 import com.cobble.takeaway.service.WxRespMsgService;
 import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.CommonConstant;
+import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -152,6 +153,8 @@ public class InteractiveController extends BaseController {
 		
 		/*AwardRecordPOJO awardRecordPOJO = null;*/
 		Long userId = UserUtil.getCurrentUserId();
+		
+		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
 
 		AwardRecordSearchPOJO awardRecordSearchPOJO = new AwardRecordSearchPOJO();
 		awardRecordSearchPOJO.setPaginationFlage(false);
@@ -162,10 +165,9 @@ public class InteractiveController extends BaseController {
 			logger.info("myAwardRecordPOJOs size: {}, should be is 1", myAwardRecordPOJOs.size());
 			awardRecordPOJO = myAwardRecordPOJOs.get(0);
 		}*/
+		
 		ret.addObject("myAwardRecordPOJOs", myAwardRecordPOJOs);
 		
-		
-		InteractivePOJO interactivePOJO = interactiveService.findById(interactiveId);
 		awardRecordSearchPOJO = new AwardRecordSearchPOJO();
 		awardRecordSearchPOJO.setPaginationFlage(false);
 		awardRecordSearchPOJO.setInteractiveId(interactiveId);
@@ -183,6 +185,7 @@ public class InteractiveController extends BaseController {
 		} else {
 			awardNamesNot.add("未中奖");
 		}
+		ret.addObject("awardNamesNot", awardNamesNot);
 		awardRecordSearchPOJO.setAwardNamesNot(awardNamesNot);
 		List<AwardRecordPOJO> awardRecordPOJOs = awardRecordService.finds(awardRecordSearchPOJO);
 		
@@ -190,6 +193,19 @@ public class InteractiveController extends BaseController {
 			interactivePOJO.setAwardRecordPOJOs(awardRecordPOJOs);
 
 			ret.addObject("documentTitle", interactivePOJO.getName());
+		}
+		
+
+		if (CollectionUtils.isNotEmpty(myAwardRecordPOJOs)) {
+			AwardRecordPOJO myAwardRecordPOJO = myAwardRecordPOJOs.get(0);
+			if (!awardNamesNot.contains(myAwardRecordPOJO.getAwardPOJO().getName())) {
+				String contactUrl = HttpRequestUtil.getBase(request)
+								+ "/page/unified/activity_detail.jsp"
+								+ "?activityId=" + interactivePOJO.getActivityId()
+								+ "&hidContent=1&a=1";
+				ret.addObject("contactUrl", contactUrl);
+			}
+
 		}
 		
 		ret.addObject("interactivePOJO", interactivePOJO);

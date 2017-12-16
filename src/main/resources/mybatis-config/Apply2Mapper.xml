@@ -13,8 +13,10 @@
   <resultMap id="Apply2ResultMap" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
     <result column="USER_ID" property="userId" />
+    <result column="PROXY_OPEN_ID" property="proxyOpenId" />
     <result column="OPEN_ID" property="openId" />
     <result column="UNION_ID" property="unionId" />
+    <result column="ACTIVITY_ID" property="activityId" />
     <result column="DESCRIPTION" property="description" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
   </resultMap>
@@ -22,8 +24,10 @@
   <resultMap id="Apply2Result2Map" type="com.cobble.takeaway.pojo.Apply2POJO" >
     <id column="APPLY2_ID" property="apply2Id" />
     <result column="USER_ID" property="userId" />
+    <result column="PROXY_OPEN_ID" property="proxyOpenId" />
     <result column="OPEN_ID" property="openId" />
     <result column="UNION_ID" property="unionId" />
+    <result column="ACTIVITY_ID" property="activityId" />
     <result column="DESCRIPTION" property="description" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <!-- <collection property="apply2AttrPOJOs" column="APPLY2_ID" ofType="com.cobble.takeaway.pojo.Apply2AttrPOJO"
@@ -31,7 +35,9 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    apply2.APPLY2_ID, apply2.USER_ID, apply2.OPEN_ID, apply2.UNION_ID, apply2.DESCRIPTION, apply2.CREATE_DATE_TIME
+    apply2.APPLY2_ID, apply2.USER_ID,apply2.PROXY_OPEN_ID
+    , apply2.OPEN_ID, apply2.UNION_ID, apply2.ACTIVITY_ID
+    , apply2.DESCRIPTION, apply2.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="description != null">
@@ -40,11 +46,17 @@
 	<if test="userId != null">
 		and apply2.USER_ID = #{userId}
 	</if>
+	<if test="proxyOpenId != null">
+		and apply2.PROXY_OPEN_ID = #{proxyOpenId}
+	</if>
 	<if test="openId != null">
 		and apply2.OPEN_ID = #{openId}
 	</if>
 	<if test="unionId != null">
 		and apply2.UNION_ID = #{unionId}
+	</if>
+	<if test="activityId != null">
+		and apply2.ACTIVITY_ID = #{activityId}
 	</if>
     <if test="startDateTime != null">
     	and apply2.CREATE_DATE_TIME &gt;= #{startDateTime}
@@ -189,11 +201,17 @@
       <if test="userId != null" >
         USER_ID,
       </if>
+      <if test="proxyOpenId != null" >
+        PROXY_OPEN_ID,
+      </if>
       <if test="openId != null" >
         OPEN_ID,
       </if>
       <if test="unionId != null" >
         UNION_ID,
+      </if>
+      <if test="activityId != null" >
+        ACTIVITY_ID,
       </if>
       <if test="description != null" >
         DESCRIPTION,
@@ -204,11 +222,17 @@
       <if test="userId != null" >
         #{userId},
       </if>
+      <if test="proxyOpenId != null" >
+        #{proxyOpenId},
+      </if>
       <if test="openId != null" >
         #{openId},
       </if>
       <if test="unionId != null" >
         #{unionId},
+      </if>
+      <if test="activityId != null" >
+        #{activityId},
       </if>
       <if test="description != null" >
         #{description},
@@ -242,11 +266,17 @@
       <if test="userId != null" >
         USER_ID = #{userId},
       </if>
+      <if test="proxyOpenId != null" >
+        PROXY_OPEN_ID = #{proxyOpenId},
+      </if>
       <if test="openId != null" >
         OPEN_ID = #{openId},
       </if>
       <if test="unionId != null" >
         UNION_ID = #{unionId},
+      </if>
+      <if test="activityId != null" >
+        ACTIVITY_ID = #{activityId},
       </if>
       <if test="description != null" >
         DESCRIPTION = #{description},
