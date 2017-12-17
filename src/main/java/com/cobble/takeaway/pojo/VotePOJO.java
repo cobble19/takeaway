@@ -9,6 +9,7 @@ public class VotePOJO extends BasePOJO {
     private Long voteId;
     private Long userId;
     private String title;
+    private String logoImg;
     private String content;
     private Integer voteType;
     private Integer publishType;
@@ -107,6 +108,12 @@ public class VotePOJO extends BasePOJO {
 	}
 	public void setEndDateTime(Date endDateTime) {
 		this.endDateTime = endDateTime;
+	}
+	public String getLogoImg() {
+		return logoImg;
+	}
+	public void setLogoImg(String logoImg) {
+		this.logoImg = logoImg;
 	}
 
 }
