@@ -143,7 +143,7 @@
 			<div class="col-xs-12"
 				style="padding: 0px; text-align: center; margin-bottom: 15px;">
 				<c:if test="${not empty votePOJO.logoImg}">
-					<img src="${votePOJO.logoImg}">
+					<img src='<cmn:base/>/${votePOJO.logoImg}'>
 				</c:if>
 				<c:if test="${empty votePOJO.logoImg}">
 					<img src="http://www.deweiyizhan.com/files/images/jtgbdz.jpg">
