@@ -14,6 +14,7 @@
     <id column="VOTE_ID" property="voteId" />
     <result column="USER_ID" property="userId" />
     <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    <result column="LOGO_IMG" property="logoImg" jdbcType="VARCHAR"/>
     <result column="CONTENT" property="content" />
     <result column="VOTE_TYPE" property="voteType" />
     <result column="PUBLISH_TYPE" property="publishType" />
@@ -28,7 +29,7 @@
   
   
   <sql id="Base_Column_List" >
-    a.VOTE_ID, a.USER_ID, a.TITLE, a.CONTENT, a.VOTE_TYPE
+    a.VOTE_ID, a.USER_ID, a.TITLE, a.LOGO_IMG, a.CONTENT, a.VOTE_TYPE
     , a.PUBLISH_TYPE, a.CREATE_DATE_TIME, a.ACTIVITY_ID, a.APPLY2_ATTR_MODEL_IDS, a.PERIOD
     , a.NUM_OF_PERIOD, a.START_DATE_TIME, a.END_DATE_TIME
   </sql>
@@ -101,6 +102,9 @@
       <if test="title != null" >
         TITLE,
       </if>
+      <if test="logoImg != null" >
+        LOGO_IMG,
+      </if>
       <if test="content != null" >
         CONTENT,
       </if>
@@ -136,6 +140,9 @@
       </if>
       <if test="title != null" >
         #{title},
+      </if>
+      <if test="logoImg != null" >
+        #{logoImg},
       </if>
       <if test="content != null" >
         #{content},
@@ -176,6 +183,9 @@
       </if>
       <if test="title != null" >
         TITLE = #{title},
+      </if>
+      <if test="logoImg != null" >
+        LOGO_IMG = #{logoImg},
       </if>
       <if test="content != null" >
         CONTENT = #{content},

@@ -52,23 +52,23 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": false
 		}, {
-			"targets" : [5],
+			"targets" : [6],
 			"visible": false
 		}, {
-			"targets": [7],
+			"targets": [8],
 			"render" : function(data, type, full, meta) {
 				var status = (data == null || data == 0) ? '未发布' : '已发布';
 				return status;
 			}
 		}, {
-			"targets": [8,9,10],
+			"targets": [9,10,11],
 			"visible": true,
 			"render" : function(data, type, full, meta) {
 				var createDateTime = new Date(data);
 				return createDateTime.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets" : [13],
+			"targets" : [14],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/page/unified/vote_update.jsp?voteId='  + full.voteId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
@@ -122,6 +122,7 @@ $(document).ready(function() {
             { "data": "voteId" },
             { "data": "userId" },
             { "data": "title" },
+            { "data": "logoImg" },
             { "data": "content" },
             { "data": "voteType" },
             { "data": "publishType" },

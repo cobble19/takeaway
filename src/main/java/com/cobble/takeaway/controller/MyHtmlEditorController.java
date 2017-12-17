@@ -61,7 +61,9 @@ public class MyHtmlEditorController extends BaseController {
 							+ orderNo + "_"
 							+ "." + ext;
 				} else {
-					fileName = DateUtil.toStr(new Date(), "yyyyMMddHHmmss.SSS")
+					fileName = userId + "_"
+							+ wxTemplateId + "_"
+							+ orderNo + "_" + DateUtil.toStr(new Date(), "yyyyMMddHHmmss.SSS")
 							+ "." + RandomStringUtils.randomAlphabetic(5)
 							+ "." + ext;
 				}

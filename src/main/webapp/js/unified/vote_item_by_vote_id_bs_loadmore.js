@@ -60,9 +60,9 @@ $(document).ready(function() {
 			return;
 		}
 		// 判断提交日期是否在有效期内
-		var startDateTime = $('#startDateTimeX').val().val();
+		var startDateTime = $('#startDateTimeX').val();
 		startDateTime = parseInt(startDateTime);
-		var endDateTime = $('#endDateTimeX').val().val();
+		var endDateTime = $('#endDateTimeX').val();
 		endDateTime = parseInt(endDateTime);
 		var curDateTime = new Date();
 		curDateTime = curDateTime.getTime();

@@ -77,14 +77,60 @@
 		$(function() {
 			window.setTimeout(function() {
 				window.location.href = $('#basePath').val() + "/web/wx/usercenter/"  + $('#indexCode').val() + "/person";
-			}, 1);
+			}, 100);
 		});
 	</script> -->
 	<script type="text/javascript">
 		$(function() {
-			window.setTimeout(function() {
+			var isWKWebview = window.__wxjs_is_wkwebview;
+			console.log('isWKWebview: ' + isWKWebview);
+
+			try {
 				WeixinJSBridge.call('closeWindow');
-			}, 1);
+			} catch (e) {
+				console.log('not support WeixinJSBridge');
+			}
+			try {
+				window.setTimeout(function() {
+					WeixinJSBridge.call('closeWindow');
+				}, 100);
+			} catch (e) {
+				console.log('not support WeixinJSBridge');
+			}
+			try {
+				window.setTimeout(function() {
+					window.close();
+				}, 100);
+			} catch (e) {
+				console.log('not support window.close');
+			}
+			try {
+				window.setTimeout(function() {
+					window.opener = null;
+					window.close();
+				}, 100);
+			} catch (e) {
+				console.log('not support window.close opener=null');
+			}
+
+			try {
+				window.setTimeout(function() {
+					window.open('', '_top');
+					window.top.close();
+				}, 100);
+			} catch (e) {
+				console.log('not support window.close _top');
+			}
+
+			try {
+				window.setTimeout(function() {
+					window.opener = null;
+					window.open('', '_self', '');
+					window.close();
+				}, 100);
+			} catch (e) {
+				console.log('not support window.close _self');
+			}
 		});
 	</script>
 	

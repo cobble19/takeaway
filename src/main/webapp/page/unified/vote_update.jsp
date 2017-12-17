@@ -24,14 +24,22 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="logoImg">图片:</label>
+ 				<div class="">
+ 					<input class="form-control" id="logoImg" name="logoImg" readonly="readonly" placeholder="请上传图片">
+ 					<input class="" id="pic" name="pic" type="file">
+ 					<input class="btn btn-info" id="uploadBtn" name="uploadBtn" type="button" value="上传图片">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
  				<label class="control-label" for="period">频率:</label>
  				<div class="">
- 					<input class="form-control" id="period" name="period" placeholder="请输入本次互动主题, 例如 1, 7天">
+ 					<input class="form-control" id="period" name="period" placeholder="请输入投票周期(7-7天投一次票), 例如 1, 7">
  				</div>
  			</div><div class="form-group">
  				<label class="control-label" for="numOfPeriod">每次可投票个数:</label>
  				<div class="">
- 					<input class="form-control" id="numOfPeriod" name="numOfPeriod" placeholder="请输入本次互动主题, 例如1, 3名">
+ 					<input class="form-control" id="numOfPeriod" name="numOfPeriod" placeholder="请输入每周期投票个数(可给几个人投票), 例如1, 3名">
  				</div>
  			</div>
  			<div class="form-group">

@@ -10,7 +10,7 @@
 		
 		<link href="<cmn:base/>/css/unified/activity_list.css" rel="stylesheet">
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/progress_dialog.js"></script>
-		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_inc.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_single.js"></script>
 	</head>
 	
   <body style="padding-top: 100px;">
@@ -42,6 +42,7 @@
 				  						<th>标识</th>
 				  						<th>发布者标识</th>
 				  						<th>标题</th>
+				  						<th>图片logo</th>
 				  						<th>内容</th>
 				  						<th>投票类型</th>
 				  						<th>发布类型</th>

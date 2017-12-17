@@ -93,6 +93,7 @@ var showDetail = function() {
         }),*/
         success: function(data, textStatus, jqXHR ) {
         	$('#title').val(data.title);
+        	$('#logoImg').val(data.logoImg);
         	$('#activityId').val(data.activityId);
         	$('#period').val(data.period);
         	$('#numOfPeriod').val(data.numOfPeriod);
