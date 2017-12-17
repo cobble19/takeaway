@@ -1894,7 +1894,7 @@ public class Oauth2Controller extends BaseController {
 								+ "/web/wx/usercenter/"  + indexCode + "/person"
 						+ "\">会员中心</a>";
 				String content = "恭喜您加入会员成功!🎉";
-				content += ", " + detail;
+				content += "" + detail;
 				String authorizerAppId = wxAuthorizerInfoPOJO.getAuthorizerAppId();
 				KfMsgSendThread kfMsgSendThread = new KfMsgSendThread(openId, content, authorizerAppId, this);
 				kfMsgSendThread.start();
@@ -2855,7 +2855,7 @@ public class Oauth2Controller extends BaseController {
 			}
 		}
 		if (awardRemindCount <= 0) {
-			ret = "很抱歉，您来迟了！福利已被一抢而空了！,";
+			ret = "网友实在太疯狂！😂福利已被一抢而空！";
 			ret += detail;
 			return ret;
 		}
@@ -2869,7 +2869,7 @@ public class Oauth2Controller extends BaseController {
 		int awardCount = awardRecordService.getCount(awardRecordSearchPOJO);
 		if (awardCount > 0) {
 			ret = "恭喜您已经中奖啦！请把机会留给别人吧, 领取奖品请点击👉";
-			ret += "," + contact;
+			ret += "" + contact;
 			ret += "," + detail;
 //			ret = "欢迎您参加[" + interactivePOJO.getName()
 //					+ "]抽奖活动, 您的抽奖结果是: " + awardRecordPOJOs.get(0).getAwardPOJO().getName() + "! 您还有" + remindCount

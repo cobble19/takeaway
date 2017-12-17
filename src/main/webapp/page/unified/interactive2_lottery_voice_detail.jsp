@@ -88,7 +88,7 @@
 					    <c:if test="${not empty myAwardRecordPOJOs}">
 					    	您的当前抽奖结果：<c:out value="${myAwardRecordPOJOs[0].awardPOJO.name}"></c:out>
 					    	<c:if test="${not empty contactUrl }">
-					    		&nsbp;&nsbp;点击前往👉<a href="${contactUrl}">领奖方式</a>
+					    		&nbsp;&nbsp;领奖请点击👉<a href="${contactUrl}">领奖方式</a>
 					    	</c:if>
 					    	<%-- <c:if test="${fn:length(myAwardRecordPOJOs) > 1}">
 						    	<c:forEach items="${myAwardRecordPOJOs}" var="myAwardRecordPOJO" varStatus="st">
