@@ -185,7 +185,7 @@
 						<div class="media"
 							style="border: #ffffff solid 1px; margin: 0px 5px; padding: 10px;">
 							<div class="media-left">
-								<a href="{{voteItemUrl}}"> <img style="max-width: none !important;border-radius:30px;"
+								<a href="#"> <img style="max-width: none !important;border-radius:30px;"
 									class="media-object"
 									src="{{wxPersonUserPOJO.headImgUrl}}"
 									alt="" height="64" width="64">
@@ -351,7 +351,7 @@
                                 <div class="media"
 							style="border: #ffffff solid 1px; margin: 0px 5px; padding: 10px; margin-top:5px;">
                                 <div class="media-left">
-								<a href="#"> <img style="max-width: none !important;border-radius:30px;"
+								<a href="{voteItemPOJO.voteItemUrl}"> <img style="max-width: none !important;border-radius:30px;"
 									class="media-object head-img"
 									src="${voteItemPOJO.wxPersonUserPOJO.headImgUrl}"
 									alt="" height="64" width="64">

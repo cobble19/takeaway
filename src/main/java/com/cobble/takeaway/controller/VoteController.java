@@ -276,7 +276,7 @@ public class VoteController extends BaseController {
 						String qs = request.getQueryString();
 						String voteItemUrl = HttpRequestUtil.getBase(request) 
 										+ "/web/unified/vote/loadmore/query/"
-										+ voteId + "/" + orderNo
+										+ voteId + "/" + voteItemPOJO.getOrderNo()
 										+ "?" + qs;
 						voteItemPOJO.setVoteItemUrl(voteItemUrl);
 					}
@@ -357,6 +357,15 @@ public class VoteController extends BaseController {
 			apply2POJORet = (Apply2POJO) map.get("apply2POJO");
 			voteItemPOJORet = (VoteItemPOJO) map.get("voteItemPOJO");
 //			wxPersonUserPOJO = (WxPersonUserPOJO) map.get("wxPersonUserPOJO");
+
+			if (voteItemPOJORet != null) {
+				String qs = request.getQueryString();
+				String voteItemUrl = HttpRequestUtil.getBase(request) 
+								+ "/web/unified/vote/loadmore/query/"
+								+ voteId + "/" + voteItemPOJORet.getOrderNo()
+								+ "?" + qs;
+				voteItemPOJORet.setVoteItemUrl(voteItemUrl);
+			}
 			
 //			ret.addObject("wxPersonUserPOJO", wxPersonUserPOJO);
 			ret.addObject("orderNo", orderNo);
@@ -437,6 +446,15 @@ public class VoteController extends BaseController {
 			apply2POJORet = (Apply2POJO) map.get("apply2POJO");
 			voteItemPOJORet = (VoteItemPOJO) map.get("voteItemPOJO");
 //			wxPersonUserPOJO = (WxPersonUserPOJO) map.get("wxPersonUserPOJO");
+
+			if (voteItemPOJORet != null) {
+				String qs = request.getQueryString();
+				String voteItemUrl = HttpRequestUtil.getBase(request) 
+								+ "/web/unified/vote/loadmore/query/"
+								+ voteId + "/" + voteItemPOJORet.getOrderNo()
+								+ "?" + qs;
+				voteItemPOJORet.setVoteItemUrl(voteItemUrl);
+			}
 			
 //			ret.addObject("wxPersonUserPOJO", wxPersonUserPOJO);
 			ret.addObject("orderNo", orderNo);
