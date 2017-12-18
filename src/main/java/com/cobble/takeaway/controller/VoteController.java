@@ -3,7 +3,6 @@ package com.cobble.takeaway.controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,13 +39,12 @@ import com.cobble.takeaway.pojo.VoteItemSearchPOJO;
 import com.cobble.takeaway.pojo.VotePOJO;
 import com.cobble.takeaway.pojo.VoteSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
-import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
 import com.cobble.takeaway.service.Apply2Service;
 import com.cobble.takeaway.service.RelVoteUserService;
 import com.cobble.takeaway.service.VoteItemService;
 import com.cobble.takeaway.service.VoteService;
-import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.util.CollectionUtilx;
+import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.UserUtil;
 
 @Controller
@@ -61,8 +59,6 @@ public class VoteController extends BaseController {
 	private Apply2Service apply2Service;
 	@Autowired
 	private RelVoteUserService relVoteUserService;
-	@Autowired
-	private WxPersonUserService wxPersonUserService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 
@@ -272,6 +268,20 @@ public class VoteController extends BaseController {
 			voteItemSearchPOJO.setOrderNo(orderNo);
 			
 			DataTablesPOJO<VoteItemPOJO> dataTablesPOJO = voteService.findVoteItems(voteItemSearchPOJO , votePOJO);
+			
+			if (dataTablesPOJO != null && dataTablesPOJO.getData() != null) {
+				List<VoteItemPOJO> voteItemPOJOs = dataTablesPOJO.getData();
+				if (CollectionUtils.isNotEmpty(voteItemPOJOs)) {
+					for (VoteItemPOJO voteItemPOJO : voteItemPOJOs) {
+						String qs = request.getQueryString();
+						String voteItemUrl = HttpRequestUtil.getBase(request) 
+										+ "/web/unified/vote/loadmore/query/"
+										+ voteId + "/" + orderNo
+										+ "?" + qs;
+						voteItemPOJO.setVoteItemUrl(voteItemUrl);
+					}
+				}
+			}
 
 //			votePOJO = (VotePOJO) map.get("votePOJO");
 //			apply2POJORet = (Apply2POJO) map.get("apply2POJO");
@@ -355,6 +365,86 @@ public class VoteController extends BaseController {
 			ret.addObject("voteItemPOJO", voteItemPOJORet);
 			ret.addObject("voteItemSearchPOJOX", voteItemSearchPOJO);
 			ret.setViewName("/page/unified/vote_item_by_vote_id_bs_loadmore");
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			throw e;
+		}
+		
+		
+		return ret;
+	}
+
+	@RequestMapping(value = "/web/unified/vote/loadmore/query/{voteId}/{orderNo}")
+	public ModelAndView weblistVoteById4loadMoreOrderNo(@PathVariable(value="voteId") Long voteId, 
+			@PathVariable(value="orderNo") Integer orderNo, 
+			VoteSearchPOJO voteSearchPOJO,
+			Model model, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		VotePOJO votePOJO = null;
+		Apply2POJO apply2POJORet = null;
+		VoteItemPOJO voteItemPOJORet = null;
+		WxPersonUserPOJO wxPersonUserPOJO = null;
+		try {
+			if (voteId == null) {
+				throw new Exception("voteId can't is NULL.");
+			}
+			voteSearchPOJO.setOrderNo(orderNo);
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			/*if (userId == null) {
+				throw new Exception("userId can't is NULL.");
+			}*/
+
+			Long activityId = voteSearchPOJO.getActivityId();
+			String activityTitle = voteSearchPOJO.getActivityTitle();
+			Long voteItemId = voteSearchPOJO.getVoteItemId();
+			votePOJO = voteService.findById(voteId);
+
+			if (votePOJO == null) {
+				throw new Exception("投票活动无效, voteId: " + voteId);
+			}
+
+			/*Long voteId = votePOJO.getVoteId(); 
+			Long activityId = votePOJO.getActivityId();*/
+//			String apply2AttrModelIdsStr = votePOJO.getApply2AttrModelIds();
+//			Integer period = votePOJO.getPeriod();
+//			Integer numOfPeriod = votePOJO.getNumOfPeriod();
+			
+			/*Long voteItemId = voteSearchPOJO.getVoteItemId();
+			Long userId = voteSearchPOJO.getUserId();*/
+			Integer start = voteSearchPOJO.getStart();
+			Integer limit = voteSearchPOJO.getLimit();
+			String sort = voteSearchPOJO.getSort();
+			String orderBy = voteSearchPOJO.getOrderBy();
+			Boolean paginationFlag = voteSearchPOJO.getPaginationFlage();
+			orderNo = voteSearchPOJO.getOrderNo();
+			
+			VoteItemSearchPOJO voteItemSearchPOJO = new VoteItemSearchPOJO();
+			voteItemSearchPOJO.setVoteItemId(voteItemId);
+			voteItemSearchPOJO.setUserId(userId);
+			voteItemSearchPOJO.setStart(start);
+			voteItemSearchPOJO.setLimit(limit);
+			voteItemSearchPOJO.setSort(sort);
+			voteItemSearchPOJO.setOrderBy(orderBy);
+			voteItemSearchPOJO.setPaginationFlage(paginationFlag);
+//			voteItemSearchPOJO.setOrderNo(orderNo);
+			
+//			Map map = voteService.listVoteById4UnifiedBootstrap(voteId, activityId, activityTitle, voteItemId, userId);
+			Map map = voteService.findCurrentVoteItem(voteItemSearchPOJO, votePOJO);
+
+//			votePOJO = (VotePOJO) map.get("votePOJO");
+			apply2POJORet = (Apply2POJO) map.get("apply2POJO");
+			voteItemPOJORet = (VoteItemPOJO) map.get("voteItemPOJO");
+//			wxPersonUserPOJO = (WxPersonUserPOJO) map.get("wxPersonUserPOJO");
+			
+//			ret.addObject("wxPersonUserPOJO", wxPersonUserPOJO);
+			ret.addObject("orderNo", orderNo);
+			ret.addObject("votePOJO", votePOJO);
+			ret.addObject("apply2POJO", apply2POJORet);
+			ret.addObject("voteItemPOJO", voteItemPOJORet);
+			ret.addObject("voteItemSearchPOJOX", voteItemSearchPOJO);
+			ret.setViewName("/page/unified/vote_item_by_vote_id_bs_loadmore_orderno");
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 			throw e;

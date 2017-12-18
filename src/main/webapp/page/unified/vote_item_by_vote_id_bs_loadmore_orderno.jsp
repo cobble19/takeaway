@@ -151,7 +151,7 @@
 			</div>
 		</div>
 
-		<nav class="navbar navbar-default navbar-fixed-bottom">
+		<nav class="navbar navbar-default navbar-fixed-bottom" style="display:none;">
 			<!-- Nav tabs -->
 			<ul class="nav nav-pills" role="tablist"
 				style="text-align: center; padding-top: 5px">
@@ -235,7 +235,7 @@
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="home">
-                <div class="row" style="background-color:#158cce; padding:10px 0px;">
+                <div class="row" style="background-color:#158cce; padding:10px 0px; display:none;">
 					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/loadmore/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}' method="post">
 						<div class="form-group">
 							<label for="search"></label> 
@@ -250,13 +250,13 @@
 
 					</form>
 				</div>
-                <div style="margin-top:15px; text-align:right;">
-                <input type="hidden" id="startX" name="startX" value="${voteItemSearchPOJOX.start}">
-                <input type="hidden" id="limitX" name="limitX" value="${voteItemSearchPOJOX.limit}">
-				<!-- <button class="btn btn-default btn-xs" id="sortDate">时间排序</button> -->
-				
-				<button class="btn btn-default btn-xs" id="sortOrderNo">编号排序</button>
-				<button class="btn btn-default btn-xs" id="sortNum">票数排序</button>
+                <div style="margin-top:15px; text-align:right; display: none;">
+	                <input type="hidden" id="startX" name="startX" value="${voteItemSearchPOJOX.start}">
+	                <input type="hidden" id="limitX" name="limitX" value="${voteItemSearchPOJOX.limit}">
+					<!-- <button class="btn btn-default btn-xs" id="sortDate">时间排序</button> -->
+					
+					<button class="btn btn-default btn-xs" id="sortOrderNo">编号排序</button>
+					<button class="btn btn-default btn-xs" id="sortNum">票数排序</button>
                 </div>
 				<div class="row" id="pagination">
 				</div>

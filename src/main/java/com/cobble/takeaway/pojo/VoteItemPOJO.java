@@ -23,6 +23,7 @@ public class VoteItemPOJO extends BasePOJO {
     private WxPersonUserPOJO wxPersonUserPOJO = new WxPersonUserPOJO();
     
     private Boolean beenVoted = false;
+    private String voteItemUrl;
     
 	public Long getVoteItemId() {
 		return voteItemId;
@@ -101,6 +102,12 @@ public class VoteItemPOJO extends BasePOJO {
 	}
 	public void setApproveFlag(Integer approveFlag) {
 		this.approveFlag = approveFlag;
+	}
+	public String getVoteItemUrl() {
+		return voteItemUrl;
+	}
+	public void setVoteItemUrl(String voteItemUrl) {
+		this.voteItemUrl = voteItemUrl;
 	}
 
 }
