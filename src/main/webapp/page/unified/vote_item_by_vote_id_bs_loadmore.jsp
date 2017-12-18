@@ -121,7 +121,7 @@
     	}
     </style>
 </head>
-<body style="background-color:#40c2f3;">
+<body style="background-color:#fb7e84;">
 
     <input type="hidden" id="voteId" value="${votePOJO.voteId}">
     	<input type="hidden" id="startDateTimeX" name="startDateTime" value="${votePOJO.startDateTime}" />
@@ -235,7 +235,7 @@
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="home">
-                <div class="row" style="background-color:#158cce; padding:10px 0px;">
+                <div class="row" style="background-color:#c22409; padding:10px 0px;">
 					<form class="form-inline" id="voteSearchForm" action='<cmn:base/>/web/unified/vote/loadmore/query/${votePOJO.voteId}?activityId=${votePOJO.activityId}' method="post">
 						<div class="form-group">
 							<label for="search"></label> 

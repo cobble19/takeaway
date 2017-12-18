@@ -544,8 +544,9 @@ var showDetail = function() {
         	} else {
         		$("#logoImg").hide();
         	}
-        	
-        	$(document).find("title").text(publisher + "|" + data.title);
+        	if (!$(document).find("title").text()) {
+            	$(document).find("title").text(publisher);
+        	}
         	
         	// 
         	showApply2();
