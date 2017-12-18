@@ -225,9 +225,9 @@ var onClickApply2Summit = function() {
 			}
 			
 			// 判断提交日期是否在有效期内
-			var startDateTime = $('#startDateTime').val();
+			var startDateTime = new Date($('#startDateTime').val().replace('CST',''));
 			startDateTime = parseInt(startDateTime);
-			var endDateTime = $('#endDateTime').val();
+			var endDateTime = new Date($('#endDateTime').val().replace('CST',''));
 			endDateTime = parseInt(endDateTime);
 			var curDateTime = new Date();
 			curDateTime = curDateTime.getTime();

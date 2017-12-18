@@ -60,9 +60,9 @@ $(document).ready(function() {
 			return;
 		}
 		// 判断提交日期是否在有效期内
-		var startDateTime = $('#startDateTimeX').val();
+		var startDateTime = new Date($('#startDateTimeX').val().replace('CST',''));
 		startDateTime = parseInt(startDateTime);
-		var endDateTime = $('#endDateTimeX').val();
+		var endDateTime = new Date($('#endDateTimeX').val().replace('CST',''));
 		endDateTime = parseInt(endDateTime);
 		var curDateTime = new Date();
 		curDateTime = curDateTime.getTime();
@@ -335,9 +335,9 @@ var addVoteItem = function(voteId, voteItemIds) {
 	
 	
 		// 判断提交日期是否在有效期内
-		var startDateTime = new Date($('#startDateTimeX').val());
+		var startDateTime = new Date($('#startDateTimeX').val().replace('CST',''));
 		startDateTime = parseInt(startDateTime.getTime());
-		var endDateTime = new Date($('#endDateTimeX').val());
+		var endDateTime = new Date($('#endDateTimeX').val().replace('CST',''));
 		endDateTime = parseInt(endDateTime.getTime());
 		var curDateTime = new Date();
 		curDateTime = curDateTime.getTime();
@@ -393,9 +393,9 @@ var addVoteItemX = function(voteId, voteItemId, userId, me) {
 		
 		
 		// 判断提交日期是否在有效期内
-		var startDateTime = new Date($('#startDateTimeX').val());
+		var startDateTime = new Date($('#startDateTimeX').val().replace('CST',''));
 		startDateTime = parseInt(startDateTime.getTime());
-		var endDateTime = new Date($('#endDateTimeX').val());
+		var endDateTime = new Date($('#endDateTimeX').val().replace('CST',''));
 		endDateTime = parseInt(endDateTime.getTime());
 		var curDateTime = new Date();
 		curDateTime = curDateTime.getTime();
