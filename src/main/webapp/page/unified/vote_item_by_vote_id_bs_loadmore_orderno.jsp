@@ -112,7 +112,7 @@
 	<input id="authorizerAppId" type="hidden" value='${sessionScope.authorizerAppId}'>
 	<input id="indexCode" type="hidden" value='${sessionScope.indexCode}'>
 	
-<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_item_by_vote_id_bs_loadmore.js"></script>
+<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/vote_item_by_vote_id_bs_loadmore_orderno.js"></script>
     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/activity_detail.js"></script>
     
     <style type="text/css">
@@ -121,7 +121,7 @@
     	}
     </style>
 </head>
-<body style="background-color:#40c2f3;">
+<body style="background-color:#fb7e84;">
 
     <input type="hidden" id="voteId" value="${votePOJO.voteId}">
     	<input type="hidden" id="startDateTimeX" name="startDateTime" value="${votePOJO.startDateTime}" />
@@ -223,7 +223,7 @@
 						</div>
 					{{/data}}
 					{{^data}}
-						<span>没有数据</span>
+						<span></span>
 					{{/data}}
 				</div>
 </script>
@@ -262,13 +262,18 @@
 				</div>
 				<div id="homeContent">
 				</div>
+				
+                <div class="row" style="border:2px solid #ed7332; margin:20px 5px 10px 5px; padding:0px 10px 10px 10px; background-color:#ffffff;">
+	                <div class="col-xs-6 col-xs-offset-3"><h4 style="text-align:center;background-color:#ed7332; padding:5px; color:#ffffff; margin-bottom:10px;">活动规则</h4></div>
+					<div class="col-md-12 col-xs-12"><p>${votePOJO.content}</p></div>
+                </div>
 				<div class="row" id="noData" style="display:none;">
-					<span>没有更多的数据了!</span>
+					<!-- <span>没有更多的数据了!</span> -->
 				</div>
 				
 				<div class="weui-infinite-scroll" id="homeInfinite">
 				  <div class="infinite-preloader"></div><!-- 菊花 -->
-				  正在加载... <!-- 文案，可以自行修改 -->
+				  <!-- 正在加载... --> <!-- 文案，可以自行修改 -->
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="profile">
