@@ -347,7 +347,7 @@
 		                    	<h4 style="margin:0px 5px; color:#fff;">您好，您提交的信息正在审批中，请耐心等待！</h4>
 		                    </c:if>
 		                    <c:if test="${apply2POJO != null and voteItemPOJO != null}">
-		                    	<h4 style="margin:0px 5px; color:#fff;">恭喜您，您提交的信息已通过审批，以下是您的参选信息, 点击头像打开专属页面进行转发:</h4>
+		                    	<h4 style="margin:0px 5px; color:#fff;">恭喜您，您提交的信息已通过审批，以下是您的参选信息, 可点击头像打开个人投票页面进行转发:</h4>
                                 <div class="media"
 							style="border: #ffffff solid 1px; margin: 0px 5px; padding: 10px; margin-top:5px;">
                                 <div class="media-left">
