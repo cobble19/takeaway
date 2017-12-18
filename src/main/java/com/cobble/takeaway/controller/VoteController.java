@@ -287,6 +287,8 @@ public class VoteController extends BaseController {
 //			apply2POJORet = (Apply2POJO) map.get("apply2POJO");
 //			wxPersonUserPOJO = (WxPersonUserPOJO) map.get("wxPersonUserPOJO");
 			
+			// clear orderNo
+			voteSearchPOJO.setOrderNo(null);
 			ret = dataTablesPOJO;
 		} catch (Exception e) {
 			logger.error("insert error.", e);

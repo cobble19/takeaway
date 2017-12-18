@@ -185,7 +185,7 @@
 						<div class="media"
 							style="border: #ffffff solid 1px; margin: 0px 5px; padding: 10px;">
 							<div class="media-left">
-								<a href="{{voteItemUrl}}"> <img style="max-width: none !important;border-radius:30px;"
+								<a> <img style="max-width: none !important;border-radius:30px;"
 									class="media-object"
 									src="{{wxPersonUserPOJO.headImgUrl}}"
 									alt="" height="64" width="64">
