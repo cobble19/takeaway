@@ -83,6 +83,7 @@ public class VoteItemController extends BaseController {
 				
 				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
 				Date endDateTime = DateUtils.addSeconds(startDateTime, period.intValue() * 24 * 60 * 60 - 1);
+				startDateTime = DateUtils.addDays(startDateTime, (period - 1) * (-1));
 				
 				relVoteUserSearchPOJO.setStartDateTime(startDateTime);
 				relVoteUserSearchPOJO.setEndDateTime(endDateTime);
