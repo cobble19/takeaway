@@ -95,6 +95,8 @@ import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvEventApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRespTextApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxQrCodeTicketReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxQrCodeTicketRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrBatchTaggingReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrGetIdListReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrGetIdListRespApiPOJO;
@@ -303,6 +305,102 @@ public class Oauth2Controller extends BaseController {
 	private String wxTagsMgrBatchUntaggingUrl;
 	@Value("${WX.tags.mgr.getIdListUrl}")
 	private String wxTagsMgrGetIdListUrl;
+	
+	// 生成临时和长期二维码
+	@Value("${WX.qrcode.ticketUrl}")
+	private String wxQrCodeTicketUrl;
+	@Value("${WX.qrcode.showUrl}")
+	private String wxQrCodeShowUrl;
+	
+	@RequestMapping(value = "/api/wx/qrcode/ticket", method = {RequestMethod.POST})
+	@ResponseBody
+	public WxQrCodeTicketRespApiPOJO qrcodeTicket(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestParam(value="authorizerAppId") String authorizerAppId,
+			@RequestBody String requestBody
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		WxQrCodeTicketRespApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+//				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}*/
+			
+			logger.info("requestBody: {}", requestBody);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxQrCodeTicketUrl = wxQrCodeTicketUrl
+						.replace("#{TOKEN}", authorizerAccessToken);
+
+				// test request POJO<->requestBody
+				WxQrCodeTicketReqApiPOJO wxQrCodeTicketReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxQrCodeTicketReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxQrCodeTicketReqApiPOJO);
+				
+				String result = HttpClientUtil.postHttpsJson(myWxQrCodeTicketUrl, requestBody);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				WxQrCodeTicketRespApiPOJO wxQrCodeTicketRespApiPOJO = JsonUtils.convertToJavaBean(result, WxQrCodeTicketRespApiPOJO.class);
+				ret = wxQrCodeTicketRespApiPOJO;
+			} else {
+				logger.error("accessToken is must no null, authorizerAppId: {}", authorizerAppId);
+			}
+			
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/api/wx/qrcode/show", method = {RequestMethod.GET})
+	public Void qrcodeShow(@RequestParam(value="ticket") String ticket
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		WxUserInfoApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			/*if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}*/
+			
+			if (StringUtils.isBlank(ticket)) {
+				throw new NullPointerException("ticket must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			
+			String myWxQrCodeShowUrl = wxQrCodeShowUrl.replace("#{TICKET}", ticket);
+			myRedirectStrategy.sendRedirect(request, response, myWxQrCodeShowUrl);
+			
+//			String result = HttpClientUtil.get(myWxQrCodeShowUrl);
+//
+//			result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+//			logger.debug("result: " + result);
+//			WxUserInfoApiPOJO wxUserInfoApiPOJO = JsonUtils.convertToJavaBean(result, WxUserInfoApiPOJO.class);
+//			
+//			ret = wxUserInfoApiPOJO;
+			return null;
+		} catch (Exception e) {
+			/*ret.addObject("msg", uri + "?" + qs);
+			ret.setViewName("/page/test_info");*/
+			logger.error("insert error.", e);
+			//throw e;
+		}
+		
+		return null;
+	}
 	
 	@RequestMapping(value = "/api/wx/third/{authorizerAppId}/user/info/batchget", method = {RequestMethod.POST})
 	@ResponseBody

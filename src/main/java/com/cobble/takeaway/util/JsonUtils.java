@@ -13,6 +13,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuInfoRespApiPOJO;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -43,6 +44,27 @@ public class JsonUtils {
 			objectMapper = new ObjectMapper();
 		}
 		return (T) objectMapper.readValue(json, valueType);
+	}
+	
+	/**
+	 * This method is to convert json string to a list which contains bean object. 
+	 * The invocation is like toObject(jsonString, ArrayList.class, BeanObject.class);
+	 *
+	 * @param json
+	 * @param returnType
+	 * @param objectType
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	public static Object convertToJavaBean (String json, Class<?> returnType, Class<?> objectType) throws JsonParseException, JsonMappingException, IOException {
+		JavaType javaType = getCollectionType(returnType, objectType);
+		return objectMapper.readValue(json, javaType);
+	}
+
+	public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
+		return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
 	}
 	
 	/**
