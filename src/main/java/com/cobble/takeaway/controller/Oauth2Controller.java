@@ -315,7 +315,7 @@ public class Oauth2Controller extends BaseController {
 	@RequestMapping(value = "/api/wx/qrcode/ticket", method = {RequestMethod.POST})
 	@ResponseBody
 	public WxQrCodeTicketRespApiPOJO qrcodeTicket(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
-			@RequestParam(value="authorizerAppId") String authorizerAppId,
+			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId,
 			@RequestBody String requestBody
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		/*ModelAndView ret = new ModelAndView();*/
@@ -340,7 +340,7 @@ public class Oauth2Controller extends BaseController {
 			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxQrCodeTicketUrl = wxQrCodeTicketUrl
-						.replace("#{TOKEN}", authorizerAccessToken);
+						.replace("TOKEN", authorizerAccessToken);
 
 				// test request POJO<->requestBody
 				WxQrCodeTicketReqApiPOJO wxQrCodeTicketReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxQrCodeTicketReqApiPOJO.class);
@@ -381,7 +381,7 @@ public class Oauth2Controller extends BaseController {
 //				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
 			
-			String myWxQrCodeShowUrl = wxQrCodeShowUrl.replace("#{TICKET}", ticket);
+			String myWxQrCodeShowUrl = wxQrCodeShowUrl.replace("TICKET", ticket);
 			myRedirectStrategy.sendRedirect(request, response, myWxQrCodeShowUrl);
 			
 //			String result = HttpClientUtil.get(myWxQrCodeShowUrl);

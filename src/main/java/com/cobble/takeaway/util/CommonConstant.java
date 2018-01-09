@@ -107,6 +107,14 @@ public interface CommonConstant {
 	
 	// 加入会员绑定;类型
 	public final static String BIND_MEMBER_TYPE_LOTTERY_VOICE = "BIND_MEMBER_TYPE_LOTTERY_VOICE";
+	// qrcode, 二维码, 
+	// 二维码类型，QR_SCENE为临时的整型参数值，QR_STR_SCENE为临时的字符串参数值，
+	// QR_LIMIT_SCENE为永久的整型参数值，QR_LIMIT_STR_SCENE为永久的字符串参数值
+	public final static String WX_QR_ACTION_QR_SCENE = "QR_SCENE";
+	public final static String WX_QR_ACTION_QR_STR_SCENE = "QR_STR_SCENE";
+	public final static String WX_QR_ACTION_QR_LIMIT_SCENE = "QR_LIMIT_SCENE";
+	public final static String WX_QR_ACTION_QR_LIMIT_STR_SCENE = "QR_LIMIT_STR_SCENE";
+	
 	
 	
 }
