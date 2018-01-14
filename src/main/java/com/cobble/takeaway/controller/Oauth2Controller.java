@@ -335,8 +335,7 @@ public class Oauth2Controller extends BaseController {
 	@RequestMapping(value = "/web/test/{jspFileName}", method = {RequestMethod.GET})
 	public ModelAndView testJsSdk(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
 			@PathVariable(value="jspFileName") String jspFileName,
-			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId,
-			@RequestBody String requestBody
+			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		
@@ -359,7 +358,6 @@ public class Oauth2Controller extends BaseController {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}*/
 			
-			logger.info("requestBody: {}", requestBody);
 			String appId = authorizerAppId;
 			String jsSdkTicket = getWxJsSdkTicket(authorizerAppId);
 			Long timestamp = System.currentTimeMillis() / 1000;
@@ -395,7 +393,7 @@ public class Oauth2Controller extends BaseController {
 			wxJsSdkConfigRespApiPOJO.setUrl(url);
 			
 			ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
-			ret.setViewName("/page/test/" + jspFileName + ".jsp");
+			ret.setViewName("/page/test/" + jspFileName);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 		}
