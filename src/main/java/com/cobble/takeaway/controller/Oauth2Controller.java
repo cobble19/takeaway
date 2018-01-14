@@ -348,6 +348,7 @@ public class Oauth2Controller extends BaseController {
 			url += "?" + queryString;
 		}
 		HttpSession session = request.getSession();
+		WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = new WxJsSdkConfigRespApiPOJO();
 		try {
 			if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
@@ -382,7 +383,7 @@ public class Oauth2Controller extends BaseController {
 	        }
 			List<String> jsApiList = Arrays.asList(StringUtils.split(messageSource.getMessage("WX.jssdk.jsApiList", null, null), ","));
 			
-			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = new WxJsSdkConfigRespApiPOJO();
+			
 			wxJsSdkConfigRespApiPOJO.setAppId(appId);
 			wxJsSdkConfigRespApiPOJO.setNonceStr(nonceStr);
 			wxJsSdkConfigRespApiPOJO.setTimestamp(timestamp);
@@ -392,12 +393,12 @@ public class Oauth2Controller extends BaseController {
 			wxJsSdkConfigRespApiPOJO.setTicket(jsSdkTicket);
 			wxJsSdkConfigRespApiPOJO.setUrl(url);
 			
-			ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
-			ret.setViewName("/page/test/" + jspFileName);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 		}
-		
+
+		ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+		ret.setViewName("/page/test/" + jspFileName);
 		return ret;
 	}
 	private String getWxJsSdkTicket(String authorizerAppId) throws Exception {
@@ -424,7 +425,7 @@ public class Oauth2Controller extends BaseController {
 		String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 		if (StringUtils.isNotBlank(authorizerAccessToken)) {
 			String myWxJsSdkTicketUrl = wxJsSdkTicketUrl
-					.replace("TOKEN", authorizerAccessToken);
+					.replace("ACCESS_TOKEN", authorizerAccessToken);
 			
 			String result = HttpClientUtil.get(myWxJsSdkTicketUrl);
 			result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
