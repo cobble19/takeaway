@@ -1,9 +1,14 @@
 package com.cobble.takeaway.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +88,8 @@ import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqTextApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxJsSdkTicketRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondDeleteReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondRespApiPOJO;
@@ -311,6 +318,172 @@ public class Oauth2Controller extends BaseController {
 	private String wxQrCodeTicketUrl;
 	@Value("${WX.qrcode.showUrl}")
 	private String wxQrCodeShowUrl;
+	// JS-SDK
+	@Value("${WX.jssdk.ticketUrl}")
+	private String wxJsSdkTicketUrl;
+	
+	private static String byteToHex(final byte[] hash) {
+        Formatter formatter = new Formatter();
+        for (byte b : hash)
+        {
+            formatter.format("%02x", b);
+        }
+        String result = formatter.toString();
+        formatter.close();
+        return result;
+    }
+	@RequestMapping(value = "/web/test/{jspFileName}", method = {RequestMethod.GET})
+	public ModelAndView testJsSdk(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@PathVariable(value="jspFileName") String jspFileName,
+			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId,
+			@RequestBody String requestBody
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		String queryString = request.getQueryString();
+		String url = request.getRequestURL() + "";
+		if (StringUtils.isNotBlank(queryString)) {
+			queryString = queryString.split("#")[0];
+			url += "?" + queryString;
+		}
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+//				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}*/
+			
+			logger.info("requestBody: {}", requestBody);
+			String appId = authorizerAppId;
+			String jsSdkTicket = getWxJsSdkTicket(authorizerAppId);
+			Long timestamp = System.currentTimeMillis() / 1000;
+			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
+			//注意这里参数名必须全部小写，且必须有序
+	        String string1 = "jsapi_ticket=" + jsSdkTicket +
+	                  "&noncestr=" + nonceStr +
+	                  "&timestamp=" + timestamp +
+	                  "&url=" + url;
+	        System.out.println(string1);
+
+			String signature = "";
+	        try {
+	            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+	            crypt.reset();
+	            crypt.update(string1.getBytes("UTF-8"));
+	            signature = byteToHex(crypt.digest());
+	        } catch (NoSuchAlgorithmException e) {
+	            logger.error("MessageDigest exception: ", e);
+	        } catch (UnsupportedEncodingException e) {
+	            logger.error("MessageDigest exception: ", e);
+	        }
+			List<String> jsApiList = Arrays.asList(StringUtils.split(messageSource.getMessage("WX.jssdk.jsApiList", null, null), ","));
+			
+			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = new WxJsSdkConfigRespApiPOJO();
+			wxJsSdkConfigRespApiPOJO.setAppId(appId);
+			wxJsSdkConfigRespApiPOJO.setNonceStr(nonceStr);
+			wxJsSdkConfigRespApiPOJO.setTimestamp(timestamp);
+			wxJsSdkConfigRespApiPOJO.setSignature(signature);
+			wxJsSdkConfigRespApiPOJO.setJsApiList(jsApiList);
+			
+			wxJsSdkConfigRespApiPOJO.setTicket(jsSdkTicket);
+			wxJsSdkConfigRespApiPOJO.setUrl(url);
+			
+			ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+			ret.setViewName("/page/test/" + jspFileName + ".jsp");
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+		}
+		
+		return ret;
+	}
+	private String getWxJsSdkTicket(String authorizerAppId) throws Exception {
+		String ret = "";
+		String key = CommonConstant.WX_JS_SDK_TICKET + "_" + authorizerAppId;
+		String value = CacheUtil.getInstance().get(key);
+		if (StringUtils.isNotBlank(value)) {
+			return value;
+		}
+		
+		WxJsSdkTicketRespApiPOJO wxJsSdkTicketRespApiPOJO = getWxJsSdkTicketRespApiPOJO(authorizerAppId);
+		int timeToLiveSenconds = wxJsSdkTicketRespApiPOJO.getExpiresIn() - 30 * 60;
+		if (timeToLiveSenconds <= 0) {
+			timeToLiveSenconds = wxJsSdkTicketRespApiPOJO.getExpiresIn() / 2;
+		}
+		CacheUtil.getInstance().put(key, wxJsSdkTicketRespApiPOJO.getTicket(), timeToLiveSenconds);
+		
+		return ret;
+	}
+	
+	private WxJsSdkTicketRespApiPOJO getWxJsSdkTicketRespApiPOJO(String authorizerAppId) throws Exception {
+		WxJsSdkTicketRespApiPOJO ret = null;
+		
+		String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+		if (StringUtils.isNotBlank(authorizerAccessToken)) {
+			String myWxJsSdkTicketUrl = wxJsSdkTicketUrl
+					.replace("TOKEN", authorizerAccessToken);
+			
+			String result = HttpClientUtil.get(myWxJsSdkTicketUrl);
+			result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+			logger.debug("result: " + result);
+			WxJsSdkTicketRespApiPOJO wxJsSdkTicketRespApiPOJO = JsonUtils.convertToJavaBean(result, WxJsSdkTicketRespApiPOJO.class);
+		} else {
+			logger.error("accessToken must be no null, authorizerAppId: {}", authorizerAppId);
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/api/wx/jssdk/ticket", method = {RequestMethod.GET})
+	@ResponseBody
+	public WxJsSdkTicketRespApiPOJO jssdkTicket(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId,
+			@RequestBody String requestBody
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+		
+		WxJsSdkTicketRespApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+//				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}*/
+			
+			logger.info("requestBody: {}", requestBody);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxJsSdkTicketUrl = wxJsSdkTicketUrl
+						.replace("TOKEN", authorizerAccessToken);
+				
+				String result = HttpClientUtil.get(myWxJsSdkTicketUrl);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				WxJsSdkTicketRespApiPOJO wxJsSdkTicketRespApiPOJO = JsonUtils.convertToJavaBean(result, WxJsSdkTicketRespApiPOJO.class);
+				ret = wxJsSdkTicketRespApiPOJO;
+			} else {
+				logger.error("accessToken is must no null, authorizerAppId: {}", authorizerAppId);
+			}
+			
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+		}
+		
+		return ret;
+	}
 	
 	@RequestMapping(value = "/api/wx/qrcode/ticket", method = {RequestMethod.POST})
 	@ResponseBody

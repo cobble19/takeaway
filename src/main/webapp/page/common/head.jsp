@@ -97,7 +97,8 @@
     
     <!-- Mustache -->
     <script src="<cmn:base/>/js/thirdpart/mustache/mustache.js"></script>
-	
+	<!-- 微信JS-SDK -->
+    <script src="<cmn:base/>/js/thirdpart/weixin/jweixin-1.2.0.js"></script>
     
     <!-- customer -->
     <!-- 公共的函数 -->

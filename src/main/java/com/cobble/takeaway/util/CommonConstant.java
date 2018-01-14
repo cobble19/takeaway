@@ -115,6 +115,9 @@ public interface CommonConstant {
 	public final static String WX_QR_ACTION_QR_LIMIT_SCENE = "QR_LIMIT_SCENE";
 	public final static String WX_QR_ACTION_QR_LIMIT_STR_SCENE = "QR_LIMIT_STR_SCENE";
 	
+	// JS-SDK
+	public final static String WX_JS_SDK_TICKET = "WX_JS_SDK_TICKET";
+	
 	
 	
 }
