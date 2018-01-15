@@ -431,6 +431,7 @@ public class Oauth2Controller extends BaseController {
 			result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
 			logger.debug("result: " + result);
 			WxJsSdkTicketRespApiPOJO wxJsSdkTicketRespApiPOJO = JsonUtils.convertToJavaBean(result, WxJsSdkTicketRespApiPOJO.class);
+			ret = wxJsSdkTicketRespApiPOJO;
 		} else {
 			logger.error("accessToken must be no null, authorizerAppId: {}", authorizerAppId);
 		}
