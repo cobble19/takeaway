@@ -368,7 +368,7 @@ public class Oauth2Controller extends BaseController {
 	                  "&noncestr=" + nonceStr +
 	                  "&timestamp=" + timestamp +
 	                  "&url=" + url;
-	        System.out.println(string1);
+	        logger.info(string1);
 
 			String signature = "";
 	        try {
@@ -392,6 +392,8 @@ public class Oauth2Controller extends BaseController {
 			
 			wxJsSdkConfigRespApiPOJO.setTicket(jsSdkTicket);
 			wxJsSdkConfigRespApiPOJO.setUrl(url);
+			
+			logger.info("wxJsSdkConfigRespApiPOJO: " + wxJsSdkConfigRespApiPOJO);
 			
 		} catch (Exception e) {
 			logger.error("insert error.", e);
