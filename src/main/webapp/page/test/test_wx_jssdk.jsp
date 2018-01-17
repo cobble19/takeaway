@@ -228,7 +228,7 @@
   	<input type="hidden" id="timestamp" name="timestamp" value="${wxJsSdkConfigRespApiPOJO.timestamp}" />
   	<input type="hidden" id="nonceStr" name="nonceStr" value="${wxJsSdkConfigRespApiPOJO.nonceStr}" />
   	<input type="hidden" id="signature" name="signature" value="${wxJsSdkConfigRespApiPOJO.signature}" />
-  	<input type="hidden" id="jsApiList" name="jsApiList" value="${fn:join(wxJsSdkConfigRespApiPOJO.jsApiList, ',')}" />
+  	<input type="hidden" id="jsApiList" name="jsApiList" value="${wxJsSdkConfigRespApiPOJO.jsApiList}" />
   	
   	<input type="hidden" id="url" name="url" value="${wxJsSdkConfigRespApiPOJO.url}" />
   	<input type="hidden" id="ticket" name="ticket" value="${wxJsSdkConfigRespApiPOJO.ticket}" />

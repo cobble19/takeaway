@@ -158,6 +158,28 @@
    * 邮件主题：【微信JS-SDK反馈】具体问题
    * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
    */
+   $('#testWxJsSdk').click(function() {
+		wx.checkJsApi({
+		    jsApiList: ['chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+		    success: function(res) {
+		    // 以键值对的形式返回，可用的api值true，不可用为false
+		    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+			    alert('success' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
+		    },
+		    fail: function(res) {
+		    		alert('checkJsApi fail' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
+		    },
+		    complete: function(res) {
+		    		alert('complete, ' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
+		    },
+		    cancel: function(res) {
+		    		alert('cancel, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
+		    },
+		    trigger: function(res) {
+		    		alert('trigger, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
+		    }
+		});
+	});
    alert(location.href.split('#')[0]);
 	var appId = $('#appId').val();
 	var timestamp = $('#timestamp').val();
