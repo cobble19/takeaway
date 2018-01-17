@@ -39,7 +39,7 @@
 				var timestamp = $('#timestamp').val();
 				var nonceStr = $('#nonceStr').val();
 				var signature = $('#signature').val();
-				var jsApiList = ($('#jsApiList').val()).split(',');
+				var jsApiList = ($('#jsApiList').val().replace('[','').replace(']','').replace(/\s+/g,'')).split(',');
 				///
 				// 通过config接口注入权限验证配置
 				wx.config({
