@@ -1913,15 +1913,22 @@ public class Oauth2Controller extends BaseController {
 			
 			// 通过代理取得的openId
 			String proxyOpenId = wxUserInfoApiPOJO.getOpenId();
+			// use unionId instead of proxyOpenId to login
+			String unionId = wxUserInfoApiPOJO.getUnionId();
 			
 			logger.info("wxUserInfoApiPOJO: {}", wxUserInfoApiPOJO);
 			
 			// insert Wx person user into DB
-			UserPOJO userPOJO1 = userService.findUserByName(proxyOpenId);
+//			UserPOJO userPOJO1 = userService.findUserByName(proxyOpenId);
+			UserPOJO userPOJO1 = userService.findUserByName(unionId);
 			UserPOJO userPOJO = new UserPOJO();
 			if (userPOJO1 == null) {
-				userPOJO.setUsername(proxyOpenId);
-				userPOJO.setPassword(proxyOpenId);
+				// use unionId instead of proxyOpenId
+				/*userPOJO.setUsername(proxyOpenId);
+				userPOJO.setPassword(proxyOpenId);*/
+				userPOJO.setUsername(unionId);
+				String password = unionId + unionId.substring(0, 2);
+				userPOJO.setPassword(password);
 				userPOJO.setUserType(MyUser.PERSON);
 				userPOJO.setNickname(wxUserInfoApiPOJO.getNickname());
 				userService.insert(userPOJO);
@@ -2120,8 +2127,10 @@ public class Oauth2Controller extends BaseController {
 			session.setAttribute("username", myUser.getUsername());
 			session.setAttribute("userType", myUser.getUserType());
 			session.setAttribute("myUser", myUser);
-			String openId = (String) session.getAttribute(CommonConstant.OPEN_ID);
-			String unionId = (String) session.getAttribute(CommonConstant.UNION_ID);
+//			String openId = (String) session.getAttribute(CommonConstant.OPEN_ID);
+//			String unionId = (String) session.getAttribute(CommonConstant.UNION_ID);
+			
+			String openId =  wxPersonUserPOJO.getOpenId();
 			if (StringUtils.isNotBlank(proxyOpenId)) {
 				myUser.setProxyOpenId(proxyOpenId);
 			}
