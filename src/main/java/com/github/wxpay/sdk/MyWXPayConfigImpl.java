@@ -18,9 +18,15 @@ public class MyWXPayConfigImpl extends WXPayConfig {
 
 	private byte[] certData;
 	private static MyWXPayConfigImpl INSTANCE = null;
-
-	private static MessageSource messageSource = (MessageSource) BeanUtil.get("messageSource");
-
+	private static MessageSource messageSource = null;
+    static {
+	    	try {
+	    		messageSource = (MessageSource) BeanUtil.get("messageSource");
+	    	} catch (Exception e) {
+			logger.error("Got messageSource exception: ", e);
+		}
+    }
+	
 	private MyWXPayConfigImpl() throws Exception {
 		String certPath = null;
 		try {
@@ -30,6 +36,7 @@ public class MyWXPayConfigImpl extends WXPayConfig {
 			}
 //			 String certPath =
 //			 "/Users/bange/Documents/geby/takeaway/cert/apiclient_cert.p12";
+			logger.info("certPath: {}", certPath);
 		} catch (Exception e) {
 			logger.error("获取微信支付证书文件失败", e);
 		}
