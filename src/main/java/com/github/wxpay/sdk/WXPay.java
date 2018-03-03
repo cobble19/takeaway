@@ -101,7 +101,19 @@ public class WXPay {
         else if (SignType.HMACSHA256.equals(this.signType)) {
             reqData.put("sign_type", WXPayConstants.HMACSHA256);
         }
-        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
+        String key = config.getKey();
+        if (this.useSandbox) {
+        		Map<String, String> map = new HashMap<String, String>();
+        		map.put("mch_id", config.getMchID());
+        		map.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+        		map.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
+        		Map<String, String> signKeyResultMap = this.getSandboxSignKey(map);
+        		key = signKeyResultMap.get("sandbox_signkey");
+        } else {
+        		key = config.getKey();
+		}
+        
+        reqData.put("sign", WXPayUtil.generateSignature(reqData, key, this.signType));
         return reqData;
     }
 
@@ -336,6 +348,40 @@ public class WXPay {
     }
 
 
+    /**
+     * 作用：获取沙盒密钥KEY<br>
+     * 场景：沙盒环境下的KEY
+     * @param reqData 向wxpay post的请求数据
+     * @return API返回数据
+     * @throws Exception
+     */
+    public Map<String, String> getSandboxSignKey(Map<String, String> reqData) throws Exception {
+        return this.getSandboxSignKey(reqData, config.getHttpConnectTimeoutMs(), this.config.getHttpReadTimeoutMs());
+    }
+
+
+    /**
+     * 作用：获取沙盒密钥KEY<br>
+     * 场景：沙盒环境下的KEY
+     * @param reqData 向wxpay post的请求数据
+     * @param connectTimeoutMs 连接超时时间，单位是毫秒
+     * @param readTimeoutMs 读超时时间，单位是毫秒
+     * @return API返回数据
+     * @throws Exception
+     */
+    public Map<String, String> getSandboxSignKey(Map<String, String> reqData,  int connectTimeoutMs, int readTimeoutMs) throws Exception {
+        String url;
+//        if (this.useSandbox) {
+//            url = WXPayConstants.SANDBOX_UNIFIEDORDER_URL_SUFFIX;
+//        }
+//        else {
+//            url = WXPayConstants.UNIFIEDORDER_URL_SUFFIX;
+//        }
+        url = WXPayConstants.SANDBOX_SIGNKEY_URL_SUFFIX;
+        
+        String respXml = this.requestWithoutCert(url, this.fillRequestData(reqData), connectTimeoutMs, readTimeoutMs);
+        return this.processResponseXml(respXml);
+    }
 
     /**
      * 作用：统一下单<br>
