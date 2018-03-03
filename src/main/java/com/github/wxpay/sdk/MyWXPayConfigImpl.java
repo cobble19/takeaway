@@ -18,19 +18,19 @@ public class MyWXPayConfigImpl extends WXPayConfig {
 
 	private byte[] certData;
 	private static MyWXPayConfigImpl INSTANCE = null;
-	private static MessageSource messageSource = null;
-    static {
-	    	try {
-	    		messageSource = (MessageSource) BeanUtil.get("messageSource");
-	    	} catch (Exception e) {
-			logger.error("Got messageSource exception: ", e);
-		}
-    }
+//	private static MessageSource messageSource = null;
+//    static {
+//	    	try {
+//	    		messageSource = (MessageSource) BeanUtil.get("messageSource");
+//	    	} catch (Exception e) {
+//			logger.error("Got messageSource exception: ", e);
+//		}
+//    }
 	
 	private MyWXPayConfigImpl() throws Exception {
 		String certPath = null;
 		try {
-			certPath = messageSource.getMessage("files.directory.private.security", null, null) + "/apiclient_cert.p12";
+//			certPath = messageSource.getMessage("files.directory.private.security", null, null) + "/apiclient_cert.p12";
 			if (StringUtils.isBlank(certPath)) {
 				certPath = "/opt/app/private/security" + "/apiclient_cert.p12";
 			}
