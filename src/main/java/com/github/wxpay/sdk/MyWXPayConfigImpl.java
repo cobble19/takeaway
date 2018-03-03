@@ -5,9 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
 import com.cobble.takeaway.util.BeanUtil;
@@ -22,10 +22,18 @@ public class MyWXPayConfigImpl extends WXPayConfig {
 	private static MessageSource messageSource = (MessageSource) BeanUtil.get("messageSource");
 
 	private MyWXPayConfigImpl() throws Exception {
+		String certPath = null;
 		try {
-			String certPath = messageSource.getMessage("files.directory.private.security", null, null) + "/apiclient_cert.p12";
+			certPath = messageSource.getMessage("files.directory.private.security", null, null) + "/apiclient_cert.p12";
+			if (StringUtils.isBlank(certPath)) {
+				certPath = "/opt/app/private/security" + "/apiclient_cert.p12";
+			}
 //			 String certPath =
 //			 "/Users/bange/Documents/geby/takeaway/cert/apiclient_cert.p12";
+		} catch (Exception e) {
+			logger.error("获取微信支付证书文件失败", e);
+		}
+		try {
 			File file = new File(certPath);
 			InputStream certStream = new FileInputStream(file);
 			this.certData = new byte[(int) file.length()];
