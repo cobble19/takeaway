@@ -118,6 +118,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxUserGetRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderReqApiPOJO;
 import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.AwardRecordService;
 import com.cobble.takeaway.service.AwardService;
@@ -132,6 +133,7 @@ import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxAuthorizerRefreshTokenService;
 import com.cobble.takeaway.service.WxComAccessTokenService;
 import com.cobble.takeaway.service.WxComVerifyTicketService;
+import com.cobble.takeaway.service.WxPayService;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.service.WxRespMsgService;
 import com.cobble.takeaway.spring.security.MyUser;
@@ -198,6 +200,8 @@ public class Oauth2Controller extends BaseController {
 	@Autowired
 	private AwardRecordService awardRecordService;
 	
+	@Autowired
+	private WxPayService wxPayService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -332,6 +336,182 @@ public class Oauth2Controller extends BaseController {
         formatter.close();
         return result;
     }
+
+	@RequestMapping(value = "/web/wxpay/unifiedorder", method = {RequestMethod.GET})
+	public ModelAndView wxPayUnifiedOrder(@RequestParam(value="myFee") Integer myFee,
+			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		String queryString = request.getQueryString();
+		String url = request.getRequestURL() + "";
+		if (StringUtils.isNotBlank(queryString)) {
+			queryString = queryString.split("#")[0];
+			url += "?" + queryString;
+		}
+		HttpSession session = request.getSession();
+		WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = new WxJsSdkConfigRespApiPOJO();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+//				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}*/
+			
+			String appId = authorizerAppId;
+			String jsSdkTicket = getWxJsSdkTicket(authorizerAppId);
+			Long timestamp = System.currentTimeMillis() / 1000;
+			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
+			//注意这里参数名必须全部小写，且必须有序
+	        String string1 = "jsapi_ticket=" + jsSdkTicket +
+	                  "&noncestr=" + nonceStr +
+	                  "&timestamp=" + timestamp +
+	                  "&url=" + url;
+	        logger.info(string1);
+
+			String signature = "";
+	        try {
+	            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+	            crypt.reset();
+	            crypt.update(string1.getBytes("UTF-8"));
+	            signature = byteToHex(crypt.digest());
+	        } catch (NoSuchAlgorithmException e) {
+	            logger.error("MessageDigest exception: ", e);
+	        } catch (UnsupportedEncodingException e) {
+	            logger.error("MessageDigest exception: ", e);
+	        }
+			List<String> jsApiList = Arrays.asList(StringUtils.split(messageSource.getMessage("WX.jssdk.jsApiList", null, null), ","));
+			
+			
+			wxJsSdkConfigRespApiPOJO.setAppId(appId);
+			wxJsSdkConfigRespApiPOJO.setNonceStr(nonceStr);
+			wxJsSdkConfigRespApiPOJO.setTimestamp(timestamp);
+			wxJsSdkConfigRespApiPOJO.setSignature(signature);
+			wxJsSdkConfigRespApiPOJO.setJsApiList(jsApiList);
+			
+			wxJsSdkConfigRespApiPOJO.setTicket(jsSdkTicket);
+			wxJsSdkConfigRespApiPOJO.setUrl(url);
+			
+			logger.info("wxJsSdkConfigRespApiPOJO: " + wxJsSdkConfigRespApiPOJO);
+			
+			
+			// 调用wx unified order api获取prepay_id
+//			Map unifiedOrderReqMap = new HashMap();
+			WxPayUnifiedOrderReqApiPOJO wxPayUnifiedOrderReqApiPOJO = new WxPayUnifiedOrderReqApiPOJO();
+			String mchId = "1425213902";
+			String body = "得味驿站-测试公众号支付";
+			String outTradeNo = DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS");
+			String totalFee = "1";
+			String spbillCreateIp = "112.29.173.76";
+			String notifyUrl = HttpRequestUtil.getBase(request) + "/api/wxpay/notify";
+			String tradeType = "JSAPI";
+			timestamp = System.currentTimeMillis() / 1000;
+			nonceStr = RandomStringUtils.randomAlphanumeric(6);
+			wxPayUnifiedOrderReqApiPOJO.setAppId(appId);
+			wxPayUnifiedOrderReqApiPOJO.setMchId(mchId);
+			wxPayUnifiedOrderReqApiPOJO.setNonceStr(nonceStr);
+			wxPayUnifiedOrderReqApiPOJO.setBody(body);
+			wxPayUnifiedOrderReqApiPOJO.setOutTradeNo(outTradeNo);
+			wxPayUnifiedOrderReqApiPOJO.setTotalFee(totalFee);
+			wxPayUnifiedOrderReqApiPOJO.setSpbillCreateIp(spbillCreateIp);
+			wxPayUnifiedOrderReqApiPOJO.setNotifyUrl(notifyUrl);
+			wxPayUnifiedOrderReqApiPOJO.setTradeType(tradeType);
+//			unifiedOrderReqMap.put("appid", appId);
+//			unifiedOrderReqMap.put("mch_id", mchId);
+//			unifiedOrderReqMap.put("nonce_str", nonceStr);
+//			unifiedOrderReqMap.put("body", body);
+//			unifiedOrderReqMap.put("out_trade_no", outTradeNo);
+//			unifiedOrderReqMap.put("total_fee", totalFee);
+//			unifiedOrderReqMap.put("spbill_create_ip", spbillCreateIp);
+//			unifiedOrderReqMap.put("notify_url", notifyUrl);
+//			unifiedOrderReqMap.put("trade_type", "JSAPI");
+			Map unifiedOrderRespMap = wxPayService.unifiedOrder(wxPayUnifiedOrderReqApiPOJO);
+			ret.addObject("unifiedOrderRespMap", unifiedOrderRespMap);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+		}
+
+		ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+		ret.setViewName("/page/weixin/wx_pay_unified_order");
+		return ret;
+	}
+
+	@RequestMapping(value = "/web/wxpay/fee", method = {RequestMethod.GET})
+	public ModelAndView wxPayFee(
+			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		String queryString = request.getQueryString();
+		String url = request.getRequestURL() + "";
+		if (StringUtils.isNotBlank(queryString)) {
+			queryString = queryString.split("#")[0];
+			url += "?" + queryString;
+		}
+		HttpSession session = request.getSession();
+		WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = new WxJsSdkConfigRespApiPOJO();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+//				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}*/
+			
+			String appId = authorizerAppId;
+			String jsSdkTicket = getWxJsSdkTicket(authorizerAppId);
+			Long timestamp = System.currentTimeMillis() / 1000;
+			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
+			//注意这里参数名必须全部小写，且必须有序
+	        String string1 = "jsapi_ticket=" + jsSdkTicket +
+	                  "&noncestr=" + nonceStr +
+	                  "&timestamp=" + timestamp +
+	                  "&url=" + url;
+	        logger.info(string1);
+
+			String signature = "";
+	        try {
+	            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+	            crypt.reset();
+	            crypt.update(string1.getBytes("UTF-8"));
+	            signature = byteToHex(crypt.digest());
+	        } catch (NoSuchAlgorithmException e) {
+	            logger.error("MessageDigest exception: ", e);
+	        } catch (UnsupportedEncodingException e) {
+	            logger.error("MessageDigest exception: ", e);
+	        }
+			List<String> jsApiList = Arrays.asList(StringUtils.split(messageSource.getMessage("WX.jssdk.jsApiList", null, null), ","));
+			
+			
+			wxJsSdkConfigRespApiPOJO.setAppId(appId);
+			wxJsSdkConfigRespApiPOJO.setNonceStr(nonceStr);
+			wxJsSdkConfigRespApiPOJO.setTimestamp(timestamp);
+			wxJsSdkConfigRespApiPOJO.setSignature(signature);
+			wxJsSdkConfigRespApiPOJO.setJsApiList(jsApiList);
+			
+			wxJsSdkConfigRespApiPOJO.setTicket(jsSdkTicket);
+			wxJsSdkConfigRespApiPOJO.setUrl(url);
+			
+			logger.info("wxJsSdkConfigRespApiPOJO: " + wxJsSdkConfigRespApiPOJO);
+			
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+		}
+
+		ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+		ret.setViewName("/page/weixin/wx_pay_fee");
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/test/{jspFileName}", method = {RequestMethod.GET})
 	public ModelAndView testJsSdk(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
 			@PathVariable(value="jspFileName") String jspFileName,
