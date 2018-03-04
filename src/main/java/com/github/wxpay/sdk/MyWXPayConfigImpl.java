@@ -69,7 +69,7 @@ public class MyWXPayConfigImpl extends WXPayConfig {
 	}
 
 	public String getKey() {
-		return "1425213902";
+		return "DeWeiYiZhan135792468012345678900";
 	}
 
 	public InputStream getCertStream() {
