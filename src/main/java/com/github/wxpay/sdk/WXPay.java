@@ -378,8 +378,19 @@ public class WXPay {
 //            url = WXPayConstants.UNIFIEDORDER_URL_SUFFIX;
 //        }
         url = WXPayConstants.SANDBOX_SIGNKEY_URL_SUFFIX;
+
+        reqData.put("mch_id", config.getMchID());
+        reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+        if (SignType.MD5.equals(this.signType)) {
+            reqData.put("sign_type", WXPayConstants.MD5);
+        }
+        else if (SignType.HMACSHA256.equals(this.signType)) {
+            reqData.put("sign_type", WXPayConstants.HMACSHA256);
+        }
+        String key = config.getKey();
+        reqData.put("sign", WXPayUtil.generateSignature(reqData, key, this.signType));
         
-        String respXml = this.requestWithoutCert(url, this.fillRequestData(reqData), connectTimeoutMs, readTimeoutMs);
+        String respXml = this.requestWithoutCert(url, reqData, connectTimeoutMs, readTimeoutMs);
         return this.processResponseXml(respXml);
     }
 
