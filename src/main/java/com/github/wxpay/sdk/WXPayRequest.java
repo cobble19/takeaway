@@ -109,8 +109,8 @@ public class WXPayRequest {
         HttpResponse httpResponse = httpClient.execute(httpPost);
         HttpEntity httpEntity = httpResponse.getEntity();
         String ret =  EntityUtils.toString(httpEntity, "UTF-8");
-        logger.info("ret: {}, domain: {}, urlSuffix: {}, uuid: {}, data: {}, connectTimeoutMs: {}, readTimeoutMs: {}, useCert: {}"
-        				, ret, domain, urlSuffix, uuid, data, connectTimeoutMs, readTimeoutMs, useCert);
+        logger.info("domain: {}, urlSuffix: {}, uuid: {}, data: {}, connectTimeoutMs: {}, readTimeoutMs: {}, useCert: {}, ret: {} "
+        				, domain, urlSuffix, uuid, data, connectTimeoutMs, readTimeoutMs, useCert, ret);
         	return ret;
     }
 

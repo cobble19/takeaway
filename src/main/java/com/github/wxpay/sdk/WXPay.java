@@ -429,7 +429,25 @@ public class WXPay {
         reqData.put("sign", WXPayUtil.generateSignature(reqData, key, this.signType));
         
         String respXml = this.requestWithoutCert(url, reqData, connectTimeoutMs, readTimeoutMs);
-        return this.processResponseXml(respXml);
+        
+        // 03062018
+		String RETURN_CODE = "return_code";
+		String return_code;
+		Map<String, String> respData = WXPayUtil.xmlToMap(respXml);
+		if (respData.containsKey(RETURN_CODE)) {
+			return_code = respData.get(RETURN_CODE);
+		} else {
+			throw new Exception(String.format("No `return_code` in XML: %s", respXml));
+		}
+
+		if (return_code.equals(WXPayConstants.FAIL)) {
+			return respData;
+		} else if (return_code.equals(WXPayConstants.SUCCESS)) {
+			return respData;
+		} else {
+			throw new Exception(String.format("return_code value %s is invalid in XML: %s", return_code, respXml));
+		}
+//        return this.processResponseXml(respXml);	// 无限循环issue
     }
 
     /**
@@ -464,7 +482,8 @@ public class WXPay {
         if(this.notifyUrl != null) {
             reqData.put("notify_url", this.notifyUrl);
         }
-        String respXml = this.requestWithoutCert(url, this.fillRequestData(reqData), connectTimeoutMs, readTimeoutMs);
+        Map<String, String> data = this.fillRequestData(reqData);
+        String respXml = this.requestWithoutCert(url, data, connectTimeoutMs, readTimeoutMs);
         return this.processResponseXml(respXml);
     }
 
