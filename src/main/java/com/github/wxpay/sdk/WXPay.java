@@ -3,9 +3,13 @@ package com.github.wxpay.sdk;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.wxpay.sdk.WXPayConstants.SignType;
 
 public class WXPay {
+	private static final Logger logger = LoggerFactory.getLogger(WXPay.class);
 
     private WXPayConfig config;
     private SignType signType;
@@ -103,12 +107,11 @@ public class WXPay {
         }
         String key = config.getKey();
         if (this.useSandbox) {
-        		Map<String, String> map = new HashMap<String, String>();
-        		map.put("mch_id", config.getMchID());
-        		map.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
-        		map.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
-        		Map<String, String> signKeyResultMap = this.getSandboxSignKey(map);
-        		key = signKeyResultMap.get("sandbox_signkey");
+//        		Map<String, String> map = new HashMap<String, String>();
+//        		map.put("mch_id", config.getMchID());
+//        		map.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+//        		map.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
+        		key = this.getSandboxSignKey();
         } else {
         		key = config.getKey();
 		}
@@ -126,7 +129,18 @@ public class WXPay {
      */
     public boolean isResponseSignatureValid(Map<String, String> reqData) throws Exception {
         // 返回数据的签名方式和请求中给定的签名方式是一致的
-        return WXPayUtil.isSignatureValid(reqData, this.config.getKey(), this.signType);
+        String key = config.getKey();
+        if (this.useSandbox) {
+//        		Map<String, String> map = new HashMap<String, String>();
+//        		map.put("mch_id", config.getMchID());
+//        		map.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+//        		map.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
+        		key = this.getSandboxSignKey();
+        } else {
+        		key = this.config.getKey();
+		}
+        
+        return WXPayUtil.isSignatureValid(reqData, key, this.signType);
     }
 
     /**
@@ -347,7 +361,31 @@ public class WXPay {
         }
     }
 
+	public String getSandboxSignKey() {
+		String ret = "";
+		try {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("mch_id", config.getMchID());
+			map.put("nonce_str", WXPayUtil.generateUUID());
 
+			if (SignType.MD5.equals(this.signType)) {
+				map.put("sign_type", WXPayConstants.MD5);
+			} else if (SignType.HMACSHA256.equals(this.signType)) {
+				map.put("sign_type", WXPayConstants.HMACSHA256);
+			}
+			String key = config.getKey();
+
+			map.put("sign", WXPayUtil.generateSignature(map, key, this.signType));
+
+			Map<String, String> signKeyResultMap = this.getSandboxSignKey(map);
+			String sandboxSignKey = signKeyResultMap.get("sandbox_signkey");
+			ret = sandboxSignKey;
+		} catch (Exception e) {
+			logger.error("getSandboxSignKey exception: ", e);
+		}
+		return ret;
+	}
+    
     /**
      * 作用：获取沙盒密钥KEY<br>
      * 场景：沙盒环境下的KEY
@@ -379,8 +417,8 @@ public class WXPay {
 //        }
         url = WXPayConstants.SANDBOX_SIGNKEY_URL_SUFFIX;
 
-        reqData.put("mch_id", config.getMchID());
-        reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+//        reqData.put("mch_id", config.getMchID());
+//        reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
         if (SignType.MD5.equals(this.signType)) {
             reqData.put("sign_type", WXPayConstants.MD5);
         }
