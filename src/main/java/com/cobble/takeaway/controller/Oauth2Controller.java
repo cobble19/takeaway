@@ -406,7 +406,7 @@ public class Oauth2Controller extends BaseController {
 			String mchId = "1425213902";
 			String body = "得味驿站-测试公众号支付";
 			String outTradeNo = DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS");
-			String totalFee = "1";
+			String totalFee = myFee + "";
 			String spbillCreateIp = "112.29.173.76";
 			String notifyUrl = HttpRequestUtil.getBase(request) + "/api/wxpay/notify";
 			String tradeType = "JSAPI";
