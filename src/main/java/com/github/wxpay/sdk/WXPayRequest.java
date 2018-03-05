@@ -15,6 +15,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -25,6 +27,7 @@ import java.security.KeyStore;
 import java.security.SecureRandom;
 
 public class WXPayRequest {
+	private static final Logger logger = LoggerFactory.getLogger(WXPayRequest.class);
     private WXPayConfig config;
     public WXPayRequest(WXPayConfig config) throws Exception{
 
@@ -105,13 +108,15 @@ public class WXPayRequest {
 
         HttpResponse httpResponse = httpClient.execute(httpPost);
         HttpEntity httpEntity = httpResponse.getEntity();
-        return EntityUtils.toString(httpEntity, "UTF-8");
-
+        String ret =  EntityUtils.toString(httpEntity, "UTF-8");
+        logger.info("ret: {}, domain: {}, urlSuffix: {}, uuid: {}, data: {}, connectTimeoutMs: {}, readTimeoutMs: {}, useCert: {}"
+        				, ret, domain, urlSuffix, uuid, data, connectTimeoutMs, readTimeoutMs, useCert);
+        	return ret;
     }
 
 
     private String request(String urlSuffix, String uuid, String data, int connectTimeoutMs, int readTimeoutMs, boolean useCert, boolean autoReport) throws Exception {
-        Exception exception = null;
+    		Exception exception = null;
         long elapsedTimeMillis = 0;
         long startTimestampMs = WXPayUtil.getCurrentTimestampMs();
         boolean firstHasDnsErr = false;
@@ -121,20 +126,24 @@ public class WXPayRequest {
         if(domainInfo == null){
             throw new Exception("WXPayConfig.getWXPayDomain().getDomain() is empty or null");
         }
+        logger.info("domain: {}, urlSuffix: {}, uuid: {}, data: {}, connectTimeoutMs: {}, readTimeoutMs: {}, useCert: {}"
+				, domainInfo, urlSuffix, uuid, data, connectTimeoutMs, readTimeoutMs, useCert);    
         try {
             String result = requestOnce(domainInfo.domain, urlSuffix, uuid, data, connectTimeoutMs, readTimeoutMs, useCert);
-            elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs()-startTimestampMs;
-            config.getWXPayDomain().report(domainInfo.domain, elapsedTimeMillis, null);
-            WXPayReport.getInstance(config).report(
-                    uuid,
-                    elapsedTimeMillis,
-                    domainInfo.domain,
-                    domainInfo.primaryDomain,
-                    connectTimeoutMs,
-                    readTimeoutMs,
-                    firstHasDnsErr,
-                    firstHasConnectTimeout,
-                    firstHasReadTimeout);
+            if (autoReport) {
+                elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs()-startTimestampMs;
+                config.getWXPayDomain().report(domainInfo.domain, elapsedTimeMillis, null);
+                WXPayReport.getInstance(config).report(
+                        uuid,
+                        elapsedTimeMillis,
+                        domainInfo.domain,
+                        domainInfo.primaryDomain,
+                        connectTimeoutMs,
+                        readTimeoutMs,
+                        firstHasDnsErr,
+                        firstHasConnectTimeout,
+                        firstHasReadTimeout);
+            }
             return result;
         }
         catch (UnknownHostException ex) {  // dns 解析错误，或域名不存在
@@ -142,64 +151,72 @@ public class WXPayRequest {
             firstHasDnsErr = true;
             elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs()-startTimestampMs;
             WXPayUtil.getLogger().warn("UnknownHostException for domainInfo {}", domainInfo);
-            WXPayReport.getInstance(config).report(
-                    uuid,
-                    elapsedTimeMillis,
-                    domainInfo.domain,
-                    domainInfo.primaryDomain,
-                    connectTimeoutMs,
-                    readTimeoutMs,
-                    firstHasDnsErr,
-                    firstHasConnectTimeout,
-                    firstHasReadTimeout
-            );
+            if (autoReport) {
+                WXPayReport.getInstance(config).report(
+                        uuid,
+                        elapsedTimeMillis,
+                        domainInfo.domain,
+                        domainInfo.primaryDomain,
+                        connectTimeoutMs,
+                        readTimeoutMs,
+                        firstHasDnsErr,
+                        firstHasConnectTimeout,
+                        firstHasReadTimeout
+                );
+            }
         }
         catch (ConnectTimeoutException ex) {
             exception = ex;
             firstHasConnectTimeout = true;
             elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs()-startTimestampMs;
             WXPayUtil.getLogger().warn("connect timeout happened for domainInfo {}", domainInfo);
-            WXPayReport.getInstance(config).report(
-                    uuid,
-                    elapsedTimeMillis,
-                    domainInfo.domain,
-                    domainInfo.primaryDomain,
-                    connectTimeoutMs,
-                    readTimeoutMs,
-                    firstHasDnsErr,
-                    firstHasConnectTimeout,
-                    firstHasReadTimeout
-            );
+            if (autoReport) {
+                WXPayReport.getInstance(config).report(
+                        uuid,
+                        elapsedTimeMillis,
+                        domainInfo.domain,
+                        domainInfo.primaryDomain,
+                        connectTimeoutMs,
+                        readTimeoutMs,
+                        firstHasDnsErr,
+                        firstHasConnectTimeout,
+                        firstHasReadTimeout
+                );
+            }
         }
         catch (SocketTimeoutException ex) {
             exception = ex;
             firstHasReadTimeout = true;
             elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs()-startTimestampMs;
             WXPayUtil.getLogger().warn("timeout happened for domainInfo {}", domainInfo);
-            WXPayReport.getInstance(config).report(
-                    uuid,
-                    elapsedTimeMillis,
-                    domainInfo.domain,
-                    domainInfo.primaryDomain,
-                    connectTimeoutMs,
-                    readTimeoutMs,
-                    firstHasDnsErr,
-                    firstHasConnectTimeout,
-                    firstHasReadTimeout);
+            if (autoReport) {
+                WXPayReport.getInstance(config).report(
+                        uuid,
+                        elapsedTimeMillis,
+                        domainInfo.domain,
+                        domainInfo.primaryDomain,
+                        connectTimeoutMs,
+                        readTimeoutMs,
+                        firstHasDnsErr,
+                        firstHasConnectTimeout,
+                        firstHasReadTimeout);
+            }
         }
         catch (Exception ex) {
             exception = ex;
             elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs()-startTimestampMs;
-            WXPayReport.getInstance(config).report(
-                    uuid,
-                    elapsedTimeMillis,
-                    domainInfo.domain,
-                    domainInfo.primaryDomain,
-                    connectTimeoutMs,
-                    readTimeoutMs,
-                    firstHasDnsErr,
-                    firstHasConnectTimeout,
-                    firstHasReadTimeout);
+            if (autoReport) {
+                WXPayReport.getInstance(config).report(
+                        uuid,
+                        elapsedTimeMillis,
+                        domainInfo.domain,
+                        domainInfo.primaryDomain,
+                        connectTimeoutMs,
+                        readTimeoutMs,
+                        firstHasDnsErr,
+                        firstHasConnectTimeout,
+                        firstHasReadTimeout);
+            }
         }
         config.getWXPayDomain().report(domainInfo.domain, elapsedTimeMillis, exception);
         throw exception;
