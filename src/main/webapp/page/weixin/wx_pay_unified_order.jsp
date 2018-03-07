@@ -75,18 +75,19 @@
 					var nonceStr = $('#nonceStrUo').val();
 					var prepayId = $('#prepayIdUo').val();
 					var paySign = $('#paySignUo').val();
+					var packageUo = $('#packageUo').val();
 					WeixinJSBridge.invoke(
 					    'getBrandWCPayRequest', {
 					        "appId": appId,     //公众号名称，由商户传入     
 					        "timeStamp":timestamp,         //时间戳，自1970年以来的秒数     
 					        "nonceStr":nonceStr, //随机串     
-					        "package":"prepay_id=" + prepayId,     
+					        "package":packageUo,     
 					        "signType":"MD5",         //微信签名方式：     
 					        "paySign": paySign //微信签名 
 					    },
 					    function(res){     
 					    		alert("appId: " + appId + ", timeStamp: " + timestamp + ", nonceStr: " + nonceStr
-					    				+ ", package: " + "prepay_id=" + prepayId + ", signType: " + "MD5" + ", paySign: " + paySign);
+					    				+ ", package: " + "prepay_id=" + prepayId + ", packageUo: " + packageUo + ", signType: " + "MD5" + ", paySign: " + paySign);
 					 	   	alert("微信支付结果: " + res);
 					 	   	
 					 	 
@@ -288,6 +289,7 @@
   	<input type="text" id="nonceStrUo" name="nonceStrUo" value="${jsPayMap.nonceStr}" />
   	<input type="text" id="prepayIdUo" name="prepayIdUo" value="${jsPayMap.prepayId}" />
   	<input type="text" id="paySignUo" name="paySignUo" value="${jsPayMap.sign}" />
+  	<input type="text" id="packageUo" name="packageUo" value="${jsPayMap.packageUo}" />
   	
   	<div class="container-fluid">
         <div class="row" style=" height:4px; background-color:#44b549;"></div>
