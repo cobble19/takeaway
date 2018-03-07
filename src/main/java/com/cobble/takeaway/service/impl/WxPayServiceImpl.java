@@ -74,8 +74,8 @@ public class WxPayServiceImpl implements WxPayService {
         return ret;
     }
 
-    public Map<String, String> fillRequestData(Map<String, String> reqData) throws Exception {
-    		return wxpay.fillRequestData(reqData);
+    public Map<String, String> appendSign(Map<String, String> reqData) throws Exception {
+    		return wxpay.appendSign(reqData);
     }
 
     /* (non-Javadoc)

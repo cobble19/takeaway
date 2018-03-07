@@ -76,6 +76,26 @@
 					var prepayId = $('#prepayIdUo').val();
 					var paySign = $('#paySignUo').val();
 					var packageUo = $('#packageUo').val();
+					
+
+					wx.requestPayment({   
+						'appId': appId,    
+					   'timeStamp': timestamp + '',
+					   'nonceStr': nonceStr + '',
+					   'package': 'prepay_id=' + prepayId + '',
+					   'signType': 'MD5',
+					   'paySign': paySign + '',
+					   'success':function(res){
+					   	alert(res.errMsg + " " + res);
+					   },
+					   'fail':function(res){
+					   	alert(res.errMsg + " " + res);
+					   },
+					   'complete': function(res) {
+					   	alert(res.errMsg + " " + res);
+					   }
+					})
+					
 					WeixinJSBridge.invoke(
 					    'getBrandWCPayRequest', {
 					        "appId": appId,     //公众号名称，由商户传入     

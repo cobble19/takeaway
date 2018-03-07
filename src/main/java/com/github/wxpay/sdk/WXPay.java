@@ -120,6 +120,29 @@ public class WXPay {
         return reqData;
     }
 
+    public Map<String, String> appendSign(Map<String, String> reqData) throws Exception {
+        reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+        if (SignType.MD5.equals(this.signType)) {
+            reqData.put("sign_type", WXPayConstants.MD5);
+        }
+        else if (SignType.HMACSHA256.equals(this.signType)) {
+            reqData.put("sign_type", WXPayConstants.HMACSHA256);
+        }
+        String key = config.getKey();
+        if (this.useSandbox) {
+//        		Map<String, String> map = new HashMap<String, String>();
+//        		map.put("mch_id", config.getMchID());
+//        		map.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+//        		map.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
+        		key = this.getSandboxSignKey();
+        } else {
+        		key = config.getKey();
+		}
+        
+        reqData.put("sign", WXPayUtil.generateSignature(reqData, key, this.signType));
+        return reqData;
+    }
+
     /**
      * 判断xml数据的sign是否有效，必须包含sign字段，否则返回false。
      *
