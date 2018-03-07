@@ -74,6 +74,10 @@ public class WxPayServiceImpl implements WxPayService {
         return ret;
     }
 
+    public Map<String, String> fillRequestData(Map<String, String> reqData) throws Exception {
+    		return wxpay.fillRequestData(reqData);
+    }
+
     /* (non-Javadoc)
 	 * @see com.cobble.takeaway.service.wxpay.impl.WxPayService#orderClose(com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayOrderCloseReqApiPOJO)
 	 */

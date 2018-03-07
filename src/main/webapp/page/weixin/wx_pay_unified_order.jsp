@@ -85,9 +85,10 @@
 					        "paySign": paySign //微信签名 
 					    },
 					    function(res){     
-					    		alert("appId: " + appId + "timeStamp: " + timestamp + "nonceStr: " + nonceStr
-					    				+ "package: " + "prepay_id=" + prepayId + "signType: " + "MD5" + "paySign: " + paySign);
+					    		alert("appId: " + appId + ", timeStamp: " + timestamp + ", nonceStr: " + nonceStr
+					    				+ ", package: " + "prepay_id=" + prepayId + ", signType: " + "MD5" + ", paySign: " + paySign);
 					 	   	alert("微信支付结果: " + res);
+					 	   	
 					 	 
 					 		// 使用以下方式判断前端返回,微信团队郑重提示：
 					        //res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠
@@ -282,11 +283,11 @@
   	<input type="text" id="url" name="url" value="${wxJsSdkConfigRespApiPOJO.url}" />
   	<input type="text" id="ticket" name="ticket" value="${wxJsSdkConfigRespApiPOJO.ticket}" />
   	
-  	<input type="text" id="appIdUo" name="appIdUo" value="${unifiedOrderRespMap.appid}" />
-  	<input type="text" id="timestampUo" name="timestampUo" value="${unifiedOrderRespMap.timestamp}" />
-  	<input type="text" id="nonceStrUo" name="nonceStrUo" value="${unifiedOrderRespMap.nonce_str}" />
-  	<input type="text" id="prepayIdUo" name="prepayIdUo" value="${unifiedOrderRespMap.prepay_id}" />
-  	<input type="text" id="paySignUo" name="paySignUo" value="${unifiedOrderRespMap.sign}" />
+  	<input type="text" id="appIdUo" name="appIdUo" value="${jsPayMap.appId}" />
+  	<input type="text" id="timestampUo" name="timestampUo" value="${jsPayMap.timeStamp}" />
+  	<input type="text" id="nonceStrUo" name="nonceStrUo" value="${jsPayMap.nonceStr}" />
+  	<input type="text" id="prepayIdUo" name="prepayIdUo" value="${jsPayMap.prepayId}" />
+  	<input type="text" id="paySignUo" name="paySignUo" value="${jsPayMap.sign}" />
   	
   	<div class="container-fluid">
         <div class="row" style=" height:4px; background-color:#44b549;"></div>

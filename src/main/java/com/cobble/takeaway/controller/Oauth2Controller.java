@@ -448,6 +448,7 @@ public class Oauth2Controller extends BaseController {
 			wxPayUnifiedOrderReqApiPOJO.setNotifyUrl(notifyUrl);
 			wxPayUnifiedOrderReqApiPOJO.setTradeType(tradeType);
 			wxPayUnifiedOrderReqApiPOJO.setOpenId("ovyahuAY2iNDmTeoetRFtehv_knU");
+
 //			unifiedOrderReqMap.put("appid", appId);
 //			unifiedOrderReqMap.put("mch_id", mchId);
 //			unifiedOrderReqMap.put("nonce_str", nonceStr);
@@ -458,7 +459,25 @@ public class Oauth2Controller extends BaseController {
 //			unifiedOrderReqMap.put("notify_url", notifyUrl);
 //			unifiedOrderReqMap.put("trade_type", "JSAPI");
 			Map unifiedOrderRespMap = wxPayService.unifiedOrder(wxPayUnifiedOrderReqApiPOJO);
+			
+//
+//		  	<input type="text" id="appIdUo" name="appIdUo" value="${unifiedOrderRespMap.appid}" />
+//		  	<input type="text" id="timestampUo" name="timestampUo" value="${unifiedOrderRespMap.timestamp}" />
+//		  	<input type="text" id="nonceStrUo" name="nonceStrUo" value="${unifiedOrderRespMap.nonce_str}" />
+//		  	<input type="text" id="prepayIdUo" name="prepayIdUo" value="${unifiedOrderRespMap.prepay_id}" />
+//		  	<input type="text" id="paySignUo" name="paySignUo" value="${unifiedOrderRespMap.sign}" />
+
+			Map<String, String> jsPayMap = new HashMap<String, String>();
+			jsPayMap.put("appId", appId);     //公众号名称，由商户传入     
+			jsPayMap.put("timeStamp", System.currentTimeMillis() / 1000 + "");        //时间戳，自1970年以来的秒数     
+			jsPayMap.put("nonceStr", nonceStr + "1"); //随机串     
+			jsPayMap.put("prepayId", unifiedOrderRespMap.get("prepay_id") + "");  
+			jsPayMap.put("package", "prepay_id=" + unifiedOrderRespMap.get("prepay_id"));     
+			jsPayMap.put("signType", "MD5");        //微信签名方式：
+			jsPayMap = wxPayService.fillRequestData(jsPayMap);
+			
 			ret.addObject("unifiedOrderRespMap", unifiedOrderRespMap);
+			ret.addObject("jsPayMap", jsPayMap);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 		}
