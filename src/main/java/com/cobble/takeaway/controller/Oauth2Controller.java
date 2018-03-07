@@ -1,6 +1,8 @@
 package com.cobble.takeaway.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -337,6 +339,28 @@ public class Oauth2Controller extends BaseController {
         return result;
     }
 
+
+	@RequestMapping(value = "/api/wxpay/notify", method = {RequestMethod.GET})
+	public Map wxPaynotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map ret = new HashMap();
+        InputStream inStream = request.getInputStream();
+        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inStream.read(buffer)) != -1) {
+            outSteam.write(buffer, 0, len);
+        }
+        System.out.println("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
+        outSteam.close();
+        inStream.close();
+        String result = new String(outSteam.toByteArray(), "utf-8");
+        logger.info("微信支付成功通知: {}", result);
+        
+		ret.put("return_code", "SUCCESS");
+		ret.put("return_msg", "OK");
+		return ret;
+	}
+
 	@RequestMapping(value = "/web/wxpay/unifiedorder", method = {RequestMethod.GET})
 	public ModelAndView wxPayUnifiedOrder(@RequestParam(value="myFee") Integer myFee,
 			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
@@ -404,7 +428,7 @@ public class Oauth2Controller extends BaseController {
 //			Map unifiedOrderReqMap = new HashMap();
 			WxPayUnifiedOrderReqApiPOJO wxPayUnifiedOrderReqApiPOJO = new WxPayUnifiedOrderReqApiPOJO();
 			String mchId = "1425213902";
-			String body = "得味驿站-测试公众号支付";
+			String body = "deweiyizhan - pay test";
 			String outTradeNo = DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS");
 			String totalFee = myFee + "";
 			String spbillCreateIp = "112.29.173.76";
@@ -415,7 +439,9 @@ public class Oauth2Controller extends BaseController {
 			wxPayUnifiedOrderReqApiPOJO.setAppId(appId);
 			wxPayUnifiedOrderReqApiPOJO.setMchId(mchId);
 			wxPayUnifiedOrderReqApiPOJO.setNonceStr(nonceStr);
+			wxPayUnifiedOrderReqApiPOJO.setDeviceInfo("WEB");
 			wxPayUnifiedOrderReqApiPOJO.setBody(body);
+			wxPayUnifiedOrderReqApiPOJO.setAttach("attach test");
 			wxPayUnifiedOrderReqApiPOJO.setOutTradeNo(outTradeNo);
 			wxPayUnifiedOrderReqApiPOJO.setTotalFee(totalFee);
 			wxPayUnifiedOrderReqApiPOJO.setSpbillCreateIp(spbillCreateIp);
