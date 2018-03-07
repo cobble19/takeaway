@@ -421,6 +421,7 @@ public class Oauth2Controller extends BaseController {
 			wxPayUnifiedOrderReqApiPOJO.setSpbillCreateIp(spbillCreateIp);
 			wxPayUnifiedOrderReqApiPOJO.setNotifyUrl(notifyUrl);
 			wxPayUnifiedOrderReqApiPOJO.setTradeType(tradeType);
+			wxPayUnifiedOrderReqApiPOJO.setOpenId("ovyahuAY2iNDmTeoetRFtehv_knU");
 //			unifiedOrderReqMap.put("appid", appId);
 //			unifiedOrderReqMap.put("mch_id", mchId);
 //			unifiedOrderReqMap.put("nonce_str", nonceStr);
