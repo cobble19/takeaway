@@ -106,15 +106,11 @@ public class WXPay {
             reqData.put("sign_type", WXPayConstants.HMACSHA256);
         }
         String key = config.getKey();
-        if (this.useSandbox) {
-//        		Map<String, String> map = new HashMap<String, String>();
-//        		map.put("mch_id", config.getMchID());
-//        		map.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
-//        		map.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
-        		key = this.getSandboxSignKey();
-        } else {
-        		key = config.getKey();
-		}
+//        if (this.useSandbox) {
+//        		key = this.getSandboxSignKey();
+//        } else {
+//        		key = config.getKey();
+//		}
         
         reqData.put("sign", WXPayUtil.generateSignature(reqData, key, this.signType));
         return reqData;
@@ -129,15 +125,11 @@ public class WXPay {
             reqData.put("sign_type", WXPayConstants.HMACSHA256);
         }
         String key = config.getKey();
-        if (this.useSandbox) {
-//        		Map<String, String> map = new HashMap<String, String>();
-//        		map.put("mch_id", config.getMchID());
-//        		map.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
-//        		map.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
-        		key = this.getSandboxSignKey();
-        } else {
-        		key = config.getKey();
-		}
+//        if (this.useSandbox) {
+//        		key = this.getSandboxSignKey();
+//        } else {
+//        		key = config.getKey();
+//		}
         
         reqData.put("sign", WXPayUtil.generateSignature(reqData, key, this.signType));
         return reqData;
@@ -153,15 +145,11 @@ public class WXPay {
     public boolean isResponseSignatureValid(Map<String, String> reqData) throws Exception {
         // 返回数据的签名方式和请求中给定的签名方式是一致的
         String key = config.getKey();
-        if (this.useSandbox) {
-//        		Map<String, String> map = new HashMap<String, String>();
-//        		map.put("mch_id", config.getMchID());
-//        		map.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
-//        		map.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
-        		key = this.getSandboxSignKey();
-        } else {
-        		key = this.config.getKey();
-		}
+//        if (this.useSandbox) {
+//        		key = this.getSandboxSignKey();
+//        } else {
+//        		key = this.config.getKey();
+//		}
         
         return WXPayUtil.isSignatureValid(reqData, key, this.signType);
     }

@@ -77,7 +77,7 @@
 					var paySign = $('#paySignUo').val();
 					var packageUo = $('#packageUo').val();
 					
-
+/* 
 					wx.requestPayment({   
 						'appId': appId,    
 					   'timeStamp': timestamp + '',
@@ -94,7 +94,7 @@
 					   'complete': function(res) {
 					   	alert(res.errMsg + " " + res);
 					   }
-					})
+					}) */
 					
 					WeixinJSBridge.invoke(
 					    'getBrandWCPayRequest', {
