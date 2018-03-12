@@ -109,8 +109,8 @@ public class WXPayRequest {
         HttpResponse httpResponse = httpClient.execute(httpPost);
         HttpEntity httpEntity = httpResponse.getEntity();
         String ret =  EntityUtils.toString(httpEntity, "UTF-8");
-        logger.info("domain: {}, urlSuffix: {}, uuid: {}, data: {}, connectTimeoutMs: {}, readTimeoutMs: {}, useCert: {}, ret: {} "
-        				, domain, urlSuffix, uuid, data, connectTimeoutMs, readTimeoutMs, useCert, ret);
+        logger.info("domain: {}, urlSuffix: {}, uuid: {}, connectTimeoutMs: {}, readTimeoutMs: {}, useCert: {}, request data: {}, ret result: {} "
+        				, domain, urlSuffix, uuid, connectTimeoutMs, readTimeoutMs, useCert, data, ret);
         	return ret;
     }
 
@@ -126,8 +126,8 @@ public class WXPayRequest {
         if(domainInfo == null){
             throw new Exception("WXPayConfig.getWXPayDomain().getDomain() is empty or null");
         }
-        logger.info("domain: {}, urlSuffix: {}, uuid: {}, data: {}, connectTimeoutMs: {}, readTimeoutMs: {}, useCert: {}"
-				, domainInfo, urlSuffix, uuid, data, connectTimeoutMs, readTimeoutMs, useCert);    
+//        logger.info("domain: {}, urlSuffix: {}, uuid: {}, connectTimeoutMs: {}, readTimeoutMs: {}, useCert: {}, data: {}"
+//				, domainInfo, urlSuffix, uuid, connectTimeoutMs, readTimeoutMs, useCert, data);    
         try {
             String result = requestOnce(domainInfo.domain, urlSuffix, uuid, data, connectTimeoutMs, readTimeoutMs, useCert);
             if (autoReport) {
