@@ -343,25 +343,30 @@ public class Oauth2Controller extends BaseController {
 
 	@RequestMapping(value = "/api/wxpay/notify", method = {RequestMethod.GET})
 	public String wxPaynotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        logger.info("wxpay notify start...");
 		String ret = new String();
 		Map resp = new HashMap();
-        InputStream inStream = request.getInputStream();
-        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        while ((len = inStream.read(buffer)) != -1) {
-            outSteam.write(buffer, 0, len);
-        }
-        outSteam.flush();
-        logger.info("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
-        String result = new String(outSteam.toByteArray(), "utf-8");
-        logger.info("微信支付成功通知: {}", result);
+		try {
+	        InputStream inStream = request.getInputStream();
+	        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+	        byte[] buffer = new byte[1024];
+	        int len = 0;
+	        while ((len = inStream.read(buffer)) != -1) {
+	            outSteam.write(buffer, 0, len);
+	        }
+	        outSteam.flush();
+	        logger.info("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
+	        String result = new String(outSteam.toByteArray(), "utf-8");
+	        logger.info("微信支付成功通知: {}", result);
 
-        outSteam.close();
-        inStream.close();
-		resp.put("return_code", "SUCCESS");
-		resp.put("return_msg", "OK");
-		ret = WXPayUtil.mapToXml(resp);
+	        outSteam.close();
+	        inStream.close();
+			resp.put("return_code", "SUCCESS");
+			resp.put("return_msg", "OK");
+			ret = WXPayUtil.mapToXml(resp);
+		} catch (Exception e) {
+			logger.error("wxpay notify exception: ", e);
+		}
 		return ret;
 	}
 

@@ -8,10 +8,8 @@ import java.io.InputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
-
-import com.cobble.takeaway.util.BeanUtil;
 import com.cobble.takeaway.util.CommonConstant;
+import com.cobble.takeaway.util.ConfigurationUtil;
 
 public class MyWXPayConfigImpl extends WXPayConfig {
 	private static final Logger logger = LoggerFactory.getLogger(MyWXPayConfigImpl.class);
@@ -32,11 +30,11 @@ public class MyWXPayConfigImpl extends WXPayConfig {
 		try {
 //			certPath = messageSource.getMessage("files.directory.private.security", null, null) + "/apiclient_cert.p12";
 			if (StringUtils.isBlank(certPath)) {
-				certPath = "/opt/app/private/security" + "/apiclient_cert.p12";
+				certPath = ConfigurationUtil.getPropertiesConfig().getString("files.directory.private.security", "/opt/app/private/security") + "/apiclient_cert.p12";
 			}
 //			 String certPath =
 //			 "/Users/bange/Documents/geby/takeaway/cert/apiclient_cert.p12";
-			logger.info("certPath: {}", certPath);
+			logger.info("wxpay certPath: {}", certPath);
 		} catch (Exception e) {
 			logger.error("获取微信支付证书文件失败", e);
 		}

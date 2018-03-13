@@ -17,6 +17,7 @@ import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPaySandboxSignKeyReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayShortUrlReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderReqApiPOJO;
 import com.cobble.takeaway.service.WxPayService;
+import com.cobble.takeaway.util.ConfigurationUtil;
 import com.cobble.takeaway.util.XmlUtils;
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.MyWXPayConfigImpl;
@@ -37,8 +38,10 @@ public class WxPayServiceImpl implements WxPayService {
     
     private void init() throws Exception {
         config = MyWXPayConfigImpl.getInstance();
-        String notifyUrl = "http://www.deweiyizhan.com/api/wxpay/notify";
-		wxpay = new WXPay(config, notifyUrl ,false, true);
+        String notifyUrl = ConfigurationUtil.getPropertiesConfig().getString("WXPAY.notifyUrl", "http://www.deweiyizhan.com/api/wxpay/notify");
+        Boolean autoReport = ConfigurationUtil.getPropertiesConfig().getBoolean("WXPAY.autoReport", false);
+		boolean useSandbox = ConfigurationUtil.getPropertiesConfig().getBoolean("WXPAY.useSandbox", true);;
+		wxpay = new WXPay(config, notifyUrl, autoReport, useSandbox);
 //        total_fee = "1";
 //        // out_trade_no = "201701017496748980290321";
 //        out_trade_no = "201802032336010000003433-asd002";
