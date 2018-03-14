@@ -3,6 +3,7 @@ package com.github.wxpay.sdk;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,13 +44,13 @@ public class WXPay {
         this.config = config;
         this.notifyUrl = notifyUrl;
         this.autoReport = autoReport;
-        this.useSandbox = useSandbox;
-        if (useSandbox) {
-            this.signType = SignType.MD5; // 沙箱环境
-        }
-        else {
-            this.signType = SignType.HMACSHA256;
-        }
+		this.useSandbox = useSandbox;
+		if (useSandbox) {
+			this.signType = SignType.MD5; // 沙箱环境
+		} else {
+			// this.signType = SignType.HMACSHA256;
+			this.signType = SignType.MD5;
+		}
         this.wxPayRequest = new WXPayRequest(config);
     }
 
@@ -95,29 +96,49 @@ public class WXPay {
      * @return
      * @throws Exception
      */
-    public Map<String, String> fillRequestData(Map<String, String> reqData) throws Exception {
-        reqData.put("appid", config.getAppID());
-        reqData.put("mch_id", config.getMchID());
-        reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
-        if (SignType.MD5.equals(this.signType)) {
-            reqData.put("sign_type", WXPayConstants.MD5);
-        }
-        else if (SignType.HMACSHA256.equals(this.signType)) {
-            reqData.put("sign_type", WXPayConstants.HMACSHA256);
-        }
-        String key = config.getKey();
-        if (this.useSandbox) {
-        		key = this.getSandboxSignKey();
-        } else {
-        		key = config.getKey();
+	public Map<String, String> fillRequestData(Map<String, String> reqData) throws Exception {
+		reqData.put("appid", config.getAppID());
+		reqData.put("mch_id", config.getMchID());
+		reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+		String signType = reqData.get("sign_type");
+		if (StringUtils.isBlank(signType)) {
+			signType = WXPayConstants.MD5;
 		}
-        
-        reqData.put("sign", WXPayUtil.generateSignature(reqData, key, this.signType));
-        return reqData;
+		if (WXPayConstants.MD5.equalsIgnoreCase(signType)) {
+			this.signType = SignType.MD5;
+		} else {
+			this.signType = SignType.HMACSHA256;
+		}
+
+		if (SignType.MD5.equals(this.signType)) {
+			reqData.put("sign_type", WXPayConstants.MD5);
+		} else if (SignType.HMACSHA256.equals(this.signType)) {
+			reqData.put("sign_type", WXPayConstants.HMACSHA256);
+		}
+		String key = config.getKey();
+		if (this.useSandbox) {
+			key = this.getSandboxSignKey();
+		} else {
+			key = config.getKey();
+		}
+
+		reqData.put("sign", WXPayUtil.generateSignature(reqData, key, this.signType));
+		return reqData;
     }
 
     public Map<String, String> appendSign(Map<String, String> reqData) throws Exception {
         reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+        
+		String signType = reqData.get("sign_type");
+		if (StringUtils.isBlank(signType)) {
+			signType = WXPayConstants.MD5;
+		}
+		if (WXPayConstants.MD5.equalsIgnoreCase(signType)) {
+			this.signType = SignType.MD5;
+		} else {
+			this.signType = SignType.HMACSHA256;
+		}
+		
         if (SignType.MD5.equals(this.signType)) {
             reqData.put("sign_type", WXPayConstants.MD5);
         }

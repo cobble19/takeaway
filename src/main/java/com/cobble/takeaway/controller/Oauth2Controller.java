@@ -120,6 +120,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxUserGetRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayOrderQueryReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderReqApiPOJO;
 import com.cobble.takeaway.service.ActivityService;
 import com.cobble.takeaway.service.AwardRecordService;
@@ -150,6 +151,8 @@ import com.cobble.takeaway.util.JsonUtils;
 import com.cobble.takeaway.util.UserUtil;
 import com.cobble.takeaway.util.WxUtil;
 import com.cobble.takeaway.util.XmlUtils;
+import com.github.wxpay.sdk.WXPayConstants;
+import com.github.wxpay.sdk.WXPayConstants.SignType;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 
@@ -340,7 +343,6 @@ public class Oauth2Controller extends BaseController {
         return result;
     }
 
-
 	@RequestMapping(value = "/api/wxpay/notify", method = {RequestMethod.GET})
 	public String wxPaynotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
         logger.info("wxpay notify start...");
@@ -457,6 +459,7 @@ public class Oauth2Controller extends BaseController {
 			wxPayUnifiedOrderReqApiPOJO.setNotifyUrl(notifyUrl);
 			wxPayUnifiedOrderReqApiPOJO.setTradeType(tradeType);
 			wxPayUnifiedOrderReqApiPOJO.setOpenId("ovyahuAY2iNDmTeoetRFtehv_knU");
+			wxPayUnifiedOrderReqApiPOJO.setSignType(WXPayConstants.MD5);
 
 //			unifiedOrderReqMap.put("appid", appId);
 //			unifiedOrderReqMap.put("mch_id", mchId);
@@ -469,24 +472,27 @@ public class Oauth2Controller extends BaseController {
 //			unifiedOrderReqMap.put("trade_type", "JSAPI");
 			Map unifiedOrderRespMap = wxPayService.unifiedOrder(wxPayUnifiedOrderReqApiPOJO);
 			
-//
-//		  	<input type="text" id="appIdUo" name="appIdUo" value="${unifiedOrderRespMap.appid}" />
-//		  	<input type="text" id="timestampUo" name="timestampUo" value="${unifiedOrderRespMap.timestamp}" />
-//		  	<input type="text" id="nonceStrUo" name="nonceStrUo" value="${unifiedOrderRespMap.nonce_str}" />
-//		  	<input type="text" id="prepayIdUo" name="prepayIdUo" value="${unifiedOrderRespMap.prepay_id}" />
-//		  	<input type="text" id="paySignUo" name="paySignUo" value="${unifiedOrderRespMap.sign}" />
-
+			// orderquery
+			WxPayOrderQueryReqApiPOJO wxPayOrderQueryReqApiPOJO = new WxPayOrderQueryReqApiPOJO();
+			wxPayOrderQueryReqApiPOJO.setAppId(appId);
+			wxPayOrderQueryReqApiPOJO.setMchId(mchId);
+			wxPayOrderQueryReqApiPOJO.setOutTradeNo(outTradeNo);
+			wxPayOrderQueryReqApiPOJO.setNonceStr(nonceStr + 1);
+			wxPayOrderQueryReqApiPOJO.setSignType(WXPayConstants.MD5);
+			Map orderQueryRespMap = wxPayService.orderQuery(wxPayOrderQueryReqApiPOJO);
+			// end orderquery
+			
 			Map<String, String> jsPayMap = new HashMap<String, String>();
 			jsPayMap.put("appId", appId);     //公众号名称，由商户传入     
 			jsPayMap.put("timeStamp", System.currentTimeMillis() / 1000 + "");        //时间戳，自1970年以来的秒数     
 			jsPayMap.put("nonceStr", nonceStr + "1"); //随机串     
 			jsPayMap.put("prepayId", unifiedOrderRespMap.get("prepay_id") + "");  
 			jsPayMap.put("package", "prepay_id=" + unifiedOrderRespMap.get("prepay_id"));     
-			jsPayMap.put("signType", "MD5");        //微信签名方式：
+			jsPayMap.put("signType", WXPayConstants.MD5);        //微信签名方式：
 			jsPayMap = wxPayService.appendSign(jsPayMap);
 			jsPayMap.put("packageUo", "prepay_id=" + unifiedOrderRespMap.get("prepay_id")); 
 			
-			
+			ret.addObject("orderQueryRespMap", orderQueryRespMap);
 			ret.addObject("unifiedOrderRespMap", unifiedOrderRespMap);
 			ret.addObject("jsPayMap", jsPayMap);
 		} catch (Exception e) {
