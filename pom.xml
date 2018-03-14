@@ -45,8 +45,16 @@
         <poi.version>3.14</poi.version>
         <commons.collections.version>4.0</commons.collections.version>
         <commons.configuration2.version>2.2</commons.configuration2.version>
+        <commons.beanutils.version>1.9.3</commons.beanutils.version>
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+		<dependency>
+		    <groupId>commons-beanutils</groupId>
+		    <artifactId>commons-beanutils</artifactId>
+		    <version>${commons.beanutils.version}</version>
+		</dependency>
+	
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-configuration2 -->
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
