@@ -486,10 +486,10 @@ public class Oauth2Controller extends BaseController {
 			jsPayMap.put("appId", appId);     //公众号名称，由商户传入     
 			jsPayMap.put("timeStamp", System.currentTimeMillis() / 1000 + "");        //时间戳，自1970年以来的秒数     
 			jsPayMap.put("nonceStr", nonceStr + "1"); //随机串     
-			jsPayMap.put("prepayId", unifiedOrderRespMap.get("prepay_id") + "");  
 			jsPayMap.put("package", "prepay_id=" + unifiedOrderRespMap.get("prepay_id"));     
 			jsPayMap.put("signType", WXPayConstants.MD5);        //微信签名方式：
 			jsPayMap = wxPayService.appendSign(jsPayMap);
+			jsPayMap.put("prepayId", unifiedOrderRespMap.get("prepay_id") + "");  
 			jsPayMap.put("packageUo", "prepay_id=" + unifiedOrderRespMap.get("prepay_id")); 
 			
 			ret.addObject("orderQueryRespMap", orderQueryRespMap);
