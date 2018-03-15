@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class WXPayUtil {
+	private static final Logger logger = LoggerFactory.getLogger(WXPayUtil.class);
 
     /**
      * XML格式字符串转换为Map
@@ -207,6 +208,9 @@ public class WXPayUtil {
                 sb.append(k).append("=").append(data.get(k).trim()).append("&");
         }
         sb.append("key=").append(key);
+        
+        logger.info("data: {}, stringSignTemp: {}", data,sb.toString());
+        
         if (SignType.MD5.equals(signType)) {
             return MD5(sb.toString()).toUpperCase();
         }
