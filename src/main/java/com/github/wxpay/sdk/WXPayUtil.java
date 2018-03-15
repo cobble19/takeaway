@@ -139,12 +139,15 @@ public class WXPayUtil {
      * @throws Exception
      */
     public static boolean isSignatureValid(String xmlStr, String key) throws Exception {
+    		boolean ret = false; 
         Map<String, String> data = xmlToMap(xmlStr);
         if (!data.containsKey(WXPayConstants.FIELD_SIGN) ) {
             return false;
         }
         String sign = data.get(WXPayConstants.FIELD_SIGN);
-        return generateSignature(data, key).equals(sign);
+        ret = generateSignature(data, key).equals(sign);
+        logger.info("xmlStr: {}, isSignatureValid: {}", xmlStr, ret);
+        return ret;
     }
 
     /**
@@ -169,11 +172,15 @@ public class WXPayUtil {
      * @throws Exception
      */
     public static boolean isSignatureValid(Map<String, String> data, String key, SignType signType) throws Exception {
+    		boolean ret = false;
         if (!data.containsKey(WXPayConstants.FIELD_SIGN) ) {
+        		logger.error("xml: {}, isSignatureValid: {}", mapToXml(data), false);
             return false;
         }
         String sign = data.get(WXPayConstants.FIELD_SIGN);
-        return generateSignature(data, key, signType).equals(sign);
+        ret = generateSignature(data, key, signType).equals(sign);
+		logger.error("xml: {}, isSignatureValid: {}", mapToXml(data), ret);
+        return ret;
     }
 
     /**
@@ -196,6 +203,7 @@ public class WXPayUtil {
      * @return 签名
      */
     public static String generateSignature(final Map<String, String> data, String key, SignType signType) throws Exception {
+    		String ret = "";
         Set<String> keySet = data.keySet();
         String[] keyArray = keySet.toArray(new String[keySet.size()]);
         Arrays.sort(keyArray);
@@ -209,17 +217,18 @@ public class WXPayUtil {
         }
         sb.append("key=").append(key);
         
-        logger.info("data: {}, stringSignTemp: {}", data,sb.toString());
-        
         if (SignType.MD5.equals(signType)) {
-            return MD5(sb.toString()).toUpperCase();
+            ret = MD5(sb.toString()).toUpperCase();
         }
         else if (SignType.HMACSHA256.equals(signType)) {
-            return HMACSHA256(sb.toString(), key);
+            ret = HMACSHA256(sb.toString(), key);
         }
         else {
             throw new Exception(String.format("Invalid sign_type: %s", signType));
         }
+        
+        logger.info("data: {}, stringSignTemp: {}", data,sb.toString());
+        return ret;
     }
 
 

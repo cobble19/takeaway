@@ -97,9 +97,9 @@ public class WXPay {
      * @throws Exception
      */
 	public Map<String, String> fillRequestData(Map<String, String> reqData) throws Exception {
-		reqData.put("appid", config.getAppID());
-		reqData.put("mch_id", config.getMchID());
-		reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+//		reqData.put("appid", config.getAppID());
+//		reqData.put("mch_id", config.getMchID());
+//		reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
 		String signType = reqData.get("sign_type");
 		if (StringUtils.isBlank(signType)) {
 			signType = WXPayConstants.MD5;
@@ -127,7 +127,7 @@ public class WXPay {
     }
 
     public Map<String, String> appendSign(Map<String, String> reqData) throws Exception {
-        reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
+//        reqData.put("nonce_str", reqData.get("nonce_str") == null ? WXPayUtil.generateUUID() : reqData.get("nonce_str"));
         
 		String signType = reqData.get("sign_type");
 		if (StringUtils.isBlank(signType)) {
