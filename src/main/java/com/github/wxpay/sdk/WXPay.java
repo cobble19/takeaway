@@ -145,6 +145,11 @@ public class WXPay {
         else if (SignType.HMACSHA256.equals(this.signType)) {
             reqData.put("sign_type", WXPayConstants.HMACSHA256);
         }
+        
+        if (StringUtils.isNotBlank(reqData.get("signType"))) {
+        		reqData.remove("sign_type");
+        }
+        
         String key = config.getKey();
         if (this.useSandbox) {
         		key = this.getSandboxSignKey();
