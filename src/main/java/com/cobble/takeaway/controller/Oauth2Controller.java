@@ -408,7 +408,6 @@ public class Oauth2Controller extends BaseController {
 	                  "&noncestr=" + nonceStr +
 	                  "&timestamp=" + timestamp +
 	                  "&url=" + url;
-	        logger.info(string1);
 
 			String signature = "";
 	        try {
@@ -416,6 +415,8 @@ public class Oauth2Controller extends BaseController {
 	            crypt.reset();
 	            crypt.update(string1.getBytes("UTF-8"));
 	            signature = byteToHex(crypt.digest());
+
+		        logger.info("string1: {}, signature: {}", string1, signature);
 	        } catch (NoSuchAlgorithmException e) {
 	            logger.error("MessageDigest exception: ", e);
 	        } catch (UnsupportedEncodingException e) {
@@ -541,7 +542,6 @@ public class Oauth2Controller extends BaseController {
 	                  "&noncestr=" + nonceStr +
 	                  "&timestamp=" + timestamp +
 	                  "&url=" + url;
-	        logger.info(string1);
 
 			String signature = "";
 	        try {
@@ -549,6 +549,8 @@ public class Oauth2Controller extends BaseController {
 	            crypt.reset();
 	            crypt.update(string1.getBytes("UTF-8"));
 	            signature = byteToHex(crypt.digest());
+
+		        logger.info("string1: {}, signature: {}", string1, signature);
 	        } catch (NoSuchAlgorithmException e) {
 	            logger.error("MessageDigest exception: ", e);
 	        } catch (UnsupportedEncodingException e) {
@@ -662,6 +664,7 @@ public class Oauth2Controller extends BaseController {
 			timeToLiveSenconds = wxJsSdkTicketRespApiPOJO.getExpiresIn() / 2;
 		}
 		CacheUtil.getInstance().put(key, wxJsSdkTicketRespApiPOJO.getTicket(), timeToLiveSenconds);
+		ret = wxJsSdkTicketRespApiPOJO.getTicket();
 		
 		return ret;
 	}
