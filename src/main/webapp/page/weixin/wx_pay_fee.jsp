@@ -241,7 +241,7 @@
         <div class="row" style=" height:4px; background-color:#44b549;"></div>
         <input type="button" id="testWxJsSdk" value="Test WX JS-SDK"/>
         <div class="row">
-        		<form id="myFeeForm" action="<cmn:base/>/web/wxpay/unifiedorder">
+        		<form id="myFeeForm" action="<cmn:base/>/web/wxpay/unifiedorder?authorizerAppId=${param.authorizerAppId}">
 	        		<!-- 消费金额页面 -->
 	        		<label>消费金额:</label><input type="text" id="myFee" name="myFee">
 	        		<input type="button" id="myFeeBtn" name="myFeeBtn" value="去付款"/>

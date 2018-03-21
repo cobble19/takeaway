@@ -241,7 +241,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			
 			UserService userService = (UserService) BeanUtil.get("userServiceImpl");
 			VoteService voteService = (VoteService) BeanUtil.get("voteServiceImpl");
-			WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoService");
+			WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoServiceImpl");
 			
 			UserPOJO userPOJO = null;
 			// indexCode、活动发布者， 不是普通个人用户
