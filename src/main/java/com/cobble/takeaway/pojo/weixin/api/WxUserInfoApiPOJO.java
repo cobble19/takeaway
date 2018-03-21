@@ -39,7 +39,37 @@ public class WxUserInfoApiPOJO extends BaseWxApiPOJO {
     private Integer groupId;
 	@JsonProperty(value="tagid_list")
     private List<String> tagidList;
+	@JsonProperty(value="subscribe_scene")
+	private String subscribeScene;
+	@JsonProperty(value="qr_scene")
+	private Integer qrScene;
+	@JsonProperty(value="qr_scene_str")
+	private String qrSceneStr;
 	
+	public List<String> getPrivilegeList() {
+		return privilegeList;
+	}
+	public void setPrivilegeList(List<String> privilegeList) {
+		this.privilegeList = privilegeList;
+	}
+	public String getSubscribeScene() {
+		return subscribeScene;
+	}
+	public void setSubscribeScene(String subscribeScene) {
+		this.subscribeScene = subscribeScene;
+	}
+	public Integer getQrScene() {
+		return qrScene;
+	}
+	public void setQrScene(Integer qrScene) {
+		this.qrScene = qrScene;
+	}
+	public String getQrSceneStr() {
+		return qrSceneStr;
+	}
+	public void setQrSceneStr(String qrSceneStr) {
+		this.qrSceneStr = qrSceneStr;
+	}
 	public String getOpenId() {
 		return openId;
 	}
