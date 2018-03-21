@@ -120,6 +120,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxUserGetRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayOrderQueryReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderReqApiPOJO;
 import com.cobble.takeaway.service.ActivityService;
@@ -139,7 +140,9 @@ import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPayService;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.service.WxRespMsgService;
+import com.cobble.takeaway.service.weixin.wxpay.WpOrderService;
 import com.cobble.takeaway.spring.security.MyUser;
+import com.cobble.takeaway.util.BeanUtil;
 import com.cobble.takeaway.util.CacheUtil;
 import com.cobble.takeaway.util.CollectionUtilx;
 import com.cobble.takeaway.util.CommonConstant;
@@ -209,6 +212,8 @@ public class Oauth2Controller extends BaseController {
 	
 	@Autowired
 	private WxPayService wxPayService;
+	@Autowired
+	private WpOrderService wpOrderService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -461,7 +466,10 @@ public class Oauth2Controller extends BaseController {
 			wxPayUnifiedOrderReqApiPOJO.setSpbillCreateIp(spbillCreateIp);
 			wxPayUnifiedOrderReqApiPOJO.setNotifyUrl(notifyUrl);
 			wxPayUnifiedOrderReqApiPOJO.setTradeType(tradeType);
-			wxPayUnifiedOrderReqApiPOJO.setOpenId("ovyahuAY2iNDmTeoetRFtehv_knU");
+			
+			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+			wxPayUnifiedOrderReqApiPOJO.setOpenId(openId);
+			
 			wxPayUnifiedOrderReqApiPOJO.setSignType(WXPayConstants.MD5);
 
 //			unifiedOrderReqMap.put("appid", appId);
@@ -474,6 +482,13 @@ public class Oauth2Controller extends BaseController {
 //			unifiedOrderReqMap.put("notify_url", notifyUrl);
 //			unifiedOrderReqMap.put("trade_type", "JSAPI");
 			Map unifiedOrderRespMap = wxPayService.unifiedOrder(wxPayUnifiedOrderReqApiPOJO);
+			try {
+				WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
+				org.apache.commons.beanutils.BeanUtils.copyProperties(wpOrderPOJO, wxPayUnifiedOrderReqApiPOJO);
+				wpOrderService.insert(wpOrderPOJO );
+			} catch (Exception e) {
+				logger.error("wpOrderService insert exception: ", e);
+			}
 			
 			// orderquery
 			WxPayOrderQueryReqApiPOJO wxPayOrderQueryReqApiPOJO = new WxPayOrderQueryReqApiPOJO();

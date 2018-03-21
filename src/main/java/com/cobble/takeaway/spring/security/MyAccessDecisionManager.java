@@ -241,6 +241,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			
 			UserService userService = (UserService) BeanUtil.get("userServiceImpl");
 			VoteService voteService = (VoteService) BeanUtil.get("voteServiceImpl");
+			WxAuthorizerInfoService wxAuthorizerInfoService = (WxAuthorizerInfoService) BeanUtil.get("wxAuthorizerInfoService");
 			
 			UserPOJO userPOJO = null;
 			// indexCode、活动发布者， 不是普通个人用户
@@ -330,6 +331,29 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 					VotePOJO votePOJO = voteService.findById(voteId);
 					
 					userPOJO = userService.findById(votePOJO.getUserId());
+					
+					if (userPOJO != null && userPOJO.getUserId() != null) {
+						UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+						if (user4IndexCode != null) {
+							String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+							session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
+						}
+					}
+				}
+			} else if (uri.contains("/wxpay/")) {	// /page/enterprise(unified)/activity_detail.jsp?activityId=31
+				Pattern p = Pattern.compile("(authorizerAppId=)(\\w+)");
+				Matcher m = p.matcher(qs);
+				if (m.find() && m.groupCount() == 2) {
+					String s = m.group(2);
+					logger.info("authorizerAppId: {}", s);
+					String authorizerAppId = s;
+
+					WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+					wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
+					List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+					if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(wxAuthorizerInfoPOJOs)) {
+						userPOJO = userService.findById(wxAuthorizerInfoPOJOs.get(0).getUserId());
+					}
 					
 					if (userPOJO != null && userPOJO.getUserId() != null) {
 						UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
@@ -517,6 +541,13 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 		madm.checkSessionUrls("/web/media/wxTemplate?wxTemplate=-2", null);*/
 			Pattern p = Pattern.compile("(activityId=)(\\d+)");
 			Matcher m = p.matcher("/page/enterprise/activity_detail.jsp?activityId=31&h=1");
+			if (m.find()) {
+				String s = m.group(2);
+//				Long activityId = Long.parseLong(s);
+				logger.info(s + "   " + m.groupCount());
+			}
+			p = Pattern.compile("(authorizerAppId=)(\\w+).*&");
+			m = p.matcher("/web/wxpay/fee?authorizerAppId=ab2c&");
 			if (m.find()) {
 				String s = m.group(2);
 //				Long activityId = Long.parseLong(s);

@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.weixin.wxpay.WpOrderMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WpOrderResultMap" type="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO" >
+    <id column="WP_ORDER_ID" property="wpOrderId" />
+    <result column="APP_ID" property="appId"/>
+    <result column="MCH_ID" property="mchId"/>
+    <result column="DEVICE_INFO" property="deviceInfo" />
+    <result column="NONCE_STR" property="nonceStr" />
+    <result column="SIGN" property="sign" />
+    <result column="SIGN_TYPE" property="signType" />
+    <result column="BODY" property="body" />
+    <result column="DETAIL" property="detail" />
+    <result column="ATTACH" property="attach" />
+    <result column="OUT_TRADE_NO" property="outTradeNo" />
+    <result column="FEE_TYPE" property="feeType" />
+    <result column="TOTAL_FEE" property="totalFee" />
+    <result column="SPBILL_CREATE_IP" property="spbillCreateIp" />
+    <result column="TIME_START" property="timeStart" />
+    <result column="TIME_EXPIRE" property="timeExpire" />
+    <result column="GOODS_TAG" property="goodsTag" />
+    <result column="NOTIFY_URL" property="notifyUrl" />
+    <result column="TRADE_TYPE" property="tradeType" />
+    <result column="RPODUCT_ID" property="productId" />
+    <result column="LIMIT_PAY" property="limitPay" />
+    <result column="OPEN_ID" property="openId" />
+    <result column="SCENE_INFO" property="sceneInfo" />
+    
+    <result column="RESP_RETURN_CODE" property="respReturnCode" />
+    <result column="RESP_RETURN_MSG" property="respReturnMsg" />
+    <result column="RESP_APP_ID" property="respAppId" />
+    <result column="RESP_MCH_ID" property="respMchId" />
+    <result column="RESP_DEVICE_INFO" property="respDeviceInfo" />
+    <result column="RESP_NONCE_STR" property="respNonceStr" />
+    <result column="RESP_SIGN" property="respSign" />
+    <result column="RESP_RESULT_CODE" property="respResultCode" />
+    <result column="RESP_ERR_CODE" property="respErrCode" />
+    <result column="RESP_ERR_CODE_DES" property="respErrCodeDes" />
+    <result column="RESP_TRADE_TYPE" property="respTradeType" />
+    <result column="RESP_PREPAY_ID" property="respPrepayId" />
+    <result column="RESP_CODE_URL" property="respCodeUrl" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WP_ORDER_ID, a.APP_ID, a.MCH_ID, a.DEVICE_INFO
+    , a.NONCE_STR, a.SIGN, a.SIGN_TYPE
+    , a.BODY, a.DETAIL, a.ATTACH
+    , a.OUT_TRADE_NO, a.FEE_TYPE, a.TOTAL_FEE
+    , a.SPBILL_CREATE_IP, a.TIME_START, a.TIME_EXPIRE
+    , a.GOODS_TAG, a.NOTIFY_URL, a.TRADE_TYPE
+    , a.RPODUCT_ID, a.LIMIT_PAY, a.OPEN_ID
+    , a.SCENE_INFO
+    , a.RESP_RETURN_CODE, a.RESP_RETURN_MSG, a.RESP_APP_ID
+    , a.RESP_MCH_ID, a.RESP_DEVICE_INFO, a.RESP_NONCE_STR
+    , a.RESP_SIGN, a.RESP_RESULT_CODE, a.RESP_ERR_CODE
+    , a.RESP_ERR_CODE_DES, a.RESP_TRADE_TYPE, a.RESP_PREPAY_ID
+    , a.RESP_CODE_URL
+    , a.CREATE_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="appId != null">
+		and a.APP_ID = #{appId}
+	</if>
+	<if test="mchId != null">
+		and a.MCH_ID = #{mchId}
+	</if>
+	<if test="outTradeNo != null">
+		and a.OUT_TRADE_NO = #{outTradeNo}
+	</if>
+	<if test="openId != null">
+		and a.OPEN_ID = #{openId}
+	</if>
+  </sql>
+
+  <select id="finds" resultMap="WpOrderResultMap" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WP_ORDER a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WP_ORDER a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WpOrderResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WP_ORDER a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WP_ORDER_ID = #{wpOrderId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WP_ORDER
+    where WP_ORDER_ID = #{wpOrderId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO" useGeneratedKeys="true"
+  	keyProperty="wpOrderId" keyColumn="WP_ORDER_ID">
+    insert into WP_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="mchId != null" >
+        MCH_ID,
+      </if>
+      <if test="deviceInfo != null" >
+        DEVICE_INFO,
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR,
+      </if>
+      <if test="sign != null" >
+        SIGN,
+      </if>
+      <if test="signType != null" >
+        SIGN_TYPE,
+      </if>
+      <if test="body != null" >
+        BODY,
+      </if>
+      <if test="detail != null" >
+        DETAIL,
+      </if>
+      <if test="attach != null" >
+        ATTACH,
+      </if>
+      <if test="outTradeNo != null" >
+        OUT_TRADE_NO,
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE,
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE,
+      </if>
+      <if test="spbillCreateIp != null" >
+        SPBILL_CREATE_IP,
+      </if>
+      <if test="timeStart != null" >
+        TIME_START,
+      </if>
+      <if test="timeExpire != null" >
+        TIME_EXPIRE,
+      </if>
+      <if test="goodsTag != null" >
+        GOODS_TAG,
+      </if>
+      <if test="notifyUrl != null" >
+        NOTIFY_URL,
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE,
+      </if>
+      <if test="productId != null" >
+        RPODUCT_ID,
+      </if>
+      <if test="limitPay != null" >
+        LIMIT_PAY,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="sceneInfo != null" >
+        SCENE_INFO,
+      </if>
+      <if test="respReturnCode != null" >
+        RESP_RETURN_CODE,
+      </if>
+      <if test="respReturnMsg != null" >
+        RESP_RETURN_MSG,
+      </if>
+      <if test="respAppId != null" >
+        RESP_APP_ID,
+      </if>
+      <if test="respMchId != null" >
+        RESP_MCH_ID,
+      </if>
+      <if test="respDeviceInfo != null" >
+        RESP_DEVICE_INFO,
+      </if>
+      <if test="respNonceStr != null" >
+        RESP_NONCE_STR,
+      </if>
+      <if test="respSign != null" >
+        RESP_SIGN,
+      </if>
+      <if test="respResultCode != null" >
+        RESP_RESULT_CODE,
+      </if>
+      <if test="respErrCode != null" >
+        RESP_ERR_CODE,
+      </if>
+      <if test="respErrCodeDes != null" >
+        RESP_ERR_CODE_DES,
+      </if>
+      <if test="respTradeType != null" >
+        RESP_TRADE_TYPE,
+      </if>
+      <if test="respPrepayId != null" >
+        RESP_PREPAY_ID,
+      </if>
+      <if test="respCodeUrl != null" >
+        RESP_CODE_URL,
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        #{appId},
+      </if>
+      <if test="mchId != null" >
+        #{mchId},
+      </if>
+      <if test="deviceInfo != null" >
+        #{deviceInfo},
+      </if>
+      <if test="nonceStr != null" >
+        #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        #{sign},
+      </if>
+      <if test="signType != null" >
+        #{signType},
+      </if>
+      <if test="body != null" >
+        #{body},
+      </if>
+      <if test="detail != null" >
+        #{detail},
+      </if>
+      <if test="attach != null" >
+        #{attach},
+      </if>
+      <if test="outTradeNo != null" >
+        #{outTradeNo},
+      </if>
+      <if test="feeType != null" >
+        #{feeType},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee},
+      </if>
+      <if test="spbillCreateIp != null" >
+        #{spbillCreateIp},
+      </if>
+      <if test="timeStart != null" >
+        #{timeStart},
+      </if>
+      <if test="timeExpire != null" >
+        #{timeExpire},
+      </if>
+      <if test="goodsTag != null" >
+        #{goodsTag},
+      </if>
+      <if test="notifyUrl != null" >
+        #{notifyUrl},
+      </if>
+      <if test="tradeType != null" >
+        #{tradeType},
+      </if>
+      <if test="productId != null" >
+        #{productId},
+      </if>
+      <if test="limitPay != null" >
+        #{limitPay},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="sceneInfo != null" >
+        #{sceneInfo},
+      </if>
+      <if test="respReturnCode != null" >
+        #{respReturnCode},
+      </if>
+      <if test="respReturnMsg != null" >
+        #{respReturnMsg},
+      </if>
+      <if test="respAppId != null" >
+        #{respAppId},
+      </if>
+      <if test="respMchId != null" >
+        #{respMchId},
+      </if>
+      <if test="respDeviceInfo != null" >
+        #{respDeviceInfo},
+      </if>
+      <if test="respNonceStr != null" >
+        #{respNonceStr},
+      </if>
+      <if test="respSign != null" >
+        #{respSign},
+      </if>
+      <if test="respResultCode != null" >
+        #{respResultCode},
+      </if>
+      <if test="respErrCode != null" >
+        #{respErrCode},
+      </if>
+      <if test="respErrCodeDes != null" >
+        #{respErrCodeDes},
+      </if>
+      <if test="respTradeType != null" >
+        #{respTradeType},
+      </if>
+      <if test="respPrepayId != null" >
+        #{respPrepayId},
+      </if>
+      <if test="respCodeUrl != null" >
+        #{respCodeUrl},
+      </if>
+      <if test="createDateTime != null" >
+        #{createDateTime},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO" >
+    update WP_ORDER
+    <set >
+      <if test="appId != null" >
+        APP_ID = #{appId},
+      </if>
+      <if test="mchId != null" >
+        MCH_ID = #{mchId},
+      </if>
+      <if test="deviceInfo != null" >
+        DEVICE_INFO = #{deviceInfo},
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR = #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        SIGN = #{sign},
+      </if>
+      <if test="signType != null" >
+        SIGN_TYPE = #{signType},
+      </if>
+      <if test="body != null" >
+        BODY = #{body},
+      </if>
+      <if test="detail != null" >
+        DETAIL = #{detail},
+      </if>
+      <if test="attach != null" >
+        ATTACH = #{attach},
+      </if>
+      <if test="outTradeNo != null" >
+        OUT_TRADE_NO = #{outTradeNo},
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE = #{feeType},
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE = #{totalFee},
+      </if>
+      <if test="spbillCreateIp != null" >
+        SPBILL_CREATE_IP = #{spbillCreateIp},
+      </if>
+      <if test="timeStart != null" >
+        TIME_START = #{timeStart},
+      </if>
+      <if test="timeExpire != null" >
+        TIME_EXPIRE = #{timeExpire},
+      </if>
+      <if test="goodsTag != null" >
+        GOODS_TAG = #{goodsTag},
+      </if>
+      <if test="notifyUrl != null" >
+        NOTIFY_URL = #{notifyUrl},
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE = #{tradeType},
+      </if>
+      <if test="productId != null" >
+        RPODUCT_ID = #{productId},
+      </if>
+      <if test="limitPay != null" >
+        LIMIT_PAY = #{limitPay},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="sceneInfo != null" >
+        SCENE_INFO = #{sceneInfo},
+      </if>
+      <if test="respReturnCode != null" >
+        RESP_RETURN_CODE = #{respReturnCode},
+      </if>
+      <if test="respReturnMsg != null" >
+        RESP_RETURN_MSG = #{respReturnMsg},
+      </if>
+      <if test="respAppId != null" >
+        RESP_APP_ID = #{respAppId},
+      </if>
+      <if test="respMchId != null" >
+        RESP_MCH_ID = #{respMchId},
+      </if>
+      <if test="respDeviceInfo != null" >
+        RESP_DEVICE_INFO = #{respDeviceInfo},
+      </if>
+      <if test="respNonceStr != null" >
+        RESP_NONCE_STR = #{respNonceStr},
+      </if>
+      <if test="respSign != null" >
+        RESP_SIGN = #{respSign},
+      </if>
+      <if test="respResultCode != null" >
+        RESP_RESULT_CODE = #{respResultCode},
+      </if>
+      <if test="respErrCode != null" >
+        RESP_ERR_CODE = #{respErrCode},
+      </if>
+      <if test="respErrCodeDes != null" >
+        RESP_ERR_CODE_DES = #{respErrCodeDes},
+      </if>
+      <if test="respTradeType != null" >
+        RESP_TRADE_TYPE = #{respTradeType},
+      </if>
+      <if test="respPrepayId != null" >
+        RESP_PREPAY_ID = #{respPrepayId},
+      </if>
+      <if test="respCodeUrl != null" >
+        RESP_CODE_URL = #{respCodeUrl},
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME = #{createDateTime},
+      </if>
+    </set>
+    where WP_ORDER_ID = #{wpOrderId}
+  </update>
+  
+</mapper>
