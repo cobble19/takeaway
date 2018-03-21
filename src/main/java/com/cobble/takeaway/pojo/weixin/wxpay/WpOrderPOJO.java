@@ -1,5 +1,7 @@
 package com.cobble.takeaway.pojo.weixin.wxpay;
 
+import java.sql.Date;
+
 import com.cobble.takeaway.pojo.BasePOJO;
 
 public class WpOrderPOJO extends BasePOJO {
@@ -40,7 +42,14 @@ public class WpOrderPOJO extends BasePOJO {
 	private String respTradeType;
 	private String respPrepayId;
 	private String respCodeUrl;
+	private Date createDateTime;
 	
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
+	}
 	public Long getWpOrderId() {
 		return wpOrderId;
 	}
