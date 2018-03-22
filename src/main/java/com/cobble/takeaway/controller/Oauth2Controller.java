@@ -349,7 +349,7 @@ public class Oauth2Controller extends BaseController {
         return result;
     }
 
-	@RequestMapping(value = "/api/wxpay/notify", method = {RequestMethod.GET})
+	@RequestMapping(value = "/api/wxpay/notify", method = {RequestMethod.POST})
 	public String wxPaynotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
         logger.info("wxpay notify start...");
 		String ret = new String();
