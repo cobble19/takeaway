@@ -35,6 +35,13 @@ public class WpOrderServiceImpl implements WpOrderService {
 	}
 
 	@Override
+	public int updateByOutTradeNo(WpOrderPOJO wpOrderPOJO) throws Exception {
+		int ret = 0;
+		ret = wpOrderMapper.updateByOutTradeNo(wpOrderPOJO);
+		return ret;
+	}
+	
+	@Override
 	public List<WpOrderPOJO> finds(
 			WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception {
 		List<WpOrderPOJO> ret = null;

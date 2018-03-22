@@ -1,6 +1,6 @@
 package com.cobble.takeaway.pojo.weixin.wxpay;
 
-import java.sql.Date;
+import java.util.Date;
 
 import com.cobble.takeaway.pojo.BasePOJO;
 
@@ -43,7 +43,57 @@ public class WpOrderPOJO extends BasePOJO {
 	private String respPrepayId;
 	private String respCodeUrl;
 	private Date createDateTime;
+
+	private String respBankType;
+	private String respCashFee;
+	private String respTotalFee;
+	private String respFeeType;
+	private String respIsSubscribe;
+	private String respTimeEnd;
+	private String respTransactionId;
 	
+	public String getRespBankType() {
+		return respBankType;
+	}
+	public void setRespBankType(String respBankType) {
+		this.respBankType = respBankType;
+	}
+	public String getRespCashFee() {
+		return respCashFee;
+	}
+	public void setRespCashFee(String respCashFee) {
+		this.respCashFee = respCashFee;
+	}
+	public String getRespTotalFee() {
+		return respTotalFee;
+	}
+	public void setRespTotalFee(String respTotalFee) {
+		this.respTotalFee = respTotalFee;
+	}
+	public String getRespFeeType() {
+		return respFeeType;
+	}
+	public void setRespFeeType(String respFeeType) {
+		this.respFeeType = respFeeType;
+	}
+	public String getRespIsSubscribe() {
+		return respIsSubscribe;
+	}
+	public void setRespIsSubscribe(String respIsSubscribe) {
+		this.respIsSubscribe = respIsSubscribe;
+	}
+	public String getRespTimeEnd() {
+		return respTimeEnd;
+	}
+	public void setRespTimeEnd(String respTimeEnd) {
+		this.respTimeEnd = respTimeEnd;
+	}
+	public String getRespTransactionId() {
+		return respTransactionId;
+	}
+	public void setRespTransactionId(String respTransactionId) {
+		this.respTransactionId = respTransactionId;
+	}
 	public Date getCreateDateTime() {
 		return createDateTime;
 	}

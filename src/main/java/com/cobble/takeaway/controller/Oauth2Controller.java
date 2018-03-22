@@ -349,7 +349,8 @@ public class Oauth2Controller extends BaseController {
         return result;
     }
 
-	@RequestMapping(value = "/api/wxpay/notify", method = {RequestMethod.POST})
+	@RequestMapping(value = "/api/wxpay/notify", method = {RequestMethod.POST}, produces= {MediaType.TEXT_XML_VALUE, MediaType.ALL_VALUE})
+	@ResponseBody
 	public String wxPaynotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
         logger.info("wxpay notify start...");
 		String ret = new String();
@@ -366,6 +367,40 @@ public class Oauth2Controller extends BaseController {
 	        logger.info("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
 	        String result = new String(outSteam.toByteArray(), "utf-8");
 	        logger.info("微信支付成功通知: {}", result);
+	        Map<String, String> resultMap = WXPayUtil.xmlToMap(result);
+
+			try {
+				WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
+				String respAppId = resultMap.get("appid");
+				wpOrderPOJO.setRespAppId(respAppId);
+				String respMchId = resultMap.get("mch_id");
+				wpOrderPOJO.setRespMchId(respMchId);
+				String outTradeNo = resultMap.get("out_trade_no");
+				wpOrderPOJO.setOutTradeNo(outTradeNo);
+				String respReturnCode = resultMap.get("return_code");
+				wpOrderPOJO.setRespReturnCode(respReturnCode);
+				String respResultCode = resultMap.get("result_code");
+				wpOrderPOJO.setRespResultCode(respResultCode);
+				String respBankType = resultMap.get("bank_type");
+				wpOrderPOJO.setRespBankType(respBankType);
+				String respCashFee = resultMap.get("cash_fee");
+				wpOrderPOJO.setRespCashFee(respCashFee);
+				String respTotalFee = resultMap.get("total_fee");
+				wpOrderPOJO.setRespTotalFee(respTotalFee);
+				String respFeeType = resultMap.get("fee_type");
+				wpOrderPOJO.setRespFeeType(respFeeType);
+				String respTradeType = resultMap.get("trade_type");
+				wpOrderPOJO.setRespTradeType(respTradeType);
+				String respIsSubscribe = resultMap.get("is_subscribe");
+				wpOrderPOJO.setRespIsSubscribe(respIsSubscribe);
+				String respTimeEnd = resultMap.get("time_end");
+				wpOrderPOJO.setRespTimeEnd(respTimeEnd);
+				String respTransactionId = resultMap.get("transaction_id");
+				wpOrderPOJO.setRespTransactionId(respTransactionId);
+				wpOrderService.updateByOutTradeNo(wpOrderPOJO);
+			} catch (Exception e) {
+				logger.error("wpOrderService insert exception: ", e);
+			}
 
 	        outSteam.close();
 	        inStream.close();
@@ -485,6 +520,7 @@ public class Oauth2Controller extends BaseController {
 			try {
 				WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
 				org.apache.commons.beanutils.BeanUtils.copyProperties(wpOrderPOJO, wxPayUnifiedOrderReqApiPOJO);
+				wpOrderPOJO.setCreateDateTime(new Date());
 				wpOrderService.insert(wpOrderPOJO );
 			} catch (Exception e) {
 				logger.error("wpOrderService insert exception: ", e);

@@ -49,6 +49,14 @@
     <result column="RESP_PREPAY_ID" property="respPrepayId" />
     <result column="RESP_CODE_URL" property="respCodeUrl" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
+    
+    <result column="RESP_BANK_TYPE" property="respBankType" />
+    <result column="RESP_CASH_FEE" property="respCashFee" />
+    <result column="RESP_TOTAL_FEE" property="respTotalFee" />
+    <result column="RESP_FEE_TYPE" property="respFeeType" />
+    <result column="RESP_IS_SUBSCRIBE" property="respIsSubscribe" />
+    <result column="RESP_TIME_END" property="respTimeEnd" />
+    <result column="RESP_TRANSACTION_ID" property="respTransactionId" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -65,6 +73,9 @@
     , a.RESP_SIGN, a.RESP_RESULT_CODE, a.RESP_ERR_CODE
     , a.RESP_ERR_CODE_DES, a.RESP_TRADE_TYPE, a.RESP_PREPAY_ID
     , a.RESP_CODE_URL
+    , a.RESP_BANK_TYPE, a.RESP_CASH_FEE, a.RESP_TOTAL_FEE
+    , a.RESP_FEE_TYPE, a.RESP_IS_SUBSCRIBE, a.RESP_TIME_END
+    , a.RESP_TRANSACTION_ID
     , a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
@@ -79,6 +90,9 @@
 	</if>
 	<if test="openId != null">
 		and a.OPEN_ID = #{openId}
+	</if>
+	<if test="respTransactionId != null">
+		and a.RESP_TRANSACTION_ID = #{respTransactionId}
 	</if>
   </sql>
 
@@ -232,6 +246,29 @@
       <if test="respCodeUrl != null" >
         RESP_CODE_URL,
       </if>
+      
+      <if test="respBankType != null" >
+        RESP_BANK_TYPE,
+      </if>
+      <if test="respCashFee != null" >
+        RESP_CASH_FEE,
+      </if>
+      <if test="respTotalFee != null" >
+        RESP_TOTAL_FEE,
+      </if>
+      <if test="respFeeType != null" >
+        RESP_FEE_TYPE,
+      </if>
+      <if test="respIsSubscribe != null" >
+        RESP_IS_SUBSCRIBE,
+      </if>
+      <if test="respTimeEnd != null" >
+        RESP_TIME_END,
+      </if>
+      <if test="respTransactionId != null" >
+        RESP_TRANSACTION_ID,
+      </if>
+      
       <if test="createDateTime != null" >
         CREATE_DATE_TIME,
       </if>
@@ -342,6 +379,29 @@
       <if test="respCodeUrl != null" >
         #{respCodeUrl},
       </if>
+      
+      <if test="respBankType != null" >
+        #{respBankType},
+      </if>
+      <if test="respCashFee != null" >
+        #{respCashFee},
+      </if>
+      <if test="respTotalFee != null" >
+        #{respTotalFee},
+      </if>
+      <if test="respFeeType != null" >
+        #{respFeeType},
+      </if>
+      <if test="respIsSubscribe != null" >
+        #{respIsSubscribe},
+      </if>
+      <if test="respTimeEnd != null" >
+        #{respTimeEnd},
+      </if>
+      <if test="respTransactionId != null" >
+        #{respTransactionId},
+      </if>
+      
       <if test="createDateTime != null" >
         #{createDateTime},
       </if>
@@ -456,11 +516,172 @@
       <if test="respCodeUrl != null" >
         RESP_CODE_URL = #{respCodeUrl},
       </if>
+      
+      <if test="respBankType != null" >
+        RESP_BANK_TYPE = #{respBankType},
+      </if>
+      <if test="respCashFee != null" >
+        RESP_CASH_FEE = #{respCashFee},
+      </if>
+      <if test="respTotalFee != null" >
+        RESP_TOTAL_FEE = #{respTotalFee},
+      </if>
+      <if test="respFeeType != null" >
+        RESP_FEE_TYPE = #{respFeeType},
+      </if>
+      <if test="respIsSubscribe != null" >
+        RESP_IS_SUBSCRIBE = #{respIsSubscribe},
+      </if>
+      <if test="respTimeEnd != null" >
+        RESP_TIME_END = #{respTimeEnd},
+      </if>
+      <if test="respTransactionId != null" >
+        RESP_TRANSACTION_ID = #{respTransactionId},
+      </if>
+      
       <if test="createDateTime != null" >
         CREATE_DATE_TIME = #{createDateTime},
       </if>
     </set>
     where WP_ORDER_ID = #{wpOrderId}
+  </update>
+  
+  <update id="updateByOutTradeNo" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO" >
+    update WP_ORDER
+    <set >
+      <if test="appId != null" >
+        APP_ID = #{appId},
+      </if>
+      <if test="mchId != null" >
+        MCH_ID = #{mchId},
+      </if>
+      <if test="deviceInfo != null" >
+        DEVICE_INFO = #{deviceInfo},
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR = #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        SIGN = #{sign},
+      </if>
+      <if test="signType != null" >
+        SIGN_TYPE = #{signType},
+      </if>
+      <if test="body != null" >
+        BODY = #{body},
+      </if>
+      <if test="detail != null" >
+        DETAIL = #{detail},
+      </if>
+      <if test="attach != null" >
+        ATTACH = #{attach},
+      </if>
+      <!-- <if test="outTradeNo != null" >
+        OUT_TRADE_NO = #{outTradeNo},
+      </if> -->
+      <if test="feeType != null" >
+        FEE_TYPE = #{feeType},
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE = #{totalFee},
+      </if>
+      <if test="spbillCreateIp != null" >
+        SPBILL_CREATE_IP = #{spbillCreateIp},
+      </if>
+      <if test="timeStart != null" >
+        TIME_START = #{timeStart},
+      </if>
+      <if test="timeExpire != null" >
+        TIME_EXPIRE = #{timeExpire},
+      </if>
+      <if test="goodsTag != null" >
+        GOODS_TAG = #{goodsTag},
+      </if>
+      <if test="notifyUrl != null" >
+        NOTIFY_URL = #{notifyUrl},
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE = #{tradeType},
+      </if>
+      <if test="productId != null" >
+        RPODUCT_ID = #{productId},
+      </if>
+      <if test="limitPay != null" >
+        LIMIT_PAY = #{limitPay},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="sceneInfo != null" >
+        SCENE_INFO = #{sceneInfo},
+      </if>
+      <if test="respReturnCode != null" >
+        RESP_RETURN_CODE = #{respReturnCode},
+      </if>
+      <if test="respReturnMsg != null" >
+        RESP_RETURN_MSG = #{respReturnMsg},
+      </if>
+      <if test="respAppId != null" >
+        RESP_APP_ID = #{respAppId},
+      </if>
+      <if test="respMchId != null" >
+        RESP_MCH_ID = #{respMchId},
+      </if>
+      <if test="respDeviceInfo != null" >
+        RESP_DEVICE_INFO = #{respDeviceInfo},
+      </if>
+      <if test="respNonceStr != null" >
+        RESP_NONCE_STR = #{respNonceStr},
+      </if>
+      <if test="respSign != null" >
+        RESP_SIGN = #{respSign},
+      </if>
+      <if test="respResultCode != null" >
+        RESP_RESULT_CODE = #{respResultCode},
+      </if>
+      <if test="respErrCode != null" >
+        RESP_ERR_CODE = #{respErrCode},
+      </if>
+      <if test="respErrCodeDes != null" >
+        RESP_ERR_CODE_DES = #{respErrCodeDes},
+      </if>
+      <if test="respTradeType != null" >
+        RESP_TRADE_TYPE = #{respTradeType},
+      </if>
+      <if test="respPrepayId != null" >
+        RESP_PREPAY_ID = #{respPrepayId},
+      </if>
+      <if test="respCodeUrl != null" >
+        RESP_CODE_URL = #{respCodeUrl},
+      </if>
+      
+      <if test="respBankType != null" >
+        RESP_BANK_TYPE = #{respBankType},
+      </if>
+      <if test="respCashFee != null" >
+        RESP_CASH_FEE = #{respCashFee},
+      </if>
+      <if test="respTotalFee != null" >
+        RESP_TOTAL_FEE = #{respTotalFee},
+      </if>
+      <if test="respFeeType != null" >
+        RESP_FEE_TYPE = #{respFeeType},
+      </if>
+      <if test="respIsSubscribe != null" >
+        RESP_IS_SUBSCRIBE = #{respIsSubscribe},
+      </if>
+      <if test="respTimeEnd != null" >
+        RESP_TIME_END = #{respTimeEnd},
+      </if>
+      <if test="respTransactionId != null" >
+        RESP_TRANSACTION_ID = #{respTransactionId},
+      </if>
+      
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME = #{createDateTime},
+      </if>
+    </set>
+    where OUT_TRADE_NO = #{outTradeNo}
   </update>
   
 </mapper>
