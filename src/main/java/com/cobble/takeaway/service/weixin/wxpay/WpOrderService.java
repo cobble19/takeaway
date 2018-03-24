@@ -17,4 +17,6 @@ public interface WpOrderService {
 	
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
+	
+	String getNextOutTradeNo() throws Exception;
 }

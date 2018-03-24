@@ -1,5 +1,6 @@
 package com.cobble.takeaway.service.weixin.wxpay.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.cobble.takeaway.dao.weixin.wxpay.WpOrderMapper;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO;
+import com.cobble.takeaway.service.SequenceService;
 import com.cobble.takeaway.service.weixin.wxpay.WpOrderService;
+import com.cobble.takeaway.util.DateUtil;
 
 @Service
 public class WpOrderServiceImpl implements WpOrderService {
@@ -19,6 +22,8 @@ public class WpOrderServiceImpl implements WpOrderService {
 	private MessageSource messageSource;
 	@Autowired
 	private WpOrderMapper wpOrderMapper;
+	@Autowired
+	private SequenceService sequenceService;
 
 	@Override
 	public int insert(WpOrderPOJO wpOrderPOJO) throws Exception {
@@ -79,6 +84,14 @@ public class WpOrderServiceImpl implements WpOrderService {
 				ret += wpOrderMapper.deleteById(id);
 			}
 		}
+		return ret;
+	}
+
+	@Override
+	public String getNextOutTradeNo() throws Exception {
+		String ret = "";
+		String key = "WP_OUT_TRADE_NO_SEQ";
+		ret = DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS") + sequenceService.getNextValue(key);
 		return ret;
 	}
 }

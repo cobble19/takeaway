@@ -482,7 +482,7 @@ public class Oauth2Controller extends BaseController {
 			WxPayUnifiedOrderReqApiPOJO wxPayUnifiedOrderReqApiPOJO = new WxPayUnifiedOrderReqApiPOJO();
 			String mchId = "1425213902";
 			String body = "deweiyizhan-paytest";
-			String outTradeNo = DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS");
+			String outTradeNo = wpOrderService.getNextOutTradeNo();
 			String totalFee = myFee + "";
 			String spbillCreateIp = "112.29.173.76";
 //			String notifyUrl = HttpRequestUtil.getBase(request) + "/api/wxpay/notify";
@@ -521,7 +521,7 @@ public class Oauth2Controller extends BaseController {
 				WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
 				org.apache.commons.beanutils.BeanUtils.copyProperties(wpOrderPOJO, wxPayUnifiedOrderReqApiPOJO);
 				wpOrderPOJO.setCreateDateTime(new Date());
-				wpOrderService.insert(wpOrderPOJO );
+				wpOrderService.insert(wpOrderPOJO);
 			} catch (Exception e) {
 				logger.error("wpOrderService insert exception: ", e);
 			}
