@@ -91,7 +91,9 @@ public class WpOrderServiceImpl implements WpOrderService {
 	public String getNextOutTradeNo() throws Exception {
 		String ret = "";
 		String key = "WP_OUT_TRADE_NO_SEQ";
-		ret = DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS") + sequenceService.getNextValue(key);
+		Long value = sequenceService.getNextValue(key);
+		String valueFill = String.format("%010d", value);
+		ret = DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS") + valueFill;	// 17 + 10
 		return ret;
 	}
 }
