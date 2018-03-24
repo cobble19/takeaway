@@ -88,6 +88,5 @@
 		<mapper resource="mybatis-config/ActivityRegistrationMapper.xml" />
 		<mapper resource="mybatis-config/WpOrderMapper.xml" />
 		
-		
 	</mappers>
 </configuration>
