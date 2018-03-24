@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.SequenceMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="SequenceResultMap" type="com.cobble.takeaway.pojo.SequencePOJO" >
+    <id column="SEQUENCE_ID" property="sequenceId" />
+    <result column="SEQUENCE_KEY" property="sequenceKey"/>
+    <result column="SEQUENCE_VALUE" property="sequenceValue"/>
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.SEQUENCE_ID, a.SEQUENCE_KEY, a.SEQUENCE_VALUE
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="sequenceId != null">
+		and a.SEQUENCE_ID = #{sequenceId}
+	</if>
+	<if test="sequenceKey != null">
+		and a.SEQUENCE_KEY = #{sequenceKey}
+	</if>
+  </sql>
+
+  <select id="finds" resultMap="SequenceResultMap" parameterType="com.cobble.takeaway.pojo.SequenceSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from B_SEQUENCE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.SequenceSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from B_SEQUENCE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="SequenceResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from B_SEQUENCE a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.SEQUENCE_ID = #{sequenceId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from B_SEQUENCE
+    where SEQUENCE_ID = #{sequenceId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.SequencePOJO" useGeneratedKeys="true"
+  	keyProperty="sequenceId" keyColumn="SEQUENCE_ID">
+    insert into B_SEQUENCE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sequenceKey != null" >
+        SEQUENCE_KEY,
+      </if>
+      <if test="sequenceValue != null" >
+        SEQUENCE_VALUE,
+      </if>
+      
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sequenceKey != null" >
+        #{sequenceKey},
+      </if>
+      <if test="sequenceValue != null" >
+        #{sequenceValue},
+      </if>
+      
+      <if test="createDateTime != null" >
+        #{createDateTime},
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        #{lastModifiedDateTime},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.SequencePOJO" >
+    update B_SEQUENCE
+    <set >
+      <if test="sequenceKey != null" >
+        SEQUENCE_KEY = #{sequenceKey},
+      </if>
+      <if test="sequenceValue != null" >
+        SEQUENCE_VALUE = #{sequenceValue},
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME = #{lastModifiedDateTime},
+      </if>
+    </set>
+    where SEQUENCE_ID = #{sequenceId}
+  </update>
+  
+  <update id="increaseByKey" parameterType="com.cobble.takeaway.pojo.SequencePOJO" >
+    update B_SEQUENCE
+    <set >
+        SEQUENCE_VALUE = SEQUENCE_VALUE + 1,
+      
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME = #{lastModifiedDateTime},
+      </if>
+    </set>
+    where SEQUENCE_KEY = #{sequenceKey}
+  </update>
+  
+</mapper>
