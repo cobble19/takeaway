@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.weixin.wxpay.WpResultNotifyMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WpResultNotifyResultMap" type="com.cobble.takeaway.pojo.weixin.wxpay.WpResultNotifyPOJO" >
+    <id column="WP_RESULT_NOTIFY_ID" property="wpResultNotifyId" />
+    <result column="RETURN_CODE" property="returnCode" />
+    <result column="RETURN_MSG" property="returnMsg" />
+    <result column="APP_ID" property="appId" />
+    <result column="MCH_ID" property="mchId" />
+    <result column="DEVICE_INFO" property="deviceInfo" />
+    <result column="NONCE_STR" property="nonceStr" />
+    <result column="SIGN" property="sign" />
+    <result column="SIGN_TYPE" property="signType" />
+    <result column="RESULT_CODE" property="resultCode" />
+    <result column="ERR_CODE" property="errCode" />
+    <result column="ERR_CODE_DES" property="errCodeDes" />
+    <result column="OPEN_ID" property="openId" />
+    <result column="IS_SUBSCRIBE" property="isSubscribe" />
+    <result column="TRADE_TYPE" property="tradeType" />
+    <result column="BANK_TYPE" property="bankType" />
+    <result column="TOTAL_FEE" property="totalFee" />
+    <result column="SETTLEMENT_TOTAL_FEE" property="settlementTotalFee" />
+    <result column="FEE_TYPE" property="feeType" />
+    <result column="CASH_FEE" property="cashFee" />
+    <result column="CASH_FEE_TYPE" property="cashFeeType" />
+    <result column="COUPON_FEE" property="couponFee" />
+    <result column="COUPON_COUNT" property="couponCount" />
+    <result column="COUPON_TYPE_0" property="couponType0" />
+    <result column="COUPON_ID_0" property="couponId0" />
+    <result column="COUPON_FEE_0" property="couponFee0" />
+    <result column="COUPON_TYPE_1" property="couponType1" />
+    <result column="COUPON_ID_1" property="couponId1" />
+    <result column="COUPON_FEE_1" property="couponFee1" />
+    <result column="TRANSACTION_ID" property="transactionId" />
+    <result column="OUT_TRADE_NO" property="outTradeNo" />
+    <result column="ATTACH" property="attach" />
+    <result column="TIME_END" property="timeEnd" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WP_RESULT_NOTIFY_ID, a.RETURN_CODE, a.RETURN_MSG
+    , a.APP_ID, a.MCH_ID, a.DEVICE_INFO
+    , a.NONCE_STR, a.SIGN, a.SIGN_TYPE
+    , a.RESULT_CODE, a.ERR_CODE, a.ERR_CODE_DES
+    , a.OPEN_ID, a.IS_SUBSCRIBE, a.TRADE_TYPE
+    , a.BANK_TYPE, a.TOTAL_FEE, a.SETTLEMENT_TOTAL_FEE
+    , a.FEE_TYPE, a.CASH_FEE, a.CASS_FEE_TYPE
+    , a.COUPON_FEE, a.COUPON_COUNT, a.COUPON_TYPE_0
+    , a.COUPON_ID_0, a.COUPON_FEE_0, a.COUPON_TYPE_1
+    , a.COUPON_ID_1, a.COUPON_FEE_1, a.TRANSACTION_ID
+    , a.OUT_TRADE_NO, a.ATTACH, a.TIME_END
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="appId != null">
+		and a.APP_ID = #{appId}
+	</if>
+	<if test="mchId != null">
+		and a.MCH_ID = #{mchId}
+	</if>
+	<if test="outTradeNo != null">
+		and a.OUT_TRADE_NO = #{outTradeNo}
+	</if>
+	<if test="openId != null">
+		and a.OPEN_ID = #{openId}
+	</if>
+	<if test="transactionId != null">
+		and a.TRANSACTION_ID = #{transactionId}
+	</if>
+	<if test="returnCode != null">
+		and a.RETURN_CODE = #{returnCode}
+	</if>
+	<if test="resultCode != null">
+		and a.RESULT_CODE = #{resultCode}
+	</if>
+	<if test="errCode != null">
+		and a.ERR_CODE = #{errCode}
+	</if>
+  </sql>
+
+  <select id="finds" resultMap="WpResultNotifyResultMap" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpResultNotifySearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WP_RESULT_NOTIFY a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpResultNotifySearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WP_RESULT_NOTIFY a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WpResultNotifyResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WP_RESULT_NOTIFY a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WP_RESULT_NOTIFY_ID = #{wpResultNotifyId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WP_RESULT_NOTIFY
+    where WP_RESULT_NOTIFY_ID = #{wpResultNotifyId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpResultNotifyPOJO" useGeneratedKeys="true"
+  	keyProperty="wpResultNotifyId" keyColumn="WP_RESULT_NOTIFY_ID">
+    insert into WP_RESULT_NOTIFY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="returnCode != null" >
+        RETURN_CODE,
+      </if>
+      <if test="returnMsg != null" >
+        RETURN_MSG,
+      </if>
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="mchId != null" >
+        MCH_ID,
+      </if>
+      <if test="deviceInfo != null" >
+        DEVICE_INFO,
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR,
+      </if>
+      <if test="sign != null" >
+        SIGN,
+      </if>
+      <if test="signType != null" >
+        SIGN_TYPE,
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE,
+      </if>
+      <if test="errCode != null" >
+        ERR_CODE,
+      </if>
+      <if test="errCodeDes != null" >
+        ERR_CODE_DES,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="isSubscribe != null" >
+        IS_SUBSCRIBE,
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE,
+      </if>
+      <if test="bankType != null" >
+        BANK_TYPE,
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE,
+      </if>
+      <if test="settlementTotalFee != null" >
+        SETTLEMENT_TOTAL_FEE,
+      </if>
+      <if test="feeType != null" >
+        TOTAL_FEE,
+      </if>
+      <if test="cashFee != null" >
+        CASH_FEE,
+      </if>
+      <if test="cashFeeType != null" >
+        CASH_FEE_TYPE,
+      </if>
+      <if test="couponFee != null" >
+        COUPON_FEE,
+      </if>
+      <if test="couponCount != null" >
+        COUPON_COUNT,
+      </if>
+      <if test="couponType0 != null" >
+        COUPON_TYPE_0,
+      </if>
+      <if test="couponId0 != null" >
+        COUPON_ID_0,
+      </if>
+      <if test="couponFee0 != null" >
+        COUPON_FEE_0,
+      </if>
+      <if test="couponType1 != null" >
+        COUPON_TYPE_1,
+      </if>
+      <if test="couponId1 != null" >
+        COUPON_ID_1,
+      </if>
+      <if test="couponFee1 != null" >
+        COUPON_FEE_1,
+      </if>
+      <if test="transactionId != null" >
+        TRANSACTION_ID,
+      </if>
+      <if test="outTradeNo != null" >
+        OUT_TRADE_NO,
+      </if>
+      <if test="attach != null" >
+        ATTACH,
+      </if>
+      <if test="timeEnd != null" >
+        TIME_END,
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="returnCode != null" >
+        #{returnCode},
+      </if>
+      <if test="returnMsg != null" >
+        #{returnMsg},
+      </if>
+      <if test="appId != null" >
+        #{appId},
+      </if>
+      <if test="mchId != null" >
+        #{mchId},
+      </if>
+      <if test="deviceInfo != null" >
+        #{deviceInfo},
+      </if>
+      <if test="nonceStr != null" >
+        #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        #{sign},
+      </if>
+      <if test="signType != null" >
+        #{signType},
+      </if>
+      <if test="resultCode != null" >
+        #{resultCode},
+      </if>
+      <if test="errCode != null" >
+        #{errCode},
+      </if>
+      <if test="errCodeDes != null" >
+        #{errCodeDes},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="isSubscribe != null" >
+        #{isSubscribe},
+      </if>
+      
+      <if test="tradeType != null" >
+        #{tradeType},
+      </if>
+      <if test="bankType != null" >
+        #{bankType},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee},
+      </if>
+      <if test="settlementTotalFee != null" >
+        #{settlementTotalFee},
+      </if>
+      <if test="feeType != null" >
+        #{feeType},
+      </if>
+      <if test="cashFee != null" >
+        #{cashFee},
+      </if>
+      <if test="cashFeeType != null" >
+        #{cashFeeType},
+      </if>
+      <if test="couponFee != null" >
+        #{couponFee},
+      </if>
+      <if test="couponCount != null" >
+        #{couponCount},
+      </if>
+      <if test="couponType0 != null" >
+        #{couponType0},
+      </if>
+      <if test="couponId0 != null" >
+        #{couponId0},
+      </if>
+      <if test="couponFee0 != null" >
+        #{couponFee0},
+      </if>
+      <if test="couponType1 != null" >
+        #{couponType1},
+      </if>
+      <if test="couponId1 != null" >
+        #{couponId1},
+      </if>
+      <if test="couponFee1 != null" >
+        #{couponFee1},
+      </if>
+      <if test="transactionId != null" >
+        #{transactionId},
+      </if>
+      <if test="outTradeNo != null" >
+        #{outTradeNo},
+      </if>
+      <if test="attach != null" >
+        #{attach},
+      </if>
+      <if test="timeEnd != null" >
+        #{timeEnd},
+      </if>
+      
+      <if test="createDateTime != null" >
+        #{createDateTime},
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        #{lastModifiedDateTime},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpResultNotifyPOJO" >
+    update WP_RESULT_NOTIFY
+    <set >
+      <if test="returnCode != null" >
+        RETURN_CODE = #{returnCode},
+      </if>
+      <if test="returnMsg != null" >
+        RETURN_MSG = #{returnMsg},
+      </if>
+      <if test="appId != null" >
+        APP_ID = #{appId},
+      </if>
+      <if test="mchId != null" >
+        MCH_ID = #{mchId},
+      </if>
+      <if test="deviceInfo != null" >
+        DEVICE_INFO = #{deviceInfo},
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR = #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        SIGN = #{sign},
+      </if>
+      <if test="signType != null" >
+        SIGN_TYPE = #{signType},
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE = #{resultCode},
+      </if>
+      <if test="errCode != null" >
+        ERR_CODE = #{errCode},
+      </if>
+      <if test="errCodeDes != null" >
+        ERR_CODE_DES = #{errCodeDes},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="isSubscribe != null" >
+        IS_SUBSCRIBE = #{isSubscribe},
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE = #{tradeType},
+      </if>
+      <if test="bankType != null" >
+        BANK_TYPE = #{bankType},
+      </if>
+      <if test="respTotalFee != null" >
+        TOTAL_FEE = #{respTotalFee},
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE = #{totalFee},
+      </if>
+      <if test="settlementTotalFee != null" >
+        SETTLEMENT_TOTAL_FEE = #{settlementTotalFee},
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE = #{feeType},
+      </if>
+      <if test="cashFee != null" >
+        CASH_FEE = #{cashFee},
+      </if>
+      <if test="cashFeeType != null" >
+        CASH_FEE_TYPE = #{cashFeeType},
+      </if>
+      <if test="couponFee != null" >
+        COUPON_FEE = #{couponFee},
+      </if>
+      <if test="couponCount != null" >
+        COUPON_COUNT = #{couponCount},
+      </if>
+      <if test="couponType0 != null" >
+        COUPON_TYPE_0 = #{couponType0},
+      </if>
+      <if test="couponId0 != null" >
+        COUPON_ID_0 = #{couponId0},
+      </if>
+      <if test="couponFee0 != null" >
+        COUPON_FEE_0 = #{couponFee0},
+      </if>
+      <if test="couponType1 != null" >
+        COUPON_TYPE_1 = #{couponType1},
+      </if>
+      <if test="couponId1 != null" >
+        COUPON_ID_1 = #{couponId1},
+      </if>
+      <if test="couponFee1 != null" >
+        COUPON_FEE_1 = #{couponFee1},
+      </if>
+      <if test="transactionId != null" >
+        TRANSACTION_ID = #{transactionId},
+      </if>
+      <if test="outTradeNo != null" >
+        OUT_TRADE_NO = #{outTradeNo},
+      </if>
+      <if test="attach != null" >
+        ATTACH = #{attach},
+      </if>
+      <if test="timeEnd != null" >
+        TIME_END = #{timeEnd},
+      </if>
+      
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME = #{createDateTime},
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME = #{lastModifiedDateTime},
+      </if>
+    </set>
+    where WP_RESULT_NOTIFY_ID = #{wpResultNotifyId}
+  </update>
+  
+</mapper>

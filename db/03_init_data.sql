@@ -1,4 +1,4 @@
-use takeawaydb;
+use dwyzdb;
 
 INSERT INTO `b_privilege` VALUES ('-1', 'PRIVILEGE_ALL', '/mgr/**');
 INSERT INTO `b_role` VALUES ('-1', 'ROLE_ADMIN');

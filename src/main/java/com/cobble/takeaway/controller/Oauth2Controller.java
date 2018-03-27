@@ -141,6 +141,7 @@ import com.cobble.takeaway.service.WxPayService;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.service.WxRespMsgService;
 import com.cobble.takeaway.service.weixin.wxpay.WpOrderService;
+import com.cobble.takeaway.service.weixin.wxpay.WpResultNotifyService;
 import com.cobble.takeaway.spring.security.MyUser;
 import com.cobble.takeaway.util.BeanUtil;
 import com.cobble.takeaway.util.CacheUtil;
@@ -214,6 +215,8 @@ public class Oauth2Controller extends BaseController {
 	private WxPayService wxPayService;
 	@Autowired
 	private WpOrderService wpOrderService;
+	@Autowired
+	private WpResultNotifyService wpResultNotifyService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -367,6 +370,9 @@ public class Oauth2Controller extends BaseController {
 	        logger.info("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
 	        String result = new String(outSteam.toByteArray(), "utf-8");
 	        logger.info("微信支付成功通知: {}", result);
+	        
+	        wpResultNotifyService.insert(result);
+	        
 	        Map<String, String> resultMap = WXPayUtil.xmlToMap(result);
 
 			try {

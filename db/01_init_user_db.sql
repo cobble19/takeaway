@@ -1,8 +1,8 @@
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`takeawaydb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`dwyzdb` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-GRANT SUPER ON takeawaydb.* TO 'usertest'@'%' IDENTIFIED BY 'usertest';
-GRANT SUPER ON takeawaydb.* TO 'usertest'@'localhost' IDENTIFIED BY 'usertest';
+GRANT SUPER ON dwyzdb.* TO 'test'@'%' IDENTIFIED BY 'test';
+GRANT SUPER ON dwyzdb.* TO 'test'@'localhost' IDENTIFIED BY 'test';
 
-GRANT ALL PRIVILEGES ON takeawaydb.* TO 'usertest'@'%' IDENTIFIED BY 'usertest' WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON takeawaydb.* TO 'usertest'@'localhost' IDENTIFIED BY 'usertest' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON dwyzdb.* TO 'test'@'%' IDENTIFIED BY 'test' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON dwyzdb.* TO 'test'@'localhost' IDENTIFIED BY 'test' WITH GRANT OPTION;
 FLUSH PRIVILEGES;

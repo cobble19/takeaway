@@ -4,7 +4,7 @@ Navicat MySQL Data Transfer
 Source Server         : 10.224.37.141
 Source Server Version : 50528
 Source Host           : 10.224.37.141:3306
-Source Database       : takeawaydb
+Source Database       : dwyzdb
 
 Target Server Type    : MYSQL
 Target Server Version : 50528
@@ -12,16 +12,16 @@ File Encoding         : 65001
 
 Date: 2015-01-07 16:16:27
 */
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`takeawaydb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`dwyzdb` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-GRANT SUPER ON takeawaydb.* TO 'usertest'@'%' IDENTIFIED BY 'usertest';
-GRANT SUPER ON takeawaydb.* TO 'usertest'@'localhost' IDENTIFIED BY 'usertest';
+GRANT SUPER ON dwyzdb.* TO 'test'@'%' IDENTIFIED BY 'test';
+GRANT SUPER ON dwyzdb.* TO 'test'@'localhost' IDENTIFIED BY 'test';
 
-GRANT ALL PRIVILEGES ON takeawaydb.* TO 'usertest'@'%' IDENTIFIED BY 'usertest' WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON takeawaydb.* TO 'usertest'@'localhost' IDENTIFIED BY 'usertest' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON dwyzdb.* TO 'test'@'%' IDENTIFIED BY 'test' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON dwyzdb.* TO 'test'@'localhost' IDENTIFIED BY 'test' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
-use takeawaydb;
+use dwyzdb;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -86,13 +86,7 @@ CREATE TABLE IF NOT EXISTS `b_user` (
 -- ----------------------------
 -- Records of b_user
 -- ----------------------------
-INSERT INTO `b_user` VALUES ('-1', 'admin', 'adminpassword', '1');
-INSERT INTO `b_user` VALUES ('1', 'geby1', 'geby1', '0');
-INSERT INTO `b_user` VALUES ('2', 'ge', 'ge', '1');
-INSERT INTO `b_user` VALUES ('3', 'cobble', 'cobble', '1');
-INSERT INTO `b_user` VALUES ('4', 'a', 'a', '1');
-INSERT INTO `b_user` VALUES ('5', 'a', 'a', '1');
-INSERT INTO `b_user` VALUES ('6', 'b', 'b', '1');
+INSERT INTO `b_user` VALUES ('1', 'test', 'xxx', '0');
 
 -- ----------------------------
 -- Table structure for food

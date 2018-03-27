@@ -1,4 +1,4 @@
-use takeawaydb;
+use dwyzdb;
 
 CREATE TABLE IF NOT EXISTS `b_privilege` (
   `PRIVILEGE_ID` int(11) NOT NULL AUTO_INCREMENT,
