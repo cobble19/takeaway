@@ -186,7 +186,7 @@
         SETTLEMENT_TOTAL_FEE,
       </if>
       <if test="feeType != null" >
-        TOTAL_FEE,
+        FEE_TYPE,
       </if>
       <if test="cashFee != null" >
         CASH_FEE,
@@ -392,9 +392,6 @@
       </if>
       <if test="bankType != null" >
         BANK_TYPE = #{bankType},
-      </if>
-      <if test="respTotalFee != null" >
-        TOTAL_FEE = #{respTotalFee},
       </if>
       <if test="totalFee != null" >
         TOTAL_FEE = #{totalFee},
