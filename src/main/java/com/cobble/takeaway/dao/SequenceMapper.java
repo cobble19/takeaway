@@ -9,7 +9,7 @@ import com.cobble.takeaway.pojo.SequenceSearchPOJO;
 public interface SequenceMapper {
 	int insert(SequencePOJO sequencePOJO) throws Exception;
 	int update(SequencePOJO sequencePOJO) throws Exception;
-	int increateByKey(SequencePOJO sequencePOJO) throws Exception;
+	int increaseByKey(SequencePOJO sequencePOJO) throws Exception;
 	List<SequencePOJO> finds(SequenceSearchPOJO sequenceSearchPOJO) throws Exception;
 	int getCount(SequenceSearchPOJO sequenceSearchPOJO) throws Exception;
 	

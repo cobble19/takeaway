@@ -39,7 +39,7 @@ public class SequenceServiceImpl implements SequenceService {
 	@Override
 	public int increaseByKey(SequencePOJO sequencePOJO) throws Exception {
 		int ret = 0;
-		ret = sequenceMapper.increateByKey(sequencePOJO);
+		ret = sequenceMapper.increaseByKey(sequencePOJO);
 		return ret;
 	}
 	
@@ -96,12 +96,12 @@ public class SequenceServiceImpl implements SequenceService {
 			sequencePOJO.setSequenceValue(0L);
 			sequencePOJO.setCreateDateTime(new Date());
 			sequencePOJO.setLastModifiedDateTime(new Date());
-			sequenceMapper.insert(sequencePOJO );
+			sequenceMapper.insert(sequencePOJO);
 		} else {
 			SequencePOJO sequencePOJO = sequencePOJOs.get(0);		// get first ONE
 			ret = sequencePOJO.getSequenceValue() + 1;
 			sequencePOJO.setLastModifiedDateTime(new Date());
-			sequenceMapper.increateByKey(sequencePOJO);
+			sequenceMapper.increaseByKey(sequencePOJO);
 		}
 		return ret;
 	}

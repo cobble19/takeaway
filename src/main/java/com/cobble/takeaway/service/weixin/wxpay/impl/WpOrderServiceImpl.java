@@ -24,6 +24,9 @@ public class WpOrderServiceImpl implements WpOrderService {
 	private WpOrderMapper wpOrderMapper;
 	@Autowired
 	private SequenceService sequenceService;
+	
+	public static String SEQ_WP_OUT_TRADE_NO = "SEQ_WP_OUT_TRADE_NO";
+	public static String WP_ORDER_PREFIX = "DWO";	// Deweiyizhan, Weixinpay, Order
 
 	@Override
 	public int insert(WpOrderPOJO wpOrderPOJO) throws Exception {
@@ -90,10 +93,10 @@ public class WpOrderServiceImpl implements WpOrderService {
 	@Override
 	public String getNextOutTradeNo() throws Exception {
 		String ret = "";
-		String key = "WP_OUT_TRADE_NO_SEQ";
+		String key = SEQ_WP_OUT_TRADE_NO;
 		Long value = sequenceService.getNextValue(key);
 		String valueFill = String.format("%010d", value);
-		ret = DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS") + valueFill;	// 17 + 10
+		ret = WP_ORDER_PREFIX + DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS") + valueFill;	// 3 + 17 + 10 = 30
 		return ret;
 	}
 }
