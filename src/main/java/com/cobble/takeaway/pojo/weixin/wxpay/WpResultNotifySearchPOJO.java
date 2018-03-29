@@ -19,7 +19,7 @@ public class WpResultNotifySearchPOJO extends BaseSearchPOJO {
 	private String resultCode;
 	private String errCode;
 	private String errCodeDes;
-	private String openID;
+	private String openId;
 	private String isSubscribe;
 	private String tradeType;
 	private String bankType;
@@ -114,11 +114,11 @@ public class WpResultNotifySearchPOJO extends BaseSearchPOJO {
 	public void setErrCodeDes(String errCodeDes) {
 		this.errCodeDes = errCodeDes;
 	}
-	public String getOpenID() {
-		return openID;
+	public String getOpenId() {
+		return openId;
 	}
-	public void setOpenID(String openID) {
-		this.openID = openID;
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 	public String getIsSubscribe() {
 		return isSubscribe;
