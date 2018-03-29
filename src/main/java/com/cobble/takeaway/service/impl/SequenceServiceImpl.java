@@ -93,7 +93,8 @@ public class SequenceServiceImpl implements SequenceService {
 		if (CollectionUtils.isEmpty(sequencePOJOs)) {
 			SequencePOJO sequencePOJO = new SequencePOJO();
 			sequencePOJO.setSequenceKey(key);
-			sequencePOJO.setSequenceValue(0L);
+			ret = 1L;
+			sequencePOJO.setSequenceValue(ret);
 			sequencePOJO.setCreateDateTime(new Date());
 			sequencePOJO.setLastModifiedDateTime(new Date());
 			sequenceMapper.insert(sequencePOJO);
