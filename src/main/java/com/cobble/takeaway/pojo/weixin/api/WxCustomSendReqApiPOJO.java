@@ -1,6 +1,8 @@
 package com.cobble.takeaway.pojo.weixin.api;
 
 import com.cobble.takeaway.pojo.BasePOJO;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -10,7 +12,11 @@ public class WxCustomSendReqApiPOJO extends BasePOJO {
 	@JsonProperty(value="msgtype")
     private String msgtype;
 	@JsonProperty(value="text")
+	@JsonInclude(Include.NON_EMPTY)
     private WxCustomSendReqTextApiPOJO wxCustomSendReqTextApiPOJO;
+	@JsonProperty(value="wxcard")
+	@JsonInclude(Include.NON_EMPTY)
+	private WxCustomSendReqWxCardApiPOJO wxCustomSendReqWxCardApiPOJO;
 	
 	public String getTouser() {
 		return touser;
@@ -30,6 +36,12 @@ public class WxCustomSendReqApiPOJO extends BasePOJO {
 	public void setWxCustomSendReqTextApiPOJO(
 			WxCustomSendReqTextApiPOJO wxCustomSendReqTextApiPOJO) {
 		this.wxCustomSendReqTextApiPOJO = wxCustomSendReqTextApiPOJO;
+	}
+	public WxCustomSendReqWxCardApiPOJO getWxCustomSendReqWxCardApiPOJO() {
+		return wxCustomSendReqWxCardApiPOJO;
+	}
+	public void setWxCustomSendReqWxCardApiPOJO(WxCustomSendReqWxCardApiPOJO wxCustomSendReqWxCardApiPOJO) {
+		this.wxCustomSendReqWxCardApiPOJO = wxCustomSendReqWxCardApiPOJO;
 	}
 	
 

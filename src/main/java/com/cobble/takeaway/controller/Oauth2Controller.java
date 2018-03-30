@@ -90,6 +90,7 @@ import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqTextApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqWxCardApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxJsSdkTicketRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondDeleteReqApiPOJO;
@@ -352,6 +353,31 @@ public class Oauth2Controller extends BaseController {
         return result;
     }
 
+	@RequestMapping(value = "/api/wx/custom/send/wxcard", method = {RequestMethod.GET}, produces= {MediaType.TEXT_XML_VALUE, MediaType.ALL_VALUE})
+	@ResponseBody
+	public String customesendwxcard(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
+			, @RequestParam(value="openId", required = true) String openId
+			, @RequestParam(value="cardId", required = true) String cardId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String ret = new String();
+		
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		String url = request.getRequestURL() + "";
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+			}
+			ret = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+		}
+
+		return ret;
+	}
+	
 	@RequestMapping(value = "/api/wxpay/notify", method = {RequestMethod.POST}, produces= {MediaType.TEXT_XML_VALUE, MediaType.ALL_VALUE})
 	@ResponseBody
 	public String wxPaynotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -4130,6 +4156,37 @@ public class Oauth2Controller extends BaseController {
 		return ret;
 	}
 
+	public String sendCustomMsgWxCard(String openId, String cardId, String authorizerAppId) throws Exception {
+		String ret = "";
+		try {
+
+			logger.info("openId: {}, content: {}, authorizerAppId: {}", openId, cardId, authorizerAppId);
+			if (StringUtils.isBlank(openId) || StringUtils.isBlank(cardId) || StringUtils.isBlank(authorizerAppId)) {
+				return ret;
+			}
+			WxCustomSendReqApiPOJO wxCustomSendReqApiPOJO = new WxCustomSendReqApiPOJO();
+			WxCustomSendReqWxCardApiPOJO wxCustomSendReqWxCardApiPOJO = new WxCustomSendReqWxCardApiPOJO();
+			wxCustomSendReqWxCardApiPOJO.setCardId(cardId);;
+			wxCustomSendReqApiPOJO.setTouser(openId);
+			wxCustomSendReqApiPOJO.setMsgtype("wxcard");
+			wxCustomSendReqApiPOJO.setWxCustomSendReqWxCardApiPOJO(wxCustomSendReqWxCardApiPOJO);
+			
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+
+			if (StringUtils.isBlank(authorizerAccessToken)) {
+				logger.info("客服发送接口失败，wxAuthorizerAccessTokenPOJOs is null");
+				return ret;
+			}
+			String wxCustomSendResp = HttpClientUtil.postHttpsJson(wxCustomSend.replace("ACCESS_TOKEN", authorizerAccessToken), 
+					JsonUtils.convertToJson(wxCustomSendReqApiPOJO));
+			logger.info("客服发送接口，wxCustomSendResp: {}", wxCustomSendResp);
+			ret = wxCustomSendResp;
+		} catch (Exception e) {
+			logger.error("Send custom msg text exception: {}", e);
+		}
+		return ret;
+	}
+	
 	@RequestMapping(value = "/web/wx/authEventRecieve", method=RequestMethod.POST)
 	@ResponseBody
 	public String authEventRecieve(@RequestBody String requestBody, @RequestParam(value="signature", required = false) String signature,
