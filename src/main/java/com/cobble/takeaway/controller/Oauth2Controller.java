@@ -353,14 +353,14 @@ public class Oauth2Controller extends BaseController {
         return result;
     }
 
-	@RequestMapping(value = "/api/wx/custom/send/wxcard", method = {RequestMethod.GET}, produces= {MediaType.TEXT_XML_VALUE, MediaType.ALL_VALUE})
+	@RequestMapping(value = "/api/wx/custom/send/wxcard", method = {RequestMethod.GET}, produces= {MediaType.ALL_VALUE})
 	@ResponseBody
-	public String customesendwxcard(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+	public Map customesendwxcard(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
 			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
 			, @RequestParam(value="openId", required = true) String openId
 			, @RequestParam(value="cardId", required = true) String cardId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String ret = new String();
+		Map ret = new HashMap();
 		
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
@@ -370,7 +370,8 @@ public class Oauth2Controller extends BaseController {
 			if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 			}
-			ret = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
+			String result = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
+			ret.put("result", result);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 		}
