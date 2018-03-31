@@ -4161,7 +4161,7 @@ public class Oauth2Controller extends BaseController {
 		String ret = "";
 		try {
 
-			logger.info("openId: {}, content: {}, authorizerAppId: {}", openId, cardId, authorizerAppId);
+			logger.info("openId: {}, cardId: {}, authorizerAppId: {}", openId, cardId, authorizerAppId);
 			if (StringUtils.isBlank(openId) || StringUtils.isBlank(cardId) || StringUtils.isBlank(authorizerAppId)) {
 				return ret;
 			}
@@ -4183,7 +4183,7 @@ public class Oauth2Controller extends BaseController {
 			logger.info("客服发送接口，wxCustomSendResp: {}", wxCustomSendResp);
 			ret = wxCustomSendResp;
 		} catch (Exception e) {
-			logger.error("Send custom msg text exception: {}", e);
+			logger.error("Send custom msg wxcard exception: {}", e);
 		}
 		return ret;
 	}
