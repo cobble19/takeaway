@@ -353,7 +353,7 @@ public class Oauth2Controller extends BaseController {
         return result;
     }
 
-	@RequestMapping(value = "/api/wx/custom/send/wxcard", method = {RequestMethod.GET}, produces= {MediaType.ALL_VALUE})
+	@RequestMapping(value = "/api/wx/custom/send/wxcard", method = {RequestMethod.GET})
 	@ResponseBody
 	public Map customesendwxcard(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
 			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
