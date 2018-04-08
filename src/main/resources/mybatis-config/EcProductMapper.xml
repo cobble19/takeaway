@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.ecommerce.EcProductMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property authorizerAppId="timeToIdleSeconds" value="3600" />
+		<property authorizerAppId="timeToLiveSeconds" value="3600" />
+		<property authorizerAppId="maxEntriesLocalHeap" value="1000" />
+		<property authorizerAppId="maxEntriesLocalDisk" value="10000000" />
+		<property authorizerAppId="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="EcProductResultMap" type="com.cobble.takeaway.pojo.ecommerce.EcProductPOJO" >
+    <id column="PRODUCT_ID" property="productId" />
+    <result column="USER_ID" property="userId" />
+    <result column="AUTHORIZER_APPID" property="authorizerAppId"/>
+    <result column="PRODUCT_NAME" property="productName" />
+    <result column="QUANTITY_TOTAL" property="quantityTotal" />
+    <result column="QUANTITY_STOCK" property="quantityStock" />
+    <result column="UNIT_PRICE" property="unitPrice" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.PRODUCT_ID, a.USER_ID, a.AUTHORIZER_APPID, a.PRODUCT_NAME, a.QUANTITY_TOTAL
+    , a.QUANTITY_STOCK, a.UNIT_PRICE, a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="productId != null">
+		and a.PRODUCT_ID = #{productId}
+	</if>
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APPID = #{authorizerAppId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+	<if test="productName != null">
+		and PRODUCT_NAME like concat("%", concat(#{productName}, "%"))
+	</if>
+	<!-- <if test="quantityStockGt0Flag">
+		and a.QUANTITY_STOCK > 0
+	</if> -->
+  </sql>
+  
+  <select id="finds" resultMap="EcProductResultMap" parameterType="com.cobble.takeaway.pojo.ecommerce.EcProductSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from EC_PRODUCT a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.ecommerce.EcProductSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from EC_PRODUCT a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="EcProductResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from EC_PRODUCT a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.PRODUCT_ID = #{productId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from EC_PRODUCT
+    where PRODUCT_ID = #{productId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.ecommerce.EcProductPOJO" useGeneratedKeys="true"
+  	keyProperty="productId" keyColumn="PRODUCT_ID">
+    insert into EC_PRODUCT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID,
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME,
+      </if>
+      <if test="quantityTotal != null" >
+        QUANTITY_TOTAL,
+      </if>
+      <if test="quantityStock != null" >
+        QUANTITY_STOCK,
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE,
+      </if>
+        CREATE_DATE_TIME,
+        LAST_MODIFIED_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="productName != null" >
+        #{productName},
+      </if>
+      <if test="quantityTotal != null" >
+        #{quantityTotal},
+      </if>
+      <if test="quantityStock != null" >
+        #{quantityStock},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice},
+      </if>
+        sysdate(),
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.ecommerce.EcProductPOJO" >
+    update EC_PRODUCT
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID = #{authorizerAppId},
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME = #{productName},
+      </if>
+      <if test="quantityTotal != null" >
+        QUANTITY_TOTAL = #{quantityTotal},
+      </if>
+      <if test="quantityStock != null" >
+        QUANTITY_STOCK = #{quantityStock},
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice},
+      </if>
+        <!-- CREATE_DATE_TIME = sysdate(), -->
+        LAST_MODIFIED_DATE_TIME = sysdate(),
+    </set>
+    where PRODUCT_ID = #{productId}
+  </update>
+  
+  
+  <update id="decreaseStock" >
+    update EC_PRODUCT
+    <set >
+      <!-- <if test="quantityStock != null" > -->
+        QUANTITY_STOCK = QUANTITY_STOCK - #{quantity},
+      <!-- </if> -->
+        LAST_MODIFIED_DATE_TIME = sysdate(),
+    </set>
+    where PRODUCT_ID = #{productId}
+  </update>
+</mapper>

@@ -90,5 +90,8 @@
 		<mapper resource="mybatis-config/WpOrderMapper.xml" />
 		<mapper resource="mybatis-config/WpResultNotifyMapper.xml" />
 		
+		<mapper resource="mybatis-config/EcProductMapper.xml" />
+		<mapper resource="mybatis-config/EcOrderMapper.xml" />
+		
 	</mappers>
 </configuration>

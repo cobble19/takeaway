@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.ecommerce.EcOrderMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property openId="timeToIdleSeconds" value="3600" />
+		<property openId="timeToLiveSeconds" value="3600" />
+		<property openId="maxEntriesLocalHeap" value="1000" />
+		<property openId="maxEntriesLocalDisk" value="10000000" />
+		<property openId="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="EcOrderResultMap" type="com.cobble.takeaway.pojo.ecommerce.EcOrderPOJO" >
+    <id column="ORDER_ID" property="orderId" />
+    <result column="USER_ID" property="userId" />
+    <result column="OPEN_ID" property="openId"/>
+    <result column="PRODUCT_ID" property="productId" />
+    <result column="UNIT_PRICE" property="unitPrice" />
+    <result column="QUANTITY" property="quantity" />
+    <result column="DISCOUNT_RATE" property="discountRate" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.ORDER_ID, a.USER_ID, a.OPEN_ID, a.PRODUCT_ID, a.UNIT_PRICE
+    , a.QUANTITY, a.DISCOUNT_RATE, a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="orderId != null">
+		and a.ORDER_ID = #{orderId}
+	</if>
+	<if test="openId != null">
+		and a.OPEN_ID = #{openId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+	<if test="productId != null">
+		and PRODUCT_ID = #{productId}
+	</if>
+	<!-- <if test="discountRateGt0Flag">
+		and a.DISCOUNT_RATE > 0
+	</if> -->
+  </sql>
+  
+  <select id="finds" resultMap="EcOrderResultMap" parameterType="com.cobble.takeaway.pojo.ecommerce.EcOrderSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from EC_ORDER a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.ecommerce.EcOrderSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from EC_ORDER a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="EcOrderResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from EC_ORDER a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.ORDER_ID = #{orderId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from EC_ORDER
+    where ORDER_ID = #{orderId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.ecommerce.EcOrderPOJO" useGeneratedKeys="true"
+  	keyProperty="orderId" keyColumn="ORDER_ID">
+    insert into EC_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="discountRate != null" >
+        DISCOUNT_RATE,
+      </if>
+        CREATE_DATE_TIME,
+        LAST_MODIFIED_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="productId != null" >
+        #{productId},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice},
+      </if>
+      <if test="quantity != null" >
+        #{quantity},
+      </if>
+      <if test="discountRate != null" >
+        #{discountRate},
+      </if>
+        sysdate(),
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.ecommerce.EcOrderPOJO" >
+    update EC_ORDER
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId},
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity},
+      </if>
+      <if test="discountRate != null" >
+        DISCOUNT_RATE = #{discountRate},
+      </if>
+        <!-- CREATE_DATE_TIME = sysdate(), -->
+        LAST_MODIFIED_DATE_TIME = sysdate(),
+    </set>
+    where ORDER_ID = #{orderId}
+  </update>
+  
+</mapper>

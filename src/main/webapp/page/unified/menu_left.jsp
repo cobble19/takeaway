@@ -68,6 +68,21 @@
 		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/point_summary_single.jsp"><h6>积分总结</h6></a></li>
 	</c:if>
 </ul>
+
+<ul class="nav nav-pills nav-stacked" style="padding: 10px 0px;">
+	<li style="margin-left: -20px; margin-bottom: 20px;">
+		<h5 style="color: #42b047; font-weight: bold;">
+			<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>&nbsp;电子商务
+		</h5>
+	</li>
+	<c:if test="${sessionScope.myUser.userId eq 16 
+				or sessionScope.myUser.userId eq 8 
+				or sessionScope.myUser.userId eq 22
+				or sessionScope.authorizerAppId eq 'wxeaa5221eab533277'}">
+		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/ec_product_single.jsp"><h6>商品管理</h6></a></li>
+		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/ec_order_single.jsp"><h6>订单管理</h6></a></li>
+	</c:if>
+</ul>
 <ul class="nav nav-pills nav-stacked" style="padding: 10px 0px;">
 	<c:if test="${sessionScope.myUser.userId eq 16 or sessionScope.myUser.userId eq 8}">
 		<li style="margin-left: -20px; margin-bottom: 20px;">
