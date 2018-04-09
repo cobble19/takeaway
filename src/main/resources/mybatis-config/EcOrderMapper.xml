@@ -20,6 +20,7 @@
     <result column="DISCOUNT_RATE" property="discountRate" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+    <association property="ecProductPOJO" columnPrefix="EP_" resultMap="com.cobble.takeaway.dao.ecommerce.EcProductMapper.EcProductResultMap"></association>
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -49,23 +50,29 @@
     <if test="distinct" >
       distinct
     </if>
+    , a.PRODUCT_ID AS EP_PRODUCT_ID, a.USER_ID AS EP_USER_ID, a.AUTHORIZER_APPID AS EP_AUTHORIZER_APPID
+    , a.PRODUCT_NAME AS EP_PRODUCT_NAME, a.QUANTITY_TOTAL AS EP_QUANTITY_TOTAL
+    , a.QUANTITY_STOCK AS EP_QUANTITY_STOCK, a.UNIT_PRICE AS EP_UNIT_PRICE, a.CREATE_DATE_TIME AS EP_CREATE_DATE_TIME
+    , a.LAST_MODIFIED_DATE_TIME AS EP_LAST_MODIFIED_DATE_TIME
     <include refid="Base_Column_List" />
-    from EC_ORDER a
+    from EC_ORDER a, EC_PRODUCT b
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
+			and a.PRODUCT_ID = b.PRODUCT_ID
   		</trim>
   	</where>
-  	order by CREATE_DATE_TIME desc
+  	order by a.LAST_MODIFIED_DATE_TIME desc
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>
   </select>
   <select id="getCount" parameterType="com.cobble.takeaway.pojo.ecommerce.EcOrderSearchPOJO" resultType="java.lang.Integer" >
-    select count(1) from EC_ORDER a
+    select count(1) from EC_ORDER a, EC_PRODUCT b
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
+			and a.PRODUCT_ID = b.PRODUCT_ID
   		</trim>
   	</where>
   </select>

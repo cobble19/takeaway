@@ -734,7 +734,8 @@ public class Oauth2Controller extends BaseController {
 		ret.setViewName("/page/test/" + jspFileName);
 		return ret;
 	}
-	private String getWxJsSdkTicket(String authorizerAppId) throws Exception {
+	
+	public String getWxJsSdkTicket(String authorizerAppId) throws Exception {
 		String ret = "";
 		String key = CommonConstant.WX_JS_SDK_TICKET + "_" + authorizerAppId;
 		String value = CacheUtil.getInstance().get(key);

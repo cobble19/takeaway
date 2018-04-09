@@ -15,6 +15,15 @@ public class EcOrderPOJO extends BasePOJO {
 	private Double discountRate;
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+	
+	private EcProductPOJO ecProductPOJO;
+	
+	public EcProductPOJO getEcProductPOJO() {
+		return ecProductPOJO;
+	}
+	public void setEcProductPOJO(EcProductPOJO ecProductPOJO) {
+		this.ecProductPOJO = ecProductPOJO;
+	}
 	public Long getOrderId() {
 		return orderId;
 	}

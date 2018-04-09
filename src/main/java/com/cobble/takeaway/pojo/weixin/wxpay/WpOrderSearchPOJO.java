@@ -48,7 +48,15 @@ public class WpOrderSearchPOJO extends BaseSearchPOJO {
 	private String respIsSubscribe;
 	private String respTimeEnd;
 	private String respTransactionId;
+
+	private Long ecOrderId;
 	
+	public Long getEcOrderId() {
+		return ecOrderId;
+	}
+	public void setEcOrderId(Long ecOrderId) {
+		this.ecOrderId = ecOrderId;
+	}
 	public String getRespBankType() {
 		return respBankType;
 	}

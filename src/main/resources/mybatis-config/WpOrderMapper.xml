@@ -57,6 +57,8 @@
     <result column="RESP_IS_SUBSCRIBE" property="respIsSubscribe" />
     <result column="RESP_TIME_END" property="respTimeEnd" />
     <result column="RESP_TRANSACTION_ID" property="respTransactionId" />
+    
+    <result column="EC_ORDER_ID" property="ecOrderId"/>
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -75,7 +77,7 @@
     , a.RESP_CODE_URL
     , a.RESP_BANK_TYPE, a.RESP_CASH_FEE, a.RESP_TOTAL_FEE
     , a.RESP_FEE_TYPE, a.RESP_IS_SUBSCRIBE, a.RESP_TIME_END
-    , a.RESP_TRANSACTION_ID
+    , a.RESP_TRANSACTION_ID, a.EC_ORDER_ID
     , a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
@@ -93,6 +95,9 @@
 	</if>
 	<if test="respTransactionId != null">
 		and a.RESP_TRANSACTION_ID = #{respTransactionId}
+	</if>
+	<if test="ecOrderId != null">
+		and a.EC_ORDER_ID = #{ecOrderId}
 	</if>
   </sql>
 
@@ -268,6 +273,9 @@
       <if test="respTransactionId != null" >
         RESP_TRANSACTION_ID,
       </if>
+      <if test="ecOrderId != null" >
+        EC_ORDER_ID,
+      </if>
       
       <if test="createDateTime != null" >
         CREATE_DATE_TIME,
@@ -400,6 +408,9 @@
       </if>
       <if test="respTransactionId != null" >
         #{respTransactionId},
+      </if>
+      <if test="ecOrderId != null" >
+        #{ecOrderId},
       </if>
       
       <if test="createDateTime != null" >
@@ -538,6 +549,9 @@
       <if test="respTransactionId != null" >
         RESP_TRANSACTION_ID = #{respTransactionId},
       </if>
+      <if test="ecOrderId != null" >
+        EC_ORDER_ID = #{ecOrderId},
+      </if>
       
       <if test="createDateTime != null" >
         CREATE_DATE_TIME = #{createDateTime},
@@ -675,6 +689,9 @@
       </if>
       <if test="respTransactionId != null" >
         RESP_TRANSACTION_ID = #{respTransactionId},
+      </if>
+      <if test="ecOrderId != null" >
+        EC_ORDER_ID = #{ecOrderId},
       </if>
       
       <if test="createDateTime != null" >
