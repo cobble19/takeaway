@@ -120,7 +120,12 @@
   	
   	<div class="container-fluid">
         <div class="row" style=" height:4px; background-color:#44b549;"></div>
-        <input type="button" id="openWxPayWindowBtn" value="去支付"/>
+        <c:if test="${success == true}">
+        		<input type="button" id="openWxPayWindowBtn" value="去支付"/>
+        </c:if>
+        <c:if test="${success == true}">
+        		<span style="color: red;"><c:out value="${errMessage}"></c:out></span>
+        </c:if>
   		
   		<div id="progress">数据加载中。。。</div>
   		

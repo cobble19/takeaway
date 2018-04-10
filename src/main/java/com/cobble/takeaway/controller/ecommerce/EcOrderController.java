@@ -87,8 +87,8 @@ public class EcOrderController extends BaseController {
 
 	@RequestMapping(value = "/web/ecommerce/ecorder/ecproduct/callwxpay", method = {RequestMethod.GET})
 	public ModelAndView ecOrderUnifiedOrder(@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
-			, @RequestParam(value="authorizerAppId") Long productId
-			, @RequestParam(value="authorizerAppId") Integer unitPrice
+			, @RequestParam(value="productId") Long productId
+			, @RequestParam(value="unitPrice") Integer unitPrice
 			, @RequestParam(value="quantity") Integer quantity
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
@@ -105,6 +105,36 @@ public class EcOrderController extends BaseController {
 		WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = new WxJsSdkConfigRespApiPOJO();
 		EcProductPOJO ecProductPOJO = new EcProductPOJO();
 		try {
+			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+			// 检查是否有库存
+			ecProductPOJO = ecProductService.findById(productId);
+
+			ret.setViewName("/page/ecommerce/ec_product_call_wx_pay");
+			if (ecProductPOJO == null) {
+				ret.addObject("success", false);
+				ret.addObject("errMessage", "商品不存在");
+				return ret;
+			} else {
+				if (ecProductPOJO.getQuantityStock() < quantity) {
+					ret.addObject("success", false);
+					ret.addObject("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
+					return ret;
+				} else {
+					// ecProduct derease 1
+					ecProductService.decreaseStock(productId, quantity);
+				}
+			}
+			
+			// 添加ec order
+			EcOrderPOJO ecOrderPOJO = new EcOrderPOJO();
+			ecOrderPOJO.setOpenId(openId);
+			ecOrderPOJO.setProductId(productId);
+			ecOrderPOJO.setQuantity(quantity);
+			ecOrderPOJO.setUnitPrice(unitPrice);
+			Long userId = UserUtil.getCurrentUserId();
+			ecOrderPOJO.setUserId(userId);
+			ecOrderService.insert(ecOrderPOJO);
+			
 			if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 //				throw new NullPointerException("authorizerAppId must not be null");
@@ -156,7 +186,7 @@ public class EcOrderController extends BaseController {
 //			Map unifiedOrderReqMap = new HashMap();
 			WxPayUnifiedOrderReqApiPOJO wxPayUnifiedOrderReqApiPOJO = new WxPayUnifiedOrderReqApiPOJO();
 			String mchId = MyWXPayConfigImpl.getInstance().getMchID();
-			String body = "deweiyizhan-paytest";
+			String body = ecProductPOJO.getProductName();
 			String outTradeNo = wpOrderService.getNextOutTradeNo();
 			String totalFee = (unitPrice * quantity) + "";
 			String spbillCreateIp = HttpRequestUtil.getIpAddr(request);
@@ -170,33 +200,24 @@ public class EcOrderController extends BaseController {
 			wxPayUnifiedOrderReqApiPOJO.setNonceStr(nonceStr);
 			wxPayUnifiedOrderReqApiPOJO.setDeviceInfo("WEB");
 			wxPayUnifiedOrderReqApiPOJO.setBody(body);
-			wxPayUnifiedOrderReqApiPOJO.setAttach("attachtest");
+			wxPayUnifiedOrderReqApiPOJO.setAttach("attach");
 			wxPayUnifiedOrderReqApiPOJO.setOutTradeNo(outTradeNo);
 			wxPayUnifiedOrderReqApiPOJO.setTotalFee(totalFee);
 			wxPayUnifiedOrderReqApiPOJO.setSpbillCreateIp(spbillCreateIp);
 			wxPayUnifiedOrderReqApiPOJO.setNotifyUrl(notifyUrl);
 			wxPayUnifiedOrderReqApiPOJO.setTradeType(tradeType);
-			
-			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
 			wxPayUnifiedOrderReqApiPOJO.setOpenId(openId);
 			
 			wxPayUnifiedOrderReqApiPOJO.setSignType(WXPayConstants.MD5);
 
 			Map unifiedOrderRespMap = wxPayService.unifiedOrder(wxPayUnifiedOrderReqApiPOJO);
 			try {
-				// 创建ec order
-				ecProductPOJO = ecProductService.findById(productId);
-				EcOrderPOJO ecOrderPOJO = new EcOrderPOJO();
-				ecOrderPOJO.setOpenId(openId);
-				ecOrderPOJO.setProductId(productId);
-				ecOrderPOJO.setQuantity(quantity);
-				ecOrderPOJO.setUnitPrice(unitPrice);
-				Long userId = UserUtil.getCurrentUserId();
-				ecOrderPOJO.setUserId(userId);
-				ecOrderService.insert(ecOrderPOJO);
+				ret.addObject("success", true);
 				
+				// 创建weixinpay order
 				WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
 				org.apache.commons.beanutils.BeanUtils.copyProperties(wpOrderPOJO, wxPayUnifiedOrderReqApiPOJO);
+				wpOrderPOJO.setEcOrderId(ecOrderPOJO.getOrderId());
 				wpOrderPOJO.setCreateDateTime(new Date());
 				wpOrderService.insert(wpOrderPOJO);
 			} catch (Exception e) {
@@ -231,7 +252,6 @@ public class EcOrderController extends BaseController {
 		}
 
 		ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
-		ret.setViewName("/page/ecommerce/ec_product_call_wx_pay");
 		return ret;
 	}
 
@@ -254,6 +274,22 @@ public class EcOrderController extends BaseController {
 		WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = new WxJsSdkConfigRespApiPOJO();
 		EcProductPOJO ecProductPOJO = new EcProductPOJO();
 		try {
+			ret.setViewName("/page/ecommerce/ec_product_choose");
+			// get ecProductPOJO
+			ecProductPOJO = ecProductService.findById(productId);
+
+			if (ecProductPOJO == null) {
+				ret.addObject("success", false);
+				ret.addObject("errMessage", "商品不存在");
+				return ret;
+			} else {
+				if (ecProductPOJO.getQuantityStock() < 1) {
+					ret.addObject("success", false);
+					ret.addObject("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
+					return ret;
+				}
+			}
+			
 			if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 //				throw new NullPointerException("authorizerAppId must not be null");
@@ -300,8 +336,6 @@ public class EcOrderController extends BaseController {
 			
 			logger.info("wxJsSdkConfigRespApiPOJO: " + wxJsSdkConfigRespApiPOJO);
 			
-			// get ecProductPOJO
-			ecProductPOJO = ecProductService.findById(productId);
 			
 		} catch (Exception e) {
 			logger.error("insert error.", e);
@@ -309,7 +343,6 @@ public class EcOrderController extends BaseController {
 
 		ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
 		ret.addObject("ecProductPOJO", ecProductPOJO);
-		ret.setViewName("/page/ecommerce/ec_product_choose");
 		return ret;
 	}
 	

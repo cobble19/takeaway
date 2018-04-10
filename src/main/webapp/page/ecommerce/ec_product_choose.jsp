@@ -50,11 +50,11 @@
 				})
 				///
 				$('#quantity').change(function() {
-					var unitPrice = parseInteger($('#unitPrice').val());
-					var quantity = parseInteger($('#quantity').val());
+					var unitPrice = parseInt($('#unitPrice').val());
+					var quantity = parseInt($('#quantity').val());
 					var feeTotal = unitPrice * quantity;
-					feeTotal = feeTotal / 100 + "." + feeTotal % 100;
-					$('#feeTotal').val(feeTotal);
+					feeTotal = feeTotal / 100;
+					$('#feeTotal').text(feeTotal);
 				})
 				///
 				
@@ -75,32 +75,36 @@
   	<div class="container-fluid">
         <div class="row" style=" height:4px; background-color:#44b549;"></div>
         <div class="row">
-        		<form id="myFeeForm" action="<cmn:base/>/web/ecommerce/ecorder/ecproduct/callwxpay">
+        	<div class="col-md-12 col-sm-12">
+        		<form id="myFeeForm" action="<cmn:base/>/web/ecommerce/ecorder/ecproduct/callwxpay" class="form-horizontal">
 	        		<!-- 消费金额页面 -->
 	        		<input type="hidden" id="authorizerAppIdX2" name="authorizerAppId" value="${param.authorizerAppId}">
 	        		<input type="hidden" id="productId" name="productId" value="${ecProductPOJO.productId}">
 	        		<input type="hidden" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}">
 	        		<div class="row">
-	        			<c:out value="${ecProductPOJO.productName}" />
+	        			<div class="col-md-12 col-sm-12">
+	        			<c:out value="${ecProductPOJO.productName}" />: <c:out value="${ecProductPOJO.quantityStock}" />
+	        			</div>
 	        		</div>
 	        		<div class="row">
-	        			<div class="row">
+	        				<div class="col-md-12 col-sm-12">
 			        		<label>单价:</label>
-			        		<c:out value="${ecProductPOJO.unitPrice / 100}" />.<c:out value="${ecProductPOJO.unitPrice % 100}" />
-	        			</div>
-	        			<div class="row">
-			        		<label>件数:</label>
-			        		<input type="number" id="quantity" name="quantity">
-	        			</div>
+			        		<c:out value="${ecProductPOJO.unitPrice / 100}" />
+			        		</div>
+	        				<div class="col-md-12 col-sm-12">
+				        		<label>件数:</label>
+				        		<input type="number" id="quantity" name="quantity" class="form-control">
+			        		</div>
 	        		</div>
 	        		<div class="row">
-	        			<div class="row">
+	        			<div class="col-md-12 col-sm-12">
 			        		<label>费用总计:</label>
 			        		<span id="feeTotal"></span>
 	        			</div>
 	        		</div>
-	        		<input type="button" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
+	        		<input type="button" class="btn btn-default" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
         		</form>
+        		</div>
         </div>
   		
   		<div id="progress">数据加载中。。。</div>
