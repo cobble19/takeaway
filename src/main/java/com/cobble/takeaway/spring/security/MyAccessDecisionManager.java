@@ -340,7 +340,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 						}
 					}
 				}
-			} else if (uri.contains("/wxpay/")) {	// /page/enterprise(unified)/activity_detail.jsp?activityId=31
+			} else if (uri.contains("/web/wxpay") || uri.contains("/web/ecommerce/ecorder/ecproduct/")) {
 				Pattern p = Pattern.compile("(authorizerAppId=)(\\w+)");
 				Matcher m = p.matcher(qs);
 				if (m.find() && m.groupCount() == 2) {
