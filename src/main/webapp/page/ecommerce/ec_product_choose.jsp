@@ -46,8 +46,104 @@
 				});
 				///
 				$('#myFeeBtn').click(function() {
-					$('#myFeeForm').submit();
+// 					$('#myFeeForm').submit();
+					var authorizerAppId = $('#authorizerAppId').val();
+					var productId = $('#productId').val();
+					var unitPrice = $('#unitPrice').val();
+					var quantity = $('#quantity').val();
+					
+					var params = {};
+					param.authorizerAppId = authorizerAppId;
+					param.productId = productId;
+					param.unitPrice = unitPrice;
+					param.quantity = quantity;
+					
+					var result = null;
+					
+					// sync
+				    	$.ajax({
+				    		"url" : $('#basePath').val() + "/api/ecommerce/ecorder/ecproduct/callwxpay",
+				    		"type" : "POST",
+				    		"async": false,
+				    		/*"headers" : {
+				    			"Content-Type" : "application/json"
+				    		},*/
+				    		/*"dataType" : 'json',*/
+				    		"data": (params),
+				        "success": function(data, textStatus, jqXHR ) {
+				            	console.log("data = " + data);
+				            	result = data;
+				            	if (data.success) {
+								$('#appIdUo').val(data.jsPayMap.appId);
+								$('#timestampUo').val(data.jsPayMap.timeStamp);
+								$('#nonceStrUo').val(data.jsPayMap.nonceStr);
+								$('#prepayIdUo').val(data.jsPayMap.prepayId);
+								$('#paySignUo').val(data.jsPayMap.sign);
+								$('#packageUo').val(data.jsPayMap.packageUo);
+				                	alert('申请订单成功！')
+				            	} else {
+				                	alert('申请订单失败, ' + data.errMessage);
+				            	}
+				         },
+				         "error": function(jqXHR, textStatus, errorThrown) {
+				            	alert('加载失败!');
+				         },
+				         "complete": function(jqXHR, textStatus) {
+				            	console.log('Ajax complete.');
+				         }
+				    	});	// ajax
+				    	// call wxpay
+					if (typeof WeixinJSBridge == "undefined") {
+						if( document.addEventListener ){
+						    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+						}else if (document.attachEvent){
+						    document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+						    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+						}
+					}else{
+					   onBridgeReady();
+					}
+				    	// end call wxpay
 				})
+
+				// jsapi调用微信支付api
+				function onBridgeReady(){
+					var appId = $('#appIdUo').val();
+					var timestamp = $('#timestampUo').val();
+					var nonceStr = $('#nonceStrUo').val();
+					var prepayId = $('#prepayIdUo').val();
+					var paySign = $('#paySignUo').val();
+					var packageUo = $('#packageUo').val();
+					
+					WeixinJSBridge.invoke(
+					    'getBrandWCPayRequest', {
+					        "appId": appId,     //公众号名称，由商户传入     
+					        "timeStamp":timestamp,         //时间戳，自1970年以来的秒数     
+					        "nonceStr":nonceStr, //随机串     
+					        "package":packageUo,     
+					        "signType":"MD5",         //微信签名方式：     
+					        "paySign": paySign //微信签名 
+					    },
+					    function(res){     
+// 					    		alert("appId: " + appId + ", timeStamp: " + timestamp + ", nonceStr: " + nonceStr
+// 					    				+ ", package: " + "prepay_id=" + prepayId + ", packageUo: " + packageUo + ", signType: " + "MD5" + ", paySign: " + paySign);
+// 					 	   	alert("微信支付结果: " + res);
+					 	   	
+					 	 
+					 		// 使用以下方式判断前端返回,微信团队郑重提示：
+					        //res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠
+					        if (res.err_msg == "get_brand_wcpay_request:ok" ) {
+					     	   	alert(res.err_msg);
+					        } else if (res.err_msg == "get_brand_wcpay_request:cancel" ) {
+					     	   	alert(res.err_msg);
+					        } else if (res.err_msg == "get_brand_wcpay_request:fail" ) {
+					     	   	alert(res.err_msg);
+					        } else {
+					     	   	alert(res);
+					        }
+					    }
+					); 
+				}
 				///
 				$('#quantity').change(function() {
 					var unitPrice = parseInt($('#unitPrice').val());
@@ -56,6 +152,16 @@
 					feeTotal = feeTotal / 100;
 					$('#feeTotal').text(feeTotal);
 				})
+				///
+				// execute init
+				initFeeTotal();
+				function initFeeTotal() {
+					var unitPrice = parseInt($('#unitPrice').val());
+					var quantity = 1;
+					var feeTotal = unitPrice * quantity;
+					feeTotal = feeTotal / 100;
+					$('#feeTotal').text(feeTotal);
+				}
 				///
 				
 			})
@@ -72,28 +178,36 @@
   	<input type="hidden" id="url" name="url" value="${wxJsSdkConfigRespApiPOJO.url}" />
   	<input type="hidden" id="ticket" name="ticket" value="${wxJsSdkConfigRespApiPOJO.ticket}" />
   	
+  	<input type="hidden" id="appIdUo" name="appIdUo" />
+  	<input type="hidden" id="timestampUo" name="timestampUo" />
+  	<input type="hidden" id="nonceStrUo" name="nonceStrUo" />
+  	<input type="hidden" id="prepayIdUo" name="prepayIdUo" />
+  	<input type="hidden" id="paySignUo" name="paySignUo" />
+  	<input type="hidden" id="packageUo" name="packageUo" />
+  	
   	<div class="container-fluid">
         <div class="row" style=" height:4px; background-color:#44b549;"></div>
         <div class="row">
         	<div class="col-md-12 col-sm-12">
-        		<form id="myFeeForm" action="<cmn:base/>/web/ecommerce/ecorder/ecproduct/callwxpay" class="form-horizontal">
+<%--         		<form id="myFeeForm" action="<cmn:base/>/web/ecommerce/ecorder/ecproduct/callwxpay" class="form-horizontal"> --%>
+        		<form id="myFeeForm" class="form-horizontal">
 	        		<!-- 消费金额页面 -->
 	        		<input type="hidden" id="authorizerAppIdX2" name="authorizerAppId" value="${param.authorizerAppId}">
 	        		<input type="hidden" id="productId" name="productId" value="${ecProductPOJO.productId}">
 	        		<input type="hidden" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}">
 	        		<div class="row">
 	        			<div class="col-md-12 col-sm-12">
-	        			<c:out value="${ecProductPOJO.productName}" />: <c:out value="${ecProductPOJO.quantityStock}" />
+	        			<c:out value="${ecProductPOJO.productName}" /> 库存 <c:out value="${ecProductPOJO.quantityStock}" />
 	        			</div>
 	        		</div>
 	        		<div class="row">
 	        				<div class="col-md-12 col-sm-12">
-			        		<label>单价:</label>
+			        		<label>单价(元):</label>
 			        		<c:out value="${ecProductPOJO.unitPrice / 100}" />
 			        		</div>
 	        				<div class="col-md-12 col-sm-12">
 				        		<label>件数:</label>
-				        		<input type="number" id="quantity" name="quantity" class="form-control">
+				        		<input type="hidden" id="quantity" name="quantity" class="form-control" value="1">
 			        		</div>
 	        		</div>
 	        		<div class="row">

@@ -53,6 +53,12 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="wxCardId">微信卡券ID:</label>
+ 				<div class="">
+ 					<input class="form-control" id="wxCardId" name="wxCardId" placeholder="请输入微信卡券ID">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
 	 			<div class="">
 	  				<button type="button" class="btn btn-default" id="addBtn">创建</button>
 	 			</div>

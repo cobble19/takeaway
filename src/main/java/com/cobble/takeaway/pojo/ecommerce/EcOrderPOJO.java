@@ -16,7 +16,7 @@ public class EcOrderPOJO extends BasePOJO {
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
 	
-	private EcProductPOJO ecProductPOJO;
+	private EcProductPOJO ecProductPOJO = new EcProductPOJO();
 	
 	public EcProductPOJO getEcProductPOJO() {
 		return ecProductPOJO;

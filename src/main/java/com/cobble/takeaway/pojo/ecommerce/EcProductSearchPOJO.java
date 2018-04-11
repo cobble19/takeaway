@@ -13,8 +13,18 @@ public class EcProductSearchPOJO extends BaseSearchPOJO {
 	private Integer quantityStock;
 	// 分
 	private Integer unitPrice;
+	
+	private String wxCardId;
+	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+	
+	public String getWxCardId() {
+		return wxCardId;
+	}
+	public void setWxCardId(String wxCardId) {
+		this.wxCardId = wxCardId;
+	}
 	public Long getProductId() {
 		return productId;
 	}
