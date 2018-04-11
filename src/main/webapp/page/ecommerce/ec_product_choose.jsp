@@ -47,16 +47,16 @@
 				///
 				$('#myFeeBtn').click(function() {
 // 					$('#myFeeForm').submit();
-					var authorizerAppId = $('#authorizerAppId').val();
+					var authorizerAppId = $('#appId').val();
 					var productId = $('#productId').val();
 					var unitPrice = $('#unitPrice').val();
 					var quantity = $('#quantity').val();
 					
 					var params = {};
-					param.authorizerAppId = authorizerAppId;
-					param.productId = productId;
-					param.unitPrice = unitPrice;
-					param.quantity = quantity;
+					params.authorizerAppId = authorizerAppId;
+					params.productId = productId;
+					params.unitPrice = unitPrice;
+					params.quantity = quantity;
 					
 					var result = null;
 					
@@ -192,7 +192,7 @@
 <%--         		<form id="myFeeForm" action="<cmn:base/>/web/ecommerce/ecorder/ecproduct/callwxpay" class="form-horizontal"> --%>
         		<form id="myFeeForm" class="form-horizontal">
 	        		<!-- 消费金额页面 -->
-	        		<input type="hidden" id="authorizerAppIdX2" name="authorizerAppId" value="${param.authorizerAppId}">
+	        		<input type="hidden" id="authorizerAppId" name="authorizerAppId" value="${param.authorizerAppId}">
 	        		<input type="hidden" id="productId" name="productId" value="${ecProductPOJO.productId}">
 	        		<input type="hidden" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}">
 	        		<div class="row">
@@ -205,7 +205,7 @@
 			        		<label>单价(元):</label>
 			        		<c:out value="${ecProductPOJO.unitPrice / 100}" />
 			        		</div>
-	        				<div class="col-md-12 col-sm-12">
+	        				<div class="col-md-12 col-sm-12" style="display: none;">
 				        		<label>件数:</label>
 				        		<input type="hidden" id="quantity" name="quantity" class="form-control" value="1">
 			        		</div>

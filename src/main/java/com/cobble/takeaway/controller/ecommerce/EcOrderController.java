@@ -256,9 +256,9 @@ public class EcOrderController extends BaseController {
 		return ret;
 	}
 
-	@RequestMapping(value = "/api/ecommerce/ecorder/ecproduct/callwxpay", method = {RequestMethod.POST})
+	@RequestMapping(value = "/api/ecommerce/ecorder/ecproduct/callwxpay", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public Model ecOrderUnifiedOrderApi(EcOrderCallWxPayParamPOJO ecOrderCallWxPayParamPOJO
+	public Map ecOrderUnifiedOrderApi(EcOrderCallWxPayParamPOJO ecOrderCallWxPayParamPOJO
 			, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		Model ret = model;
 		
@@ -286,12 +286,12 @@ public class EcOrderController extends BaseController {
 			if (ecProductPOJO == null) {
 				ret.addAttribute("success", false);
 				ret.addAttribute("errMessage", "商品不存在");
-				return ret;
+				return ret.asMap();
 			} else {
 				if (ecProductPOJO.getQuantityStock() < quantity) {
 					ret.addAttribute("success", false);
 					ret.addAttribute("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
-					return ret;
+					return ret.asMap();
 				} else {
 					// ecProduct derease 1
 					ecProductService.decreaseStock(productId, quantity);
@@ -388,7 +388,7 @@ public class EcOrderController extends BaseController {
 			logger.error("insert error.", e);
 		}
 
-		return ret;
+		return ret.asMap();
 	}
 
 	@RequestMapping(value = "/web/ecommerce/ecorder/ecproduct/choose", method = {RequestMethod.GET})
