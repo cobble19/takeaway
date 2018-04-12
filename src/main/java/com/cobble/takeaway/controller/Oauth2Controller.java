@@ -66,6 +66,7 @@ import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
 import com.cobble.takeaway.pojo.RelWxIndexMapSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
+import com.cobble.takeaway.pojo.ecommerce.EcOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
@@ -141,6 +142,7 @@ import com.cobble.takeaway.service.WxComVerifyTicketService;
 import com.cobble.takeaway.service.WxPayService;
 import com.cobble.takeaway.service.WxPersonUserService;
 import com.cobble.takeaway.service.WxRespMsgService;
+import com.cobble.takeaway.service.ecommerce.EcOrderService;
 import com.cobble.takeaway.service.weixin.wxpay.WpOrderService;
 import com.cobble.takeaway.service.weixin.wxpay.WpResultNotifyService;
 import com.cobble.takeaway.spring.security.MyUser;
@@ -218,6 +220,9 @@ public class Oauth2Controller extends BaseController {
 	private WpOrderService wpOrderService;
 	@Autowired
 	private WpResultNotifyService wpResultNotifyService;
+	
+	@Autowired
+	private EcOrderService ecOrderService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -431,6 +436,26 @@ public class Oauth2Controller extends BaseController {
 				String respTransactionId = resultMap.get("transaction_id");
 				wpOrderPOJO.setRespTransactionId(respTransactionId);
 				wpOrderService.updateByOutTradeNo(wpOrderPOJO);
+				
+				// send wxpay card
+				try {
+					wpOrderPOJO = wpOrderService.findByOutTradeNo(outTradeNo);
+					EcOrderPOJO ecOrderPOJO = null;
+					if (wpOrderPOJO != null) {
+						ecOrderPOJO = ecOrderService.findById(wpOrderPOJO.getEcOrderId());
+					}
+					if (ecOrderPOJO != null) {
+						String authorizerAppId = ecOrderPOJO.getEcProductPOJO().getAuthorizerAppId();
+						String openId = ecOrderPOJO.getOpenId();
+						String cardId = ecOrderPOJO.getEcProductPOJO().getWxCardId();
+						if (StringUtils.isBlank(authorizerAppId)) {
+							authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+						}
+						String result1 = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
+					}
+				} catch (Exception e) {
+					logger.error("Send wx pay card exception: ", e);
+				}
 			} catch (Exception e) {
 				logger.error("wpOrderService insert exception: ", e);
 			}
@@ -4181,7 +4206,7 @@ public class Oauth2Controller extends BaseController {
 			}
 			String wxCustomSendResp = HttpClientUtil.postHttpsJson(wxCustomSend.replace("ACCESS_TOKEN", authorizerAccessToken), 
 					JsonUtils.convertToJson(wxCustomSendReqApiPOJO));
-			logger.info("客服发送接口，wxCustomSendResp: {}", wxCustomSendResp);
+			logger.info("客服发送接口结果，wxCustomSendResp: {}", wxCustomSendResp);
 			ret = wxCustomSendResp;
 		} catch (Exception e) {
 			logger.error("Send custom msg wxcard exception: {}", e);

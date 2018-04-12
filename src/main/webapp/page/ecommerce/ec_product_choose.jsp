@@ -80,7 +80,7 @@
 								$('#prepayIdUo').val(data.jsPayMap.prepayId);
 								$('#paySignUo').val(data.jsPayMap.sign);
 								$('#packageUo').val(data.jsPayMap.packageUo);
-				                	alert('申请订单成功！')
+				                	alert('申请订单成功！去付款!')
 				            	} else {
 				                	alert('申请订单失败, ' + data.errMessage);
 				            	}

@@ -3,6 +3,7 @@ package com.cobble.takeaway.service.weixin.wxpay.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -97,6 +98,18 @@ public class WpOrderServiceImpl implements WpOrderService {
 		Long value = sequenceService.getNextValue(key);
 		String valueFill = String.format("%010d", value);
 		ret = WP_ORDER_PREFIX + DateUtil.toStr(new Date(), "yyyyMMddHHmmssSSS") + valueFill;	// 3 + 17 + 10 = 30
+		return ret;
+	}
+
+	@Override
+	public WpOrderPOJO findByOutTradeNo(String outTradeNo) throws Exception {
+		WpOrderPOJO ret = null;
+		WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
+		wpOrderSearchPOJO.setOutTradeNo(outTradeNo);
+		List<WpOrderPOJO> wpOrderPOJOs = wpOrderMapper.finds(wpOrderSearchPOJO);
+		if (CollectionUtils.isNotEmpty(wpOrderPOJOs)) {
+			ret = wpOrderPOJOs.get(0);
+		}
 		return ret;
 	}
 }

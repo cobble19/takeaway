@@ -50,11 +50,11 @@
     <if test="distinct" >
       distinct
     </if>
+    <include refid="Base_Column_List" />
     , a.PRODUCT_ID AS EP_PRODUCT_ID, a.USER_ID AS EP_USER_ID, a.AUTHORIZER_APPID AS EP_AUTHORIZER_APPID
     , a.PRODUCT_NAME AS EP_PRODUCT_NAME, a.QUANTITY_TOTAL AS EP_QUANTITY_TOTAL
-    , a.QUANTITY_STOCK AS EP_QUANTITY_STOCK, a.UNIT_PRICE AS EP_UNIT_PRICE, a.CREATE_DATE_TIME AS EP_CREATE_DATE_TIME
-    , a.LAST_MODIFIED_DATE_TIME AS EP_LAST_MODIFIED_DATE_TIME
-    <include refid="Base_Column_List" />
+    , a.QUANTITY_STOCK AS EP_QUANTITY_STOCK, a.UNIT_PRICE AS EP_UNIT_PRICE, a.WX_CARD_ID AS EP_WX_CARD_ID
+    , a.CREATE_DATE_TIME AS EP_CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME AS EP_LAST_MODIFIED_DATE_TIME
     from EC_ORDER a, EC_PRODUCT b
     <where>
   		<trim prefixOverrides="and">
@@ -80,9 +80,14 @@
   <select id="findById" resultMap="EcOrderResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from EC_ORDER a
+    , a.PRODUCT_ID AS EP_PRODUCT_ID, a.USER_ID AS EP_USER_ID, a.AUTHORIZER_APPID AS EP_AUTHORIZER_APPID
+    , a.PRODUCT_NAME AS EP_PRODUCT_NAME, a.QUANTITY_TOTAL AS EP_QUANTITY_TOTAL
+    , a.QUANTITY_STOCK AS EP_QUANTITY_STOCK, a.UNIT_PRICE AS EP_UNIT_PRICE, a.WX_CARD_ID AS EP_WX_CARD_ID
+    , a.CREATE_DATE_TIME AS EP_CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME AS EP_LAST_MODIFIED_DATE_TIME
+    from EC_ORDER a, EC_PRODUCT b
     <where>
   		<trim prefixOverrides="and">
+  			and a.PRODUCT_ID = b.PRODUCT_ID
 			and a.ORDER_ID = #{orderId}
   		</trim>
   	</where>

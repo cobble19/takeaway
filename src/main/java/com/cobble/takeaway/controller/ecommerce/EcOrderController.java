@@ -259,8 +259,8 @@ public class EcOrderController extends BaseController {
 	@RequestMapping(value = "/api/ecommerce/ecorder/ecproduct/callwxpay", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map ecOrderUnifiedOrderApi(EcOrderCallWxPayParamPOJO ecOrderCallWxPayParamPOJO
-			, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-		Model ret = model;
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map ret = new HashMap();
 		
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
@@ -278,20 +278,21 @@ public class EcOrderController extends BaseController {
 		Integer quantity = ecOrderCallWxPayParamPOJO.getQuantity();
 		
 		EcProductPOJO ecProductPOJO = new EcProductPOJO();
+
 		try {
 			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
 			// 检查是否有库存
 			ecProductPOJO = ecProductService.findById(productId);
 
 			if (ecProductPOJO == null) {
-				ret.addAttribute("success", false);
-				ret.addAttribute("errMessage", "商品不存在");
-				return ret.asMap();
+				ret.put("success", false);
+				ret.put("errMessage", "商品不存在");
+				return ret;
 			} else {
 				if (ecProductPOJO.getQuantityStock() < quantity) {
-					ret.addAttribute("success", false);
-					ret.addAttribute("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
-					return ret.asMap();
+					ret.put("success", false);
+					ret.put("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
+					return ret;
 				} else {
 					// ecProduct derease 1
 					ecProductService.decreaseStock(productId, quantity);
@@ -310,12 +311,7 @@ public class EcOrderController extends BaseController {
 			
 			if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
-//				throw new NullPointerException("authorizerAppId must not be null");
-//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
 			}
-			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
-				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
-			}*/
 			
 			String appId = authorizerAppId;
 			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
@@ -328,7 +324,6 @@ public class EcOrderController extends BaseController {
 			String outTradeNo = wpOrderService.getNextOutTradeNo();
 			String totalFee = (unitPrice * quantity) + "";
 			String spbillCreateIp = HttpRequestUtil.getIpAddr(request);
-//			String notifyUrl = HttpRequestUtil.getBase(request) + "/api/wxpay/notify";
 			String notifyUrl = ConfigurationUtil.getPropertiesConfig().getString("WXPAY.notifyUrl", "http://www.deweiyizhan.com/api/wxpay/notify");
 			String tradeType = "JSAPI";
 			nonceStr = RandomStringUtils.randomAlphanumeric(6);
@@ -349,7 +344,7 @@ public class EcOrderController extends BaseController {
 
 			Map unifiedOrderRespMap = wxPayService.unifiedOrder(wxPayUnifiedOrderReqApiPOJO);
 			try {
-				ret.addAttribute("success", true);
+				ret.put("success", true);
 				
 				// 创建weixinpay order
 				WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
@@ -381,14 +376,14 @@ public class EcOrderController extends BaseController {
 			jsPayMap.put("prepayId", unifiedOrderRespMap.get("prepay_id") + "");  
 			jsPayMap.put("packageUo", "prepay_id=" + unifiedOrderRespMap.get("prepay_id")); 
 			
-			ret.addAttribute("orderQueryRespMap", orderQueryRespMap);
-			ret.addAttribute("unifiedOrderRespMap", unifiedOrderRespMap);
-			ret.addAttribute("jsPayMap", jsPayMap);
+			ret.put("orderQueryRespMap", orderQueryRespMap);
+			ret.put("unifiedOrderRespMap", unifiedOrderRespMap);
+			ret.put("jsPayMap", jsPayMap);
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 		}
 
-		return ret.asMap();
+		return ret;
 	}
 
 	@RequestMapping(value = "/web/ecommerce/ecorder/ecproduct/choose", method = {RequestMethod.GET})
