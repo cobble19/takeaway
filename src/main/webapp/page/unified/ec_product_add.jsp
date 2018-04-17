@@ -34,6 +34,20 @@
  					<input class="form-control" id="productName" name="productName" placeholder="请输入商品名称">
  				</div>
  			</div>
+			<div class="form-group">
+				<label class="control-label" for="imgUrl">图片:</label>
+				<div class="">
+					<input class="form-control" id="imgUrl" name="imgUrl" readonly="readonly" required="required" placeholder="请上传图片">
+					<input class="" id="pic" name="pic" type="file">
+					<input class="btn btn-info" id="uploadBtn" name="uploadBtn" type="button" value="上传">
+				</div>
+			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="buyAbout">购买须知:</label>
+ 				<div class="">
+ 					<input class="form-control" id="buyAbout" name="buyAbout" placeholder="请输入购买须知">
+ 				</div>
+ 			</div>
  			<div class="form-group">
  				<label class="control-label" for="quantityTotal">商品总量:</label>
  				<div class="">

@@ -28,33 +28,32 @@ $(document).ready(function() {
 	})*/
 	
 	$('#ecProductForm').validate();
-	
-//	$('#ecProductForm').find('#uploadBtn').click(function(e) {
+
+	$('#ecProductForm').find('#uploadBtn').click(function(e) {
 //		var form1 = $(this).parents('form');
-//		var formData;
-//	    formData = new FormData();
-//
-//	    var userId = $('#userId').val();
-//		
-//		formData.append('pic', form1.find('input[name=pic]').get(0).files[0]);
-//	    formData.append('userId', userId);
-//	    /*formData.append('wxTemplateId', wxTemplateId);
-//	    formData.append('orderNo', orderNo);*/
-//
-//	    $.ajax({
-//	        url: '../../htmleditor/pic/add',
-//	        contentType:"multipart/form-data",
-//	        data: formData,
-//	        processData: false,
-//	        type: 'POST',
-//	        contentType: false, // tell jQuery not to set contentType
-//	        success : function(data) {
-//	            alert('上传成功');
-//	            form1.find('#logoImg').val(data.file_url);
-//	        }
-//	    });	// ajax end
-//	    
-//	});	// upload pic to picture files
+		var div = $(this).parent('div');
+		var formData;
+	    formData = new FormData();
+
+	    var userId = $('#userId').val();
+	    formData.append('pic', div.find('input[name=pic]').get(0).files[0]);
+	    formData.append('userId', userId);
+	    /*formData.append('wxTemplateId', 999);
+	    formData.append('orderNo', 999);*/
+	    $.ajax({
+	        url: $('#basePath').val() + '/htmleditor/pic/add',
+	        contentType:"multipart/form-data",
+	        data: formData,
+	        processData: false,
+	        type: 'POST',
+	        contentType: false, // tell jQuery not to set contentType
+	        success : function(data) {
+	            alert('上传图片成功');
+	            div.find('#imgUrl').val(data.file_url);
+	        }
+	    });	// ajax end
+	    
+	})	// upload pic to picture files
 	
 	$('#addBtn').click(function() {
 		/*var startDateTime = $('#startDateTime').val();

@@ -9,6 +9,8 @@ public class EcProductPOJO extends BasePOJO {
 	private Long userId;
 	private String authorizerAppId;
 	private String productName;
+	private String imgUrl;
+	private String buyAbout;
 	private Integer quantityTotal;
 	private Integer quantityStock;
 	// 分
@@ -19,6 +21,18 @@ public class EcProductPOJO extends BasePOJO {
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
 	
+	public String getImgUrl() {
+		return imgUrl;
+	}
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+	public String getBuyAbout() {
+		return buyAbout;
+	}
+	public void setBuyAbout(String buyAbout) {
+		this.buyAbout = buyAbout;
+	}
 	public String getWxCardId() {
 		return wxCardId;
 	}

@@ -15,6 +15,8 @@
     <result column="USER_ID" property="userId" />
     <result column="AUTHORIZER_APPID" property="authorizerAppId"/>
     <result column="PRODUCT_NAME" property="productName" />
+    <result column="IMG_URL" property="imgUrl" />
+    <result column="BUY_ABOUT" property="buyAbout" />
     <result column="QUANTITY_TOTAL" property="quantityTotal" />
     <result column="QUANTITY_STOCK" property="quantityStock" />
     <result column="UNIT_PRICE" property="unitPrice" />
@@ -24,8 +26,9 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.PRODUCT_ID, a.USER_ID, a.AUTHORIZER_APPID, a.PRODUCT_NAME, a.QUANTITY_TOTAL
-    , a.QUANTITY_STOCK, a.UNIT_PRICE, a.WX_CARD_ID, a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+    a.PRODUCT_ID, a.USER_ID, a.AUTHORIZER_APPID, a.PRODUCT_NAME, a.IMG_URL, a.BUY_ABOUT
+    , a.QUANTITY_TOTAL, a.QUANTITY_STOCK, a.UNIT_PRICE, a.WX_CARD_ID
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="productId != null">
@@ -99,6 +102,12 @@
       <if test="productName != null" >
         PRODUCT_NAME,
       </if>
+      <if test="imgUrl != null" >
+        IMG_URL,
+      </if>
+      <if test="buyAbout != null" >
+        BUY_ABOUT,
+      </if>
       <if test="quantityTotal != null" >
         QUANTITY_TOTAL,
       </if>
@@ -123,6 +132,12 @@
       </if>
       <if test="productName != null" >
         #{productName},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl},
+      </if>
+      <if test="buyAbout != null" >
+        #{buyAbout},
       </if>
       <if test="quantityTotal != null" >
         #{quantityTotal},
@@ -152,6 +167,12 @@
       </if>
       <if test="productName != null" >
         PRODUCT_NAME = #{productName},
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL = #{imgUrl},
+      </if>
+      <if test="buyAbout != null" >
+        BUY_ABOUT = #{buyAbout},
       </if>
       <if test="quantityTotal != null" >
         QUANTITY_TOTAL = #{quantityTotal},

@@ -41,6 +41,20 @@
  					<input class="form-control" id="quantityTotal" name="quantityTotal" value="${ecProductPOJO.quantityTotal}" placeholder="请输入商品总量">
  				</div>
  			</div>
+			<div class="form-group">
+				<label class="control-label" for="imgUrl">图片:</label>
+				<div class="">
+					<input class="form-control" id="imgUrl" name="imgUrl" value="${ecProductPOJO.imgUrl}" readonly="readonly" required="required" placeholder="请上传图片">
+					<input class="" id="pic" name="pic" type="file">
+					<input class="btn btn-info" id="uploadBtn" name="uploadBtn" type="button" value="上传">
+				</div>
+			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="buyAbout">购买须知:</label>
+ 				<div class="">
+ 					<input class="form-control" id="buyAbout" name="buyAbout" value="${ecProductPOJO.buyAbout}" placeholder="请输入购买须知">
+ 				</div>
+ 			</div>
  			<div class="form-group">
  				<label class="control-label" for="quantityStock">商品库存:</label>
  				<div class="">

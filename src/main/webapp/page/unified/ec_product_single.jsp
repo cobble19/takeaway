@@ -43,6 +43,8 @@
 				  						<th>拥有者ID</th>
 				  						<th>AppID</th>
 				  						<th>商品名称</th>
+				  						<th>图片</th>
+				  						<th>购买须知</th>
 				  						<th>商品总数</th>
 				  						<th>商品库存</th>
 				  						<th>单价(分)</th>
