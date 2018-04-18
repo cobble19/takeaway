@@ -1,11 +1,15 @@
-/*ue = UE.getEditor('editor', {
-	initialFrameHeight: 400
-});
-ue.ready(function() {
-	
-});*/
+var ue;
 
 $(document).ready(function() {
+	if (!ue) {
+		ue = UE.getEditor('editor', {
+			initialFrameHeight: 400
+		});
+		ue.ready(function() {
+			
+		});
+	}
+	
 	/*$('#startDateTime').datetimepicker({
 		lang:'ch',
 		timepicker:true,

@@ -45,7 +45,8 @@
  			<div class="form-group">
  				<label class="control-label" for="buyAbout">购买须知:</label>
  				<div class="">
- 					<input class="form-control" id="buyAbout" name="buyAbout" placeholder="请输入购买须知">
+ 					<script id="editor" type="text/plain" name="buyAbout"></script>
+ 					<!-- <input class="form-control" id="buyAbout" name="buyAbout" placeholder="请输入购买须知"> -->
  				</div>
  			</div>
  			<div class="form-group">

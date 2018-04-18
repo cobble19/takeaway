@@ -1,14 +1,15 @@
-/*var ue;*/
+var ue;
+
 $(document).ready(function() {
-	/*if (!ue) {
+	if (!ue) {
 		ue = UE.getEditor('editor', {
 			initialFrameHeight: 400
 		});
 		ue.ready(function() {
-			showDetail();
+			var buyAbout = $('#buyAbout').val();
+			ue.setContent(buyAbout);
 		});
-	}*/
-	
+	}
 
 	/*$('#startDateTime').datetimepicker({
 		lang:'ch',

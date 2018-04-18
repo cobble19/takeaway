@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@include file="../common/taglib.jsp" %>
 
+<%@ taglib prefix="e" uri="/WEB-INF/tlds/OWASP_Java_Encoder_Project.tld" %>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -35,12 +37,6 @@
  					<input class="form-control" id="productName" name="productName" value="${ecProductPOJO.productName}" placeholder="请输入商品名称">
  				</div>
  			</div>
- 			<div class="form-group">
- 				<label class="control-label" for="quantityTotal">商品总量:</label>
- 				<div class="">
- 					<input class="form-control" id="quantityTotal" name="quantityTotal" value="${ecProductPOJO.quantityTotal}" placeholder="请输入商品总量">
- 				</div>
- 			</div>
 			<div class="form-group">
 				<label class="control-label" for="imgUrl">图片:</label>
 				<div class="">
@@ -52,7 +48,15 @@
  			<div class="form-group">
  				<label class="control-label" for="buyAbout">购买须知:</label>
  				<div class="">
- 					<input class="form-control" id="buyAbout" name="buyAbout" value="${ecProductPOJO.buyAbout}" placeholder="请输入购买须知">
+ 					<script id="editor" type="text/plain" name="buyAbout"></script>
+ 					<input type="hidden" class="form-control" id="buyAbout" value="${e:forHtml(ecProductPOJO.buyAbout)}" placeholder="请输入购买须知">
+ 					<%-- <input class="form-control" id="buyAbout" name="buyAbout" value="${ecProductPOJO.buyAbout}" placeholder="请输入购买须知"> --%>
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="quantityTotal">商品总量:</label>
+ 				<div class="">
+ 					<input class="form-control" id="quantityTotal" name="quantityTotal" value="${ecProductPOJO.quantityTotal}" placeholder="请输入商品总量">
  				</div>
  			</div>
  			<div class="form-group">
