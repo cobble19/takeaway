@@ -169,6 +169,7 @@
 	</head>
 	
   <body>
+  	<!-- WX JS SDK 有效 -->
   	<input type="hidden" id="appId" name="appId" value="${wxJsSdkConfigRespApiPOJO.appId}" />
   	<input type="hidden" id="timestamp" name="timestamp" value="${wxJsSdkConfigRespApiPOJO.timestamp}" />
   	<input type="hidden" id="nonceStr" name="nonceStr" value="${wxJsSdkConfigRespApiPOJO.nonceStr}" />
@@ -178,6 +179,7 @@
   	<input type="hidden" id="url" name="url" value="${wxJsSdkConfigRespApiPOJO.url}" />
   	<input type="hidden" id="ticket" name="ticket" value="${wxJsSdkConfigRespApiPOJO.ticket}" />
   	
+  	<!-- 调用微信支付js接口 -->
   	<input type="hidden" id="appIdUo" name="appIdUo" />
   	<input type="hidden" id="timestampUo" name="timestampUo" />
   	<input type="hidden" id="nonceStrUo" name="nonceStrUo" />
@@ -196,46 +198,43 @@
 	        		<input type="hidden" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}">
                     
                     
-            <div class="row">
-			<div class="col-xs-12"
-				style="padding: 2px; text-align: center;">
-					<img src="http://www.deweiyizhan.com/files/images/jtgbdz.jpg">
-			</div>
-		    </div>
-        <div class="row">
-          <div class="col-xs-12" style="margin:10px auto;"><h4 style="color:#F00;">￥<c:out value="${ecProductPOJO.unitPrice / 100}" /></h4></div>
-        </div> 
-        <div class="row">
-          <div class="col-xs-12" style="margin-bottom:5px;"><h5>某某火锅店100元代金券</h5></div>
-        </div>
-        <div class="row">
-	      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
-	        			<h6 style="color:#aaa9ae"><c:out value="${ecProductPOJO.productName}" /> 库存 <c:out value="${ecProductPOJO.quantityStock}" /></h6>
-	      </div>
-	    </div>
-        <div class="row">
-          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
-        </div> 
-        <div class="row">
-          <div class="col-xs-12" style="margin-top:10px;">
-          <h5>商品详情</h5>
-          <!--此处放详情数据-->
-          </div>
-        </div>   
-        <nav class="navbar navbar-default navbar-fixed-bottom">
-			<!-- Nav tabs -->
-			<ul class="nav nav-pills" role="tablist"
-				style="text-align: center; padding-top: 5px">
-				<div role="presentation" class="active col-xs-12">
-                    <input type="button" class="btn btn-success btn-sm btn-block" id="myFeeBtn" name="myFeeBtn" value="创建订单并购买"/>
-				</div>
-			</ul>
-		</nav>
-                    
-                    
-                    
-                    
-                    
+	            <div class="row">
+					<div class="col-xs-12"
+						style="padding: 2px; text-align: center;">
+							<img src='<cmn:base/>/${ecProductPOJO.imgUrl}'>
+					</div>
+			    </div>
+		        <div class="row">
+		          <div class="col-xs-12" style="margin:10px auto;"><h4 style="color:#F00;">￥<c:out value="${ecProductPOJO.unitPrice / 100}" /></h4></div>
+		        </div> 
+		        <div class="row">
+		          <div class="col-xs-12" style="margin-bottom:5px;"><h5><c:out value="${ecProductPOJO.productName}"></c:out></h5></div>
+		        </div>
+		        <div class="row">
+			      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
+			        			<h6 style="color:#aaa9ae"><c:out value="${ecProductPOJO.productName}" /> 库存 <c:out value="${ecProductPOJO.quantityStock}" /></h6>
+			      </div>
+			    </div>
+		        <div class="row">
+		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
+		        </div> 
+		        <div class="row">
+		          <div class="col-xs-12" style="margin-top:10px;">
+			          <h5>商品详情</h5>
+			          <!--此处放详情数据-->
+			          <c:out value="${ecProductPOJO.buyAbout}"></c:out>
+		          </div>
+		        </div>   
+		        <nav class="navbar navbar-default navbar-fixed-bottom">
+					<!-- Nav tabs -->
+					<ul class="nav nav-pills" role="tablist"
+						style="text-align: center; padding-top: 5px">
+						<div role="presentation" class="active col-xs-12">
+		                    <input type="button" class="btn btn-success btn-sm btn-block" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
+						</div>
+					</ul>
+				</nav>
+             
 	        		<div class="row" style="display:none;">
 	        				<div class="col-md-12 col-sm-12">
 			        		<label>单价(元):</label>
