@@ -168,7 +168,7 @@
 		</script>
 	</head>
 	
-  <body style="padding-top: 100px;">
+  <body>
   	<input type="hidden" id="appId" name="appId" value="${wxJsSdkConfigRespApiPOJO.appId}" />
   	<input type="hidden" id="timestamp" name="timestamp" value="${wxJsSdkConfigRespApiPOJO.timestamp}" />
   	<input type="hidden" id="nonceStr" name="nonceStr" value="${wxJsSdkConfigRespApiPOJO.nonceStr}" />
@@ -186,7 +186,6 @@
   	<input type="hidden" id="packageUo" name="packageUo" />
   	
   	<div class="container-fluid">
-        <div class="row" style=" height:4px; background-color:#44b549;"></div>
         <div class="row">
         	<div class="col-md-12 col-sm-12">
 <%--         		<form id="myFeeForm" action="<cmn:base/>/web/ecommerce/ecorder/ecproduct/callwxpay" class="form-horizontal"> --%>
@@ -195,12 +194,49 @@
 	        		<input type="hidden" id="authorizerAppId" name="authorizerAppId" value="${param.authorizerAppId}">
 	        		<input type="hidden" id="productId" name="productId" value="${ecProductPOJO.productId}">
 	        		<input type="hidden" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}">
-	        		<div class="row">
-	        			<div class="col-md-12 col-sm-12">
-	        			<c:out value="${ecProductPOJO.productName}" /> 库存 <c:out value="${ecProductPOJO.quantityStock}" />
-	        			</div>
-	        		</div>
-	        		<div class="row">
+                    
+                    
+            <div class="row">
+			<div class="col-xs-12"
+				style="padding: 2px; text-align: center;">
+					<img src="http://www.deweiyizhan.com/files/images/jtgbdz.jpg">
+			</div>
+		    </div>
+        <div class="row">
+          <div class="col-xs-12" style="margin:10px auto;"><h4 style="color:#F00;">￥<c:out value="${ecProductPOJO.unitPrice / 100}" /></h4></div>
+        </div> 
+        <div class="row">
+          <div class="col-xs-12" style="margin-bottom:5px;"><h5>某某火锅店100元代金券</h5></div>
+        </div>
+        <div class="row">
+	      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
+	        			<h6 style="color:#aaa9ae"><c:out value="${ecProductPOJO.productName}" /> 库存 <c:out value="${ecProductPOJO.quantityStock}" /></h6>
+	      </div>
+	    </div>
+        <div class="row">
+          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
+        </div> 
+        <div class="row">
+          <div class="col-xs-12" style="margin-top:10px;">
+          <h5>商品详情</h5>
+          <!--此处放详情数据-->
+          </div>
+        </div>   
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+			<!-- Nav tabs -->
+			<ul class="nav nav-pills" role="tablist"
+				style="text-align: center; padding-top: 5px">
+				<div role="presentation" class="active col-xs-12">
+                    <input type="button" class="btn btn-success btn-sm btn-block" id="myFeeBtn" name="myFeeBtn" value="创建订单并购买"/>
+				</div>
+			</ul>
+		</nav>
+                    
+                    
+                    
+                    
+                    
+	        		<div class="row" style="display:none;">
 	        				<div class="col-md-12 col-sm-12">
 			        		<label>单价(元):</label>
 			        		<c:out value="${ecProductPOJO.unitPrice / 100}" />
@@ -210,13 +246,13 @@
 				        		<input type="hidden" id="quantity" name="quantity" class="form-control" value="1">
 			        		</div>
 	        		</div>
-	        		<div class="row">
+	        		<div class="row" style="display:none;">
 	        			<div class="col-md-12 col-sm-12">
 			        		<label>费用总计:</label>
 			        		<span id="feeTotal"></span>
 	        			</div>
 	        		</div>
-	        		<input type="button" class="btn btn-default" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
+	        		<!--<input type="button" class="btn btn-default" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>-->
         		</form>
         		</div>
         </div>
