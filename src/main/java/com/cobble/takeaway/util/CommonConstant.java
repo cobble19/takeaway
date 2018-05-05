@@ -51,6 +51,7 @@ public interface CommonConstant {
 	
 	// Oauth2Controller
 	public final static int WX_SUBSCRIBE = 1;
+	public final static int WX_NEED_SUBSCRIBE = 1;
 
 	// 检测VIEW， 获取from/to，注册其他的公众号的用户
 	// 主OPEN_ID用合肥交通广播，得味驿站的为副公众号

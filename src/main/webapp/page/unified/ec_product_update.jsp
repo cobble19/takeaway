@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@include file="../common/taglib.jsp" %>
 
-<%@ taglib prefix="e" uri="/WEB-INF/tlds/OWASP_Java_Encoder_Project.tld" %>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -75,6 +73,12 @@
  				<label class="control-label" for="wxCardId">微信卡券ID:</label>
  				<div class="">
  					<input class="form-control" id="wxCardId" name="wxCardId" value="${ecProductPOJO.wxCardId}" placeholder="请输入微信卡券ID">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="control-label" for="needSubscribe">是否需要关注公众号:</label>
+ 				<div class="">
+ 					<input class="form-control" id="needSubscribe" name="needSubscribe" value="${ecProductPOJO.needSubscribe}" placeholder="请确定是否需要关注公众号, 0-无需关注, 1-需要关注">
  				</div>
  			</div>
  			<div class="form-group">

@@ -54,6 +54,14 @@ public class WpOrderPOJO extends BasePOJO {
 	
 	private Long ecOrderId;
 	
+	private WpOrderClosePOJO wpOrderClosePOJO;
+	
+	public WpOrderClosePOJO getWpOrderClosePOJO() {
+		return wpOrderClosePOJO;
+	}
+	public void setWpOrderClosePOJO(WpOrderClosePOJO wpOrderClosePOJO) {
+		this.wpOrderClosePOJO = wpOrderClosePOJO;
+	}
 	public Long getEcOrderId() {
 		return ecOrderId;
 	}

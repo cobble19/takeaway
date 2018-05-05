@@ -16,9 +16,17 @@ public class EcProductSearchPOJO extends BaseSearchPOJO {
 	
 	private String wxCardId;
 	
+	private Integer needSubscribe;
+	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
 	
+	public Integer getNeedSubscribe() {
+		return needSubscribe;
+	}
+	public void setNeedSubscribe(Integer needSubscribe) {
+		this.needSubscribe = needSubscribe;
+	}
 	public String getWxCardId() {
 		return wxCardId;
 	}

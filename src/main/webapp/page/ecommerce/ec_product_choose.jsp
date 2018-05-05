@@ -163,6 +163,8 @@
 					$('#feeTotal').text(feeTotal);
 				}
 				///
+				$('#buyAboutX').html($('#buyAbout').text());
+				///
 				
 			})
 		</script>
@@ -222,7 +224,12 @@
 		          <div class="col-xs-12" style="margin-top:10px;">
 			          <h5>商品详情</h5>
 			          <!--此处放详情数据-->
-			          <c:out value="${ecProductPOJO.buyAbout}"></c:out>
+			          <span id="buyAbout" style="display:none;">
+			          	<!-- 直接显示的话, 只能显示一段html文本, 不是正常的带有格式的内容 -->
+			          	<c:out value="${ecProductPOJO.buyAbout}"></c:out>
+			          </span>
+			          <span id="buyAboutX">
+			          </span>
 		          </div>
 		        </div>   
 		        <nav class="navbar navbar-default navbar-fixed-bottom">

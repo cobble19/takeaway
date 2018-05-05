@@ -24,4 +24,41 @@ public class WxPayOrderCloseReqApiPOJO extends BasePOJO {
 	@XmlElement(name="sign_type")
 	private String signType;
 	
+	public String getAppId() {
+		return appId;
+	}
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+	public String getMchId() {
+		return mchId;
+	}
+	public void setMchId(String mchId) {
+		this.mchId = mchId;
+	}
+	public String getOutTradeNo() {
+		return outTradeNo;
+	}
+	public void setOutTradeNo(String outTradeNo) {
+		this.outTradeNo = outTradeNo;
+	}
+	public String getNonceStr() {
+		return nonceStr;
+	}
+	public void setNonceStr(String nonceStr) {
+		this.nonceStr = nonceStr;
+	}
+	public String getSign() {
+		return sign;
+	}
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+	public String getSignType() {
+		return signType;
+	}
+	public void setSignType(String signType) {
+		this.signType = signType;
+	}
+	
 }

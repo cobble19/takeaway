@@ -93,6 +93,7 @@ public class WxPayServiceImpl implements WxPayService {
         data = (HashMap<String, String>) WXPayUtil.xmlToMap(xml);
         /*data.put("out_trade_no", out_trade_no);*/
         try {
+        		logger.info("orderClose request params: {}", xml);
             ret = wxpay.closeOrder(data);
             logger.info("orderClose result: {}", ret);
         } catch (Exception e) {

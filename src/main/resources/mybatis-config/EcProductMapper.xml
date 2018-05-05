@@ -21,13 +21,14 @@
     <result column="QUANTITY_STOCK" property="quantityStock" />
     <result column="UNIT_PRICE" property="unitPrice" />
     <result column="WX_CARD_ID" property="wxCardId" />
+    <result column="NEED_SUBSCRIBE" property="needSubscribe" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     a.PRODUCT_ID, a.USER_ID, a.AUTHORIZER_APPID, a.PRODUCT_NAME, a.IMG_URL, a.BUY_ABOUT
-    , a.QUANTITY_TOTAL, a.QUANTITY_STOCK, a.UNIT_PRICE, a.WX_CARD_ID
+    , a.QUANTITY_TOTAL, a.QUANTITY_STOCK, a.UNIT_PRICE, a.WX_CARD_ID, a.NEED_SUBSCRIBE
     , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
   </sql>
   <sql id="Clause_Common">
@@ -120,6 +121,9 @@
       <if test="wxCardId != null" >
         WX_CARD_ID,
       </if>
+      <if test="needSubscribe != null" >
+        NEED_SUBSCRIBE,
+      </if>
         CREATE_DATE_TIME,
         LAST_MODIFIED_DATE_TIME,
     </trim>
@@ -150,6 +154,9 @@
       </if>
       <if test="wxCardId != null" >
         #{wxCardId},
+      </if>
+      <if test="needSubscribe != null" >
+        #{needSubscribe},
       </if>
         sysdate(),
         sysdate(),
@@ -185,6 +192,9 @@
       </if>
       <if test="wxCardId != null" >
         WX_CARD_ID = #{wxCardId},
+      </if>
+      <if test="needSubscribe != null" >
+        NEED_SUBSCRIBE = #{needSubscribe},
       </if>
         <!-- CREATE_DATE_TIME = sysdate(), -->
         LAST_MODIFIED_DATE_TIME = sysdate(),

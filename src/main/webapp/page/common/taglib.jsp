@@ -7,3 +7,4 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="cmn" uri="/WEB-INF/tlds/common.tld" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="e" uri="/WEB-INF/tlds/OWASP_Java_Encoder_Project.tld" %>

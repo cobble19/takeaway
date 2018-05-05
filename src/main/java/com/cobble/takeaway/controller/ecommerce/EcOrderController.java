@@ -429,6 +429,17 @@ public class EcOrderController extends BaseController {
 			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}*/
+			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+			
+			// check whether subscribe
+			if (ecProductPOJO.getNeedSubscribe() != null && ecProductPOJO.getNeedSubscribe() == CommonConstant.WX_NEED_SUBSCRIBE) {
+				Boolean subscribe = oauth2Controller.getSubscribeFlag(authorizerAppId, openId);
+				if (!subscribe) {
+					String qrCodeUrl = "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
+					redirectStrategy.sendRedirect(request, response, qrCodeUrl);
+					return null;
+				}
+			}
 			
 			String appId = authorizerAppId;
 			String jsSdkTicket = oauth2Controller.getWxJsSdkTicket(authorizerAppId);

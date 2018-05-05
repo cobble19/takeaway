@@ -59,6 +59,8 @@
     <result column="RESP_TRANSACTION_ID" property="respTransactionId" />
     
     <result column="EC_ORDER_ID" property="ecOrderId"/>
+    
+    <association property="wpOrderClosePOJO" columnPrefix="B_" resultMap="com.cobble.takeaway.dao.weixin.wxpay.WpOrderCloseMapper.WpOrderCloseResultMap"></association>
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -96,11 +98,51 @@
 	<if test="respTransactionId != null">
 		and a.RESP_TRANSACTION_ID = #{respTransactionId}
 	</if>
+	<if test="respReturnCode != null">
+		and a.RESP_RETURN_CODE = #{respReturnCode}
+	</if>
+	<if test="respResultCode != null">
+		and a.RESP_RESULT_CODE = #{respResultCode}
+	</if>
 	<if test="ecOrderId != null">
 		and a.EC_ORDER_ID = #{ecOrderId}
 	</if>
+	<if test="startDateTime != null">
+		and a.CREATE_DATE_TIME &gt;= #{startDateTime}
+	</if>
+	<if test="endDateTime != null">
+		and a.CREATE_DATE_TIME &lt;= #{endDateTime}
+	</if>
   </sql>
 
+  <select id="finds4Close" resultMap="WpOrderResultMap" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , b.WP_ORDER_CLOSE_ID B_WP_ORDER_CLOSE_ID, b.APP_ID B_APP_ID, b.MCH_ID B_MCH_ID, b.OUT_TRADE_NO B_OUT_TRADE_NO
+    , b.NONCE_STR B_NONCE_STR, b.SIGN B_SIGN, b.SIGN_TYPE B_SIGN_TYPE
+    , b.RESP_RETURN_CODE B_RESP_RETURN_CODE, b.RESP_RETURN_MSG B_RESP_RETURN_MSG, b.RESP_APP_ID B_RESP_APP_ID
+    , b.RESP_MCH_ID B_RESP_MCH_ID, b.RESP_NONCE_STR B_RESP_NONCE_STR
+    , b.RESP_SIGN B_RESP_SIGN, b.RESP_RESULT_CODE B_RESP_RESULT_CODE, b.RESP_RESULT_MSG B_RESP_RESULT_MSG
+    , b.RESP_ERR_CODE B_RESP_ERR_CODE
+    , b.RESP_ERR_CODE_DES B_RESP_ERR_CODE_DES
+    , b.CREATE_DATE_TIME B_CREATE_DATE_TIME, b.LAST_MODIFIED_DATE_TIME B_LAST_MODIFIED_DATE_TIME
+    from WP_ORDER a
+	LEFT JOIN WP_ORDER_CLOSE b on a.OUT_TRADE_NO = b.OUT_TRADE_NO
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+			AND a.RESP_RETURN_CODE is null
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
   <select id="finds" resultMap="WpOrderResultMap" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO" >
     select
     <if test="distinct" >

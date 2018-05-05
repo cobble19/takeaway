@@ -74,6 +74,12 @@
  				</div>
  			</div>
  			<div class="form-group">
+ 				<label class="control-label" for="needSubscribe">是否需要关注公众号:</label>
+ 				<div class="">
+ 					<input class="form-control" id="needSubscribe" name="needSubscribe" placeholder="请确定是否需要关注公众号, 0-无需关注, 1-需要关注">
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
 	 			<div class="">
 	  				<button type="button" class="btn btn-default" id="addBtn">创建</button>
 	 			</div>

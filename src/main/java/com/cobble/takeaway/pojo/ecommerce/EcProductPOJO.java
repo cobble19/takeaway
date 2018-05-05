@@ -18,9 +18,17 @@ public class EcProductPOJO extends BasePOJO {
 	
 	private String wxCardId;
 	
+	private Integer needSubscribe;
+	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
 	
+	public Integer getNeedSubscribe() {
+		return needSubscribe;
+	}
+	public void setNeedSubscribe(Integer needSubscribe) {
+		this.needSubscribe = needSubscribe;
+	}
 	public String getImgUrl() {
 		return imgUrl;
 	}

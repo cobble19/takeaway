@@ -762,19 +762,23 @@ public class Oauth2Controller extends BaseController {
 	
 	public String getWxJsSdkTicket(String authorizerAppId) throws Exception {
 		String ret = "";
-		String key = CommonConstant.WX_JS_SDK_TICKET + "_" + authorizerAppId;
-		String value = CacheUtil.getInstance().get(key);
-		if (StringUtils.isNotBlank(value)) {
-			return value;
+		try {
+			String key = CommonConstant.WX_JS_SDK_TICKET + "_" + authorizerAppId;
+			String value = CacheUtil.getInstance().get(key);
+			if (StringUtils.isNotBlank(value)) {
+				return value;
+			}
+			
+			WxJsSdkTicketRespApiPOJO wxJsSdkTicketRespApiPOJO = getWxJsSdkTicketRespApiPOJO(authorizerAppId);
+			int timeToLiveSenconds = wxJsSdkTicketRespApiPOJO.getExpiresIn() - 30 * 60;
+			if (timeToLiveSenconds <= 0) {
+				timeToLiveSenconds = wxJsSdkTicketRespApiPOJO.getExpiresIn() / 2;
+			}
+			CacheUtil.getInstance().put(key, wxJsSdkTicketRespApiPOJO.getTicket(), timeToLiveSenconds);
+			ret = wxJsSdkTicketRespApiPOJO.getTicket();
+		} catch (Exception e) {
+			logger.error("Can't getWxJsSdkTicket. ", e);
 		}
-		
-		WxJsSdkTicketRespApiPOJO wxJsSdkTicketRespApiPOJO = getWxJsSdkTicketRespApiPOJO(authorizerAppId);
-		int timeToLiveSenconds = wxJsSdkTicketRespApiPOJO.getExpiresIn() - 30 * 60;
-		if (timeToLiveSenconds <= 0) {
-			timeToLiveSenconds = wxJsSdkTicketRespApiPOJO.getExpiresIn() / 2;
-		}
-		CacheUtil.getInstance().put(key, wxJsSdkTicketRespApiPOJO.getTicket(), timeToLiveSenconds);
-		ret = wxJsSdkTicketRespApiPOJO.getTicket();
 		
 		return ret;
 	}
@@ -2115,14 +2119,14 @@ public class Oauth2Controller extends BaseController {
 			}
 			WxPersonUserPOJO wxPersonUserPOJO = wxPersonUserPOJOs.get(0);	//获取第一个 微信个人用户信息
 			
-			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+			/*WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
 			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
 			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
 			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
 			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
 				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
-			}
-			WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken(), wxPersonUserPOJO.getOpenId(), null);
+			}*/
+			WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(authorizerAppId, wxPersonUserPOJO.getOpenId());
 			if (wxUserInfoApiPOJO != null && wxUserInfoApiPOJO.getSubscribe() == CommonConstant.WX_SUBSCRIBE) {
 				ret.setSuccess(true);
 				ret.setDesc("已经关注：" + wxUserInfoApiPOJO.getOpenId());
@@ -2138,7 +2142,37 @@ public class Oauth2Controller extends BaseController {
 		}
 		
 		return ret;
-	} 
+	}
+	
+	public Boolean getSubscribeFlag(String authorizerAppId, String openId) {
+		Boolean ret = false;
+		try {
+			WxUserInfoApiPOJO wxUserInfoApiPOJO = this.getWxUserInfoApi(authorizerAppId, openId);
+			if (wxUserInfoApiPOJO != null && wxUserInfoApiPOJO.getSubscribe() == CommonConstant.WX_SUBSCRIBE) {
+				ret = true;
+			}
+		} catch (Exception e) {
+			logger.error("getSubscribeFlag exception: ", e);
+		}
+		return ret;
+	}
+	
+	public WxUserInfoApiPOJO getWxUserInfoApi(String authorizerAppId, String openId) throws Exception {
+		WxUserInfoApiPOJO ret = null;
+		try {
+			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
+			wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
+			WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = new WxAuthorizerRefreshTokenPOJO();
+			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+				wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+			}
+			ret = this.getWxUserInfoApi(wxAuthorizerRefreshTokenPOJO.getAuthorizerAccessToken(), openId, null);
+		} catch (Exception e) {
+			logger.error("getWxUserInfoApi exception: ", e);
+		}
+		return ret;
+	}
 	
 	private WxUserInfoApiPOJO getWxUserInfoApi(String authorizerAccessToken, String openId, String thirdWebAccessToken) throws Exception {
 		String userInfo = "";

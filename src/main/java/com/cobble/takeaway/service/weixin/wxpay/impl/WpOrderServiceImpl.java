@@ -59,6 +59,14 @@ public class WpOrderServiceImpl implements WpOrderService {
 	}
 
 	@Override
+	public List<WpOrderPOJO> finds4Close(
+			WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception {
+		List<WpOrderPOJO> ret = null;
+		ret = wpOrderMapper.finds4Close(wpOrderSearchPOJO);
+		return ret;
+	}
+
+	@Override
 	public int getCount(WpOrderSearchPOJO wpOrderSearchPOJO)
 			throws Exception {
 		int ret = 0;

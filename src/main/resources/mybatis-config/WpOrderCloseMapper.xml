@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.weixin.wxpay.WpOrderCloseMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WpOrderCloseResultMap" type="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderClosePOJO" >
+    <id column="WP_ORDER_CLOSE_ID" property="wpOrderCloseId" />
+    <result column="APP_ID" property="appId"/>
+    <result column="MCH_ID" property="mchId"/>
+    <result column="OUT_TRADE_NO" property="outTradeNo" />
+    <result column="NONCE_STR" property="nonceStr" />
+    <result column="SIGN" property="sign" />
+    <result column="SIGN_TYPE" property="signType" />
+    
+    <result column="RESP_RETURN_CODE" property="respReturnCode" />
+    <result column="RESP_RETURN_MSG" property="respReturnMsg" />
+    <result column="RESP_APP_ID" property="respAppId" />
+    <result column="RESP_MCH_ID" property="respMchId" />
+    <result column="RESP_NONCE_STR" property="respNonceStr" />
+    <result column="RESP_SIGN" property="respSign" />
+    <result column="RESP_RESULT_CODE" property="respResultCode" />
+    <result column="RESP_RESULT_MSG" property="respResultMsg" />
+    <result column="RESP_ERR_CODE" property="respErrCode" />
+    <result column="RESP_ERR_CODE_DES" property="respErrCodeDes" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WP_ORDER_CLOSE_ID, a.APP_ID, a.MCH_ID, a.OUT_TRADE_NO
+    , a.NONCE_STR, a.SIGN, a.SIGN_TYPE
+    , a.RESP_RETURN_CODE, a.RESP_RETURN_MSG, a.RESP_APP_ID
+    , a.RESP_MCH_ID, a.RESP_NONCE_STR
+    , a.RESP_SIGN, a.RESP_RESULT_CODE, a.RESP_RESULT_MSG
+    , a.RESP_ERR_CODE
+    , a.RESP_ERR_CODE_DES
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="appId != null">
+		and a.APP_ID = #{appId}
+	</if>
+	<if test="mchId != null">
+		and a.MCH_ID = #{mchId}
+	</if>
+	<if test="outTradeNo != null">
+		and a.OUT_TRADE_NO = #{outTradeNo}
+	</if>
+  </sql>
+
+  <select id="finds" resultMap="WpOrderCloseResultMap" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderCloseSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WP_ORDER_CLOSE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderCloseSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WP_ORDER_CLOSE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WpOrderCloseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WP_ORDER_CLOSE a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WP_ORDER_CLOSE_ID = #{wpOrderCloseId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WP_ORDER_CLOSE
+    where WP_ORDER_CLOSE_ID = #{wpOrderCloseId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderClosePOJO" useGeneratedKeys="true"
+  	keyProperty="wpOrderCloseId" keyColumn="WP_ORDER_CLOSE_ID">
+    insert into WP_ORDER_CLOSE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="mchId != null" >
+        MCH_ID,
+      </if>
+      <if test="outTradeNo != null" >
+        OUT_TRADE_NO,
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR,
+      </if>
+      <if test="sign != null" >
+        SIGN,
+      </if>
+      <if test="signType != null" >
+        SIGN_TYPE,
+      </if>
+      <if test="respReturnCode != null" >
+        RESP_RETURN_CODE,
+      </if>
+      <if test="respReturnMsg != null" >
+        RESP_RETURN_MSG,
+      </if>
+      <if test="respAppId != null" >
+        RESP_APP_ID,
+      </if>
+      <if test="respMchId != null" >
+        RESP_MCH_ID,
+      </if>
+      <if test="respNonceStr != null" >
+        RESP_NONCE_STR,
+      </if>
+      <if test="respSign != null" >
+        RESP_SIGN,
+      </if>
+      <if test="respResultCode != null" >
+        RESP_RESULT_CODE,
+      </if>
+      <if test="respResultMsg != null" >
+        RESP_RESULT_MSG,
+      </if>
+      <if test="respErrCode != null" >
+        RESP_ERR_CODE,
+      </if>
+      <if test="respErrCodeDes != null" >
+        RESP_ERR_CODE_DES,
+      </if>
+      
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        #{appId},
+      </if>
+      <if test="mchId != null" >
+        #{mchId},
+      </if>
+      <if test="outTradeNo != null" >
+        #{outTradeNo},
+      </if>
+      <if test="nonceStr != null" >
+        #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        #{sign},
+      </if>
+      <if test="signType != null" >
+        #{signType},
+      </if>
+      
+      <if test="respReturnCode != null" >
+        #{respReturnCode},
+      </if>
+      <if test="respReturnMsg != null" >
+        #{respReturnMsg},
+      </if>
+      <if test="respAppId != null" >
+        #{respAppId},
+      </if>
+      <if test="respMchId != null" >
+        #{respMchId},
+      </if>
+      <if test="respNonceStr != null" >
+        #{respNonceStr},
+      </if>
+      <if test="respSign != null" >
+        #{respSign},
+      </if>
+      <if test="respResultCode != null" >
+        #{respResultCode},
+      </if>
+      <if test="respResultMsg != null" >
+        #{respResultMsg},
+      </if>
+      <if test="respErrCode != null" >
+        #{respErrCode},
+      </if>
+      <if test="respErrCodeDes != null" >
+        #{respErrCodeDes},
+      </if>
+      
+      <if test="createDateTime != null" >
+        #{createDateTime},
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        #{lastModifiedDateTime},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderClosePOJO" >
+    update WP_ORDER_CLOSE
+    <set >
+      <if test="appId != null" >
+        APP_ID = #{appId},
+      </if>
+      <if test="mchId != null" >
+        MCH_ID = #{mchId},
+      </if>
+      <if test="outTradeNo != null" >
+        OUT_TRADE_NO = #{outTradeNo},
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR = #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        SIGN = #{sign},
+      </if>
+      <if test="signType != null" >
+        SIGN_TYPE = #{signType},
+      </if>
+      
+      <if test="respReturnCode != null" >
+        RESP_RETURN_CODE = #{respReturnCode},
+      </if>
+      <if test="respReturnMsg != null" >
+        RESP_RETURN_MSG = #{respReturnMsg},
+      </if>
+      <if test="respAppId != null" >
+        RESP_APP_ID = #{respAppId},
+      </if>
+      <if test="respMchId != null" >
+        RESP_MCH_ID = #{respMchId},
+      </if>
+      <if test="respNonceStr != null" >
+        RESP_NONCE_STR = #{respNonceStr},
+      </if>
+      <if test="respSign != null" >
+        RESP_SIGN = #{respSign},
+      </if>
+      <if test="respResultCode != null" >
+        RESP_RESULT_CODE = #{respResultCode},
+      </if>
+      <if test="respResultMsg != null" >
+        RESP_RESULT_MSG = #{respResultMsg},
+      </if>
+      <if test="respErrCode != null" >
+        RESP_ERR_CODE = #{respErrCode},
+      </if>
+      <if test="respErrCodeDes != null" >
+        RESP_ERR_CODE_DES = #{respErrCodeDes},
+      </if>
+      
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME = #{createDateTime},
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME = #{lastModifiedDateTime},
+      </if>
+    </set>
+    where WP_ORDER_CLOSE_ID = #{wpOrderCloseId}
+  </update>
+  
+  <update id="updateByOutTradeNo" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderClosePOJO" >
+    update WP_ORDER_CLOSE
+    <set >
+      <if test="appId != null" >
+        APP_ID = #{appId},
+      </if>
+      <if test="mchId != null" >
+        MCH_ID = #{mchId},
+      </if>
+      <!-- <if test="outTradeNo != null" >
+        OUT_TRADE_NO = #{outTradeNo},
+      </if> -->
+      <if test="nonceStr != null" >
+        NONCE_STR = #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        SIGN = #{sign},
+      </if>
+      <if test="signType != null" >
+        SIGN_TYPE = #{signType},
+      </if>
+      <if test="respReturnCode != null" >
+        RESP_RETURN_CODE = #{respReturnCode},
+      </if>
+      <if test="respReturnMsg != null" >
+        RESP_RETURN_MSG = #{respReturnMsg},
+      </if>
+      <if test="respAppId != null" >
+        RESP_APP_ID = #{respAppId},
+      </if>
+      <if test="respMchId != null" >
+        RESP_MCH_ID = #{respMchId},
+      </if>
+      <if test="respNonceStr != null" >
+        RESP_NONCE_STR = #{respNonceStr},
+      </if>
+      <if test="respSign != null" >
+        RESP_SIGN = #{respSign},
+      </if>
+      <if test="respResultCode != null" >
+        RESP_RESULT_CODE = #{respResultCode},
+      </if>
+      <if test="respResultMsg != null" >
+        RESP_RESULT_MSG = #{respResultMsg},
+      </if>
+      <if test="respErrCode != null" >
+        RESP_ERR_CODE = #{respErrCode},
+      </if>
+      <if test="respErrCodeDes != null" >
+        RESP_ERR_CODE_DES = #{respErrCodeDes},
+      </if>
+      
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME = #{createDateTime},
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME = #{lastModifiedDateTime},
+      </if>
+    </set>
+    where OUT_TRADE_NO = #{outTradeNo}
+  </update>
+  
+</mapper>
