@@ -56,8 +56,8 @@ public class WxPayOrderCloseHandleServiceImpl implements WpOrderCloseHandleServi
 			logger.info("定期关闭无效的微信支付订单, 线程池 start...");
 			ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 			CloseWxPayOrderThread closeWxPayOrderThread = new CloseWxPayOrderThread();
-			long initialDelay = 5 * 60;
-			long period = 1 * 60;
+ 			long initialDelay = ConfigurationUtil.getPropertiesConfig().getInt("WXPAY.orderclose.initialDelay", 5 * 60);
+			long period = ConfigurationUtil.getPropertiesConfig().getInt("WXPAY.orderclose.period", 1 * 60);
 			TimeUnit unit = TimeUnit.SECONDS;
 			executorService.scheduleAtFixedRate(closeWxPayOrderThread, initialDelay, period, unit );
 		} catch (Exception e) {
