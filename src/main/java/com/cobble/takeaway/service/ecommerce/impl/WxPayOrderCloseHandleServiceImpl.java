@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderClosePOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO;
@@ -33,6 +32,8 @@ import com.github.wxpay.sdk.WXPayUtil;
 @Service
 public class WxPayOrderCloseHandleServiceImpl implements WpOrderCloseHandleService {
 	private static final Logger logger = LoggerFactory.getLogger(WxPayOrderCloseHandleServiceImpl.class);
+	
+	private static Boolean closeWxPayOrderThreadPoolStatus = false;
 	
 	@Autowired
 	private WpOrderService wpOrderService;
@@ -53,17 +54,23 @@ public class WxPayOrderCloseHandleServiceImpl implements WpOrderCloseHandleServi
 	@PostConstruct
 	public void closeWxPayOrder() {
 		try {
-			logger.info("定期关闭无效的微信支付订单, 线程池 start...");
-			ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-			CloseWxPayOrderThread closeWxPayOrderThread = new CloseWxPayOrderThread();
- 			long initialDelay = ConfigurationUtil.getPropertiesConfig().getInt("WXPAY.orderclose.initialDelay", 5 * 60);
-			long period = ConfigurationUtil.getPropertiesConfig().getInt("WXPAY.orderclose.period", 1 * 60);
-			TimeUnit unit = TimeUnit.SECONDS;
-			executorService.scheduleAtFixedRate(closeWxPayOrderThread, initialDelay, period, unit );
+			if (!closeWxPayOrderThreadPoolStatus) {
+				closeWxPayOrderThreadPoolStatus = true;
+				logger.info("定期关闭无效的微信支付订单, 线程池 start...");
+				ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+				CloseWxPayOrderThread closeWxPayOrderThread = new CloseWxPayOrderThread();
+	 			long initialDelay = ConfigurationUtil.getPropertiesConfig().getInt("WXPAY.orderclose.initialDelay", 5 * 60);
+				long period = ConfigurationUtil.getPropertiesConfig().getInt("WXPAY.orderclose.period", 1 * 60);
+				TimeUnit unit = TimeUnit.SECONDS;
+				executorService.scheduleAtFixedRate(closeWxPayOrderThread, initialDelay, period, unit );
+				logger.info("定期关闭无效的微信支付订单, 开启完成, 线程池 done..., initialDelay: {}, period: {}", initialDelay, period);
+			} else {
+				logger.info("定期关闭无效的微信支付订单, 线程池已经被启动");
+			}
+			
 		} catch (Exception e) {
 			logger.error("closeWxPayOrder Exception: ", e);
 		}
-		logger.info("定期关闭无效的微信支付订单, 开启完成, 线程池 done...");
 	}
 	public class CloseWxPayOrderThread extends Thread {
 
