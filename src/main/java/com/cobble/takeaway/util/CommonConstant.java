@@ -119,6 +119,9 @@ public interface CommonConstant {
 	// JS-SDK
 	public final static String WX_JS_SDK_TICKET = "WX_JS_SDK_TICKET";
 	
+	/// TODO
+	public final static String ECOMMERCE_URL_1 = "ECOMMERCE_URL_1";
+	
 	
 	
 }

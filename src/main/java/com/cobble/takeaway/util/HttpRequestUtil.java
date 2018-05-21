@@ -1,7 +1,10 @@
 package com.cobble.takeaway.util;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +64,25 @@ public class HttpRequestUtil {
 	        ip = request.getRemoteAddr();       
 	    }       
 	    return ip;       
+	}
+	
+	public static String getSessionAttributeNameValue(HttpSession session) {
+		String ret = "";
+		if (session == null) {
+			return ret;
+		}
+		Enumeration<String> attributeNames = session.getAttributeNames();
+		if (null != attributeNames) {
+			StringBuilder sessionAttributesNameVlaues = new StringBuilder();
+			while (attributeNames.hasMoreElements()) {
+				String attributeName = attributeNames.nextElement();
+				sessionAttributesNameVlaues.append(attributeName).append(": ")
+										.append(session.getAttribute(attributeName))
+										.append(", ");
+			}
+			ret = sessionAttributesNameVlaues.substring(0, sessionAttributesNameVlaues.length() - 2);
+		}
+		return ret;
 	}
 
 	

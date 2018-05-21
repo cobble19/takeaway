@@ -341,6 +341,12 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 					}
 				}
 			} else if (uri.contains("/web/wxpay") || uri.contains("/web/ecommerce/ecorder/ecproduct/")) {
+				
+				// 关注的时候发送url
+				if (uri.contains("/web/ecommerce/ecorder/ecproduct/")) {
+					session.setAttribute(CommonConstant.ECOMMERCE_URL_1, url + "?" + qs);
+				}
+				
 				Pattern p = Pattern.compile("(authorizerAppId=)(\\w+)");
 				Matcher m = p.matcher(qs);
 				if (m.find() && m.groupCount() == 2) {

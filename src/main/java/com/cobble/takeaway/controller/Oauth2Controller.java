@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -2522,6 +2524,12 @@ public class Oauth2Controller extends BaseController {
 //			String openId = (String) session.getAttribute(CommonConstant.OPEN_ID);
 //			String unionId = (String) session.getAttribute(CommonConstant.UNION_ID);
 			
+			logger.info("wxWebAuthCode, Session attributes: {}", HttpRequestUtil.getSessionAttributeNameValue(session));
+			String ecommerceUrl1 = (String) session.getAttribute(CommonConstant.ECOMMERCE_URL_1);
+			if (StringUtils.isNotBlank(ecommerceUrl1)) {
+				CacheUtil.getInstance().put(proxyOpenId + "," + appid, ecommerceUrl1, 5 * 60);
+			}
+			
 			String openId =  wxPersonUserPOJO.getOpenId();
 			if (StringUtils.isNotBlank(proxyOpenId)) {
 				myUser.setProxyOpenId(proxyOpenId);
@@ -3905,6 +3913,9 @@ public class Oauth2Controller extends BaseController {
 			@RequestParam(value="msg_signature", required = false) String msgSignature,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
+			HttpSession session = request.getSession();
+			logger.info("msgEventRecieve, Session attributes: {}", HttpRequestUtil.getSessionAttributeNameValue(session));
+			
 			logger.info("msgEventRecieve begin...");
 			logger.info("Request params, signature: {}, timestamp: {}, nonce: {}, openid: {}, encrypt_type: {}, msg_signature: {}",
 					signature, timestamp, nonce, openid, encryptType, msgSignature);
@@ -3938,6 +3949,7 @@ public class Oauth2Controller extends BaseController {
 				String msgType = XmlUtils.getNodeString(result, "/xml/MsgType");
 				String toUserName = XmlUtils.getNodeString(result, "/xml/ToUserName");
 				String fromUserName = XmlUtils.getNodeString(result, "/xml/FromUserName");
+				String createTime = XmlUtils.getNodeString(result, "/xml/CreateTime");
 				
 				// 获取公众号的信息, 确定是哪个公众号收到信息
 				WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
@@ -4044,8 +4056,12 @@ public class Oauth2Controller extends BaseController {
 						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 						return encryptMsg;
+					} else if ("subscribe".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())) {
+						logger.info("subscribe事件, 看看是否为购买url, 如果是, 发送客服通知.");
+						String ecommerceUrl1 = CacheUtil.getInstance().get(openid + "," + authorizerAppId);
+						this.sendCustomMsgText(openid, ecommerceUrl1, authorizerAppId);
 					} else {
-						logger.info("除了CLICK, 其他的event先不做处理");
+						logger.info("除了CLICK/subscribe, 其他的event先不做处理");
 					}
 					///
 					

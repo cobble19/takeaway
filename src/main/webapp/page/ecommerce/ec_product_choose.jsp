@@ -45,12 +45,23 @@
 				    alert('wx.error' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
 				});
 				///
+				//$('#qrcodeModal').modal('hide');
 				$('#myFeeBtn').click(function() {
+
+					var subscribeFlag = $('#subscribeFlag').val();
+					console.log('subscribeFlag: ' + subscribeFlag);
+					if (subscribeFlag == '0') {
+						$('#qrcodeModal').modal('show');
+						return;
+					}
+					
 // 					$('#myFeeForm').submit();
 					var authorizerAppId = $('#appId').val();
 					var productId = $('#productId').val();
 					var unitPrice = $('#unitPrice').val();
 					var quantity = $('#quantity').val();
+					
+					
 					
 					var params = {};
 					params.authorizerAppId = authorizerAppId;
@@ -193,6 +204,9 @@
   	<input type="hidden" id="paySignUo" name="paySignUo" />
   	<input type="hidden" id="packageUo" name="packageUo" />
   	
+  	<!-- 公众号二维码 -->
+  	<input type="hidden" id="subscribeFlag" name="subscribeFlag" value="${subscribeFlag ? '1' : '0'}" />
+  	
   	<div class="container-fluid">
         <div class="row">
         	<div class="col-md-12 col-sm-12">
@@ -225,7 +239,7 @@
 		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
 		        </div> 
 		        <div class="row">
-		          <div class="col-xs-12" style="margin-top:10px; margin-bottom:50px;">
+		          <div class="col-xs-12" style="margin-top:10px; margin-bottom:10px;">
 			          <h5>商品详情</h5>
 			          <!--此处放详情数据-->
 			          <span id="buyAbout" style="display:none;">
@@ -236,7 +250,17 @@
 			          </span>
 		          </div>
 		        </div>   
-		        <c:if test="${subscribeFlag == true}">
+		        <nav class="navbar navbar-default navbar-fixed-bottom">
+					<!-- Nav tabs -->
+					<ul class="nav nav-pills" role="tablist"
+						style="text-align: center; padding-top: 5px">
+						<div role="presentation" class="active col-xs-12 col-md-12">
+		                    <input type="button" class="btn btn-success btn-sm btn-block" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
+						</div>
+					</ul>
+				</nav>
+				
+		        <%-- <c:if test="${subscribeFlag == true}">
 		        <nav class="navbar navbar-default navbar-fixed-bottom">
 					<!-- Nav tabs -->
 					<ul class="nav nav-pills" role="tablist"
@@ -246,19 +270,20 @@
 						</div>
 					</ul>
 				</nav>
-		        </c:if>
-		        <c:if test="${subscribeFlag != true}">
+		        </c:if> --%>
+		        <%-- <c:if test="${subscribeFlag != true}">
 		        <div class="row">
-		          <div class="col-xs-12" style="margin-top:10px; margin-bottom:50px;">
-		          	你需要长按识别二维码或微信扫描二维码关注公众号
+		          <div class="col-xs-12" style="margin-top:10px;">
+		          	<span style="color: red;">为了确保您购买后能成功领取代金券，请先关注第三方开放平台“得味驿站”。您可长按识别二维码或微信扫描二维码关注。
+		          	</span>
 		          </div>
-		          <div class="col-xs-12" style="margin-top:10px; margin-bottom:50px;">
+		          <div class="col-xs-12" style="">
 		          	<div class="thumbnail">
 				      <img id="qrcodeImg" src="<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}" alt="">
 				    </div>
 		          </div>
 		        </div>
-		        </c:if>
+		        </c:if> --%>
 		        
              
 	        		<div class="row" style="display:none;">
@@ -280,6 +305,37 @@
 	        		<!--<input type="button" class="btn btn-default" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>-->
         		</form>
         		</div>
+        </div>
+        
+        <!-- 显示公众号二维码 -->
+        <div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<!-- 登陆 -->
+			    <div class="modal fade" id="qrcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				    	<div class="modal-dialog">
+				    		<div class="modal-content">
+				    			<div class="modal-header">
+				    				<button type="button" class="close" data-dismiss="modal" aria-label="关闭">
+				    					<span aria-hidden="true">&times;</span>
+				    				</button>
+				    				<h4 class="modal-title" id="myModalLabel">
+					    				<span style="color: red;">为了确保您购买后能成功领取代金券，请先关注第三方开放平台“得味驿站”。您可长按识别二维码或微信扫描二维码关注。
+			          				</span>
+		          				</h4>
+				    			</div>
+				    			<div class="modal-body">
+				    				<div class="thumbnail">
+							      <img id="qrcodeImg" src="<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}" alt="">
+							    </div>
+				    			</div><!-- modal-body -->
+				    			<div class="modal-footer">
+				    				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				    				<!-- <button type="button" class="btn btn-primary">创建</button> -->
+				    			</div><!-- modal-footer -->
+				    		</div><!-- /.modal-content -->
+				    	</div><!-- /.modal-dialog -->
+			    </div><!-- /.modal -->
+			</div>        
         </div>
   		
   		<div id="progress">数据加载中。。。</div>
