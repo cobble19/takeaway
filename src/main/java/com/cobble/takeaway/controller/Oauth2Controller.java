@@ -4059,7 +4059,8 @@ public class Oauth2Controller extends BaseController {
 					} else if ("subscribe".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())) {
 						logger.info("subscribe事件, 看看是否为购买url, 如果是, 发送客服通知.");
 						String ecommerceUrl1 = CacheUtil.getInstance().get(openid + "," + authorizerAppId);
-						this.sendCustomMsgText(openid, ecommerceUrl1, authorizerAppId);
+						String content = "<a href='" + ecommerceUrl1 + "'>购买链接</a>";
+						this.sendCustomMsgText(openid, content, authorizerAppId);
 					} else {
 						logger.info("除了CLICK/subscribe, 其他的event先不做处理");
 					}

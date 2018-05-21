@@ -1,6 +1,8 @@
 package com.cobble.takeaway.util;
 
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+
 
 public class HttpRequestUtil {
 	private static final Logger logger = LoggerFactory.getLogger(HttpRequestUtil.class);
@@ -71,16 +74,24 @@ public class HttpRequestUtil {
 		if (session == null) {
 			return ret;
 		}
-		Enumeration<String> attributeNames = session.getAttributeNames();
-		if (null != attributeNames) {
-			StringBuilder sessionAttributesNameVlaues = new StringBuilder();
-			while (attributeNames.hasMoreElements()) {
-				String attributeName = attributeNames.nextElement();
-				sessionAttributesNameVlaues.append(attributeName).append(": ")
-										.append(session.getAttribute(attributeName))
-										.append(", ");
+		try {
+			Enumeration<String> attributeNames = session.getAttributeNames();
+			if (null != attributeNames) {
+				Map map = new HashMap();
+//				StringBuilder sessionAttributesNameVlaues = new StringBuilder();
+				while (attributeNames.hasMoreElements()) {
+					String attributeName = attributeNames.nextElement();
+					Object value = session.getAttribute(attributeName);
+					map.put(attributeName, value);
+					
+//					sessionAttributesNameVlaues.append(attributeName).append(": ")
+//											.append(session.getAttribute(attributeName))
+//											.append(", ");
+				}
+				ret = JsonUtils.convertToJson(map);
 			}
-			ret = sessionAttributesNameVlaues.substring(0, sessionAttributesNameVlaues.length() - 2);
+		} catch (Exception e) {
+			logger.error("Get session attributes exception. ", e);
 		}
 		return ret;
 	}
