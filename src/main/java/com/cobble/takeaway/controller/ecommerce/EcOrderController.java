@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -42,10 +43,13 @@ import com.cobble.takeaway.pojo.ecommerce.EcOrderCallWxPayParamPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcOrderPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcOrderSearchPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcProductPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
+import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayOrderQueryReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderReqApiPOJO;
+import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxPayService;
 import com.cobble.takeaway.service.ecommerce.EcOrderService;
 import com.cobble.takeaway.service.ecommerce.EcProductService;
@@ -61,9 +65,10 @@ import com.github.wxpay.sdk.WXPayConstants;
 public class EcOrderController extends BaseController {
 	private final static Logger logger = LoggerFactory.getLogger(EcOrderController.class);
 	
+	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
 	@Autowired
 	private EcOrderService ecOrderService;
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	@Autowired
 	private WpOrderService wpOrderService;
 	@Autowired
@@ -74,6 +79,8 @@ public class EcOrderController extends BaseController {
 	private Oauth2Controller oauth2Controller;
 	@Autowired
 	private EcProductService ecProductService;
+	@Autowired
+	private WxAuthorizerInfoService wxAuthorizerInfoService;
 
 	private static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
@@ -404,6 +411,8 @@ public class EcOrderController extends BaseController {
 		HttpSession session = request.getSession();
 		WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = new WxJsSdkConfigRespApiPOJO();
 		EcProductPOJO ecProductPOJO = new EcProductPOJO();
+		WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = new WxAuthorizerInfoPOJO();
+		Boolean subscribeFlag = false;
 		try {
 			ret.setViewName("/page/ecommerce/ec_product_choose");
 			// get ecProductPOJO
@@ -432,13 +441,22 @@ public class EcOrderController extends BaseController {
 			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
 			
 			// check whether subscribe
-			if (ecProductPOJO.getNeedSubscribe() != null && ecProductPOJO.getNeedSubscribe() == CommonConstant.WX_NEED_SUBSCRIBE) {
-				Boolean subscribe = oauth2Controller.getSubscribeFlag(authorizerAppId, openId);
-				if (!subscribe) {
-					String qrCodeUrl = "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
-					redirectStrategy.sendRedirect(request, response, qrCodeUrl);
-					return null;
-				}
+//			if (ecProductPOJO.getNeedSubscribe() != null && ecProductPOJO.getNeedSubscribe() == CommonConstant.WX_NEED_SUBSCRIBE) {
+//				subscribeFlag = oauth2Controller.getSubscribeFlag(authorizerAppId, openId);
+//				if (!subscribeFlag) {
+//					String qrCodeUrl = "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
+//					redirectStrategy.sendRedirect(request, response, qrCodeUrl);
+//					return null;
+//				}
+//			}
+			// 获得是否关注
+			subscribeFlag = oauth2Controller.getSubscribeFlag(authorizerAppId, openId);
+			// 获得是否关注, 然后用参数来控制显示公众号的二维码
+			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
 			}
 			
 			String appId = authorizerAppId;
@@ -485,6 +503,8 @@ public class EcOrderController extends BaseController {
 
 		ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
 		ret.addObject("ecProductPOJO", ecProductPOJO);
+		ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+		ret.addObject("subscribeFlag", subscribeFlag);
 		return ret;
 	}
 	

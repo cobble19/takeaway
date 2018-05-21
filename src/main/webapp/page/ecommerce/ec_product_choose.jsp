@@ -20,7 +20,7 @@
 				///
 				// 通过config接口注入权限验证配置
 				wx.config({
-				    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，
+				    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，
 				    				//若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 				    appId: appId, // 必填，公众号的唯一标识
 				    timestamp: timestamp, // 必填，生成签名的时间戳
@@ -80,7 +80,7 @@
 								$('#prepayIdUo').val(data.jsPayMap.prepayId);
 								$('#paySignUo').val(data.jsPayMap.sign);
 								$('#packageUo').val(data.jsPayMap.packageUo);
-				                	alert('申请订单成功！去付款!')
+				                	alert('申请订单成功！去付款吧!')
 				            	} else {
 				                	alert('申请订单失败, ' + data.errMessage);
 				            	}
@@ -133,13 +133,17 @@
 					 		// 使用以下方式判断前端返回,微信团队郑重提示：
 					        //res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠
 					        if (res.err_msg == "get_brand_wcpay_request:ok" ) {
-					     	   	alert(res.err_msg);
+					     	   	/* alert(res.err_msg); */
+					     	   	alert('支付成功');
 					        } else if (res.err_msg == "get_brand_wcpay_request:cancel" ) {
-					     	   	alert(res.err_msg);
+					     	   	/* alert(res.err_msg); */
+					        		alert('已经取消支付');
 					        } else if (res.err_msg == "get_brand_wcpay_request:fail" ) {
-					     	   	alert(res.err_msg);
+					     	   	/* alert(res.err_msg); */
+					     	   	alert('支付失败');
 					        } else {
-					     	   	alert(res);
+					     	   	/* alert(res); */
+					     	   	alert('你遇到了特殊的情况, 请通过公众号或者公众号资料的联系方式联系管理员')
 					        }
 					    }
 					); 
@@ -232,6 +236,7 @@
 			          </span>
 		          </div>
 		        </div>   
+		        <c:if test="${subscribeFlag == true}">
 		        <nav class="navbar navbar-default navbar-fixed-bottom">
 					<!-- Nav tabs -->
 					<ul class="nav nav-pills" role="tablist"
@@ -241,6 +246,20 @@
 						</div>
 					</ul>
 				</nav>
+		        </c:if>
+		        <c:if test="${subscribeFlag != true}">
+		        <div class="row">
+		          <div class="col-xs-12" style="margin-top:10px; margin-bottom:50px;">
+		          	你需要长按识别二维码或微信扫描二维码关注公众号
+		          </div>
+		          <div class="col-xs-12" style="margin-top:10px; margin-bottom:50px;">
+		          	<div class="thumbnail">
+				      <img id="qrcodeImg" src="<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}" alt="">
+				    </div>
+		          </div>
+		        </div>
+		        </c:if>
+		        
              
 	        		<div class="row" style="display:none;">
 	        				<div class="col-md-12 col-sm-12">
