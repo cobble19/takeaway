@@ -214,14 +214,14 @@
 		        </div>
 		        <div class="row">
 			      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
-			        			<h6 style="color:#aaa9ae"><c:out value="${ecProductPOJO.productName}" /> 库存 <c:out value="${ecProductPOJO.quantityStock}" /></h6>
+			        			<h6 style="color:#aaa9ae"> 库存 <c:out value="${ecProductPOJO.quantityStock}" /></h6>
 			      </div>
 			    </div>
 		        <div class="row">
 		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
 		        </div> 
 		        <div class="row">
-		          <div class="col-xs-12" style="margin-top:10px;">
+		          <div class="col-xs-12" style="margin-top:10px; margin-bottom:50px;">
 			          <h5>商品详情</h5>
 			          <!--此处放详情数据-->
 			          <span id="buyAbout" style="display:none;">
