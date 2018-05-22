@@ -299,6 +299,7 @@ public class EcOrderController extends BaseController {
 				if (ecProductPOJO.getQuantityStock() < quantity) {
 					ret.put("success", false);
 					ret.put("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
+					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
 				} else {
 					// ecProduct derease, 减少库存
@@ -416,21 +417,7 @@ public class EcOrderController extends BaseController {
 		Boolean subscribeFlag = false;
 		try {
 			ret.setViewName("/page/ecommerce/ec_product_choose");
-			// get ecProductPOJO
-			ecProductPOJO = ecProductService.findById(productId);
 
-			if (ecProductPOJO == null) {
-				ret.addObject("success", false);
-				ret.addObject("errMessage", "商品不存在");
-				return ret;
-			} else {
-				if (ecProductPOJO.getQuantityStock() < 1) {
-					ret.addObject("success", false);
-					ret.addObject("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
-					return ret;
-				}
-			}
-			
 			if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 //				throw new NullPointerException("authorizerAppId must not be null");
@@ -460,7 +447,25 @@ public class EcOrderController extends BaseController {
 				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
 			}
 			
-			String appId = authorizerAppId;
+//			String appId = authorizerAppId;
+			
+			// get ecProductPOJO
+			ecProductPOJO = ecProductService.findById(productId);
+
+			if (ecProductPOJO == null) {
+				ret.addObject("success", false);
+				ret.addObject("errMessage", "商品不存在");
+				return ret;
+			} else {
+				if (ecProductPOJO.getQuantityStock() < 1) {
+					ret.addObject("success", false);
+					ret.addObject("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
+					ret.addObject("ecProductPOJO", ecProductPOJO);
+					ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+					return ret;
+				}
+			}
+			
 			String jsSdkTicket = oauth2Controller.getWxJsSdkTicket(authorizerAppId);
 			Long timestamp = System.currentTimeMillis() / 1000;
 			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
@@ -486,7 +491,7 @@ public class EcOrderController extends BaseController {
 			List<String> jsApiList = Arrays.asList(StringUtils.split(messageSource.getMessage("WX.jssdk.jsApiList", null, null), ","));
 			
 			
-			wxJsSdkConfigRespApiPOJO.setAppId(appId);
+			wxJsSdkConfigRespApiPOJO.setAppId(authorizerAppId);
 			wxJsSdkConfigRespApiPOJO.setNonceStr(nonceStr);
 			wxJsSdkConfigRespApiPOJO.setTimestamp(timestamp);
 			wxJsSdkConfigRespApiPOJO.setSignature(signature);

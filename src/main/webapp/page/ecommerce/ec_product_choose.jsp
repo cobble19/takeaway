@@ -69,7 +69,7 @@
 					params.unitPrice = unitPrice;
 					params.quantity = quantity;
 					
-					var result = null;
+					var result = {};
 					
 					// sync
 				    	$.ajax({
@@ -104,16 +104,18 @@
 				         }
 				    	});	// ajax
 				    	// call wxpay
-					if (typeof WeixinJSBridge == "undefined") {
-						if( document.addEventListener ){
-						    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-						}else if (document.attachEvent){
-						    document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-						    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+				    	if (result.success == true) {
+						if (typeof WeixinJSBridge == "undefined") {
+							if( document.addEventListener ){
+							    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+							}else if (document.attachEvent){
+							    document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+							    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+							}
+						}else{
+						   onBridgeReady();
 						}
-					}else{
-					   onBridgeReady();
-					}
+				    	}
 				    	// end call wxpay
 				})
 
@@ -312,13 +314,14 @@
         </div>
         
         <!-- 显示公众号二维码 -->
-        <div class="row">
-	        <div class="col-md-2 col-sm-2 col-xs-2">
-	        </div>
-	        
-			<div class="col-md-8 col-sm-8 col-xs-8">
+        
 				<!-- 登陆 -->
-			    <div class="modal fade" id="qrcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal fade" id="qrcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="row">
+		        <div class="col-md-1 col-sm-1 col-xs-1">
+		        </div>
+		        
+				<div class="col-md-10 col-sm-10 col-xs-10">
 				    	<div class="modal-dialog">
 				    		<div class="modal-content">
 				    			<div class="modal-header">
@@ -326,7 +329,7 @@
 				    					<span aria-hidden="true">&times;</span>
 				    				</button>
 				    				<h4 class="modal-title" id="myModalLabel">
-					    				<span style="color: red;">为了确保您购买后能成功领取代金券，请先关注第三方开放平台“得味驿站”。您可长按识别二维码或微信扫描二维码关注。
+					    				<span style="color: red; font-size: 12px;">为了确保您购买后能成功领取代金券，请先关注第三方开放平台“得味驿站”。您可长按识别二维码或微信扫描二维码关注。
 			          				</span>
 		          				</h4>
 				    			</div>
@@ -342,11 +345,13 @@
 				    		</div><!-- /.modal-content -->
 				    	</div><!-- /.modal-dialog -->
 			    </div><!-- /.modal -->
-			</div>  
+			    
+			    <div class="col-md-1 col-sm-1 col-xs-1">
+		       </div>      
+	      </div>
+	</div>  
 			
-	        <div class="col-md-2 col-sm-2 col-xs-2">
-	        </div>      
-        </div>
+	        
   		
   		<div id="progress">数据加载中。。。</div>
   		
