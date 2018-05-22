@@ -79,4 +79,11 @@ public class EcProductServiceImpl implements EcProductService {
 		return ret;
 	}
 
+	@Override
+	public int increaseStock(Long productId, Integer quantity) throws Exception {
+		int ret = 0;
+		ret = ecProductMapper.increaseStock(productId, quantity);
+		return ret;
+	}
+
 }

@@ -50,7 +50,14 @@ public class WpOrderSearchPOJO extends BaseSearchPOJO {
 	private String respTransactionId;
 
 	private Long ecOrderId;
+	private Long ecProductId;
 	
+	public Long getEcProductId() {
+		return ecProductId;
+	}
+	public void setEcProductId(Long ecProductId) {
+		this.ecProductId = ecProductId;
+	}
 	public Long getEcOrderId() {
 		return ecOrderId;
 	}

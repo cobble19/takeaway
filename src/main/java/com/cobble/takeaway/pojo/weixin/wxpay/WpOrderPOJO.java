@@ -53,7 +53,14 @@ public class WpOrderPOJO extends BasePOJO {
 	private String respTransactionId;
 	
 	private Long ecOrderId;
+	private Long ecProductId;
 	
+	public Long getEcProductId() {
+		return ecProductId;
+	}
+	public void setEcProductId(Long ecProductId) {
+		this.ecProductId = ecProductId;
+	}
 	private WpOrderClosePOJO wpOrderClosePOJO;
 	
 	public WpOrderClosePOJO getWpOrderClosePOJO() {

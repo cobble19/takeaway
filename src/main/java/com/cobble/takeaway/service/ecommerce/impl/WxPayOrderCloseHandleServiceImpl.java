@@ -140,6 +140,8 @@ public class WxPayOrderCloseHandleServiceImpl implements WpOrderCloseHandleServi
 							wpOrderClosePOJO.setCreateDateTime(createDateTime);
 							wpOrderClosePOJO.setLastModifiedDateTime(lastModifiedDateTime);
 							wpOrderCloseService.insert(wpOrderClosePOJO);
+							// 恢复库存
+							wpOrderCloseService.increaseEcProductStock(wpOrderClosePOJO);
 						}
 					}
 				}

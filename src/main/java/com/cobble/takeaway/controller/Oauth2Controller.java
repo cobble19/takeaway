@@ -4056,13 +4056,13 @@ public class Oauth2Controller extends BaseController {
 						String replyMsg = XmlUtils.convertToXml(wxMsgEventRespTextApiPOJO);
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 						return encryptMsg;
-					} else if ("subscribe".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())) {
+					} /*else if ("subscribe".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())) {
 						logger.info("subscribe事件, 看看是否为购买url, 如果是, 发送客服通知.");
 						String ecommerceUrl1 = CacheUtil.getInstance().get(openid + "," + authorizerAppId);
 						String content = "<a href='" + ecommerceUrl1 + "'>购买链接</a>";
 						this.sendCustomMsgText(openid, content, authorizerAppId);
-					} else {
-						logger.info("除了CLICK/subscribe, 其他的event先不做处理");
+					}*/ else {
+						logger.info("除了CLICK, 其他的event先不做处理");
 					}
 					///
 					

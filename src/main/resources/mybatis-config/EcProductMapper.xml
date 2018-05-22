@@ -213,4 +213,14 @@
     </set>
     where PRODUCT_ID = #{productId}
   </update>
+  <update id="increaseStock" >
+    update EC_PRODUCT
+    <set >
+      <!-- <if test="quantityStock != null" > -->
+        QUANTITY_STOCK = QUANTITY_STOCK + #{quantity},
+      <!-- </if> -->
+        LAST_MODIFIED_DATE_TIME = sysdate(),
+    </set>
+    where PRODUCT_ID = #{productId}
+  </update>
 </mapper>

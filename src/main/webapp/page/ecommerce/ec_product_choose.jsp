@@ -180,6 +180,10 @@
 				///
 				$('#buyAboutX').html($('#buyAbout').text());
 				///
+				$('#qrcodeModal').on('hide.bs.modal', function (e) {
+					window.location.reload();
+				})
+				////
 				
 			})
 		</script>
@@ -309,7 +313,10 @@
         
         <!-- 显示公众号二维码 -->
         <div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
+	        <div class="col-md-2 col-sm-2 col-xs-2">
+	        </div>
+	        
+			<div class="col-md-8 col-sm-8 col-xs-8">
 				<!-- 登陆 -->
 			    <div class="modal fade" id="qrcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				    	<div class="modal-dialog">
@@ -335,7 +342,10 @@
 				    		</div><!-- /.modal-content -->
 				    	</div><!-- /.modal-dialog -->
 			    </div><!-- /.modal -->
-			</div>        
+			</div>  
+			
+	        <div class="col-md-2 col-sm-2 col-xs-2">
+	        </div>      
         </div>
   		
   		<div id="progress">数据加载中。。。</div>

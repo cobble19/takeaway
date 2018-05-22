@@ -301,7 +301,7 @@ public class EcOrderController extends BaseController {
 					ret.put("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
 					return ret;
 				} else {
-					// ecProduct derease 1
+					// ecProduct derease, 减少库存
 					ecProductService.decreaseStock(productId, quantity);
 				}
 			}
@@ -357,6 +357,7 @@ public class EcOrderController extends BaseController {
 				WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
 				org.apache.commons.beanutils.BeanUtils.copyProperties(wpOrderPOJO, wxPayUnifiedOrderReqApiPOJO);
 				wpOrderPOJO.setEcOrderId(ecOrderPOJO.getOrderId());
+				wpOrderPOJO.setEcProductId(productId);
 				wpOrderPOJO.setCreateDateTime(new Date());
 				wpOrderService.insert(wpOrderPOJO);
 			} catch (Exception e) {
@@ -451,7 +452,7 @@ public class EcOrderController extends BaseController {
 //			}
 			// 获得是否关注
 			subscribeFlag = oauth2Controller.getSubscribeFlag(authorizerAppId, openId);
-			// 获得是否关注, 然后用参数来控制显示公众号的二维码
+			// 获得是否关注, 然后在jsp页面用参数来控制显示公众号的二维码
 			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
 			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
 			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
