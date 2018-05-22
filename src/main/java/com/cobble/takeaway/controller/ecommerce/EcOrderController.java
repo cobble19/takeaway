@@ -60,6 +60,7 @@ import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.UserUtil;
 import com.github.wxpay.sdk.MyWXPayConfigImpl;
 import com.github.wxpay.sdk.WXPayConstants;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 @Controller
 public class EcOrderController extends BaseController {
@@ -448,24 +449,7 @@ public class EcOrderController extends BaseController {
 			}
 			
 //			String appId = authorizerAppId;
-			
-			// get ecProductPOJO
-			ecProductPOJO = ecProductService.findById(productId);
 
-			if (ecProductPOJO == null) {
-				ret.addObject("success", false);
-				ret.addObject("errMessage", "商品不存在");
-				return ret;
-			} else {
-				if (ecProductPOJO.getQuantityStock() < 1) {
-					ret.addObject("success", false);
-					ret.addObject("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
-					ret.addObject("ecProductPOJO", ecProductPOJO);
-					ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
-					return ret;
-				}
-			}
-			
 			String jsSdkTicket = oauth2Controller.getWxJsSdkTicket(authorizerAppId);
 			Long timestamp = System.currentTimeMillis() / 1000;
 			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
@@ -502,15 +486,35 @@ public class EcOrderController extends BaseController {
 			
 			logger.info("wxJsSdkConfigRespApiPOJO: " + wxJsSdkConfigRespApiPOJO);
 			
+			// get ecProductPOJO
+			ecProductPOJO = ecProductService.findById(productId);
+
+			ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+			ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+			ret.addObject("subscribeFlag", subscribeFlag);
+			
+			if (ecProductPOJO == null) {
+				ret.addObject("success", false);
+				ret.addObject("errMessage", "商品不存在");
+				ret.addObject("ecProductPOJO", new EcProductPOJO());
+				return ret;
+			} else {
+				ret.addObject("ecProductPOJO", ecProductPOJO);
+				if (ecProductPOJO.getQuantityStock() < 1) {
+					ret.addObject("success", false);
+					ret.addObject("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
+					return ret;
+				}
+			}
 			
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 		}
 
-		ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
-		ret.addObject("ecProductPOJO", ecProductPOJO);
-		ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
-		ret.addObject("subscribeFlag", subscribeFlag);
+//		ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+//		ret.addObject("ecProductPOJO", ecProductPOJO);
+//		ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+//		ret.addObject("subscribeFlag", subscribeFlag);
 		return ret;
 	}
 	
