@@ -45,6 +45,11 @@
 				    alert('wx.error' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
 				});
 				///
+				function closeSelfWindow() {
+					wx.closeWindow();
+					WeixinJSBridge.call('closeWindow');
+				}
+				///
 				//$('#qrcodeModal').modal('hide');
 				$('#myFeeBtn').click(function() {
 
@@ -148,6 +153,7 @@
 					        if (res.err_msg == "get_brand_wcpay_request:ok" ) {
 					     	   	/* alert(res.err_msg); */
 					     	   	alert('支付成功');
+					     	   closeSelfWindow();
 					        } else if (res.err_msg == "get_brand_wcpay_request:cancel" ) {
 					     	   	/* alert(res.err_msg); */
 					        		alert('已经取消支付');
