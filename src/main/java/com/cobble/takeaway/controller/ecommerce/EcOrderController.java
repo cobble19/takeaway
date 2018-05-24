@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -297,9 +298,57 @@ public class EcOrderController extends BaseController {
 				ret.put("errMessage", "商品不存在");
 				return ret;
 			} else {
-				if (ecProductPOJO.getQuantityStock() < quantity) {
+				// valid, 验证开始时间, 结束时间, 每人限额
+				Date curDate = new Date();
+				if (ecProductPOJO.getStartDateTime().after(curDate)) {
 					ret.put("success", false);
-					ret.put("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
+					ret.put("errMessage", "商品还没有开始销售");
+					ret.put("ecProductPOJO", ecProductPOJO);
+					return ret;
+				}
+
+				if (ecProductPOJO.getEndDateTime().before(curDate)) {
+					ret.put("success", false);
+					ret.put("errMessage", "商品销售已经结束");
+					ret.put("ecProductPOJO", ecProductPOJO);
+					return ret;
+				}
+				// 获取购买的商品个数
+				WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
+				wpOrderSearchPOJO.setEcProductId(productId);
+				wpOrderSearchPOJO.setOpenId(openId);
+				wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
+				wpOrderSearchPOJO.setRespResultCode("SUCCESS");
+				int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
+				if (orderCount >= ecProductPOJO.getLimitNumEveryone()) {
+					ret.put("success", false);
+					ret.put("errMessage", "这个商品每个人只能购买" + ecProductPOJO.getLimitNumEveryone() + "个");
+					ret.put("ecProductPOJO", ecProductPOJO);
+					return ret;
+				}
+
+				// 通过微信卡券接口得到卡券的库存
+				String cardId = ecProductPOJO.getWxCardId();
+				Map wxCardDetailMap = oauth2Controller.getWxCardDetail(authorizerAppId, cardId);
+				int wxCardStock = 0;
+				try {
+					Map cardMap = (Map) wxCardDetailMap.get("card");
+					Map discountMap = (Map) cardMap.get("discount");
+					Map baseInfoMap = (Map) discountMap.get("base_info");
+					Map skuMap = (Map) baseInfoMap.get("sku");
+					wxCardStock = (Integer) skuMap.get("quantity");
+					EcProductPOJO ecProductPOJO4Update = new EcProductPOJO();
+					ecProductPOJO4Update.setProductId(productId);
+					ecProductPOJO4Update.setWxCardStock(wxCardStock);
+					ecProductService.update(ecProductPOJO4Update);
+				} catch (Exception e) {
+					logger.error("get getWxCardDetail exception: ", e);
+				}
+
+				// 验证库存
+				if (ecProductPOJO.getQuantityStock() < quantity || wxCardStock < quantity) {
+					ret.put("success", false);
+					ret.put("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock() + "/" + wxCardStock);
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
 				} else {

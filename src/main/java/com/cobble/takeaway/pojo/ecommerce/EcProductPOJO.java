@@ -15,14 +15,51 @@ public class EcProductPOJO extends BasePOJO {
 	private Integer quantityStock;
 	// 分
 	private Integer unitPrice;
+	private Integer limitNumEveryone;
 	
 	private String wxCardId;
+	private Integer wxCardStock;
 	
 	private Integer needSubscribe;
+
+	private Date startDateTime;
+	private Date endDateTime;
 	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
-	
+
+	public Integer getLimitNumEveryone() {
+		return limitNumEveryone;
+	}
+
+	public void setLimitNumEveryone(Integer limitNumEveryone) {
+		this.limitNumEveryone = limitNumEveryone;
+	}
+
+	public Integer getWxCardStock() {
+		return wxCardStock;
+	}
+
+	public void setWxCardStock(Integer wxCardStock) {
+		this.wxCardStock = wxCardStock;
+	}
+
+	public Date getStartDateTime() {
+		return startDateTime;
+	}
+
+	public void setStartDateTime(Date startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+
+	public Date getEndDateTime() {
+		return endDateTime;
+	}
+
+	public void setEndDateTime(Date endDateTime) {
+		this.endDateTime = endDateTime;
+	}
+
 	public Integer getNeedSubscribe() {
 		return needSubscribe;
 	}

@@ -348,6 +348,10 @@ public class Oauth2Controller extends BaseController {
 	// JS-SDK
 	@Value("${WX.jssdk.ticketUrl}")
 	private String wxJsSdkTicketUrl;
+
+	// 微信卡券
+	@Value("${WX.card.mgr.getUrl}")
+	private String wxCardMgrGetUrl;
 	
 	private static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
@@ -359,6 +363,28 @@ public class Oauth2Controller extends BaseController {
         formatter.close();
         return result;
     }
+
+	public Map getWxCardDetail(String authorizerAppId, String cardId) throws Exception {
+		Map ret = new HashMap();
+
+		String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+		if (StringUtils.isNotBlank(authorizerAccessToken)) {
+			String myWxCardMgrGetUrl = wxCardMgrGetUrl
+					.replace("ACCESS_TOKEN", authorizerAccessToken);
+			Map cardRequestMap = new HashMap();
+			cardRequestMap.put("card_id", cardId);
+			String requestBody = JsonUtils.convertToJson(cardRequestMap);
+			String result = HttpClientUtil.postHttpsJson(myWxCardMgrGetUrl, requestBody);
+			result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+			logger.debug("result: " + result);
+			Map wxJsSdkTicketRespApiPOJO = JsonUtils.convertToJavaBean(result, Map.class);
+			ret = wxJsSdkTicketRespApiPOJO;
+		} else {
+			logger.error("accessToken must be no null, authorizerAppId: {}", authorizerAppId);
+		}
+
+		return ret;
+	}
 
 	@RequestMapping(value = "/api/wx/custom/send/wxcard", method = {RequestMethod.GET})
 	@ResponseBody
@@ -439,7 +465,7 @@ public class Oauth2Controller extends BaseController {
 				wpOrderPOJO.setRespTransactionId(respTransactionId);
 				wpOrderService.updateByOutTradeNo(wpOrderPOJO);
 				
-				// send wxpay card
+				// send wxpay card by using customer api
 				try {
 					wpOrderPOJO = wpOrderService.findByOutTradeNo(outTradeNo);
 					EcOrderPOJO ecOrderPOJO = null;

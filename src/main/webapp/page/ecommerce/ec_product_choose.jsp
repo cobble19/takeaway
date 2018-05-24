@@ -90,12 +90,12 @@
 				            	console.log("data = " + data);
 				            	result = data;
 				            	if (data.success) {
-								$('#appIdUo').val(data.jsPayMap.appId);
-								$('#timestampUo').val(data.jsPayMap.timeStamp);
-								$('#nonceStrUo').val(data.jsPayMap.nonceStr);
-								$('#prepayIdUo').val(data.jsPayMap.prepayId);
-								$('#paySignUo').val(data.jsPayMap.sign);
-								$('#packageUo').val(data.jsPayMap.packageUo);
+									$('#appIdUo').val(data.jsPayMap.appId);
+									$('#timestampUo').val(data.jsPayMap.timeStamp);
+									$('#nonceStrUo').val(data.jsPayMap.nonceStr);
+									$('#prepayIdUo').val(data.jsPayMap.prepayId);
+									$('#paySignUo').val(data.jsPayMap.sign);
+									$('#packageUo').val(data.jsPayMap.packageUo);
 				                	alert('申请订单成功！去付款吧!')
 				            	} else {
 				                	alert('申请订单失败, ' + data.errMessage);
@@ -191,7 +191,27 @@
 				$('#qrcodeModal').on('hide.bs.modal', function (e) {
 					window.location.reload();
 				})
-				////
+				///
+				function validProduct() {
+				    var ret = true;
+                    var startDateTime = $('#startDateTime').val();
+                    var endDateTime = $('#endDateTime').val();
+                    var curDateTime = new Date().getTime();
+                    if (startDateTime > curDateTime) {
+                        $('#myFeeBtn').val('商品还没有开始销售').attr("readonly", true).addClass('disabled');
+                        ret = false;
+                    }
+                    if (endDateTime < curDateTime) {
+                        $('#myFeeBtn').val('商品销售已经结束, 请下次再来').attr("readonly", true).addClass('disabled');
+                        ret = false;
+					}
+
+                    return ret;
+                }
+                validProduct();
+				///
+
+				///
 				
 			})
 		</script>
@@ -228,6 +248,9 @@
 	        		<input type="hidden" id="authorizerAppId" name="authorizerAppId" value="${param.authorizerAppId}">
 	        		<input type="hidden" id="productId" name="productId" value="${ecProductPOJO.productId}">
 	        		<input type="hidden" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}">
+					<input type="hidden" id="limitNumEveryone" name="limitNumEveryone" value="${ecProductPOJO.limitNumEveryone}">
+					<input type="hidden" id="startDateTime" name="startDateTime" value="${ecProductPOJO.startDateTime}">
+					<input type="hidden" id="endDateTime" name="endDateTime" value="${ecProductPOJO.endDateTime}">
                     
                     
 	            <div class="row">
@@ -240,11 +263,11 @@
 		          <div class="col-xs-12" style="margin:10px auto;"><h4 style="color:#F00;">￥<c:out value="${ecProductPOJO.unitPrice / 100}" /></h4></div>
 		        </div> 
 		        <div class="row">
-		          <div class="col-xs-12" style="margin-bottom:5px;"><h5><c:out value="${ecProductPOJO.productName}"></c:out></h5></div>
+		          <div class="col-xs-12" style="margin-bottom:5px;"><h5><c:out value="${ecProductPOJO.productName}"></c:out></h5><span id="countdown"></span></div>
 		        </div>
 		        <div class="row">
 			      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
-			        			<h6 style="color:#aaa9ae"> 库存 <c:out value="${ecProductPOJO.quantityStock}" /></h6>
+			        			<h6 style="color:#aaa9ae"> 库存 <c:out value="${ecProductPOJO.wxCardStock}" /></h6>
 			      </div>
 			    </div>
 		        <div class="row">

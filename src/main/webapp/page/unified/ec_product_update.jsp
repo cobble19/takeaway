@@ -69,18 +69,42 @@
  					<input class="form-control" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}" placeholder="请输入单价(分)">
  				</div>
  			</div>
+			<div class="form-group">
+				<label class="control-label" for="limitNumEveryone">每人限额:</label>
+				<div class="">
+					<input class="form-control" id="limitNumEveryone" name="limitNumEveryone" value="${ecProductPOJO.limitNumEveryone}" placeholder="每人限额">
+				</div>
+			</div>
  			<div class="form-group">
  				<label class="control-label" for="wxCardId">微信卡券ID:</label>
  				<div class="">
  					<input class="form-control" id="wxCardId" name="wxCardId" value="${ecProductPOJO.wxCardId}" placeholder="请输入微信卡券ID">
  				</div>
  			</div>
+			<div class="form-group">
+				<label class="control-label" for="wxCardStock">微信卡券库存:</label>
+				<div class="">
+					<input class="form-control" id="wxCardStock" name="wxCardStock" value="${ecProductPOJO.wxCardStock}" placeholder="请输入微信卡券库存">
+				</div>
+			</div>
  			<div class="form-group">
  				<label class="control-label" for="needSubscribe">是否需要关注公众号:</label>
  				<div class="">
  					<input class="form-control" id="needSubscribe" name="needSubscribe" value="${ecProductPOJO.needSubscribe}" placeholder="请确定是否需要关注公众号, 0-无需关注, 1-需要关注">
  				</div>
  			</div>
+			<div class="form-group">
+				<label class="control-label" for="startDateTime">活动开始时间:</label>
+				<div class="">
+					<input class="form-control" id="startDateTime" name="startDateTime" value="${ecProductPOJO.startDateTime}" required="required" placeholder="请输入开始时间">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="endDateTime">活动结束时间:</label>
+				<div class="">
+					<input class="form-control" id="endDateTime" name="endDateTime" value="${ecProductPOJO.endDateTime}" required="required" placeholder="请输入结束时间">
+				</div>
+			</div>
  			<div class="form-group">
 	 			<div class="">
 	  				<button type="button" class="btn btn-default" id="addBtn">创建</button>

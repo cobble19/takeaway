@@ -10,16 +10,16 @@ $(document).ready(function() {
 		});
 	}
 	
-	/*$('#startDateTime').datetimepicker({
+	$('#startDateTime').datetimepicker({
 		lang:'ch',
 		timepicker:true,
-		format: 'Y-m-d H:i'
+		/*format: 'Y-m-d H:i'*/
 		value: '2015-02-20 20:20:20'
 	});
 	$('#endDateTime').datetimepicker({
 		lang:'ch',
 		timepicker:true,
-		format: 'Y-m-d H:i'
+		/*format: 'Y-m-d H:i'*/
 		value: '2015-02-20 21:22:23'
 	});
 	
@@ -29,7 +29,7 @@ $(document).ready(function() {
 		if (startDateTime >= endDateTime) {
 			alert('结束时间不能小于开始时间');
 		}
-	})*/
+	})
 	
 	$('#ecProductForm').validate();
 
@@ -60,12 +60,12 @@ $(document).ready(function() {
 	})	// upload pic to picture files
 	
 	$('#addBtn').click(function() {
-		/*var startDateTime = $('#startDateTime').val();
+		var startDateTime = $('#startDateTime').val();
 		var endDateTime = $('#endDateTime').val();
 		if (startDateTime >= endDateTime) {
 			alert('结束时间不能小于开始时间');
 			return;
-		}*/
+		}
 		if ($('#ecProductForm').valid()) {
 			$('#ecProductForm').submit();
 		}
