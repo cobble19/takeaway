@@ -337,7 +337,7 @@ public class EcOrderController extends BaseController {
 					Map cardMap = (Map) wxCardDetailMap.get("card");
 					Map cashMap = (Map) cardMap.get("cash");
 					Map baseInfoMap = (Map) cashMap.get("base_info");
-					int getLimit = (Integer) cashMap.get("get_limit");
+					int getLimit = (Integer) baseInfoMap.get("get_limit");
 					Map skuMap = (Map) baseInfoMap.get("sku");
 					wxCardStock = (Integer) skuMap.get("quantity");
 					EcProductPOJO ecProductPOJO4Update = new EcProductPOJO();
