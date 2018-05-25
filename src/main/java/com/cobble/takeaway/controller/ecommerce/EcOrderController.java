@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cobble.takeaway.pojo.weixin.api.WxCardMgrCardApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxCardMgrGetCardListRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -345,13 +347,29 @@ public class EcOrderController extends BaseController {
 					ecProductPOJO4Update.setWxCardStock(wxCardStock);
 					ecProductPOJO4Update.setWxCardLimitNumEveryone(getLimit);
 					ecProductService.update(ecProductPOJO4Update);
-
+					// 数据库订单数量
 					if (orderCount + quantity > getLimit) {
 						ret.put("success", false);
 						ret.put("errMessage", "这个商品每个人只能购买卡券" + getLimit + "个"
 											+ ", 您已经购买了" + orderCount + "个");
 						ret.put("ecProductPOJO", ecProductPOJO);
 						return ret;
+					}
+					// 通过微信api获取卡券数量
+					WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = oauth2Controller.getWxCardList(authorizerAppId, openId, cardId);
+					int hasCardCount = 0;
+					if (wxCardMgrGetCardListRespApiPOJO != null) {
+						List<WxCardMgrCardApiPOJO> wxCardMgrCardApiPOJOs = wxCardMgrGetCardListRespApiPOJO.getWxCardMgrCardApiPOJOs();
+						if (CollectionUtils.isNotEmpty(wxCardMgrCardApiPOJOs)) {
+							hasCardCount = wxCardMgrCardApiPOJOs.size();
+							if (hasCardCount + quantity > getLimit) {
+								ret.put("success", false);
+								ret.put("errMessage", "这个商品每个人只能购买卡券" + getLimit + "个"
+										+ ", 您已经拥有了" + hasCardCount + "个");
+								ret.put("ecProductPOJO", ecProductPOJO);
+								return ret;
+							}
+						}
 					}
 				} catch (Exception e) {
 					logger.error("get getWxCardDetail exception: ", e);

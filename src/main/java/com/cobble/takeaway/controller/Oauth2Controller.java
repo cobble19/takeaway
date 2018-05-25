@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cobble.takeaway.pojo.weixin.api.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -77,53 +78,6 @@ import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
 import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
 import com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO;
-import com.cobble.takeaway.pojo.weixin.api.FuncInfoApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthEventRecvAuthorizedApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerAccessTokenReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerInfoReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerRefreshTokenApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxAuthorizerRefreshTokenReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenSearchApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketEncryptApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxComVerifyTicketSearchApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqTextApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxCustomSendReqWxCardApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxJsSdkTicketRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondDeleteReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuCondRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrMenuInfoRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMenuMgrTryMatchReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRecvEventApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxMsgEventRespTextApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxPreAuthCodeReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxQrCodeTicketReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxQrCodeTicketRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrBatchTaggingReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrGetIdListReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrGetIdListRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrTagDeleteReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrTagsRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrUpateReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrUserReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxTagsMgrUserRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxUserGetRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxUserInfoApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetReqApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxUserInfoListBatchGetRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayOrderQueryReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderReqApiPOJO;
@@ -352,6 +306,8 @@ public class Oauth2Controller extends BaseController {
 	// 微信卡券
 	@Value("${WX.card.mgr.getUrl}")
 	private String wxCardMgrGetUrl;
+	@Value("${WX.card.mgr.getCardListUrl}")
+	private String wxCardMgrGetCardListUrl;
 	
 	private static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
@@ -363,6 +319,29 @@ public class Oauth2Controller extends BaseController {
         formatter.close();
         return result;
     }
+
+	public WxCardMgrGetCardListRespApiPOJO getWxCardList(String authorizerAppId, String openId, String cardId) throws Exception {
+		WxCardMgrGetCardListRespApiPOJO ret = new WxCardMgrGetCardListRespApiPOJO();
+		logger.info("authorizerAppId: {}, openId: {}, cardId: {}", authorizerAppId, openId, cardId);
+		String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+		if (StringUtils.isNotBlank(authorizerAccessToken)) {
+			String myWxCardMgrGetCardListUrl = wxCardMgrGetCardListUrl
+					.replace("TOKEN", authorizerAccessToken);
+			WxCardMgrGetCardListReqApiPOJO wxCardMgrGetCardListReqApiPOJO = new WxCardMgrGetCardListReqApiPOJO();
+			wxCardMgrGetCardListReqApiPOJO.setOpenId(openId);
+			wxCardMgrGetCardListReqApiPOJO.setCardId(cardId);
+			String requestBody = JsonUtils.convertToJson(wxCardMgrGetCardListReqApiPOJO);
+			String result = HttpClientUtil.postHttpsJson(myWxCardMgrGetCardListUrl, requestBody);
+			result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+			logger.debug("result: " + result);
+			WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = JsonUtils.convertToJavaBean(result, WxCardMgrGetCardListRespApiPOJO.class);
+			ret = wxCardMgrGetCardListRespApiPOJO;
+		} else {
+			logger.error("accessToken must be no null, authorizerAppId: {}", authorizerAppId);
+		}
+
+		return ret;
+	}
 
 	public Map getWxCardDetail(String authorizerAppId, String cardId) throws Exception {
 		Map ret = new HashMap();
