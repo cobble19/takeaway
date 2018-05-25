@@ -319,10 +319,12 @@ public class EcOrderController extends BaseController {
 				wpOrderSearchPOJO.setOpenId(openId);
 				wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
 				wpOrderSearchPOJO.setRespResultCode("SUCCESS");
+				// 已购买卡券个数
 				int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
-				if (orderCount >= ecProductPOJO.getLimitNumEveryone()) {
+				if (orderCount + quantity > ecProductPOJO.getLimitNumEveryone()) {
 					ret.put("success", false);
-					ret.put("errMessage", "这个商品每个人只能购买" + ecProductPOJO.getLimitNumEveryone() + "个");
+					ret.put("errMessage", "这个商品每个人只能购买" + ecProductPOJO.getLimitNumEveryone() + "个"
+										+ ", 您已经购买了" + orderCount + "个");
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
 				}
@@ -333,14 +335,24 @@ public class EcOrderController extends BaseController {
 				int wxCardStock = 0;
 				try {
 					Map cardMap = (Map) wxCardDetailMap.get("card");
-					Map discountMap = (Map) cardMap.get("discount");
-					Map baseInfoMap = (Map) discountMap.get("base_info");
+					Map cashMap = (Map) cardMap.get("cash");
+					Map baseInfoMap = (Map) cashMap.get("base_info");
+					int getLimit = (Integer) cashMap.get("get_limit");
 					Map skuMap = (Map) baseInfoMap.get("sku");
 					wxCardStock = (Integer) skuMap.get("quantity");
 					EcProductPOJO ecProductPOJO4Update = new EcProductPOJO();
 					ecProductPOJO4Update.setProductId(productId);
 					ecProductPOJO4Update.setWxCardStock(wxCardStock);
+					ecProductPOJO4Update.setWxCardLimitNumEveryone(getLimit);
 					ecProductService.update(ecProductPOJO4Update);
+
+					if (orderCount + quantity > getLimit) {
+						ret.put("success", false);
+						ret.put("errMessage", "这个商品每个人只能购买卡券" + getLimit + "个"
+											+ ", 您已经购买了" + orderCount + "个");
+						ret.put("ecProductPOJO", ecProductPOJO);
+						return ret;
+					}
 				} catch (Exception e) {
 					logger.error("get getWxCardDetail exception: ", e);
 				}

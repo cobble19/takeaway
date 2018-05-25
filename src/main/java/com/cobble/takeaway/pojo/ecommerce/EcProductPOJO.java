@@ -19,7 +19,8 @@ public class EcProductPOJO extends BasePOJO {
 	
 	private String wxCardId;
 	private Integer wxCardStock;
-	
+	private Integer wxCardLimitNumEveryone;
+
 	private Integer needSubscribe;
 
 	private Date startDateTime;
@@ -27,6 +28,14 @@ public class EcProductPOJO extends BasePOJO {
 	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public Integer getWxCardLimitNumEveryone() {
+		return wxCardLimitNumEveryone;
+	}
+
+	public void setWxCardLimitNumEveryone(Integer wxCardLimitNumEveryone) {
+		this.wxCardLimitNumEveryone = wxCardLimitNumEveryone;
+	}
 
 	public Integer getLimitNumEveryone() {
 		return limitNumEveryone;

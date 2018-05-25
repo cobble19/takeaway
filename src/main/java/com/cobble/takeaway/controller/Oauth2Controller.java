@@ -370,7 +370,7 @@ public class Oauth2Controller extends BaseController {
 		String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 		if (StringUtils.isNotBlank(authorizerAccessToken)) {
 			String myWxCardMgrGetUrl = wxCardMgrGetUrl
-					.replace("ACCESS_TOKEN", authorizerAccessToken);
+					.replace("TOKEN", authorizerAccessToken);
 			Map cardRequestMap = new HashMap();
 			cardRequestMap.put("card_id", cardId);
 			String requestBody = JsonUtils.convertToJson(cardRequestMap);

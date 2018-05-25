@@ -194,15 +194,17 @@
 				///
 				function validProduct() {
 				    var ret = true;
-                    var startDateTime = $('#startDateTime').val();
-                    var endDateTime = $('#endDateTime').val();
+                    var startDateTime = new Date($('#startDateTime').val()).getTime();
+                    var endDateTime = new Date($('#endDateTime').val()).getTime();
                     var curDateTime = new Date().getTime();
                     if (startDateTime > curDateTime) {
-                        $('#myFeeBtn').val('商品还没有开始销售').attr("readonly", true).addClass('disabled');
+                        $('#myFeeBtn').val('商品还没有开始销售').attr("readonly", true).addClass('disabled')
+							.attr('disabled', true);
                         ret = false;
                     }
                     if (endDateTime < curDateTime) {
-                        $('#myFeeBtn').val('商品销售已经结束, 请下次再来').attr("readonly", true).addClass('disabled');
+                        $('#myFeeBtn').val('商品销售已经结束, 请下次再来').attr("readonly", true).addClass('disabled')
+                            .attr('disabled', true);
                         ret = false;
 					}
 
