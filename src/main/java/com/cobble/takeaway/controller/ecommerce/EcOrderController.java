@@ -357,15 +357,15 @@ public class EcOrderController extends BaseController {
 					}
 					// 通过微信api获取卡券数量
 					WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = oauth2Controller.getWxCardList(authorizerAppId, openId, cardId);
-					int hasCardCount = 0;
+					int wxCardCount = 0;
 					if (wxCardMgrGetCardListRespApiPOJO != null) {
 						List<WxCardMgrCardApiPOJO> wxCardMgrCardApiPOJOs = wxCardMgrGetCardListRespApiPOJO.getWxCardMgrCardApiPOJOs();
 						if (CollectionUtils.isNotEmpty(wxCardMgrCardApiPOJOs)) {
-							hasCardCount = wxCardMgrCardApiPOJOs.size();
-							if (hasCardCount + quantity > getLimit) {
+							wxCardCount = wxCardMgrCardApiPOJOs.size();
+							if (wxCardCount + quantity > getLimit) {
 								ret.put("success", false);
 								ret.put("errMessage", "这个商品每个人只能购买卡券" + getLimit + "个"
-										+ ", 您已经拥有了" + hasCardCount + "个");
+										+ ", 您已经拥有了" + wxCardCount + "个");
 								ret.put("ecProductPOJO", ecProductPOJO);
 								return ret;
 							}
@@ -579,6 +579,52 @@ public class EcOrderController extends BaseController {
 				return ret;
 			} else {
 				ret.addObject("ecProductPOJO", ecProductPOJO);
+// 获取购买的商品个数
+                WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
+                wpOrderSearchPOJO.setEcProductId(productId);
+                wpOrderSearchPOJO.setOpenId(openId);
+                wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
+                wpOrderSearchPOJO.setRespResultCode("SUCCESS");
+                // 已购买商品(卡券)个数
+                int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
+                ret.addObject("orderCount", orderCount);
+
+                // 通过微信卡券接口得到卡券的库存
+                String cardId = ecProductPOJO.getWxCardId();
+                Map wxCardDetailMap = oauth2Controller.getWxCardDetail(authorizerAppId, cardId);
+                int wxCardStock = 0;
+                try {
+                    Map cardMap = (Map) wxCardDetailMap.get("card");
+                    Map cashMap = (Map) cardMap.get("cash");
+                    Map baseInfoMap = (Map) cashMap.get("base_info");
+                    int getLimit = (Integer) baseInfoMap.get("get_limit");
+                    Map skuMap = (Map) baseInfoMap.get("sku");
+                    wxCardStock = (Integer) skuMap.get("quantity");
+                    /*EcProductPOJO ecProductPOJO4Update = new EcProductPOJO();
+                    ecProductPOJO4Update.setProductId(productId);
+                    ecProductPOJO4Update.setWxCardStock(wxCardStock);
+                    ecProductPOJO4Update.setWxCardLimitNumEveryone(getLimit);
+                    ecProductService.update(ecProductPOJO4Update);*/
+
+                    // 数据库订单数量
+                    ecProductPOJO.setWxCardStock(wxCardStock);
+                    ret.addObject("wxCardLimit", getLimit);
+
+                    // 通过微信api获取卡券数量
+                    WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = oauth2Controller.getWxCardList(authorizerAppId, openId, cardId);
+                    int wxCardCount = 0;
+                    if (wxCardMgrGetCardListRespApiPOJO != null) {
+                        List<WxCardMgrCardApiPOJO> wxCardMgrCardApiPOJOs = wxCardMgrGetCardListRespApiPOJO.getWxCardMgrCardApiPOJOs();
+                        if (CollectionUtils.isNotEmpty(wxCardMgrCardApiPOJOs)) {
+                            wxCardCount = wxCardMgrCardApiPOJOs.size();
+                        }
+                    }
+                    ret.addObject("wxCardCount", wxCardCount);
+
+                } catch (Exception e1) {
+                    logger.error("get getWxCardDetail exception: ", e1);
+                }
+
 				if (ecProductPOJO.getQuantityStock() < 1) {
 					ret.addObject("success", false);
 					ret.addObject("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());

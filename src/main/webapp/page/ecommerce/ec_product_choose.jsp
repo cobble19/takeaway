@@ -207,6 +207,29 @@
                             .attr('disabled', true);
                         ret = false;
 					}
+                    var quantityStock = parseInt($('#quantityStock').val());
+                    var wxCardStock = parseInt($('#wxCardStock').val());
+
+					var limitNumEveryone = parseInt($('#limitNumEveryone').val());
+					var quantity = parseInt($('#quantity').val());
+                    var orderCount = parseInt($('#orderCount').val());
+                    var wxCardLimit = parseInt($('#wxCardLimit').val());
+                    var wxCardCount = parseInt($('#wxCardCount').val());
+                    if (quantityStock < quantity || wxCardStock < quantity) {
+                        $('#myFeeBtn').val('库存不足').attr("readonly", true).addClass('disabled')
+                            .attr('disabled', true);
+                        ret = false;
+					}
+                    if (orderCount + quantity > limitNumEveryone || orderCount + quantity > wxCardLimit) {
+                        $('#myFeeBtn').val('购买超过限额').attr("readonly", true).addClass('disabled')
+                            .attr('disabled', true);
+                        ret = false;
+					}
+                    if (wxCardCount + quantity > limitNumEveryone || wxCardCount + quantity > wxCardLimit) {
+                        $('#myFeeBtn').val('购买超过限额').attr("readonly", true).addClass('disabled')
+                            .attr('disabled', true);
+                        ret = false;
+                    }
 
                     return ret;
                 }
@@ -250,9 +273,15 @@
 	        		<input type="hidden" id="authorizerAppId" name="authorizerAppId" value="${param.authorizerAppId}">
 	        		<input type="hidden" id="productId" name="productId" value="${ecProductPOJO.productId}">
 	        		<input type="hidden" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}">
+					<input type="hidden" id="quantityStock" name="quantityStock" value="${ecProductPOJO.quantityStock}">
+					<input type="hidden" id="wxCardStock" name="wxCardStock" value="${ecProductPOJO.wxCardStock}">
 					<input type="hidden" id="limitNumEveryone" name="limitNumEveryone" value="${ecProductPOJO.limitNumEveryone}">
 					<input type="hidden" id="startDateTime" name="startDateTime" value="${ecProductPOJO.startDateTime}">
 					<input type="hidden" id="endDateTime" name="endDateTime" value="${ecProductPOJO.endDateTime}">
+
+					<input type="hidden" id="orderCount" name="orderCount" value="${orderCount}">
+					<input type="hidden" id="wxCardLimit" name="wxCardLimit" value="${wxCardLimit}">
+					<input type="hidden" id="wxCardCount" name="wxCardCount" value="${wxCardCount}">
                     
                     
 	            <div class="row">
@@ -265,7 +294,7 @@
 		          <div class="col-xs-12" style="margin:10px auto;"><h4 style="color:#F00;">￥<c:out value="${ecProductPOJO.unitPrice / 100}" /></h4></div>
 		        </div> 
 		        <div class="row">
-		          <div class="col-xs-12" style="margin-bottom:5px;"><h5><c:out value="${ecProductPOJO.productName}"></c:out></h5><span id="countdown"></span></div>
+		          <div class="col-xs-12" style="margin-bottom:5px;"><h5><c:out value="${ecProductPOJO.productName}"></c:out></h5></div>
 		        </div>
 		        <div class="row">
 			      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
@@ -345,8 +374,6 @@
         </div>
         
         <!-- 显示公众号二维码 -->
-        
-				<!-- 登陆 -->
 	    <div class="modal fade" id="qrcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="row">
 		        <div class="col-md-1 col-sm-1 col-xs-1">
