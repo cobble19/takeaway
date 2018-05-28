@@ -95,14 +95,16 @@
  			</div>
 			<div class="form-group">
 				<label class="control-label" for="startDateTime">活动开始时间:</label>
+				<input type="hidden" id="startDateTimeX" value="${ecProductPOJO.startDateTime}">
 				<div class="">
-					<input class="form-control" id="startDateTime" name="startDateTime" value="${ecProductPOJO.startDateTime}" required="required" placeholder="请输入开始时间">
+					<input class="form-control" id="startDateTime" name="startDateTime" value="" required="required" placeholder="请输入开始时间">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label" for="endDateTime">活动结束时间:</label>
+				<input type="hidden" id="endDateTimeX" value="${ecProductPOJO.endDateTime}">
 				<div class="">
-					<input class="form-control" id="endDateTime" name="endDateTime" value="${ecProductPOJO.endDateTime}" required="required" placeholder="请输入结束时间">
+					<input class="form-control" id="endDateTime" name="endDateTime" value="" required="required" placeholder="请输入结束时间">
 				</div>
 			</div>
  			<div class="form-group">

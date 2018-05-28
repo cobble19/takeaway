@@ -8,7 +8,11 @@
 	<head>
 		<%@include file="../../page/common/head.jsp"%>
 		
+        <link rel="stylesheet" href="<cmn:base/>/js/thirdpart/countdown/jquery.countdown.css" />
+		<script src="<cmn:base/>/js/thirdpart/countdown/jquery.countdown.js"></script>
+		
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/progress_dialog.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/count_down.js"></script>
 		<script type="text/javascript">
 			$(function() {
 // 				alert(location.href.split('#')[0]);
@@ -190,7 +194,7 @@
 				///
 				$('#qrcodeModal').on('hide.bs.modal', function (e) {
 					window.location.reload();
-				})
+				});
 				///
 				function validProduct() {
 				    var ret = true;
@@ -203,7 +207,7 @@
                         ret = false;
                     }
                     if (endDateTime < curDateTime) {
-                        $('#myFeeBtn').val('商品销售已经结束, 请下次再来').attr("readonly", true).addClass('disabled')
+                        $('#myFeeBtn').val('商品销售已经结束').attr("readonly", true).addClass('disabled')
                             .attr('disabled', true);
                         ret = false;
 					}
@@ -216,7 +220,7 @@
                     var wxCardLimit = parseInt($('#wxCardLimit').val());
                     var wxCardCount = parseInt($('#wxCardCount').val());
                     if (quantityStock < quantity || wxCardStock < quantity) {
-                        $('#myFeeBtn').val('库存不足').attr("readonly", true).addClass('disabled')
+                        $('#myFeeBtn').val('商品已全部售罄').attr("readonly", true).addClass('disabled')
                             .attr('disabled', true);
                         ret = false;
 					}
@@ -298,7 +302,15 @@
 		        </div>
 		        <div class="row">
 			      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
-			        			<h6 style="color:#aaa9ae"> 库存 <c:out value="${ecProductPOJO.wxCardStock}" /></h6>
+			        <h6 style="color:#aaa9ae"> 库存 <c:out value="${ecProductPOJO.wxCardStock > ecProductPOJO.quantityStock ? ecProductPOJO.quantityStock : ecProductPOJO.wxCardStock}" /></h6>
+			      </div>
+			    </div>
+			    <div class="row">
+			      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
+					开始倒计时: <div id="countdownStart"></div>
+					<p id="noteStart"></p>
+					结束倒计时: <div id="countdownEnd"></div>
+					<p id="noteEnd"></p>
 			      </div>
 			    </div>
 		        <div class="row">

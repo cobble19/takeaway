@@ -14,16 +14,16 @@ $(document).ready(function() {
 	$('#startDateTime').datetimepicker({
 		lang:'ch',
 		timepicker:true,
-		/*format: 'Y-m-d H:i'*/
-		value: '2015-02-20 20:20:20'
+		/*format: 'Y/m/d H:i',*/
+		value: ''
 	});
 	$('#endDateTime').datetimepicker({
 		lang:'ch',
 		timepicker:true,
-		/*format: 'Y-m-d H:i'*/
-		value: '2015-02-20 21:22:23'
+		/*format: 'Y/m/d H:i'*/
+		value: ''
 	});
-	
+
 	/*$('#startDateTime, #endDateTime').change(function() {
 		var startDateTime = $('#startDateTime').val();
 		var endDateTime = $('#endDateTime').val();
@@ -73,7 +73,11 @@ $(document).ready(function() {
 			$('#ecProductForm').submit();
 		}
 		return ;
-	})
+	});
+
+	// console.log(new Date($('#startDateTimeX').val().replace('CST', '')).format('Y/m/d H:i'));
+    $('#startDateTime').val(new Date($('#startDateTimeX').val().replace('CST', '')).format('Y/m/d H:i'));
+    $('#endDateTime').val(new Date($('#endDateTimeX').val().replace('CST', '')).format('Y/m/d H:i'));
 	
 })
 

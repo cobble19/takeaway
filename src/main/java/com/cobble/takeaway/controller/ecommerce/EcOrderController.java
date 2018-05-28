@@ -1,42 +1,5 @@
 package com.cobble.takeaway.controller.ecommerce;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.cobble.takeaway.pojo.weixin.api.WxCardMgrCardApiPOJO;
-import com.cobble.takeaway.pojo.weixin.api.WxCardMgrGetCardListRespApiPOJO;
-import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.http.MediaType;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.cobble.takeaway.controller.BaseController;
 import com.cobble.takeaway.controller.Oauth2Controller;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
@@ -48,8 +11,11 @@ import com.cobble.takeaway.pojo.ecommerce.EcOrderSearchPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcProductPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxCardMgrCardApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxCardMgrGetCardListRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
+import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayOrderQueryReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderReqApiPOJO;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
@@ -63,7 +29,28 @@ import com.cobble.takeaway.util.HttpRequestUtil;
 import com.cobble.takeaway.util.UserUtil;
 import com.github.wxpay.sdk.MyWXPayConfigImpl;
 import com.github.wxpay.sdk.WXPayConstants;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.http.MediaType;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 @Controller
 public class EcOrderController extends BaseController {
@@ -378,7 +365,7 @@ public class EcOrderController extends BaseController {
 				// 验证库存
 				if (ecProductPOJO.getQuantityStock() < quantity || wxCardStock < quantity) {
 					ret.put("success", false);
-					ret.put("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock() + "/" + wxCardStock);
+					ret.put("errMessage", "商品已全部售罄: " + ecProductPOJO.getQuantityStock() + "/" + wxCardStock);
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
 				} else {
@@ -591,13 +578,14 @@ public class EcOrderController extends BaseController {
 
                 // 通过微信卡券接口得到卡券的库存
                 String cardId = ecProductPOJO.getWxCardId();
-                Map wxCardDetailMap = oauth2Controller.getWxCardDetail(authorizerAppId, cardId);
                 int wxCardStock = 0;
+                int getLimit = 0;
                 try {
+                    Map wxCardDetailMap = oauth2Controller.getWxCardDetail(authorizerAppId, cardId);
                     Map cardMap = (Map) wxCardDetailMap.get("card");
                     Map cashMap = (Map) cardMap.get("cash");
                     Map baseInfoMap = (Map) cashMap.get("base_info");
-                    int getLimit = (Integer) baseInfoMap.get("get_limit");
+                    getLimit = (Integer) baseInfoMap.get("get_limit");
                     Map skuMap = (Map) baseInfoMap.get("sku");
                     wxCardStock = (Integer) skuMap.get("quantity");
                     /*EcProductPOJO ecProductPOJO4Update = new EcProductPOJO();
@@ -623,11 +611,13 @@ public class EcOrderController extends BaseController {
 
                 } catch (Exception e1) {
                     logger.error("get getWxCardDetail exception: ", e1);
+                    ret.addObject("wxCardLimit", 0);
+                    ret.addObject("wxCardCount", 0);
                 }
 
 				if (ecProductPOJO.getQuantityStock() < 1) {
 					ret.addObject("success", false);
-					ret.addObject("errMessage", "商品库存不足: " + ecProductPOJO.getQuantityStock());
+					ret.addObject("errMessage", "商品已全部售罄: " + ecProductPOJO.getQuantityStock());
 					return ret;
 				}
 			}
