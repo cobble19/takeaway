@@ -93,6 +93,8 @@
 		
 		<mapper resource="mybatis-config/EcProductMapper.xml" />
 		<mapper resource="mybatis-config/EcOrderMapper.xml" />
+
+		<mapper resource="mybatis-config/WxMsgEventLogMapper.xml" />
 		
 	</mappers>
 </configuration>

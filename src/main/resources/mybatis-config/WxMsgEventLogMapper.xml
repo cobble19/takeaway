@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.weixin.WxMsgEventLogMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property authorizerAppId="timeToIdleSeconds" value="3600" />
+		<property authorizerAppId="timeToLiveSeconds" value="3600" />
+		<property authorizerAppId="maxEntriesLocalHeap" value="1000" />
+		<property authorizerAppId="maxEntriesLocalDisk" value="10000000" />
+		<property authorizerAppId="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WxMsgEventLogResultMap" type="com.cobble.takeaway.pojo.weixin.WxMsgEventLogPOJO" >
+    <id column="WX_MSG_EVENT_LOG_ID" property="wxMsgEventLogId" />
+    <result column="AUTHORIZER_APPID" property="authorizerAppId"/>
+    <result column="SIGNATURE" property="signature" />
+    <result column="TIMESTAMP" property="timestamp" />
+    <result column="NONCE" property="nonce" />
+    <result column="OPEN_ID" property="openId" />
+    <result column="ENCRYPT_TYPE" property="encryptType" />
+    <result column="MSG_SIGNATURE" property="msgSignature" />
+    <result column="TO_USER_NAME" property="toUserName" />
+    <result column="FROM_USER_NAME" property="fromUserName" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="MSG_TYPE" property="msgType" />
+    <result column="EVENT" property="event" />
+    <result column="RAW_DATA" property="rawData" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WX_MSG_EVENT_LOG_ID, a.AUTHORIZER_APPID, a.SIGNATURE, a.TIMESTAMP, a.NONCE
+    , a.OPEN_ID, a.ENCRYPT_TYPE, a.MSG_SIGNATURE, a.TO_USER_NAME
+    , a.FROM_USER_NAME, a.CREATE_TIME
+    , a.MSG_TYPE, a.EVENT
+    , a.RAW_DATA
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="wxMsgEventLogId != null">
+		and a.WX_MSG_EVENT_LOG_ID = #{wxMsgEventLogId}
+	</if>
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APPID = #{authorizerAppId}
+	</if>
+    <if test="openId != null">
+      and a.OPEN_ID = #{openId}
+    </if>
+    <if test="toUserName != null">
+      and a.TO_USER_NAME = #{toUserName}
+    </if>
+    <if test="fromUserName != null">
+      and a.FROM_USER_NAME = #{fromUserName}
+    </if>
+    <if test="msgType != null">
+      and a.MSG_TYPE = #{msgType}
+    </if>
+    <if test="event != null">
+      and a.EVENT = #{event}
+    </if>
+  </sql>
+  
+  <select id="finds" resultMap="WxMsgEventLogResultMap" parameterType="com.cobble.takeaway.pojo.weixin.WxMsgEventLogSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WX_MSG_EVENT_LOG a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.WxMsgEventLogSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WX_MSG_EVENT_LOG a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WxMsgEventLogResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_MSG_EVENT_LOG a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WX_MSG_EVENT_LOG_ID = #{wxMsgEventLogId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WX_MSG_EVENT_LOG
+    where WX_MSG_EVENT_LOG_ID = #{wxMsgEventLogId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.WxMsgEventLogPOJO" useGeneratedKeys="true"
+  	keyProperty="wxMsgEventLogId" keyColumn="WX_MSG_EVENT_LOG_ID">
+    insert into WX_MSG_EVENT_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID,
+      </if>
+      <if test="signature != null" >
+        SIGNATURE,
+      </if>
+      <if test="timestamp != null" >
+        TIMESTAMP,
+      </if>
+      <if test="nonce != null" >
+        NONCE,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="encryptType != null" >
+        ENCRYPT_TYPE,
+      </if>
+      <if test="msgSignature != null" >
+        MSG_SIGNATURE,
+      </if>
+      <if test="toUserName != null" >
+        TO_USER_NAME,
+      </if>
+      <if test="fromUserName != null" >
+        FROM_USER_NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="msgType != null" >
+        MSG_TYPE,
+      </if>
+      <if test="event != null" >
+        EVENT,
+      </if>
+      <if test="rawData != null" >
+        RAW_DATA,
+      </if>
+        CREATE_DATE_TIME,
+        LAST_MODIFIED_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="signature != null" >
+        #{signature},
+      </if>
+      <if test="timestamp != null" >
+        #{timestamp},
+      </if>
+      <if test="nonce != null" >
+        #{nonce},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="encryptType != null" >
+        #{encryptType},
+      </if>
+      <if test="msgSignature != null" >
+        #{msgSignature},
+      </if>
+      <if test="toUserName != null" >
+        #{toUserName},
+      </if>
+      <if test="fromUserName != null" >
+        #{fromUserName},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="msgType != null" >
+        #{msgType},
+      </if>
+      <if test="event != null" >
+        #{event},
+      </if>
+      <if test="rawData != null" >
+        #{rawData},
+      </if>
+        sysdate(),
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.WxMsgEventLogPOJO" >
+    update WX_MSG_EVENT_LOG
+    <set >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID = #{authorizerAppId},
+      </if>
+      <if test="signature != null" >
+        SIGNATURE = #{signature},
+      </if>
+      <if test="timestamp != null" >
+        TIMESTAMP = #{timestamp},
+      </if>
+      <if test="nonce != null" >
+        NONCE = #{nonce},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="encryptType != null" >
+        ENCRYPT_TYPE = #{encryptType},
+      </if>
+      <if test="msgSignature != null" >
+        MSG_SIGNATURE = #{msgSignature},
+      </if>
+      <if test="toUserName != null" >
+        TO_USER_NAME = #{toUserName},
+      </if>
+      <if test="fromUserName != null" >
+        FROM_USER_NAME = #{fromUserName},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime},
+      </if>
+      <if test="msgType != null" >
+        MSG_TYPE = #{msgType},
+      </if>
+      <if test="event != null" >
+        EVENT = #{event},
+      </if>
+      <if test="rawData != null" >
+        RAW_DATA = #{rawData},
+      </if>
+        <!-- CREATE_DATE_TIME = sysdate(), -->
+        LAST_MODIFIED_DATE_TIME = sysdate(),
+    </set>
+    where WX_MSG_EVENT_LOG_ID = #{wxMsgEventLogId}
+  </update>
+  
+</mapper>

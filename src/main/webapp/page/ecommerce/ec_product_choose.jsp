@@ -306,10 +306,12 @@
 			      </div>
 			    </div>
 			    <div class="row">
-			      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
-					开始倒计时: <div id="countdownStart"></div>
+			      <div class="col-md-12 col-sm-12" id="countdownStartDiv" style="margin-bottom:5px; display: none;">
+					开始倒计时: <div id="countdownStart" style="display: none;"></div>
 					<p id="noteStart"></p>
-					结束倒计时: <div id="countdownEnd"></div>
+			      </div>
+			      <div class="col-md-12 col-sm-12" id="countdownEndDiv" style="margin-bottom:5px; display: none;">
+					结束倒计时: <div id="countdownEnd" style="display: none;"></div>
 					<p id="noteEnd"></p>
 			      </div>
 			    </div>

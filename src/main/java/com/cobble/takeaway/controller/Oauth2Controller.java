@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cobble.takeaway.pojo.weixin.*;
 import com.cobble.takeaway.pojo.weixin.api.*;
+import com.cobble.takeaway.service.weixin.WxMsgEventLogService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -70,14 +72,6 @@ import com.cobble.takeaway.pojo.RelWxIndexMapSearchPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcOrderPOJO;
-import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
-import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
-import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenPOJO;
-import com.cobble.takeaway.pojo.weixin.WxAuthorizerRefreshTokenSearchPOJO;
-import com.cobble.takeaway.pojo.weixin.WxPersonUserPOJO;
-import com.cobble.takeaway.pojo.weixin.WxPersonUserSearchPOJO;
-import com.cobble.takeaway.pojo.weixin.WxRespMsgPOJO;
-import com.cobble.takeaway.pojo.weixin.WxRespMsgSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayOrderQueryReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderReqApiPOJO;
@@ -179,6 +173,8 @@ public class Oauth2Controller extends BaseController {
 	
 	@Autowired
 	private EcOrderService ecOrderService;
+	@Autowired
+	private WxMsgEventLogService wxMsgEventLogService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -3940,6 +3936,7 @@ public class Oauth2Controller extends BaseController {
 			logger.info("Paintext: {}", result);
 			
 			if (StringUtils.isBlank(result)) {
+				logger.error("msgEventRecieve result is null, please check it.");
 				return "success";
 			}
 			
@@ -3955,6 +3952,27 @@ public class Oauth2Controller extends BaseController {
 				String toUserName = XmlUtils.getNodeString(result, "/xml/ToUserName");
 				String fromUserName = XmlUtils.getNodeString(result, "/xml/FromUserName");
 				String createTime = XmlUtils.getNodeString(result, "/xml/CreateTime");
+				String event = XmlUtils.getNodeString(result, "/xml/Event");
+
+				// 保存所有的msg event进DB
+				WxMsgEventLogPOJO wxMsgEventLogPOJO = new WxMsgEventLogPOJO();
+				wxMsgEventLogPOJO.setAuthorizerAppId(authorizerAppId);
+				wxMsgEventLogPOJO.setSignature(signature);
+				wxMsgEventLogPOJO.setTimestamp(timestamp);
+				wxMsgEventLogPOJO.setNonce(nonce);
+				wxMsgEventLogPOJO.setOpenId(openid);
+				wxMsgEventLogPOJO.setEncryptType(encryptType);
+				wxMsgEventLogPOJO.setMsgSignature(msgSignature);
+				wxMsgEventLogPOJO.setToUserName(toUserName);
+				wxMsgEventLogPOJO.setFromUserName(fromUserName);
+				wxMsgEventLogPOJO.setCreateTime(createTime);
+				wxMsgEventLogPOJO.setMsgType(msgType);
+				wxMsgEventLogPOJO.setEvent(event);
+				wxMsgEventLogPOJO.setRawData(result);
+				wxMsgEventLogPOJO.setCreateDateTime(new Date());
+				wxMsgEventLogPOJO.setLastModifiedDateTime(new Date());
+
+				wxMsgEventLogService.insert(wxMsgEventLogPOJO);
 				
 				// 获取公众号的信息, 确定是哪个公众号收到信息
 				WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
