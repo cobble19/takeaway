@@ -198,8 +198,8 @@
 				///
 				function validProduct() {
 				    var ret = true;
-                    var startDateTime = new Date($('#startDateTime').val()).getTime();
-                    var endDateTime = new Date($('#endDateTime').val()).getTime();
+                    var startDateTime = new Date($('#startDateTime').val().replace('CST', '')).getTime();
+                    var endDateTime = new Date($('#endDateTime').val().replace('CST', '')).getTime();
                     var curDateTime = new Date().getTime();
                     if (startDateTime > curDateTime) {
                         $('#myFeeBtn').val('商品还没有开始销售').attr("readonly", true).addClass('disabled')
@@ -306,12 +306,12 @@
 			      </div>
 			    </div>
 			    <div class="row">
-			      <div class="col-md-12 col-sm-12" id="countdownStartDiv" style="margin-bottom:5px; display: none;">
-					开始倒计时: <div id="countdownStart" style="display: none;"></div>
+			      <div class="col-md-12 col-sm-12" id="countDownStartDiv" style="margin-bottom:5px; display: none;">
+					开始倒计时: <div id="countDownStart" style="display: none;"></div>
 					<p id="noteStart"></p>
 			      </div>
-			      <div class="col-md-12 col-sm-12" id="countdownEndDiv" style="margin-bottom:5px; display: none;">
-					结束倒计时: <div id="countdownEnd" style="display: none;"></div>
+			      <div class="col-md-12 col-sm-12" id="countDownEndDiv" style="margin-bottom:5px; display: none;">
+					结束倒计时: <div id="countDownEnd" style="display: none;"></div>
 					<p id="noteEnd"></p>
 			      </div>
 			    </div>
