@@ -215,8 +215,14 @@
                     var wxCardStock = parseInt($('#wxCardStock').val());
 
 					var limitNumEveryone = parseInt($('#limitNumEveryone').val());
+                    var limitNumDay = quantityStock + 9999;
+                    if ($('#limitNumDay').val() != null && $('#limitNumDay').val() != '') {
+                    		limitNumDay = parseInt($('#limitNumDay').val());
+                    }
+                    
 					var quantity = parseInt($('#quantity').val());
                     var orderCount = parseInt($('#orderCount').val());
+                    var orderCountToday = parseInt($('#orderCountToday').val());
                     var wxCardLimit = parseInt($('#wxCardLimit').val());
                     var wxCardCount = parseInt($('#wxCardCount').val());
                     if (quantityStock < quantity || wxCardStock < quantity) {
@@ -229,6 +235,11 @@
                             .attr('disabled', true);
                         ret = false;
 					}
+                    if (orderCountToday + quantity > limitNumDay || orderCountToday + quantity > limitNumDay) {
+                        $('#myFeeBtn').val('购买超过每天限额').attr("readonly", true).addClass('disabled')
+                            .attr('disabled', true);
+                        ret = false;
+                    }
                     if (wxCardCount + quantity > limitNumEveryone || wxCardCount + quantity > wxCardLimit) {
                         $('#myFeeBtn').val('购买超过限额').attr("readonly", true).addClass('disabled')
                             .attr('disabled', true);
@@ -280,10 +291,12 @@
 					<input type="hidden" id="quantityStock" name="quantityStock" value="${ecProductPOJO.quantityStock}">
 					<input type="hidden" id="wxCardStock" name="wxCardStock" value="${ecProductPOJO.wxCardStock}">
 					<input type="hidden" id="limitNumEveryone" name="limitNumEveryone" value="${ecProductPOJO.limitNumEveryone}">
+					<input type="hidden" id="limitNumDay" name="limitNumDay" value="${ecProductPOJO.limitNumDay}">
 					<input type="hidden" id="startDateTime" name="startDateTime" value="${ecProductPOJO.startDateTime}">
 					<input type="hidden" id="endDateTime" name="endDateTime" value="${ecProductPOJO.endDateTime}">
 
 					<input type="hidden" id="orderCount" name="orderCount" value="${orderCount}">
+					<input type="hidden" id="orderCountToday" name="orderCountToday" value="${orderCountToday}">
 					<input type="hidden" id="wxCardLimit" name="wxCardLimit" value="${wxCardLimit}">
 					<input type="hidden" id="wxCardCount" name="wxCardCount" value="${wxCardCount}">
                     

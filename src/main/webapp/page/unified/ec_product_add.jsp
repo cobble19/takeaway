@@ -73,6 +73,12 @@
 					<input class="form-control" id="limitNumEveryone" name="limitNumEveryone" placeholder="每人限额">
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="control-label" for="limitNumDay">每天总限额:</label>
+				<div class="">
+					<input class="form-control" id="limitNumDay" name="limitNumDay" placeholder="每天总限额">
+				</div>
+			</div>
  			<div class="form-group">
  				<label class="control-label" for="wxCardId">微信卡券ID:</label>
  				<div class="">

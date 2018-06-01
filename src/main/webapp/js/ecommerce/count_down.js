@@ -5,12 +5,12 @@ $(function() {
     var endDateTime = new Date($('#endDateTime').val().replace('CST', '')).getTime();
     var curDateTime = new Date().getTime();
 
-    $('#countDownStartDiv').hidden();
-    $('#countDownEndDiv').hidden();
+    $('#countDownStartDiv').hide();
+    $('#countDownEndDiv').hide();
     ///
     if (startDateTime > curDateTime) {
     		$('#countDownStartDiv').show();
-	    	$('#countDownStart').countDown({
+	    	$('#countDownStart').countdown({
 	    		timestamp	: startDateTime,
 	    		callback	: function(days, hours, minutes, seconds){
 	    			var message = "";
@@ -26,7 +26,7 @@ $(function() {
     ///
     if (startDateTime < curDateTime && endDateTime > curDateTime) {
     		$('#countDownEndDiv').show();
-	    	$('#countDownEnd').countDown({
+	    	$('#countDownEnd').countdown({
 	    		timestamp	: endDateTime,
 	    		callback	: function(days, hours, minutes, seconds){
 	    			var message = "";

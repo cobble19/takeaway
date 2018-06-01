@@ -23,15 +23,13 @@ import com.cobble.takeaway.service.WxPayService;
 import com.cobble.takeaway.service.ecommerce.EcOrderService;
 import com.cobble.takeaway.service.ecommerce.EcProductService;
 import com.cobble.takeaway.service.weixin.wxpay.WpOrderService;
-import com.cobble.takeaway.util.CommonConstant;
-import com.cobble.takeaway.util.ConfigurationUtil;
-import com.cobble.takeaway.util.HttpRequestUtil;
-import com.cobble.takeaway.util.UserUtil;
+import com.cobble.takeaway.util.*;
 import com.github.wxpay.sdk.MyWXPayConfigImpl;
 import com.github.wxpay.sdk.WXPayConstants;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -317,6 +315,22 @@ public class EcOrderController extends BaseController {
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
 				}
+				// 今天已购买商品(卡券)个数
+				int orderCountToday = 0;
+				Date curDateTime = new Date();
+				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
+				Date endDateTime = DateUtils.addMilliseconds(startDateTime, 1 * 24 * 60 * 60 * 1000 - 1);
+				wpOrderSearchPOJO.setStartDateTime(startDateTime);
+				wpOrderSearchPOJO.setEndDateTime(endDateTime);
+				orderCountToday = wpOrderService.getCount(wpOrderSearchPOJO);
+				ret.put("orderCountToday", orderCountToday);
+				if (null != ecProductPOJO.getLimitNumDay() && orderCountToday >= ecProductPOJO.getLimitNumDay()) {
+					ret.put("success", false);
+					ret.put("errMessage", "这个商品每个人每天只能购买" + ecProductPOJO.getLimitNumDay() + "个"
+							+ ", 您今天已经购买了" + orderCountToday + "个");
+					ret.put("ecProductPOJO", ecProductPOJO);
+					return ret;
+				}
 
 				// 通过微信卡券接口得到卡券的库存
 				String cardId = ecProductPOJO.getWxCardId();
@@ -575,6 +589,16 @@ public class EcOrderController extends BaseController {
                 // 已购买商品(卡券)个数
                 int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
                 ret.addObject("orderCount", orderCount);
+                // 今天已购买商品(卡券)个数
+                int orderCountToday = 0;
+				Date curDateTime = new Date();
+				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
+				Date endDateTime = DateUtils.addMilliseconds(startDateTime, 1 * 24 * 60 * 60 * 1000 - 1);
+				wpOrderSearchPOJO.setOpenId(null);
+				wpOrderSearchPOJO.setStartDateTime(startDateTime);
+				wpOrderSearchPOJO.setEndDateTime(endDateTime);
+				orderCountToday = wpOrderService.getCount(wpOrderSearchPOJO);
+				ret.addObject("orderCountToday", orderCountToday);
 
                 // 通过微信卡券接口得到卡券的库存
                 String cardId = ecProductPOJO.getWxCardId();

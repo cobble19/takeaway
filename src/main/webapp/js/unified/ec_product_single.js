@@ -52,14 +52,14 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": true
 		}, {
-			"targets" : [15, 16, 17, 18],
+			"targets" : [16, 17, 18, 19],
 			"render" : function(data, type, full, meta) {
 				var date = new Date();
 				date.setTime(data);
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets" : [19],
+			"targets" : [20],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/web/unified/ecProduct/showupdate?productId='  + full.productId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
@@ -111,6 +111,7 @@ $(document).ready(function() {
             { "data": "quantityStock" },
             { "data": "unitPrice" },
             { "data": "limitNumEveryone" },
+            { "data": "limitNumDay" },
             { "data": "wxCardId" },
             { "data": "wxCardStock" },
             { "data": "needSubscribe" },

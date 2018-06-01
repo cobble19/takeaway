@@ -16,6 +16,7 @@ public class EcProductPOJO extends BasePOJO {
 	// 分
 	private Integer unitPrice;
 	private Integer limitNumEveryone;
+	private Integer limitNumDay;
 	
 	private String wxCardId;
 	private Integer wxCardStock;
@@ -28,6 +29,14 @@ public class EcProductPOJO extends BasePOJO {
 	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public Integer getLimitNumDay() {
+		return limitNumDay;
+	}
+
+	public void setLimitNumDay(Integer limitNumDay) {
+		this.limitNumDay = limitNumDay;
+	}
 
 	public Integer getWxCardLimitNumEveryone() {
 		return wxCardLimitNumEveryone;
