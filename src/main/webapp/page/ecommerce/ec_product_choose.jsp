@@ -65,79 +65,101 @@
                             .attr('disabled', false);
                     }, 3 * 1000);
 				}
+
+				clickableFlag = true;
 				$('#myFeeBtn').click(function() {
+
                     onceClick();
 
-					var subscribeFlag = $('#subscribeFlag').val();
-					console.log('subscribeFlag: ' + subscribeFlag);
-					if (subscribeFlag == '0') {
-						$('#qrcodeModal').modal('show');
-						return;
+					if (!clickableFlag) {
+					    return;
 					}
-					
+					if (clickableFlag) {
+                        clickableFlag = false;
+                        myFeeClick();
+					}
+				});
+				function myFeeClick() {
+                    var subscribeFlag = $('#subscribeFlag').val();
+                    console.log('subscribeFlag: ' + subscribeFlag);
+                    if (subscribeFlag == '0') {
+                        $('#qrcodeModal').modal('show');
+                        clickableFlag = true;
+                        return;
+                    }
+
 // 					$('#myFeeForm').submit();
-					var authorizerAppId = $('#appId').val();
-					var productId = $('#productId').val();
-					var unitPrice = $('#unitPrice').val();
-					var quantity = $('#quantity').val();
-					
-					
-					
-					var params = {};
-					params.authorizerAppId = authorizerAppId;
-					params.productId = productId;
-					params.unitPrice = unitPrice;
-					params.quantity = quantity;
-					
-					var result = {};
-					
-					// sync
-				    	$.ajax({
-				    		"url" : $('#basePath').val() + "/api/ecommerce/ecorder/ecproduct/callwxpay",
-				    		"type" : "POST",
-				    		"async": false,
-				    		/*"headers" : {
-				    			"Content-Type" : "application/json"
-				    		},*/
-				    		/*"dataType" : 'json',*/
-				    		"data": (params),
-				        "success": function(data, textStatus, jqXHR ) {
-				            	console.log("data = " + data);
-				            	result = data;
-				            	if (data.success) {
-									$('#appIdUo').val(data.jsPayMap.appId);
-									$('#timestampUo').val(data.jsPayMap.timeStamp);
-									$('#nonceStrUo').val(data.jsPayMap.nonceStr);
-									$('#prepayIdUo').val(data.jsPayMap.prepayId);
-									$('#paySignUo').val(data.jsPayMap.sign);
-									$('#packageUo').val(data.jsPayMap.packageUo);
-				                	alert('申请订单成功！去付款吧!')
-				            	} else {
-				                	alert('申请订单失败, ' + data.errMessage);
-				            	}
-				         },
-				         "error": function(jqXHR, textStatus, errorThrown) {
-				            	alert('加载失败!');
-				         },
-				         "complete": function(jqXHR, textStatus) {
-				            	console.log('Ajax complete.');
-				         }
-				    	});	// ajax
-				    	// call wxpay
-				    	if (result.success == true) {
-						if (typeof WeixinJSBridge == "undefined") {
-							if( document.addEventListener ){
-							    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-							}else if (document.attachEvent){
-							    document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-							    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-							}
-						}else{
-						   onBridgeReady();
-						}
-				    	}
-				    	// end call wxpay
-				})
+                    var authorizerAppId = $('#appId').val();
+                    var productId = $('#productId').val();
+                    var unitPrice = $('#unitPrice').val();
+                    var quantity = $('#quantity').val();
+
+
+
+                    var params = {};
+                    params.authorizerAppId = authorizerAppId;
+                    params.productId = productId;
+                    params.unitPrice = unitPrice;
+                    params.quantity = quantity;
+
+                    var result = {};
+
+                    // sync
+                    $.ajax({
+                        "url" : $('#basePath').val() + "/api/ecommerce/ecorder/ecproduct/callwxpay",
+                        "type" : "POST",
+                        "async": false,
+                        /*"headers" : {
+                            "Content-Type" : "application/json"
+                        },*/
+                        /*"dataType" : 'json',*/
+                        "data": (params),
+                        "success": function(data, textStatus, jqXHR ) {
+                            console.log("data = " + data);
+                            result = data;
+                            if (data.success) {
+                                $('#appIdUo').val(data.jsPayMap.appId);
+                                $('#timestampUo').val(data.jsPayMap.timeStamp);
+                                $('#nonceStrUo').val(data.jsPayMap.nonceStr);
+                                $('#prepayIdUo').val(data.jsPayMap.prepayId);
+                                $('#paySignUo').val(data.jsPayMap.sign);
+                                $('#packageUo').val(data.jsPayMap.packageUo);
+                                alert('申请订单成功！去付款吧!')
+                            } else {
+                                alert('申请订单失败, ' + data.errMessage);
+                            }
+
+                            clickableFlag = true;
+                        },
+                        "error": function(jqXHR, textStatus, errorThrown) {
+                            alert('加载失败!');
+
+                            clickableFlag = true;
+                        },
+                        "complete": function(jqXHR, textStatus) {
+                            console.log('Ajax complete.');
+
+                            clickableFlag = true;
+                        }
+                    });	// ajax
+                    // call wxpay
+                    if (result.success == true) {
+                        if (typeof WeixinJSBridge == "undefined") {
+                            if( document.addEventListener ){
+                                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                            }else if (document.attachEvent){
+                                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                            }
+                        }else{
+                            onBridgeReady();
+                        }
+                    }
+
+                    clickableFlag = true;
+                    // end call wxpay
+				}
+				///
 
 				// jsapi调用微信支付api
 				function onBridgeReady(){
@@ -242,17 +264,17 @@
                         ret = false;
 					}
                     if (orderCount + quantity > limitNumEveryone || orderCount + quantity > wxCardLimit) {
-                        $('#myFeeBtn').val('超过限额').attr("readonly", true).addClass('disabled')
+                        $('#myFeeBtn').val('您已达购买上限，感谢您的惠顾').attr("readonly", true).addClass('disabled')
                             .attr('disabled', true);
                         ret = false;
 					}
                     if (orderCountToday + quantity > limitNumDay || orderCountToday + quantity > limitNumDay) {
-                        $('#myFeeBtn').val('超过当日限额').attr("readonly", true).addClass('disabled')
+                        $('#myFeeBtn').val('今日商品已售罄，请您明日再来').attr("readonly", true).addClass('disabled')
                             .attr('disabled', true);
                         ret = false;
                     }
                     if (wxCardCount + quantity > limitNumEveryone || wxCardCount + quantity > wxCardLimit) {
-                        $('#myFeeBtn').val('超过限额').attr("readonly", true).addClass('disabled')
+                        $('#myFeeBtn').val('您已达购买上限，感谢您的惠顾').attr("readonly", true).addClass('disabled')
                             .attr('disabled', true);
                         ret = false;
                     }
@@ -327,8 +349,11 @@
 		        </div>
 		        <div class="row">
 			      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
-			        <h6 style="color:#aaa9ae"> 库存 <c:out value="${ecProductPOJO.wxCardStock > ecProductPOJO.quantityStock ? ecProductPOJO.quantityStock : ecProductPOJO.wxCardStock}" /></h6>
+					  <h6 style="color:#aaa9ae"> 库存 <c:out value="${ecProductPOJO.wxCardStock > ecProductPOJO.quantityStock ? ecProductPOJO.quantityStock : ecProductPOJO.wxCardStock}" /></h6>
 			      </div>
+				 <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
+					 <h6 style="color:#aaa9ae"> 今日商品销售总额上限 <c:out value="${ecProductPOJO.limitNumDay}" />, 目前剩余 <c:out value="${ecProductPOJO.limitNumDay - orderCountToday}" /> </h6>
+				 </div>
 			    </div>
 			    <div class="row">
 			      <div class="col-md-12 col-sm-12" id="countDownStartDiv" style="margin-bottom:5px; display: none;">
