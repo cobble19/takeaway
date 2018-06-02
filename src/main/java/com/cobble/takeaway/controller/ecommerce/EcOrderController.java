@@ -385,7 +385,7 @@ public class EcOrderController extends BaseController {
 				// 验证库存
 				if (ecProductPOJO.getQuantityStock() < quantity || wxCardStock < quantity) {
 					ret.put("success", false);
-					ret.put("errMessage", "商品已全部售罄: " + ecProductPOJO.getQuantityStock() + "/" + wxCardStock);
+					ret.put("errMessage", "商品已全部售罄");
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
 				} else {

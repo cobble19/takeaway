@@ -7,7 +7,7 @@
 <html lang="en">
 	<head>
 		<%@include file="../../page/common/head.jsp"%>
-		
+
         <link rel="stylesheet" href="<cmn:base/>/js/thirdpart/countdown/jquery.countdown.css" />
 		<script src="<cmn:base/>/js/thirdpart/countdown/jquery.countdown.js"></script>
 		
@@ -75,7 +75,7 @@
 
 				/*clickableFlag = true;*/
 				$('#myFeeBtn').click(function() {
-
+					$.showLoading();
                     onceClick();
 
 					/*if (!clickableFlag) {
