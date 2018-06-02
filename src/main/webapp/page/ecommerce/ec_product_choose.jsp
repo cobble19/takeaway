@@ -66,25 +66,28 @@
                     }, 3 * 1000);
 				}
 
-				clickableFlag = true;
+				/*clickableFlag = true;*/
 				$('#myFeeBtn').click(function() {
 
                     onceClick();
 
-					if (!clickableFlag) {
+					/*if (!clickableFlag) {
 					    return;
 					}
 					if (clickableFlag) {
                         clickableFlag = false;
                         myFeeClick();
-					}
+					}*/
+                    myFeeClick();
 				});
 				function myFeeClick() {
+                    $('#progress').dialog('open');
                     var subscribeFlag = $('#subscribeFlag').val();
                     console.log('subscribeFlag: ' + subscribeFlag);
                     if (subscribeFlag == '0') {
                         $('#qrcodeModal').modal('show');
-                        clickableFlag = true;
+                        /*clickableFlag = true;*/
+                        $('#progress').dialog('close');
                         return;
                     }
 
@@ -115,6 +118,7 @@
                         /*"dataType" : 'json',*/
                         "data": (params),
                         "success": function(data, textStatus, jqXHR ) {
+                            $('#progress').dialog('close');
                             console.log("data = " + data);
                             result = data;
                             if (data.success) {
@@ -129,17 +133,19 @@
                                 alert('申请订单失败, ' + data.errMessage);
                             }
 
-                            clickableFlag = true;
+                            /*clickableFlag = true;*/
                         },
                         "error": function(jqXHR, textStatus, errorThrown) {
+                            $('#progress').dialog('close');
                             alert('加载失败!');
 
-                            clickableFlag = true;
+                            /*clickableFlag = true;*/
                         },
                         "complete": function(jqXHR, textStatus) {
+                            $('#progress').dialog('close');
                             console.log('Ajax complete.');
 
-                            clickableFlag = true;
+                            /*clickableFlag = true;*/
                         }
                     });	// ajax
                     // call wxpay
@@ -156,7 +162,7 @@
                         }
                     }
 
-                    clickableFlag = true;
+                    /*clickableFlag = true;*/
                     // end call wxpay
 				}
 				///
