@@ -81,13 +81,13 @@
                     myFeeClick();
 				});
 				function myFeeClick() {
-                    $('#progress').dialog('open');
+                    $('#progressModal').modal('show');
                     var subscribeFlag = $('#subscribeFlag').val();
                     console.log('subscribeFlag: ' + subscribeFlag);
                     if (subscribeFlag == '0') {
+                        $('#progressModal').modal('hide');
                         $('#qrcodeModal').modal('show');
                         /*clickableFlag = true;*/
-                        $('#progress').dialog('close');
                         return;
                     }
 
@@ -118,7 +118,7 @@
                         /*"dataType" : 'json',*/
                         "data": (params),
                         "success": function(data, textStatus, jqXHR ) {
-                            $('#progress').dialog('close');
+                            $('#progressModal').modal('hide');
                             console.log("data = " + data);
                             result = data;
                             if (data.success) {
@@ -136,13 +136,13 @@
                             /*clickableFlag = true;*/
                         },
                         "error": function(jqXHR, textStatus, errorThrown) {
-                            $('#progress').dialog('close');
+                            $('#progressModal').modal('hide');
                             alert('加载失败!');
 
                             /*clickableFlag = true;*/
                         },
                         "complete": function(jqXHR, textStatus) {
-                            $('#progress').dialog('close');
+                            $('#progressModal').modal('hide');
                             console.log('Ajax complete.');
 
                             /*clickableFlag = true;*/
@@ -477,7 +477,41 @@
 			    <div class="col-md-1 col-sm-1 col-xs-1">
 		       </div>      
 	      </div>
-	</div>  
+	</div>
+
+		<!-- 显示公众号二维码 -->
+		<div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+			<div class="row">
+				<div class="col-md-1 col-sm-1 col-xs-1">
+				</div>
+
+				<div class="col-md-10 col-sm-10 col-xs-10">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="关闭">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel1">
+					    				<span style="color: red; font-size: 12px;">
+			          				</span>
+								</h4>
+							</div>
+							<div class="modal-body">
+								数据正在加载中...
+							</div><!-- modal-body -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<!-- <button type="button" class="btn btn-primary">创建</button> -->
+							</div><!-- modal-footer -->
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+
+				<div class="col-md-1 col-sm-1 col-xs-1">
+				</div>
+			</div>
+		</div>
 			
 	        
   		
