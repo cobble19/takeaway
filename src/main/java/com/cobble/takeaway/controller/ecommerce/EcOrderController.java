@@ -311,7 +311,7 @@ public class EcOrderController extends BaseController {
 				int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
 				if (orderCount + quantity > ecProductPOJO.getLimitNumEveryone()) {
 					ret.put("success", false);
-					ret.put("errMessage", "此商品每人只能购买" + ecProductPOJO.getLimitNumEveryone() + "个"
+					ret.put("errMessage", "这个商品每人只能购买" + ecProductPOJO.getLimitNumEveryone() + "个"
 										+ ", 您已经购买了" + orderCount + "个");
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
@@ -332,7 +332,7 @@ public class EcOrderController extends BaseController {
 				ret.put("orderCountToday", orderCountToday);
 				if (null != ecProductPOJO.getLimitNumDay() && orderCountToday >= ecProductPOJO.getLimitNumDay()) {
 					ret.put("success", false);
-					ret.put("errMessage", "次商品每人当天只能购买" + ecProductPOJO.getLimitNumDay() + "个"
+					ret.put("errMessage", "这个商品每人当天只能购买" + ecProductPOJO.getLimitNumDay() + "个"
 							+ ", 您今天已经购买了" + orderCountToday + "个");
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;

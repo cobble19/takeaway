@@ -259,7 +259,8 @@
 
                     return ret;
                 }
-                validProduct();
+				///
+                 validProduct();
 				///
 
 				///
