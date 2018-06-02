@@ -55,7 +55,18 @@
 				}
 				///
 				//$('#qrcodeModal').modal('hide');
+
+				function onceClick() {
+                    $('#myFeeBtn').attr("readonly", true).addClass('disabled')
+                        .attr('disabled', true);
+
+                    window.setTimeout(function () {
+                        $('#myFeeBtn').attr("readonly", false).removeClass('disabled')
+                            .attr('disabled', false);
+                    }, 3 * 1000);
+				}
 				$('#myFeeBtn').click(function() {
+                    onceClick();
 
 					var subscribeFlag = $('#subscribeFlag').val();
 					console.log('subscribeFlag: ' + subscribeFlag);
@@ -231,17 +242,17 @@
                         ret = false;
 					}
                     if (orderCount + quantity > limitNumEveryone || orderCount + quantity > wxCardLimit) {
-                        $('#myFeeBtn').val('购买超过限额').attr("readonly", true).addClass('disabled')
+                        $('#myFeeBtn').val('超过限额').attr("readonly", true).addClass('disabled')
                             .attr('disabled', true);
                         ret = false;
 					}
                     if (orderCountToday + quantity > limitNumDay || orderCountToday + quantity > limitNumDay) {
-                        $('#myFeeBtn').val('购买超过每天限额').attr("readonly", true).addClass('disabled')
+                        $('#myFeeBtn').val('超过当日限额').attr("readonly", true).addClass('disabled')
                             .attr('disabled', true);
                         ret = false;
                     }
                     if (wxCardCount + quantity > limitNumEveryone || wxCardCount + quantity > wxCardLimit) {
-                        $('#myFeeBtn').val('购买超过限额').attr("readonly", true).addClass('disabled')
+                        $('#myFeeBtn').val('超过限额').attr("readonly", true).addClass('disabled')
                             .attr('disabled', true);
                         ret = false;
                     }

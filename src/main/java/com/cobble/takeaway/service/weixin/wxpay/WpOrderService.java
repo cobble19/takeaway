@@ -16,6 +16,9 @@ public interface WpOrderService {
 	int getCount(WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception;
 	WpOrderPOJO findById(Long id) throws Exception;
 	WpOrderPOJO findByOutTradeNo(String outTradeNo) throws Exception;
+
+	List<WpOrderPOJO> findsWithClose(WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception;
+	int getCountWithClose(WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception;
 	
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;

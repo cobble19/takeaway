@@ -119,6 +119,64 @@
 	</if>
   </sql>
 
+  <select id="findsWithClose" resultMap="WpOrderResultMap" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , b.WP_ORDER_CLOSE_ID B_WP_ORDER_CLOSE_ID, b.APP_ID B_APP_ID, b.MCH_ID B_MCH_ID, b.OUT_TRADE_NO B_OUT_TRADE_NO
+    , b.NONCE_STR B_NONCE_STR, b.SIGN B_SIGN, b.SIGN_TYPE B_SIGN_TYPE
+    , b.RESP_RETURN_CODE B_RESP_RETURN_CODE, b.RESP_RETURN_MSG B_RESP_RETURN_MSG, b.RESP_APP_ID B_RESP_APP_ID
+    , b.RESP_MCH_ID B_RESP_MCH_ID, b.RESP_NONCE_STR B_RESP_NONCE_STR
+    , b.RESP_SIGN B_RESP_SIGN, b.RESP_RESULT_CODE B_RESP_RESULT_CODE, b.RESP_RESULT_MSG B_RESP_RESULT_MSG
+    , b.RESP_ERR_CODE B_RESP_ERR_CODE
+    , b.RESP_ERR_CODE_DES B_RESP_ERR_CODE_DES
+    , b.CREATE_DATE_TIME B_CREATE_DATE_TIME, b.LAST_MODIFIED_DATE_TIME B_LAST_MODIFIED_DATE_TIME
+    from WP_ORDER a
+    JOIN WP_ORDER_CLOSE b on a.OUT_TRADE_NO = b.OUT_TRADE_NO
+    <where>
+      <trim prefixOverrides="and">
+        <include refid="Clause_Common"/>
+          and b.RESP_RETURN_CODE = 'SUCCESS'
+          and b.RESP_RESULT_CODE = 'SUCCESS'
+      </trim>
+    </where>
+    order by a.CREATE_DATE_TIME desc
+    <if test="start > -1 and limit > 0">
+      limit #{start}, #{limit}
+    </if>
+  </select>
+
+  <select id="getCountWithClose" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO" resultType="java.lang.Integer">
+    select count(1) from (select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    , b.WP_ORDER_CLOSE_ID B_WP_ORDER_CLOSE_ID, b.APP_ID B_APP_ID, b.MCH_ID B_MCH_ID, b.OUT_TRADE_NO B_OUT_TRADE_NO
+    , b.NONCE_STR B_NONCE_STR, b.SIGN B_SIGN, b.SIGN_TYPE B_SIGN_TYPE
+    , b.RESP_RETURN_CODE B_RESP_RETURN_CODE, b.RESP_RETURN_MSG B_RESP_RETURN_MSG, b.RESP_APP_ID B_RESP_APP_ID
+    , b.RESP_MCH_ID B_RESP_MCH_ID, b.RESP_NONCE_STR B_RESP_NONCE_STR
+    , b.RESP_SIGN B_RESP_SIGN, b.RESP_RESULT_CODE B_RESP_RESULT_CODE, b.RESP_RESULT_MSG B_RESP_RESULT_MSG
+    , b.RESP_ERR_CODE B_RESP_ERR_CODE
+    , b.RESP_ERR_CODE_DES B_RESP_ERR_CODE_DES
+    , b.CREATE_DATE_TIME B_CREATE_DATE_TIME, b.LAST_MODIFIED_DATE_TIME B_LAST_MODIFIED_DATE_TIME
+    from WP_ORDER a
+    JOIN WP_ORDER_CLOSE b on a.OUT_TRADE_NO = b.OUT_TRADE_NO
+    <where>
+      <trim prefixOverrides="and">
+        <include refid="Clause_Common"/>
+        and b.RESP_RETURN_CODE = 'SUCCESS'
+        and b.RESP_RESULT_CODE = 'SUCCESS'
+      </trim>
+    </where>
+    order by a.CREATE_DATE_TIME desc
+    <if test="start > -1 and limit > 0">
+      limit #{start}, #{limit}
+    </if>) t
+  </select>
+
   <select id="finds4Close" resultMap="WpOrderResultMap" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO" >
     select
     <if test="distinct" >

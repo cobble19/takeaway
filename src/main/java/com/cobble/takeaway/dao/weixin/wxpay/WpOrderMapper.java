@@ -13,6 +13,9 @@ public interface WpOrderMapper {
 	List<WpOrderPOJO> finds(WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception;
 	List<WpOrderPOJO> finds4Close(WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception;
 	int getCount(WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception;
+
+	List<WpOrderPOJO> findsWithClose(WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception;
+	int getCountWithClose(WpOrderSearchPOJO wpOrderSearchPOJO) throws Exception;
 	
 	WpOrderPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;

@@ -300,17 +300,18 @@ public class EcOrderController extends BaseController {
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
 				}
-				// 获取购买的商品个数
+				// 获取成功购买的商品个数
 				WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
 				wpOrderSearchPOJO.setEcProductId(productId);
 				wpOrderSearchPOJO.setOpenId(openId);
 				wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
 				wpOrderSearchPOJO.setRespResultCode("SUCCESS");
+				wpOrderSearchPOJO.setPaginationFlage(false);
 				// 已购买卡券个数
 				int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
 				if (orderCount + quantity > ecProductPOJO.getLimitNumEveryone()) {
 					ret.put("success", false);
-					ret.put("errMessage", "这个商品每个人只能购买" + ecProductPOJO.getLimitNumEveryone() + "个"
+					ret.put("errMessage", "此商品每人只能购买" + ecProductPOJO.getLimitNumEveryone() + "个"
 										+ ", 您已经购买了" + orderCount + "个");
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
@@ -320,13 +321,18 @@ public class EcOrderController extends BaseController {
 				Date curDateTime = new Date();
 				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
 				Date endDateTime = DateUtils.addMilliseconds(startDateTime, 1 * 24 * 60 * 60 * 1000 - 1);
+				wpOrderSearchPOJO = new WpOrderSearchPOJO();
+				wpOrderSearchPOJO.setEcProductId(productId);
+				wpOrderSearchPOJO.setPaginationFlage(false);
 				wpOrderSearchPOJO.setStartDateTime(startDateTime);
 				wpOrderSearchPOJO.setEndDateTime(endDateTime);
-				orderCountToday = wpOrderService.getCount(wpOrderSearchPOJO);
+				int orderCountTodayTotal = wpOrderService.getCount(wpOrderSearchPOJO);
+				int orderCountTodayClose = wpOrderService.getCountWithClose(wpOrderSearchPOJO);
+				orderCountToday = orderCountTodayTotal - orderCountTodayClose;
 				ret.put("orderCountToday", orderCountToday);
 				if (null != ecProductPOJO.getLimitNumDay() && orderCountToday >= ecProductPOJO.getLimitNumDay()) {
 					ret.put("success", false);
-					ret.put("errMessage", "这个商品每个人每天只能购买" + ecProductPOJO.getLimitNumDay() + "个"
+					ret.put("errMessage", "次商品每人当天只能购买" + ecProductPOJO.getLimitNumDay() + "个"
 							+ ", 您今天已经购买了" + orderCountToday + "个");
 					ret.put("ecProductPOJO", ecProductPOJO);
 					return ret;
@@ -586,7 +592,8 @@ public class EcOrderController extends BaseController {
                 wpOrderSearchPOJO.setOpenId(openId);
                 wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
                 wpOrderSearchPOJO.setRespResultCode("SUCCESS");
-                // 已购买商品(卡券)个数
+                wpOrderSearchPOJO.setPaginationFlage(false);
+                // 已成功购买商品(卡券)个数
                 int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
                 ret.addObject("orderCount", orderCount);
                 // 今天已购买商品(卡券)个数
@@ -594,10 +601,14 @@ public class EcOrderController extends BaseController {
 				Date curDateTime = new Date();
 				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
 				Date endDateTime = DateUtils.addMilliseconds(startDateTime, 1 * 24 * 60 * 60 * 1000 - 1);
-				wpOrderSearchPOJO.setOpenId(null);
+				wpOrderSearchPOJO = new WpOrderSearchPOJO();
+				wpOrderSearchPOJO.setEcProductId(productId);
+				wpOrderSearchPOJO.setPaginationFlage(false);
 				wpOrderSearchPOJO.setStartDateTime(startDateTime);
 				wpOrderSearchPOJO.setEndDateTime(endDateTime);
-				orderCountToday = wpOrderService.getCount(wpOrderSearchPOJO);
+				int orderCountTodayTotal = wpOrderService.getCount(wpOrderSearchPOJO);
+				int orderCountTodayClose = wpOrderService.getCountWithClose(wpOrderSearchPOJO);
+				orderCountToday = orderCountTodayTotal - orderCountTodayClose;
 				ret.addObject("orderCountToday", orderCountToday);
 
                 // 通过微信卡券接口得到卡券的库存

@@ -82,7 +82,7 @@ public class WxPayOrderCloseHandleServiceImpl implements WpOrderCloseHandleServi
 				WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
 				Calendar cal = Calendar.getInstance();
 				Date curDate = cal.getTime();
-				cal.add(Calendar.HOUR_OF_DAY, -24);
+				cal.add(Calendar.HOUR_OF_DAY, -48);
 				Date startDateTime = cal.getTime();
 				wpOrderSearchPOJO.setStartDateTime(startDateTime);
 				List<WpOrderPOJO> wpOrderPOJOs = wpOrderService.finds4Close(wpOrderSearchPOJO);
