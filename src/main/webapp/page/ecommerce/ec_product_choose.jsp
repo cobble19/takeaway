@@ -58,10 +58,6 @@
 
 				function onceClick() {
                     disableFeeBtn();
-
-//                    window.setTimeout(function () {
-//                        enableFeeBtn()
-//                    }, 3 * 1000);
 				}
 
 				function disableFeeBtn() {
@@ -73,18 +69,8 @@
                         .attr('disabled', false);
 				}
 
-				/*clickableFlag = true;*/
 				$('#myFeeBtn').click(function() {
-					$.showLoading();
                     onceClick();
-
-					/*if (!clickableFlag) {
-					    return;
-					}
-					if (clickableFlag) {
-                        clickableFlag = false;
-                        myFeeClick();
-					}*/
                     myFeeClick();
 				});
 				function myFeeClick() {
@@ -136,36 +122,28 @@
                                 alert('申请订单成功！去付款吧!')
 
                                 // call wxpay
-//                                if (result.success == true) {
-                                    if (typeof WeixinJSBridge == "undefined") {
-                                        if( document.addEventListener ){
-                                            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-                                        }else if (document.attachEvent){
-                                            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-                                            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-                                        }
-                                    }else{
-                                        onBridgeReady();
-                                    }
-//                                }
+								if (typeof WeixinJSBridge == "undefined") {
+									if( document.addEventListener ){
+										document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+									}else if (document.attachEvent){
+										document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+										document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+									}
+								}else{
+									onBridgeReady();
+								}
                                 // end call wxpay
                             } else {
                                 alert('申请订单失败, ' + data.errMessage);
                             }
-
-                            /*clickableFlag = true;*/
                         },
                         "error": function(jqXHR, textStatus, errorThrown) {
                             enableFeeBtn();
                             alert('加载失败!');
-
-                            /*clickableFlag = true;*/
                         },
                         "complete": function(jqXHR, textStatus) {
                             enableFeeBtn();
                             console.log('Ajax complete.');
-
-                            /*clickableFlag = true;*/
                         }
                     });	// ajax
 				}
@@ -400,32 +378,6 @@
 					</ul>
 				</nav>
 				
-		        <%-- <c:if test="${subscribeFlag == true}">
-		        <nav class="navbar navbar-default navbar-fixed-bottom">
-					<!-- Nav tabs -->
-					<ul class="nav nav-pills" role="tablist"
-						style="text-align: center; padding-top: 5px">
-						<div role="presentation" class="active col-xs-12">
-		                    <input type="button" class="btn btn-success btn-sm btn-block" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
-						</div>
-					</ul>
-				</nav>
-		        </c:if> --%>
-		        <%-- <c:if test="${subscribeFlag != true}">
-		        <div class="row">
-		          <div class="col-xs-12" style="margin-top:10px;">
-		          	<span style="color: red;">为了确保您购买后能成功领取代金券，请先关注第三方开放平台“得味驿站”。您可长按识别二维码或微信扫描二维码关注。
-		          	</span>
-		          </div>
-		          <div class="col-xs-12" style="">
-		          	<div class="thumbnail">
-				      <img id="qrcodeImg" src="<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}" alt="">
-				    </div>
-		          </div>
-		        </div>
-		        </c:if> --%>
-		        
-             
 	        		<div class="row" style="display:none;">
 	        				<div class="col-md-12 col-sm-12">
 			        		<label>单价(元):</label>
@@ -442,7 +394,6 @@
 			        		<span id="feeTotal"></span>
 	        			</div>
 	        		</div>
-	        		<!--<input type="button" class="btn btn-default" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>-->
         		</form>
         		</div>
         </div>
