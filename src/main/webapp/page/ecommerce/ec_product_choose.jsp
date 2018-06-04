@@ -337,10 +337,17 @@
 		        </div>
 		        <div class="row">
 			      <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
-					  <h6 style="color:#aaa9ae"> 库存 <c:out value="${ecProductPOJO.wxCardStock > ecProductPOJO.quantityStock ? ecProductPOJO.quantityStock : ecProductPOJO.wxCardStock}" /></h6>
+                      <c:set var="finalStock" value="${ecProductPOJO.wxCardStock > ecProductPOJO.quantityStock ? ecProductPOJO.quantityStock : ecProductPOJO.wxCardStock}"></c:set>
+					  <h6 style="color:#aaa9ae"> 库存 <c:out value="${finalStock}" /></h6>
 			      </div>
 				 <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
-					 <h6 style="color:#aaa9ae"> 今日商品销售总额上限 <c:out value="${ecProductPOJO.limitNumDay}" />, 目前剩余 <c:out value="${ecProductPOJO.limitNumDay - orderCountToday}" /> </h6>
+                     <c:if test="${ecProductPOJO.limitNumDay > finalStock}">
+                         <c:set var="currentRemainNum" value="${finalStock - orderCountToday}"></c:set>
+                     </c:if>
+                     <c:if test="${ecProductPOJO.limitNumDay <= finalStock}">
+                         <c:set var="currentRemainNum" value="${ecProductPOJO.limitNumDay - orderCountToday}"></c:set>
+                     </c:if>
+					 <h6 style="color:#aaa9ae"> 今日商品销售总额上限 <c:out value="${ecProductPOJO.limitNumDay}" />, 目前剩余 <c:out value="${currentRemainNum}" /> </h6>
 				 </div>
 			    </div>
 			    <div class="row">
