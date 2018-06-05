@@ -121,7 +121,22 @@ public interface CommonConstant {
 	
 	/// TODO
 	public final static String ECOMMERCE_URL_1 = "ECOMMERCE_URL_1";
-	
+
+	// wx pay order status
+	/**
+	 * SUCCESS—支付成功, REFUND—转入退款, NOTPAY—未支付, CLOSED—已关闭
+	 * , REVOKED—已撤销（刷卡支付）, USERPAYING--用户支付中,PAYERROR--支付失败(其他原因，如银行返回失败)
+	 * 支付状态机请见下单API页面
+	 */
+	public final static String WXPAY_ORDER_SUCCESS = "SUCCESS";
+	public final static String WXPAY_ORDER_REFUND = "REFUND";
+	public final static String WXPAY_ORDER_NOTPAY = "NOTPAY";
+	public final static String WXPAY_ORDER_CLOSED = "CLOSED";
+	public final static String WXPAY_ORDER_REVOKED = "REVOKED";
+	public final static String WXPAY_ORDER_USERPAYING = "USERPAYING";
+	public final static String WXPAY_ORDER_PAYERROR = "PAYERROR";
+
+	public final static String WXPAY_SUCCESS = "SUCCESS";
 	
 	
 }

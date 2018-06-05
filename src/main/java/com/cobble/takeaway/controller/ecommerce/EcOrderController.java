@@ -15,17 +15,22 @@ import com.cobble.takeaway.pojo.weixin.api.WxCardMgrCardApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCardMgrGetCardListRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
+import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderRespPOJO;
+import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderRespSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayOrderQueryReqApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderReqApiPOJO;
+import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayUnifiedOrderRespApiPOJO;
 import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxPayService;
 import com.cobble.takeaway.service.ecommerce.EcOrderService;
 import com.cobble.takeaway.service.ecommerce.EcProductService;
+import com.cobble.takeaway.service.weixin.wxpay.WpOrderRespService;
 import com.cobble.takeaway.service.weixin.wxpay.WpOrderService;
 import com.cobble.takeaway.util.*;
 import com.github.wxpay.sdk.MyWXPayConfigImpl;
 import com.github.wxpay.sdk.WXPayConstants;
+import com.github.wxpay.sdk.WXPayUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -60,6 +65,8 @@ public class EcOrderController extends BaseController {
 	private EcOrderService ecOrderService;
 	@Autowired
 	private WpOrderService wpOrderService;
+	@Autowired
+	private WpOrderRespService wpOrderRespService;
 	@Autowired
 	private WxPayService wxPayService;
 	@Autowired
@@ -252,6 +259,159 @@ public class EcOrderController extends BaseController {
 		return ret;
 	}
 
+	public Map getExistEcOrderUnifiedOrderMap(EcOrderCallWxPayParamPOJO ecOrderCallWxPayParamPOJO
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("ecOrderCallWxPayParamPOJO: {}", ecOrderCallWxPayParamPOJO);
+
+		Map ret = new HashMap();
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		String queryString = request.getQueryString();
+		String url = request.getRequestURL() + "";
+		if (StringUtils.isNotBlank(queryString)) {
+			queryString = queryString.split("#")[0];
+			url += "?" + queryString;
+		}
+		HttpSession session = request.getSession();
+
+		String authorizerAppId = ecOrderCallWxPayParamPOJO.getAuthorizerAppId();
+		Long productId = ecOrderCallWxPayParamPOJO.getProductId();
+		Integer unitPrice = ecOrderCallWxPayParamPOJO.getUnitPrice();
+		Integer quantity = ecOrderCallWxPayParamPOJO.getQuantity();
+
+		EcProductPOJO ecProductPOJO = new EcProductPOJO();
+
+		try {
+			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+			if (StringUtils.isBlank(openId)) {
+				logger.error("openId is null");
+				return null;
+			}
+
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+			}
+
+			// 因为是已经存在的订单, 不需要检查库存
+			// 获取最后一条没有支付成功, 并且没有被close的订单
+			int orderTimeout = ConfigurationUtil.getPropertiesConfig().getInt("WXPAY.orderTimeout", 30 * 60);
+			WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
+			wpOrderSearchPOJO.setPaginationFlage(false);
+			wpOrderSearchPOJO.setAppId(authorizerAppId);
+			wpOrderSearchPOJO.setEcProductId(productId);
+			wpOrderSearchPOJO.setOpenId(openId);
+
+			Calendar cal = Calendar.getInstance();
+			Date curDate = cal.getTime();
+			cal.add(Calendar.SECOND, -2 * orderTimeout );
+			Date startDateTime = cal.getTime();
+			wpOrderSearchPOJO.setStartDateTime(startDateTime);
+			List<WpOrderPOJO> wpOrderPOJOs = wpOrderService.finds4Close(wpOrderSearchPOJO);
+			if (CollectionUtils.isEmpty(wpOrderPOJOs)) {
+				logger.error("wpOrderPOJOs is null");
+				return null;
+			}
+			WpOrderPOJO wpOrderPOJO = wpOrderPOJOs.get(0);
+
+			String appId = authorizerAppId;
+			String nonceStr = wpOrderPOJO.getNonceStr();
+
+			// 调用wx unified order api获取prepay_id
+//			Map unifiedOrderReqMap = new HashMap();
+//			WxPayUnifiedOrderReqApiPOJO wxPayUnifiedOrderReqApiPOJO = new WxPayUnifiedOrderReqApiPOJO();
+			String mchId = MyWXPayConfigImpl.getInstance().getMchID();
+//			String body = ecProductPOJO.getProductName();
+			String outTradeNo = wpOrderService.getNextOutTradeNo();
+//			String totalFee = (unitPrice * quantity) + "";
+//			String spbillCreateIp = HttpRequestUtil.getIpAddr(request);
+//			String notifyUrl = ConfigurationUtil.getPropertiesConfig().getString("WXPAY.notifyUrl", "http://www.deweiyizhan.com/api/wxpay/notify");
+//			String tradeType = "JSAPI";
+//			wxPayUnifiedOrderReqApiPOJO.setAppId(appId);
+//			wxPayUnifiedOrderReqApiPOJO.setMchId(mchId);
+//			wxPayUnifiedOrderReqApiPOJO.setNonceStr(nonceStr);
+//			wxPayUnifiedOrderReqApiPOJO.setDeviceInfo("WEB");
+//			wxPayUnifiedOrderReqApiPOJO.setBody(body);
+//			wxPayUnifiedOrderReqApiPOJO.setAttach("attach");
+//			wxPayUnifiedOrderReqApiPOJO.setOutTradeNo(outTradeNo);
+//			wxPayUnifiedOrderReqApiPOJO.setTotalFee(totalFee);
+//			wxPayUnifiedOrderReqApiPOJO.setSpbillCreateIp(spbillCreateIp);
+//			wxPayUnifiedOrderReqApiPOJO.setNotifyUrl(notifyUrl);
+//			wxPayUnifiedOrderReqApiPOJO.setTradeType(tradeType);
+//			wxPayUnifiedOrderReqApiPOJO.setOpenId(openId);
+//
+//			wxPayUnifiedOrderReqApiPOJO.setSignType(WXPayConstants.MD5);
+//
+//			Map unifiedOrderRespMap = wxPayService.unifiedOrder(wxPayUnifiedOrderReqApiPOJO);
+
+			WpOrderRespPOJO wpOrderRespPOJO = null;
+			try {
+				WpOrderRespSearchPOJO wpOrderRespSearchPOJO = new WpOrderRespSearchPOJO();
+				wpOrderRespSearchPOJO.setAppId(authorizerAppId);
+				wpOrderRespSearchPOJO.setOutTradeNo(outTradeNo);
+				wpOrderRespSearchPOJO.setOpenId(openId);
+				wpOrderRespSearchPOJO.setMchId(mchId);	// 可以不用
+				wpOrderRespSearchPOJO.setEcOrderId(wpOrderPOJO.getEcOrderId()); // 可以不用
+				wpOrderRespSearchPOJO.setEcProductId(productId);	// 可以不用
+				wpOrderRespSearchPOJO.setStartDateTime(startDateTime);
+
+				List<WpOrderRespPOJO> wpOrderRespPOJOs = wpOrderRespService.finds(wpOrderRespSearchPOJO);
+				if (CollectionUtils.isEmpty(wpOrderRespPOJOs)) {
+					logger.error("wpOrderRespPOJOs is null");
+					return null;
+				}
+				wpOrderRespPOJO = wpOrderRespPOJOs.get(0);
+			} catch (Exception e) {
+				logger.error("wpOrderService insert exception: ", e);
+			}
+
+			// orderquery 查询微信支付订单
+			WxPayOrderQueryReqApiPOJO wxPayOrderQueryReqApiPOJO = new WxPayOrderQueryReqApiPOJO();
+			wxPayOrderQueryReqApiPOJO.setAppId(appId);
+			wxPayOrderQueryReqApiPOJO.setMchId(mchId);
+			wxPayOrderQueryReqApiPOJO.setOutTradeNo(outTradeNo);
+			wxPayOrderQueryReqApiPOJO.setNonceStr(nonceStr + 1);
+			wxPayOrderQueryReqApiPOJO.setSignType(WXPayConstants.MD5);
+			Map orderQueryRespMap = wxPayService.orderQuery(wxPayOrderQueryReqApiPOJO);
+			// end orderquery
+			String returnCode = (String) orderQueryRespMap.get("return_code");
+			String resultCode = (String) orderQueryRespMap.get("result_code");
+			String tradeState = (String) orderQueryRespMap.get("trade_state");
+
+			if (CommonConstant.WXPAY_SUCCESS.equals(returnCode)
+					&& CommonConstant.WXPAY_SUCCESS.equals(resultCode)
+					&& CommonConstant.WXPAY_ORDER_NOTPAY.equals(tradeState)) {
+				Map<String, String> jsPayMap = new HashMap<String, String>();
+				jsPayMap.put("appId", appId);     //公众号名称，由商户传入
+				jsPayMap.put("timeStamp", System.currentTimeMillis() / 1000 + "");        //时间戳，自1970年以来的秒数
+				jsPayMap.put("nonceStr", nonceStr + "1"); //随机串
+				jsPayMap.put("package", "prepay_id=" + wpOrderRespPOJO.getPrepayId());
+				jsPayMap.put("signType", WXPayConstants.MD5);        //微信签名方式：
+				jsPayMap = wxPayService.appendSign(jsPayMap);
+				jsPayMap.put("prepayId", wpOrderRespPOJO.getPrepayId() + "");
+				jsPayMap.put("packageUo", "prepay_id=" + wpOrderRespPOJO.getPrepayId());
+
+				ret.put("success", true);
+
+//				WxPayUnifiedOrderRespApiPOJO wxPayUnifiedOrderRespApiPOJO = new WxPayUnifiedOrderRespApiPOJO();
+//				org.apache.commons.beanutils.BeanUtils.copyProperties(wxPayUnifiedOrderRespApiPOJO, wpOrderRespPOJO);
+//				String unifiedOrderRespXml = XmlUtils.convertToXml(wxPayUnifiedOrderRespApiPOJO);
+//				Map<String, String> unifiedOrderRespMap = WXPayUtil.xmlToMap(unifiedOrderRespXml);
+				ret.put("orderQueryRespMap", orderQueryRespMap);
+//				ret.put("unifiedOrderRespMap", unifiedOrderRespMap);
+				ret.put("jsPayMap", jsPayMap);
+			} else {
+				logger.error("订单不是未支付的: {}", WXPayUtil.mapToXml(orderQueryRespMap));
+				return null;
+			}
+
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+		}
+
+		return ret;
+	}
+
 	@RequestMapping(value = "/api/ecommerce/ecorder/ecproduct/callwxpay", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map ecOrderUnifiedOrderApi(EcOrderCallWxPayParamPOJO ecOrderCallWxPayParamPOJO
@@ -277,6 +437,17 @@ public class EcOrderController extends BaseController {
 
 		try {
 			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+			}
+
+			String appId = authorizerAppId;
+
+			ret = this.getExistEcOrderUnifiedOrderMap(ecOrderCallWxPayParamPOJO, request, response);
+			if (null != ret) {
+				return ret;
+			}
+
 			// 检查是否有库存
 			ecProductPOJO = ecProductService.findById(productId);
 
@@ -403,12 +574,7 @@ public class EcOrderController extends BaseController {
 			Long userId = UserUtil.getCurrentUserId();
 			ecOrderPOJO.setUserId(userId);
 			ecOrderService.insert(ecOrderPOJO);
-			
-			if (StringUtils.isBlank(authorizerAppId)) {
-				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
-			}
-			
-			String appId = authorizerAppId;
+
 			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
 			
 			// 调用wx unified order api获取prepay_id
@@ -438,16 +604,30 @@ public class EcOrderController extends BaseController {
 			wxPayUnifiedOrderReqApiPOJO.setSignType(WXPayConstants.MD5);
 
 			Map unifiedOrderRespMap = wxPayService.unifiedOrder(wxPayUnifiedOrderReqApiPOJO);
+
+			WpOrderRespPOJO wpOrderRespPOJO = new WpOrderRespPOJO();
 			try {
 				ret.put("success", true);
 				
-				// 创建weixinpay order
+				// 创建wx pay order
 				WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
 				org.apache.commons.beanutils.BeanUtils.copyProperties(wpOrderPOJO, wxPayUnifiedOrderReqApiPOJO);
 				wpOrderPOJO.setEcOrderId(ecOrderPOJO.getOrderId());
 				wpOrderPOJO.setEcProductId(productId);
 				wpOrderPOJO.setCreateDateTime(new Date());
 				wpOrderService.insert(wpOrderPOJO);
+				// insert wx pay order resp
+				String xmlWpOrderResp = WXPayUtil.mapToXml(unifiedOrderRespMap);
+				WxPayUnifiedOrderRespApiPOJO wxPayUnifiedOrderRespApiPOJO = XmlUtils.convertToJavaBean(xmlWpOrderResp, WxPayUnifiedOrderRespApiPOJO.class);
+				org.apache.commons.beanutils.BeanUtils.copyProperties(wpOrderRespPOJO, wxPayUnifiedOrderRespApiPOJO);
+				wpOrderRespPOJO.setWpOrderId(wpOrderPOJO.getWpOrderId());
+				wpOrderRespPOJO.setOutTradeNo(wpOrderPOJO.getOutTradeNo());
+				wpOrderRespPOJO.setOpenId(wpOrderPOJO.getOpenId());
+				wpOrderRespPOJO.setEcOrderId(wpOrderPOJO.getEcOrderId());
+				wpOrderRespPOJO.setEcProductId(wpOrderPOJO.getEcProductId());
+				wpOrderRespPOJO.setCreateDateTime(new Date());
+				wpOrderRespPOJO.setLastModifiedDateTime(new Date());
+				wpOrderRespService.insert(wpOrderRespPOJO);
 			} catch (Exception e) {
 				logger.error("wpOrderService insert exception: ", e);
 			}
@@ -466,11 +646,11 @@ public class EcOrderController extends BaseController {
 			jsPayMap.put("appId", appId);     //公众号名称，由商户传入     
 			jsPayMap.put("timeStamp", System.currentTimeMillis() / 1000 + "");        //时间戳，自1970年以来的秒数     
 			jsPayMap.put("nonceStr", nonceStr + "1"); //随机串     
-			jsPayMap.put("package", "prepay_id=" + unifiedOrderRespMap.get("prepay_id"));     
+			jsPayMap.put("package", "prepay_id=" + wpOrderRespPOJO.getPrepayId());
 			jsPayMap.put("signType", WXPayConstants.MD5);        //微信签名方式：
 			jsPayMap = wxPayService.appendSign(jsPayMap);
-			jsPayMap.put("prepayId", unifiedOrderRespMap.get("prepay_id") + "");  
-			jsPayMap.put("packageUo", "prepay_id=" + unifiedOrderRespMap.get("prepay_id")); 
+			jsPayMap.put("prepayId", wpOrderRespPOJO.getPrepayId() + "");
+			jsPayMap.put("packageUo", "prepay_id=" + wpOrderRespPOJO.getPrepayId());
 			
 			ret.put("orderQueryRespMap", orderQueryRespMap);
 			ret.put("unifiedOrderRespMap", unifiedOrderRespMap);

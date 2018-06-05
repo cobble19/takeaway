@@ -32,5 +32,14 @@ public class EcOrderCallWxPayParamPOJO extends BasePOJO {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "EcOrderCallWxPayParamPOJO{" +
+				"authorizerAppId='" + authorizerAppId + '\'' +
+				", productId=" + productId +
+				", unitPrice=" + unitPrice +
+				", quantity=" + quantity +
+				'}';
+	}
 }

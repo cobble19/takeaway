@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.weixin.wxpay.WpOrderRespMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property name="timeToIdleSeconds" value="3600" />
+		<property name="timeToLiveSeconds" value="3600" />
+		<property name="maxEntriesLocalHeap" value="1000" />
+		<property name="maxEntriesLocalDisk" value="10000000" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="WpOrderRespResultMap" type="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderRespPOJO" >
+    <id column="WP_ORDER_RESP_ID" property="wpOrderRespId" />
+    <result column="RETURN_CODE" property="returnCode" />
+    <result column="RETURN_MSG" property="returnMsg" />
+    <result column="APP_ID" property="appId"/>
+    <result column="MCH_ID" property="mchId"/>
+    <result column="DEVICE_INFO" property="deviceInfo" />
+    <result column="NONCE_STR" property="nonceStr" />
+    <result column="SIGN" property="sign" />
+    <result column="RESULT_CODE" property="resultCode" />
+    <result column="ERR_CODE" property="errCode" />
+    <result column="ERR_CODE_DES" property="errCodeDes" />
+    <result column="TRADE_TYPE" property="tradeType" />
+    <result column="PREPAY_ID" property="prepayId" />
+    <result column="CODE_URL" property="codeUrl" />
+
+    <result column="WP_ORDER_ID" property="wpOrderId"/>
+    <result column="OUT_TRADE_NO" property="outTradeNo" />
+    <result column="OPEN_ID" property="openId" />
+    <result column="EC_ORDER_ID" property="ecOrderId"/>
+    <result column="EC_PRODUCT_ID" property="ecProductId"/>
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.WP_ORDER_RESP_ID, a.APP_ID, a.MCH_ID, a.DEVICE_INFO
+    , a.NONCE_STR, a.SIGN
+    , a.RESULT_CODE, a.ERR_CODE, a.ERR_CODE_DES
+    , a.TRADE_TYPE, a.PREPAY_ID, a.CODE_URL
+    , a.WP_ORDER_ID, a.OUT_TRADE_NO, a.OPEN_ID
+    , a.EC_ORDER_ID, a.EC_PRODUCT_ID
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+    <if test="wpOrderRespId != null">
+      and a.WP_ORDER_RESP_ID = #{wpOrderRespId}
+    </if>
+    <if test="wpOrderId != null">
+      and a.WP_ORDER_ID = #{wpOrderId}
+    </if>
+	<if test="appId != null">
+		and a.APP_ID = #{appId}
+	</if>
+	<if test="mchId != null">
+		and a.MCH_ID = #{mchId}
+	</if>
+	<if test="outTradeNo != null">
+		and a.OUT_TRADE_NO = #{outTradeNo}
+	</if>
+	<if test="openId != null">
+		and a.OPEN_ID = #{openId}
+	</if>
+	<if test="returnCode != null">
+		and a.RETURN_CODE = #{returnCode}
+	</if>
+	<if test="resultCode != null">
+		and a.RESULT_CODE = #{resultCode}
+	</if>
+	<if test="ecOrderId != null">
+		and a.EC_ORDER_ID = #{ecOrderId}
+	</if>
+	<if test="ecProductId != null">
+		and a.EC_PRODUCT_ID = #{ecProductId}
+	</if>
+	<if test="startDateTime != null">
+		and a.CREATE_DATE_TIME &gt;= #{startDateTime}
+	</if>
+	<if test="endDateTime != null">
+		and a.CREATE_DATE_TIME &lt;= #{endDateTime}
+	</if>
+  </sql>
+
+  <select id="finds" resultMap="WpOrderRespResultMap" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderRespSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WP_ORDER_RESP a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.CREATE_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderRespSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from WP_ORDER_RESP a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="WpOrderRespResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WP_ORDER_RESP a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.WP_ORDER_RESP_ID = #{wpOrderRespId}
+  		</trim>
+  	</where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from WP_ORDER_RESP
+    where WP_ORDER_RESP_ID = #{wpOrderRespId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderRespPOJO" useGeneratedKeys="true"
+  	keyProperty="wpOrderRespId" keyColumn="WP_ORDER_RESP_ID">
+    insert into WP_ORDER_RESP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="returnCode != null" >
+        RETURN_CODE,
+      </if>
+      <if test="returnMsg != null" >
+        RETURN_MSG,
+      </if>
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="mchId != null" >
+        MCH_ID,
+      </if>
+      <if test="deviceInfo != null" >
+        DEVICE_INFO,
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR,
+      </if>
+      <if test="sign != null" >
+        SIGN,
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE,
+      </if>
+      <if test="errCode != null" >
+        ERR_CODE,
+      </if>
+      <if test="errCodeDes != null" >
+        ERR_CODE_DES,
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE,
+      </if>
+      <if test="prepayId != null" >
+        PREPAY_ID,
+      </if>
+      <if test="codeUrl != null" >
+        CODE_URL,
+      </if>
+
+      <if test="wpOrderId != null" >
+        WP_ORDER_ID,
+      </if>
+      <if test="outTradeNo != null" >
+        OUT_TRADE_NO,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="ecOrderId != null" >
+        EC_ORDER_ID,
+      </if>
+      <if test="ecProductId != null" >
+        EC_PRODUCT_ID,
+      </if>
+
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="returnCode != null" >
+        #{returnCode},
+      </if>
+      <if test="returnMsg != null" >
+        #{returnMsg},
+      </if>
+      <if test="appId != null" >
+        #{appId},
+      </if>
+      <if test="mchId != null" >
+        #{mchId},
+      </if>
+      <if test="deviceInfo != null" >
+        #{deviceInfo},
+      </if>
+      <if test="nonceStr != null" >
+        #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        #{sign},
+      </if>
+      <if test="resultCode != null" >
+        #{resultCode},
+      </if>
+      <if test="errCode != null" >
+        #{errCode},
+      </if>
+      <if test="errCodeDes != null" >
+        #{errCodeDes},
+      </if>
+      <if test="tradeType != null" >
+        #{tradeType},
+      </if>
+      <if test="prepayId != null" >
+        #{prepayId},
+      </if>
+      <if test="codeUrl != null" >
+        #{codeUrl},
+      </if>
+
+      <if test="wpOrderId != null" >
+        #{wpOrderId},
+      </if>
+      <if test="outTradeNo != null" >
+        #{outTradeNo},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="ecOrderId != null" >
+        #{ecOrderId},
+      </if>
+      <if test="ecProductId != null" >
+        #{ecProductId},
+      </if>
+
+      <if test="createDateTime != null" >
+        #{createDateTime},
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        #{lastModifiedDateTime},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.weixin.wxpay.WpOrderRespPOJO" >
+    update WP_ORDER_RESP
+    <set >
+      <if test="returnCode != null" >
+        RETURN_CODE = #{returnCode},
+      </if>
+      <if test="returnMsg != null" >
+        RETURN_MSG = #{returnMsg},
+      </if>
+      <if test="appId != null" >
+        APP_ID = #{appId},
+      </if>
+      <if test="mchId != null" >
+        MCH_ID = #{mchId},
+      </if>
+      <if test="deviceInfo != null" >
+        DEVICE_INFO = #{deviceInfo},
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR = #{nonceStr},
+      </if>
+      <if test="sign != null" >
+        SIGN = #{sign},
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE = #{resultCode},
+      </if>
+      <if test="errCode != null" >
+        ERR_CODE = #{errCode},
+      </if>
+      <if test="errCodeDes != null" >
+        ERR_CODE_DES = #{errCodeDes},
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE = #{tradeType},
+      </if>
+      <if test="prepayId != null" >
+        PREPAY_ID = #{prepayId},
+      </if>
+      <if test="codeUrl != null" >
+        CODE_URL = #{codeUrl},
+      </if>
+
+      <if test="wpOrderId != null" >
+        WP_ORDER_ID = #{wpOrderId},
+      </if>
+      <if test="outTradeNo != null" >
+        OUT_TRADE_NO = #{outTradeNo},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="ecOrderId != null" >
+        EC_ORDER_ID = #{ecOrderId},
+      </if>
+      <if test="ecProductId != null" >
+        EC_PRODUCT_ID = #{ecProductId},
+      </if>
+      
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME = #{createDateTime},
+      </if>
+      <if test="lastModifiedDateTime != null" >
+        LAST_MODIFIED_DATE_TIME = #{lastModifiedDateTime},
+      </if>
+    </set>
+    where WP_ORDER_RESP_ID = #{wpOrderRespId}
+  </update>
+  
+</mapper>

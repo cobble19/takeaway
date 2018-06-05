@@ -1,43 +1,44 @@
-package com.cobble.takeaway.pojo.weixin.wxpay.api;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+package com.cobble.takeaway.pojo.weixin.wxpay;
 
 import com.cobble.takeaway.pojo.BasePOJO;
+import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name="xml")
-public class WxPayUnifiedOrderRespApiPOJO extends BasePOJO {
-	@XmlElement(name="return_code")
+import java.util.Date;
+
+public class WpOrderRespSearchPOJO extends BaseSearchPOJO {
+	private Long wpOrderRespId;
+
 	private String returnCode;
-	@XmlElement(name="return_msg")
 	private String returnMsg;
-	
-	@XmlElement(name="appid")
+
 	private String appId;
-	@XmlElement(name="mch_id")
 	private String mchId;
-	@XmlElement(name="device_info")
 	private String deviceInfo;
-	@XmlElement(name="nonce_str")
 	private String nonceStr;
-	@XmlElement(name="sign")
 	private String sign;
-	@XmlElement(name="result_code")
 	private String resultCode;
-	@XmlElement(name="err_code")
 	private String errCode;
-	@XmlElement(name="err_code_des")
 	private String errCodeDes;
-	
-	@XmlElement(name="trade_type")
 	private String tradeType;
-	@XmlElement(name="prepay_id")
 	private String prepayId;
-	@XmlElement(name="code_url")
 	private String codeUrl;
+
+	private Long wpOrderId;
+	private String outTradeNo;
+	private String openId;
+	private Long ecOrderId;
+	private Long ecProductId;
+
+	private Date createDateTime;
+	private Date lastModifiedDateTime;
+
+	public Long getWpOrderRespId() {
+		return wpOrderRespId;
+	}
+
+	public void setWpOrderRespId(Long wpOrderRespId) {
+		this.wpOrderRespId = wpOrderRespId;
+	}
 
 	public String getReturnCode() {
 		return returnCode;
@@ -141,5 +142,61 @@ public class WxPayUnifiedOrderRespApiPOJO extends BasePOJO {
 
 	public void setCodeUrl(String codeUrl) {
 		this.codeUrl = codeUrl;
+	}
+
+	public Long getWpOrderId() {
+		return wpOrderId;
+	}
+
+	public void setWpOrderId(Long wpOrderId) {
+		this.wpOrderId = wpOrderId;
+	}
+
+	public String getOutTradeNo() {
+		return outTradeNo;
+	}
+
+	public void setOutTradeNo(String outTradeNo) {
+		this.outTradeNo = outTradeNo;
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
+	public Long getEcOrderId() {
+		return ecOrderId;
+	}
+
+	public void setEcOrderId(Long ecOrderId) {
+		this.ecOrderId = ecOrderId;
+	}
+
+	public Long getEcProductId() {
+		return ecProductId;
+	}
+
+	public void setEcProductId(Long ecProductId) {
+		this.ecProductId = ecProductId;
+	}
+
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public Date getLastModifiedDateTime() {
+		return lastModifiedDateTime;
+	}
+
+	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
+		this.lastModifiedDateTime = lastModifiedDateTime;
 	}
 }

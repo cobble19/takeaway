@@ -113,6 +113,7 @@
                             console.log("data = " + data);
                             result = data;
                             if (data.success) {
+                                // Uo: Unified Order
                                 $('#appIdUo').val(data.jsPayMap.appId);
                                 $('#timestampUo').val(data.jsPayMap.timeStamp);
                                 $('#nonceStrUo').val(data.jsPayMap.nonceStr);
