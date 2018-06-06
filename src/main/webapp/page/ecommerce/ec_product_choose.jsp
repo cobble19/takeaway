@@ -342,6 +342,7 @@
                       <c:set var="finalStock" value="${ecProductPOJO.wxCardStock > ecProductPOJO.quantityStock ? ecProductPOJO.quantityStock : ecProductPOJO.wxCardStock}"></c:set>
 					  <h6 style="color:#aaa9ae"> 库存 <c:out value="${finalStock}" /></h6>
 			      </div>
+                </div>
 					<div class="row">
 						<div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
 					</div>
@@ -356,7 +357,6 @@
 					 <h6 style=""> 每日商品销售总额上限 <strong style="color:#F00;"><c:out value="${ecProductPOJO.limitNumDay}" /></strong>, 今日目前剩余 <strong style="color:#F00;"><c:out value="${currentRemainNum}" /></strong> </h6>
 				 </div>
 					</div>
-			    </div>
 			    <div class="row">
 			      <div class="col-md-12 col-sm-12" id="countDownStartDiv" style="margin-bottom:5px; display: none;">
 					开始倒计时: <div id="countDownStart" style="display: none;"></div>
