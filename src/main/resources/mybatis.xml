@@ -88,12 +88,12 @@
 		<mapper resource="mybatis-config/ActivityRegistrationMapper.xml" />
 		
 		<mapper resource="mybatis-config/WpOrderMapper.xml" />
+		<mapper resource="mybatis-config/WpOrderRespMapper.xml" />
 		<mapper resource="mybatis-config/WpResultNotifyMapper.xml" />
 		<mapper resource="mybatis-config/WpOrderCloseMapper.xml" />
 		
 		<mapper resource="mybatis-config/EcProductMapper.xml" />
 		<mapper resource="mybatis-config/EcOrderMapper.xml" />
-		<mapper resource="mybatis-config/EcOrderRespMapper.xml" />
 
 		<mapper resource="mybatis-config/WxMsgEventLogMapper.xml" />
 		
