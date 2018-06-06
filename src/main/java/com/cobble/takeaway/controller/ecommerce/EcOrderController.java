@@ -323,7 +323,7 @@ public class EcOrderController extends BaseController {
 //			WxPayUnifiedOrderReqApiPOJO wxPayUnifiedOrderReqApiPOJO = new WxPayUnifiedOrderReqApiPOJO();
 			String mchId = MyWXPayConfigImpl.getInstance().getMchID();
 //			String body = ecProductPOJO.getProductName();
-			String outTradeNo = wpOrderService.getNextOutTradeNo();
+			String outTradeNo = wpOrderPOJO.getOutTradeNo();
 //			String totalFee = (unitPrice * quantity) + "";
 //			String spbillCreateIp = HttpRequestUtil.getIpAddr(request);
 //			String notifyUrl = ConfigurationUtil.getPropertiesConfig().getString("WXPAY.notifyUrl", "http://www.deweiyizhan.com/api/wxpay/notify");
