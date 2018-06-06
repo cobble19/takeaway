@@ -36,7 +36,8 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.WP_ORDER_RESP_ID, a.APP_ID, a.MCH_ID, a.DEVICE_INFO
+    a.WP_ORDER_RESP_ID, a.RETURN_CODE, a.RETURN_MSG
+    , a.APP_ID, a.MCH_ID, a.DEVICE_INFO
     , a.NONCE_STR, a.SIGN
     , a.RESULT_CODE, a.ERR_CODE, a.ERR_CODE_DES
     , a.TRADE_TYPE, a.PREPAY_ID, a.CODE_URL
