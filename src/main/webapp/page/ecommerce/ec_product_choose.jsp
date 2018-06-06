@@ -326,8 +326,7 @@
 
 
 	            <div class="row">
-					<div class="col-xs-12"
-						style="padding: 2px; text-align: center;">
+					<div class="col-xs-12" style="padding: 2px; text-align: center;">
 							<img src='<cmn:base/>/${ecProductPOJO.imgUrl}'>
 					</div>
 			    </div>
@@ -343,20 +342,20 @@
 					  <h6 style="color:#aaa9ae"> 库存 <c:out value="${finalStock}" /></h6>
 			      </div>
                 </div>
-					<div class="row">
-						<div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 col-sm-12" style=" margin-top:10px;margin-bottom:5px;">
-                     <c:if test="${ecProductPOJO.limitNumDay > finalStock}">
-                         <c:set var="currentRemainNum" value="${finalStock - orderCountToday}"></c:set>
-                     </c:if>
-                     <c:if test="${ecProductPOJO.limitNumDay <= finalStock}">
-                         <c:set var="currentRemainNum" value="${ecProductPOJO.limitNumDay - orderCountToday}"></c:set>
-                     </c:if>
-					 <h6 style=""> 每日商品销售总额上限 <strong style="color:#F00;"><c:out value="${ecProductPOJO.limitNumDay}" /></strong>, 今日目前剩余 <strong style="color:#F00;"><c:out value="${currentRemainNum}" /></strong> </h6>
-				 </div>
-					</div>
+				<div class="row">
+					<div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 col-sm-12" style=" margin-top:10px;margin-bottom:5px;">
+					 <c:if test="${ecProductPOJO.limitNumDay > finalStock}">
+						 <c:set var="currentRemainNum" value="${finalStock - orderCountToday}"></c:set>
+					 </c:if>
+					 <c:if test="${ecProductPOJO.limitNumDay <= finalStock}">
+						 <c:set var="currentRemainNum" value="${ecProductPOJO.limitNumDay - orderCountToday}"></c:set>
+					 </c:if>
+				 		<h6 style=""> 每日商品销售总额上限 <strong style="color:#F00;"><c:out value="${ecProductPOJO.limitNumDay}" /></strong>, 今日目前剩余 <strong style="color:#F00;"><c:out value="${currentRemainNum}" /></strong> </h6>
+				 	</div>
+				</div>
 			    <div class="row">
 			      <div class="col-md-12 col-sm-12" id="countDownStartDiv" style="margin-bottom:5px; display: none;">
 					开始倒计时: <div id="countDownStart" style="display: none;"></div>

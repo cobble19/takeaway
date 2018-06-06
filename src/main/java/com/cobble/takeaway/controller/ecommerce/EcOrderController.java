@@ -32,6 +32,7 @@ import com.github.wxpay.sdk.MyWXPayConfigImpl;
 import com.github.wxpay.sdk.WXPayConstants;
 import com.github.wxpay.sdk.WXPayUtil;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -445,9 +446,10 @@ public class EcOrderController extends BaseController {
 			String appId = authorizerAppId;
 
 			ret = this.getExistEcOrderUnifiedOrderMap(ecOrderCallWxPayParamPOJO, request, response);
-			if (null != ret) {
+			if (MapUtils.isNotEmpty(ret)) {
 				return ret;
 			}
+			ret = new HashMap();
 
 			// 检查是否有库存
 			ecProductPOJO = ecProductService.findById(productId);
