@@ -348,7 +348,7 @@
 				<div class="row">
 					<div class="col-md-12 col-sm-12" style=" margin-top:10px;margin-bottom:5px;">
 					 <c:if test="${ecProductPOJO.limitNumDay > finalStock}">
-						 <c:set var="currentRemainNum" value="${finalStock - orderCountToday}"></c:set>
+						 <c:set var="currentRemainNum" value="${finalStock}"></c:set>
 					 </c:if>
 					 <c:if test="${ecProductPOJO.limitNumDay <= finalStock}">
 						 <c:set var="currentRemainNum" value="${ecProductPOJO.limitNumDay - orderCountToday}"></c:set>
