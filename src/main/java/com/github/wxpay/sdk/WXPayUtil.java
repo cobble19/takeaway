@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.util.*;
 import java.security.MessageDigest;
 
+import com.qq.weixin.mp.aes.AesException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -256,6 +257,29 @@ public class WXPayUtil {
             sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
         }
         return sb.toString().toUpperCase();
+    }
+
+    public static String getSHA1(String data) throws AesException {
+        try {
+            // SHA1签名生成
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            md.update(data.getBytes());
+            byte[] digest = md.digest();
+
+            StringBuffer hexstr = new StringBuffer();
+            String shaHex = "";
+            for (int i = 0; i < digest.length; i++) {
+                shaHex = Integer.toHexString(digest[i] & 0xFF);
+                if (shaHex.length() < 2) {
+                    hexstr.append(0);
+                }
+                hexstr.append(shaHex);
+            }
+            return hexstr.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new AesException(AesException.ComputeSignatureError);
+        }
     }
 
     /**

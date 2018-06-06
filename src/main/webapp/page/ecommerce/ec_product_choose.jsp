@@ -10,7 +10,7 @@
 
         <link rel="stylesheet" href="<cmn:base/>/js/thirdpart/countdown/jquery.countdown.css" />
 		<script src="<cmn:base/>/js/thirdpart/countdown/jquery.countdown.js"></script>
-		
+
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/progress_dialog.js"></script>
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/count_down.js"></script>
 		<script type="text/javascript">
@@ -158,22 +158,22 @@
 					var prepayId = $('#prepayIdUo').val();
 					var paySign = $('#paySignUo').val();
 					var packageUo = $('#packageUo').val();
-					
+
 					WeixinJSBridge.invoke(
 					    'getBrandWCPayRequest', {
-					        "appId": appId,     //公众号名称，由商户传入     
-					        "timeStamp":timestamp,         //时间戳，自1970年以来的秒数     
-					        "nonceStr":nonceStr, //随机串     
-					        "package":packageUo,     
-					        "signType":"MD5",         //微信签名方式：     
-					        "paySign": paySign //微信签名 
+					        "appId": appId,     //公众号名称，由商户传入
+					        "timeStamp":timestamp,         //时间戳，自1970年以来的秒数
+					        "nonceStr":nonceStr, //随机串
+					        "package":packageUo,
+					        "signType":"MD5",         //微信签名方式：
+					        "paySign": paySign //微信签名
 					    },
-					    function(res){     
+					    function(res){
 // 					    		alert("appId: " + appId + ", timeStamp: " + timestamp + ", nonceStr: " + nonceStr
 // 					    				+ ", package: " + "prepay_id=" + prepayId + ", packageUo: " + packageUo + ", signType: " + "MD5" + ", paySign: " + paySign);
 // 					 	   	alert("微信支付结果: " + res);
-					 	   	
-					 	 
+
+
 					 		// 使用以下方式判断前端返回,微信团队郑重提示：
 					        //res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠
 					        if (res.err_msg == "get_brand_wcpay_request:ok" ) {
@@ -191,7 +191,7 @@
 					     	   	alert('你遇到了特殊的情况, 请通过公众号或者公众号资料的联系方式联系管理员')
 					        }
 					    }
-					); 
+					);
 				}
 				///
 				$('#quantity').change(function() {
@@ -241,7 +241,7 @@
                     if ($('#limitNumDay').val() != null && $('#limitNumDay').val() != '') {
                     		limitNumDay = parseInt($('#limitNumDay').val());
                     }
-                    
+
 					var quantity = parseInt($('#quantity').val());
                     var orderCount = parseInt($('#orderCount').val());
                     var orderCountToday = parseInt($('#orderCountToday').val());
@@ -275,11 +275,11 @@
 				///
 
 				///
-				
+
 			})
 		</script>
 	</head>
-	
+
   <body>
   	<!-- WX JS SDK 有效 -->
   	<input type="hidden" id="appId" name="appId" value="${wxJsSdkConfigRespApiPOJO.appId}" />
@@ -287,10 +287,10 @@
   	<input type="hidden" id="nonceStr" name="nonceStr" value="${wxJsSdkConfigRespApiPOJO.nonceStr}" />
   	<input type="hidden" id="signature" name="signature" value="${wxJsSdkConfigRespApiPOJO.signature}" />
   	<input type="hidden" id="jsApiList" name="jsApiList" value="${wxJsSdkConfigRespApiPOJO.jsApiList}" />
-  	
+
   	<input type="hidden" id="url" name="url" value="${wxJsSdkConfigRespApiPOJO.url}" />
   	<input type="hidden" id="ticket" name="ticket" value="${wxJsSdkConfigRespApiPOJO.ticket}" />
-  	
+
   	<!-- 调用微信支付js接口 -->
   	<input type="hidden" id="appIdUo" name="appIdUo" />
   	<input type="hidden" id="timestampUo" name="timestampUo" />
@@ -298,11 +298,11 @@
   	<input type="hidden" id="prepayIdUo" name="prepayIdUo" />
   	<input type="hidden" id="paySignUo" name="paySignUo" />
   	<input type="hidden" id="packageUo" name="packageUo" />
-  	
+
   	<!-- 公众号二维码 -->
   	<input type="hidden" id="subscribeFlag" name="subscribeFlag" value="${subscribeFlag ? '1' : '0'}" />
-  	
-  	<div class="container-fluid">
+
+  	<div class="container-fluid" style="padding-bottom:50px;">
         <div class="row">
         	<div class="col-md-12 col-sm-12">
 <%--         		<form id="myFeeForm" action="<cmn:base/>/web/ecommerce/ecorder/ecproduct/callwxpay" class="form-horizontal"> --%>
@@ -317,13 +317,14 @@
 					<input type="hidden" id="limitNumDay" name="limitNumDay" value="${ecProductPOJO.limitNumDay}">
 					<input type="hidden" id="startDateTime" name="startDateTime" value="${ecProductPOJO.startDateTime}">
 					<input type="hidden" id="endDateTime" name="endDateTime" value="${ecProductPOJO.endDateTime}">
+					<input type="hidden" id="wxCardId" name="wxCardId" value="${ecProductPOJO.wxCardId}">
 
 					<input type="hidden" id="orderCount" name="orderCount" value="${orderCount}">
 					<input type="hidden" id="orderCountToday" name="orderCountToday" value="${orderCountToday}">
 					<input type="hidden" id="wxCardLimit" name="wxCardLimit" value="${wxCardLimit}">
 					<input type="hidden" id="wxCardCount" name="wxCardCount" value="${wxCardCount}">
-                    
-                    
+
+
 	            <div class="row">
 					<div class="col-xs-12"
 						style="padding: 2px; text-align: center;">
@@ -332,7 +333,7 @@
 			    </div>
 		        <div class="row">
 		          <div class="col-xs-12" style="margin:10px auto;"><h4 style="color:#F00;">￥<c:out value="${ecProductPOJO.unitPrice / 100}" /></h4></div>
-		        </div> 
+		        </div>
 		        <div class="row">
 		          <div class="col-xs-12" style="margin-bottom:5px;"><h5><c:out value="${ecProductPOJO.productName}"></c:out></h5></div>
 		        </div>
@@ -341,15 +342,20 @@
                       <c:set var="finalStock" value="${ecProductPOJO.wxCardStock > ecProductPOJO.quantityStock ? ecProductPOJO.quantityStock : ecProductPOJO.wxCardStock}"></c:set>
 					  <h6 style="color:#aaa9ae"> 库存 <c:out value="${finalStock}" /></h6>
 			      </div>
-				 <div class="col-md-12 col-sm-12" style="margin-bottom:5px;">
+					<div class="row">
+						<div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12" style=" margin-top:10px;margin-bottom:5px;">
                      <c:if test="${ecProductPOJO.limitNumDay > finalStock}">
                          <c:set var="currentRemainNum" value="${finalStock - orderCountToday}"></c:set>
                      </c:if>
                      <c:if test="${ecProductPOJO.limitNumDay <= finalStock}">
                          <c:set var="currentRemainNum" value="${ecProductPOJO.limitNumDay - orderCountToday}"></c:set>
                      </c:if>
-					 <h6 style="color:#aaa9ae"> 今日商品销售总额上限 <c:out value="${ecProductPOJO.limitNumDay}" />, 目前剩余 <c:out value="${currentRemainNum}" /> </h6>
+					 <h6 style=""> 每日商品销售总额上限 <strong style="color:#F00;"><c:out value="${ecProductPOJO.limitNumDay}" /></strong>, 今日目前剩余 <strong style="color:#F00;"><c:out value="${currentRemainNum}" /></strong> </h6>
 				 </div>
+					</div>
 			    </div>
 			    <div class="row">
 			      <div class="col-md-12 col-sm-12" id="countDownStartDiv" style="margin-bottom:5px; display: none;">
@@ -363,10 +369,10 @@
 			    </div>
 		        <div class="row">
 		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
-		        </div> 
+		        </div>
 		        <div class="row">
 		          <div class="col-xs-12" style="margin-top:10px; margin-bottom:10px;">
-			          <h5>商品详情</h5>
+					  <h5 style="font-weight:bold; margin-bottom:10px; color:#F00;">商品详情</h5>
 			          <!--此处放详情数据-->
 			          <span id="buyAbout" style="display:none;">
 			          	<!-- 直接显示的话, 只能显示一段html文本, 不是正常的带有格式的内容 -->
@@ -375,7 +381,7 @@
 			          <span id="buyAboutX">
 			          </span>
 		          </div>
-		        </div>   
+		        </div>
 		        <nav class="navbar navbar-default navbar-fixed-bottom">
 					<!-- Nav tabs -->
 					<ul class="nav nav-pills" role="tablist"
@@ -385,7 +391,7 @@
 						</div>
 					</ul>
 				</nav>
-				
+
 	        		<div class="row" style="display:none;">
 	        				<div class="col-md-12 col-sm-12">
 			        		<label>单价(元):</label>
@@ -405,13 +411,13 @@
         		</form>
         		</div>
         </div>
-        
+
         <!-- 显示公众号二维码 -->
 	    <div class="modal fade" id="qrcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="row">
 		        <div class="col-md-1 col-sm-1 col-xs-1">
 		        </div>
-		        
+
 				<div class="col-md-10 col-sm-10 col-xs-10">
 				    	<div class="modal-dialog">
 				    		<div class="modal-content">
@@ -420,15 +426,17 @@
 				    					<span aria-hidden="true">&times;</span>
 				    				</button>
 				    				<h4 class="modal-title" id="myModalLabel">
-					    				<span style="color: red; font-size: 12px;">为了确保您购买后能成功领取代金券，请先关注第三方开放平台“得味驿站”。您可长按识别二维码或微信扫描二维码关注。
+										<span style="color: red; font-size: 16px; "><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;注意</span>
 			          				</span>
 		          				</h4>
 				    			</div>
 				    			<div class="modal-body">
-				    				<div class="thumbnail">
-							      <img id="qrcodeImg" src="<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}" alt="">
-							    </div>
-				    			</div><!-- modal-body -->
+                                <span style="font-size: 12px;">该代金券购买成功后，由第三方开放平台“得味驿站”发放。<br/>为了确保您购买后能成功领取代金券，请先关注第三方开放平台“得味驿站”。<br/>您可长按识别二维码或微信扫描二维码关注。
+			          				</span>
+									<div class="thumbnail" style="margin-bottom:10px;">
+										<img height="100" width="100" id="qrcodeImg" src="<cmn:base/>/${wxAuthorizerInfoPOJO.qrcodeFilePath}" alt="">
+									</div>
+								</div><!-- modal-body -->
 				    			<div class="modal-footer">
 				    				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 				    				<!-- <button type="button" class="btn btn-primary">创建</button> -->
@@ -436,22 +444,22 @@
 				    		</div><!-- /.modal-content -->
 				    	</div><!-- /.modal-dialog -->
 			    </div><!-- /.modal -->
-			    
+
 			    <div class="col-md-1 col-sm-1 col-xs-1">
-		       </div>      
+		       </div>
 	      </div>
 	</div>
 
 
-  		
+
   		<div id="progress">数据加载中。。。</div>
-  		
-  	<%@include file="../../bottom.jsp"%>	
+
+  	<%@include file="../../bottom.jsp"%>
 	</div>
   </body>
 </html>
-			  		
-	     			
-	     			
-	     			
-	     			
+
+
+
+
+

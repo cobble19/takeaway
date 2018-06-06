@@ -400,6 +400,7 @@ public class EcOrderController extends BaseController {
 				ret.put("orderQueryRespMap", orderQueryRespMap);
 //				ret.put("unifiedOrderRespMap", unifiedOrderRespMap);
 				ret.put("jsPayMap", jsPayMap);
+				logger.info("use existed wp order resp info, wpOrderRespPOJO: {}", wpOrderRespPOJO);
 			} else {
 				logger.error("订单不是未支付的: {}", WXPayUtil.mapToXml(orderQueryRespMap));
 				return null;

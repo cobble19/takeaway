@@ -199,4 +199,31 @@ public class WpOrderRespPOJO extends BasePOJO {
 	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
 		this.lastModifiedDateTime = lastModifiedDateTime;
 	}
+
+	@Override
+	public String toString() {
+		return "WpOrderRespPOJO{" +
+				"wpOrderRespId=" + wpOrderRespId +
+				", returnCode='" + returnCode + '\'' +
+				", returnMsg='" + returnMsg + '\'' +
+				", appId='" + appId + '\'' +
+				", mchId='" + mchId + '\'' +
+				", deviceInfo='" + deviceInfo + '\'' +
+				", nonceStr='" + nonceStr + '\'' +
+				", sign='" + sign + '\'' +
+				", resultCode='" + resultCode + '\'' +
+				", errCode='" + errCode + '\'' +
+				", errCodeDes='" + errCodeDes + '\'' +
+				", tradeType='" + tradeType + '\'' +
+				", prepayId='" + prepayId + '\'' +
+				", codeUrl='" + codeUrl + '\'' +
+				", wpOrderId=" + wpOrderId +
+				", outTradeNo='" + outTradeNo + '\'' +
+				", openId='" + openId + '\'' +
+				", ecOrderId=" + ecOrderId +
+				", ecProductId=" + ecProductId +
+				", createDateTime=" + createDateTime +
+				", lastModifiedDateTime=" + lastModifiedDateTime +
+				'}';
+	}
 }
