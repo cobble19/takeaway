@@ -41,11 +41,12 @@ public class WxCardSign {
         for (String str : paramToSign) {
             stringToSign.append(str);
         }
-        System.out.println("stringToSign:" + stringToSign);
+
         try {
             MessageDigest hasher = MessageDigest.getInstance("SHA-1");
             byte[] digest = hasher.digest(stringToSign.toString().getBytes());
             ret = ByteToHexString(digest);
+            logger.info("stringToSign:{}, ret: {}", stringToSign, ret);
         } catch (NoSuchAlgorithmException e) {
             logger.error("Get digest exception: ", e);
         }

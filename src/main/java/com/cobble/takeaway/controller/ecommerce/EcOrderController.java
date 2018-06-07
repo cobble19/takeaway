@@ -92,6 +92,227 @@ public class EcOrderController extends BaseController {
         return result;
     }
 
+	@RequestMapping(value = "/web/weixin/wxmycard", method = {RequestMethod.GET})
+	public ModelAndView wxMyCard(
+			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
+			,@RequestParam(value="productId") Long productId
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		String queryString = request.getQueryString();
+		String url = request.getRequestURL() + "";
+		if (StringUtils.isNotBlank(queryString)) {
+			queryString = queryString.split("#")[0];
+			url += "?" + queryString;
+		}
+		HttpSession session = request.getSession();
+		WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = new WxJsSdkConfigRespApiPOJO();
+		EcProductPOJO ecProductPOJO = new EcProductPOJO();
+		WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = new WxAuthorizerInfoPOJO();
+		Boolean subscribeFlag = false;
+		try {
+			ret.setViewName("/page/weixin/wx_my_card");
+
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+//				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}*/
+			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+
+			// check whether subscribe
+//			if (ecProductPOJO.getNeedSubscribe() != null && ecProductPOJO.getNeedSubscribe() == CommonConstant.WX_NEED_SUBSCRIBE) {
+//				subscribeFlag = oauth2Controller.getSubscribeFlag(authorizerAppId, openId);
+//				if (!subscribeFlag) {
+//					String qrCodeUrl = "/web/wx/oauth2/third/authorizer/qrcode?authorizerAppId=" + authorizerAppId;
+//					redirectStrategy.sendRedirect(request, response, qrCodeUrl);
+//					return null;
+//				}
+//			}
+			// 获得是否关注
+			subscribeFlag = oauth2Controller.getSubscribeFlag(authorizerAppId, openId);
+			// 获得是否关注, 然后在jsp页面用参数来控制显示公众号的二维码
+			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+			if (!CollectionUtils.isEmpty(wxAuthorizerInfoPOJOs)) {
+				wxAuthorizerInfoPOJO = wxAuthorizerInfoPOJOs.get(0);
+			}
+
+//			String appId = authorizerAppId;
+
+			String jsSdkTicket = oauth2Controller.getWxJsSdkTicket(authorizerAppId);
+			Long timestamp = System.currentTimeMillis() / 1000;
+			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
+			//注意这里参数名必须全部小写，且必须有序
+			String string1 = "jsapi_ticket=" + jsSdkTicket +
+					"&noncestr=" + nonceStr +
+					"&timestamp=" + timestamp +
+					"&url=" + url;
+
+			String signature = "";
+			try {
+				MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+				crypt.reset();
+				crypt.update(string1.getBytes("UTF-8"));
+				signature = byteToHex(crypt.digest());
+
+				logger.info("string1: {}, signature: {}", string1, signature);
+			} catch (NoSuchAlgorithmException e) {
+				logger.error("MessageDigest exception: ", e);
+			} catch (UnsupportedEncodingException e) {
+				logger.error("MessageDigest exception: ", e);
+			}
+			List<String> jsApiList = Arrays.asList(StringUtils.split(messageSource.getMessage("WX.jssdk.jsApiList", null, null), ","));
+
+
+			wxJsSdkConfigRespApiPOJO.setAppId(authorizerAppId);
+			wxJsSdkConfigRespApiPOJO.setNonceStr(nonceStr);
+			wxJsSdkConfigRespApiPOJO.setTimestamp(timestamp);
+			wxJsSdkConfigRespApiPOJO.setSignature(signature);
+			wxJsSdkConfigRespApiPOJO.setJsApiList(jsApiList);
+
+			wxJsSdkConfigRespApiPOJO.setTicket(jsSdkTicket);
+			wxJsSdkConfigRespApiPOJO.setUrl(url);
+
+			logger.info("wxJsSdkConfigRespApiPOJO: " + wxJsSdkConfigRespApiPOJO);
+
+			// get ecProductPOJO
+			ecProductPOJO = ecProductService.findById(productId);
+
+			ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+			ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+			ret.addObject("subscribeFlag", subscribeFlag);
+
+			if (ecProductPOJO == null) {
+				ret.addObject("success", false);
+				ret.addObject("errMessage", "商品不存在");
+				ret.addObject("ecProductPOJO", new EcProductPOJO());
+				return ret;
+			} else {
+				ret.addObject("ecProductPOJO", ecProductPOJO);
+// 获取购买的商品个数
+				WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
+				wpOrderSearchPOJO.setEcProductId(productId);
+				wpOrderSearchPOJO.setOpenId(openId);
+				wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
+				wpOrderSearchPOJO.setRespResultCode("SUCCESS");
+				wpOrderSearchPOJO.setPaginationFlage(false);
+				// 已成功购买商品(卡券)个数
+				int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
+				ret.addObject("orderCount", orderCount);
+				// 今天已购买商品(卡券)个数
+				int orderCountToday = 0;
+				Date curDateTime = new Date();
+				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
+				Date endDateTime = DateUtils.addMilliseconds(startDateTime, 1 * 24 * 60 * 60 * 1000 - 1);
+				wpOrderSearchPOJO = new WpOrderSearchPOJO();
+				wpOrderSearchPOJO.setEcProductId(productId);
+				wpOrderSearchPOJO.setPaginationFlage(false);
+				wpOrderSearchPOJO.setStartDateTime(startDateTime);
+				wpOrderSearchPOJO.setEndDateTime(endDateTime);
+				int orderCountTodayTotal = wpOrderService.getCount(wpOrderSearchPOJO);
+				int orderCountTodayClose = wpOrderService.getCountWithClose(wpOrderSearchPOJO);
+				orderCountToday = orderCountTodayTotal - orderCountTodayClose;
+				ret.addObject("orderCountToday", orderCountToday);
+
+				// 通过微信卡券接口得到卡券的库存
+				String cardId = ecProductPOJO.getWxCardId();
+				int wxCardStock = 0;
+				int getLimit = 0;
+				try {
+					Map wxCardDetailMap = oauth2Controller.getWxCardDetail(authorizerAppId, cardId);
+					Map cardMap = (Map) wxCardDetailMap.get("card");
+					Map cashMap = (Map) cardMap.get("cash");
+					Map baseInfoMap = (Map) cashMap.get("base_info");
+					getLimit = (Integer) baseInfoMap.get("get_limit");
+					Map skuMap = (Map) baseInfoMap.get("sku");
+					wxCardStock = (Integer) skuMap.get("quantity");
+                    /*EcProductPOJO ecProductPOJO4Update = new EcProductPOJO();
+                    ecProductPOJO4Update.setProductId(productId);
+                    ecProductPOJO4Update.setWxCardStock(wxCardStock);
+                    ecProductPOJO4Update.setWxCardLimitNumEveryone(getLimit);
+                    ecProductService.update(ecProductPOJO4Update);*/
+
+					// 数据库订单数量
+					ecProductPOJO.setWxCardStock(wxCardStock);
+					ret.addObject("wxCardLimit", getLimit);
+
+					// 通过微信api获取卡券数量
+					WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = oauth2Controller.getWxCardList(authorizerAppId, openId, cardId);
+					int wxCardCount = 0;
+					if (wxCardMgrGetCardListRespApiPOJO != null) {
+						List<WxCardMgrCardApiPOJO> wxCardMgrCardApiPOJOs = wxCardMgrGetCardListRespApiPOJO.getWxCardMgrCardApiPOJOs();
+						if (CollectionUtils.isNotEmpty(wxCardMgrCardApiPOJOs)) {
+							wxCardCount = wxCardMgrCardApiPOJOs.size();
+
+							List<Map> wxCards = new ArrayList<Map>();
+							Map wxCardsMap = new HashMap();
+							for (int i = 0; i < wxCardMgrCardApiPOJOs.size(); i++) {
+								WxCardMgrCardApiPOJO wxCardMgrCardApiPOJO = wxCardMgrCardApiPOJOs.get(i);
+								String cardId2 = wxCardMgrCardApiPOJO.getCardId();
+								String code = wxCardMgrCardApiPOJO.getCode();
+								wxCardsMap.put("cardId", cardId2);
+								wxCardsMap.put("code", code);
+								wxCards.add(wxCardsMap);
+							}
+							ret.addObject("wxCards", JsonUtils.convertToJson(wxCards));
+						}
+					}
+					ret.addObject("wxCardCount", wxCardCount);
+
+					// wx card
+					WxJsSdkConfigCardChoosePOJO wxJsSdkConfigCardChoosePOJO = new WxJsSdkConfigCardChoosePOJO();
+					wxJsSdkConfigCardChoosePOJO.setCardId(cardId);
+//              wxJsSdkConfigCardChoosePOJO.setCardType("");
+					wxJsSdkConfigCardChoosePOJO.setNonceStr(nonceStr + "cardchoose" + RandomStringUtils.randomAlphabetic(3));
+//              wxJsSdkConfigCardChoosePOJO.setShopId("");
+//              wxJsSdkConfigCardChoosePOJO.setSignType(WXPayConstants.SHA1);
+//              long timestamp = System.currentTimeMillis() / 1000;
+					wxJsSdkConfigCardChoosePOJO.setTimestamp(timestamp);
+					String wxCardTicket = oauth2Controller.getWxCardSdkTicket(authorizerAppId);
+					String cardSign = "";
+					WxCardSign wxCardSign = new WxCardSign();
+					wxCardSign.addData(wxCardTicket);
+					wxCardSign.addData(authorizerAppId);
+//					wxCardSign.addData("location_id");
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getTimestamp() + "");
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getNonceStr());
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getCardId());
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getCardType());
+
+					cardSign = wxCardSign.getSignature();
+					wxJsSdkConfigCardChoosePOJO.setCardSign(cardSign);
+					ret.addObject("wxJsSdkConfigCardChoosePOJO", wxJsSdkConfigCardChoosePOJO);
+				} catch (Exception e1) {
+					logger.error("get getWxCardDetail exception: ", e1);
+					ret.addObject("wxCardLimit", 0);
+					ret.addObject("wxCardCount", 0);
+				}
+
+				if (ecProductPOJO.getQuantityStock() < 1) {
+					ret.addObject("success", false);
+					ret.addObject("errMessage", "商品已全部售罄: " + ecProductPOJO.getQuantityStock());
+					return ret;
+				}
+			}
+
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+		}
+
+//		ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+//		ret.addObject("ecProductPOJO", ecProductPOJO);
+//		ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
+//		ret.addObject("subscribeFlag", subscribeFlag);
+		return ret;
+	}
+
 	@RequestMapping(value = "/web/ecommerce/ecorder/ecproduct/callwxpay", method = {RequestMethod.GET})
 	public ModelAndView ecOrderUnifiedOrder(@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
 			, @RequestParam(value="productId") Long productId

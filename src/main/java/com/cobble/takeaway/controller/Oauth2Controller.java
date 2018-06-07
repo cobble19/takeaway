@@ -767,7 +767,7 @@ public class Oauth2Controller extends BaseController {
 	}
 
 
-	public String geWxCardSdkTicket(String authorizerAppId) throws Exception {
+	public String getWxCardSdkTicket(String authorizerAppId) throws Exception {
 		String ret = "";
 		try {
 			String key = CommonConstant.WX_CARD_TICKET + "_" + authorizerAppId;
