@@ -94,20 +94,15 @@
 				///
 				/// openCard
 				$('#wxCardOpenBtn').click(function() {
-				    /*var wxCards = $('#wxCards').val();
-				    var cardList = JSON.parse(temp);*/
-//				    var cardList = [
-//						{
-//
-//						}
-//					]
-//				    alert("wxCards: " + wxCards + ", cardList: " + cardList);
+				    var wxCards = $('#wxCards').val();
+				    var cardList = JSON.parse(wxCards);
+				    alert("wxCards: " + wxCards + ", cardList: " + cardList);
                     wx.openCard({
-//                        cardList: cardList,// 需要打开的卡券列表
-                        cardList: [{
-                            cardId: 'pvyahuPhj9_WZn7fCnKUfPh3hzCE',
-                            code: '476505961685'
-                        }],// 需要打开的卡券列表
+                        cardList: cardList,// 需要打开的卡券列表
+//                        cardList: [{
+//                            cardId: 'pvyahuPhj9_WZn7fCnKUfPh3hzCE',
+//                            code: '476505961685'
+//                        }],// 需要打开的卡券列表
                         success: function (res) {
                             alert('openCard success' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
                         },

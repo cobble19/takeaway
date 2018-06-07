@@ -252,11 +252,12 @@ public class EcOrderController extends BaseController {
 							wxCardCount = wxCardMgrCardApiPOJOs.size();
 
 							List<Map> wxCards = new ArrayList<Map>();
-							Map wxCardsMap = new HashMap();
 							for (int i = 0; i < wxCardMgrCardApiPOJOs.size(); i++) {
 								WxCardMgrCardApiPOJO wxCardMgrCardApiPOJO = wxCardMgrCardApiPOJOs.get(i);
 								String cardId2 = wxCardMgrCardApiPOJO.getCardId();
 								String code = wxCardMgrCardApiPOJO.getCode();
+
+								Map wxCardsMap = new HashMap();
 								wxCardsMap.put("cardId", cardId2);
 								wxCardsMap.put("code", code);
 								wxCards.add(wxCardsMap);
