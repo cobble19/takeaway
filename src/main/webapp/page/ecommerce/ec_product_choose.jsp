@@ -54,74 +54,6 @@
 					WeixinJSBridge.call('closeWindow');
 				}
 				///
-				///
-				// chooseCard
-				$('#wxCardChooseBtn').click(function() {
-				    var shopId = $('#shopIdCard').val();
-                    var cardType = $('#cardTypeCard').val();
-                    var cardId = $('#cardIdCard').val();
-                    var timestamp = $('#timestampCard').val();
-                    var nonceStr = $('#nonceStrCard').val();
-                    var signType = $('#signTypeCard').val();
-                    var cardSign = $('#cardSignCard').val();
-                    wx.chooseCard({
-                        shopId: '' + shopId, // 门店Id
-                        cardType: '' + cardType, // 卡券类型
-                        cardId: '' + cardId, // 卡券Id
-                        timestamp: timestamp, // 卡券签名时间戳
-                        nonceStr: '' + nonceStr, // 卡券签名随机串
-                        signType: '' + signType, // 签名方式，默认'SHA1'
-                        cardSign: '' + cardSign, // 卡券签名
-                        success: function (res) {
-                            var cardList= res.cardList; // 用户选中的卡券列表信息
-							alert('cardList: ' + cardList);
-                            alert('chooseCard success' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        },
-                        fail: function(res) {
-                            alert('chooseCard fail' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        },
-                        complete: function(res) {
-                            alert('chooseCard complete, ' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        },
-                        cancel: function(res) {
-                            alert('chooseCard cancel, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        },
-                        trigger: function(res) {
-                            alert('chooseCard trigger, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        }
-                    });
-				})
-				///
-				/// openCard
-				$('#wxCardOpenBtn').click(function() {
-				    var wxCards = $('#wxCards').val();
-				    var cardList = JSON.parse(temp);
-				    alert("wxCards: " + wxCards + ", cardList: " + cardList);
-                    wx.openCard({
-                        cardList: cardList,// 需要打开的卡券列表
-//                        cardList: [{
-//                            cardId: '',
-//                            code: ''
-//                        }],// 需要打开的卡券列表
-                        success: function (res) {
-                            alert('openCard success' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        },
-                        fail: function(res) {
-                            alert('openCard fail' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        },
-                        complete: function(res) {
-                            alert('openCard complete, ' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        },
-                        cancel: function(res) {
-                            alert('openCard cancel, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        },
-                        trigger: function(res) {
-                            alert('openCard trigger, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-                        }
-                    });
-				});
-				///
-				///
 				//$('#qrcodeModal').modal('hide');
 
 				function onceClick() {
@@ -359,17 +291,6 @@
   	<input type="hidden" id="url" name="url" value="${wxJsSdkConfigRespApiPOJO.url}" />
   	<input type="hidden" id="ticket" name="ticket" value="${wxJsSdkConfigRespApiPOJO.ticket}" />
 
-	<%--WX CARD--%>
-	<input type="text" id="shopIdCard" name="shopIdCard" value="${wxJsSdkConfigCardChoosePOJO.shopId}" />
-	<input type="text" id="cardTypeCard" name="cardTypeCard" value="${wxJsSdkConfigCardChoosePOJO.cardType}" />
-	<input type="text" id="cardIdCard" name="cardIdCard" value="${wxJsSdkConfigCardChoosePOJO.cardId}" />
-	<input type="text" id="timestampCard" name="timestampCard" value="${wxJsSdkConfigCardChoosePOJO.timestamp}" />
-	<input type="text" id="nonceStrCard" name="nonceStrCard" value="${wxJsSdkConfigCardChoosePOJO.nonceStr}" />
-	<input type="text" id="signTypeCard" name="signTypeCard" value="${wxJsSdkConfigCardChoosePOJO.signType}" />
-	<input type="text" id="cardSignCard" name="cardSignCard" value="${wxJsSdkConfigCardChoosePOJO.cardSign}" />
-
-	<input type="text" id="wxCards" name="wxCards" value="${wxCards}" />
-
   	<!-- 调用微信支付js接口 -->
   	<input type="hidden" id="appIdUo" name="appIdUo" />
   	<input type="hidden" id="timestampUo" name="timestampUo" />
@@ -466,9 +387,6 @@
 						style="text-align: center; padding-top: 5px">
 						<div role="presentation" class="active col-xs-12 col-md-12">
 		                    <input type="button" class="btn btn-success btn-sm btn-block" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
-
-							<input type="button" class="btn btn-success btn-sm btn-block" id="wxCardChooseBtn" name="wxCardChooseBtn" value="TestChoose"/>
-							<input type="button" class="btn btn-success btn-sm btn-block" id="wxCardOpenBtn" name="wxCardOpenBtn" value="TestOpen"/>
 						</div>
 					</ul>
 				</nav>
