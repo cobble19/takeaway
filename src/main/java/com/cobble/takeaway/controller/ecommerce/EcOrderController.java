@@ -13,6 +13,7 @@ import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoPOJO;
 import com.cobble.takeaway.pojo.weixin.WxAuthorizerInfoSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCardMgrCardApiPOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxCardMgrGetCardListRespApiPOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigCardChoosePOJO;
 import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigRespApiPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderRespPOJO;
@@ -31,6 +32,7 @@ import com.cobble.takeaway.util.*;
 import com.github.wxpay.sdk.MyWXPayConfigImpl;
 import com.github.wxpay.sdk.WXPayConstants;
 import com.github.wxpay.sdk.WXPayUtil;
+import com.github.wxpay.sdk.WxCardSign;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -823,9 +825,41 @@ public class EcOrderController extends BaseController {
                         List<WxCardMgrCardApiPOJO> wxCardMgrCardApiPOJOs = wxCardMgrGetCardListRespApiPOJO.getWxCardMgrCardApiPOJOs();
                         if (CollectionUtils.isNotEmpty(wxCardMgrCardApiPOJOs)) {
                             wxCardCount = wxCardMgrCardApiPOJOs.size();
+                            List<Map> wxCards = new ArrayList<Map>();
+                            Map wxCardsMap = new HashMap();
+                            for (int i = 0; i < wxCardMgrCardApiPOJOs.size(); i++) {
+								WxCardMgrCardApiPOJO wxCardMgrCardApiPOJO = wxCardMgrCardApiPOJOs.get(i);
+								String cardId2 = wxCardMgrCardApiPOJO.getCardId();
+								String code = wxCardMgrCardApiPOJO.getCode();
+								wxCardsMap.put("cardId", cardId2);
+								wxCardsMap.put("code", code);
+								wxCards.add(wxCardsMap);
+							}
+							ret.addObject("wxCards", JsonUtils.convertToJson(wxCards));
                         }
                     }
                     ret.addObject("wxCardCount", wxCardCount);
+
+					// wx card
+					WxJsSdkConfigCardChoosePOJO wxJsSdkConfigCardChoosePOJO = new WxJsSdkConfigCardChoosePOJO();
+					wxJsSdkConfigCardChoosePOJO.setCardId(cardId);
+//							wxJsSdkConfigCardChoosePOJO.setCardType("");
+					wxJsSdkConfigCardChoosePOJO.setNonceStr(nonceStr + "cardchoose" + RandomStringUtils.randomAlphabetic(3));
+//							wxJsSdkConfigCardChoosePOJO.setShopId("");
+//							wxJsSdkConfigCardChoosePOJO.setSignType(WXPayConstants.SHA1);
+//							long timestamp = System.currentTimeMillis() / 1000;
+					wxJsSdkConfigCardChoosePOJO.setTimestamp(timestamp);
+					String cardSign = "";
+					WxCardSign wxCardSign = new WxCardSign();
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getCardId());
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getCardType());
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getNonceStr());
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getShopId());
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getSignType());
+					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getTimestamp() + "");
+					cardSign = wxCardSign.getSignature();
+					wxJsSdkConfigCardChoosePOJO.setCardSign(cardSign);
+					ret.addObject("wxJsSdkConfigCardChoosePOJO", wxJsSdkConfigCardChoosePOJO);
 
                 } catch (Exception e1) {
                     logger.error("get getWxCardDetail exception: ", e1);

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
+// 此java类, 也适用于jssdkticket和卡券ticket
 public class WxJsSdkTicketRespApiPOJO extends BaseWxApiPOJO {
 	@JsonProperty(value="ticket")
 	private String ticket;

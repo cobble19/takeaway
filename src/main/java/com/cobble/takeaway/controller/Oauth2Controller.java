@@ -304,6 +304,9 @@ public class Oauth2Controller extends BaseController {
 	private String wxCardMgrGetUrl;
 	@Value("${WX.card.mgr.getCardListUrl}")
 	private String wxCardMgrGetCardListUrl;
+
+	@Value("${WX.card.getTicketUrl}")
+	private String wxCardGetTicketUrl;
 	
 	private static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
@@ -762,6 +765,56 @@ public class Oauth2Controller extends BaseController {
 		ret.setViewName("/page/test/" + jspFileName);
 		return ret;
 	}
+
+
+	public String geWxCardSdkTicket(String authorizerAppId) throws Exception {
+		String ret = "";
+		try {
+			String key = CommonConstant.WX_CARD_TICKET + "_" + authorizerAppId;
+			String value = CacheUtil.getInstance().get(key);
+			if (StringUtils.isNotBlank(value)) {
+				return value;
+			}
+
+			WxJsSdkTicketRespApiPOJO wxJsSdkTicketRespApiPOJO = getWxCardTicketRespApiPOJO(authorizerAppId);
+			int timeToLiveSenconds = wxJsSdkTicketRespApiPOJO.getExpiresIn() - 30 * 60;
+			if (timeToLiveSenconds <= 0) {
+				timeToLiveSenconds = wxJsSdkTicketRespApiPOJO.getExpiresIn() / 2;
+			}
+			CacheUtil.getInstance().put(key, wxJsSdkTicketRespApiPOJO.getTicket(), timeToLiveSenconds);
+			ret = wxJsSdkTicketRespApiPOJO.getTicket();
+		} catch (Exception e) {
+			logger.error("Can't getWxJsSdkTicket. ", e);
+		}
+
+		return ret;
+	}
+
+	/**
+	 * Only call weixin api, has call times limit, must cache it
+	 * @param authorizerAppId
+	 * @return
+	 * @throws Exception
+	 */
+	private WxJsSdkTicketRespApiPOJO getWxCardTicketRespApiPOJO(String authorizerAppId) throws Exception {
+		WxJsSdkTicketRespApiPOJO ret = null;
+
+		String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+		if (StringUtils.isNotBlank(authorizerAccessToken)) {
+			String myWxJsSdkTicketUrl = wxCardGetTicketUrl
+					.replace("ACCESS_TOKEN", authorizerAccessToken);
+
+			String result = HttpClientUtil.get(myWxJsSdkTicketUrl);
+			result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+			logger.debug("result: " + result);
+			WxJsSdkTicketRespApiPOJO wxJsSdkTicketRespApiPOJO = JsonUtils.convertToJavaBean(result, WxJsSdkTicketRespApiPOJO.class);
+			ret = wxJsSdkTicketRespApiPOJO;
+		} else {
+			logger.error("accessToken must be no null, authorizerAppId: {}", authorizerAppId);
+		}
+
+		return ret;
+	}
 	
 	public String getWxJsSdkTicket(String authorizerAppId) throws Exception {
 		String ret = "";
@@ -785,7 +838,13 @@ public class Oauth2Controller extends BaseController {
 		
 		return ret;
 	}
-	
+
+	/**
+	 * Only call weixin api, has call times limit, must cache it
+	 * @param authorizerAppId
+	 * @return
+	 * @throws Exception
+	 */
 	private WxJsSdkTicketRespApiPOJO getWxJsSdkTicketRespApiPOJO(String authorizerAppId) throws Exception {
 		WxJsSdkTicketRespApiPOJO ret = null;
 		
