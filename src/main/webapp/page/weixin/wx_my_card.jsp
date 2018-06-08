@@ -65,11 +65,11 @@
                         "url" : $('#basePath').val() + "/api/wx/card/code/decrypt",
                         "type" : "POST",
                         "async": false,
-                        /*"headers" : {
+                        "headers" : {
                             "Content-Type" : "application/json"
-                        },*/
+                        },
                         /*"dataType" : 'json',*/
-                        "data": (params),
+                        "data": JSON.stringify(params),
                         "success": function(data, textStatus, jqXHR ) {
                             console.log("data = " + data);
                             ret = data.code;
