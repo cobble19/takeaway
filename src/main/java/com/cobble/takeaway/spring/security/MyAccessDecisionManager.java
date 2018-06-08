@@ -340,7 +340,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 						}
 					}
 				}
-			} else if (uri.contains("/web/wxpay") || uri.contains("/web/ecommerce/ecorder/ecproduct/")) {
+			} else if (uri.contains("/web/wxpay") || uri.contains("/web/ecommerce/ecorder/ecproduct/")
+						|| uri.contains("/web/weixin/wxmycard")) {
 				
 				// 关注的时候发送url
 				if (uri.contains("/web/ecommerce/ecorder/ecproduct/")) {

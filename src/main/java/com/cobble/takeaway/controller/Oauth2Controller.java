@@ -307,6 +307,8 @@ public class Oauth2Controller extends BaseController {
 
 	@Value("${WX.card.getTicketUrl}")
 	private String wxCardGetTicketUrl;
+	@Value("${WX.card.code.decryptUrl}")
+	private String wxCardCodeDecryptUrl;
 	
 	private static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
@@ -318,6 +320,56 @@ public class Oauth2Controller extends BaseController {
         formatter.close();
         return result;
     }
+
+	@RequestMapping(value = "/api/wx/card/code/decrypt", method = {RequestMethod.POST})
+	@ResponseBody
+	public WxCardCodeDecryptRespApiPOJO wxCardCodeDecrypt(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+												  @RequestParam(value="authorizerAppId", required = false) String authorizerAppId,
+												  @RequestBody String requestBody
+			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		/*ModelAndView ret = new ModelAndView();*/
+
+		WxCardCodeDecryptRespApiPOJO ret = null;
+
+		String uri = request.getRequestURI();
+		String qs = request.getQueryString();
+		HttpSession session = request.getSession();
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+//				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}*/
+
+			logger.info("requestBody: {}", requestBody);
+
+			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
+			if (StringUtils.isNotBlank(authorizerAccessToken)) {
+				String myWxCardCodeDecryptUrl = wxCardCodeDecryptUrl
+						.replace("ACCESS_TOKEN", authorizerAccessToken);
+
+				// test request POJO<->requestBody
+				/*WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxCardCodeDecryptReqApiPOJO.class);
+				requestBody = JsonUtils.convertToJson(wxCardCodeDecryptReqApiPOJO);*/
+
+				String result = HttpClientUtil.postHttpsJson(myWxCardCodeDecryptUrl, requestBody);
+				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
+				logger.debug("result: " + result);
+				WxCardCodeDecryptRespApiPOJO wxCardCodeDecryptRespApiPOJO = JsonUtils.convertToJavaBean(result, WxCardCodeDecryptRespApiPOJO.class);
+				ret = wxCardCodeDecryptRespApiPOJO;
+			} else {
+				logger.error("accessToken is must no null, authorizerAppId: {}", authorizerAppId);
+			}
+
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+		}
+
+		return ret;
+	}
 
 	public WxCardMgrGetCardListRespApiPOJO getWxCardList(String authorizerAppId, String openId, String cardId) throws Exception {
 		WxCardMgrGetCardListRespApiPOJO ret = new WxCardMgrGetCardListRespApiPOJO();

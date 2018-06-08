@@ -55,6 +55,36 @@
 				}
 				///
 				///
+				function getWxCardCodeDecrypt(encryptCode) {
+				    var ret = "";
+				    var params = {
+				        "encrypt_code": encryptCode
+					}
+                    // sync
+                    $.ajax({
+                        "url" : $('#basePath').val() + "/api/wx/card/code/decrypt",
+                        "type" : "POST",
+                        "async": false,
+                        /*"headers" : {
+                            "Content-Type" : "application/json"
+                        },*/
+                        /*"dataType" : 'json',*/
+                        "data": (params),
+                        "success": function(data, textStatus, jqXHR ) {
+                            console.log("data = " + data);
+                            ret = data.code;
+                        },
+                        "error": function(jqXHR, textStatus, errorThrown) {
+                            alert('加载失败!');
+                        },
+                        "complete": function(jqXHR, textStatus) {
+                            console.log('Ajax complete.');
+                        }
+                    });	// ajax
+				    return ret;
+				}
+				///
+				///
 				// chooseCard
 				$('#wxCardChooseBtn').click(function() {
 				    var shopId = $('#shopIdCard').val();
@@ -74,8 +104,23 @@
                         cardSign: '' + cardSign, // 卡券签名
                         success: function (res) {
                             var cardList= res.cardList; // 用户选中的卡券列表信息
+                            /**
+							 * [{"card_id":"","encrypt_code":"", "app_id":""}]
+                             */
+                            var cardArr = JSON.parse(cardList);
+                            var cardsResult = [];
+                            $.each(cardArr, function(index, element) {
+                                var card = {};
+                                var cardId = element.card_id;
+                                var encryptCode = element.encrypt_code;
+                                var code = getWxCardCodeDecrypt(encryptCode);
+                                card["cardId"] = cardId;
+                                card["code"] = code;
+								cardsResult.push(card);
+							});
 							alert('cardList: ' + cardList);
                             alert('chooseCard success' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
+                            wxOpenCard(cardsResult);
                         },
                         fail: function(res) {
                             alert('chooseCard fail' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
@@ -92,11 +137,8 @@
                     });
 				})
 				///
-				/// openCard
-				$('#wxCardOpenBtn').click(function() {
-				    var wxCards = $('#wxCards').val();
-				    var cardList = JSON.parse(wxCards);
-				    alert("wxCards: " + wxCards + ", cardList: " + cardList);
+				///
+				function wxOpenCard(cardList) {
                     wx.openCard({
                         cardList: cardList,// 需要打开的卡券列表
 //                        cardList: [{
@@ -119,6 +161,14 @@
                             alert('openCard trigger, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
                         }
                     });
+				}
+				///
+				/// openCard
+				$('#wxCardOpenBtn').click(function() {
+				    var wxCards = $('#wxCards').val();
+				    var cardList = JSON.parse(wxCards);
+				    alert("wxCards: " + wxCards + ", cardList: " + cardList);
+                    wxOpenCard(cardList);
 				});
 				///
 				///
