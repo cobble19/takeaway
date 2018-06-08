@@ -269,7 +269,7 @@ public class EcOrderController extends BaseController {
 
 					// wx card
 					WxJsSdkConfigCardChoosePOJO wxJsSdkConfigCardChoosePOJO = new WxJsSdkConfigCardChoosePOJO();
-					wxJsSdkConfigCardChoosePOJO.setCardId(cardId);
+//					wxJsSdkConfigCardChoosePOJO.setCardId(cardId);
 //              wxJsSdkConfigCardChoosePOJO.setCardType("");
 					wxJsSdkConfigCardChoosePOJO.setNonceStr(nonceStr + "cardchoose" + RandomStringUtils.randomAlphabetic(3));
 //              wxJsSdkConfigCardChoosePOJO.setShopId("");
@@ -284,7 +284,7 @@ public class EcOrderController extends BaseController {
 //					wxCardSign.addData("location_id");
 					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getTimestamp() + "");
 					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getNonceStr());
-					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getCardId());
+//					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getCardId());
 					wxCardSign.addData(wxJsSdkConfigCardChoosePOJO.getCardType());
 
 					cardSign = wxCardSign.getSignature();

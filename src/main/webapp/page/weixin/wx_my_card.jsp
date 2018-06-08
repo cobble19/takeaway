@@ -94,6 +94,10 @@
                     var nonceStr = $('#nonceStrCard').val();
                     var signType = $('#signTypeCard').val();
                     var cardSign = $('#cardSignCard').val();
+                    alert("shopId: " + shopId + ", cardType: " + cardType
+                        + ", cardId: " + cardId + ", timestamp: " + timestamp
+                        + ", nonceStr: " + nonceStr + ", signType: " + signType
+                        + ", cardSign: " + cardSign);
                     wx.chooseCard({
                         shopId: '' + shopId, // 门店Id
                         cardType: '' + cardType, // 卡券类型
