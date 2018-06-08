@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -352,8 +353,9 @@ public class Oauth2Controller extends BaseController {
 						.replace("ACCESS_TOKEN", authorizerAccessToken);
 
 				// test request POJO<->requestBody
-				/*WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxCardCodeDecryptReqApiPOJO.class);
-				requestBody = JsonUtils.convertToJson(wxCardCodeDecryptReqApiPOJO);*/
+				WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxCardCodeDecryptReqApiPOJO.class);
+				wxCardCodeDecryptReqApiPOJO.setEncryptCode(URLDecoder.decode(wxCardCodeDecryptReqApiPOJO.getEncryptCode(), "UTF-8"));
+				requestBody = JsonUtils.convertToJson(wxCardCodeDecryptReqApiPOJO);
 
 				String result = HttpClientUtil.postHttpsJson(myWxCardCodeDecryptUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
