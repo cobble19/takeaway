@@ -5,7 +5,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.cobble.takeaway.pojo.*;
+import com.cobble.takeaway.util.CommonConstant;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,9 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cobble.takeaway.controller.BaseController;
-import com.cobble.takeaway.pojo.DataTablesPOJO;
-import com.cobble.takeaway.pojo.ExtjsPOJO;
-import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcProductPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcProductSearchPOJO;
 import com.cobble.takeaway.service.ecommerce.EcProductService;
@@ -35,7 +37,45 @@ public class EcProductController extends BaseController {
 	@Autowired
 	private EcProductService ecProductService;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-	
+
+
+	@RequestMapping(value = "/web/ecommerce/ecwxcardactive")
+	public ModelAndView queryActive4PageUnified(@RequestParam(value = "authorizerAppId", required = false) String authorizerAppId,
+												HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			String uri = request.getRequestURI();
+			String qs = request.getQueryString();
+			String url = request.getRequestURL() + "";
+			HttpSession session = request.getSession();
+
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+			}
+
+			EcProductSearchPOJO ecProductSearchPOJO = new EcProductSearchPOJO();
+			ecProductSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			List<EcProductPOJO> ecProductPOJOs = ecProductService.findActives(ecProductSearchPOJO);
+
+			if (!CollectionUtils.isEmpty(ecProductPOJOs)) {
+				if (StringUtils.isNotBlank(ecProductPOJOs.get(0).getProductName())) {
+					String documentTitle = ecProductPOJOs.get(0).getProductName();
+					ret.addObject("documentTitle", documentTitle);
+				}
+
+			}
+			ret.addObject("ecProductPOJOs", ecProductPOJOs);
+			ret.setViewName("/page/ecommerce/ec_wx_card_active");
+		} catch (Exception e) {
+			logger.error("list error.", e);
+			throw e;
+		}
+
+		return ret;
+	}
 
 	@RequestMapping(value = "/web/unified/ecProduct/add", produces = {MediaType.APPLICATION_JSON_VALUE})
 	//@ResponseBody

@@ -12,6 +12,7 @@ public interface EcProductService {
 	int increaseStock(Long productId, Integer quantity) throws Exception;
 	List<EcProductPOJO> finds(EcProductSearchPOJO ecProductSearchPOJO) throws Exception;
 	int getCount(EcProductSearchPOJO ecProductSearchPOJO) throws Exception;
+	List<EcProductPOJO> findActives(EcProductSearchPOJO ecProductSearchPOJO) throws Exception;
 	EcProductPOJO findById(Long id) throws Exception;
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;

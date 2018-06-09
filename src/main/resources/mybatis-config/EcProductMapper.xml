@@ -83,6 +83,25 @@
   		</trim>
   	</where>
   </select>
+
+  <select id="findActives" resultMap="EcProductResultMap" parameterType="com.cobble.takeaway.pojo.ecommerce.EcProductSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from EC_PRODUCT a
+    <where>
+      <trim prefixOverrides="and">
+        <include refid="Clause_Common"/>
+        and a.END_DATE_TIME - now() &gt;= 0
+      </trim>
+    </where>
+    order by (a.END_DATE_TIME - now()) asc, CREATE_DATE_TIME asc
+    <if test="start > -1 and limit > 0">
+      limit #{start}, #{limit}
+    </if>
+  </select>
   
   <select id="findById" resultMap="EcProductResultMap" parameterType="java.lang.Long" >
     select 

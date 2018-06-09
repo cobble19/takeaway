@@ -48,6 +48,14 @@ public class EcProductServiceImpl implements EcProductService {
 	}
 
 	@Override
+	public List<EcProductPOJO> findActives(
+			EcProductSearchPOJO ecProductSearchPOJO) throws Exception {
+		List<EcProductPOJO> ret = null;
+		ret = ecProductMapper.findActives(ecProductSearchPOJO);
+		return ret;
+	}
+
+	@Override
 	public EcProductPOJO findById(Long id) throws Exception {
 		EcProductPOJO ret = null;
 		ret = ecProductMapper.findById(id);

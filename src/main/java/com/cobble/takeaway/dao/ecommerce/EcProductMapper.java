@@ -15,6 +15,8 @@ public interface EcProductMapper {
 	int increaseStock(@Param("productId") Long productId, @Param("quantity") Integer quantity) throws Exception;
 	List<EcProductPOJO> finds(EcProductSearchPOJO ecProductSearchPOJO) throws Exception;
 	int getCount(EcProductSearchPOJO ecProductSearchPOJO) throws Exception;
+	List<EcProductPOJO> findActives(EcProductSearchPOJO ecProductSearchPOJO) throws Exception;
 	EcProductPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
+
 }
