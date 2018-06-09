@@ -62,13 +62,13 @@ public class EcProductController extends BaseController {
 			ecProductSearchPOJO.setPaginationFlage(false);
 			List<EcProductPOJO> ecProductPOJOs = ecProductService.findActives(ecProductSearchPOJO);
 
-			if (!CollectionUtils.isEmpty(ecProductPOJOs)) {
-				if (StringUtils.isNotBlank(ecProductPOJOs.get(0).getProductName())) {
-					String documentTitle = ecProductPOJOs.get(0).getProductName();
-					ret.addObject("documentTitle", documentTitle);
-				}
-
-			}
+//			if (!CollectionUtils.isEmpty(ecProductPOJOs)) {
+//				if (StringUtils.isNotBlank(ecProductPOJOs.get(0).getProductName())) {
+//					String documentTitle = ecProductPOJOs.get(0).getProductName();
+//					ret.addObject("documentTitle", documentTitle);
+//				}
+//
+//			}
 			ret.addObject("ecProductPOJOs", ecProductPOJOs);
 			ret.setViewName("/page/ecommerce/ec_wx_card_active");
 		} catch (Exception e) {
