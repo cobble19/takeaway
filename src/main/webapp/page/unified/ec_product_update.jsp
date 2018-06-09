@@ -100,6 +100,12 @@
  				</div>
  			</div>
 			<div class="form-group">
+				<label class="control-label" for="activeFlag">是否显示for active:</label>
+				<div class="">
+					<input class="form-control" id="activeFlag" name="activeFlag" value="${ecProductPOJO.activeFlag}" placeholder="请确定是否显示, 0-不显示, 1-显示">
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="control-label" for="startDateTime">活动开始时间:</label>
 				<input type="hidden" id="startDateTimeX" value="${ecProductPOJO.startDateTime}">
 				<div class="">

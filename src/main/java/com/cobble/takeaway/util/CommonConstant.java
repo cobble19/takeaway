@@ -138,6 +138,7 @@ public interface CommonConstant {
 	public final static String WXPAY_ORDER_PAYERROR = "PAYERROR";
 
 	public final static String WXPAY_SUCCESS = "SUCCESS";
-	
+	// for wx card active
+	public final static int ACTIVE_FLAG_CARD_ENABLE = 1;
 	
 }

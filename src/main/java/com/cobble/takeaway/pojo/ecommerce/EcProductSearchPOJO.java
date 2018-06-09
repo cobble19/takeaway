@@ -17,10 +17,19 @@ public class EcProductSearchPOJO extends BaseSearchPOJO {
 	private String wxCardId;
 	
 	private Integer needSubscribe;
+	private Integer activeFlag;
 	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
-	
+
+	public Integer getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(Integer activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+
 	public Integer getNeedSubscribe() {
 		return needSubscribe;
 	}

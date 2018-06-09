@@ -23,12 +23,21 @@ public class EcProductPOJO extends BasePOJO {
 	private Integer wxCardLimitNumEveryone;
 
 	private Integer needSubscribe;
+	private Integer activeFlag;
 
 	private Date startDateTime;
 	private Date endDateTime;
 	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public Integer getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(Integer activeFlag) {
+		this.activeFlag = activeFlag;
+	}
 
 	public Integer getLimitNumDay() {
 		return limitNumDay;

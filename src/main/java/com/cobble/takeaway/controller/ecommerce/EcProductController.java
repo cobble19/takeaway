@@ -58,6 +58,8 @@ public class EcProductController extends BaseController {
 
 			EcProductSearchPOJO ecProductSearchPOJO = new EcProductSearchPOJO();
 			ecProductSearchPOJO.setAuthorizerAppId(authorizerAppId);
+			ecProductSearchPOJO.setActiveFlag(CommonConstant.ACTIVE_FLAG_CARD_ENABLE);
+			ecProductSearchPOJO.setPaginationFlage(false);
 			List<EcProductPOJO> ecProductPOJOs = ecProductService.findActives(ecProductSearchPOJO);
 
 			if (!CollectionUtils.isEmpty(ecProductPOJOs)) {

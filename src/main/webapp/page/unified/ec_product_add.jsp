@@ -98,6 +98,12 @@
  				</div>
  			</div>
 			<div class="form-group">
+				<label class="control-label" for="activeFlag">是否显示for active:</label>
+				<div class="">
+					<input class="form-control" id="activeFlag" name="activeFlag" placeholder="请确定是否显示, 0-不显示, 1-显示">
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="control-label" for="startDateTime">活动开始时间:</label>
 				<div class="">
 					<input class="form-control" id="startDateTime" name="startDateTime" required="required" placeholder="请输入开始时间">
