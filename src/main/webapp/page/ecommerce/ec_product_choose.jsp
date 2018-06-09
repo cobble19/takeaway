@@ -381,12 +381,23 @@
 			          </span>
 		          </div>
 		        </div>
-		        <nav class="navbar navbar-default navbar-fixed-bottom">
+		        <nav style="min-height:25px;" class="navbar navbar-default navbar-fixed-bottom">
 					<!-- Nav tabs -->
 					<ul class="nav nav-pills" role="tablist"
-						style="text-align: center; padding-top: 5px">
-						<div role="presentation" class="active col-xs-12 col-md-12">
-		                    <input type="button" class="btn btn-success btn-sm btn-block" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
+						style="">
+                        <div role="presentation" class="active col-xs-4 col-md-4" style="margin:5px 0px;padding-left:5px; padding-right:5px;">		                    
+                           <button class="btn btn-link" style="color:#09F;padding:0px;text-decoration:none;" type="button">
+                               <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                               <p style="font-size:7px;color:#666;">我的票券</p>
+                           </button>
+                           <span style="color:#CCC;padding:0px;">|</span>
+                           <button class="btn btn-link" style="color:#0C0;padding:0px;text-decoration:none;" type="button">
+                               <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                               <p style="font-size:7px;color:#666;">票券市场</p>
+                           </button>
+						</div>
+						<div style="margin:5px 0px;padding-left:5px;padding-right:5px;" role="presentation" class="active col-xs-8 col-md-8">
+		                    <input type="button" class="btn btn-warning btn-sm btn-block" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
 						</div>
 					</ul>
 				</nav>
