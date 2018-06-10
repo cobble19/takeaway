@@ -13,271 +13,9 @@
 
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/progress_dialog.js"></script>
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/count_down.js"></script>
-		<script type="text/javascript">
-			$(function() {
-// 				alert(location.href.split('#')[0]);
-				var appId = $('#appId').val();
-				var timestamp = $('#timestamp').val();
-				var nonceStr = $('#nonceStr').val();
-				var signature = $('#signature').val();
-				var jsApiList = ($('#jsApiList').val().replace('[','').replace(']','').replace(/\s+/g,'')).split(',');
-				///
-				// 通过config接口注入权限验证配置
-				wx.config({
-				    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，
-				    				//若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-				    appId: appId, // 必填，公众号的唯一标识
-				    timestamp: timestamp, // 必填，生成签名的时间戳
-				    nonceStr: nonceStr, // 必填，生成签名的随机串
-				    signature: signature,// 必填，签名，见附录1
-				    jsApiList: jsApiList // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-				});
-				///
-				// 通过ready接口处理成功验证
-				wx.ready(function(){
-				    // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，
-				    // config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，
-				    // 则须把相关接口放在ready函数中调用来确保正确执行。
-				    // 对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-// 				    alert('wx.ready');
-				});
-				///
-				// 通过error接口处理失败验证
-				wx.error(function(res){
-				    // config信息验证失败会执行error函数，如签名过期导致验证失败，
-				    // 具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-				    alert('wx.error' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-				});
-				///
-				function closeSelfWindow() {
-					wx.closeWindow();
-					WeixinJSBridge.call('closeWindow');
-				}
-				///
-				//$('#qrcodeModal').modal('hide');
-
-				function onceClick() {
-                    disableFeeBtn();
-				}
-
-				function disableFeeBtn() {
-                    $('#myFeeBtn').attr("readonly", true).addClass('disabled')
-                        .attr('disabled', true);
-				}
-				function enableFeeBtn() {
-                    $('#myFeeBtn').attr("readonly", false).removeClass('disabled')
-                        .attr('disabled', false);
-				}
-
-				$('#myFeeBtn').click(function() {
-                    onceClick();
-                    myFeeClick();
-				});
-				function myFeeClick() {
-                    var subscribeFlag = $('#subscribeFlag').val();
-                    console.log('subscribeFlag: ' + subscribeFlag);
-                    if (subscribeFlag == '0') {
-                        $('#qrcodeModal').modal('show');
-                        enableFeeBtn();
-                        return;
-                    }
-
-// 					$('#myFeeForm').submit();
-                    var authorizerAppId = $('#appId').val();
-                    var productId = $('#productId').val();
-                    var unitPrice = $('#unitPrice').val();
-                    var quantity = $('#quantity').val();
-
-
-
-                    var params = {};
-                    params.authorizerAppId = authorizerAppId;
-                    params.productId = productId;
-                    params.unitPrice = unitPrice;
-                    params.quantity = quantity;
-
-                    var result = {};
-
-                    // sync
-                    $.ajax({
-                        "url" : $('#basePath').val() + "/api/ecommerce/ecorder/ecproduct/callwxpay",
-                        "type" : "POST",
-                        "async": true,
-                        /*"headers" : {
-                            "Content-Type" : "application/json"
-                        },*/
-                        /*"dataType" : 'json',*/
-                        "data": (params),
-                        "success": function(data, textStatus, jqXHR ) {
-                            enableFeeBtn();
-                            console.log("data = " + data);
-                            result = data;
-                            if (data.success) {
-                                // Uo: Unified Order
-                                $('#appIdUo').val(data.jsPayMap.appId);
-                                $('#timestampUo').val(data.jsPayMap.timeStamp);
-                                $('#nonceStrUo').val(data.jsPayMap.nonceStr);
-                                $('#prepayIdUo').val(data.jsPayMap.prepayId);
-                                $('#paySignUo').val(data.jsPayMap.sign);
-                                $('#packageUo').val(data.jsPayMap.packageUo);
-                                alert('申请订单成功！去付款吧!')
-
-                                // call wxpay
-								if (typeof WeixinJSBridge == "undefined") {
-									if( document.addEventListener ){
-										document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-									}else if (document.attachEvent){
-										document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-										document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-									}
-								}else{
-									onBridgeReady();
-								}
-                                // end call wxpay
-                            } else {
-                                alert('申请订单失败, ' + data.errMessage);
-                            }
-                        },
-                        "error": function(jqXHR, textStatus, errorThrown) {
-                            enableFeeBtn();
-                            alert('加载失败!');
-                        },
-                        "complete": function(jqXHR, textStatus) {
-                            enableFeeBtn();
-                            console.log('Ajax complete.');
-                        }
-                    });	// ajax
-				}
-				///
-
-				// jsapi调用微信支付api
-				function onBridgeReady(){
-					var appId = $('#appIdUo').val();
-					var timestamp = $('#timestampUo').val();
-					var nonceStr = $('#nonceStrUo').val();
-					var prepayId = $('#prepayIdUo').val();
-					var paySign = $('#paySignUo').val();
-					var packageUo = $('#packageUo').val();
-
-					WeixinJSBridge.invoke(
-					    'getBrandWCPayRequest', {
-					        "appId": appId,     //公众号名称，由商户传入
-					        "timeStamp":timestamp,         //时间戳，自1970年以来的秒数
-					        "nonceStr":nonceStr, //随机串
-					        "package":packageUo,
-					        "signType":"MD5",         //微信签名方式：
-					        "paySign": paySign //微信签名
-					    },
-					    function(res){
-// 					    		alert("appId: " + appId + ", timeStamp: " + timestamp + ", nonceStr: " + nonceStr
-// 					    				+ ", package: " + "prepay_id=" + prepayId + ", packageUo: " + packageUo + ", signType: " + "MD5" + ", paySign: " + paySign);
-// 					 	   	alert("微信支付结果: " + res);
-
-
-					 		// 使用以下方式判断前端返回,微信团队郑重提示：
-					        //res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠
-					        if (res.err_msg == "get_brand_wcpay_request:ok" ) {
-					     	   	/* alert(res.err_msg); */
-					     	   	alert('支付成功');
-					     	   closeSelfWindow();
-					        } else if (res.err_msg == "get_brand_wcpay_request:cancel" ) {
-					     	   	/* alert(res.err_msg); */
-					        		alert('已经取消支付');
-					        } else if (res.err_msg == "get_brand_wcpay_request:fail" ) {
-					     	   	/* alert(res.err_msg); */
-					     	   	alert('支付失败');
-					        } else {
-					     	   	/* alert(res); */
-					     	   	alert('你遇到了特殊的情况, 请通过公众号或者公众号资料的联系方式联系管理员')
-					        }
-					    }
-					);
-				}
-				///
-				$('#quantity').change(function() {
-					var unitPrice = parseInt($('#unitPrice').val());
-					var quantity = parseInt($('#quantity').val());
-					var feeTotal = unitPrice * quantity;
-					feeTotal = feeTotal / 100;
-					$('#feeTotal').text(feeTotal);
-				})
-				///
-				// execute init
-				initFeeTotal();
-				function initFeeTotal() {
-					var unitPrice = parseInt($('#unitPrice').val());
-					var quantity = 1;
-					var feeTotal = unitPrice * quantity;
-					feeTotal = feeTotal / 100;
-					$('#feeTotal').text(feeTotal);
-				}
-				///
-				$('#buyAboutX').html($('#buyAbout').text());
-				///
-				$('#qrcodeModal').on('hide.bs.modal', function (e) {
-					window.location.reload();
-				});
-				///
-				function validProduct() {
-				    var ret = true;
-                    var startDateTime = new Date($('#startDateTime').val().replace('CST', '')).getTime();
-                    var endDateTime = new Date($('#endDateTime').val().replace('CST', '')).getTime();
-                    var curDateTime = new Date().getTime();
-                    if (startDateTime > curDateTime) {
-                        $('#myFeeBtn').val('商品还没有开始销售').attr("readonly", true).addClass('disabled')
-							.attr('disabled', true);
-                        ret = false;
-                    }
-                    if (endDateTime < curDateTime) {
-                        $('#myFeeBtn').val('商品销售已经结束').attr("readonly", true).addClass('disabled')
-                            .attr('disabled', true);
-                        ret = false;
-					}
-                    var quantityStock = parseInt($('#quantityStock').val());
-                    var wxCardStock = parseInt($('#wxCardStock').val());
-
-					var limitNumEveryone = parseInt($('#limitNumEveryone').val());
-                    var limitNumDay = quantityStock + 9999;
-                    if ($('#limitNumDay').val() != null && $('#limitNumDay').val() != '') {
-                    		limitNumDay = parseInt($('#limitNumDay').val());
-                    }
-
-					var quantity = parseInt($('#quantity').val());
-                    var orderCount = parseInt($('#orderCount').val());
-                    var orderCountToday = parseInt($('#orderCountToday').val());
-                    var wxCardLimit = parseInt($('#wxCardLimit').val());
-                    var wxCardCount = parseInt($('#wxCardCount').val());
-                    if (quantityStock < quantity || wxCardStock < quantity) {
-                        $('#myFeeBtn').val('商品已全部售罄').attr("readonly", true).addClass('disabled')
-                            .attr('disabled', true);
-                        ret = false;
-					}
-                    if (orderCount + quantity > limitNumEveryone || orderCount + quantity > wxCardLimit) {
-                        $('#myFeeBtn').val('您已达购买上限，感谢您的惠顾').attr("readonly", true).addClass('disabled')
-                            .attr('disabled', true);
-                        ret = false;
-					}
-                    if (orderCountToday + quantity > limitNumDay || orderCountToday + quantity > limitNumDay) {
-                        $('#myFeeBtn').val('今日商品已售罄，请您明日再来').attr("readonly", true).addClass('disabled')
-                            .attr('disabled', true);
-                        ret = false;
-                    }
-                    if (wxCardCount + quantity > limitNumEveryone || wxCardCount + quantity > wxCardLimit) {
-                        $('#myFeeBtn').val('您已达购买上限，感谢您的惠顾').attr("readonly", true).addClass('disabled')
-                            .attr('disabled', true);
-                        ret = false;
-                    }
-
-                    return ret;
-                }
-				///
-                 validProduct();
-				///
-
-				///
-
-			})
-		</script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_init.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_pay_bridge.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/ec_product_choose.js"></script>
 	</head>
 
   <body>
@@ -308,7 +46,8 @@
 <%--         		<form id="myFeeForm" action="<cmn:base/>/web/ecommerce/ecorder/ecproduct/callwxpay" class="form-horizontal"> --%>
         		<form id="myFeeForm" class="form-horizontal">
 	        		<!-- 消费金额页面 -->
-	        		<input type="hidden" id="authorizerAppId" name="authorizerAppId" value="${param.authorizerAppId}">
+					<!-- authorizerAppId 从wxJsSdkConfigRespApiPOJO获取, 原来是param.authorizerAppId -->
+	        		<input type="hidden" id="authorizerAppId" name="authorizerAppId" value="${wxJsSdkConfigRespApiPOJO.appId}">
 	        		<input type="hidden" id="productId" name="productId" value="${ecProductPOJO.productId}">
 	        		<input type="hidden" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}">
 					<input type="hidden" id="quantityStock" name="quantityStock" value="${ecProductPOJO.quantityStock}">
@@ -388,12 +127,20 @@
                         <div role="presentation" class="active col-xs-4 col-md-4" style="margin:5px 0px;padding-left:5px; padding-right:5px;">		                    
                            <button class="btn btn-link" style="color:#09F;padding:0px;text-decoration:none;" type="button">
                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                               <p style="font-size:7px;color:#666;">我的票券</p>
+                               <p style="font-size:7px;color:#666;">
+								   <a style="color:#FFF;"
+									  href='<cmn:base/>/web/weixin/wxmycard?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'
+									  class="btn btn-primary" role="button">我的票券</a>
+								   </p>
                            </button>
                            <span style="color:#CCC;padding:0px;">|</span>
                            <button class="btn btn-link" style="color:#0C0;padding:0px;text-decoration:none;" type="button">
                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                               <p style="font-size:7px;color:#666;">票券市场</p>
+                               <p style="font-size:7px;color:#666;">
+								   <a style="color:#FFF;"
+									  href='<cmn:base/>/web/ecommerce/ecwxcardactive?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'
+									  class="btn btn-primary" role="button">票券市场</a>
+								   </p>
                            </button>
 						</div>
 						<div style="margin:5px 0px;padding-left:5px;padding-right:5px;" role="presentation" class="active col-xs-8 col-md-8">
