@@ -1,7 +1,9 @@
 $(function() {
     ///
     // chooseCard
-    openWxChooseCardWin();
+    setTimeout(function() {
+        openWxChooseCardWin();
+    }, 1000);
     /*$('#wxCardChooseBtn').click(function() {
         openWxChooseCardWin();
     })*/

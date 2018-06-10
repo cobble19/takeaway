@@ -15,6 +15,7 @@
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/count_down.js"></script>
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_init.js"></script>
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_pay_bridge.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_card.js"></script>
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/ec_product_choose.js"></script>
 	</head>
 
@@ -28,6 +29,15 @@
 
   	<input type="hidden" id="url" name="url" value="${wxJsSdkConfigRespApiPOJO.url}" />
   	<input type="hidden" id="ticket" name="ticket" value="${wxJsSdkConfigRespApiPOJO.ticket}" />
+
+	<%--WX CARD--%>
+	<input type="hidden" id="shopIdCard" name="shopIdCard" value="${wxJsSdkConfigCardChoosePOJO.shopId}" />
+	<input type="hidden" id="cardTypeCard" name="cardTypeCard" value="${wxJsSdkConfigCardChoosePOJO.cardType}" />
+	<input type="hidden" id="cardIdCard" name="cardIdCard" value="${wxJsSdkConfigCardChoosePOJO.cardId}" />
+	<input type="hidden" id="timestampCard" name="timestampCard" value="${wxJsSdkConfigCardChoosePOJO.timestamp}" />
+	<input type="hidden" id="nonceStrCard" name="nonceStrCard" value="${wxJsSdkConfigCardChoosePOJO.nonceStr}" />
+	<input type="hidden" id="signTypeCard" name="signTypeCard" value="${wxJsSdkConfigCardChoosePOJO.signType}" />
+	<input type="hidden" id="cardSignCard" name="cardSignCard" value="${wxJsSdkConfigCardChoosePOJO.cardSign}" />
 
   	<!-- 调用微信支付js接口 -->
   	<input type="hidden" id="appIdUo" name="appIdUo" />
@@ -124,13 +134,13 @@
 					<!-- Nav tabs -->
 					<ul class="nav nav-pills" role="tablist"
 						style="">
-                        <div role="presentation" class="active col-xs-4 col-md-4" style="margin:5px 0px;padding-left:5px; padding-right:5px;">		                    
-                           <button class="btn btn-link" style="color:#09F;padding:0px;text-decoration:none;" type="button">
+                        <div role="presentation" class="active col-xs-4 col-md-4" style="margin:5px 0px;padding-left:5px; padding-right:5px;">
+                           <button class="btn btn-link" style="color:#09F;padding:0px;text-decoration:none;" type="button" id="wxCardChooseBtn" name="wxCardChooseBtn">
                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                               <p style="font-size:7px;color:#666;">
-								   <a style="color:#FFF;"
+                               <p style="font-size:7px;color:#666;">我的票券
+								   <%--<a style="color:#FFF;"
 									  href='<cmn:base/>/web/weixin/wxmycard?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'
-									  class="btn btn-primary" role="button">我的票券</a>
+									  class="btn btn-primary" role="button">我的票券</a>--%>
 								   </p>
                            </button>
                            <span style="color:#CCC;padding:0px;">|</span>

@@ -94,41 +94,44 @@ public class EcOrderController extends BaseController {
 
     public WxJsSdkConfigRespApiPOJO getWxJsSdkConfigRespApi(String authorizerAppId, String url) throws Exception {
 		WxJsSdkConfigRespApiPOJO ret = new WxJsSdkConfigRespApiPOJO();
-
-		// 获取JS SDK config所需要的参数
-		String jsSdkTicket = oauth2Controller.getWxJsSdkTicket(authorizerAppId);
-		Long timestamp = System.currentTimeMillis() / 1000;
-		String nonceStr = RandomStringUtils.randomAlphanumeric(6);
-		//注意这里参数名必须全部小写，且必须有序
-		String string1 = "jsapi_ticket=" + jsSdkTicket +
-				"&noncestr=" + nonceStr +
-				"&timestamp=" + timestamp +
-				"&url=" + url;
-
-		String signature = "";
 		try {
-			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-			crypt.reset();
-			crypt.update(string1.getBytes("UTF-8"));
-			signature = byteToHex(crypt.digest());
+			// 获取JS SDK config所需要的参数
+			String jsSdkTicket = oauth2Controller.getWxJsSdkTicket(authorizerAppId);
+			Long timestamp = System.currentTimeMillis() / 1000;
+			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
+			//注意这里参数名必须全部小写，且必须有序
+			String string1 = "jsapi_ticket=" + jsSdkTicket +
+					"&noncestr=" + nonceStr +
+					"&timestamp=" + timestamp +
+					"&url=" + url;
 
-			logger.info("string1: {}, signature: {}", string1, signature);
-		} catch (NoSuchAlgorithmException e) {
-			logger.error("MessageDigest exception: ", e);
-		} catch (UnsupportedEncodingException e) {
-			logger.error("MessageDigest exception: ", e);
+			String signature = "";
+			try {
+				MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+				crypt.reset();
+				crypt.update(string1.getBytes("UTF-8"));
+				signature = byteToHex(crypt.digest());
+
+				logger.info("string1: {}, signature: {}", string1, signature);
+			} catch (NoSuchAlgorithmException e) {
+				logger.error("MessageDigest exception: ", e);
+			} catch (UnsupportedEncodingException e) {
+				logger.error("MessageDigest exception: ", e);
+			}
+			List<String> jsApiList = Arrays.asList(StringUtils.split(messageSource.getMessage("WX.jssdk.jsApiList", null, null), ","));
+
+
+			ret.setAppId(authorizerAppId);
+			ret.setNonceStr(nonceStr);
+			ret.setTimestamp(timestamp);
+			ret.setSignature(signature);
+			ret.setJsApiList(jsApiList);
+
+			ret.setTicket(jsSdkTicket);
+			ret.setUrl(url);
+		} catch (Exception e) {
+			logger.error("getWxJsSdkConfigRespApi Exception: ", e);
 		}
-		List<String> jsApiList = Arrays.asList(StringUtils.split(messageSource.getMessage("WX.jssdk.jsApiList", null, null), ","));
-
-
-		ret.setAppId(authorizerAppId);
-		ret.setNonceStr(nonceStr);
-		ret.setTimestamp(timestamp);
-		ret.setSignature(signature);
-		ret.setJsApiList(jsApiList);
-
-		ret.setTicket(jsSdkTicket);
-		ret.setUrl(url);
 
 		logger.info("wxJsSdkConfigRespApiPOJO: " + ret);
 		return ret;
@@ -137,28 +140,32 @@ public class EcOrderController extends BaseController {
 	public WxJsSdkConfigCardChoosePOJO getWxJsSdkConfigCardChoose(String authorizerAppId) throws Exception {
 		// wx card
 		WxJsSdkConfigCardChoosePOJO ret = new WxJsSdkConfigCardChoosePOJO();
-		Long timestamp = System.currentTimeMillis() / 1000;
-		String nonceStr = RandomStringUtils.randomAlphanumeric(6);
+		try {
+			Long timestamp = System.currentTimeMillis() / 1000;
+			String nonceStr = RandomStringUtils.randomAlphanumeric(6);
 //					ret.setCardId(cardId);
 //              ret.setCardType("");
-		ret.setNonceStr(nonceStr + "cardchoose" + RandomStringUtils.randomAlphabetic(3));
+			ret.setNonceStr(nonceStr + "cardchoose" + RandomStringUtils.randomAlphabetic(3));
 //              ret.setShopId("");
 //              ret.setSignType(WXPayConstants.SHA1);
 //              long timestamp = System.currentTimeMillis() / 1000;
-		ret.setTimestamp(timestamp);
-		String wxCardTicket = oauth2Controller.getWxCardSdkTicket(authorizerAppId);
-		String cardSign = "";
-		WxCardSign wxCardSign = new WxCardSign();
-		wxCardSign.addData(wxCardTicket);
-		wxCardSign.addData(authorizerAppId);
+			ret.setTimestamp(timestamp);
+			String wxCardTicket = oauth2Controller.getWxCardSdkTicket(authorizerAppId);
+			String cardSign = "";
+			WxCardSign wxCardSign = new WxCardSign();
+			wxCardSign.addData(wxCardTicket);
+			wxCardSign.addData(authorizerAppId);
 //					wxCardSign.addData("location_id");
-		wxCardSign.addData(ret.getTimestamp() + "");
-		wxCardSign.addData(ret.getNonceStr());
+			wxCardSign.addData(ret.getTimestamp() + "");
+			wxCardSign.addData(ret.getNonceStr());
 //					wxCardSign.addData(ret.getCardId());
-		wxCardSign.addData(ret.getCardType());
+			wxCardSign.addData(ret.getCardType());
 
-		cardSign = wxCardSign.getSignature();
-		ret.setCardSign(cardSign);
+			cardSign = wxCardSign.getSignature();
+			ret.setCardSign(cardSign);
+		} catch (Exception e) {
+			logger.error("getWxJsSdkConfigCardChoose Exception: ", e);
+		}
 		return ret;
 	}
 
@@ -887,6 +894,8 @@ public class EcOrderController extends BaseController {
 //			wxJsSdkConfigRespApiPOJO.setTicket(jsSdkTicket);
 //			wxJsSdkConfigRespApiPOJO.setUrl(url);
 			wxJsSdkConfigRespApiPOJO = this.getWxJsSdkConfigRespApi(authorizerAppId, url);
+
+			WxJsSdkConfigCardChoosePOJO wxJsSdkConfigCardChoosePOJO = this.getWxJsSdkConfigCardChoose(authorizerAppId);
 			
 			// get ecProductPOJO
 			ecProductPOJO = ecProductService.findById(productId);
@@ -894,6 +903,7 @@ public class EcOrderController extends BaseController {
 			ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
 			ret.addObject("wxAuthorizerInfoPOJO", wxAuthorizerInfoPOJO);
 			ret.addObject("subscribeFlag", subscribeFlag);
+			ret.addObject("wxJsSdkConfigCardChoosePOJO", wxJsSdkConfigCardChoosePOJO);
 			
 			if (ecProductPOJO == null) {
 				ret.addObject("success", false);
