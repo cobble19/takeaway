@@ -20,7 +20,7 @@
                  <div class="thumbnail">
                     <img src="<cmn:base/>/${ecProductPOJO.imgUrl}" alt="${ecProductPOJO.productName}">
                     <div class="caption">
-                       <h4>${ecProductPOJO.productName}</h4><br/>
+                       <h4>${ecProductPOJO.productName} 现价: ${ecProductPOJO.unitPrice / 100}元</h4><br/>
                        <p><a style="color:#FFF;"
                              href='<cmn:base/>/web/ecommerce/ecorder/ecproduct/choose?productId=${ecProductPOJO.productId}&authorizerAppId=${ecProductPOJO.authorizerAppId}'
                              class="btn btn-primary" role="button">点击参与卡券活动</a></p>
