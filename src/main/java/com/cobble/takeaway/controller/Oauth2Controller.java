@@ -324,15 +324,15 @@ public class Oauth2Controller extends BaseController {
         return result;
     }
 
-	@RequestMapping(value = "/api/wx/card/code/get", method = {RequestMethod.POST})
+	@RequestMapping(value = "/api/wx/card/code/get", method = {RequestMethod.POST}, consumes = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public WxCardCodeGetRespApiPOJO wxCardCodeGet(WxCardCodeGetReqApiPOJO wxCardCodeGetReqApiPOJO
+	public WxCardCodeGetRespApiPOJO wxCardCodeGet(@RequestBody WxCardCodeGetReqApiPOJO wxCardCodeGetReqApiPOJO
 														 , @RequestParam(value="authorizerAppId", required = false) String authorizerAppId
 														/*, @RequestBody String requestBody*/
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		/*ModelAndView ret = new ModelAndView();*/
 
-		WxCardCodeGetRespApiPOJO ret = null;
+		WxCardCodeGetRespApiPOJO ret = new WxCardCodeGetRespApiPOJO();
 
 		String uri = request.getRequestURI();
 		String qs = request.getQueryString();
