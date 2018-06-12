@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.cobble.takeaway.util.CommonConstant" %>
 <%@include file="../../page/common/taglib.jsp" %>
@@ -137,19 +137,19 @@
                         <div role="presentation" class="active col-xs-4 col-md-4" style="margin:5px 0px;padding-left:5px; padding-right:5px;">
                            <button class="btn btn-link" style="color:#09F;padding:0px;text-decoration:none;" type="button" id="wxCardChooseBtn" name="wxCardChooseBtn">
                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                               <p style="font-size:7px;color:#666;">我的票券
+                               <p style="font-size:7px;color:#666;">我的卡券
 								   <%--<a style="color:#FFF;"
 									  href='<cmn:base/>/web/weixin/wxmycard?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'
 									  class="btn btn-primary" role="button">我的票券</a>--%>
 								   </p>
                            </button>
                            <span style="color:#CCC;padding:0px;">|</span>
-                           <button class="btn btn-link" style="color:#0C0;padding:0px;text-decoration:none;" type="button">
+                           <button onClick="window.location.href='<cmn:base/>/web/ecommerce/ecwxcardactive?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'" class="btn btn-link" style="color:#0C0;padding:0px;text-decoration:none;" type="button">
                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                               <p style="font-size:7px;color:#666;">
-								   <a style="color:#FFF;"
+                               <p style="font-size:7px;color:#666;">卡券商城
+								   <%--<a style="color:#FFF;"
 									  href='<cmn:base/>/web/ecommerce/ecwxcardactive?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'
-									  class="btn btn-primary" role="button">票券市场</a>
+									  class="btn btn-primary" role="button">票券市场</a>--%>
 								   </p>
                            </button>
 						</div>
