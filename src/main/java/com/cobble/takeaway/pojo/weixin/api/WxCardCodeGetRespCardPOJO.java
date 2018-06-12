@@ -10,6 +10,16 @@ public class WxCardCodeGetRespCardPOJO extends BasePOJO {
     private Long beginTime;
     @JsonProperty(value="end_time")
     private Long endTime;
+    @JsonProperty(value="code")
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getCardId() {
         return cardId;
