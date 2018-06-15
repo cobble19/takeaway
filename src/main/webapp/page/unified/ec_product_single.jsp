@@ -42,6 +42,7 @@
 				  						<th>标识ID</th>
 				  						<th>拥有者ID</th>
 				  						<th>AppID</th>
+										<th>商品官方网站</th>
 				  						<th>商品名称</th>
 				  						<th>图片</th>
 				  						<th>购买须知</th>

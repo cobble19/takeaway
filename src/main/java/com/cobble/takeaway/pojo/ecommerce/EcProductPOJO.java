@@ -8,6 +8,7 @@ public class EcProductPOJO extends BasePOJO {
 	private Long productId;
 	private Long userId;
 	private String authorizerAppId;
+	private String homeUrl;
 	private String productName;
 	private String imgUrl;
 	private String buyAbout;
@@ -30,6 +31,14 @@ public class EcProductPOJO extends BasePOJO {
 	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public String getHomeUrl() {
+		return homeUrl;
+	}
+
+	public void setHomeUrl(String homeUrl) {
+		this.homeUrl = homeUrl;
+	}
 
 	public Integer getActiveFlag() {
 		return activeFlag;

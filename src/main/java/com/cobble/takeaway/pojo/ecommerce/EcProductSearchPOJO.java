@@ -8,6 +8,7 @@ public class EcProductSearchPOJO extends BaseSearchPOJO {
 	private Long productId;
 	private Long userId;
 	private String authorizerAppId;
+	private String homeUrl;
 	private String productName;
 	private Integer quantityTotal;
 	private Integer quantityStock;
@@ -21,6 +22,14 @@ public class EcProductSearchPOJO extends BaseSearchPOJO {
 	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public String getHomeUrl() {
+		return homeUrl;
+	}
+
+	public void setHomeUrl(String homeUrl) {
+		this.homeUrl = homeUrl;
+	}
 
 	public Integer getActiveFlag() {
 		return activeFlag;

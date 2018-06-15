@@ -73,6 +73,7 @@
 					<input type="hidden" id="wxCardLimit" name="wxCardLimit" value="${wxCardLimit}">
 					<input type="hidden" id="wxCardCount" name="wxCardCount" value="${wxCardCount}">
 
+					<input type="hidden" id="homeUrl" name="homeUrl" value="${ecProductPOJO.homeUrl}">
 
 	            <div class="row">
 					<div class="col-xs-12" style="padding: 2px; text-align: center;">

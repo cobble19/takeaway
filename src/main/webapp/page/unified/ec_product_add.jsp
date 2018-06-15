@@ -28,6 +28,12 @@
  					<input class="form-control" id="authorizerAppId" name="authorizerAppId" placeholder="请输入APPID">
  				</div>
  			</div>
+			<div class="form-group">
+				<label class="control-label" for="homeUrl">商品官方网站:</label>
+				<div class="">
+					<input class="form-control" id="homeUrl" name="homeUrl" placeholder="请输入商品官方网站">
+				</div>
+			</div>
  			<div class="form-group">
  				<label class="control-label" for="productName">商品名称:</label>
  				<div class="">
