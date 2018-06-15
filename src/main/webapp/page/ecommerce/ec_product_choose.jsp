@@ -115,6 +115,13 @@
 					<p id="noteEnd"></p>
 			      </div>
 			    </div>
+                <div class="row">
+		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
+		        </div>
+                <div class="row">
+		          <div class="col-xs-3" style=" margin:5px auto; padding-right:0px;"><h5 style="font-weight:bold;color:#F00;">店家详情</h5></div>
+                  <div class="col-xs-8" style=" margin:5px auto; padding-left:0px;"><span style="color:#09F; margin-right:5px;" class="glyphicon glyphicon-hand-right" aria-hidden="true"></span><a href="#" style="font-weight:bold; font-size:12px; color:#333;">[点击查看]</a></div>
+		        </div>
 		        <div class="row">
 		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
 		        </div>
@@ -134,7 +141,10 @@
 					<!-- Nav tabs -->
 					<ul class="nav nav-pills" role="tablist"
 						style="">
-                        <div role="presentation" class="active col-xs-4 col-md-4" style="margin:5px 0px;padding-left:5px; padding-right:5px;">
+                        <div role="presentation" class="active col-xs-5 col-md-5" style="margin:5px 0px;padding-left:5px; padding-right:5px;">
+                        <div class="row">
+                        <div class="col-xs-1 col-md-1" style="padding:0px;"></div>
+                        <div class="col-xs-3 col-md-3" style="padding:0px;">
                            <button class="btn btn-link" style="color:#09F;padding:0px;text-decoration:none;" type="button" id="wxCardChooseBtn" name="wxCardChooseBtn">
                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                                <p style="font-size:7px;color:#666;">我的卡券
@@ -143,7 +153,9 @@
 									  class="btn btn-primary" role="button">我的票券</a>--%>
 								   </p>
                            </button>
-                           <span style="color:#CCC;padding:0px;">|</span>
+                           </div>
+                           <div class="col-xs-1 col-md-1" style="padding:0px;"><span style="color:#CCC;padding:0px;">|</span></div>
+                           <div class="col-xs-3 col-md-3" style="padding:0px;">
                            <button onClick="window.location.href='<cmn:base/>/web/ecommerce/ecwxcardactive?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'" class="btn btn-link" style="color:#0C0;padding:0px;text-decoration:none;" type="button">
                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
                                <p style="font-size:7px;color:#666;">卡券商城
@@ -152,8 +164,18 @@
 									  class="btn btn-primary" role="button">票券市场</a>--%>
 								   </p>
                            </button>
+                           </div>
+                           <div class="col-xs-1 col-md-1" style="padding:0px;"><span style="color:#CCC;padding:0px;">|</span></div>
+                           <div class="col-xs-3 col-md-3" style="padding:0px;">
+                           <button onClick="window.location.href='https://mp.weixin.qq.com/s/AdqNqo15Mm-hIN2WN9iEvg'" class="btn btn-link" style="color:#F00;padding:0px;text-decoration:none;" type="button">
+                               <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                               <p style="font-size:7px;color:#666;">使用须知
+								   </p>
+                           </button>
+                           </div>
+                           </div>
 						</div>
-						<div style="margin:5px 0px;padding-left:5px;padding-right:5px;" role="presentation" class="active col-xs-8 col-md-8">
+						<div style="margin:5px 0px;padding-left:5px;padding-right:5px;" role="presentation" class="active col-xs-7 col-md-7">
 		                    <input type="button" class="btn btn-warning btn-sm btn-block" id="myFeeBtn" name="myFeeBtn" value="创建订单"/>
 						</div>
 					</ul>
