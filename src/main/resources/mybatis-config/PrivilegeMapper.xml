@@ -30,7 +30,7 @@
   </sql>
   <sql id="Clause_Common">
 	<if test="privilegeName != null and privilegeName != ''">
-		and p.PRIVILEGE_NAME like concat("%", concat(#{privilegeName}, "%"))
+		and p.PRIVILEGE_NAME = #{privilegeName}
 	</if>
   </sql>
   <select id="findAll" resultMap="PrivilegeOnlyResultMap">

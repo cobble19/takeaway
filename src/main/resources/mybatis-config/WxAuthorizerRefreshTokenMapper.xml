@@ -26,7 +26,7 @@
   </sql>
   <sql id="Clause_Common">
 	<if test="authorizerAppId != null">
-		and a.AUTHORIZER_APPID like concat("%", concat(#{authorizerAppId}, "%"))
+		and a.AUTHORIZER_APPID = #{authorizerAppId}
 	</if>
   </sql>
   

@@ -23,7 +23,7 @@
   </sql>
   <sql id="Clause_Common">
 	<if test="appId != null">
-		and a.APP_ID like concat("%", concat(#{appId}, "%"))
+		and a.APP_ID = #{appId}
 	</if>
   </sql>
   

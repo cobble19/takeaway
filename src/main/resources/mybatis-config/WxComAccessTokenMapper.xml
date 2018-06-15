@@ -22,7 +22,7 @@
   </sql>
   <sql id="Clause_Common">
 	<if test="componentAccessToken != null">
-		and a.COMPONENT_ACCESS_TOKEN like concat("%", concat(#{componentAccessToken}, "%"))
+		and a.COMPONENT_ACCESS_TOKEN = #{componentAccessToken}
 	</if>
   </sql>
   

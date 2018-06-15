@@ -27,7 +27,7 @@
   </sql>
   <sql id="Clause_Common">
 	<if test="authorizerAccessToken != null">
-		and a.AUTHORIZER_ACCESS_TOKEN like concat("%", concat(#{authorizerAccessToken}, "%"))
+		and a.AUTHORIZER_ACCESS_TOKEN = #{authorizerAccessToken}
 	</if>
   </sql>
   
