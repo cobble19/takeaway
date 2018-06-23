@@ -1,11 +1,13 @@
 package com.cobble.takeaway.pojo.ecommerce;
 
 import java.util.Date;
+import java.util.List;
 
 import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
 public class EcOrderSearchPOJO extends BaseSearchPOJO {
 	private Long orderId;
+	private List<Long> orderIds;
 	private Long userId;
 	private String openId;
 	private Long productId;
@@ -15,6 +17,15 @@ public class EcOrderSearchPOJO extends BaseSearchPOJO {
 	private Double discountRate;
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public List<Long> getOrderIds() {
+		return orderIds;
+	}
+
+	public void setOrderIds(List<Long> orderIds) {
+		this.orderIds = orderIds;
+	}
+
 	public Long getOrderId() {
 		return orderId;
 	}

@@ -401,6 +401,14 @@ public class EcOrderController extends BaseController {
 		return ret;
 	}
 
+	/**
+	 * 查询未支付的订单, 然后重新支付
+	 * @param ecOrderCallWxPayParamPOJO
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	public Map getExistEcOrderUnifiedOrderMap(EcOrderCallWxPayParamPOJO ecOrderCallWxPayParamPOJO
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.info("ecOrderCallWxPayParamPOJO: {}", ecOrderCallWxPayParamPOJO);
@@ -555,6 +563,14 @@ public class EcOrderController extends BaseController {
 		return ret;
 	}
 
+	/**
+	 * 用于准备js pay需要的数据, 用于下一步微信js支付
+	 * @param ecOrderCallWxPayParamPOJO
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/api/ecommerce/ecorder/ecproduct/callwxpay", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map ecOrderUnifiedOrderApi(EcOrderCallWxPayParamPOJO ecOrderCallWxPayParamPOJO
@@ -616,14 +632,18 @@ public class EcOrderController extends BaseController {
 					return ret;
 				}
 				// 获取成功购买的商品个数
-				WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
-				wpOrderSearchPOJO.setEcProductId(productId);
-				wpOrderSearchPOJO.setOpenId(openId);
-				wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
-				wpOrderSearchPOJO.setRespResultCode("SUCCESS");
-				wpOrderSearchPOJO.setPaginationFlage(false);
-				// 已购买卡券个数
-				int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
+//				WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
+//				wpOrderSearchPOJO.setEcProductId(productId);
+//				wpOrderSearchPOJO.setOpenId(openId);
+//				wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
+//				wpOrderSearchPOJO.setRespResultCode("SUCCESS");
+//				wpOrderSearchPOJO.setPaginationFlage(false);
+//				// 已购买卡券个数
+//				int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
+				EcOrderSearchPOJO ecOrderSearchPOJO = new EcOrderSearchPOJO();
+				ecOrderSearchPOJO.setProductId(productId);
+				ecOrderSearchPOJO.setOpenId(openId);
+				int orderCount = ecOrderService.getCountReally(ecOrderSearchPOJO);
 				if (orderCount + quantity > ecProductPOJO.getLimitNumEveryone()) {
 					ret.put("success", false);
 					ret.put("errMessage", "该商品每人只能购买" + ecProductPOJO.getLimitNumEveryone() + "个"
@@ -633,16 +653,20 @@ public class EcOrderController extends BaseController {
 				}
 				// 今天已购买商品(卡券)个数
 				int orderCountToday = 0;
-				Date curDateTime = new Date();
-				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
-				Date endDateTime = DateUtils.addMilliseconds(startDateTime, 1 * 24 * 60 * 60 * 1000 - 1);
-				wpOrderSearchPOJO = new WpOrderSearchPOJO();
-				wpOrderSearchPOJO.setEcProductId(productId);
-				wpOrderSearchPOJO.setPaginationFlage(false);
-				wpOrderSearchPOJO.setStartDateTime(startDateTime);
-				wpOrderSearchPOJO.setEndDateTime(endDateTime);
-				int orderCountTodayTotal = wpOrderService.getCount(wpOrderSearchPOJO);
-				int orderCountTodayClose = wpOrderService.getCountWithClose(wpOrderSearchPOJO);
+//				Date curDateTime = new Date();
+//				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
+//				Date endDateTime = DateUtils.addMilliseconds(startDateTime, 1 * 24 * 60 * 60 * 1000 - 1);
+//				wpOrderSearchPOJO = new WpOrderSearchPOJO();
+//				wpOrderSearchPOJO.setEcProductId(productId);
+//				wpOrderSearchPOJO.setPaginationFlage(false);
+//				wpOrderSearchPOJO.setStartDateTime(startDateTime);
+//				wpOrderSearchPOJO.setEndDateTime(endDateTime);
+//				int orderCountTodayTotal = wpOrderService.getCount(wpOrderSearchPOJO);
+//				int orderCountTodayClose = wpOrderService.getCountWithClose(wpOrderSearchPOJO);
+				ecOrderSearchPOJO = new EcOrderSearchPOJO();
+				ecOrderSearchPOJO.setProductId(productId);
+				int orderCountTodayTotal = ecOrderService.getCountTodayTotal(ecOrderSearchPOJO);
+				int orderCountTodayClose = ecOrderService.getCountTodayClose(ecOrderSearchPOJO);
 				orderCountToday = orderCountTodayTotal - orderCountTodayClose;
 				ret.put("orderCountToday", orderCountToday);
 				if (null != ecProductPOJO.getLimitNumDay() && orderCountToday >= ecProductPOJO.getLimitNumDay()) {
@@ -806,6 +830,15 @@ public class EcOrderController extends BaseController {
 		return ret;
 	}
 
+	/**
+	 * 待选择产品页面
+	 * @param authorizerAppId
+	 * @param productId
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/web/ecommerce/ecorder/ecproduct/choose", method = {RequestMethod.GET})
 	public ModelAndView ecOrderChoosePay(
 			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
@@ -913,27 +946,35 @@ public class EcOrderController extends BaseController {
 			} else {
 				ret.addObject("ecProductPOJO", ecProductPOJO);
 // 获取购买的商品个数
-                WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
-                wpOrderSearchPOJO.setEcProductId(productId);
-                wpOrderSearchPOJO.setOpenId(openId);
-                wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
-                wpOrderSearchPOJO.setRespResultCode("SUCCESS");
-                wpOrderSearchPOJO.setPaginationFlage(false);
+//                WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
+//                wpOrderSearchPOJO.setEcProductId(productId);
+//                wpOrderSearchPOJO.setOpenId(openId);
+//                wpOrderSearchPOJO.setRespReturnCode("SUCCESS");
+//                wpOrderSearchPOJO.setRespResultCode("SUCCESS");
+//                wpOrderSearchPOJO.setPaginationFlage(false);
                 // 已成功购买商品(卡券)个数
-                int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
+//                int orderCount = wpOrderService.getCount(wpOrderSearchPOJO);
+				EcOrderSearchPOJO ecOrderSearchPOJO = new EcOrderSearchPOJO();
+				ecOrderSearchPOJO.setProductId(productId);
+				ecOrderSearchPOJO.setOpenId(openId);
+				int orderCount = ecOrderService.getCountReally(ecOrderSearchPOJO);
                 ret.addObject("orderCount", orderCount);
                 // 今天已购买商品(卡券)个数
                 int orderCountToday = 0;
-				Date curDateTime = new Date();
-				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
-				Date endDateTime = DateUtils.addMilliseconds(startDateTime, 1 * 24 * 60 * 60 * 1000 - 1);
-				wpOrderSearchPOJO = new WpOrderSearchPOJO();
-				wpOrderSearchPOJO.setEcProductId(productId);
-				wpOrderSearchPOJO.setPaginationFlage(false);
-				wpOrderSearchPOJO.setStartDateTime(startDateTime);
-				wpOrderSearchPOJO.setEndDateTime(endDateTime);
-				int orderCountTodayTotal = wpOrderService.getCount(wpOrderSearchPOJO);
-				int orderCountTodayClose = wpOrderService.getCountWithClose(wpOrderSearchPOJO);
+//				Date curDateTime = new Date();
+//				Date startDateTime = DateUtils.truncate(curDateTime, Calendar.DATE);
+//				Date endDateTime = DateUtils.addMilliseconds(startDateTime, 1 * 24 * 60 * 60 * 1000 - 1);
+//				wpOrderSearchPOJO = new WpOrderSearchPOJO();
+//				wpOrderSearchPOJO.setEcProductId(productId);
+//				wpOrderSearchPOJO.setPaginationFlage(false);
+//				wpOrderSearchPOJO.setStartDateTime(startDateTime);
+//				wpOrderSearchPOJO.setEndDateTime(endDateTime);
+//				int orderCountTodayTotal = wpOrderService.getCount(wpOrderSearchPOJO);
+//				int orderCountTodayClose = wpOrderService.getCountWithClose(wpOrderSearchPOJO);
+				ecOrderSearchPOJO = new EcOrderSearchPOJO();
+				ecOrderSearchPOJO.setProductId(productId);
+				int orderCountTodayTotal = ecOrderService.getCountTodayTotal(ecOrderSearchPOJO);
+				int orderCountTodayClose = ecOrderService.getCountTodayClose(ecOrderSearchPOJO);
 				orderCountToday = orderCountTodayTotal - orderCountTodayClose;
 				ret.addObject("orderCountToday", orderCountToday);
 

@@ -13,5 +13,9 @@ public interface EcOrderService {
 	EcOrderPOJO findById(Long id) throws Exception;
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
+
+	int getCountReally(EcOrderSearchPOJO ecOrderSearchPOJO) throws Exception;
+	int getCountTodayTotal(EcOrderSearchPOJO ecOrderSearchPOJO) throws Exception;
+	int getCountTodayClose(EcOrderSearchPOJO ecOrderSearchPOJO) throws Exception;
 	
 }

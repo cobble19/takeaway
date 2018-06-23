@@ -38,8 +38,14 @@
 		and a.USER_ID = #{userId}
 	</if>
 	<if test="productId != null">
-		and PRODUCT_ID = #{productId}
+		and a.PRODUCT_ID = #{productId}
 	</if>
+    <if test="orderIds != null">
+        and a.ORDER_ID in
+        <foreach collection="orderIds" item="orderId1" open="(" close=")" separator=",">
+            #{orderId1}
+        </foreach>
+    </if>
 	<!-- <if test="discountRateGt0Flag">
 		and a.DISCOUNT_RATE > 0
 	</if> -->
