@@ -53,7 +53,7 @@
   	<div class="container-fluid" style="padding-bottom:50px;">
         <nav style="min-height:40px;" class="navbar navbar-default navbar-fixed-top">
             <div class="row" style="height:40px; padding:0px 15px;">
-                <div class="col-xs-1 col-md-1" style="padding:0px;"><button onClick="window.location.href='<cmn:base/>/web/ecommerce/ecwxcardactive?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'" class="btn btn-link pull-right" style="padding:9px 0px;" type="button"><span style="font-size:16px;" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button></div>
+                <div class="col-xs-1 col-md-1" style="padding:0px;"><button onClick="javascript:window.history.back(-1);" class="btn btn-link pull-right" style="padding:9px 0px;" type="button"><span style="font-size:16px;" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button></div>
                 <div class="col-xs-10 col-md-10" style="padding:0px;"><p style="text-align:center;font-size:15px;line-height:40px;"><c:out value="${ecProductPOJO.productName}"></c:out></p></div>
                 <div class="col-xs-1 col-md-1" style="padding:0px;">
                   <div class="dropdown">
