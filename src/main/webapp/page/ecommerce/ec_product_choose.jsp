@@ -19,7 +19,7 @@
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/ec_product_choose.js"></script>
 	</head>
 
-  <body>
+  <body style="padding-top:42px;">
   	<!-- WX JS SDK 有效 -->
   	<input type="hidden" id="appId" name="appId" value="${wxJsSdkConfigRespApiPOJO.appId}" />
   	<input type="hidden" id="timestamp" name="timestamp" value="${wxJsSdkConfigRespApiPOJO.timestamp}" />
@@ -51,6 +51,27 @@
   	<input type="hidden" id="subscribeFlag" name="subscribeFlag" value="${subscribeFlag ? '1' : '0'}" />
 
   	<div class="container-fluid" style="padding-bottom:50px;">
+        <nav style="min-height:40px;" class="navbar navbar-default navbar-fixed-top">
+            <div class="row" style="height:40px; padding:0px 15px;">
+                <div class="col-xs-1 col-md-1" style="padding:0px;"><button onClick="window.location.href='<cmn:base/>/web/ecommerce/ecwxcardactive?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'" class="btn btn-link pull-right" style="padding:9px 0px;" type="button"><span style="font-size:16px;" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button></div>
+                <div class="col-xs-10 col-md-10" style="padding:0px;"><p style="text-align:center;font-size:15px;line-height:40px;"><c:out value="${ecProductPOJO.productName}"></c:out></p></div>
+                <div class="col-xs-1 col-md-1" style="padding:0px;">
+                  <div class="dropdown">
+                    <button class="btn btn-link dropdown-toggle pull-left" style="padding:9px 0px;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span style="font-size:16px;" class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1" style="min-width:80px;background:#000;margin:40px 5px;">
+                      <li><button onClick="window.location.href='<cmn:base/>/web/ecommerce/ecwxcardactive?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'" class="btn btn-link" style="text-decoration:none;" type="button">
+                               <span style="color:#FFF;" class="glyphicon glyphicon-home" aria-hidden="true"></span><span style="font-size:14px;color:#FFF;margin-left:10px;">首页</span></button></li>
+                      <li style="margin:3px 0px 3px 36px; background-color:#666;" role="separator" class="divider"></li>         
+                      <li class="disabled"><button onClick="" class="btn btn-link" style="text-decoration:none;" type="button">
+                               <span style="color:#FFF;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><span style="font-size:14px;color:#FFF;margin-left:10px;">购物车</span></button></li>
+                      <li style="margin:3px 0px 3px 36px; background-color:#666;" role="separator" class="divider"></li>
+                      <li><button class="btn btn-link" style="text-decoration:none;" type="button" id="wxCardChooseBtn" name="wxCardChooseBtn">
+                               <span style="color:#FFF;" class="glyphicon glyphicon-credit-card" aria-hidden="true"></span><span style="font-size:14px;color:#FFF;margin-left:10px;">我的卡券</span></button></li>
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        </nav>
         <div class="row">
         	<div class="col-md-12 col-sm-12">
 <%--         		<form id="myFeeForm" action="<cmn:base/>/web/ecommerce/ecorder/ecproduct/callwxpay" class="form-horizontal"> --%>
@@ -121,7 +142,7 @@
 		        </div>
                 <div class="row">
 		          <div class="col-xs-3" style=" margin:5px auto; padding-right:0px;"><h5 style="font-weight:bold;color:#F00;">店家详情</h5></div>
-                  <div class="col-xs-8" style=" margin:5px auto; padding-left:0px;"><span style="color:#09F; margin-right:5px;" class="glyphicon glyphicon-hand-right" aria-hidden="true"></span><a href="#" style="font-weight:bold; font-size:12px; color:#333;">[点击查看]</a></div>
+                  <div class="col-xs-8" style=" margin:5px auto; padding-left:0px;"><span style="color:#09F; margin-right:5px;" class="glyphicon glyphicon-hand-right" aria-hidden="true"></span><a href="${ecProductPOJO.homeUrl}" style="font-weight:bold; font-size:12px; color:#333;">[点击查看]</a></div>
 		        </div>
 		        <div class="row">
 		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
@@ -168,9 +189,9 @@
                            </div>
                            <div class="col-xs-1 col-md-1" style="padding:0px;"><span style="color:#CCC;padding:0px;">|</span></div>
                            <div class="col-xs-3 col-md-3" style="padding:0px;">
-                           <button onClick="window.location.href='https://mp.weixin.qq.com/s/AdqNqo15Mm-hIN2WN9iEvg'" class="btn btn-link" style="color:#F00;padding:0px;text-decoration:none;" type="button">
-                               <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-                               <p style="font-size:7px;color:#666;">使用须知
+                           <button onClick="window.location.href='${ecProductPOJO.homeUrl}'" class="btn btn-link" style="color:#F00;padding:0px;text-decoration:none;" type="button">
+                               <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                               <p style="font-size:7px;color:#666;">店家详情
 								   </p>
                            </button>
                            </div>
