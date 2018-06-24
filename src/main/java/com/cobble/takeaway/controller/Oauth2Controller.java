@@ -563,7 +563,13 @@ public class Oauth2Controller extends BaseController {
 						if (StringUtils.isBlank(authorizerAppId)) {
 							authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 						}
-						String result1 = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
+						int quantity = ecOrderPOJO.getQuantity();
+						logger.info("openId: {} 共购买{}件商品(卡券), authorizerAppId: {}, cardId: {}" +
+										", ecOrderId: {}, outTradeNo: {}"
+								, openId, quantity, authorizerAppId, cardId, ecOrderPOJO.getOrderId(), outTradeNo);
+						for (int i = 0; i < quantity; i++) {
+							String result1 = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
+						}
 					}
 				} catch (Exception e) {
 					logger.error("Send wx pay card exception: ", e);
