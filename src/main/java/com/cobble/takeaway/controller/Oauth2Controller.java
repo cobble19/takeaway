@@ -564,8 +564,9 @@ public class Oauth2Controller extends BaseController {
 							authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 						}
 						int quantity = ecOrderPOJO.getQuantity();
-						logger.info("openId: {} 共购买{}件商品(卡券), authorizerAppId: {}, cardId: {}"
-								, openId, quantity, authorizerAppId, cardId);
+						logger.info("openId: {} 共购买{}件商品(卡券), authorizerAppId: {}, cardId: {}" +
+										", ecOrderId: {}, outTradeNo: {}"
+								, openId, quantity, authorizerAppId, cardId, ecOrderPOJO.getOrderId(), outTradeNo);
 						for (int i = 0; i < quantity; i++) {
 							String result1 = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
 						}
