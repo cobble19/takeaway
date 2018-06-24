@@ -19,7 +19,7 @@
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/ec_product_choose.js"></script>
 	</head>
 
-  <body style="padding-top:42px;">
+  <body style="padding-top:55px;">
   	<!-- WX JS SDK 有效 -->
   	<input type="hidden" id="appId" name="appId" value="${wxJsSdkConfigRespApiPOJO.appId}" />
   	<input type="hidden" id="timestamp" name="timestamp" value="${wxJsSdkConfigRespApiPOJO.timestamp}" />
@@ -50,14 +50,14 @@
   	<!-- 公众号二维码 -->
   	<input type="hidden" id="subscribeFlag" name="subscribeFlag" value="${subscribeFlag ? '1' : '0'}" />
 
-  	<div class="container-fluid" style="padding-bottom:50px;">
-        <nav style="min-height:40px;" class="navbar navbar-default navbar-fixed-top">
-            <div class="row" style="height:40px; padding:0px 15px;">
-                <div class="col-xs-1 col-md-1" style="padding:0px;"><button onClick="javascript:window.history.back(-1);" class="btn btn-link pull-right" style="padding:9px 0px;" type="button"><span style="font-size:16px;" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button></div>
-                <div class="col-xs-10 col-md-10" style="padding:0px;"><p style="text-align:center;font-size:15px;line-height:40px;"><c:out value="${ecProductPOJO.productName}"></c:out></p></div>
+  	<div class="container-fluid" style="padding-bottom:200px;">
+        <nav style="min-height:50px;" class="navbar navbar-default navbar-fixed-top">
+            <div class="row" style="height:50px; padding:0px 15px;">
+                <div class="col-xs-1 col-md-1" style="padding:0px;"><button onClick="javascript:window.history.back(-1);" class="btn btn-link pull-right" style="padding:15px 0px;" type="button"><span style="font-size:16px;" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button></div>
+                <div class="col-xs-10 col-md-10" style="padding:0px;"><p style="text-align:center;font-size:15px;line-height:50px;"><c:out value="${ecProductPOJO.productName}"></c:out></p></div>
                 <div class="col-xs-1 col-md-1" style="padding:0px;">
                   <div class="dropdown">
-                    <button class="btn btn-link dropdown-toggle pull-left" style="padding:9px 0px;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span style="font-size:16px;" class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
+                    <button class="btn btn-link dropdown-toggle pull-left" style="padding:15px 0px;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span style="font-size:16px;" class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1" style="min-width:80px;background:#000;margin:40px 5px;">
                       <li><button onClick="window.location.href='<cmn:base/>/web/ecommerce/ecwxcardactive?authorizerAppId=${wxJsSdkConfigRespApiPOJO.appId}'" class="btn btn-link" style="text-decoration:none;" type="button">
                                <span style="color:#FFF;" class="glyphicon glyphicon-home" aria-hidden="true"></span><span style="font-size:14px;color:#FFF;margin-left:10px;">首页</span></button></li>
