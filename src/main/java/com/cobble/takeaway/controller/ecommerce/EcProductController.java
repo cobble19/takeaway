@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cobble.takeaway.pojo.*;
+import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigCardChoosePOJO;
+import com.cobble.takeaway.pojo.weixin.api.WxJsSdkConfigRespApiPOJO;
 import com.cobble.takeaway.util.CommonConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -36,6 +38,8 @@ public class EcProductController extends BaseController {
 	
 	@Autowired
 	private EcProductService ecProductService;
+	@Autowired
+	private EcOrderController ecOrderController;
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 
@@ -46,7 +50,12 @@ public class EcProductController extends BaseController {
 		try {
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
+			String queryString = request.getQueryString();
 			String url = request.getRequestURL() + "";
+			if (StringUtils.isNotBlank(queryString)) {
+				queryString = queryString.split("#")[0];
+				url += "?" + queryString;
+			}
 			HttpSession session = request.getSession();
 
 			if (StringUtils.isBlank(authorizerAppId)) {
@@ -55,6 +64,14 @@ public class EcProductController extends BaseController {
 			if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 			}
+
+
+			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = ecOrderController.getWxJsSdkConfigRespApi(authorizerAppId, url);
+
+			WxJsSdkConfigCardChoosePOJO wxJsSdkConfigCardChoosePOJO = ecOrderController.getWxJsSdkConfigCardChoose(authorizerAppId);
+
+			ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+			ret.addObject("wxJsSdkConfigCardChoosePOJO", wxJsSdkConfigCardChoosePOJO);
 
 			EcProductSearchPOJO ecProductSearchPOJO = new EcProductSearchPOJO();
 			ecProductSearchPOJO.setAuthorizerAppId(authorizerAppId);

@@ -14,7 +14,7 @@ $(function() {
         $('#myFeeBtn').attr("readonly", false).removeClass('disabled')
             .attr('disabled', false);
     }
-    $('#wxCardChooseBtn').click(function() {
+    $('button[name=wxCardChooseBtn]').click(function() {
         openWxChooseCardWin();
     })
 
