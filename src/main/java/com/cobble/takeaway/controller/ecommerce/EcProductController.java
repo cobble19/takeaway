@@ -65,13 +65,13 @@ public class EcProductController extends BaseController {
 				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 			}
 
-
+			// provider pojo to support open user weixin card by using js
 			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = ecOrderController.getWxJsSdkConfigRespApi(authorizerAppId, url);
-
 			WxJsSdkConfigCardChoosePOJO wxJsSdkConfigCardChoosePOJO = ecOrderController.getWxJsSdkConfigCardChoose(authorizerAppId);
 
 			ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
 			ret.addObject("wxJsSdkConfigCardChoosePOJO", wxJsSdkConfigCardChoosePOJO);
+			///
 
 			EcProductSearchPOJO ecProductSearchPOJO = new EcProductSearchPOJO();
 			ecProductSearchPOJO.setAuthorizerAppId(authorizerAppId);
