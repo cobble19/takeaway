@@ -13,10 +13,28 @@ public class EcOrderSearchPOJO extends BaseSearchPOJO {
 	private Long productId;
 	// 分
 	private Integer unitPrice;
+	private Integer origQuantity;
 	private Integer quantity;
 	private Double discountRate;
+	private String payResult;
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public Integer getOrigQuantity() {
+		return origQuantity;
+	}
+
+	public void setOrigQuantity(Integer origQuantity) {
+		this.origQuantity = origQuantity;
+	}
+
+	public String getPayResult() {
+		return payResult;
+	}
+
+	public void setPayResult(String payResult) {
+		this.payResult = payResult;
+	}
 
 	public List<Long> getOrderIds() {
 		return orderIds;
