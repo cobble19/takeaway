@@ -2,6 +2,7 @@ package com.cobble.takeaway.service.ecommerce;
 
 import java.util.List;
 
+import com.cobble.takeaway.pojo.ecommerce.EcOrderCallWxPayParamPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcOrderPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcOrderSearchPOJO;
 
@@ -13,9 +14,11 @@ public interface EcOrderService {
 	EcOrderPOJO findById(Long id) throws Exception;
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
+	int updatePayResult(EcOrderPOJO ecOrderPOJO) throws Exception;
 
 	int getCountReally(EcOrderSearchPOJO ecOrderSearchPOJO) throws Exception;
 	int getCountTodayTotal(EcOrderSearchPOJO ecOrderSearchPOJO) throws Exception;
 	int getCountTodayClose(EcOrderSearchPOJO ecOrderSearchPOJO) throws Exception;
+	EcOrderPOJO clearExistEcOrderQuantity(EcOrderCallWxPayParamPOJO ecOrderCallWxPayParamPOJO) throws Exception;
 	
 }

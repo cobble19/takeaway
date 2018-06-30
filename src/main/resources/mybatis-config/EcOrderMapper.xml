@@ -17,7 +17,9 @@
     <result column="PRODUCT_ID" property="productId" />
     <result column="UNIT_PRICE" property="unitPrice" />
     <result column="QUANTITY" property="quantity" />
+    <result column="ORIG_QUANTITY" property="origQuantity" />
     <result column="DISCOUNT_RATE" property="discountRate" />
+    <result column="PAY_RESULT" property="payResult" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
     <association property="ecProductPOJO" columnPrefix="EP_" resultMap="com.cobble.takeaway.dao.ecommerce.EcProductMapper.EcProductResultMap"></association>
@@ -25,7 +27,7 @@
   
   <sql id="Base_Column_List" >
     a.ORDER_ID, a.USER_ID, a.OPEN_ID, a.PRODUCT_ID, a.UNIT_PRICE
-    , a.QUANTITY, a.DISCOUNT_RATE, a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+    , a.QUANTITY, a.ORIG_QUANTITY, a.DISCOUNT_RATE, a.PAY_RESULT, a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="orderId != null">
@@ -45,6 +47,9 @@
         <foreach collection="orderIds" item="orderId1" open="(" close=")" separator=",">
             #{orderId1}
         </foreach>
+    </if>
+    <if test="payResult != null">
+      and a.PAY_RESULT = #{payResult}
     </if>
 	<!-- <if test="discountRateGt0Flag">
 		and a.DISCOUNT_RATE > 0
@@ -122,9 +127,15 @@
       <if test="quantity != null" >
         QUANTITY,
       </if>
+      <if test="origQuantity != null" >
+        ORIG_QUANTITY,
+      </if>
       <if test="discountRate != null" >
         DISCOUNT_RATE,
       </if>
+        <if test="payResult != null" >
+            PAY_RESULT,
+        </if>
         CREATE_DATE_TIME,
         LAST_MODIFIED_DATE_TIME,
     </trim>
@@ -144,9 +155,15 @@
       <if test="quantity != null" >
         #{quantity},
       </if>
+        <if test="origQuantity != null" >
+            #{origQuantity},
+        </if>
       <if test="discountRate != null" >
         #{discountRate},
       </if>
+        <if test="payResult != null" >
+            #{payResult},
+        </if>
         sysdate(),
         sysdate(),
     </trim>
@@ -170,13 +187,30 @@
       <if test="quantity != null" >
         QUANTITY = #{quantity},
       </if>
+        <if test="origQuantity != null" >
+            ORIG_QUANTITY = #{origQuantity},
+        </if>
       <if test="discountRate != null" >
         DISCOUNT_RATE = #{discountRate},
       </if>
+        <if test="payResult != null" >
+            PAY_RESULT = #{payResult},
+        </if>
         <!-- CREATE_DATE_TIME = sysdate(), -->
         LAST_MODIFIED_DATE_TIME = sysdate(),
     </set>
     where ORDER_ID = #{orderId}
   </update>
-  
+
+    <update id="updatePayResult" parameterType="com.cobble.takeaway.pojo.ecommerce.EcOrderPOJO" >
+        update EC_ORDER
+        <set >
+            <if test="payResult != null" >
+                PAY_RESULT = #{payResult},
+            </if>
+            <!-- CREATE_DATE_TIME = sysdate(), -->
+            LAST_MODIFIED_DATE_TIME = sysdate(),
+        </set>
+        where ORDER_ID = #{orderId}
+    </update>
 </mapper>

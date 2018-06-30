@@ -570,6 +570,9 @@ public class Oauth2Controller extends BaseController {
 						for (int i = 0; i < quantity; i++) {
 							String result1 = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
 						}
+						// update ecOrder payResult for SUCCESS
+						ecOrderPOJO.setPayResult(CommonConstant.WXPAY_ORDER_SUCCESS);
+						ecOrderService.updatePayResult(ecOrderPOJO);
 					}
 				} catch (Exception e) {
 					logger.error("Send wx pay card exception: ", e);

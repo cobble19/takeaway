@@ -596,17 +596,22 @@ public class EcOrderController extends BaseController {
 
 		try {
 			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+			ecOrderCallWxPayParamPOJO.setOpenId(openId);
+
 			if (StringUtils.isBlank(authorizerAppId)) {
 				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 			}
 
 			String appId = authorizerAppId;
 
-			ret = this.getExistEcOrderUnifiedOrderMap(ecOrderCallWxPayParamPOJO, request, response);
-			if (MapUtils.isNotEmpty(ret)) {
-				return ret;
-			}
+			// 这个逻辑是利用上次没有支付成功的订单, 现在不用了 @2018-06-30
+//			ret = this.getExistEcOrderUnifiedOrderMap(ecOrderCallWxPayParamPOJO, request, response);
+//			if (MapUtils.isNotEmpty(ret)) {
+//				return ret;
+//			}
 			ret = new HashMap();
+
+			EcOrderPOJO ecOrderPOJOClear = ecOrderService.clearExistEcOrderQuantity(ecOrderCallWxPayParamPOJO);
 
 			// 检查是否有库存
 			ecProductPOJO = ecProductService.findById(productId);

@@ -12,12 +12,30 @@ public class EcOrderPOJO extends BasePOJO {
 	// 分
 	private Integer unitPrice;
 	private Integer quantity;
+	private Integer origQuantity;
 	private Double discountRate;
+	private String payResult;
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
 	
 	private EcProductPOJO ecProductPOJO = new EcProductPOJO();
-	
+
+	public Integer getOrigQuantity() {
+		return origQuantity;
+	}
+
+	public void setOrigQuantity(Integer origQuantity) {
+		this.origQuantity = origQuantity;
+	}
+
+	public String getPayResult() {
+		return payResult;
+	}
+
+	public void setPayResult(String payResult) {
+		this.payResult = payResult;
+	}
+
 	public EcProductPOJO getEcProductPOJO() {
 		return ecProductPOJO;
 	}
@@ -78,5 +96,21 @@ public class EcOrderPOJO extends BasePOJO {
 	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
 		this.lastModifiedDateTime = lastModifiedDateTime;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "EcOrderPOJO{" +
+				"orderId=" + orderId +
+				", userId=" + userId +
+				", openId='" + openId + '\'' +
+				", productId=" + productId +
+				", unitPrice=" + unitPrice +
+				", quantity=" + quantity +
+				", origQuantity=" + origQuantity +
+				", discountRate=" + discountRate +
+				", payResult='" + payResult + '\'' +
+				", createDateTime=" + createDateTime +
+				", lastModifiedDateTime=" + lastModifiedDateTime +
+				'}';
+	}
 }

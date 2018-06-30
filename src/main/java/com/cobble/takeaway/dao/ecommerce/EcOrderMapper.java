@@ -13,4 +13,5 @@ public interface EcOrderMapper {
 	int getCount(EcOrderSearchPOJO ecOrderSearchPOJO) throws Exception;
 	EcOrderPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
+	int updatePayResult(EcOrderPOJO ecOrderPOJO) throws Exception;
 }

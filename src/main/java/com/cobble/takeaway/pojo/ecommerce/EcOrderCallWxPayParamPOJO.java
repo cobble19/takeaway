@@ -4,10 +4,19 @@ import com.cobble.takeaway.pojo.BasePOJO;
 
 public class EcOrderCallWxPayParamPOJO extends BasePOJO {
 	private String authorizerAppId;
+	private String openId;
 	private Long productId;
 	private Integer unitPrice;
 	private Integer quantity;
-	
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
 	public String getAuthorizerAppId() {
 		return authorizerAppId;
 	}
@@ -37,6 +46,7 @@ public class EcOrderCallWxPayParamPOJO extends BasePOJO {
 	public String toString() {
 		return "EcOrderCallWxPayParamPOJO{" +
 				"authorizerAppId='" + authorizerAppId + '\'' +
+				"openId='" + openId + '\'' +
 				", productId=" + productId +
 				", unitPrice=" + unitPrice +
 				", quantity=" + quantity +
