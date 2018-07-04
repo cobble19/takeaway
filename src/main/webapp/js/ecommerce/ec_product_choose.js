@@ -184,10 +184,13 @@ $(function() {
     var $numJianBtn = $("#num-jian");
     var $quantity = $("#quantity");
     var $limitNumEveryone = $("#limitNumEveryone");
+    var $orderCount = $('#orderCount');
     $numJiaBtn.click(function () {
         var quantity = parseInt($quantity.val());
         var limitNumEveryone = parseInt($limitNumEveryone.val());
-        if(quantity < limitNumEveryone) {
+        var orderCount = parseInt($orderCount.val());
+        var availableCount = limitNumEveryone - orderCount;
+        if(quantity < availableCount) {
             quantity = quantity + 1;
             $quantity.val(quantity);
         }
