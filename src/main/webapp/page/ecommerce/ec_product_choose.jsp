@@ -154,29 +154,6 @@
                                </span>
                            </div>
 			      </div>
-        <script type="text/javascript" charset="utf-8">
-	    var num_jia = document.getElementById("num-jia");
-        var num_jian = document.getElementById("num-jian");
-        var quantity = document.getElementById("quantity");
-        var Everyonecount = document.getElementById("limitNumEveryone");
- 
-        num_jia.onclick = function() {
-            if(quantity.value < Everyonecount.value) {
-            quantity.value = parseInt(quantity.value) + 1;
-			}
-        }
-
-        num_jian.onclick = function() {
-
-            if(quantity.value <= 1) {
-                quantity.value = 1;
-            } else {
-
-                quantity.value = parseInt(quantity.value) - 1;
-            }
-
-        }
-	   </script>
 		        </div>
 		        <div class="row">
 		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>

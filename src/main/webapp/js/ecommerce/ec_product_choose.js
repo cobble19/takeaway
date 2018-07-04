@@ -180,7 +180,29 @@ $(function() {
     ///
     validProduct();
     ///
-
+    var $numJiaBtn = $("#num-jia");
+    var $numJianBtn = $("#num-jian");
+    var $quantity = $("#quantity");
+    var $limitNumEveryone = $("#limitNumEveryone");
+    $numJiaBtn.click(function () {
+        var quantity = parseInt($quantity.val());
+        var limitNumEveryone = parseInt($limitNumEveryone.val());
+        if(quantity < limitNumEveryone) {
+            quantity = quantity + 1;
+            $quantity.val(quantity);
+        }
+    })
+    $numJianBtn.click(function () {
+        var quantity = parseInt($quantity.val());
+        var limitNumEveryone = parseInt($limitNumEveryone.val());
+        if(quantity <= 1) {
+            quantity = 1;
+        } else {
+            quantity = quantity - 1;
+        }
+        $quantity.val(quantity);
+    })
+    ///
     ///
 
-})
+}) // end jQuery
