@@ -132,6 +132,7 @@ public class EcOrderServiceImpl implements EcOrderService {
 			}
 			EcOrderSearchPOJO temp = new EcOrderSearchPOJO();
 			temp.setOrderIds(orderIds);
+			temp.setPaginationFlage(false);
 			List<EcOrderPOJO> ecOrderPOJOs = ecOrderMapper.finds(temp);
 			if (CollectionUtils.isNotEmpty(ecOrderPOJOs)) {
 				for (EcOrderPOJO ecOrderPOJO : ecOrderPOJOs) {
@@ -167,6 +168,7 @@ public class EcOrderServiceImpl implements EcOrderService {
 			}
 			EcOrderSearchPOJO temp = new EcOrderSearchPOJO();
 			temp.setOrderIds(orderIds);
+			temp.setPaginationFlage(false);
 			List<EcOrderPOJO> ecOrderPOJOs = ecOrderMapper.finds(temp);
 			if (CollectionUtils.isNotEmpty(ecOrderPOJOs)) {
 				for (EcOrderPOJO ecOrderPOJO : ecOrderPOJOs) {
@@ -202,6 +204,7 @@ public class EcOrderServiceImpl implements EcOrderService {
 			}
 			EcOrderSearchPOJO temp = new EcOrderSearchPOJO();
 			temp.setOrderIds(orderIds);
+			temp.setPaginationFlage(false);
 			List<EcOrderPOJO> ecOrderPOJOs = ecOrderMapper.finds(temp);
 			if (CollectionUtils.isNotEmpty(ecOrderPOJOs)) {
 				for (EcOrderPOJO ecOrderPOJO : ecOrderPOJOs) {

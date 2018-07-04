@@ -16,7 +16,7 @@ public class BaseSearchPOJO implements Serializable {
 	private Integer start = START;
 	private Integer limit = LIMIT;
 	
-	private Boolean paginationFlage = true;
+	private Boolean paginationFlage = false;
 	
 	// User 
 	private Long userId;
