@@ -141,8 +141,42 @@
 		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
 		        </div>
                 <div class="row">
-		          <div class="col-xs-3" style=" margin:5px auto; padding-right:0px;"><h5 style="font-weight:bold;color:#F00;">店家详情</h5></div>
-                  <div class="col-xs-8" style=" margin:5px auto; padding-left:0px;"><span style="color:#09F; margin-right:5px;" class="glyphicon glyphicon-hand-right" aria-hidden="true"></span><a href="${ecProductPOJO.homeUrl}" style="font-weight:bold; font-size:12px; color:#333;">[点击查看]</a></div>
+		          <div class="col-xs-12" style=" margin:5px auto; padding-right:0px;"><h6 style=""> 该商品单人购买上限 <strong style="color:#F00;"><c:out value="${ecProductPOJO.limitNumEveryone}" /></strong>, 您已购买 <strong style="color:#F00;"><c:out value="${orderCount}" /></strong> </h6></div>
+                  <div class="col-xs-4" style=" margin:5px auto; padding-right:0px;"><h6 style=" vertical-align:middle; line-height:30px;">请选择购买数量:</h6></div>
+                  <div class="col-md-5 col-xs-5" style=" margin:5px auto;">
+                           <div class="input-group input-group-sm">
+                               <span class="input-group-btn">
+                                    <button id="num-jian" class="btn btn-default" type="button">-</button>
+                               </span>
+                               <input style="text-align:center;" type="text" id="quantity" name="quantity" class="form-control" value="1" readonly>
+                               <span class="input-group-btn">
+                                    <button id="num-jia" class="btn btn-default" type="button">+</button>
+                               </span>
+                           </div>
+			      </div>
+        <script type="text/javascript" charset="utf-8">
+	    var num_jia = document.getElementById("num-jia");
+        var num_jian = document.getElementById("num-jian");
+        var quantity = document.getElementById("quantity");
+        var Everyonecount = document.getElementById("limitNumEveryone");
+ 
+        num_jia.onclick = function() {
+            if(quantity.value < Everyonecount.value) {
+            quantity.value = parseInt(quantity.value) + 1;
+			}
+        }
+
+        num_jian.onclick = function() {
+
+            if(quantity.value <= 1) {
+                quantity.value = 1;
+            } else {
+
+                quantity.value = parseInt(quantity.value) - 1;
+            }
+
+        }
+	   </script>
 		        </div>
 		        <div class="row">
 		          <div class="col-xs-12" style="background-color:#f5f5f5; height:10px;"></div>
@@ -208,10 +242,10 @@
 			        		<label>单价(元):</label>
 			        		<c:out value="${ecProductPOJO.unitPrice / 100}" />
 			        		</div>
-	        				<div class="col-md-12 col-sm-12" style="display: none;">
+	        				<!--<div class="col-md-12 col-sm-12" style="display: none;">
 				        		<label>件数:</label>
 				        		<input type="hidden" id="quantity" name="quantity" class="form-control" value="1">
-			        		</div>
+			        		</div>-->
 	        		</div>
 	        		<div class="row" style="display:none;">
 	        			<div class="col-md-12 col-sm-12">
