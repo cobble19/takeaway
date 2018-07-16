@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.ecommerce.EcCartMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property openId="timeToIdleSeconds" value="3600" />
+		<property openId="timeToLiveSeconds" value="3600" />
+		<property openId="maxEntriesLocalHeap" value="1000" />
+		<property openId="maxEntriesLocalDisk" value="10000000" />
+		<property openId="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="EcCartResultMap" type="com.cobble.takeaway.pojo.ecommerce.EcCartPOJO" >
+    <id column="EC_CART_ID" property="ecCartId" />
+    <result column="USER_ID" property="userId" />
+    <result column="OPEN_ID" property="openId"/>
+    <result column="AUTHORIZER_APPID" property="authorizerAppId"/>
+    <result column="PRODUCT_ID" property="productId" />
+    <result column="PRODUCT_NAME" property="productName" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.EC_CART_ID, a.USER_ID, a.OPEN_ID
+    , a.AUTHORIZER_APPID, a.PRODUCT_ID, a.PRODUCT_NAME
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="ecCartId != null">
+		and a.EC_CART_ID = #{ecCartId}
+	</if>
+	<if test="openId != null">
+		and a.OPEN_ID = #{openId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+	<if test="productId != null">
+		and a.PRODUCT_ID = #{productId}
+	</if>
+  </sql>
+  
+  <select id="finds" resultMap="EcCartResultMap" parameterType="com.cobble.takeaway.pojo.ecommerce.EcCartSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from EC_CART a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.LAST_MODIFIED_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.ecommerce.EcCartSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from EC_CART a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+  
+  <select id="findById" resultMap="EcCartResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from EC_CART a
+    <where>
+  		<trim prefixOverrides="and">
+			and a.EC_CART_ID = #{ecCartId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from EC_CART
+    where EC_CART_ID = #{ecCartId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.ecommerce.EcCartPOJO" useGeneratedKeys="true"
+  	keyProperty="ecCartId" keyColumn="EC_CART_ID">
+    insert into EC_CART
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID,
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME,
+      </if>
+        CREATE_DATE_TIME,
+        LAST_MODIFIED_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="productId != null" >
+        #{productId},
+      </if>
+      <if test="productName != null" >
+        #{productName},
+      </if>
+        sysdate(),
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.ecommerce.EcCartPOJO" >
+    update EC_CART
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APPID = #{authorizerAppId},
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId},
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME = #{productName},
+      </if>
+        <!-- CREATE_DATE_TIME = sysdate(), -->
+        LAST_MODIFIED_DATE_TIME = sysdate(),
+    </set>
+    where EC_CART_ID = #{ecCartId}
+  </update>
+
+</mapper>

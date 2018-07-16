@@ -81,6 +81,7 @@
 				or sessionScope.authorizerAppId eq 'wxeaa5221eab533277'}">
 		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/ec_product_single.jsp"><h6>商品管理</h6></a></li>
 		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/ec_order_single.jsp"><h6>订单管理</h6></a></li>
+		<li role="presentation"><a href="<%=request.getContextPath()%>/page/unified/ec_cart_single.jsp"><h6>购物车管理</h6></a></li>
 	</c:if>
 
 	<c:if test="${sessionScope.myUser.userId eq 16

@@ -173,14 +173,15 @@ public class WXPayUtil {
      * @throws Exception
      */
     public static boolean isSignatureValid(Map<String, String> data, String key, SignType signType) throws Exception {
-    		boolean ret = false;
+        boolean ret = false;
         if (!data.containsKey(WXPayConstants.FIELD_SIGN) ) {
-        		logger.error("xml: {}, isSignatureValid: {}", mapToXml(data), false);
-            return false;
+            ret = false;
+        	logger.error("isSignatureValid: {}, data donot contain field sign, xml: {}", ret, mapToXml(data));
+            return ret;
         }
         String sign = data.get(WXPayConstants.FIELD_SIGN);
         ret = generateSignature(data, key, signType).equals(sign);
-		logger.error("xml: {}, isSignatureValid: {}", mapToXml(data), ret);
+		logger.info("isSignatureValid: {}, xml: {}", ret, mapToXml(data));
         return ret;
     }
 
