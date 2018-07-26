@@ -7,6 +7,9 @@ import com.cobble.takeaway.pojo.StatusPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcCartPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcCartSearchPOJO;
 import com.cobble.takeaway.service.ecommerce.EcCartService;
+import com.cobble.takeaway.util.CommonConstant;
+import com.cobble.takeaway.util.UserUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +18,12 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +90,7 @@ public class EcCartController extends BaseController {
 	
 	@RequestMapping(value = "/api/unified/ecCart/addOrUpdate", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public StatusPOJO add4WebAPI(EcCartPOJO ecCartPOJO, Model model, 
+	public StatusPOJO addUpdate4WebAPI(EcCartPOJO ecCartPOJO, Model model,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		StatusPOJO ret = new StatusPOJO();
 		try {
@@ -111,7 +112,110 @@ public class EcCartController extends BaseController {
 		
 		return ret;
 	}
-	
+
+	@RequestMapping(value = "/web/unified/ecCart/eccartmy")
+	public ModelAndView list4MyWeb(EcCartSearchPOJO ecCartSearchPOJO, Model model,
+								   HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView ret = new ModelAndView();
+		try {
+			Long userId = UserUtil.getCurrentUserId();
+			ecCartSearchPOJO.setUserId(userId);
+			List<EcCartPOJO> ecCartPOJOs = ecCartService.finds(ecCartSearchPOJO);
+
+			ret.addObject("ecCartPOJOs", ecCartPOJOs);
+			ret.setViewName("/page/unified/ec_cart_my");
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			throw e;
+		}
+
+		return ret;
+	}
+
+	@RequestMapping(value = "/api/unified/ecCart/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO add4MyWebAPI(@RequestBody EcCartPOJO ecCartPOJO, Model model,
+								   HttpServletRequest request, HttpServletResponse response) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			if (ecCartPOJO == null) {
+				throw new Exception("ecCartPOJO can't is NULL.");
+			}
+			HttpSession session = request.getSession();
+
+			int result = -1;
+			Long userId = UserUtil.getCurrentUserId();
+			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+
+			EcCartSearchPOJO ecCartSearchPOJO = new EcCartSearchPOJO();
+			ecCartSearchPOJO.setOpenId(openId);
+			ecCartSearchPOJO.setUserId(userId);
+			ecCartSearchPOJO.setProductId(ecCartPOJO.getProductId());
+			ecCartSearchPOJO.setAuthorizerAppId(ecCartPOJO.getAuthorizerAppId());
+
+			int count = ecCartService.getCount(ecCartSearchPOJO);
+
+			if (count <= 0) {
+				// 仅仅当不存在的时候insert
+				ecCartPOJO.setUserId(userId);
+				ecCartPOJO.setOpenId(openId);
+				result = ecCartService.insert(ecCartPOJO);
+			} else {
+				logger.warn("ecCartPOJO 已经存在, donot add, only update last_modified_date_time, ecCartPOJO: {}", ecCartPOJO);
+				ecCartSearchPOJO.setPaginationFlage(true);
+				List<EcCartPOJO> ecCartPOJOs = ecCartService.finds(ecCartSearchPOJO);
+				if (CollectionUtils.isNotEmpty(ecCartPOJOs)) {
+					logger.info("ecCartPOJOs size: {}", ecCartPOJOs.size());
+					EcCartPOJO temp = new EcCartPOJO();
+					temp.setEcCartId(ecCartPOJOs.get(0).getEcCartId());
+					result = ecCartService.update(temp);
+				}
+			}
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("insert error.", e);
+			ret.setSuccess(false);
+			throw e;
+		}
+
+		return ret;
+	}
+
+	@RequestMapping(value = "/api/unified/ecCart/delete", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public StatusPOJO delete4MyWebAPI(@RequestParam("ids") Long[] ids, Model model) throws Exception {
+		StatusPOJO ret = new StatusPOJO();
+		try {
+			// 首先验证是否是正确的用户
+			Long userId = UserUtil.getCurrentUserId();
+			if (ids != null && userId != null) {
+				for (int i = 0; i < ids.length; i++) {
+					Long id = ids[i];
+					EcCartSearchPOJO ecCartSearchPOJO = new EcCartSearchPOJO();
+					ecCartSearchPOJO.setUserId(userId);
+					ecCartSearchPOJO.setEcCartId(id);
+					int count = ecCartService.getCount(ecCartSearchPOJO);
+					if (count > 0) {
+						ecCartService.delete(id);
+					}
+				}
+			} else {
+				ret.setSuccess(false);
+				ret.setDesc("ids or userId is null");
+				return ret;
+			}
+			ret.setSuccess(true);
+		} catch (Exception e) {
+			logger.error("delete error.", e);
+			ret.setSuccess(false);
+			ret.setDesc("删除失败");
+			throw e;
+		}
+
+		return ret;
+	}
+
+
 	@RequestMapping(value = "/api/unified/ecCart/{ecCartId}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public EcCartPOJO query(@PathVariable("rderId") Long ecCartId, Model model,

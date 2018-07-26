@@ -4503,6 +4503,7 @@ public class Oauth2Controller extends BaseController {
 				
 				// add comAccessToken into DB every 1 hour
 				WxComAccessTokenSearchApiPOJO wxComAccessTokenSearchPOJO = new WxComAccessTokenSearchApiPOJO();
+				wxComAccessTokenSearchPOJO.setPaginationFlage(true);
 				List<WxComAccessTokenApiPOJO> wxComAccessTokenPOJOs = wxComAccessTokenService.finds(wxComAccessTokenSearchPOJO);
 				String componentAccessToken = "";
 				Date createDateTime = new Date();

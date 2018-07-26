@@ -17,6 +17,7 @@
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_pay_bridge.js"></script>
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_card.js"></script>
 		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/ec_product_choose.js"></script>
+		<script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/ec_cart_my_add.js"></script>
 	</head>
 
   <body style="padding-top:55px;">
@@ -63,10 +64,15 @@
                                <span style="color:#FFF;" class="glyphicon glyphicon-home" aria-hidden="true"></span><span style="font-size:14px;color:#FFF;margin-left:10px;">首页</span></button></li>
                       <li style="margin:3px 0px 3px 36px; background-color:#666;" role="separator" class="divider"></li>         
                       <li class="disabled"><button onClick="" class="btn btn-link" style="text-decoration:none;" type="button">
-                               <span style="color:#FFF;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><span style="font-size:14px;color:#FFF;margin-left:10px;">购物车</span></button></li>
+                               <span style="color:#FFF;" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+						  <span style="font-size:14px;color:#FFF;margin-left:10px;"><a style="color:#FFF;" href="<cmn:base/>/web/unified/ecCart/eccartmy">购物车</a></span>
+					  </button></li>
                       <li style="margin:3px 0px 3px 36px; background-color:#666;" role="separator" class="divider"></li>
                       <li><button class="btn btn-link" style="text-decoration:none;" type="button" id="wxCardChooseBtn" name="wxCardChooseBtn">
                                <span style="color:#FFF;" class="glyphicon glyphicon-credit-card" aria-hidden="true"></span><span style="font-size:14px;color:#FFF;margin-left:10px;">我的卡券</span></button></li>
+						<li style="margin:3px 0px 3px 36px; background-color:#666;" role="separator" class="divider"></li>
+						<li><button class="btn btn-link" style="text-decoration:none;" type="button" id="ecCartMyAddBtn" name="ecCartMyAddBtn">
+							<span style="color:#FFF;" class="glyphicon glyphicon-credit-card" aria-hidden="true"></span><span style="font-size:14px;color:#FFF;margin-left:10px;">添加到购物车</span></button></li>
                     </ul>
                   </div>
                 </div>
@@ -80,6 +86,7 @@
 					<!-- authorizerAppId 从wxJsSdkConfigRespApiPOJO获取, 原来是param.authorizerAppId -->
 	        		<input type="hidden" id="authorizerAppId" name="authorizerAppId" value="${wxJsSdkConfigRespApiPOJO.appId}">
 	        		<input type="hidden" id="productId" name="productId" value="${ecProductPOJO.productId}">
+					<input type="hidden" id="productName" name="productId" value="${ecProductPOJO.productName}">
 	        		<input type="hidden" id="unitPrice" name="unitPrice" value="${ecProductPOJO.unitPrice}">
 					<input type="hidden" id="quantityStock" name="quantityStock" value="${ecProductPOJO.quantityStock}">
 					<input type="hidden" id="wxCardStock" name="wxCardStock" value="${ecProductPOJO.wxCardStock}">

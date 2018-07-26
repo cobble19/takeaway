@@ -7,8 +7,8 @@ public class BaseSearchPOJO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public static final int PAGE = 1;
-	public static final int START = -1;
-	public static final int LIMIT = 0;
+	public static final int START = 0;
+	public static final int LIMIT = 10;
 	
 	private Boolean distinct = true;
 	// paging
@@ -16,7 +16,7 @@ public class BaseSearchPOJO implements Serializable {
 	private Integer start = START;
 	private Integer limit = LIMIT;
 	
-	private Boolean paginationFlage = false;
+	private Boolean paginationFlage = true;
 	
 	// User 
 	private Long userId;
@@ -69,6 +69,7 @@ public class BaseSearchPOJO implements Serializable {
 	}
 
 	public void setPaginationFlage(Boolean paginationFlage) {
+		// (paginationFlage == false) 如果不分页, 设置start和limit的值, 默认分页
 		if (paginationFlage != null && !paginationFlage) {
 			start = -1;
 			limit = 0;

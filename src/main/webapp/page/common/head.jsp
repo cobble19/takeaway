@@ -31,6 +31,10 @@
 	<!-- jQuery datetime -->
     <script src="<cmn:base/>/js/thirdpart/jquery-datetimepicker-2.4.3/jquery.datetimepicker.js"></script>
 	<link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-datetimepicker-2.4.3/jquery.datetimepicker.css">
+
+    <!-- jQuery loading -->
+    <script src="<cmn:base/>/js/thirdpart/jquery-loading/jquery.loading.js"></script>
+    <link rel="stylesheet" href="<cmn:base/>/js/thirdpart/jquery-loading/jquery.loading.css">
 	
     
     <!-- Bootstrap -->

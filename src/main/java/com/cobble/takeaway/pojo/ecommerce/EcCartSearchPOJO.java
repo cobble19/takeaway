@@ -1,6 +1,5 @@
 package com.cobble.takeaway.pojo.ecommerce;
 
-import com.cobble.takeaway.pojo.BasePOJO;
 import com.cobble.takeaway.pojo.BaseSearchPOJO;
 
 import java.util.Date;

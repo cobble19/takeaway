@@ -9,7 +9,7 @@
 		<property openId="maxEntriesLocalDisk" value="10000000" />
 		<property openId="memoryStoreEvictionPolicy" value="LRU" />
 	</cache> -->
-	
+
   <resultMap id="EcCartResultMap" type="com.cobble.takeaway.pojo.ecommerce.EcCartPOJO" >
     <id column="EC_CART_ID" property="ecCartId" />
     <result column="USER_ID" property="userId" />
@@ -20,7 +20,7 @@
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
   </resultMap>
-  
+
   <sql id="Base_Column_List" >
     a.EC_CART_ID, a.USER_ID, a.OPEN_ID
     , a.AUTHORIZER_APPID, a.PRODUCT_ID, a.PRODUCT_NAME
@@ -33,6 +33,9 @@
 	<if test="openId != null">
 		and a.OPEN_ID = #{openId}
 	</if>
+      <if test="authorizerAppId != null">
+          and a.AUTHORIZER_APPID = #{authorizerAppId}
+      </if>
 	<if test="userId != null">
 		and a.USER_ID = #{userId}
 	</if>
@@ -40,7 +43,7 @@
 		and a.PRODUCT_ID = #{productId}
 	</if>
   </sql>
-  
+
   <select id="finds" resultMap="EcCartResultMap" parameterType="com.cobble.takeaway.pojo.ecommerce.EcCartSearchPOJO" >
     select
     <if test="distinct" >
@@ -66,9 +69,9 @@
   		</trim>
   	</where>
   </select>
-  
+
   <select id="findById" resultMap="EcCartResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from EC_CART a
     <where>
@@ -77,7 +80,7 @@
   		</trim>
   	</where>
   </select>
-  
+
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from EC_CART
     where EC_CART_ID = #{ecCartId}
@@ -124,7 +127,7 @@
         sysdate(),
     </trim>
   </insert>
-  
+
   <update id="update" parameterType="com.cobble.takeaway.pojo.ecommerce.EcCartPOJO" >
     update EC_CART
     <set >
