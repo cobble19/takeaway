@@ -13,9 +13,36 @@ public class WxComAccessTokenSearchApiPOJO extends BaseSearchPOJO {
     private String componentAccessToken;
 	@JsonProperty(value="expires_in")
     private Integer expiresIn;
-	
+
+	private Long wxComVerifyTicketId;
+	private String appId;
 	private Date createDateTime;
-	
+	private Date lastModifiedDateTime;
+
+	public Long getWxComVerifyTicketId() {
+		return wxComVerifyTicketId;
+	}
+
+	public void setWxComVerifyTicketId(Long wxComVerifyTicketId) {
+		this.wxComVerifyTicketId = wxComVerifyTicketId;
+	}
+
+	public String getAppId() {
+		return appId;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+
+	public Date getLastModifiedDateTime() {
+		return lastModifiedDateTime;
+	}
+
+	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
+		this.lastModifiedDateTime = lastModifiedDateTime;
+	}
+
 	public String getComponentAccessToken() {
 		return componentAccessToken;
 	}

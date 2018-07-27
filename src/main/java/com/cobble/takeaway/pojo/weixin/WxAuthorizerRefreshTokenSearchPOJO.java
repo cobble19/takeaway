@@ -14,7 +14,16 @@ public class WxAuthorizerRefreshTokenSearchPOJO extends BaseSearchPOJO {
     private Integer expiresIn;
     private String authorizerRefreshToken;
     private Date createDateTime;
-    
+	private Date lastModifiedDateTime;
+
+	public Date getLastModifiedDateTime() {
+		return lastModifiedDateTime;
+	}
+
+	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
+		this.lastModifiedDateTime = lastModifiedDateTime;
+	}
+
 	public String getComponentAppId() {
 		return componentAppId;
 	}

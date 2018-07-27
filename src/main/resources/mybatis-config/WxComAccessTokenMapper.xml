@@ -14,16 +14,25 @@
     <id column="WX_COM_ACCESS_TOKEN_ID" property="wxComAccessTokenId" />
     <result column="COMPONENT_ACCESS_TOKEN" property="componentAccessToken"/>
     <result column="EXPIRES_IN" property="expiresIn" />
+      <result column="WX_COM_VERIFY_TICKET_ID" property="wxComVerifyTicketId" />
+      <result column="APP_ID" property="appId" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
+      <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.WX_COM_ACCESS_TOKEN_ID, a.COMPONENT_ACCESS_TOKEN, a.EXPIRES_IN, a.CREATE_DATE_TIME
+    a.WX_COM_ACCESS_TOKEN_ID, a.COMPONENT_ACCESS_TOKEN, a.EXPIRES_IN
+    , a.WX_COM_VERIFY_TICKET_ID, a.APP_ID
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="componentAccessToken != null">
 		and a.COMPONENT_ACCESS_TOKEN = #{componentAccessToken}
 	</if>
+      <if test="wxComVerifyTicketId != null">
+          and a.WX_COM_VERIFY_TICKET_ID = #{wxComVerifyTicketId}
+      </if>
   </sql>
   
   <select id="finds" resultMap="WxComAccessTokenResultMap" parameterType="com.cobble.takeaway.pojo.weixin.api.WxComAccessTokenSearchApiPOJO" >
@@ -77,9 +86,14 @@
       <if test="expiresIn != null" >
         EXPIRES_IN,
       </if>
-      <if test="createDateTime != null" >
+        <if test="wxComVerifyTicketId != null" >
+            WX_COM_VERIFY_TICKET_ID,
+        </if>
+        <if test="appId != null" >
+            APP_ID,
+        </if>
         CREATE_DATE_TIME,
-      </if>
+        LAST_MODIFIED_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="componentAccessToken != null" >
@@ -88,9 +102,14 @@
       <if test="expiresIn != null" >
         #{expiresIn},
       </if>
-      <if test="createDateTime != null" >
-        #{createDateTime},
-      </if>
+        <if test="wxComVerifyTicketId != null" >
+            #{wxComVerifyTicketId},
+        </if>
+        <if test="appId != null" >
+            #{appId},
+        </if>
+        sysdate(),
+        sysdate(),
     </trim>
   </insert>
   
@@ -103,9 +122,13 @@
       <if test="expiresIn != null" >
         EXPIRES_IN = #{expiresIn},
       </if>
-      <if test="createDateTime != null" >
-        CREATE_DATE_TIME = #{createDateTime},
-      </if>
+        <if test="wxComVerifyTicketId != null" >
+            WX_COM_VERIFY_TICKET_ID = #{wxComVerifyTicketId},
+        </if>
+        <if test="appId != null" >
+            APP_ID = #{appId},
+        </if>
+        LAST_MODIFIED_DATE_TIME = sysdate(),
     </set>
     where WX_COM_ACCESS_TOKEN_ID = #{wxComAccessTokenId}
   </update>

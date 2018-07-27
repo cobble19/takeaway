@@ -18,11 +18,13 @@
     <result column="EXPIRES_IN" property="expiresIn" />
     <result column="AUTHORIZER_REFRESH_TOKEN" property="authorizerRefreshToken" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
+      <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     a.WX_AUTHORIZER_REFRESH_TOKEN_ID, a.COMPONENT_APPID, a.AUTHORIZER_APPID
-    , a.AUTHORIZER_ACCESS_TOKEN, a.EXPIRES_IN, a.AUTHORIZER_REFRESH_TOKEN, a.CREATE_DATE_TIME
+    , a.AUTHORIZER_ACCESS_TOKEN, a.EXPIRES_IN, a.AUTHORIZER_REFRESH_TOKEN
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="authorizerAppId != null">
@@ -106,9 +108,8 @@
       <if test="authorizerRefreshToken != null" >
         AUTHORIZER_REFRESH_TOKEN,
       </if>
-      <if test="createDateTime != null" >
         CREATE_DATE_TIME,
-      </if>
+        LAST_MODIFIED_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="componentAppId != null" >
@@ -126,9 +127,8 @@
       <if test="authorizerRefreshToken != null" >
         #{authorizerRefreshToken},
       </if>
-      <if test="createDateTime != null" >
-        #{createDateTime},
-      </if>
+        sysdate(),
+        sysdate(),
     </trim>
   </insert>
   
@@ -150,9 +150,7 @@
       <if test="authorizerRefreshToken != null" >
         AUTHORIZER_REFRESH_TOKEN = #{authorizerRefreshToken},
       </if>
-      <if test="createDateTime != null" >
-        CREATE_DATE_TIME = #{createDateTime},
-      </if>
+        LAST_MODIFIED_DATE_TIME = sysdate(),
     </set>
     where WX_AUTHORIZER_REFRESH_TOKEN_ID = #{wxAuthorizerRefreshTokenId}
   </update>

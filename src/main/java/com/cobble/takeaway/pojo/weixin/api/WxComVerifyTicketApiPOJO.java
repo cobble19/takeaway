@@ -7,10 +7,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.cobble.takeaway.pojo.BasePOJO;
 
+import java.util.Date;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="xml")
 public class WxComVerifyTicketApiPOJO extends BasePOJO {
 	private Long wxComVerifyTicketId;
+	/**
+	 * component app id
+	 */
 	@XmlElement(name="AppId")
     private String appId;
 	@XmlElement(name="CreateTime")
@@ -19,7 +24,26 @@ public class WxComVerifyTicketApiPOJO extends BasePOJO {
     private String infoType;
 	@XmlElement(name="ComponentVerifyTicket")
     private String componentVerifyTicket;
-    
+
+	private Date createDateTime;
+	private Date lastModifiedDateTime;
+
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public Date getLastModifiedDateTime() {
+		return lastModifiedDateTime;
+	}
+
+	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
+		this.lastModifiedDateTime = lastModifiedDateTime;
+	}
+
 	public String getAppId() {
 		return appId;
 	}

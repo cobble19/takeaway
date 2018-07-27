@@ -16,10 +16,14 @@
     <result column="CREATE_TIME" property="createTime" />
     <result column="INFO_TYPE" property="infoType" />
     <result column="COMPONENT_VERIFY_TICKET" property="componentVerifyTicket" />
+      <result column="CREATE_DATE_TIME" property="createDateTime" />
+      <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.WX_COM_VERIFY_TICKET_ID, a.APP_ID, a.CREATE_TIME, a.INFO_TYPE, a.COMPONENT_VERIFY_TICKET
+    a.WX_COM_VERIFY_TICKET_ID, a.APP_ID, a.CREATE_TIME
+    , a.INFO_TYPE, a.COMPONENT_VERIFY_TICKET
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
   </sql>
   <sql id="Clause_Common">
 	<if test="appId != null">
@@ -84,6 +88,8 @@
       <if test="componentVerifyTicket != null" >
         COMPONENT_VERIFY_TICKET,
       </if>
+        CREATE_DATE_TIME,
+        LAST_MODIFIED_DATE_TIME,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="appId != null" >
@@ -98,6 +104,8 @@
       <if test="componentVerifyTicket != null" >
         #{componentVerifyTicket},
       </if>
+        sysdate(),
+        sysdate(),
     </trim>
   </insert>
   
@@ -116,6 +124,7 @@
       <if test="componentVerifyTicket != null" >
         COMPONENT_VERIFY_TICKET = #{componentVerifyTicket},
       </if>
+        LAST_MODIFIED_DATE_TIME = sysdate(),
     </set>
     where WX_COM_VERIFY_TICKET_ID = #{wxComVerifyTicketId}
   </update>
