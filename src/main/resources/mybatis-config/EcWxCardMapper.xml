@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.ecommerce.EcWxCardMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property openId="timeToIdleSeconds" value="3600" />
+		<property openId="timeToLiveSeconds" value="3600" />
+		<property openId="maxEntriesLocalHeap" value="1000" />
+		<property openId="maxEntriesLocalDisk" value="10000000" />
+		<property openId="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="EcWxCardResultMap" type="com.cobble.takeaway.pojo.ecommerce.EcWxCardPOJO" >
+    <id column="EC_WX_CARD_ID" property="ecWxCardId" />
+    <result column="AUTHORIZER_APP_ID" property="authorizerAppId" />
+    <result column="OPEN_ID" property="openId" />
+    <result column="USER_ID" property="userId" />
+    <result column="WP_ORDER_ID" property="wpOrderId" />
+    <result column="EC_ORDER_ID" property="ecOrderId" />
+    <result column="EC_PRODUCT_ID" property="ecProductId" />
+    <result column="CARD_ID" property="cardId" />
+    <result column="CARD_CODE" property="cardCode"/>
+    <result column="CARD_ACQUIRE_FLAG" property="cardAcquireFlag"/>
+    <result column="CARD_STATUS_WX" property="cardStatusWx"/>
+    <result column="RAW_DATA" property="rawData" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+    <association property="ecOrderPOJO" columnPrefix="EO_" resultMap="com.cobble.takeaway.dao.ecommerce.EcOrderMapper.EcOrderResultMap"></association>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.EC_WX_CARD_ID, a.AUTHORIZER_APP_ID, a.OPEN_ID, a.USER_ID, a.WP_ORDER_ID
+    , a.EC_ORDER_ID, a.EC_PRODUCT_ID, a.CARD_ID, a.CARD_CODE
+    , a.RAW_DATA
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
+	</if>
+	<if test="openId != null">
+		and a.OPEN_ID = #{openId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+	<if test="wpOrderId != null">
+		and a.WP_ORDER_ID = #{wpOrderId}
+	</if>
+    <if test="ecOrderId != null">
+      and a.EC_ORDER_ID = #{ecOrderId}
+    </if>
+    <if test="ecOrderIds != null">
+      and a.EC_ORDER_ID in
+      <foreach collection="ecOrderIds" item="ecOrderId1" open="(" close=")" separator=",">
+        #{ecOrderId1}
+      </foreach>
+    </if>
+    <if test="ecProductId != null">
+      and a.EC_PRODUCT_ID = #{ecProductId}
+    </if>
+    <if test="cardId != null">
+      and a.CARD_ID = #{cardId}
+    </if>
+    <if test="cardCode != null">
+      and a.CARD_CODE = #{cardCode}
+    </if>
+    <if test="cardAcquireFlag != null">
+      and a.CARD_ACQUIRE_FLAG = #{cardAcquireFlag}
+    </if>
+    <if test="cardStatusWx != null">
+      and a.CARD_STATUS_WX = #{cardStatusWx}
+    </if>
+  </sql>
+  
+  <select id="finds" resultMap="EcWxCardResultMap" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from EC_WX_CARD a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.LAST_MODIFIED_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from EC_WX_CARD a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+
+  <select id="findWithEcOrders" resultMap="EcWxCardResultMap" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    , b.ORDER_ID AS EO_ORDER_ID, b.USER_ID AS EO_USER_ID, b.OPEN_ID AS EO_OPEN_ID
+    , b.PRODUCT_ID AS EO_PRODUCT_ID, b.UNIT_PRICE AS EO_UNIT_PRICE, b.QUANTITY AS EO_QUANTITY
+    , b.ORIG_QUANTITY AS EO_ORIG_QUANTITY, b.DISCOUNT_RATE AS EO_DISCOUNT_RATE, b.PAY_RESULT AS EO_PAY_RESULT
+    , b.JS_PAY_RESULT_CODE AS EO_JS_PAY_RESULT_CODE, b.JS_PAY_RESULT_MSG AS EO_JS_PAY_RESULT_MSG
+    , b.CREATE_DATE_TIME AS EO_CREATE_DATE_TIME, b.LAST_MODIFIED_DATE_TIME AS EO_LAST_MODIFIED_DATE_TIME
+    from EC_WX_CARD a, EC_ORDER b
+    <where>
+      <trim prefixOverrides="and">
+        <include refid="Clause_Common"/>
+        and a.EC_ORDER_ID = b.ORDER_ID
+      </trim>
+    </where>
+    order by a.LAST_MODIFIED_DATE_TIME desc
+    <if test="start > -1 and limit > 0">
+      limit #{start}, #{limit}
+    </if>
+  </select>
+  <select id="getCountWithEcOrder" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from EC_WX_CARD a, EC_ORDER b
+    <where>
+      <trim prefixOverrides="and">
+        <include refid="Clause_Common"/>
+        and a.EC_ORDER_ID = b.ORDER_ID
+      </trim>
+    </where>
+  </select>
+
+  <select id="findById" resultMap="EcWxCardResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from EC_WX_CARD a
+    <where>
+      <trim prefixOverrides="and">
+        and a.EC_WX_CARD_ID = #{ecWxCardId}
+      </trim>
+    </where>
+  </select>
+
+  <select id="findByIdWithEcOrder" resultMap="EcWxCardResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    , b.ORDER_ID AS EO_ORDER_ID, b.USER_ID AS EO_USER_ID, b.OPEN_ID AS EO_OPEN_ID
+    , b.PRODUCT_ID AS EO_PRODUCT_ID, b.UNIT_PRICE AS EO_UNIT_PRICE, b.QUANTITY AS EO_QUANTITY
+    , b.ORIG_QUANTITY AS EO_ORIG_QUANTITY, b.DISCOUNT_RATE AS EO_DISCOUNT_RATE, b.PAY_RESULT AS EO_PAY_RESULT
+    , b.JS_PAY_RESULT_CODE AS EO_JS_PAY_RESULT_CODE, b.JS_PAY_RESULT_MSG AS EO_JS_PAY_RESULT_MSG
+    , b.CREATE_DATE_TIME AS EO_CREATE_DATE_TIME, b.LAST_MODIFIED_DATE_TIME AS EO_LAST_MODIFIED_DATE_TIME
+    from EC_WX_CARD a, EC_ORDER b
+    <where>
+  		<trim prefixOverrides="and">
+  			and a.EC_ORDER_ID = b.ORDER_ID
+			and a.EC_WX_CARD_ID = #{ecWxCardId}
+  		</trim>
+  	</where>
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from EC_WX_CARD
+    where EC_WX_CARD_ID = #{ecWxCardId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardPOJO" useGeneratedKeys="true"
+  	keyProperty="ecWxCardId" keyColumn="EC_WX_CARD_ID">
+    insert into EC_WX_CARD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="wpOrderId != null" >
+        WP_ORDER_ID,
+      </if>
+      <if test="ecOrderId != null" >
+        EC_ORDER_ID,
+      </if>
+      <if test="ecProductId != null" >
+        EC_PRODUCT_ID,
+      </if>
+      <if test="cardId != null" >
+        CARD_ID,
+      </if>
+      <if test="cardCode != null" >
+        CARD_CODE,
+      </if>
+      <if test="cardAcquireFlag != null" >
+        CARD_ACQUIRE_FLAG,
+      </if>
+      <if test="cardStatusWx != null" >
+        CARD_STATUS_WX,
+      </if>
+      <if test="rawData != null" >
+        RAW_DATA,
+      </if>
+        CREATE_DATE_TIME,
+        LAST_MODIFIED_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="wpOrderId != null" >
+        #{wpOrderId},
+      </if>
+      <if test="ecOrderId != null" >
+        #{ecOrderId},
+      </if>
+      <if test="ecProductId != null" >
+        #{ecProductId},
+      </if>
+      <if test="cardId != null" >
+        #{cardId},
+      </if>
+      <if test="cardCode != null" >
+        #{cardCode},
+      </if>
+      <if test="cardAcquireFlag != null" >
+        #{cardAcquireFlag},
+      </if>
+      <if test="cardStatusWx != null" >
+        #{cardStatusWx},
+      </if>
+      <if test="rawData != null" >
+        #{rawData},
+      </if>
+        sysdate(),
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardPOJO" >
+    update EC_WX_CARD
+    <set >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID = #{authorizerAppId},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="wpOrderId != null" >
+        WP_ORDER_ID = #{wpOrderId},
+      </if>
+      <if test="ecOrderId != null" >
+        EC_ORDER_ID = #{ecOrderId},
+      </if>
+      <if test="ecProductId != null" >
+        EC_PRODUCT_ID = #{ecProductId},
+      </if>
+      <if test="cardId != null" >
+        CARD_ID = #{cardId},
+      </if>
+      <if test="cardCode != null" >
+        CARD_CODE = #{cardCode},
+      </if>
+      <if test="cardAcquireFlag != null" >
+        CARD_ACQUIRE_FLAG = #{cardAcquireFlag},
+      </if>
+      <if test="cardStatusWx != null" >
+        CARD_STATUS_WX = #{cardStatusWx},
+      </if>
+      <if test="rawData != null" >
+        RAW_DATA = #{rawData},
+      </if>
+        <!-- CREATE_DATE_TIME = sysdate(), -->
+        LAST_MODIFIED_DATE_TIME = sysdate(),
+    </set>
+    where EC_WX_CARD_ID = #{ecWxCardId}
+  </update>
+
+</mapper>

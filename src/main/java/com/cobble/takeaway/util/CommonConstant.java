@@ -140,5 +140,18 @@ public interface CommonConstant {
 	public final static String WXPAY_SUCCESS = "SUCCESS";
 	// for wx card active
 	public final static int ACTIVE_FLAG_CARD_ENABLE = 1;
-	
+
+	// for wx card acquire from js
+	int WX_CARD_ACQUIRED = 1;
+	int WX_CARD_UNACQUIRED = 0;
+	// for wx card status from wx api
+	String WX_CARD_STATUS_NORMAL = "NORMAL";
+	String WX_CARD_STATUS_CONSUMED = "CONSUMED";
+	String WX_CARD_STATUS_EXPIRE = "EXPIRE";
+	String WX_CARD_STATUS_GIFTING = "GIFTING";
+	String WX_CARD_STATUS_GIFT_TIMEOUT = "GIFT_TIMEOUT";
+	String WX_CARD_STATUS_DELETE = "DELETE";
+	String WX_CARD_STATUS_UNAVAILABLE = "UNAVAILABLE";
+	String WX_CARD_STATUS_UNKNOWN = "invalid serial code";
+
 }

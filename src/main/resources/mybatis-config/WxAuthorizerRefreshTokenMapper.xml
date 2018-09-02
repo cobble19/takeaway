@@ -40,9 +40,10 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
+            AND a.create_date_time > date_sub(sysdate(),INTERVAL 7 day)
   		</trim>
   	</where>
-  	order by a.CREATE_DATE_TIME desc
+
 	<if test="start > -1 and limit > 0">
 		limit #{start}, #{limit}
 	</if>

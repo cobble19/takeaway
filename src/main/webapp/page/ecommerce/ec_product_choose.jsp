@@ -40,13 +40,16 @@
 	<input type="hidden" id="signTypeCard" name="signTypeCard" value="${wxJsSdkConfigCardChoosePOJO.signType}" />
 	<input type="hidden" id="cardSignCard" name="cardSignCard" value="${wxJsSdkConfigCardChoosePOJO.cardSign}" />
 
-  	<!-- 调用微信支付js接口 -->
+  	<!-- 为调用微信支付js接口准备数据 -->
   	<input type="hidden" id="appIdUo" name="appIdUo" />
   	<input type="hidden" id="timestampUo" name="timestampUo" />
   	<input type="hidden" id="nonceStrUo" name="nonceStrUo" />
   	<input type="hidden" id="prepayIdUo" name="prepayIdUo" />
   	<input type="hidden" id="paySignUo" name="paySignUo" />
   	<input type="hidden" id="packageUo" name="packageUo" />
+
+	<input type="hidden" id="orderId" name="orderId" />
+	<input type="hidden" id="wpOrderId" name="wpOrderId" />
 
   	<!-- 公众号二维码 -->
   	<input type="hidden" id="subscribeFlag" name="subscribeFlag" value="${subscribeFlag ? '1' : '0'}" />
@@ -96,12 +99,13 @@
 					<input type="hidden" id="endDateTime" name="endDateTime" value="${ecProductPOJO.endDateTime}">
 					<input type="hidden" id="wxCardId" name="wxCardId" value="${ecProductPOJO.wxCardId}">
 
+					<input type="hidden" id="homeUrl" name="homeUrl" value="${ecProductPOJO.homeUrl}">
+
 					<input type="hidden" id="orderCount" name="orderCount" value="${orderCount}">
 					<input type="hidden" id="orderCountToday" name="orderCountToday" value="${orderCountToday}">
 					<input type="hidden" id="wxCardLimit" name="wxCardLimit" value="${wxCardLimit}">
 					<input type="hidden" id="wxCardCount" name="wxCardCount" value="${wxCardCount}">
 
-					<input type="hidden" id="homeUrl" name="homeUrl" value="${ecProductPOJO.homeUrl}">
 
 	            <div class="row">
 					<div class="col-xs-12" style="padding: 2px; text-align: center;">

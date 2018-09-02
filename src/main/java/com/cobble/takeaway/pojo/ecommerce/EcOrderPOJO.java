@@ -15,10 +15,38 @@ public class EcOrderPOJO extends BasePOJO {
 	private Integer origQuantity;
 	private Double discountRate;
 	private String payResult;
+	private String jsPayResultCode;
+	private String jsPayResultMsg;
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
-	
+
+	private Integer canAcquireCount;
+
 	private EcProductPOJO ecProductPOJO = new EcProductPOJO();
+
+	public Integer getCanAcquireCount() {
+		return canAcquireCount;
+	}
+
+	public void setCanAcquireCount(Integer canAcquireCount) {
+		this.canAcquireCount = canAcquireCount;
+	}
+
+	public String getJsPayResultCode() {
+		return jsPayResultCode;
+	}
+
+	public void setJsPayResultCode(String jsPayResultCode) {
+		this.jsPayResultCode = jsPayResultCode;
+	}
+
+	public String getJsPayResultMsg() {
+		return jsPayResultMsg;
+	}
+
+	public void setJsPayResultMsg(String jsPayResultMsg) {
+		this.jsPayResultMsg = jsPayResultMsg;
+	}
 
 	public Integer getOrigQuantity() {
 		return origQuantity;

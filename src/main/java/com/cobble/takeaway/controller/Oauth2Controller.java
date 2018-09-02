@@ -22,8 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cobble.takeaway.pojo.ecommerce.EcWxCardPOJO;
 import com.cobble.takeaway.pojo.weixin.*;
 import com.cobble.takeaway.pojo.weixin.api.*;
+import com.cobble.takeaway.service.ecommerce.EcWxCardService;
 import com.cobble.takeaway.service.weixin.WxMsgEventLogService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.Charsets;
@@ -176,6 +178,8 @@ public class Oauth2Controller extends BaseController {
 	private EcOrderService ecOrderService;
 	@Autowired
 	private WxMsgEventLogService wxMsgEventLogService;
+	@Autowired
+	private EcWxCardService ecWxCardService;
 	
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
@@ -557,6 +561,10 @@ public class Oauth2Controller extends BaseController {
 						ecOrderPOJO = ecOrderService.findById(wpOrderPOJO.getEcOrderId());
 					}
 					if (ecOrderPOJO != null) {
+						// update ecOrder payResult for SUCCESS
+						ecOrderPOJO.setPayResult(CommonConstant.WXPAY_ORDER_SUCCESS);
+						ecOrderService.updatePayResult(ecOrderPOJO);
+
 						String authorizerAppId = ecOrderPOJO.getEcProductPOJO().getAuthorizerAppId();
 						String openId = ecOrderPOJO.getOpenId();
 						String cardId = ecOrderPOJO.getEcProductPOJO().getWxCardId();
@@ -570,9 +578,25 @@ public class Oauth2Controller extends BaseController {
 						for (int i = 0; i < quantity; i++) {
 							String result1 = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
 						}
-						// update ecOrder payResult for SUCCESS
-						ecOrderPOJO.setPayResult(CommonConstant.WXPAY_ORDER_SUCCESS);
-						ecOrderService.updatePayResult(ecOrderPOJO);
+						// create wx card init data
+						// only test openid insert data
+						/// TODO will remove after test success
+						if ("ovyahuBNJLdRAS8ta6vFIsk_uo2U".equals(openId)
+								|| "ovyahuAY2iNDmTeoetRFtehv_knU".equals(openId)) {
+							for (int i = 0; i < quantity; i++) {
+								EcWxCardPOJO ecWxCardPOJO = new EcWxCardPOJO();
+								ecWxCardPOJO.setAuthorizerAppId(authorizerAppId);
+								ecWxCardPOJO.setOpenId(openId);
+								ecWxCardPOJO.setUserId(ecOrderPOJO.getUserId());
+								ecWxCardPOJO.setEcProductId(ecOrderPOJO.getProductId());
+								ecWxCardPOJO.setEcOrderId(ecOrderPOJO.getOrderId());
+								ecWxCardPOJO.setWpOrderId(wpOrderPOJO.getWpOrderId());
+								ecWxCardPOJO.setCardAcquireFlag(CommonConstant.WX_CARD_UNACQUIRED);
+								ecWxCardPOJO.setCardStatusWx(CommonConstant.WX_CARD_STATUS_NORMAL);
+								ecWxCardPOJO.setCardId(cardId);
+								ecWxCardService.insert(ecWxCardPOJO);
+							}
+						}
 					}
 				} catch (Exception e) {
 					logger.error("Send wx pay card exception: ", e);
@@ -4517,6 +4541,7 @@ public class Oauth2Controller extends BaseController {
 			Integer expireIn = 2 * 60 * 60;
 			Date createDateTime = null;
 			if (!CollectionUtils.isEmpty(wxComAccessTokenApiPOJOs)) {
+				// 当前仅仅一个第三方账号
 				WxComAccessTokenApiPOJO wxComAccessTokenApiPOJO = wxComAccessTokenApiPOJOs.get(0);
 				componentAccessToken = wxComAccessTokenApiPOJO.getComponentAccessToken();
 //				createDateTime = wxComAccessTokenApiPOJO.getCreateDateTime();
@@ -4526,35 +4551,44 @@ public class Oauth2Controller extends BaseController {
 			Date curDate = new Date();
 			// Refresh authorizer access token every 1 hour
 			WxAuthorizerRefreshTokenSearchPOJO wxAuthorizerRefreshTokenSearchPOJO = new WxAuthorizerRefreshTokenSearchPOJO();
-			// 1. get distinct all authorizerAppId
+			wxAuthorizerRefreshTokenSearchPOJO.setPaginationFlage(false);
+			// 1. get distinct all authorizerAppId, 不知道为什么wxAuthorizerInfoPOJOs里面的appid和wxAuthorizerRefreshTokenPOJOs4AppId里面的不一样
+//			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+//			wxAuthorizerInfoSearchPOJO.setPaginationFlage(false);
+//			List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
 			List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs4AppId = wxAuthorizerRefreshTokenService.findAuthorizerAppIds(wxAuthorizerRefreshTokenSearchPOJO);
 			if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs4AppId)) {
 				for (WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO4AppId : wxAuthorizerRefreshTokenPOJOs4AppId) {
-					String authorizerAppId = wxAuthorizerRefreshTokenPOJO4AppId.getAuthorizerAppId();
-					wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
-					// get authorizer refresh token to refresh
-					List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
-					if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
-						WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
-						createDateTime = wxAuthorizerRefreshTokenPOJO.getCreateDateTime();
-						expireIn = wxAuthorizerRefreshTokenPOJO.getExpiresIn();
-						Long duration = 1 * 60 * 60 * 1000L;
-						if (duration > (expireIn - 20 * 60) * 1000L) {
-							duration = (expireIn - 20 * 60) * 1000L;
-						}
+					try {
+						String authorizerAppId = wxAuthorizerRefreshTokenPOJO4AppId.getAuthorizerAppId();
+						wxAuthorizerRefreshTokenSearchPOJO.setAuthorizerAppId(authorizerAppId);
+						wxAuthorizerRefreshTokenSearchPOJO.setPaginationFlage(true);// 只需要获取最新的一条记录
+						// get authorizer refresh token to refresh
+						List<WxAuthorizerRefreshTokenPOJO> wxAuthorizerRefreshTokenPOJOs = wxAuthorizerRefreshTokenService.finds(wxAuthorizerRefreshTokenSearchPOJO);
+						if (!CollectionUtils.isEmpty(wxAuthorizerRefreshTokenPOJOs)) {
+							WxAuthorizerRefreshTokenPOJO wxAuthorizerRefreshTokenPOJO = wxAuthorizerRefreshTokenPOJOs.get(0);
+							createDateTime = wxAuthorizerRefreshTokenPOJO.getCreateDateTime();
+							expireIn = wxAuthorizerRefreshTokenPOJO.getExpiresIn();
+							Long duration = 1 * 60 * 60 * 1000L;
+							if (duration > (expireIn - 20 * 60) * 1000L) {
+								duration = (expireIn - 20 * 60) * 1000L;
+							}
 
-						if (curDate.getTime() - createDateTime.getTime() >= duration) {	// 1 hours
-							WxAuthorizerRefreshTokenReqApiPOJO wxAuthorizerRefreshTokenReqApiPOJO = new WxAuthorizerRefreshTokenReqApiPOJO();
-							wxAuthorizerRefreshTokenReqApiPOJO.setComponentAppId(wxAuthorizerRefreshTokenPOJO.getComponentAppId());
-							wxAuthorizerRefreshTokenReqApiPOJO.setAuthorizerAppId(wxAuthorizerRefreshTokenPOJO.getAuthorizerAppId());
-							wxAuthorizerRefreshTokenReqApiPOJO.setAuthorizerRefreshToken(wxAuthorizerRefreshTokenPOJO.getAuthorizerRefreshToken());
-							String wxAuthorizerRefreshTokenStr = HttpClientUtil.postHttpsJson(wxThirdAuthorizerRefreshTokenUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken)
-									, JsonUtils.convertToJson(wxAuthorizerRefreshTokenReqApiPOJO));
-							WxAuthorizerRefreshTokenApiPOJO wxAuthorizerRefreshTokenApiPOJO = JsonUtils.convertToJavaBean(wxAuthorizerRefreshTokenStr, WxAuthorizerRefreshTokenApiPOJO.class);
-							BeanUtils.copyProperties(wxAuthorizerRefreshTokenApiPOJO, wxAuthorizerRefreshTokenPOJO);
-							wxAuthorizerRefreshTokenPOJO.setCreateDateTime(new Date());
-							wxAuthorizerRefreshTokenService.insert(wxAuthorizerRefreshTokenPOJO);
+							if (curDate.getTime() - createDateTime.getTime() >= duration) {	// 1 hours
+								WxAuthorizerRefreshTokenReqApiPOJO wxAuthorizerRefreshTokenReqApiPOJO = new WxAuthorizerRefreshTokenReqApiPOJO();
+								wxAuthorizerRefreshTokenReqApiPOJO.setComponentAppId(wxAuthorizerRefreshTokenPOJO.getComponentAppId());
+								wxAuthorizerRefreshTokenReqApiPOJO.setAuthorizerAppId(wxAuthorizerRefreshTokenPOJO.getAuthorizerAppId());
+								wxAuthorizerRefreshTokenReqApiPOJO.setAuthorizerRefreshToken(wxAuthorizerRefreshTokenPOJO.getAuthorizerRefreshToken());
+								String wxAuthorizerRefreshTokenStr = HttpClientUtil.postHttpsJson(wxThirdAuthorizerRefreshTokenUrl.replace("COMPONENT_ACCESS_TOKEN", componentAccessToken)
+										, JsonUtils.convertToJson(wxAuthorizerRefreshTokenReqApiPOJO));
+								WxAuthorizerRefreshTokenApiPOJO wxAuthorizerRefreshTokenApiPOJO = JsonUtils.convertToJavaBean(wxAuthorizerRefreshTokenStr, WxAuthorizerRefreshTokenApiPOJO.class);
+								BeanUtils.copyProperties(wxAuthorizerRefreshTokenApiPOJO, wxAuthorizerRefreshTokenPOJO);
+								wxAuthorizerRefreshTokenPOJO.setCreateDateTime(new Date());
+								wxAuthorizerRefreshTokenService.insert(wxAuthorizerRefreshTokenPOJO);
+							}
 						}
+					} catch (Exception e) {
+						logger.error("wxAuthorizer refresh token exception: ", e);
 					}
 				}
 			}

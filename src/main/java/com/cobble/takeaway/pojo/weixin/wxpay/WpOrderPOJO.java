@@ -54,7 +54,26 @@ public class WpOrderPOJO extends BasePOJO {
 	
 	private Long ecOrderId;
 	private Long ecProductId;
-	
+
+	private String jsPayResultCode;
+	private String jsPayResultMsg;
+
+	public String getJsPayResultCode() {
+		return jsPayResultCode;
+	}
+
+	public void setJsPayResultCode(String jsPayResultCode) {
+		this.jsPayResultCode = jsPayResultCode;
+	}
+
+	public String getJsPayResultMsg() {
+		return jsPayResultMsg;
+	}
+
+	public void setJsPayResultMsg(String jsPayResultMsg) {
+		this.jsPayResultMsg = jsPayResultMsg;
+	}
+
 	public Long getEcProductId() {
 		return ecProductId;
 	}

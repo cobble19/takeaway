@@ -69,6 +69,9 @@ $(function() {
                     $('#prepayIdUo').val(data.jsPayMap.prepayId);
                     $('#paySignUo').val(data.jsPayMap.sign);
                     $('#packageUo').val(data.jsPayMap.packageUo);
+                    // for update ecOrder and wpOrder's jsPayResultCode, to see wx_js_pay_bridge.js
+                    $('#orderId').val(data.ecOrderPOJO.orderId);
+                    $('#wpOrderId').val(data.wpOrderPOJO.wpOrderId);
                     alert('申请订单成功！去付款吧!')
 
                     // call wxpay
