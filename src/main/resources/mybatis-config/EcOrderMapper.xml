@@ -20,6 +20,8 @@
     <result column="ORIG_QUANTITY" property="origQuantity" />
     <result column="DISCOUNT_RATE" property="discountRate" />
     <result column="PAY_RESULT" property="payResult" />
+    <result column="JS_PAY_RESULT_CODE" property="jsPayResultCode" />
+    <result column="JS_PAY_RESULT_MSG" property="jsPayResultMsg" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
     <association property="ecProductPOJO" columnPrefix="EP_" resultMap="com.cobble.takeaway.dao.ecommerce.EcProductMapper.EcProductResultMap"></association>

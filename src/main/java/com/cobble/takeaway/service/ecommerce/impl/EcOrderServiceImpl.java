@@ -54,7 +54,7 @@ public class EcOrderServiceImpl implements EcOrderService {
 	@Override
 	public int update(EcOrderPOJO ecOrderPOJO) throws Exception {
 		int ret = 0;
-		if (ecOrderPOJO.getQuantity() != 0) {
+		if (ecOrderPOJO.getQuantity() != null && ecOrderPOJO.getQuantity() != 0) {
 			ecOrderPOJO.setOrigQuantity(ecOrderPOJO.getQuantity());
 		}
 		ret = ecOrderMapper.update(ecOrderPOJO);

@@ -60,6 +60,9 @@
     
     <result column="EC_ORDER_ID" property="ecOrderId"/>
     <result column="EC_PRODUCT_ID" property="ecProductId"/>
+
+    <result column="JS_PAY_RESULT_CODE" property="jsPayResultCode" />
+    <result column="JS_PAY_RESULT_MSG" property="jsPayResultMsg" />
     
     <association property="wpOrderClosePOJO" columnPrefix="B_" resultMap="com.cobble.takeaway.dao.weixin.wxpay.WpOrderCloseMapper.WpOrderCloseResultMap"></association>
   </resultMap>
@@ -81,6 +84,7 @@
     , a.RESP_BANK_TYPE, a.RESP_CASH_FEE, a.RESP_TOTAL_FEE
     , a.RESP_FEE_TYPE, a.RESP_IS_SUBSCRIBE, a.RESP_TIME_END
     , a.RESP_TRANSACTION_ID, a.EC_ORDER_ID, a.EC_PRODUCT_ID
+    , a.JS_PAY_RESULT_CODE, a.JS_PAY_RESULT_MSG
     , a.CREATE_DATE_TIME
   </sql>
   <sql id="Clause_Common">
@@ -111,6 +115,9 @@
 	<if test="ecProductId != null">
 		and a.EC_PRODUCT_ID = #{ecProductId}
 	</if>
+    <if test="jsPayResultCode != null">
+      and a.JS_PAY_RESULT_CODE = #{jsPayResultCode}
+    </if>
 	<if test="startDateTime != null">
 		and a.CREATE_DATE_TIME &gt;= #{startDateTime}
 	</if>
@@ -383,7 +390,14 @@
       <if test="ecProductId != null" >
         EC_PRODUCT_ID,
       </if>
-      
+
+      <if test="jsPayResultCode != null" >
+        JS_PAY_RESULT_CODE,
+      </if>
+      <if test="jsPayResultMsg != null" >
+        JS_PAY_RESULT_MSG,
+      </if>
+
       <if test="createDateTime != null" >
         CREATE_DATE_TIME,
       </if>
@@ -522,7 +536,13 @@
       <if test="ecProductId != null" >
         #{ecProductId},
       </if>
-      
+
+      <if test="jsPayResultCode != null" >
+        #{jsPayResultCode},
+      </if>
+      <if test="jsPayResultMsg != null" >
+        #{jsPayResultMsg},
+      </if>
       <if test="createDateTime != null" >
         #{createDateTime},
       </if>
@@ -665,7 +685,13 @@
       <if test="ecProductId != null" >
         EC_PRODUCT_ID = #{ecProductId},
       </if>
-      
+
+      <if test="jsPayResultCode != null" >
+        JS_PAY_RESULT_CODE = #{jsPayResultCode},
+      </if>
+      <if test="jsPayResultMsg != null" >
+        JS_PAY_RESULT_MSG = #{jsPayResultMsg},
+      </if>
       <if test="createDateTime != null" >
         CREATE_DATE_TIME = #{createDateTime},
       </if>
@@ -809,7 +835,13 @@
       <if test="ecProductId != null" >
         EC_PRODUCT_ID = #{ecProductId},
       </if>
-      
+
+      <if test="jsPayResultCode != null" >
+        JS_PAY_RESULT_CODE = #{jsPayResultCode},
+      </if>
+      <if test="jsPayResultMsg != null" >
+        JS_PAY_RESULT_MSG = #{jsPayResultMsg},
+      </if>
       <if test="createDateTime != null" >
         CREATE_DATE_TIME = #{createDateTime},
       </if>

@@ -41,4 +41,14 @@ public class EcWpOrderJsPayResultPOJO extends BasePOJO {
 	public void setResultMsg(String resultMsg) {
 		this.resultMsg = resultMsg;
 	}
+
+	@Override
+	public String toString() {
+		return "EcWpOrderJsPayResultPOJO{" +
+				"orderId=" + orderId +
+				", wpOrderId=" + wpOrderId +
+				", resultCode='" + resultCode + '\'' +
+				", resultMsg='" + resultMsg + '\'' +
+				'}';
+	}
 }

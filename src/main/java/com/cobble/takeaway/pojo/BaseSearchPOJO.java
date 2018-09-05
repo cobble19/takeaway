@@ -74,6 +74,11 @@ public class BaseSearchPOJO implements Serializable {
 			start = -1;
 			limit = 0;
 		}
+		if (paginationFlage) {
+			start = START;
+			limit = LIMIT;
+			page = PAGE;
+		}
 		this.paginationFlage = paginationFlage;
 	}
 

@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('button[name=wxCardAcquireBtn]').click(function() {
         var ecWxCardId = $(this).prop('ecWxCardId');
-        openWxAddCardWin(ecOrderId);
+        openWxAddCardWin(ecWxCardId);
     })
 
     function openWxAddCardWin(ecWxCardId) {

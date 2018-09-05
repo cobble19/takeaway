@@ -252,6 +252,8 @@ public class EcOrderController extends BaseController {
 												@RequestParam(value = "openId", required = false) String openId,
 												@RequestParam(value = "ecWxCardId", required = true) Long ecWxCardId,
 												HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("ecWxCardAcquireApi start..., authorizerAppId: {}, openId: {}, ecWxCardId: {}"
+						, authorizerAppId, openId, ecWxCardId);
 		Map ret = new HashMap();
 		try {
 			String uri = request.getRequestURI();
@@ -351,6 +353,8 @@ public class EcOrderController extends BaseController {
 			} else {
 				ret.put("success", false);
 				ret.put("errMsg", "未找到卡券购买记录");
+				logger.error("ecWxCardAcquireApi exception..., authorizerAppId: {}, openId: {}, ecWxCardId: {}, ret: {}"
+						, authorizerAppId, openId, ecWxCardId, ret);
 				return ret;
 			}
 
@@ -393,10 +397,15 @@ public class EcOrderController extends BaseController {
 			ret.put("ecWxCardPOJO", ecWxCardPOJO);
 			ret.put("success", true);
 			ret.put("errMsg", "获取js所用的wx card参数成功");
+
+			logger.error("ecWxCardAcquireApi success..., authorizerAppId: {}, openId: {}, ecWxCardId: {}, ret: {}"
+					, authorizerAppId, openId, ecWxCardId, ret);
 		} catch (Exception e) {
 			logger.error("exception: ", e);
 			throw e;
 		}
+		logger.info("ecWxCardAcquireApi start..., authorizerAppId: {}, openId: {}, ecWxCardId: {}"
+				, authorizerAppId, openId, ecWxCardId);
 
 		return ret;
 	}
@@ -910,8 +919,9 @@ public class EcOrderController extends BaseController {
 	// 同时更新ec_order和wp_order的js pay result字段
 	@RequestMapping(value = "/api/ecommerce/ecwporder/updatejspayresult", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public Map ecWpOrderUpdateJsPayResultApi(EcWpOrderJsPayResultPOJO ecWpOrderJsPayResultPOJO
+	public Map ecWpOrderUpdateJsPayResultApi(@RequestBody EcWpOrderJsPayResultPOJO ecWpOrderJsPayResultPOJO
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("ecWpOrderUpdateJsPayResultApi start..., ecWpOrderJsPayResultPOJO: {}", ecWpOrderJsPayResultPOJO);
 		Map ret = new HashMap();
 
 		String uri = request.getRequestURI();
@@ -939,19 +949,25 @@ public class EcOrderController extends BaseController {
 			ecOrderPOJO.setJsPayResultCode(resultCode);
 			ecOrderPOJO.setJsPayResultMsg(resultMsg);
 			ecOrderService.update(ecOrderPOJO);
+			logger.info("ecOrderService.update success");
 
 			WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
 			wpOrderPOJO.setWpOrderId(wpOrderId);
 			wpOrderPOJO.setJsPayResultCode(resultCode);
-			ecOrderPOJO.setJsPayResultMsg(resultMsg);
+			wpOrderPOJO.setJsPayResultMsg(resultMsg);
 			wpOrderService.update(wpOrderPOJO);
+			logger.info("wpOrderService.update success");
 
 			ret.put("success", true);
 			ret.put("errMessage", "修改js wx pay result成功");
-		} catch (Exception E) {
+			logger.info("ecOrder and wpOrder js pay result update 成功");
+		} catch (Exception e) {
 			ret.put("success", false);
 			ret.put("errMessage", "修改js wx pay result失败");
+			logger.error("ecOrder and wpOrder js pay result update 失败", e);
 		}
+
+		logger.info("ecWpOrderUpdateJsPayResultApi end..., ecWpOrderJsPayResultPOJO: {}, ret: {}", ecWpOrderJsPayResultPOJO, ret);
 
 		return ret;
 	}
