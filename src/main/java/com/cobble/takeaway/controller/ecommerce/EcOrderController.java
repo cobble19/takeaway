@@ -190,12 +190,14 @@ public class EcOrderController extends BaseController {
 //			wxCardSign.addData(authorizerAppId);
 			wxCardSign.addData(ret.getTimestamp());
 			wxCardSign.addData(cardId);
-			wxCardSign.addData(code);
-			wxCardSign.addData(openId);
+//			wxCardSign.addData(code);
+//			wxCardSign.addData(openId);
 			wxCardSign.addData(ret.getNonceStr());
+
 			// 用和wxChooseCard一样的签名方法
 			cardSign = wxCardSign.getSignature();
-
+			logger.info("authorizerAppId: {}, cardId: {}, code: {}, openId: {}, timestamp: {}, nonceStr: {}, wxCardTicket: {}"
+						, authorizerAppId, cardId, code, openId, timestamp, nonceStr, wxCardTicket);
 			ret.setSignature(cardSign);
 		} catch (Exception e) {
 			logger.error("getWxJsSdkConfigCardChoose Exception: ", e);
@@ -364,7 +366,7 @@ public class EcOrderController extends BaseController {
 			EcWxCardPOJO ecWxCardPOJO = ecWxCardPOJOs.get(0);
 
 			// provider pojo to support open user weixin card by using js
-			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = this.getWxJsSdkConfigRespApi(authorizerAppId, url);
+//			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = this.getWxJsSdkConfigRespApi(authorizerAppId, url);
 
 			String cardId = ecWxCardPOJO.getEcOrderPOJO().getEcProductPOJO().getWxCardId();
 			WxJsSdkCardExtParamApiPOJO wxJsSdkCardExtParamApiPOJO = new WxJsSdkCardExtParamApiPOJO();
@@ -380,7 +382,7 @@ public class EcOrderController extends BaseController {
 			List<Map> cardList = new ArrayList<Map>();
 			Map cardMap = new HashMap();
 			cardMap.put("cardId", cardId);
-			cardMap.put("cardExt", wxJsSdkCardExtApiPOJO);
+			cardMap.put("cardExt", JsonUtils.convertToJson(wxJsSdkCardExtApiPOJO));
 			cardList.add(cardMap);
 
 //			Map cardListMap = new HashMap();
@@ -394,7 +396,7 @@ public class EcOrderController extends BaseController {
 //			ecWxCardPOJO.setEcOrderId(ecOrderId);
 //			ecWxCardPOJO.setEcProductId(ecOrderPOJO.getProductId());
 
-			ret.put("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+//			ret.put("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
 			ret.put("cardList", cardList);
 			ret.put("ecWxCardPOJO", ecWxCardPOJO);
 			ret.put("success", true);

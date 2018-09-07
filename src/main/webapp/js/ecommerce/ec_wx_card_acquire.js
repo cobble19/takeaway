@@ -23,7 +23,7 @@ $(document).ready(function() {
                 alert('data: ' + JSON.stringify(data));
                 if (data.success) {
                     var ecWxCardPOJO = data.ecWxCardPOJO;
-                    var cardList = data.cartList;
+                    var cardList = data.cardList;
                     alert('cardList: ' + cardList + ", ecWxCardPOJO: " + ecWxCardPOJO);
                     wxAddCard(cardList, ecWxCardPOJO);
                     alert('openWxAddCardWin 领取成功: ' + JSON.stringify(data));
