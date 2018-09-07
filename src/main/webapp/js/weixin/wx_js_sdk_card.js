@@ -122,7 +122,7 @@ function wxOpenCard(cardList) {
 ///
 function wxAddCard(cardList, ecWxCardPOJO) {
     alert("wxAddCard enter...cardList: " + cardList + "<br/>, ecWxCardPOJO: " + ecWxCardPOJO);
-    $('body').loading();
+    // $('body').loading();
     wx.addCard({
         cardList: cardList,
         // cardList: [{
@@ -135,7 +135,7 @@ function wxAddCard(cardList, ecWxCardPOJO) {
             params['rawData'] = JSON.stringify(cardList);
             alert("wxAddCard params: " + JSON.stringify(params));
             // async
-            $('body').loading();
+            // $('body').loading();
             $.ajax({
                 "url" : $('#basePath').val() + "/api/ecommerce/ecorder/jswxcardadd",
                 "type" : "POST",
@@ -154,7 +154,7 @@ function wxAddCard(cardList, ecWxCardPOJO) {
                 },
                 "complete": function(jqXHR, textStatus) {
                     console.log('Ajax complete.');
-                    $('body').loading('stop');
+                    // $('body').loading('stop');
                 }
             });	// ajax
 
@@ -165,7 +165,7 @@ function wxAddCard(cardList, ecWxCardPOJO) {
         },
         complete: function(res) {
             alert('wxAddCard 添加卡券完成, ' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
-            $('body').loading('stop');
+            // $('body').loading('stop');
         },
         cancel: function(res) {
             alert('wxAddCard 添加卡券取消, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));

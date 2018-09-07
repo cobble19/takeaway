@@ -240,7 +240,7 @@ public class EcOrderController extends BaseController {
 
 			ret.put("success", true);
 			ret.put("errMsg", "通过js添加wxcard成功");
-			logger.info("wxCardAddJsApi ret: {}" + ret);
+			logger.info("wxCardAddJsApi ret: {}", ret);
 		} catch (Exception e) {
 			logger.error("exception: ", e);
 			throw e;

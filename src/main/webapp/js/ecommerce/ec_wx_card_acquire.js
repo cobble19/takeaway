@@ -5,7 +5,7 @@ $(document).ready(function() {
     })
 
     function openWxAddCardWin(ecWxCardId) {
-        $('body').loading();
+        // $('body').loading();
         var params = {};
         // params['ecWxCardId'] = ecWxCardId;
         $.ajax({
@@ -24,7 +24,6 @@ $(document).ready(function() {
                 if (data.success) {
                     var ecWxCardPOJO = data.ecWxCardPOJO;
                     var cardList = data.cardList;
-                    // alert('openWxAddCardWin cardList: ' + cardList + ", ecWxCardPOJO: " + ecWxCardPOJO);
                     wxAddCard(cardList, ecWxCardPOJO);
                     alert('openWxAddCardWin 领取成功: ' + JSON.stringify(data));
                 } else {
@@ -36,7 +35,7 @@ $(document).ready(function() {
             },
             "complete": function(jqXHR, textStatus) {
                 console.log('Ajax complete.');
-                $('body').loading('stop');
+                // $('body').loading('stop');
             }
         });	// ajax
 
