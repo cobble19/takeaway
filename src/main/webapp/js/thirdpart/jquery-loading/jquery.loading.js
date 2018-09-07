@@ -57,7 +57,7 @@
      * Message to be rendered on the overlay content
      * Has no effect if a custom overlay is defined
      */
-    message: 'Loading...',
+    message: '加载中...',
 
     /**
      * Theme to be applied on the loading element
