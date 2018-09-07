@@ -248,7 +248,7 @@ public class EcOrderController extends BaseController {
 	}
 
 	// 为wx jssdk add card准备数据
-	@RequestMapping(value = "/api/ecommerce/ecorder/ecwxcardacquire")
+	@RequestMapping(value = "/api/ecommerce/ecorder/ecwxcardacquire", method = {RequestMethod.GET}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map ecWxCardAcquireApi(@RequestParam(value = "authorizerAppId", required = false) String authorizerAppId,
 												@RequestParam(value = "openId", required = false) String openId,
