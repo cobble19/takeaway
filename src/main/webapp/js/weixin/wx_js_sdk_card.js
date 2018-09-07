@@ -121,6 +121,7 @@ function wxOpenCard(cardList) {
 ///
 ///
 function wxAddCard(cardList, ecWxCardPOJO) {
+    alert("wxAddCard enter...cardList: " + cardList + "<br/>, ecWxCardPOJO: " + ecWxCardPOJO);
     wx.addCard({
         cardList: cardList,
         // cardList: [{
@@ -131,6 +132,7 @@ function wxAddCard(cardList, ecWxCardPOJO) {
             var cardList = res.cardList; // 添加的卡券列表信息
             var params = ecWxCardPOJO;
             params['rawData'] = JSON.stringify(cardList);
+            alert("params: " + params);
             // async
             $.ajax({
                 "url" : $('#basePath').val() + "/api/ecommerce/ecorder/jswxcardadd",

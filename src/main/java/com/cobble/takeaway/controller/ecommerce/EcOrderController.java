@@ -205,8 +205,9 @@ public class EcOrderController extends BaseController {
 
 	@RequestMapping(value = "/api/ecommerce/ecorder/jswxcardadd", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
-	public Map wxCardAddJsApi(EcWxCardPOJO ecWxCardPOJO,
+	public Map wxCardAddJsApi(@RequestBody EcWxCardPOJO ecWxCardPOJO,
 								  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("ecWxCardPOJO: {}", ecWxCardPOJO);
 		Map ret = new HashMap();
 		try {
 			String uri = request.getRequestURI();
@@ -237,6 +238,7 @@ public class EcOrderController extends BaseController {
 
 			ret.put("success", true);
 			ret.put("errMsg", "通过js添加wxcard成功");
+			logger.info("wxCardAddJsApi ret: {}" + ret);
 		} catch (Exception e) {
 			logger.error("exception: ", e);
 			throw e;
@@ -404,7 +406,7 @@ public class EcOrderController extends BaseController {
 			logger.error("exception: ", e);
 			throw e;
 		}
-		logger.info("ecWxCardAcquireApi start..., authorizerAppId: {}, openId: {}, ecWxCardId: {}"
+		logger.info("ecWxCardAcquireApi end..., authorizerAppId: {}, openId: {}, ecWxCardId: {}"
 				, authorizerAppId, openId, ecWxCardId);
 
 		return ret;
