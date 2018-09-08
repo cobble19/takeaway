@@ -205,7 +205,7 @@ public class EcOrderController extends BaseController {
 		return ret;
 	}
 
-	@RequestMapping(value = "/api/ecommerce/ecorder/jswxcardadd", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/api/ecommerce/ecorder/jswxcardupdate", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map wxCardAddJsApi(@RequestBody EcWxCardPOJO ecWxCardPOJO,
 								  HttpServletRequest request, HttpServletResponse response) throws Exception {

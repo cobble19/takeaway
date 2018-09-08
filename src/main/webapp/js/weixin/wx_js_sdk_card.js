@@ -121,7 +121,7 @@ function wxOpenCard(cardList) {
 ///
 ///
 function wxAddCard(cardList, ecWxCardPOJO) {
-    alert("wxAddCard enter...cardList: " + cardList + "<br/>, ecWxCardPOJO: " + ecWxCardPOJO);
+    alert("wxAddCard start...cardList: " + cardList + "<br/>, ecWxCardPOJO: " + ecWxCardPOJO);
     // $('body').loading();
     wx.addCard({
         cardList: cardList,
@@ -133,30 +133,10 @@ function wxAddCard(cardList, ecWxCardPOJO) {
             var cardList = res.cardList; // 添加的卡券列表信息
             var params = ecWxCardPOJO;
             params['rawData'] = JSON.stringify(cardList);
-            alert("wxAddCard params: " + JSON.stringify(params));
+            alert("wxAddCard success params: " + JSON.stringify(params));
             // async
             // $('body').loading();
-            $.ajax({
-                "url" : $('#basePath').val() + "/api/ecommerce/ecorder/jswxcardadd",
-                "type" : "POST",
-                "async": true,
-                "headers" : {
-                    "Content-Type" : "application/json"
-                },
-                /*"dataType" : 'json',*/
-                "data": JSON.stringify(params),
-                "success": function(data, textStatus, jqXHR ) {
-                    console.log("data = " + data);
-                    alert('wxAddCard 发送jssdk add card成功: ' + JSON.stringify(data));
-                },
-                "error": function(jqXHR, textStatus, errorThrown) {
-                    alert('wxAddCard 加载失败!');
-                },
-                "complete": function(jqXHR, textStatus) {
-                    console.log('Ajax complete.');
-                    // $('body').loading('stop');
-                }
-            });	// ajax
+            jsEcWxCardUpdate(params, 0);
 
             alert('wxAddCard 添加卡券成功, cardList: ' + cardList + ", JSON: " + JSON.stringify(res));
         },
@@ -174,6 +154,36 @@ function wxAddCard(cardList, ecWxCardPOJO) {
             alert('wxAddCard 添加卡券激活, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
         }
     });
+    alert("wxAddCard end...params: " + "ecWxCardPOJO: " + ecWxCardPOJO);
 }
-
+///
+///
+function jsEcWxCardUpdate(params, count) {
+    $.ajax({
+        "url" : $('#basePath').val() + "/api/ecommerce/ecorder/jswxcardupdate",
+        "type" : "POST",
+        "async": true,
+        "headers" : {
+            "Content-Type" : "application/json"
+        },
+        /*"dataType" : 'json',*/
+        "data": JSON.stringify(params),
+        "success": function(data, textStatus, jqXHR ) {
+            console.log("data = " + data);
+            alert('wxAddCard 发送jssdk add card成功: ' + JSON.stringify(data));
+        },
+        "error": function(jqXHR, textStatus, errorThrown) {
+            alert('wxAddCard 加载失败! params: ' + params);
+            if (!!count && count == 0) {
+                count = count + 1;
+                jsEcWxCardUpdate(params, count);
+            }
+        },
+        "complete": function(jqXHR, textStatus) {
+            console.log('wxAddCard Ajax complete.');
+            alert('wxAddCard Ajax complete.');
+            // $('body').loading('stop');
+        }
+    });	// ajax
+}
 ///

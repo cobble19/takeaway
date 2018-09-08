@@ -19,22 +19,24 @@ $(document).ready(function() {
             "data": (params),
             "success": function(data, textStatus, jqXHR ) {
                 console.log("data = " + data);
-                alert('openWxAddCardWin data.success: ' + data.success);
-                alert('openWxAddCardWin data: ' + JSON.stringify(data));
-                if (data.success) {
-                    var ecWxCardPOJO = data.ecWxCardPOJO;
-                    var cardList = data.cardList;
+                var result = data;
+                alert('openWxAddCardWin data.success: ' + result.success);
+                alert('openWxAddCardWin data: ' + JSON.stringify(result));
+                if (result.success) {
+                    var ecWxCardPOJO = result.ecWxCardPOJO;
+                    var cardList = result.cardList;
                     wxAddCard(cardList, ecWxCardPOJO);
-                    alert('openWxAddCardWin 领取成功: ' + JSON.stringify(data));
+                    alert('openWxAddCardWin 领取成功: ' + JSON.stringify(result));
                 } else {
-                    alert("openWxAddCardWin errMsg: " + data.errMsg);
+                    alert("openWxAddCardWin errMsg: " + result.errMsg);
                 }
             },
             "error": function(jqXHR, textStatus, errorThrown) {
                 alert('openWxAddCardWin 加载失败!');
             },
             "complete": function(jqXHR, textStatus) {
-                console.log('Ajax complete.');
+                console.log('openWxAddCardWin Ajax complete.');
+                alert('openWxAddCardWin Ajax complete.');
                 // $('body').loading('stop');
             }
         });	// ajax

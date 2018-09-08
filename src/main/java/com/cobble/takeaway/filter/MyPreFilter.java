@@ -28,8 +28,9 @@ public class MyPreFilter implements Filter {
 			HttpServletRequest request = (HttpServletRequest) req;
 			String uri = request.getRequestURI();
 			// /guestbook/en_addmsg.asp
-			if (uri.startsWith("/guestbook") || uri.endsWith(".asp")) {
-				return ;
+			if (uri.contains("/guestbook") || uri.contains(".asp") || uri.contains(".php")) {
+				logger.info("拦截无效的URI: {}", uri);
+			    return ;
 			}
 			filterChain.doFilter(req, resp);
 		} catch (Exception e) {
