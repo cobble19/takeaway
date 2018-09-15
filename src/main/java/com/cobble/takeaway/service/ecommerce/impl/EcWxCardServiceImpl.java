@@ -34,6 +34,26 @@ public class EcWxCardServiceImpl implements EcWxCardService {
 	}
 
 	@Override
+	public int updateCardAcquireFlag(Long ecWxCardId, Integer cardAcquireFlag) throws Exception {
+		int ret = 0;
+		EcWxCardPOJO ecWxCardPOJO = new EcWxCardPOJO();
+		ecWxCardPOJO.setEcWxCardId(ecWxCardId);
+		ecWxCardPOJO.setCardAcquireFlag(cardAcquireFlag);
+		ret = ecWxCardMapper.update(ecWxCardPOJO);
+		return ret;
+	}
+
+	@Override
+	public int appendDescription(Long ecWxCardId, String descriptionAppended) throws Exception {
+		int ret = 0;
+		EcWxCardPOJO ecWxCardPOJO = new EcWxCardPOJO();
+		ecWxCardPOJO.setEcWxCardId(ecWxCardId);
+		ecWxCardPOJO.setDescription(descriptionAppended);
+		ret = ecWxCardMapper.appendDescription(ecWxCardPOJO);
+		return ret;
+	}
+
+	@Override
 	public List<EcWxCardPOJO> finds(
 			EcWxCardSearchPOJO ecWxCardSearchPOJO) throws Exception {
 		List<EcWxCardPOJO> ret = null;

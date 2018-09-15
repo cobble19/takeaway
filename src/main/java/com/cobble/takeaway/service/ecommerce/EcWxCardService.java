@@ -8,6 +8,8 @@ import java.util.List;
 public interface EcWxCardService {
 	int insert(EcWxCardPOJO ecWxCardPOJO) throws Exception;
 	int update(EcWxCardPOJO ecWxCardPOJO) throws Exception;
+	int updateCardAcquireFlag(Long ecWxCardId, Integer cardAcquireFlag) throws Exception;
+	int appendDescription(Long ecWxCardId, String descriptionAppended) throws Exception;
 	List<EcWxCardPOJO> finds(EcWxCardSearchPOJO ecWxCardSearchPOJO) throws Exception;
 	int getCount(EcWxCardSearchPOJO ecWxCardSearchPOJO) throws Exception;
 	List<EcWxCardPOJO> findWithEcOrders(EcWxCardSearchPOJO ecWxCardSearchPOJO) throws Exception;

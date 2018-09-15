@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSON;
 import com.cobble.takeaway.pojo.ecommerce.EcWxCardPOJO;
+import com.cobble.takeaway.pojo.ecommerce.EcWxCardSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.*;
 import com.cobble.takeaway.pojo.weixin.api.*;
 import com.cobble.takeaway.service.ecommerce.EcWxCardService;
@@ -380,7 +382,7 @@ public class Oauth2Controller extends BaseController {
 
 	@RequestMapping(value = "/api/wx/card/code/decrypt", method = {RequestMethod.POST})
 	@ResponseBody
-	public WxCardCodeDecryptRespApiPOJO wxCardCodeDecrypt(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+	public WxCardCodeDecryptRespApiPOJO wxCardCodeDecryptApi(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
 												  @RequestParam(value="authorizerAppId", required = false) String authorizerAppId,
 												  @RequestBody String requestBody
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -403,15 +405,39 @@ public class Oauth2Controller extends BaseController {
 
 			logger.info("requestBody: {}", requestBody);
 
+			WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxCardCodeDecryptReqApiPOJO.class);
+			ret = this.wxCardCodeDecrypt(authorizerAppId, wxCardCodeDecryptReqApiPOJO);
+		} catch (Exception e) {
+			logger.error("wxCardCodeDecryptApi error:", e);
+		}
+
+		return ret;
+	}
+
+	public WxCardCodeDecryptRespApiPOJO wxCardCodeDecrypt(String authorizerAppId,
+														  WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO) throws Exception {
+		WxCardCodeDecryptRespApiPOJO ret = null;
+
+		try {
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+//				throw new NullPointerException("authorizerAppId must not be null");
+//				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			/*if (!CommonConstant.DWYZ_AUTHORIZER_APP_ID.equalsIgnoreCase(authorizerAppId)) {
+				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
+			}*/
+
+			logger.info("wxCardCodeDecryptReqApiPOJO: {}", wxCardCodeDecryptReqApiPOJO);
+
 			String authorizerAccessToken = wxAuthorizerRefreshTokenService.findTokenByAuthorizerAppId(authorizerAppId);
 			if (StringUtils.isNotBlank(authorizerAccessToken)) {
 				String myWxCardCodeDecryptUrl = wxCardCodeDecryptUrl
 						.replace("ACCESS_TOKEN", authorizerAccessToken);
 
 				// test request POJO<->requestBody
-				WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO = JsonUtils.convertToJavaBean(requestBody, WxCardCodeDecryptReqApiPOJO.class);
 				wxCardCodeDecryptReqApiPOJO.setEncryptCode(URLDecoder.decode(wxCardCodeDecryptReqApiPOJO.getEncryptCode(), "UTF-8"));
-				requestBody = JsonUtils.convertToJson(wxCardCodeDecryptReqApiPOJO);
+				String requestBody = JsonUtils.convertToJson(wxCardCodeDecryptReqApiPOJO);
 
 				String result = HttpClientUtil.postHttpsJson(myWxCardCodeDecryptUrl, requestBody);
 				result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
@@ -594,6 +620,8 @@ public class Oauth2Controller extends BaseController {
 								ecWxCardPOJO.setCardAcquireFlag(CommonConstant.WX_CARD_UNACQUIRED);
 								ecWxCardPOJO.setCardStatusWx(CommonConstant.WX_CARD_STATUS_NORMAL);
 								ecWxCardPOJO.setCardId(cardId);
+								String description = ";init:unacquired," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+								ecWxCardPOJO.setDescription(description);
 								ecWxCardService.insert(ecWxCardPOJO);
 							}
 						}
@@ -4282,8 +4310,11 @@ public class Oauth2Controller extends BaseController {
 						String ecommerceUrl1 = CacheUtil.getInstance().get(openid + "," + authorizerAppId);
 						String content = "<a href='" + ecommerceUrl1 + "'>购买链接</a>";
 						this.sendCustomMsgText(openid, content, authorizerAppId);
-					}*/ else {
-						logger.info("除了CLICK, 其他的event先不做处理");
+					}*/ else if ("user_get_card".equalsIgnoreCase(wxMsgEventRecvEventApiPOJO.getEvent())) {
+						UpdateEcWxCard4MsgEventReceiveThread updateEcWxCard4MsgEventReceiveThread = new UpdateEcWxCard4MsgEventReceiveThread(result, authorizerAppId, openid);
+						updateEcWxCard4MsgEventReceiveThread.start();
+					} else {
+						logger.info("除了CLICK/user_get_card, 其他的event先不做处理");
 					}
 					///
 					
@@ -4330,7 +4361,7 @@ public class Oauth2Controller extends BaseController {
 						String encryptMsg = pc.encryptMsg(replyMsg, timestamp, nonce);
 						return encryptMsg;
 					}
-				}
+				} /*voice end*/
 			}	// 全网发布监测结束
 			
 			
@@ -4340,6 +4371,58 @@ public class Oauth2Controller extends BaseController {
 		}
 		
 		return "success";
+	}
+
+	class UpdateEcWxCard4MsgEventReceiveThread extends Thread {
+		private String result;
+		private String authorizerAppId;
+		private String openId;
+		public UpdateEcWxCard4MsgEventReceiveThread(String result, String authorizerAddId, String openId) {
+			this.result = result;
+			this.authorizerAppId = authorizerAddId;
+			this.openId = openId;
+		}
+		@Override
+		public void run() {
+			try {
+				String cardId = XmlUtils.getNodeString(result, "/xml/CardId");
+				String userCardCode = XmlUtils.getNodeString(result, "/xml/UserCardCode");
+				logger.info("接收到user_get_card, start update ecWxCard, authorizerAppId: {}, openId: {}, cardId: {}, userCardCode: {}, xmlwxcardupdate"
+						, authorizerAppId, openId, cardId, userCardCode);
+				// 根据authorizerAppId, openId, cardId, cardAcquireFlag获取ACQURING的记录, 然后update第一条记录.
+				// 应该只有一条记录, 如果有2条可能发生了错误, 打印log以备分析
+				EcWxCardSearchPOJO ecWxCardSearchPOJO = new EcWxCardSearchPOJO();
+				ecWxCardSearchPOJO.setAuthorizerAppId(authorizerAppId);
+				ecWxCardSearchPOJO.setOpenId(openId);
+				ecWxCardSearchPOJO.setCardId(cardId);
+				ecWxCardSearchPOJO.setCardAcquireFlag(CommonConstant.WX_CARD_ACQUIRING);
+				List<EcWxCardPOJO> ecWxCardPOJOs = ecWxCardService.finds(ecWxCardSearchPOJO);
+				if (CollectionUtils.isEmpty(ecWxCardPOJOs)) {
+					logger.error("ecWxCardPOJOs must not be null, must check it, ecWxCardSearchPOJO: {}", JSON.toJSONString(ecWxCardSearchPOJO));
+				} else {
+					// get one and should be only one
+					int size = ecWxCardPOJOs.size();
+					if (size > 1) {
+						logger.error("ecWxCardPOJOs size: {} > 1, should one and only one, must check it.");
+					}
+					EcWxCardPOJO ecWxCardPOJO = ecWxCardPOJOs.get(0);
+					EcWxCardPOJO ecWxCardPOJO4UpdateJs2Xml = new EcWxCardPOJO();
+					ecWxCardPOJO4UpdateJs2Xml.setEcWxCardId(ecWxCardPOJO.getEcWxCardId());
+					ecWxCardPOJO4UpdateJs2Xml.setCardCode(userCardCode);
+					ecWxCardPOJO4UpdateJs2Xml.setResultCode("SUCCESS");
+					ecWxCardPOJO4UpdateJs2Xml.setCardAcquireFlag(CommonConstant.WX_CARD_ACQUIRED);
+					ecWxCardService.update(ecWxCardPOJO4UpdateJs2Xml);
+					// append decription
+					String description = ";xmlwxcardupdate," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+					ecWxCardService.appendDescription(ecWxCardPOJO.getEcWxCardId(), description);
+				}
+
+				logger.info("接收到user_get_card, finish update ecWxCard, authorizerAppId: {}, openId: {}, cardId: {}, userCardCode: {}, xmlwxcardupdate"
+							, authorizerAppId, openId, cardId, userCardCode);
+			} catch (Exception e) {
+				logger.error("UpdateEcWxCard4MsgEventReceiveThread exception: ", e);
+			}
+		}
 	}
 	
 	class KfInfoInterfaceThread extends Thread {

@@ -133,6 +133,7 @@ function wxAddCard(cardList, ecWxCardPOJO) {
             var cardList = res.cardList; // 添加的卡券列表信息
             var params = ecWxCardPOJO;
             params['rawData'] = JSON.stringify(cardList);
+            alert("wxAddCard success res: " + JSON.stringify(res));
             alert("wxAddCard success params: " + JSON.stringify(params));
             // async
             // $('body').loading();

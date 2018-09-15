@@ -20,9 +20,13 @@
     <result column="EC_PRODUCT_ID" property="ecProductId" />
     <result column="CARD_ID" property="cardId" />
     <result column="CARD_CODE" property="cardCode"/>
+    <result column="JS_CARD_CODE" property="jsCardCode"/>
     <result column="CARD_ACQUIRE_FLAG" property="cardAcquireFlag"/>
+    <result column="RESULT_CODE" property="resultCode"/>
+    <result column="JS_RESULT_CODE" property="jsResultCode"/>
     <result column="CARD_STATUS_WX" property="cardStatusWx"/>
     <result column="RAW_DATA" property="rawData" />
+    <result column="DESCRIPTION" property="description" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
     <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
     <association property="ecOrderPOJO" columnPrefix="EO_" resultMap="com.cobble.takeaway.dao.ecommerce.EcOrderMapper.EcOrderResultMap"></association>
@@ -30,8 +34,9 @@
   
   <sql id="Base_Column_List" >
     a.EC_WX_CARD_ID, a.AUTHORIZER_APP_ID, a.OPEN_ID, a.USER_ID, a.WP_ORDER_ID
-    , a.EC_ORDER_ID, a.EC_PRODUCT_ID, a.CARD_ID, a.CARD_CODE
-    , a.RAW_DATA
+    , a.EC_ORDER_ID, a.EC_PRODUCT_ID, a.CARD_ID, a.CARD_CODE, a.JS_CARD_CODE
+    , a.CARD_ACQUIRE_FLAG, a.RESULT_CODE, a.JS_RESULT_CODE
+    , a.RAW_DATA, a.DESCRIPTION
     , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
   </sql>
   <sql id="Clause_Common">
@@ -65,8 +70,17 @@
     <if test="cardCode != null">
       and a.CARD_CODE = #{cardCode}
     </if>
+    <if test="jsCardCode != null">
+      and a.JS_CARD_CODE = #{jsCardCode}
+    </if>
     <if test="cardAcquireFlag != null">
       and a.CARD_ACQUIRE_FLAG = #{cardAcquireFlag}
+    </if>
+    <if test="resultCode != null">
+      and a.RESULT_CODE = #{resultCode}
+    </if>
+    <if test="jsResultCode != null">
+      and a.JS_RESULT_CODE = #{jsResultCode}
     </if>
     <if test="cardStatusWx != null">
       and a.CARD_STATUS_WX = #{cardStatusWx}
@@ -192,14 +206,26 @@
       <if test="cardCode != null" >
         CARD_CODE,
       </if>
+      <if test="jsCardCode != null" >
+        JS_CARD_CODE,
+      </if>
       <if test="cardAcquireFlag != null" >
         CARD_ACQUIRE_FLAG,
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE,
+      </if>
+      <if test="jsResultCode != null" >
+        JS_RESULT_CODE,
       </if>
       <if test="cardStatusWx != null" >
         CARD_STATUS_WX,
       </if>
       <if test="rawData != null" >
         RAW_DATA,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
       </if>
         CREATE_DATE_TIME,
         LAST_MODIFIED_DATE_TIME,
@@ -229,14 +255,26 @@
       <if test="cardCode != null" >
         #{cardCode},
       </if>
+      <if test="jsCardCode != null" >
+        #{jsCardCode},
+      </if>
       <if test="cardAcquireFlag != null" >
         #{cardAcquireFlag},
+      </if>
+      <if test="resultCode != null" >
+        #{resultCode},
+      </if>
+      <if test="jsResultCode != null" >
+        #{jsResultCode},
       </if>
       <if test="cardStatusWx != null" >
         #{cardStatusWx},
       </if>
       <if test="rawData != null" >
         #{rawData},
+      </if>
+      <if test="description != null" >
+        #{description},
       </if>
         sysdate(),
         sysdate(),
@@ -270,8 +308,17 @@
       <if test="cardCode != null" >
         CARD_CODE = #{cardCode},
       </if>
+      <if test="jsCardCode != null" >
+        JS_CARD_CODE = #{jsCardCode},
+      </if>
       <if test="cardAcquireFlag != null" >
         CARD_ACQUIRE_FLAG = #{cardAcquireFlag},
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE = #{resultCode},
+      </if>
+      <if test="jsResultCode != null" >
+        JS_RESULT_CODE = #{jsResultCode},
       </if>
       <if test="cardStatusWx != null" >
         CARD_STATUS_WX = #{cardStatusWx},
@@ -279,8 +326,23 @@
       <if test="rawData != null" >
         RAW_DATA = #{rawData},
       </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description},
+      </if>
         <!-- CREATE_DATE_TIME = sysdate(), -->
         LAST_MODIFIED_DATE_TIME = sysdate(),
+    </set>
+    where EC_WX_CARD_ID = #{ecWxCardId}
+  </update>
+
+  <update id="appendDescription" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardPOJO" >
+    update EC_WX_CARD
+    <set >
+      <if test="description != null" >
+        DESCRIPTION = concat(DESCRIPTION, #{description}),
+      </if>
+      <!-- CREATE_DATE_TIME = sysdate(), -->
+      LAST_MODIFIED_DATE_TIME = sysdate(),
     </set>
     where EC_WX_CARD_ID = #{ecWxCardId}
   </update>

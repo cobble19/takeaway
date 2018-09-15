@@ -144,6 +144,7 @@ public interface CommonConstant {
 	// for wx card acquire from js
 	int WX_CARD_ACQUIRED = 1;
 	int WX_CARD_UNACQUIRED = 0;
+	int WX_CARD_ACQUIRING = 2;
 	// for wx card status from wx api
 	String WX_CARD_STATUS_NORMAL = "NORMAL";
 	String WX_CARD_STATUS_CONSUMED = "CONSUMED";

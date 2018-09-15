@@ -15,13 +15,49 @@ public class EcWxCardSearchPOJO extends BaseSearchPOJO {
 	private Long ecProductId;
 	private String cardId;
 	private String cardCode;
+	private String jsCardCode;
 	private Integer cardAcquireFlag;
+	private Integer resultCode;
+	private Integer jsResultCode;
 	private String cardStatusWx;
 	private String rawData;
+	private String description;
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
 
 	private List<Long> ecOrderIds;
+
+	public String getJsCardCode() {
+		return jsCardCode;
+	}
+
+	public void setJsCardCode(String jsCardCode) {
+		this.jsCardCode = jsCardCode;
+	}
+
+	public Integer getResultCode() {
+		return resultCode;
+	}
+
+	public void setResultCode(Integer resultCode) {
+		this.resultCode = resultCode;
+	}
+
+	public Integer getJsResultCode() {
+		return jsResultCode;
+	}
+
+	public void setJsResultCode(Integer jsResultCode) {
+		this.jsResultCode = jsResultCode;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public Integer getCardAcquireFlag() {
 		return cardAcquireFlag;

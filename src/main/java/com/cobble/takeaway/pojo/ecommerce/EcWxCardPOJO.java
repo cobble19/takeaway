@@ -14,11 +14,47 @@ public class EcWxCardPOJO extends BasePOJO {
 	private Long ecProductId;
 	private String cardId;
 	private String cardCode;
+	private String jsCardCode;
 	private Integer cardAcquireFlag;
+	private String resultCode;
+	private String jsResultCode;
 	private String cardStatusWx;
 	private String rawData;
+	private String description;
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public String getJsCardCode() {
+		return jsCardCode;
+	}
+
+	public void setJsCardCode(String jsCardCode) {
+		this.jsCardCode = jsCardCode;
+	}
+
+	public String getResultCode() {
+		return resultCode;
+	}
+
+	public void setResultCode(String resultCode) {
+		this.resultCode = resultCode;
+	}
+
+	public String getJsResultCode() {
+		return jsResultCode;
+	}
+
+	public void setJsResultCode(String jsResultCode) {
+		this.jsResultCode = jsResultCode;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	private EcOrderPOJO ecOrderPOJO = new EcOrderPOJO();
 

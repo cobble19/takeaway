@@ -1,5 +1,7 @@
 package com.cobble.takeaway.controller.ecommerce;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.cobble.takeaway.controller.BaseController;
 import com.cobble.takeaway.controller.Oauth2Controller;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
@@ -235,9 +237,29 @@ public class EcOrderController extends BaseController {
 
 			Long userId = UserUtil.getCurrentUserId();
 
-			ecWxCardPOJO.setCardAcquireFlag(CommonConstant.WX_CARD_ACQUIRED);
+//			ecWxCardPOJO.setCardAcquireFlag(CommonConstant.WX_CARD_ACQUIRED);
+			String rawData = ecWxCardPOJO.getRawData();
+			JSONObject rawDataJO = JSON.parseObject(rawData);
+
+			String jsCardCode = "";
+			try {
+				if (rawDataJO != null && rawDataJO.containsKey("code")) {
+					jsCardCode = rawDataJO.getString("code");
+					WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO = new WxCardCodeDecryptReqApiPOJO();
+					wxCardCodeDecryptReqApiPOJO.setEncryptCode(jsCardCode);
+					WxCardCodeDecryptRespApiPOJO wxCardCodeDecryptRespApiPOJO = oauth2Controller.wxCardCodeDecrypt(ecWxCardPOJO.getAuthorizerAppId(), wxCardCodeDecryptReqApiPOJO);
+					jsCardCode = wxCardCodeDecryptRespApiPOJO.getCode();
+				}
+			} catch (Exception e) {
+				logger.error("decrypt js wx card code exception: ", e);
+			}
+
+			ecWxCardPOJO.setJsCardCode(jsCardCode);
+			ecWxCardPOJO.setJsResultCode("SUCCESS");
 			int result = ecWxCardService.update(ecWxCardPOJO);
 
+			String description = ";jswxcardupdate," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			ecWxCardService.appendDescription(ecWxCardPOJO.getEcWxCardId(), description);
 			ret.put("success", true);
 			ret.put("errMsg", "通过js添加wxcard成功");
 			logger.info("wxCardAddJsApi ret: {}", ret);
@@ -364,7 +386,9 @@ public class EcOrderController extends BaseController {
 
 			// should be have and only one record
 			EcWxCardPOJO ecWxCardPOJO = ecWxCardPOJOs.get(0);
-
+			ecWxCardService.updateCardAcquireFlag(ecWxCardPOJO.getEcWxCardId(), CommonConstant.WX_CARD_ACQUIRING);
+			String description = ";acquiring," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			ecWxCardService.appendDescription(ecWxCardPOJO.getEcWxCardId(), description);
 			// provider pojo to support open user weixin card by using js
 //			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = this.getWxJsSdkConfigRespApi(authorizerAppId, url);
 
