@@ -26,6 +26,8 @@ import java.net.UnknownHostException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 
+import static com.github.wxpay.sdk.WXPayConstants.USER_AGENT;
+
 public class WXPayRequest {
 	private static final Logger logger = LoggerFactory.getLogger(WXPayRequest.class);
     private WXPayConfig config;
@@ -103,7 +105,7 @@ public class WXPayRequest {
 
         StringEntity postEntity = new StringEntity(data, "UTF-8");
         httpPost.addHeader("Content-Type", "text/xml");
-        httpPost.addHeader("User-Agent", "wxpay sdk java v1.0 " + config.getMchID());  // TODO: 很重要，用来检测 sdk 的使用情况，要不要加上商户信息？
+        httpPost.addHeader("User-Agent", USER_AGENT + " " + config.getMchID());
         httpPost.setEntity(postEntity);
 
         HttpResponse httpResponse = httpClient.execute(httpPost);
