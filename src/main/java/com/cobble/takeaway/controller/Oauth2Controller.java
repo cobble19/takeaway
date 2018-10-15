@@ -502,7 +502,7 @@ public class Oauth2Controller extends BaseController {
 
 	@RequestMapping(value = "/api/wx/custom/send/wxcard", method = {RequestMethod.GET})
 	@ResponseBody
-	public Map customesendwxcard(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
+	public Map customSendWxCard(/*WxMenuMgrCreateReqApiPOJO wxMenuMgrCreateReqApiPOJO*/
 			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
 			, @RequestParam(value="openId", required = true) String openId
 			, @RequestParam(value="cardId", required = true) String cardId
@@ -544,10 +544,10 @@ public class Oauth2Controller extends BaseController {
 	        logger.info("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
 	        String result = new String(outSteam.toByteArray(), "utf-8");
 	        logger.info("微信支付成功通知: {}", result);
-	        
-	        wpResultNotifyService.insert(result);
-	        
+
 	        Map<String, String> resultMap = WXPayUtil.xmlToMap(result);
+
+            wpResultNotifyService.insert(result);
 
 			try {
 				WpOrderPOJO wpOrderPOJO = new WpOrderPOJO();
@@ -4387,8 +4387,13 @@ public class Oauth2Controller extends BaseController {
 			try {
 				String cardId = XmlUtils.getNodeString(result, "/xml/CardId");
 				String userCardCode = XmlUtils.getNodeString(result, "/xml/UserCardCode");
-				logger.info("接收到user_get_card, start update ecWxCard, authorizerAppId: {}, openId: {}, cardId: {}, userCardCode: {}, xmlwxcardupdate"
+				logger.info("接收到user_get_card, xmlwxcardupdate start update ecWxCard, authorizerAppId: {}, openId: {}, cardId: {}, userCardCode: {} "
 						, authorizerAppId, openId, cardId, userCardCode);
+				if (StringUtils.isBlank(cardId) || StringUtils.isBlank(userCardCode)) {
+					logger.error("接收到user_get_card, xmlwxcardupdate update ecWxCard error, cardId/userCardCode is null, authorizerAppId: {}, openId: {}, cardId: {}, userCardCode: {}, result: {}"
+							, authorizerAppId, openId, cardId, userCardCode, result);
+					return;
+				}
 				// 根据authorizerAppId, openId, cardId, cardAcquireFlag获取ACQURING的记录, 然后update第一条记录.
 				// 应该只有一条记录, 如果有2条可能发生了错误, 打印log以备分析
 				EcWxCardSearchPOJO ecWxCardSearchPOJO = new EcWxCardSearchPOJO();

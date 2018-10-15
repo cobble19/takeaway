@@ -22,6 +22,7 @@ import com.cobble.takeaway.service.WxAuthorizerInfoService;
 import com.cobble.takeaway.service.WxPayService;
 import com.cobble.takeaway.service.ecommerce.EcOrderService;
 import com.cobble.takeaway.service.ecommerce.EcProductService;
+import com.cobble.takeaway.service.ecommerce.EcWxCardBaseService;
 import com.cobble.takeaway.service.ecommerce.EcWxCardService;
 import com.cobble.takeaway.service.weixin.wxpay.WpOrderRespService;
 import com.cobble.takeaway.service.weixin.wxpay.WpOrderService;
@@ -77,6 +78,9 @@ public class EcOrderController extends BaseController {
 	private WxAuthorizerInfoService wxAuthorizerInfoService;
 	@Autowired
 	private EcWxCardService ecWxCardService;
+
+	@Autowired
+	private EcWxCardBaseService ecWxCardBaseService;
 
 	private static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
@@ -1316,6 +1320,7 @@ public class EcOrderController extends BaseController {
 				throw new IllegalArgumentException("authorizerAppId must not be " + authorizerAppId);
 			}*/
 			String openId = (String) session.getAttribute(CommonConstant.PROXY_OPEN_ID);
+			Long userId = UserUtil.getCurrentUserId();
 			
 			// check whether subscribe
 //			if (ecProductPOJO.getNeedSubscribe() != null && ecProductPOJO.getNeedSubscribe() == CommonConstant.WX_NEED_SUBSCRIBE) {
@@ -1390,7 +1395,7 @@ public class EcOrderController extends BaseController {
 				return ret;
 			} else {
 				ret.addObject("ecProductPOJO", ecProductPOJO);
-// 获取购买的商品个数
+				// 获取购买的商品个数
 //                WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();
 //                wpOrderSearchPOJO.setEcProductId(productId);
 //                wpOrderSearchPOJO.setOpenId(openId);
@@ -1455,6 +1460,20 @@ public class EcOrderController extends BaseController {
                         }
                     }
                     ret.addObject("wxCardCount", wxCardCount);
+                    try {
+						// 初始化wxCardBase
+						EcWxCardBasePOJO ecWxCardBasePOJO = new EcWxCardBasePOJO();
+						ecWxCardBasePOJO.setAuthorizerAppId(authorizerAppId);
+						ecWxCardBasePOJO.setCardId(cardId);
+						ecWxCardBasePOJO.setOpenId(openId);
+						ecWxCardBasePOJO.setUserId(userId);
+						ecWxCardBasePOJO.setCardBaseResult(JsonUtils.convertToJson(wxCardMgrGetCardListRespApiPOJO));
+
+						ecWxCardBaseService.initEcWxCardBase(ecWxCardBasePOJO);
+
+					} catch (Exception e) {
+                    	logger.error("init EcWxCardBase exception: ", e);
+					}
 
                 } catch (Exception e1) {
                     logger.error("get getWxCardDetail exception: ", e1);

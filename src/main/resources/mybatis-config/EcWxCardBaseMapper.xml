@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cobble.takeaway.dao.ecommerce.EcWxCardBaseMapper" >
+	<!-- <cache type="org.mybatis.caches.memcached.LoggingMemcachedCache" /> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+		<property openId="timeToIdleSeconds" value="3600" />
+		<property openId="timeToLiveSeconds" value="3600" />
+		<property openId="maxEntriesLocalHeap" value="1000" />
+		<property openId="maxEntriesLocalDisk" value="10000000" />
+		<property openId="memoryStoreEvictionPolicy" value="LRU" />
+	</cache> -->
+	
+  <resultMap id="EcWxCardBaseResultMap" type="com.cobble.takeaway.pojo.ecommerce.EcWxCardBasePOJO" >
+    <id column="EC_WX_CARD_BASE_ID" property="ecWxCardBaseId" />
+    <result column="AUTHORIZER_APP_ID" property="authorizerAppId" />
+    <result column="OPEN_ID" property="openId" />
+    <result column="USER_ID" property="userId" />
+    <result column="CARD_ID" property="cardId" />
+    <result column="CARD_BASE_RESULT" property="cardBaseResult"/>
+    <result column="DESCRIPTION" property="description" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" />
+    <result column="LAST_MODIFIED_DATE_TIME" property="lastModifiedDateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    a.EC_WX_CARD_BASE_ID, a.AUTHORIZER_APP_ID, a.OPEN_ID
+    , a.USER_ID, a.CARD_ID
+    , a.CARD_BASE_RESULT, a.DESCRIPTION
+    , a.CREATE_DATE_TIME, a.LAST_MODIFIED_DATE_TIME
+  </sql>
+  <sql id="Clause_Common">
+	<if test="authorizerAppId != null">
+		and a.AUTHORIZER_APP_ID = #{authorizerAppId}
+	</if>
+	<if test="openId != null">
+		and a.OPEN_ID = #{openId}
+	</if>
+	<if test="userId != null">
+		and a.USER_ID = #{userId}
+	</if>
+    <if test="cardId != null">
+      and a.CARD_ID = #{cardId}
+    </if>
+  </sql>
+  
+  <select id="finds" resultMap="EcWxCardBaseResultMap" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardBaseSearchPOJO" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from EC_WX_CARD_BASE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  	order by a.LAST_MODIFIED_DATE_TIME desc
+	<if test="start > -1 and limit > 0">
+		limit #{start}, #{limit}
+	</if>
+  </select>
+  <select id="getCount" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardBaseSearchPOJO" resultType="java.lang.Integer" >
+    select count(1) from EC_WX_CARD_BASE a
+    <where>
+  		<trim prefixOverrides="and">
+			<include refid="Clause_Common"/>
+  		</trim>
+  	</where>
+  </select>
+
+  <select id="findById" resultMap="EcWxCardBaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from EC_WX_CARD_BASE a
+    <where>
+      <trim prefixOverrides="and">
+        and a.EC_WX_CARD_BASE_ID = #{ecWxCardBaseId}
+      </trim>
+    </where>
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from EC_WX_CARD_BASE
+    where EC_WX_CARD_BASE_ID = #{ecWxCardBaseId}
+  </delete>
+  <insert id="insert" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardBasePOJO" useGeneratedKeys="true"
+  	keyProperty="ecWxCardBaseId" keyColumn="EC_WX_CARD_BASE_ID">
+    insert into EC_WX_CARD_BASE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="cardId != null" >
+        CARD_ID,
+      </if>
+      <if test="cardBaseResult != null" >
+        CARD_BASE_RESULT,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+        CREATE_DATE_TIME,
+        LAST_MODIFIED_DATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="authorizerAppId != null" >
+        #{authorizerAppId},
+      </if>
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="openId != null" >
+        #{openId},
+      </if>
+      <if test="cardId != null" >
+        #{cardId},
+      </if>
+      <if test="cardBaseResult != null" >
+        #{cardBaseResult},
+      </if>
+      <if test="description != null" >
+        #{description},
+      </if>
+        sysdate(),
+        sysdate(),
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.cobble.takeaway.pojo.ecommerce.EcWxCardBasePOJO" >
+    update EC_WX_CARD_BASE
+    <set >
+      <if test="authorizerAppId != null" >
+        AUTHORIZER_APP_ID = #{authorizerAppId},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId},
+      </if>
+      <if test="cardId != null" >
+        CARD_ID = #{cardId},
+      </if>
+      <if test="cardBaseResult != null" >
+        CARD_BASE_RESULT = #{cardBaseResult},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description},
+      </if>
+        <!-- CREATE_DATE_TIME = sysdate(), -->
+        LAST_MODIFIED_DATE_TIME = sysdate(),
+    </set>
+    where EC_WX_CARD_BASE_ID = #{ecWxCardBaseId}
+  </update>
+
+</mapper>
