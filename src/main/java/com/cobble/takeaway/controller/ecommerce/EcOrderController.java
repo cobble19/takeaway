@@ -277,7 +277,14 @@ public class EcOrderController extends BaseController {
 
 			ecWxCardPOJO.setJsCardCode(jsCardCode);
 			ecWxCardPOJO.setJsResultCode("SUCCESS");
-			int result = ecWxCardService.update(ecWxCardPOJO);
+
+			EcWxCardPOJO temp = new EcWxCardPOJO();
+			temp.setEcWxCardId(ecWxCardPOJO.getEcWxCardId());
+			temp.setRawData(ecWxCardPOJO.getRawData());
+			temp.setJsCardCode(ecWxCardPOJO.getJsCardCode());
+			temp.setJsResultCode(ecWxCardPOJO.getJsResultCode());
+
+			int result = ecWxCardService.update(temp);
 
 			String description = ";jswxcardupdate," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			ecWxCardService.appendDescription(ecWxCardPOJO.getEcWxCardId(), description);

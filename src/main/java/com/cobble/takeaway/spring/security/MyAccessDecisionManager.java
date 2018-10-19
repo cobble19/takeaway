@@ -236,7 +236,10 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			String qs = request.getQueryString();
 			String url = request.getRequestURL().toString();
 			HttpSession session = request.getSession();
-			
+
+			if (qs == null) {
+				qs = "";
+			}
 			logger.info("uri: {}, qs: {}, url: {}", uri, qs, url);
 			
 			UserService userService = (UserService) BeanUtil.get("userServiceImpl");
