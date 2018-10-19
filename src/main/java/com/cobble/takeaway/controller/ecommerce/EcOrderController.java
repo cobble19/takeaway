@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -266,7 +267,7 @@ public class EcOrderController extends BaseController {
 					if (cardCodeFlag) {
 						jsCardCode = cardJO.getString("code");
 						WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO = new WxCardCodeDecryptReqApiPOJO();
-						wxCardCodeDecryptReqApiPOJO.setEncryptCode(jsCardCode);
+						wxCardCodeDecryptReqApiPOJO.setEncryptCode(URLEncoder.encode(jsCardCode, "UTF-8"));
 						WxCardCodeDecryptRespApiPOJO wxCardCodeDecryptRespApiPOJO = oauth2Controller.wxCardCodeDecrypt(ecWxCardPOJO.getAuthorizerAppId(), wxCardCodeDecryptReqApiPOJO);
 						jsCardCode = wxCardCodeDecryptRespApiPOJO.getCode();
 					}
