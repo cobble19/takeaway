@@ -341,7 +341,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 					}
 				}
 			} else if (uri.contains("/web/wxpay") || uri.contains("/web/ecommerce/ecorder/ecproduct/")
-						|| uri.contains("/web/weixin/wxmycard")) {
+						|| uri.contains("/web/weixin/wxmycard") || uri.contains("/web/ecommerce/ecorder/ecwxcardacquire")) {
 				
 				// 关注的时候发送url
 				if (uri.contains("/web/ecommerce/ecorder/ecproduct/")) {
@@ -368,6 +368,26 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 							String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
 							session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
 						}
+					}
+				}
+			}
+			// if没有判断url, 则用默认的APPID
+
+			if (userPOJO == null) {
+				String authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+
+				WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
+				wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
+				List<WxAuthorizerInfoPOJO> wxAuthorizerInfoPOJOs = wxAuthorizerInfoService.finds(wxAuthorizerInfoSearchPOJO);
+				if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(wxAuthorizerInfoPOJOs)) {
+					userPOJO = userService.findById(wxAuthorizerInfoPOJOs.get(0).getUserId());
+				}
+
+				if (userPOJO != null && userPOJO.getUserId() != null) {
+					UserPOJO user4IndexCode = userService.findUser4IndexCodeByUserId(userPOJO.getUserId());
+					if (user4IndexCode != null) {
+						String indexCode = user4IndexCode.getRelWxIndexMapPOJO().getWxIndexCode();
+						session.setAttribute(CommonConstant.INDEX_CODE, indexCode);
 					}
 				}
 			}

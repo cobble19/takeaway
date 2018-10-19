@@ -1,6 +1,7 @@
 package com.cobble.takeaway.controller.ecommerce;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cobble.takeaway.controller.BaseController;
 import com.cobble.takeaway.controller.Oauth2Controller;
@@ -243,16 +244,32 @@ public class EcOrderController extends BaseController {
 
 //			ecWxCardPOJO.setCardAcquireFlag(CommonConstant.WX_CARD_ACQUIRED);
 			String rawData = ecWxCardPOJO.getRawData();
-			JSONObject rawDataJO = JSON.parseObject(rawData);
-
 			String jsCardCode = "";
 			try {
-				if (rawDataJO != null && rawDataJO.containsKey("code")) {
-					jsCardCode = rawDataJO.getString("code");
-					WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO = new WxCardCodeDecryptReqApiPOJO();
-					wxCardCodeDecryptReqApiPOJO.setEncryptCode(jsCardCode);
-					WxCardCodeDecryptRespApiPOJO wxCardCodeDecryptRespApiPOJO = oauth2Controller.wxCardCodeDecrypt(ecWxCardPOJO.getAuthorizerAppId(), wxCardCodeDecryptReqApiPOJO);
-					jsCardCode = wxCardCodeDecryptRespApiPOJO.getCode();
+				JSONArray cardListJA = null;
+				if (rawData.startsWith("[")) {
+					cardListJA = JSON.parseArray(rawData);
+				} else {
+					JSONObject rawDataJO = JSON.parseObject(rawData);
+					if (rawDataJO != null && rawDataJO.containsKey("cardList")) {
+						cardListJA = rawDataJO.getJSONArray("cardList");
+					}
+				}
+
+				if (cardListJA != null && !cardListJA.isEmpty()) {
+					if (cardListJA.size() > 1) {
+						logger.error("cardList size can't greater than 1, must check it, ecWxCardPOJO: {}", ecWxCardPOJO);
+					}
+
+					JSONObject cardJO = cardListJA.getJSONObject(0);
+					boolean cardCodeFlag = cardJO.containsKey("code");
+					if (cardCodeFlag) {
+						jsCardCode = cardJO.getString("code");
+						WxCardCodeDecryptReqApiPOJO wxCardCodeDecryptReqApiPOJO = new WxCardCodeDecryptReqApiPOJO();
+						wxCardCodeDecryptReqApiPOJO.setEncryptCode(jsCardCode);
+						WxCardCodeDecryptRespApiPOJO wxCardCodeDecryptRespApiPOJO = oauth2Controller.wxCardCodeDecrypt(ecWxCardPOJO.getAuthorizerAppId(), wxCardCodeDecryptReqApiPOJO);
+						jsCardCode = wxCardCodeDecryptRespApiPOJO.getCode();
+					}
 				}
 			} catch (Exception e) {
 				logger.error("decrypt js wx card code exception: ", e);

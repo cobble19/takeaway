@@ -177,4 +177,29 @@ public class EcWxCardPOJO extends BasePOJO {
 	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
 		this.lastModifiedDateTime = lastModifiedDateTime;
 	}
+
+	@Override
+	public String toString() {
+		return "EcWxCardPOJO{" +
+				"ecWxCardId=" + ecWxCardId +
+				", authorizerAppId='" + authorizerAppId + '\'' +
+				", openId='" + openId + '\'' +
+				", userId=" + userId +
+				", wpOrderId=" + wpOrderId +
+				", ecOrderId=" + ecOrderId +
+				", ecProductId=" + ecProductId +
+				", cardId='" + cardId + '\'' +
+				", cardCode='" + cardCode + '\'' +
+				", jsCardCode='" + jsCardCode + '\'' +
+				", cardAcquireFlag=" + cardAcquireFlag +
+				", resultCode='" + resultCode + '\'' +
+				", jsResultCode='" + jsResultCode + '\'' +
+				", cardStatusWx='" + cardStatusWx + '\'' +
+				", rawData='" + rawData + '\'' +
+				", description='" + description + '\'' +
+				", createDateTime=" + createDateTime +
+				", lastModifiedDateTime=" + lastModifiedDateTime +
+				", ecOrderPOJO=" + ecOrderPOJO +
+				'}';
+	}
 }
