@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
+import com.cobble.takeaway.pojo.*;
 import com.cobble.takeaway.pojo.ecommerce.EcWxCardPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcWxCardSearchPOJO;
 import com.cobble.takeaway.pojo.weixin.*;
@@ -56,26 +57,6 @@ import com.cobble.takeaway.oauth2.BaseWxApiPOJO;
 import com.cobble.takeaway.oauth2.MyRedirectStrategy;
 import com.cobble.takeaway.oauth2.WxOauth2TokenApiPOJO;
 import com.cobble.takeaway.oauth2.WxUserApiPOJO;
-import com.cobble.takeaway.pojo.ActivityPOJO;
-import com.cobble.takeaway.pojo.ActivitySearchPOJO;
-import com.cobble.takeaway.pojo.AwardPOJO;
-import com.cobble.takeaway.pojo.AwardRecordPOJO;
-import com.cobble.takeaway.pojo.AwardRecordSearchPOJO;
-import com.cobble.takeaway.pojo.AwardSearchPOJO;
-import com.cobble.takeaway.pojo.DataTablesPOJO;
-import com.cobble.takeaway.pojo.HtmlConvertedPOJO;
-import com.cobble.takeaway.pojo.InteractivePOJO;
-import com.cobble.takeaway.pojo.InteractiveSearchPOJO;
-import com.cobble.takeaway.pojo.PointEventPOJO;
-import com.cobble.takeaway.pojo.PointEventSearchPOJO;
-import com.cobble.takeaway.pojo.PointRecordPOJO;
-import com.cobble.takeaway.pojo.PointRecordSearchPOJO;
-import com.cobble.takeaway.pojo.PointSummaryPOJO;
-import com.cobble.takeaway.pojo.PointSummarySearchPOJO;
-import com.cobble.takeaway.pojo.RelWxIndexMapPOJO;
-import com.cobble.takeaway.pojo.RelWxIndexMapSearchPOJO;
-import com.cobble.takeaway.pojo.StatusPOJO;
-import com.cobble.takeaway.pojo.UserPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.WpOrderPOJO;
 import com.cobble.takeaway.pojo.weixin.wxpay.api.WxPayOrderQueryReqApiPOJO;
@@ -514,11 +495,22 @@ public class Oauth2Controller extends BaseController {
 		String url = request.getRequestURL() + "";
 		HttpSession session = request.getSession();
 		try {
-			if (StringUtils.isBlank(authorizerAppId)) {
-				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
-			}
-			String result = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
-			ret.put("result", result);
+            String userType = UserUtil.getCurrentUser().getUserType();
+            long userId = UserUtil.getCurrentUserId();
+            String curAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+            if (CommonConstant.DWYZ_AUTHORIZER_APP_ID.equals(curAppId)
+                && CommonConstant.DWYZ_USER_ID == userId) {
+
+                if (StringUtils.isBlank(authorizerAppId)) {
+                    authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+                }
+                String result = this.sendCustomMsgWxCard(openId, cardId, authorizerAppId);
+                ret.put("result", result);
+                ret.put("success", true);
+            } else {
+                ret.put("success", false);
+                ret.put("errMsg", "发送WX card失败, userId: " + userId + ", curAppId: " + curAppId + ", userName: " + UserUtil.getCurrentUsername());
+            }
 		} catch (Exception e) {
 			logger.error("insert error.", e);
 		}
@@ -541,8 +533,8 @@ public class Oauth2Controller extends BaseController {
 	            outSteam.write(buffer, 0, len);
 	        }
 	        outSteam.flush();
-	        logger.info("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
-	        String result = new String(outSteam.toByteArray(), "utf-8");
+	        logger.info("微信支付付款成功");
+	        String result = new String(outSteam.toByteArray(), "UTF-8");
 	        logger.info("微信支付成功通知: {}", result);
 
 	        Map<String, String> resultMap = WXPayUtil.xmlToMap(result);
@@ -4418,7 +4410,7 @@ public class Oauth2Controller extends BaseController {
 					ecWxCardPOJO4UpdateJs2Xml.setCardAcquireFlag(CommonConstant.WX_CARD_ACQUIRED);
 					ecWxCardService.update(ecWxCardPOJO4UpdateJs2Xml);
 					// append decription
-					String description = ";xmlwxcardupdate," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+					String description = ";xmlwxcardupdate success," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 					ecWxCardService.appendDescription(ecWxCardPOJO.getEcWxCardId(), description);
 				}
 

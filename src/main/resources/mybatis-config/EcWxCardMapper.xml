@@ -324,7 +324,7 @@
         CARD_STATUS_WX = #{cardStatusWx},
       </if>
       <if test="rawData != null" >
-        RAW_DATA = #{rawData},
+        RAW_DATA = concat_ws('', RAW_DATA, #{rawData}),
       </if>
       <if test="description != null" >
         DESCRIPTION = #{description},

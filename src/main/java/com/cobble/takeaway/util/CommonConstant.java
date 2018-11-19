@@ -155,4 +155,9 @@ public interface CommonConstant {
 	String WX_CARD_STATUS_UNAVAILABLE = "UNAVAILABLE";
 	String WX_CARD_STATUS_UNKNOWN = "invalid serial code";
 
+	// SUCCESS, FAIL, CANCEL
+	String SUCCESS = "SUCCESS";
+	String FAIL = "FAIL";
+	String CANCEL = "CANCEL";
+
 }

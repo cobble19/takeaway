@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cobble.takeaway.controller.BaseController;
 import com.cobble.takeaway.controller.Oauth2Controller;
+import com.cobble.takeaway.enumx.AcquireWxCardJsStatusEnum;
 import com.cobble.takeaway.pojo.DataTablesPOJO;
 import com.cobble.takeaway.pojo.ExtjsPOJO;
 import com.cobble.takeaway.pojo.StatusPOJO;
@@ -277,7 +278,7 @@ public class EcOrderController extends BaseController {
 			}
 
 			ecWxCardPOJO.setJsCardCode(jsCardCode);
-			ecWxCardPOJO.setJsResultCode("SUCCESS");
+//			ecWxCardPOJO.setJsResultCode("SUCCESS");
 
 			EcWxCardPOJO temp = new EcWxCardPOJO();
 			temp.setEcWxCardId(ecWxCardPOJO.getEcWxCardId());
@@ -285,12 +286,18 @@ public class EcOrderController extends BaseController {
 			temp.setJsCardCode(ecWxCardPOJO.getJsCardCode());
 			temp.setJsResultCode(ecWxCardPOJO.getJsResultCode());
 
+			if (CommonConstant.FAIL.equals(ecWxCardPOJO.getJsResultCode()) ||
+					CommonConstant.CANCEL.equals(ecWxCardPOJO.getJsResultCode())) {
+				temp.setCardAcquireFlag(CommonConstant.WX_CARD_UNACQUIRED);
+			}
+
 			int result = ecWxCardService.update(temp);
 
-			String description = ";jswxcardupdate," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			String description = ";jswxcardupdate " + ecWxCardPOJO.getJsResultCode() +
+					"," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			ecWxCardService.appendDescription(ecWxCardPOJO.getEcWxCardId(), description);
 			ret.put("success", true);
-			ret.put("errMsg", "通过js添加wxcard成功");
+			ret.put("errMsg", "通过页面添加微信卡券" + AcquireWxCardJsStatusEnum.getDisplayName(ecWxCardPOJO.getJsResultCode()));
 			logger.info("wxCardAddJsApi ret: {}", ret);
 		} catch (Exception e) {
 			logger.error("exception: ", e);
@@ -334,55 +341,6 @@ public class EcOrderController extends BaseController {
 
 			Long userId = UserUtil.getCurrentUserId();
 
-//			EcOrderSearchPOJO ecOrderSearchPOJO = new EcOrderSearchPOJO();
-////			ecOrderSearchPOJO.setProductId(ecProductId);
-//			ecOrderSearchPOJO.setOpenId(openId);
-//			ecOrderSearchPOJO.setOrderId(ecOrderId);
-////			ecOrderSearchPOJO.setUserId(userId);
-//			ecOrderSearchPOJO.setJsPayResultCode(CommonConstant.WXPAY_ORDER_SUCCESS);
-//			ecOrderSearchPOJO.setPaginationFlage(false);
-//			List<EcOrderPOJO> ecOrderPOJOs = ecOrderService.finds(ecOrderSearchPOJO);
-//
-//			EcOrderPOJO ecOrderPOJO = null;
-//			if (CollectionUtils.isNotEmpty(ecOrderPOJOs)) {
-//				List<Long> ecOrderIds = new ArrayList<>();
-//				for (int i = 0; i < ecOrderPOJOs.size(); i++) {
-//					EcOrderPOJO ecOrderPOJO1 = ecOrderPOJOs.get(i);
-//					ecOrderIds.add(ecOrderPOJO1.getOrderId());
-//				}
-//				EcWxCardSearchPOJO ecWxCardSearchPOJO = new EcWxCardSearchPOJO();
-//				ecWxCardSearchPOJO.setAuthorizerAppId(authorizerAppId);
-//				ecWxCardSearchPOJO.setEcOrderIds(ecOrderIds);
-//				ecWxCardSearchPOJO.setOpenId(openId);
-//				List<EcWxCardPOJO> ecWxCardPOJOs = ecWxCardService.finds(ecWxCardSearchPOJO);
-//				Map<Long, Integer> ecWxCardHaveAcquireCountMap = new HashMap<>();
-//				if (CollectionUtils.isNotEmpty(ecWxCardPOJOs)) {
-//					for (EcWxCardPOJO ecWxCardPOJO : ecWxCardPOJOs) {
-//						Long key = ecWxCardPOJO.getEcOrderId();
-//						Integer haveAcquireCount = ecWxCardHaveAcquireCountMap.get(key);
-//						if (haveAcquireCount == null) {
-//							haveAcquireCount = 0;
-//						}
-//						haveAcquireCount++;
-//						ecWxCardHaveAcquireCountMap.put(key, haveAcquireCount);
-//					}
-//				}
-//
-//				for (int i = 0; i < ecOrderPOJOs.size(); i++) {
-//					EcOrderPOJO ecOrderPOJO2 = ecOrderPOJOs.get(i);
-//					Integer canAcquireCount = ecOrderPOJO2.getQuantity() - ecWxCardHaveAcquireCountMap.get(ecOrderPOJO2.getOrderId());
-//					ecOrderPOJO.setCanAcquireCount(canAcquireCount);
-//				}
-//				// only get one because ecOrderId must not null
-//				ecOrderPOJO = ecOrderPOJOs.get(0);
-//			}
-//			if (ecOrderPOJO == null) {
-//				ret.put("success", false);
-//				ret.put("errMsg", "ecOrderPOJO must not null");
-//				return ret;
-//			}
-
-
 			EcWxCardSearchPOJO ecWxCardSearchPOJO = new EcWxCardSearchPOJO();
 //			ecWxCardSearchPOJO.setEcProductId(ecProductId);
 //			ecWxCardSearchPOJO.setEcOrderId(ecOrderId);
@@ -416,7 +374,7 @@ public class EcOrderController extends BaseController {
 			// should be have and only one record
 			EcWxCardPOJO ecWxCardPOJO = ecWxCardPOJOs.get(0);
 			ecWxCardService.updateCardAcquireFlag(ecWxCardPOJO.getEcWxCardId(), CommonConstant.WX_CARD_ACQUIRING);
-			String description = ";acquiring," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			String description = ";js acquiring," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			ecWxCardService.appendDescription(ecWxCardPOJO.getEcWxCardId(), description);
 			// provider pojo to support open user weixin card by using js
 //			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = this.getWxJsSdkConfigRespApi(authorizerAppId, url);

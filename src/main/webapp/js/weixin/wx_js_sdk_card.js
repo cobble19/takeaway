@@ -132,6 +132,7 @@ function wxAddCard(cardList, ecWxCardPOJO) {
         success: function (res) {
             var cardList = res.cardList; // 添加的卡券列表信息
             var params = ecWxCardPOJO;
+            params['jsResultCode'] = 'SUCCESS';
             params['rawData'] = JSON.stringify(res);
             alert("wxAddCard success res: " + JSON.stringify(res));
             alert("wxAddCard success params: " + JSON.stringify(params));
@@ -142,6 +143,10 @@ function wxAddCard(cardList, ecWxCardPOJO) {
             alert('wxAddCard 添加卡券成功, cardList: ' + cardList + ", JSON: " + JSON.stringify(res));
         },
         fail: function(res) {
+            var params = ecWxCardPOJO;
+            params['jsResultCode'] = 'FAIL';
+            params['rawData'] = JSON.stringify(res);
+            jsEcWxCardUpdate(params, 0);
             alert('wxAddCard 添加微信卡券失败, ' + ", res: " + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
         },
         complete: function(res) {
@@ -149,6 +154,10 @@ function wxAddCard(cardList, ecWxCardPOJO) {
             // $('body').loading('stop');
         },
         cancel: function(res) {
+            var params = ecWxCardPOJO;
+            params['jsResultCode'] = 'CANCEL';
+            params['rawData'] = JSON.stringify(res);
+            jsEcWxCardUpdate(params, 0);
             alert('wxAddCard 添加卡券取消, ' + ', res: ' + res + ", JSON.stringify(res)): "  + JSON.stringify(res));
         },
         trigger: function(res) {
@@ -171,18 +180,18 @@ function jsEcWxCardUpdate(params, count) {
         "data": JSON.stringify(params),
         "success": function(data, textStatus, jqXHR ) {
             console.log("data = " + data);
-            alert('wxAddCard 发送jssdk add card成功: ' + JSON.stringify(data));
+            alert('wxAddCard 发送jssdk update card 成功: ' + JSON.stringify(data));
         },
         "error": function(jqXHR, textStatus, errorThrown) {
             alert('wxAddCard 加载失败! params: ' + params);
-            if (!!count && count == 0) {
+            if (count == 0) {
                 count = count + 1;
                 jsEcWxCardUpdate(params, count);
             }
         },
         "complete": function(jqXHR, textStatus) {
             console.log('wxAddCard Ajax complete.');
-            alert('wxAddCard Ajax complete.');
+            // alert('wxAddCard Ajax complete.');
             // $('body').loading('stop');
         }
     });	// ajax
