@@ -95,6 +95,25 @@ public class EcOrderController extends BaseController {
         formatter.close();
         return result;
     }
+    public WxCardMgrGetCardListRespApiPOJO getWxCardListAndInitBase(String authorizerAppId, String openId, String cardId, Long userId) throws Exception {
+        WxCardMgrGetCardListRespApiPOJO ret = new WxCardMgrGetCardListRespApiPOJO();
+        // 通过微信api获取卡券数量
+        ret = oauth2Controller.getWxCardList(authorizerAppId, openId, cardId);
+        try {
+            // 初始化wxCardBase
+            EcWxCardBasePOJO ecWxCardBasePOJO = new EcWxCardBasePOJO();
+            ecWxCardBasePOJO.setAuthorizerAppId(authorizerAppId);
+            ecWxCardBasePOJO.setCardId(cardId);
+            ecWxCardBasePOJO.setOpenId(openId);
+            ecWxCardBasePOJO.setUserId(userId);
+            ecWxCardBasePOJO.setCardBaseResult(JsonUtils.convertToJson(ret));
+
+            ecWxCardBaseService.initEcWxCardBase(ecWxCardBasePOJO);
+        } catch (Exception e) {
+            logger.error("init EcWxCardBase exception: ", e);
+        }
+        return ret;
+    }
 
     public WxJsSdkConfigRespApiPOJO getWxJsSdkConfigRespApi(String authorizerAppId, String url) throws Exception {
 		WxJsSdkConfigRespApiPOJO ret = new WxJsSdkConfigRespApiPOJO();
@@ -307,7 +326,7 @@ public class EcOrderController extends BaseController {
 		return ret;
 	}
 
-	// 为wx jssdk add card准备数据
+	// 为wx jssdk add card准备数据, 然后在前端页面调用微信的js sdk用户领取卡券
 	@RequestMapping(value = "/api/ecommerce/ecorder/ecwxcardacquire", method = {RequestMethod.GET}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map ecWxCardAcquireApi(@RequestParam(value = "authorizerAppId", required = false) String authorizerAppId,
@@ -371,15 +390,120 @@ public class EcOrderController extends BaseController {
 				return ret;
 			}
 
-			// should be have and only one record
-			EcWxCardPOJO ecWxCardPOJO = ecWxCardPOJOs.get(0);
+            // should be have and only one record
+            EcWxCardPOJO ecWxCardPOJO = ecWxCardPOJOs.get(0);
+			String cardId = ecWxCardPOJO.getCardId();
+
+			// 比对初始卡券信息, 已领取, 未领取, 微信服务器后台
+//            1 如果初始值 + 已领取的 = 微信服务器的, 并且未领取>0, 则可以领取.
+//            2 如果初始值 + 已领取的 > 微信服务器的, 并且未领取>0, 可以领取 , 但是数据库或者哪儿出错了, 需要查看.
+//            3 如果初始值 + 已领取的 < 微信服务器的, 并且未领取 > 差值, 可以领取, 但是忘记增加本地数据库, 需要查看.
+            EcWxCardBaseSearchPOJO ecWxCardBaseSearchPOJO = new EcWxCardBaseSearchPOJO();
+            ecWxCardBaseSearchPOJO.setAuthorizerAppId(authorizerAppId);
+            ecWxCardBaseSearchPOJO.setCardId(cardId);
+            ecWxCardBaseSearchPOJO.setOpenId(openId);
+            ecWxCardBaseSearchPOJO.setUserId(userId);
+            List<EcWxCardBasePOJO> ecWxCardBasePOJOs = ecWxCardBaseService.finds(ecWxCardBaseSearchPOJO);
+            int ecWxCardBaseCount = 0;
+            if (CollectionUtils.isNotEmpty(ecWxCardBasePOJOs)) {
+                for (EcWxCardBasePOJO ecWxCardBasePOJO : ecWxCardBasePOJOs) {
+                    String cardBaseResult = ecWxCardBasePOJO.getCardBaseResult();
+                    WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO4Base = null;
+                    if (StringUtils.isNotBlank(cardBaseResult)) {
+                        wxCardMgrGetCardListRespApiPOJO4Base = JSON.parseObject(cardBaseResult, WxCardMgrGetCardListRespApiPOJO.class);
+                    }
+                    if (wxCardMgrGetCardListRespApiPOJO4Base != null) {
+                        List<WxCardMgrCardApiPOJO> wxCardMgrCardApiPOJOs = wxCardMgrGetCardListRespApiPOJO4Base.getWxCardMgrCardApiPOJOs();
+                        if (CollectionUtils.isNotEmpty(wxCardMgrCardApiPOJOs)) {
+                            ecWxCardBaseCount += wxCardMgrCardApiPOJOs.size();
+                        }
+                    }
+                }
+            }
+
+            EcWxCardSearchPOJO ecWxCardSearchPOJO1 = new EcWxCardSearchPOJO();
+//			ecWxCardSearchPOJO.setEcProductId(ecProductId);
+//			ecWxCardSearchPOJO.setEcOrderId(ecOrderId);
+            ecWxCardSearchPOJO1.setOpenId(openId);
+            ecWxCardSearchPOJO1.setUserId(userId);
+            ecWxCardSearchPOJO1.setAuthorizerAppId(authorizerAppId);
+            ecWxCardSearchPOJO1.setCardId(cardId);
+//            ecWxCardSearchPOJO1.setCardAcquireFlag(CommonConstant.WX_CARD_ACQUIRED);
+            ecWxCardSearchPOJO1.setPaginationFlage(false);
+            List<EcWxCardPOJO> ecWxCardPOJOs1 = ecWxCardService.finds(ecWxCardSearchPOJO1);
+            int ecWxCardCount = 0;
+            int ecWxCardAcquiredCount = 0;
+            int ecWxCardNotAcquiredCount = 0;    // contains Un_Acquired and Acquiring
+            if (CollectionUtils.isNotEmpty(ecWxCardPOJOs1)) {
+                ecWxCardCount = ecWxCardPOJOs1.size();
+                for (EcWxCardPOJO ecWxCardPOJO1 : ecWxCardPOJOs1) {
+                    if (CommonConstant.SUCCESS.equals(ecWxCardPOJO1.getResultCode())
+                            && CommonConstant.WX_CARD_ACQUIRED == ecWxCardPOJO1.getCardAcquireFlag()) {
+                        ecWxCardAcquiredCount++;
+                    }
+                }
+            }
+            ecWxCardNotAcquiredCount = ecWxCardCount - ecWxCardAcquiredCount;
+
+            // 通过微信api获取卡券数量
+            WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = this.getWxCardListAndInitBase(authorizerAppId, openId, cardId, userId);
+
+            int wxCardCount = 0;
+            if (wxCardMgrGetCardListRespApiPOJO != null) {
+                List<WxCardMgrCardApiPOJO> wxCardMgrCardApiPOJOs = wxCardMgrGetCardListRespApiPOJO.getWxCardMgrCardApiPOJOs();
+                if (CollectionUtils.isNotEmpty(wxCardMgrCardApiPOJOs)) {
+                    wxCardCount = wxCardMgrCardApiPOJOs.size();
+                }
+            }
+
+//            1 如果初始值 + 已领取的 = 微信服务器的, 并且未领取>0, 则可以领取.
+//            2 如果初始值 + 已领取的 > 微信服务器的, 并且未领取>0, 可以领取 , 但是数据库或者哪儿出错了, 需要查看.
+//            3 如果初始值 + 已领取的 < 微信服务器的, 并且未领取 > 差值, 可以领取, 但是忘记增加本地数据库, 需要查看.
+            if (ecWxCardBaseCount + ecWxCardAcquiredCount == wxCardCount) {
+                if (ecWxCardNotAcquiredCount > 0) {
+                    // do nothing, 可以领取
+                    logger.info("正常领取卡券, authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
+                            , authorizerAppId, openId, cardId, ecWxCardId, ret);
+                } else {
+                    ret.put("success", false);
+                    ret.put("errMsg", "未找到有效可领取卡券");
+                    logger.error("ecWxCardAcquireApi exception..., authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
+                            , authorizerAppId, openId, cardId, ecWxCardId, ret);
+                    return ret;
+                }
+            } else if (ecWxCardBaseCount + ecWxCardAcquiredCount > wxCardCount) {
+                if (ecWxCardNotAcquiredCount > 0) {
+                    logger.error("初始值 + 已领取的 > 微信服务器的, 并且未领取>0, 可以领取, 但是数据库或者哪儿出错了, 已领取可能多写了数据库, 需要查看, authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
+                            , authorizerAppId, openId, cardId, ecWxCardId, ret);
+                } else {
+                    ret.put("success", false);
+                    ret.put("errMsg", "未找到有效可领取卡券");
+                    logger.error("ecWxCardAcquireApi exception..., authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
+                            , authorizerAppId, openId, cardId, ecWxCardId, ret);
+                    return ret;
+                }
+            } else if (ecWxCardBaseCount + ecWxCardAcquiredCount < wxCardCount) {
+                int gapCount = wxCardCount - (ecWxCardBaseCount + ecWxCardAcquiredCount);
+                if (ecWxCardNotAcquiredCount > gapCount) {
+                    logger.error("初始值 + 已领取的 < 微信服务器的, 并且未领取 > 差值, 可以领取, 但是忘记增加本地数据库, 需要查看, authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
+                            , authorizerAppId, openId, cardId, ecWxCardId, ret);
+                } else {
+                    ret.put("success", false);
+                    ret.put("errMsg", "未找到有效可领取卡券");
+                    logger.error("ecWxCardAcquireApi exception..., authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
+                            , authorizerAppId, openId, cardId, ecWxCardId, ret);
+                    return ret;
+                }
+            }
+
+            // 可以领取, 开始更新数据库, 准备领取所需的数据
 			ecWxCardService.updateCardAcquireFlag(ecWxCardPOJO.getEcWxCardId(), CommonConstant.WX_CARD_ACQUIRING);
 			String description = ";js acquiring," + DateUtil.toStr(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			ecWxCardService.appendDescription(ecWxCardPOJO.getEcWxCardId(), description);
 			// provider pojo to support open user weixin card by using js
 //			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = this.getWxJsSdkConfigRespApi(authorizerAppId, url);
 
-			String cardId = ecWxCardPOJO.getEcOrderPOJO().getEcProductPOJO().getWxCardId();
+			cardId = ecWxCardPOJO.getEcOrderPOJO().getEcProductPOJO().getWxCardId();
 			WxJsSdkCardExtParamApiPOJO wxJsSdkCardExtParamApiPOJO = new WxJsSdkCardExtParamApiPOJO();
 			wxJsSdkCardExtParamApiPOJO.setAuthorizerAppId(authorizerAppId);
 			wxJsSdkCardExtParamApiPOJO.setOpenId(openId);
@@ -1010,6 +1134,8 @@ public class EcOrderController extends BaseController {
 			url += "?" + queryString;
 		}
 		HttpSession session = request.getSession();
+
+		Long userId = UserUtil.getCurrentUserId();
 		
 		String authorizerAppId = ecOrderCallWxPayParamPOJO.getAuthorizerAppId();
 		Long productId = ecOrderCallWxPayParamPOJO.getProductId();
@@ -1131,7 +1257,8 @@ public class EcOrderController extends BaseController {
 						return ret;
 					}
 					// 通过微信api获取卡券数量
-					WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = oauth2Controller.getWxCardList(authorizerAppId, openId, cardId);
+					WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = this.getWxCardListAndInitBase(authorizerAppId, openId, cardId, userId);
+
 					int wxCardCount = 0;
 					if (wxCardMgrGetCardListRespApiPOJO != null) {
 						List<WxCardMgrCardApiPOJO> wxCardMgrCardApiPOJOs = wxCardMgrGetCardListRespApiPOJO.getWxCardMgrCardApiPOJOs();
@@ -1168,7 +1295,7 @@ public class EcOrderController extends BaseController {
 			ecOrderPOJO.setProductId(productId);
 			ecOrderPOJO.setQuantity(quantity);
 			ecOrderPOJO.setUnitPrice(unitPrice);
-			Long userId = UserUtil.getCurrentUserId();
+//			Long userId = UserUtil.getCurrentUserId();
 			ecOrderPOJO.setUserId(userId);
 			ecOrderService.insert(ecOrderPOJO);
 
@@ -1434,7 +1561,7 @@ public class EcOrderController extends BaseController {
                     ret.addObject("wxCardLimit", getLimit);
 
                     // 通过微信api获取卡券数量
-                    WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = oauth2Controller.getWxCardList(authorizerAppId, openId, cardId);
+                    WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = this.getWxCardListAndInitBase(authorizerAppId, openId, cardId, userId);
                     int wxCardCount = 0;
                     if (wxCardMgrGetCardListRespApiPOJO != null) {
                         List<WxCardMgrCardApiPOJO> wxCardMgrCardApiPOJOs = wxCardMgrGetCardListRespApiPOJO.getWxCardMgrCardApiPOJOs();
@@ -1443,20 +1570,6 @@ public class EcOrderController extends BaseController {
                         }
                     }
                     ret.addObject("wxCardCount", wxCardCount);
-                    try {
-						// 初始化wxCardBase
-						EcWxCardBasePOJO ecWxCardBasePOJO = new EcWxCardBasePOJO();
-						ecWxCardBasePOJO.setAuthorizerAppId(authorizerAppId);
-						ecWxCardBasePOJO.setCardId(cardId);
-						ecWxCardBasePOJO.setOpenId(openId);
-						ecWxCardBasePOJO.setUserId(userId);
-						ecWxCardBasePOJO.setCardBaseResult(JsonUtils.convertToJson(wxCardMgrGetCardListRespApiPOJO));
-
-						ecWxCardBaseService.initEcWxCardBase(ecWxCardBasePOJO);
-
-					} catch (Exception e) {
-                    	logger.error("init EcWxCardBase exception: ", e);
-					}
 
                 } catch (Exception e1) {
                     logger.error("get getWxCardDetail exception: ", e1);
