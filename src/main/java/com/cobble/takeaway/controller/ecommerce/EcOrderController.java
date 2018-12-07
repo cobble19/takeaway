@@ -459,6 +459,8 @@ public class EcOrderController extends BaseController {
 //            1 如果初始值 + 已领取的 = 微信服务器的, 并且未领取>0, 则可以领取.
 //            2 如果初始值 + 已领取的 > 微信服务器的, 并且未领取>0, 可以领取 , 但是数据库或者哪儿出错了, 需要查看.
 //            3 如果初始值 + 已领取的 < 微信服务器的, 并且未领取 > 差值, 可以领取, 但是忘记增加本地数据库, 需要查看.
+			logger.info("ecWxCardCount: {}, ecWxCardAcquiredCount: {}, ecWxCardNotAcquiredCount: {}, ecWxCardBaseCount: {}, wxCardCount: {}"
+						, ecWxCardCount, ecWxCardAcquiredCount, ecWxCardNotAcquiredCount, ecWxCardBaseCount, wxCardCount);
             if (ecWxCardBaseCount + ecWxCardAcquiredCount == wxCardCount) {
                 if (ecWxCardNotAcquiredCount > 0) {
                     // do nothing, 可以领取
@@ -467,7 +469,7 @@ public class EcOrderController extends BaseController {
                 } else {
                     ret.put("success", false);
                     ret.put("errMsg", "未找到有效可领取卡券");
-                    logger.error("ecWxCardAcquireApi exception..., authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
+                    logger.error("ecWxCardAcquireApi exception..., 总数一样, 非领取个数<=0, authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
                             , authorizerAppId, openId, cardId, ecWxCardId, ret);
                     return ret;
                 }
@@ -477,8 +479,8 @@ public class EcOrderController extends BaseController {
                             , authorizerAppId, openId, cardId, ecWxCardId, ret);
                 } else {
                     ret.put("success", false);
-                    ret.put("errMsg", "未找到有效可领取卡券");
-                    logger.error("ecWxCardAcquireApi exception..., authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
+                    ret.put("errMsg", "未找到有效可领取卡券!!");
+                    logger.error("ecWxCardAcquireApi exception..., 初始值 + 已领取的 > 微信服务器的, 非领取个数<=0, authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
                             , authorizerAppId, openId, cardId, ecWxCardId, ret);
                     return ret;
                 }
@@ -489,8 +491,8 @@ public class EcOrderController extends BaseController {
                             , authorizerAppId, openId, cardId, ecWxCardId, ret);
                 } else {
                     ret.put("success", false);
-                    ret.put("errMsg", "未找到有效可领取卡券");
-                    logger.error("ecWxCardAcquireApi exception..., authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
+                    ret.put("errMsg", "未找到有效可领取卡券!!!");
+                    logger.error("ecWxCardAcquireApi exception..., 初始值 + 已领取的 < 微信服务器的, 并且未领取 <= 差值, authorizerAppId: {}, openId: {}, cardId: {}, ecWxCardId: {}, ret: {}"
                             , authorizerAppId, openId, cardId, ecWxCardId, ret);
                     return ret;
                 }
@@ -1443,6 +1445,9 @@ public class EcOrderController extends BaseController {
 //			}
 			// 获得是否关注
 			subscribeFlag = oauth2Controller.getSubscribeFlag(authorizerAppId, openId);
+
+			logger.info("authorizerAppId: {}, openId: {}, userId: {}", authorizerAppId, openId, userId);
+
 			// 获得是否关注, 然后在jsp页面用参数来控制显示公众号的二维码
 			WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();
 			wxAuthorizerInfoSearchPOJO.setAuthorizerAppId(authorizerAppId);
@@ -1570,6 +1575,11 @@ public class EcOrderController extends BaseController {
                         }
                     }
                     ret.addObject("wxCardCount", wxCardCount);
+
+					logger.info("cardId: {}, orderCount: {}, orderCountTodayTotal: {}, orderCountTodayClose: {}, orderCountToday: {}" +
+							", wxCardStock: {}, wxCardLimit: {}, wxCardCount: {}"
+							, cardId, orderCount, orderCountTodayTotal, orderCountTodayClose, orderCountToday
+							, wxCardStock, getLimit, wxCardCount);
 
                 } catch (Exception e1) {
                     logger.error("get getWxCardDetail exception: ", e1);

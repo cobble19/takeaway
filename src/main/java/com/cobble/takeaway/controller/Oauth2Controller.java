@@ -449,7 +449,7 @@ public class Oauth2Controller extends BaseController {
 			String requestBody = JsonUtils.convertToJson(wxCardMgrGetCardListReqApiPOJO);
 			String result = HttpClientUtil.postHttpsJson(myWxCardMgrGetCardListUrl, requestBody);
 			result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
-			logger.debug("result: " + result);
+			logger.debug("getWxCardList result: {}", result);
 			WxCardMgrGetCardListRespApiPOJO wxCardMgrGetCardListRespApiPOJO = JsonUtils.convertToJavaBean(result, WxCardMgrGetCardListRespApiPOJO.class);
 			ret = wxCardMgrGetCardListRespApiPOJO;
 		} else {
@@ -471,7 +471,7 @@ public class Oauth2Controller extends BaseController {
 			String requestBody = JsonUtils.convertToJson(cardRequestMap);
 			String result = HttpClientUtil.postHttpsJson(myWxCardMgrGetUrl, requestBody);
 			result = new String(result.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8);
-			logger.debug("result: " + result);
+			logger.debug("getWxCardDetail result: {}", result);
 			Map wxJsSdkTicketRespApiPOJO = JsonUtils.convertToJavaBean(result, Map.class);
 			ret = wxJsSdkTicketRespApiPOJO;
 		} else {
