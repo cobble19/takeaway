@@ -170,7 +170,7 @@ function wxAddCard(cardList, ecWxCardPOJO) {
 ///
 function jsEcWxCardUpdate(params, count) {
     $.ajax({
-        "url" : $('#basePath').val() + "/api/ecommerce/ecorder/jswxcardupdate",
+        "url" : $('#basePath').val() + "/api/ecommerce/ecorder/jswxcardupdate?count=" + count,
         "type" : "POST",
         "async": true,
         "headers" : {

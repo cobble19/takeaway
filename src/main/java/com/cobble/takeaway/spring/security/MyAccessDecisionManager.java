@@ -375,8 +375,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 				}
 			}
 			// if没有判断url, 则用默认的APPID
-
 			if (userPOJO == null) {
+			    logger.warn("没有通过URL来获取到公众号信息, 用缺省的公众号authorizerAppId: {}", CommonConstant.DWYZ_AUTHORIZER_APP_ID);
 				String authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
 
 				WxAuthorizerInfoSearchPOJO wxAuthorizerInfoSearchPOJO = new WxAuthorizerInfoSearchPOJO();

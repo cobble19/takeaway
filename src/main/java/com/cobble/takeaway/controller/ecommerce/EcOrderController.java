@@ -236,8 +236,9 @@ public class EcOrderController extends BaseController {
 	@RequestMapping(value = "/api/ecommerce/ecorder/jswxcardupdate", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
 	public Map wxCardAddJsApi(@RequestBody EcWxCardPOJO ecWxCardPOJO,
+								  @RequestParam(value = "count", required = false) Integer count,
 								  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		logger.info("ecWxCardPOJO: {}", ecWxCardPOJO);
+		logger.info("count: {}, ecWxCardPOJO: {}", count, ecWxCardPOJO);
 		Map ret = new HashMap();
 		try {
 			String uri = request.getRequestURI();
