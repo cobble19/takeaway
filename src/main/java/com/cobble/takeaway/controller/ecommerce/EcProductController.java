@@ -43,8 +43,61 @@ public class EcProductController extends BaseController {
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 
+    @RequestMapping(value = "/web/ecommerce/v2ecwxcardactive")
+    public ModelAndView queryV2EcWxCardActive4Page(@RequestParam(value = "authorizerAppId", required = false) String authorizerAppId,
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView ret = new ModelAndView();
+        try {
+            String uri = request.getRequestURI();
+            String qs = request.getQueryString();
+            String queryString = request.getQueryString();
+            String url = request.getRequestURL() + "";
+            if (StringUtils.isNotBlank(queryString)) {
+                queryString = queryString.split("#")[0];
+                url += "?" + queryString;
+            }
+            HttpSession session = request.getSession();
+
+            if (StringUtils.isBlank(authorizerAppId)) {
+                authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+            }
+            if (StringUtils.isBlank(authorizerAppId)) {
+                authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+            }
+
+            // provider pojo to support open user weixin card by using js
+            WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = ecOrderController.getWxJsSdkConfigRespApi(authorizerAppId, url);
+            WxJsSdkConfigCardChoosePOJO wxJsSdkConfigCardChoosePOJO = ecOrderController.getWxJsSdkConfigCardChoose(authorizerAppId);
+
+            ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+            ret.addObject("wxJsSdkConfigCardChoosePOJO", wxJsSdkConfigCardChoosePOJO);
+            ///
+
+            EcProductSearchPOJO ecProductSearchPOJO = new EcProductSearchPOJO();
+            ecProductSearchPOJO.setAuthorizerAppId(authorizerAppId);
+            ecProductSearchPOJO.setActiveFlag(CommonConstant.ACTIVE_FLAG_CARD_ENABLE);
+            ecProductSearchPOJO.setPaginationFlage(false);
+            List<EcProductPOJO> ecProductPOJOs = ecProductService.findActives(ecProductSearchPOJO);
+
+//			if (!CollectionUtils.isEmpty(ecProductPOJOs)) {
+//				if (StringUtils.isNotBlank(ecProductPOJOs.get(0).getProductName())) {
+//					String documentTitle = ecProductPOJOs.get(0).getProductName();
+//					ret.addObject("documentTitle", documentTitle);
+//				}
+//
+//			}
+            ret.addObject("ecProductPOJOs", ecProductPOJOs);
+            ret.setViewName("/page/ecommerce/v2_ec_wx_card_active");
+        } catch (Exception e) {
+            logger.error("list error.", e);
+            throw e;
+        }
+
+        return ret;
+    }
+
 	@RequestMapping(value = "/web/ecommerce/ecwxcardactive")
-	public ModelAndView queryActive4PageUnified(@RequestParam(value = "authorizerAppId", required = false) String authorizerAppId,
+	public ModelAndView queryEcWxCardActive4Page(@RequestParam(value = "authorizerAppId", required = false) String authorizerAppId,
 												HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {

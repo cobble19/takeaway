@@ -17,6 +17,7 @@
     <result column="HOME_URL" property="homeUrl"/>
     <result column="PRODUCT_NAME" property="productName" />
     <result column="IMG_URL" property="imgUrl" />
+    <result column="IMG2_URL" property="img2Url" />
     <result column="BUY_ABOUT" property="buyAbout" />
     <result column="QUANTITY_TOTAL" property="quantityTotal" />
     <result column="QUANTITY_STOCK" property="quantityStock" />
@@ -35,7 +36,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.PRODUCT_ID, a.USER_ID, a.AUTHORIZER_APPID, HOME_URL, a.PRODUCT_NAME, a.IMG_URL, a.BUY_ABOUT
+    a.PRODUCT_ID, a.USER_ID, a.AUTHORIZER_APPID, HOME_URL, a.PRODUCT_NAME, a.IMG_URL, a.IMG2_URL, a.BUY_ABOUT
     , a.QUANTITY_TOTAL, a.QUANTITY_STOCK, a.UNIT_PRICE, a.LIMIT_NUM_EVERYONE, a.LIMIT_NUM_DAY
     , a.WX_CARD_ID, a.WX_CARD_STOCK
     , a.WX_CARD_LIMIT_NUM_EVERYONE, a.NEED_SUBSCRIBE, a.ACTIVE_FLAG
@@ -102,7 +103,7 @@
         and a.END_DATE_TIME - now() &gt;= 0
       </trim>
     </where>
-    order by (a.END_DATE_TIME - now()) asc, CREATE_DATE_TIME asc
+    order by CREATE_DATE_TIME desc, (a.END_DATE_TIME - now()) asc
     <if test="start > -1 and limit > 0">
       limit #{start}, #{limit}
     </if>
@@ -141,6 +142,9 @@
       </if>
       <if test="imgUrl != null" >
         IMG_URL,
+      </if>
+      <if test="img2Url != null" >
+        IMG2_URL,
       </if>
       <if test="buyAbout != null" >
         BUY_ABOUT,
@@ -199,6 +203,9 @@
       </if>
       <if test="imgUrl != null" >
         #{imgUrl},
+      </if>
+      <if test="img2Url != null" >
+        #{img2Url},
       </if>
       <if test="buyAbout != null" >
         #{buyAbout},
@@ -261,6 +268,9 @@
       </if>
       <if test="imgUrl != null" >
         IMG_URL = #{imgUrl},
+      </if>
+      <if test="img2Url != null" >
+        IMG2_URL = #{img2Url},
       </if>
       <if test="buyAbout != null" >
         BUY_ABOUT = #{buyAbout},

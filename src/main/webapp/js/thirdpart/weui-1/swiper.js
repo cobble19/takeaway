@@ -3813,16 +3813,17 @@ else if (typeof define === 'function' && define.amd) {
     this.index = 0;
   }
 
+
   Photos.prototype = {
     initConfig: function (config) {
       this.config = $.extend({}, defaults, config);
       this.activeIndex = this.lastActiveIndex = this.config.initIndex;
 
       this.config.items = this.config.items.map(function(d, i) {
-        if(typeof d === typeof 'a') {
+        if(typeof d === typeof "a") {
           return {
             image: d,
-            caption: ''
+            caption: ""
           }
         }
         return d;
@@ -3832,18 +3833,18 @@ else if (typeof define === 'function' && define.amd) {
       if(this.config.autoOpen) this.open();
     },
 
-    open: function (index) {
-      if (this._open) return false;
-      if (!this.modal) {
+    open: function () {
+      if(this._open) return false;
+      if(!this.modal) {
         this.modal = $(this.tpl(this.config)).appendTo(document.body);
-        this.container = this.modal.find('.swiper-container');
-        this.wrapper = this.modal.find('.swiper-wrapper');
+        this.container = this.modal.find(".swiper-container");
+        this.wrapper = this.modal.find(".swiper-wrapper");
 
         var hammer = new Hammer(this.container[0]);
         hammer.get('pinch').set({ enable: true });
-        hammer.on('pinchstart', $.proxy(this.onGestureStart, this));
-        hammer.on('pinchmove', $.proxy(this.onGestureChange, this));
-        hammer.on('pinchend', $.proxy(this.onGestureEnd, this));
+        hammer.on("pinchstart", $.proxy(this.onGestureStart, this));
+        hammer.on("pinchmove", $.proxy(this.onGestureChange, this));
+        hammer.on("pinchend", $.proxy(this.onGestureEnd, this));
         this.modal.on($.touchEvents.start, $.proxy(this.onTouchStart, this));
         this.modal.on($.touchEvents.move, $.proxy(this.onTouchMove, this));
         this.modal.on($.touchEvents.end, $.proxy(this.onTouchEnd, this));
@@ -3857,18 +3858,16 @@ else if (typeof define === 'function' && define.amd) {
 
       var self = this;
       this.modal.show().height();
-      this.modal.addClass('weui-photo-browser-modal-visible');
-      this.container.addClass('swiper-container-visible').transitionEnd(function() {
+      this.modal.addClass("weui-photo-browser-modal-visible");
+      this.container.addClass("swiper-container-visible").transitionEnd(function() {
         self.initParams();
-        if(index !== undefined) {
-          self.slideTo(index);
-        }
         if(self.config.onOpen) {
           self.config.onOpen.call(self);
         }
       });
 
       this._open = true;
+
     },
 
     close: function() {
@@ -3877,8 +3876,8 @@ else if (typeof define === 'function' && define.amd) {
         this._open = false;
         if(this.config.onClose) this.config.onClose.call(this);
       }, this));
-      this.container.removeClass('swiper-container-visible');
-      this.modal.removeClass('weui-photo-browser-modal-visible');
+      this.container.removeClass("swiper-container-visible");
+      this.modal.removeClass("weui-photo-browser-modal-visible");
     },
 
     initParams: function () {
@@ -3907,7 +3906,6 @@ else if (typeof define === 'function' && define.amd) {
       if(this.scaling) return false;
       this.touching = true;
       this.touchStart = $.getTouchPosition(e);
-      this.touchMove = null;
       this.touchStartTime = + new Date;
       this.wrapperDiff = 0;
       this.breakpointPosition = null;
@@ -3928,7 +3926,7 @@ else if (typeof define === 'function' && define.amd) {
       } else {
         this.oveflow = false;
       }
-      var p = this.touchMove = $.getTouchPosition(e);
+      var p = $.getTouchPosition(e);
       if(this.currentScale === 1 || this.overflow) {
         if(this.breakpointPosition) {
           this.wrapperDiff = p.x - this.breakpointPosition.x;
@@ -3964,46 +3962,26 @@ else if (typeof define === 'function' && define.amd) {
       if(this.scaling) return false;
       var duration = (+ new Date) - this.touchStartTime;
 
-      if(duration < 200 && (!this.touchMove || Math.abs(this.touchStart.x - this.touchMove.x) <= 2 && Math.abs(this.touchStart.y - this.touchMove.y) <= 2)) {
-        this.onClick();
+      if(duration < 300 && Math.abs(this.wrapperDiff) <= 2) {
+        this.close();
         return;
       }
       if(this.wrapperDiff > 0) {
         if(this.wrapperDiff > this.containerWidth/2 || (this.wrapperDiff > 20 && duration < 300)) {
           this.slidePrev();
         } else {
-          this.slideTo(this.activeIndex, 200);
+          this.slideTo(this.activeIndex);
         }
       } else {
         if(- this.wrapperDiff > this.containerWidth/2 || (-this.wrapperDiff > 20 && duration < 300)) {
           this.slideNext();
         } else {
-          this.slideTo(this.activeIndex, 200);
+          this.slideTo(this.activeIndex);
         }
       }
 
       this.imageLastTransform = this.imageTransform;
 
-      this.adjust();
-    },
-
-    onClick: function () {
-      var self = this;
-      if (this._lastClickTime && ( + new Date - this._lastClickTime < 300)) {
-        this.onDoubleClick();
-        clearTimeout(this._clickTimeout);
-      } else {
-        this._clickTimeout = setTimeout(function () {
-          self.close();
-        }, 300);
-      }
-      this._lastClickTime = + new Date;
-    },
-
-    onDoubleClick: function () {
-      this.gestureImage = this.container.find('.swiper-slide').eq(this.activeIndex).find('img');
-      this.currentScale = this.currentScale > 1 ? 1 : 2;
-      this.doImageTransform(200); 
       this.adjust();
     },
 
@@ -4037,17 +4015,10 @@ else if (typeof define === 'function' && define.amd) {
     },
 
     doWrapperTransform: function(duration, callback) {
-      if (duration === 0) {
-        var origin = this.wrapper.css('transition-property')
-        this.wrapper.css('transition-property', 'none').transform('translate3d(' + this.wrapperTransform + 'px, 0, 0)');
-        this.wrapper.css('transition-property', origin);
-        callback()
-      } else {
-        this.wrapper.transitionEnd(function() {
-          callback && callback();
-        });
-        this.wrapper.transition(duration || defaults.duration).transform('translate3d(' + this.wrapperTransform + 'px, 0, 0)');
-      }
+      this.wrapper.transitionEnd(function() {
+        callback && callback();
+      });
+      this.wrapper.transition(duration || 0).transform('translate3d(' + this.wrapperTransform + 'px, 0, 0)');
     },
 
     doImageTransform: function(duration, callback) {
@@ -4087,7 +4058,7 @@ else if (typeof define === 'function' && define.amd) {
       this.activeIndex = index;
       this.wrapperTransform = - (index * this.containerWidth);
       this.wrapperLastTransform = this.wrapperTransform;
-      this.doWrapperTransform(duration, $.proxy(function() {
+      this.doWrapperTransform(duration || 200, $.proxy(function() {
         if(this.lastActiveIndex === this.activeIndex) return false; // active index not change
         this.container.find('.caption-item.active').removeClass('active');
         this.container.find('.swiper-slide-active').removeClass('swiper-slide-active');
@@ -4114,10 +4085,10 @@ else if (typeof define === 'function' && define.amd) {
       }, this));
     },
     slideNext: function() {
-      return this.slideTo(this.activeIndex+1, 200);
+      return this.slideTo(this.activeIndex+1);
     },
     slidePrev: function() {
-      return this.slideTo(this.activeIndex-1, 200);
+      return this.slideTo(this.activeIndex-1);
     }
   }
 
@@ -4129,7 +4100,6 @@ else if (typeof define === 'function' && define.amd) {
     initIndex: 0, //打开时默认显示第几张
     maxScale: 3,
     onSlideChange: undefined,
-    duration: 200, // 默认动画时间，如果没有在调用函数的时候指定，则使用这个值
     tpl: '<div class="weui-photo-browser-modal">\
             <div class="swiper-container">\
               <div class="swiper-wrapper">\

@@ -49,6 +49,14 @@
 					<input class="btn btn-info" id="uploadBtn" name="uploadBtn" type="button" value="上传">
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="control-label" for="img2Url">图片2:</label>
+				<div class="">
+					<input class="form-control" id="img2Url" name="img2Url" value="${ecProductPOJO.img2Url}" readonly="readonly" required="required" placeholder="请上传图片2">
+					<input class="" id="pic2" name="pic2" type="file">
+					<input class="btn btn-info" id="upload2Btn" name="upload2Btn" type="button" value="上传2">
+				</div>
+			</div>
  			<div class="form-group">
  				<label class="control-label" for="buyAbout">购买须知:</label>
  				<div class="">

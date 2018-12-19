@@ -58,6 +58,32 @@ $(document).ready(function() {
 	    });	// ajax end
 	    
 	})	// upload pic to picture files
+
+    $('#ecProductForm').find('#upload2Btn').click(function(e) {
+//		var form1 = $(this).parents('form');
+        var div = $(this).parent('div');
+        var formData;
+        formData = new FormData();
+
+        var userId = $('#userId').val();
+        formData.append('pic2', div.find('input[name=pic2]').get(0).files[0]);
+        formData.append('userId', userId);
+        /*formData.append('wxTemplateId', 999);
+        formData.append('orderNo', 999);*/
+        $.ajax({
+            url: $('#basePath').val() + '/htmleditor/pic/add',
+            contentType:"multipart/form-data",
+            data: formData,
+            processData: false,
+            type: 'POST',
+            contentType: false, // tell jQuery not to set contentType
+            success : function(data) {
+                alert('上传图片2成功');
+                div.find('#img2Url').val(data.file_url);
+            }
+        });	// ajax end
+
+    })	// upload pic to picture files
 	
 	$('#addBtn').click(function() {
 		var startDateTime = $('#startDateTime').val();
