@@ -16,5 +16,7 @@ public interface EcProductService {
 	EcProductPOJO findById(Long id) throws Exception;
 	int delete(Long id) throws Exception;
 	int delete(Long[] ids) throws Exception;
+
+	int increasePageView(Long productId) throws Exception;
 	
 }

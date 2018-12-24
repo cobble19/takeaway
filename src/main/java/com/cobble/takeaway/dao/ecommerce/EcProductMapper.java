@@ -19,4 +19,5 @@ public interface EcProductMapper {
 	EcProductPOJO findById(Long id) throws Exception;
 	int deleteById(Long id) throws Exception;
 
+	int increasePageView(Long productId) throws Exception;
 }

@@ -10,7 +10,10 @@ public class EcProductPOJO extends BasePOJO {
 	private String authorizerAppId;
 	private String homeUrl;
 	private String productName;
+	private String marketingSubject;
+	private String categoryType;
 	private String imgUrl;
+	private String img2Url;
 	private String buyAbout;
 	private Integer quantityTotal;
 	private Integer quantityStock;
@@ -26,11 +29,81 @@ public class EcProductPOJO extends BasePOJO {
 	private Integer needSubscribe;
 	private Integer activeFlag;
 
+	private Integer unitPriceOrigin;
+	private String openDateTimeSeg;
+	private String bizAddress;
+	private String bizTelephone;
+	private Integer pageView;
+
 	private Date startDateTime;
 	private Date endDateTime;
 	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public String getMarketingSubject() {
+		return marketingSubject;
+	}
+
+	public void setMarketingSubject(String marketingSubject) {
+		this.marketingSubject = marketingSubject;
+	}
+
+	public String getCategoryType() {
+		return categoryType;
+	}
+
+	public void setCategoryType(String categoryType) {
+		this.categoryType = categoryType;
+	}
+
+	public String getImg2Url() {
+		return img2Url;
+	}
+
+	public void setImg2Url(String img2Url) {
+		this.img2Url = img2Url;
+	}
+
+	public Integer getUnitPriceOrigin() {
+		return unitPriceOrigin;
+	}
+
+	public void setUnitPriceOrigin(Integer unitPriceOrigin) {
+		this.unitPriceOrigin = unitPriceOrigin;
+	}
+
+	public String getOpenDateTimeSeg() {
+		return openDateTimeSeg;
+	}
+
+	public void setOpenDateTimeSeg(String openDateTimeSeg) {
+		this.openDateTimeSeg = openDateTimeSeg;
+	}
+
+	public String getBizAddress() {
+		return bizAddress;
+	}
+
+	public void setBizAddress(String bizAddress) {
+		this.bizAddress = bizAddress;
+	}
+
+	public String getBizTelephone() {
+		return bizTelephone;
+	}
+
+	public void setBizTelephone(String bizTelephone) {
+		this.bizTelephone = bizTelephone;
+	}
+
+	public Integer getPageView() {
+		return pageView;
+	}
+
+	public void setPageView(Integer pageView) {
+		this.pageView = pageView;
+	}
 
 	public String getHomeUrl() {
 		return homeUrl;

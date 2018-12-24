@@ -1472,7 +1472,7 @@ public class EcOrderController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/web/ecommerce/ecorder/ecproduct/choose", method = {RequestMethod.GET})
-	public ModelAndView ecOrderChoosePay(
+	public ModelAndView ecOrderEcProductChoose(
 			@RequestParam(value="authorizerAppId", required = false) String authorizerAppId
 			,@RequestParam(value="productId") Long productId
 			, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1580,6 +1580,7 @@ public class EcOrderController extends BaseController {
 				ret.addObject("ecProductPOJO", new EcProductPOJO());
 				return ret;
 			} else {
+			    ecProductService.increasePageView(ecProductPOJO.getProductId());
 				ret.addObject("ecProductPOJO", ecProductPOJO);
 				// 获取购买的商品个数
 //                WpOrderSearchPOJO wpOrderSearchPOJO = new WpOrderSearchPOJO();

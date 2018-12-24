@@ -16,6 +16,8 @@
     <result column="AUTHORIZER_APPID" property="authorizerAppId"/>
     <result column="HOME_URL" property="homeUrl"/>
     <result column="PRODUCT_NAME" property="productName" />
+      <result column="MARKETING_SUBJECT" property="marketingSubject" />
+      <result column="CATEGORY_TYPE" property="categoryType" />
     <result column="IMG_URL" property="imgUrl" />
     <result column="IMG2_URL" property="img2Url" />
     <result column="BUY_ABOUT" property="buyAbout" />
@@ -29,6 +31,11 @@
     <result column="WX_CARD_LIMIT_NUM_EVERYONE" property="wxCardLimitNumEveryone" />
     <result column="NEED_SUBSCRIBE" property="needSubscribe" />
     <result column="ACTIVE_FLAG" property="activeFlag" />
+      <result column="UNIT_PRICE_ORIGIN" property="unitPriceOrigin" />
+      <result column="OPEN_DATE_TIME_SEG" property="openDateTimeSeg" />
+      <result column="BIZ_ADDRESS" property="bizAddress" />
+      <result column="BIZ_TELEPHONE" property="bizTelephone" />
+      <result column="PAGE_VIEW" property="pageView" />
     <result column="START_DATE_TIME" property="startDateTime" />
     <result column="END_DATE_TIME" property="endDateTime" />
     <result column="CREATE_DATE_TIME" property="createDateTime" />
@@ -36,7 +43,10 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    a.PRODUCT_ID, a.USER_ID, a.AUTHORIZER_APPID, HOME_URL, a.PRODUCT_NAME, a.IMG_URL, a.IMG2_URL, a.BUY_ABOUT
+    a.PRODUCT_ID, a.USER_ID, a.AUTHORIZER_APPID, HOME_URL, a.PRODUCT_NAME
+    , a.MARKETING_SUBJECT, a.CATEGORY_TYPE,
+    , a.UNIT_PRICE_ORIGIN, a.OPEN_DATE_TIME_SEG, a.BIZ_ADDRESS, a.BIZ_TELEPHONE, a.PAGE_VIEW
+    , a.IMG_URL, a.IMG2_URL, a.BUY_ABOUT
     , a.QUANTITY_TOTAL, a.QUANTITY_STOCK, a.UNIT_PRICE, a.LIMIT_NUM_EVERYONE, a.LIMIT_NUM_DAY
     , a.WX_CARD_ID, a.WX_CARD_STOCK
     , a.WX_CARD_LIMIT_NUM_EVERYONE, a.NEED_SUBSCRIBE, a.ACTIVE_FLAG
@@ -59,6 +69,12 @@
 	<if test="productName != null">
 		and PRODUCT_NAME like concat("%", concat(#{productName}, "%"))
 	</if>
+      <if test="marketingSubject != null">
+          and a.MARKETING_SUBJECT = #{marketingSubject}
+      </if>
+      <if test="categoryType != null">
+          and a.CATEGORY_TYPE = #{categoryType}
+      </if>
 	<!-- <if test="quantityStockGt0Flag">
 		and a.QUANTITY_STOCK > 0
 	</if> -->
@@ -140,6 +156,12 @@
       <if test="productName != null" >
         PRODUCT_NAME,
       </if>
+        <if test="marketingSubject != null" >
+            MARKETING_SUBJECT,
+        </if>
+        <if test="categoryType != null" >
+            CATEGORY_TYPE,
+        </if>
       <if test="imgUrl != null" >
         IMG_URL,
       </if>
@@ -179,6 +201,21 @@
       <if test="activeFlag != null" >
         ACTIVE_FLAG,
       </if>
+        <if test="unitPriceOrigin != null" >
+            UNIT_PRICE_ORIGIN,
+        </if>
+        <if test="openDateTimeSeg != null" >
+            OPEN_DATE_TIME_SEG,
+        </if>
+        <if test="bizAddress != null" >
+            BIZ_ADDRESS,
+        </if>
+        <if test="bizTelephone != null" >
+            BIZ_TELEPHONE,
+        </if>
+        <if test="pageView != null" >
+            PAGE_VIEW,
+        </if>
       <if test="startDateTime != null" >
         START_DATE_TIME,
       </if>
@@ -201,6 +238,12 @@
       <if test="productName != null" >
         #{productName},
       </if>
+        <if test="marketingSubject != null" >
+            #{marketingSubject},
+        </if>
+        <if test="categoryType != null" >
+            #{categoryType},
+        </if>
       <if test="imgUrl != null" >
         #{imgUrl},
       </if>
@@ -240,6 +283,21 @@
       <if test="activeFlag != null" >
         #{activeFlag},
       </if>
+        <if test="unitPriceOrigin != null" >
+            #{unitPriceOrigin},
+        </if>
+        <if test="openDateTimeSeg != null" >
+            #{openDateTimeSeg},
+        </if>
+        <if test="bizAddress != null" >
+            #{bizAddress},
+        </if>
+        <if test="bizTelephone != null" >
+            #{bizTelephone},
+        </if>
+        <if test="pageView != null" >
+            #{pageView},
+        </if>
       <if test="startDateTime != null" >
         #{startDateTime},
       </if>
@@ -266,6 +324,12 @@
       <if test="productName != null" >
         PRODUCT_NAME = #{productName},
       </if>
+        <if test="marketingSubject != null" >
+            MARKETING_SUBJECT = #{marketingSubject},
+        </if>
+        <if test="categoryType != null" >
+            CATEGORY_TYPE = #{categoryType},
+        </if>
       <if test="imgUrl != null" >
         IMG_URL = #{imgUrl},
       </if>
@@ -305,6 +369,21 @@
       <if test="activeFlag != null" >
         ACTIVE_FLAG = #{activeFlag},
       </if>
+        <if test="unitPriceOrigin != null" >
+            UNIT_PRICE_ORIGIN = #{unitPriceOrigin},
+        </if>
+        <if test="openDateTimeSeg != null" >
+            OPEN_DATE_TIME_SEG = #{openDateTimeSeg},
+        </if>
+        <if test="bizAddress != null" >
+            BIZ_ADDRESS = #{bizAddress},
+        </if>
+        <if test="bizTelephone != null" >
+            BIZ_TELEPHONE = #{bizTelephone},
+        </if>
+        <if test="pageView != null" >
+            PAGE_VIEW = #{pageView},
+        </if>
       <if test="startDateTime != null" >
         START_DATE_TIME = #{startDateTime},
       </if>
@@ -338,4 +417,12 @@
     </set>
     where PRODUCT_ID = #{productId}
   </update>
+    <update id="increasePageView" >
+        update EC_PRODUCT
+        <set >
+            PAGE_VIEW = IFNULL(PAGE_VIEW,0) + 1,
+            LAST_MODIFIED_DATE_TIME = sysdate(),
+        </set>
+        where PRODUCT_ID = #{productId}
+    </update>
 </mapper>

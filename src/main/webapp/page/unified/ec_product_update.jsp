@@ -42,6 +42,17 @@
  				</div>
  			</div>
 			<div class="form-group">
+				<label class="control-label" for="marketingSubject">营销主体:</label>
+				<div class="">
+					<input class="form-control" id="marketingSubject" name="marketingSubject" value="${ecProductPOJO.marketingSubject}" placeholder="请输入营销主体（目前的值有得味驿站、合肥交广）">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="categoryType">分类:</label>
+				<div class="">
+					<input class="form-control" id="categoryType" name="categoryType" value="${ecProductPOJO.categoryType}" placeholder="请输入分类（目前的值有美食，娱乐）">
+				</div>
+			<div class="form-group">
 				<label class="control-label" for="imgUrl">图片:</label>
 				<div class="">
 					<input class="form-control" id="imgUrl" name="imgUrl" value="${ecProductPOJO.imgUrl}" readonly="readonly" required="required" placeholder="请上传图片">
@@ -117,6 +128,30 @@
 				<label class="control-label" for="activeFlag">是否显示for active:</label>
 				<div class="">
 					<input class="form-control" id="activeFlag" name="activeFlag" value="${ecProductPOJO.activeFlag}" placeholder="请确定是否显示, 0-不显示, 1-显示">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="unitPriceOrigin">商品原价:</label>
+				<div class="">
+					<input class="form-control" id="unitPriceOrigin" name="unitPriceOrigin" value="${ecProductPOJO.unitPriceOrigin}" placeholder="请确定商品原价">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="openDateTimeSeg">营业时间区间:</label>
+				<div class="">
+					<input class="form-control" id="openDateTimeSeg" name="openDateTimeSeg" value="${ecProductPOJO.openDateTimeSeg}" placeholder="请确定营业时间区间">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="bizAddress">营业地址:</label>
+				<div class="">
+					<input class="form-control" id="bizAddress" name="bizAddress" value="${ecProductPOJO.bizAddress}" placeholder="请确定营业地址, 多个地址请用逗号(,)分隔">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="bizTelephone">商家电话:</label>
+				<div class="">
+					<input class="form-control" id="bizTelephone" name="bizTelephone" value="${ecProductPOJO.bizTelephone}" placeholder="请确定商家电话, 多个电话请用逗号(,)分隔">
 				</div>
 			</div>
 			<div class="form-group">

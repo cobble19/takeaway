@@ -3,6 +3,8 @@ package com.cobble.takeaway.service.ecommerce.impl;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import com.cobble.takeaway.service.ecommerce.EcProductService;
 
 @Service
 public class EcProductServiceImpl implements EcProductService {
+	private final static Logger logger = LoggerFactory.getLogger(EcProductServiceImpl.class);
 	
 	@Autowired
 	private EcProductMapper ecProductMapper;
@@ -91,6 +94,17 @@ public class EcProductServiceImpl implements EcProductService {
 	public int increaseStock(Long productId, Integer quantity) throws Exception {
 		int ret = 0;
 		ret = ecProductMapper.increaseStock(productId, quantity);
+		return ret;
+	}
+
+	@Override
+	public int increasePageView(Long productId) throws Exception {
+		int ret = 0;
+		try {
+			ret = ecProductMapper.increasePageView(productId);
+		} catch (Exception e) {
+			logger.error("increasePageView exception, ecProductId: {}", e, productId);
+		}
 		return ret;
 	}
 

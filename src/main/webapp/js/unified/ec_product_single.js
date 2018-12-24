@@ -52,14 +52,14 @@ $(document).ready(function() {
 			"targets" : [2],
 			"visible": true
 		}, {
-			"targets" : [18, 19, 20, 21],
+			"targets" : [25, 26, 27, 28],
 			"render" : function(data, type, full, meta) {
 				var date = new Date();
 				date.setTime(data);
 				return date.format('Y-m-d H:i:s');
 			}
 		}, {
-			"targets" : [22],
+			"targets" : [29],
 			"render" : function(data, type, full, meta) {
 				var hrefEdit = $('#basePath').val() + '/web/unified/ecProduct/showupdate?productId='  + full.productId;
 				var linkEdit = '<a class="" style="margin-bottom:5px;" target="_blank" href="' + hrefEdit
@@ -106,6 +106,8 @@ $(document).ready(function() {
             { "data": "authorizerAppId" },
             { "data": "homeUrl" },
             { "data": "productName" },
+            { "data": "marketingSubject" },
+            { "data": "categoryType" },
             { "data": "imgUrl" },
             { "data": "img2Url" },
             { "data": "buyAbout" },
@@ -117,6 +119,11 @@ $(document).ready(function() {
             { "data": "wxCardId" },
             { "data": "wxCardStock" },
             { "data": "needSubscribe" },
+            { "data": "unitPriceOrigin" },
+            { "data": "openDateTimeSeg" },
+            { "data": "bizAddress" },
+            { "data": "bizTelephone" },
+            { "data": "pageView" },
             { "data": "startDateTime" },
             { "data": "endDateTime" },
             { "data": "createDateTime" },
