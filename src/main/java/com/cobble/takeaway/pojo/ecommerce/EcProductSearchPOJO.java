@@ -10,6 +10,8 @@ public class EcProductSearchPOJO extends BaseSearchPOJO {
 	private String authorizerAppId;
 	private String homeUrl;
 	private String productName;
+	private String marketingSubject;
+	private String categoryType;
 	private Integer quantityTotal;
 	private Integer quantityStock;
 	// 分
@@ -22,6 +24,22 @@ public class EcProductSearchPOJO extends BaseSearchPOJO {
 	
 	private Date createDateTime;
 	private Date lastModifiedDateTime;
+
+	public String getMarketingSubject() {
+		return marketingSubject;
+	}
+
+	public void setMarketingSubject(String marketingSubject) {
+		this.marketingSubject = marketingSubject;
+	}
+
+	public String getCategoryType() {
+		return categoryType;
+	}
+
+	public void setCategoryType(String categoryType) {
+		this.categoryType = categoryType;
+	}
 
 	public String getHomeUrl() {
 		return homeUrl;
