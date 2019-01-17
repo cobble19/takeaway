@@ -40,7 +40,7 @@
     <where>
   		<trim prefixOverrides="and">
 			<include refid="Clause_Common"/>
-            AND a.create_date_time > date_sub(sysdate(),INTERVAL 7 day)
+            AND a.create_date_time > date_sub(sysdate(),INTERVAL 14 day)
   		</trim>
   	</where>
 
