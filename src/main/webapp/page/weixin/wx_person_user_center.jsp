@@ -23,17 +23,17 @@
 	</style>
     
   </head>
-  <body>
+  <body style="background-color:#f6f8f9;">
   
-  	<div class="weui_panel weui_panel_access">
-	  <div class="weui_panel_bd">
-	    <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
-	      <div class="weui_media_hd">
-	        <img class="weui_media_appmsg_thumb head-img" src="${wxUserInfoApiPOJO.headImgUrl}" alt="">
+  	<div class="weui-panel weui-panel_access">
+	  <div class="weui-panel_bd">
+	    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+	      <div class="weui-media-box__hd">
+	        <img class="weui-media-box__thumb head-img" src="${wxUserInfoApiPOJO.headImgUrl}" alt="">
 	      </div>
-	      <div class="weui_media_bd">
-	        <h4 class="weui_media_title"><c:out value="${wxUserInfoApiPOJO.nickname}"></c:out></h4>
-	        <p class="weui_media_desc"><c:out value="${wxUserInfoApiPOJO.city}"></c:out></p>
+	      <div class="weui-media-box__bd">
+	        <h4 class="weui-media-box__title"><c:out value="${wxUserInfoApiPOJO.nickname}"></c:out></h4>
+	        <p class="weui-media-box__desc"><c:out value="${wxUserInfoApiPOJO.city}"></c:out></p>
 	      </div>
 	    </a>
 	  </div>
@@ -53,36 +53,27 @@
 	  </div>
 	</div> --%>
 
-  	<div class="weui_cells weui_cells_access">
-	  <%-- <a class="weui_cell" href="${wxActivitys4ApplyUrl}">
-	    <div class="weui_cell_bd weui_cell_primary">
-	      <p style="font-size:12px;">活动报名</p>
+  	<div class="weui-cells">
+	  <a style="min-height:60px;" id="wxCardChooseBtn" name="wxCardChooseBtn" class="weui-cell weui-cell_access" href="#">
+	    <div class="weui-cell__hd"><img src="<cmn:base/>/images/PersonalCenter_kqb.png"></div>
+        <div class="weui-cell__bd">
+	      <p>卡券包</p>
 	    </div>
-        <div class="weui_cell_ft"></div>
+        <div class="weui-cell__ft"></div>
 	  </a>
-	  <a class="weui_cell" href="${wxActivitys4SurveyUrl}">
-	    <div class="weui_cell_bd weui_cell_primary">
-	      <p style="font-size:12px;">征集调查</p>
+	  <a style="min-height:60px;" class="weui-cell weui-cell_access" href="http://www.deweiyizhan.com/web/ecommerce/ecorder/ecwxcardacquire">
+	    <div class="weui-cell__hd"><img src="<cmn:base/>/images/PersonalCenter_qjx.png"></div>
+        <div class="weui-cell__bd">
+	      <p>取件箱</p>
 	    </div>
-        <div class="weui_cell_ft"></div>
-	  </a> --%>
-	  <%-- <a class="weui_cell" href="${wxPrizeUrl}">
-	    <div class="weui_cell_bd weui_cell_primary">
-	      <p style="font-size:12px;">我的奖品</p>
-	    </div>
-        <div class="weui_cell_ft"></div>
-	  </a> --%>
-	  <a class="weui_cell" href="${wxScoreUrl}">
-	    <div class="weui_cell_bd weui_cell_primary">
-	      <p style="font-size:12px;">我的积分</p>
-	    </div>
-        <div class="weui_cell_ft"></div>
+        <div class="weui-cell__ft"></div>
 	  </a>
-	  <a class="weui_cell" href="${wxCardUrl}">
-	    <div class="weui_cell_bd weui_cell_primary">
-	      <p style="font-size:12px;">我的卡券</p>
+	  <a style="min-height:60px;" class="weui-cell weui-cell_access" href="http://www.deweiyizhan.com/web/unified/ecCart/eccartmy">
+	    <div class="weui-cell__hd"><img src="<cmn:base/>/images/PersonalCenter_scj.png"></div>
+        <div class="weui-cell__bd">
+	      <p>收藏夹</p>
 	    </div>
-        <div class="weui_cell_ft"></div>
+        <div class="weui-cell__ft"></div>
 	  </a>
 	</div>
 	
