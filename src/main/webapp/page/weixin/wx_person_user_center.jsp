@@ -7,8 +7,11 @@
   <head>
   
     <%@include file="../common/wx_head.jsp" %>
-    
-    <%-- <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/media/wx_person_user_center.js"></script> --%>
+
+	  <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_init.js"></script>
+	  <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_card.js"></script>
+
+     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_person_user_center.js"></script>
     
     <style type="text/css">
 		.head-img {
@@ -24,6 +27,24 @@
     
   </head>
   <body style="background-color:#f6f8f9;">
+	  <!-- WX JS SDK 有效 -->
+	  <input type="hidden" id="appId" name="appId" value="${wxJsSdkConfigRespApiPOJO.appId}" />
+	  <input type="hidden" id="timestamp" name="timestamp" value="${wxJsSdkConfigRespApiPOJO.timestamp}" />
+	  <input type="hidden" id="nonceStr" name="nonceStr" value="${wxJsSdkConfigRespApiPOJO.nonceStr}" />
+	  <input type="hidden" id="signature" name="signature" value="${wxJsSdkConfigRespApiPOJO.signature}" />
+	  <input type="hidden" id="jsApiList" name="jsApiList" value="${wxJsSdkConfigRespApiPOJO.jsApiList}" />
+
+	  <input type="hidden" id="url" name="url" value="${wxJsSdkConfigRespApiPOJO.url}" />
+	  <input type="hidden" id="ticket" name="ticket" value="${wxJsSdkConfigRespApiPOJO.ticket}" />
+
+	  <%--WX CARD--%>
+	  <input type="hidden" id="shopIdCard" name="shopIdCard" value="${wxJsSdkConfigCardChoosePOJO.shopId}" />
+	  <input type="hidden" id="cardTypeCard" name="cardTypeCard" value="${wxJsSdkConfigCardChoosePOJO.cardType}" />
+	  <input type="hidden" id="cardIdCard" name="cardIdCard" value="${wxJsSdkConfigCardChoosePOJO.cardId}" />
+	  <input type="hidden" id="timestampCard" name="timestampCard" value="${wxJsSdkConfigCardChoosePOJO.timestamp}" />
+	  <input type="hidden" id="nonceStrCard" name="nonceStrCard" value="${wxJsSdkConfigCardChoosePOJO.nonceStr}" />
+	  <input type="hidden" id="signTypeCard" name="signTypeCard" value="${wxJsSdkConfigCardChoosePOJO.signType}" />
+	  <input type="hidden" id="cardSignCard" name="cardSignCard" value="${wxJsSdkConfigCardChoosePOJO.cardSign}" />
   
   	<div class="weui-panel weui-panel_access">
 	  <div class="weui-panel_bd">

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
+import com.cobble.takeaway.controller.ecommerce.EcOrderController;
 import com.cobble.takeaway.pojo.*;
 import com.cobble.takeaway.pojo.ecommerce.EcWxCardPOJO;
 import com.cobble.takeaway.pojo.ecommerce.EcWxCardSearchPOJO;
@@ -163,7 +164,9 @@ public class Oauth2Controller extends BaseController {
 	private WxMsgEventLogService wxMsgEventLogService;
 	@Autowired
 	private EcWxCardService ecWxCardService;
-	
+
+	@Autowired
+	private EcOrderController ecOrderController;
 	private MyRedirectStrategy myRedirectStrategy = new MyRedirectStrategy();
 	@Value("${WX.clientId}")
 	private String clientId;
@@ -2215,13 +2218,37 @@ public class Oauth2Controller extends BaseController {
 	public ModelAndView wxPersonUserCenter(@PathVariable(value="wxIndexCode") String wxIndexCode, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView ret = new ModelAndView();
 		try {
-			HttpSession session = request.getSession();
-			logger.info("wxLinkUserCenter begin...");
 			String uri = request.getRequestURI();
 			String qs = request.getQueryString();
-			logger.info("wxLinkUserCenter uri: " + uri + ", qs: " + qs);
+			String queryString = request.getQueryString();
+			String url = request.getRequestURL() + "";
+			if (StringUtils.isNotBlank(queryString)) {
+				queryString = queryString.split("#")[0];
+				url += "?" + queryString;
+			}
+
+			HttpSession session = request.getSession();
+			WxAuthorizerInfoPOJO wxAuthorizerInfoPOJO = wxAuthorizerInfoService.findWxAuthorizerInfoByIndexCode(wxIndexCode);
+			String authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			if (wxAuthorizerInfoPOJO != null) {
+				authorizerAppId = wxAuthorizerInfoPOJO.getAuthorizerAppId();
+			}
+
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = (String) session.getAttribute(CommonConstant.AUTHORIZER_APP_ID);
+			}
+			if (StringUtils.isBlank(authorizerAppId)) {
+				authorizerAppId = CommonConstant.DWYZ_AUTHORIZER_APP_ID;
+			}
+
+			// provider pojo to support open user weixin card by using js
+			WxJsSdkConfigRespApiPOJO wxJsSdkConfigRespApiPOJO = ecOrderController.getWxJsSdkConfigRespApi(authorizerAppId, url);
+			WxJsSdkConfigCardChoosePOJO wxJsSdkConfigCardChoosePOJO = ecOrderController.getWxJsSdkConfigCardChoose(authorizerAppId);
+
+			ret.addObject("wxJsSdkConfigRespApiPOJO", wxJsSdkConfigRespApiPOJO);
+			ret.addObject("wxJsSdkConfigCardChoosePOJO", wxJsSdkConfigCardChoosePOJO);
+			///
 			
-			UserUtil.getCurrentUserId();
 			WxUserInfoApiPOJO wxUserInfoApiPOJO = (WxUserInfoApiPOJO) session.getAttribute(CommonConstant.WX_USER_INFO_API_POJO);
 			
 			ret.addObject(CommonConstant.WX_USER_INFO_API_POJO, wxUserInfoApiPOJO);

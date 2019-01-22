@@ -9,7 +9,7 @@
 
       <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_init.js"></script>
       <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_card.js"></script>
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/ec_wx_card_active.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/ecommerce/v2_ec_wx_card_active.js"></script>
   </head>
   <body style="padding-top:75px;">
       <!-- WX JS SDK 有效 -->

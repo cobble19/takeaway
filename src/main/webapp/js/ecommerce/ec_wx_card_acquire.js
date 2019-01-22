@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('button[name=wxCardAcquireBtn]').click(function() {
+    $('a[name=wxCardAcquireBtn]').click(function() {
         var ecWxCardId = $(this).attr('ecWxCardId');
         openWxAddCardWin(ecWxCardId);
     })
