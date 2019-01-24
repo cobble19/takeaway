@@ -3,6 +3,9 @@
 . /etc/profile
 HS_BASE=/opt/app/takeaway
 CATALINA_HOME=`echo ${CATALINA_HOME}`
+
+. ${HS_BASE}/env_ta.sh
+
 echo "[COBBLE.GE] Stop MySQL..."
 service mysql stop
 echo "[COBBLE.GE] Stop tomcat..."

@@ -3,7 +3,7 @@
 <configuration>
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d [%thread] %-5level [%logger:%line] - %msg%n</pattern>
+			<pattern>%d [%thread] %-5level [%logger.%method:%line] - %msg%n</pattern>
 		</encoder>
 	</appender>
 	<!-- <appender name="R"
@@ -28,12 +28,12 @@
 		</triggeringPolicy>
 	</appender> -->
 	<appender name="DR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${app.root}/logs/takeaway.logback.log</file>
+		<file>${logs_root_path}/logs/takeaway.logback.log</file>
 		<encoder>
 			<pattern>%d [%thread] %-5level [%logger.%method:%line] - %msg%n</pattern>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${app.root}/logs/takeaway.%d{yyyy-MM-dd}.log</fileNamePattern>   
+			<fileNamePattern>${logs_root_path}/logs/takeaway.%d{yyyy-MM-dd}.log</fileNamePattern>
       		<maxHistory>180</maxHistory>
 		</rollingPolicy>
 	</appender>
