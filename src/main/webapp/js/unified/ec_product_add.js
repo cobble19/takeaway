@@ -66,7 +66,7 @@ $(document).ready(function() {
         formData = new FormData();
 
         var userId = $('#userId').val();
-        formData.append('pic2', div.find('input[name=pic2]').get(0).files[0]);
+        formData.append('pic', div.find('input[name=pic2]').get(0).files[0]);
         formData.append('userId', userId);
         /*formData.append('wxTemplateId', 999);
         formData.append('orderNo', 999);*/

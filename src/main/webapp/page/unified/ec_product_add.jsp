@@ -7,7 +7,7 @@
   <head>
     <%@include file="../common/head.jsp" %>
     
-    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/ec_product_add.js"></script>
+    <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/unified/ec_product_add.js?v=20190130"></script>
     
   </head>
   <body>
