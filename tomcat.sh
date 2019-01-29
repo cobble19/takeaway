@@ -3,7 +3,11 @@
 # chkconfig: 2345 100 50
 # description: Easy to start, stop, restart, status tomcat
 
-. /etc/profile
+. /etc/profileprofile
+
+HS_BASE=/opt/app/takeaway
+. ${HS_BASE}/env_ta.sh
+
 
 pid=`ps -efww | grep "[c]atalina.home=/opt/apache-tomcat" | awk '{ print $2 }'`
 instance_number=`ps -efww | grep "[c]atalina.home=/opt/apache-tomcat" | wc -l`
