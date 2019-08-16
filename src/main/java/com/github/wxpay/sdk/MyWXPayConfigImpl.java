@@ -63,11 +63,11 @@ public class MyWXPayConfigImpl extends WXPayConfig {
 	}
 
 	public String getMchID() {
-		return "1425213902";
+		return ConfigurationUtil.getPropertiesConfig().getString("WXPAY.mchId");
 	}
 
 	public String getKey() {
-		return "DeWeiYiZhan135792468012345678900";
+		return ConfigurationUtil.getPropertiesConfig().getString("WXPAY.key");
 	}
 
 	public InputStream getCertStream() {
