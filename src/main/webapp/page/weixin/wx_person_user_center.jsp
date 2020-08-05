@@ -10,8 +10,8 @@
 
 	  <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_init.js"></script>
 	  <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_js_sdk_card.js"></script>
-
      <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/weixin/wx_person_user_center.js"></script>
+     <script type="text/javascript" charset="utf-8" src="<cmn:base/>/js/thirdpart/weui/swiper.js"></script>
     
     <style type="text/css">
 		.head-img {
