@@ -57,7 +57,7 @@
         <poi.version>3.14</poi.version>
         <commons.collections.version>4.0</commons.collections.version>
         <commons.configuration2.version>2.2</commons.configuration2.version>
-        <commons.beanutils.version>1.9.3</commons.beanutils.version>
+        <commons.beanutils.version>1.9.4</commons.beanutils.version>
         <org.owasp.encoder.version>1.2.1</org.owasp.encoder.version>
 		<fastjson.version>1.2.49</fastjson.version>
 	</properties>
