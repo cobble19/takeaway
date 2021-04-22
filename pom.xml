@@ -35,7 +35,7 @@
 		<spring.framework.version>4.1.6.RELEASE</spring.framework.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <spring.security.oauth2.version>2.0.17.RELEASE</spring.security.oauth2.version>
-		<mybatis.version>3.2.7</mybatis.version>
+		<mybatis.version>3.5.6</mybatis.version>
 		<mybatis.spring.version>1.2.2</mybatis.spring.version>
 		<mybatis.memcached.version>1.0.0</mybatis.memcached.version>
 		<mysql.version>5.1.38</mysql.version>
