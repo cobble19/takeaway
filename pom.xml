@@ -59,7 +59,7 @@
         <commons.configuration2.version>2.2</commons.configuration2.version>
         <commons.beanutils.version>1.9.3</commons.beanutils.version>
         <org.owasp.encoder.version>1.2.1</org.owasp.encoder.version>
-		<fastjson.version>1.2.49</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 	</properties>
 	<dependencies>
 
